@@ -21,6 +21,7 @@ const APP = {
   streak: 0,                // 連續天數
   lastPlayDate: '',         // 'YYYY-MM-DD'
   completedToday: [],       // 今日完成的活動 ID 陣列
+  companionTitle: '陪伴者', // 給讚時顯示的稱謂
   sessionStart: null,       // Date.now()，每次開啟 app 設定
   todayPlayMinutes: 0,      // 今日累積分鐘數
   todayDate: ''             // 'YYYY-MM-DD'，用於每日重置
@@ -68,6 +69,13 @@ const APP = {
 | page-memory | 記憶翻牌 | 🧠 思維 |
 | page-sort | 排序分類 | 🧠 思維 |
 | page-story | 互動繪本 | 📖 故事 |
+
+## 陪伴者類型
+app 的陪伴者包含：家長、保母、幼教員、教保員、幼兒園老師、兒童醫生。
+- 設定面板提供稱謂選擇：爸爸 / 媽媽 / 老師 / 阿姨 / 醫師 / 陪伴者
+- 給讚按鈕顯示「[稱謂] 說你好棒！❤️」
+- 介面必須自說明（2 步以內可開始使用，適合任何陪伴者）
+- 無需帳號，適合診間臨時評估
 
 ## 遊戲化規則
 - 每完成一個活動：+1 星星，解鎖對應貼紙
