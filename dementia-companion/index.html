@@ -1,0 +1,2895 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>陪伴小幫手</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg-primary: #000000;
+      --bg-card: #FFFFFF;
+      --text-primary: #FFFFFF;
+      --text-on-card: #000000;
+      --accent-warm: #FF6600;
+      --accent-green: #00AA00;
+      --accent-blue: #0066FF;
+      --accent-purple: #9900CC;
+      --accent-yellow: #FFCC00;
+      --accent-pink: #DD0077;
+      --shadow: 0 4px 12px rgba(255,255,255,0.08);
+      --radius: 16px;
+    }
+
+    body {
+      font-family: "Microsoft JhengHei", "PingFang TC", "Noto Sans TC", sans-serif;
+      font-size: 20px;
+      line-height: 1.6;
+      color: var(--text-primary);
+      background: var(--bg-primary);
+      min-height: 100vh;
+    }
+
+    /* === 頁面系統 === */
+    .page {
+      display: none; padding: 20px 32px;
+      width: 100%; min-height: 100vh;
+    }
+    .page.active {
+      display: flex; flex-direction: column;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    /* === 返回按鈕 === */
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: none; border: none; font-size: 24px;
+      color: var(--accent-yellow); cursor: pointer;
+      padding: 8px 16px; border-radius: var(--radius);
+      font-family: inherit; flex-shrink: 0;
+    }
+    .back-btn:active { background: rgba(255,204,0,0.2); }
+
+    /* === 頁面頂部列 === */
+    .page-top {
+      display: flex; align-items: center; gap: 16px;
+      margin-bottom: 12px; flex-shrink: 0;
+    }
+    .page-top .page-title { margin-bottom: 0; flex: 1; }
+
+    /* === 首頁 === */
+    .home-header { text-align: center; padding: 24px 0 16px; flex-shrink: 0; }
+    .home-header h1 { font-size: 36px; margin-bottom: 4px; }
+    .home-header .date { font-size: 22px; color: #CCCCCC; }
+
+    .home-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 20px;
+      flex: 1;
+      align-content: center;
+    }
+
+    .home-card {
+      background: var(--bg-card);
+      border: none;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px 16px;
+      cursor: pointer; text-align: center;
+      font-family: inherit;
+      color: var(--text-on-card);
+      transition: transform 0.2s;
+    }
+    .home-card:active { transform: scale(0.97); }
+    .home-card .icon { font-size: 56px; display: block; margin-bottom: 10px; }
+    .home-card .title { font-size: 26px; font-weight: bold; display: block; margin-bottom: 6px; }
+    .home-card .desc { font-size: 16px; color: #444444; }
+
+    .card-memory { border-top: 6px solid var(--accent-warm); }
+    .card-shapes { border-top: 6px solid var(--accent-purple); }
+    .card-colors { border-top: 6px solid var(--accent-blue); }
+    .card-numbers { border-top: 6px solid var(--accent-pink); }
+    .card-classify { border-top: 6px solid var(--accent-yellow); }
+    .card-picture { border-top: 6px solid #00AA88; }
+    .card-clock { border-top: 6px solid #FF8800; }
+    .card-matching { border-top: 6px solid #88AA00; }
+    .card-sorting { border-top: 6px solid #FF5577; }
+    .card-breathing { border-top: 6px solid #44AADD; }
+
+    /* === 通用標題 === */
+    .page-title { font-size: 32px; text-align: center; margin-bottom: 16px; }
+
+    /* === 認字遊戲 === */
+    .word-game-layout {
+      display: flex; gap: 32px; flex: 1; align-items: center;
+      max-width: 1000px; margin: 0 auto; width: 100%;
+    }
+
+    .word-target-area {
+      text-align: center; padding: 24px 40px;
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      flex-shrink: 0; min-width: 200px;
+    }
+
+    .word-target-area .label { font-size: 24px; margin-bottom: 12px; color: var(--text-on-card); }
+
+    .word-display {
+      font-size: 120px; font-weight: bold; line-height: 1.2;
+      color: #CC0000;
+    }
+
+    .word-right { flex: 1; }
+
+    .word-options {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .word-option {
+      background: var(--bg-card);
+      border: 3px solid #CCCCCC;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px; cursor: pointer;
+      text-align: center;
+      font-size: 64px; font-weight: bold;
+      color: #000000;
+      font-family: inherit;
+      transition: transform 0.2s;
+    }
+    .word-option:active { transform: scale(0.95); }
+    .word-option.correct {
+      border-color: var(--accent-green);
+      background: #CCFFCC;
+      animation: glow 0.5s ease;
+    }
+    .word-option.wrong { animation: shake 0.5s ease; }
+
+    .word-round { font-size: 20px; text-align: center; color: #CCCCCC; margin-bottom: 12px; }
+
+    @keyframes glow {
+      0%, 100% { box-shadow: var(--shadow); }
+      50% { box-shadow: 0 0 24px rgba(0,170,0,0.6); }
+    }
+
+    /* === 形狀配對遊戲 === */
+    .shape-game-layout {
+      display: flex; gap: 32px; flex: 1; align-items: center;
+      max-width: 900px; margin: 0 auto; width: 100%;
+    }
+
+    .shape-target-area {
+      text-align: center; padding: 24px 32px;
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      flex-shrink: 0; min-width: 200px;
+    }
+
+    .shape-target-area .label { font-size: 24px; margin-bottom: 12px; color: var(--text-on-card); }
+    .shape-target-area .shape-display { font-size: 100px; line-height: 1.2; }
+
+    .shape-right { flex: 1; }
+
+    .shape-options {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .shape-option {
+      background: var(--bg-card);
+      border: 3px solid #CCCCCC;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px; cursor: pointer;
+      text-align: center; font-size: 72px; line-height: 1.2;
+      transition: transform 0.2s;
+      font-family: inherit;
+    }
+    .shape-option:active { transform: scale(0.95); }
+
+    .shape-option.correct {
+      border-color: var(--accent-green);
+      animation: glow 0.5s ease;
+    }
+
+    .shape-option.wrong {
+      animation: shake 0.5s ease;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-8px); }
+      40%, 80% { transform: translateX(8px); }
+    }
+
+    .shape-round { font-size: 20px; text-align: center; color: #CCCCCC; margin-bottom: 12px; }
+
+    /* === 顏色辨識遊戲 === */
+    .color-game-layout {
+      display: flex; gap: 32px; flex: 1; align-items: center;
+      max-width: 900px; margin: 0 auto; width: 100%;
+    }
+
+    .color-target-area {
+      text-align: center; padding: 24px 32px;
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      flex-shrink: 0; min-width: 220px;
+    }
+
+    .color-target-area .label { font-size: 24px; margin-bottom: 12px; color: var(--text-on-card); }
+    .color-target-area .color-name { font-size: 48px; font-weight: bold; line-height: 1.4; }
+
+    .color-right { flex: 1; }
+
+    .color-options {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .color-option {
+      border: 4px solid #CCCCCC;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 0; cursor: pointer;
+      width: 100%; aspect-ratio: 1;
+      min-height: 80px;
+      transition: transform 0.2s;
+      font-family: inherit;
+      font-size: 0;
+    }
+    .color-option:active { transform: scale(0.95); }
+    .color-option.correct { border-color: var(--accent-green); animation: glow 0.5s ease; }
+    .color-option.wrong { animation: shake 0.5s ease; }
+
+    .color-round { font-size: 20px; text-align: center; color: #CCCCCC; margin-bottom: 12px; }
+
+    /* === 認數字遊戲 === */
+    .number-game-layout {
+      display: flex; gap: 32px; flex: 1; align-items: center;
+      max-width: 900px; margin: 0 auto; width: 100%;
+    }
+
+    .number-target-area {
+      text-align: center; padding: 24px 32px;
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      flex-shrink: 0; min-width: 200px;
+    }
+
+    .number-target-area .label { font-size: 24px; margin-bottom: 12px; color: var(--text-on-card); }
+
+    .number-display {
+      font-size: 120px; font-weight: bold; line-height: 1.2;
+      color: #CC0000;
+    }
+
+    .number-right { flex: 1; }
+
+    .number-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .number-btn {
+      border: 3px solid #CC0000;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      cursor: pointer;
+      text-align: center;
+      font-size: 52px; font-weight: bold;
+      background: #FFFFFF;
+      color: #CC0000;
+      font-family: inherit;
+      transition: transform 0.2s;
+    }
+    .number-btn:active { transform: scale(0.95); }
+    .number-btn.correct {
+      border-color: var(--accent-green);
+      animation: glow 0.5s ease;
+    }
+    .number-btn.wrong { animation: shake 0.5s ease; }
+
+    .number-round { font-size: 20px; text-align: center; color: #CCCCCC; margin-bottom: 12px; }
+
+    /* === 物品分類遊戲 === */
+    .classify-game-layout {
+      display: flex; gap: 32px; flex: 1; align-items: center;
+      max-width: 1000px; margin: 0 auto; width: 100%;
+    }
+
+    .classify-item-area {
+      text-align: center; padding: 24px 40px;
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      flex-shrink: 0; min-width: 220px;
+    }
+
+    .classify-item-area .label { font-size: 24px; margin-bottom: 12px; color: var(--text-on-card); }
+    .classify-item { font-size: 100px; line-height: 1.2; }
+    .classify-item-name { font-size: 32px; font-weight: bold; color: #000000; margin-top: 8px; }
+
+    .classify-right { flex: 1; }
+
+    .classify-options {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .classify-option {
+      background: var(--bg-card);
+      border: 3px solid #CCCCCC;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px; cursor: pointer;
+      text-align: center;
+      font-size: 32px; font-weight: bold;
+      color: #000000;
+      font-family: inherit;
+      transition: transform 0.2s;
+    }
+    .classify-option:active { transform: scale(0.95); }
+    .classify-option .cat-icon { font-size: 48px; display: block; margin-bottom: 8px; }
+    .classify-option.correct {
+      border-color: var(--accent-green);
+      background: #CCFFCC;
+      animation: glow 0.5s ease;
+    }
+    .classify-option.wrong { animation: shake 0.5s ease; }
+
+    .classify-round { font-size: 20px; text-align: center; color: #CCCCCC; margin-bottom: 12px; }
+
+    /* === 看圖認物 === */
+    .picture-game-layout {
+      display: flex; gap: 32px; flex: 1; align-items: center;
+      max-width: 1000px; margin: 0 auto; width: 100%;
+    }
+    .picture-target-area {
+      text-align: center; padding: 24px 40px;
+      background: var(--bg-card); border-radius: var(--radius);
+      box-shadow: var(--shadow); flex-shrink: 0; min-width: 200px;
+    }
+    .picture-target-area .label { font-size: 24px; margin-bottom: 12px; color: var(--text-on-card); }
+    .picture-emoji { font-size: 120px; line-height: 1.2; }
+    .picture-right { flex: 1; }
+    .picture-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .picture-option {
+      background: var(--bg-card); border: 3px solid #CCCCCC;
+      border-radius: var(--radius); box-shadow: var(--shadow);
+      padding: 16px; cursor: pointer; text-align: center;
+      font-size: 32px; font-weight: bold; color: #000000;
+      font-family: inherit; transition: transform 0.2s;
+    }
+    .picture-option:active { transform: scale(0.95); }
+    .picture-option.correct { border-color: var(--accent-green); background: #CCFFCC; animation: glow 0.5s ease; }
+    .picture-option.wrong { animation: shake 0.5s ease; }
+    .picture-round { font-size: 20px; text-align: center; color: #CCCCCC; margin-bottom: 12px; }
+
+    /* === 時鐘認讀 === */
+    .clock-game-layout {
+      display: flex; gap: 32px; flex: 1; align-items: center;
+      max-width: 900px; margin: 0 auto; width: 100%;
+    }
+    .clock-target-area {
+      text-align: center; padding: 24px;
+      background: var(--bg-card); border-radius: var(--radius);
+      box-shadow: var(--shadow); flex-shrink: 0;
+    }
+    .clock-target-area .label { font-size: 24px; margin-bottom: 12px; color: var(--text-on-card); }
+    .clock-canvas { display: block; margin: 0 auto; }
+    .clock-right { flex: 1; }
+    .clock-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .clock-option {
+      background: var(--bg-card); border: 3px solid #CCCCCC;
+      border-radius: var(--radius); box-shadow: var(--shadow);
+      padding: 20px; cursor: pointer; text-align: center;
+      font-size: 36px; font-weight: bold; color: #000000;
+      font-family: inherit; transition: transform 0.2s;
+    }
+    .clock-option:active { transform: scale(0.95); }
+    .clock-option.correct { border-color: var(--accent-green); background: #CCFFCC; animation: glow 0.5s ease; }
+    .clock-option.wrong { animation: shake 0.5s ease; }
+    .clock-round { font-size: 20px; text-align: center; color: #CCCCCC; margin-bottom: 12px; }
+
+    /* === 連連看 === */
+    .matching-game-layout {
+      display: flex; gap: 24px; flex: 1; align-items: center;
+      max-width: 900px; margin: 0 auto; width: 100%;
+    }
+    .matching-column {
+      flex: 1; display: flex; flex-direction: column; gap: 12px;
+    }
+    .matching-center {
+      display: flex; align-items: center; font-size: 36px; color: #666;
+      flex-shrink: 0; padding: 0 8px;
+    }
+    .matching-item {
+      background: var(--bg-card); border: 3px solid #CCCCCC;
+      border-radius: var(--radius); padding: 16px 20px;
+      cursor: pointer; text-align: center;
+      font-size: 32px; font-weight: bold; color: #000;
+      font-family: inherit; transition: transform 0.2s, border-color 0.2s;
+    }
+    .matching-item .match-emoji { font-size: 48px; }
+    .matching-item:active { transform: scale(0.95); }
+    .matching-item.selected { border-color: #FF6600; background: #FFF3E0; }
+    .matching-item.matched {
+      border-color: var(--accent-green); background: #CCFFCC;
+      opacity: 0.6; cursor: default; pointer-events: none;
+    }
+    .matching-item.wrong { animation: shake 0.5s ease; }
+    .matching-round { font-size: 20px; text-align: center; color: #CCCCCC; margin-bottom: 12px; }
+    .matching-sub { font-size: 18px; text-align: center; color: #999; margin-bottom: 8px; }
+
+    /* === 大小排序 === */
+    .sorting-game-layout {
+      display: flex; flex-direction: column; flex: 1;
+      align-items: center; justify-content: center; gap: 20px;
+    }
+    .sorting-hint {
+      font-size: 28px; text-align: center;
+      background: var(--bg-card); color: var(--text-on-card);
+      padding: 12px 32px; border-radius: var(--radius);
+    }
+    .sorting-items {
+      display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;
+    }
+    .sorting-item {
+      background: var(--bg-card); border: 3px solid #CCCCCC;
+      border-radius: var(--radius); padding: 20px 24px;
+      cursor: pointer; text-align: center; font-family: inherit;
+      transition: transform 0.2s; min-width: 120px;
+    }
+    .sorting-item .sort-emoji { font-size: 56px; display: block; margin-bottom: 4px; }
+    .sorting-item .sort-name { font-size: 24px; font-weight: bold; color: #000; }
+    .sorting-item:active { transform: scale(0.95); }
+    .sorting-item.done {
+      border-color: var(--accent-green); background: #CCFFCC;
+      pointer-events: none; position: relative;
+    }
+    .sorting-item.done::after {
+      content: attr(data-order); position: absolute; top: -12px; right: -12px;
+      background: var(--accent-green); color: white; width: 32px; height: 32px;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 18px; font-weight: bold;
+    }
+    .sorting-item.wrong { animation: shake 0.5s ease; }
+    .sorting-round { font-size: 20px; text-align: center; color: #CCCCCC; margin-bottom: 12px; }
+
+    /* === 呼吸練習 === */
+    .breathing-layout {
+      display: flex; flex-direction: column; flex: 1;
+      align-items: center; justify-content: center; gap: 24px;
+    }
+    .breathing-circle-wrap {
+      width: 260px; height: 260px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .breathing-circle {
+      width: 80px; height: 80px; border-radius: 50%;
+      background: radial-gradient(circle, #66BBFF, #0066CC);
+      transition: width 4s ease-in-out, height 4s ease-in-out;
+    }
+    .breathing-circle.inhale { width: 250px; height: 250px; }
+    .breathing-text { font-size: 40px; font-weight: bold; text-align: center; min-height: 60px; }
+    .breathing-progress { font-size: 20px; color: #CCCCCC; }
+    .breathing-btn {
+      border: none; border-radius: var(--radius);
+      padding: 16px 40px; font-size: 24px;
+      cursor: pointer; font-family: inherit;
+    }
+    .breathing-start { background: var(--accent-green); color: white; }
+    .breathing-stop { background: #CC3333; color: white; }
+
+    /* === 鼓勵回饋 === */
+    .feedback-overlay {
+      position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
+      display: none;
+      z-index: 100; pointer-events: none;
+    }
+    .feedback-overlay.show {
+      display: block;
+      animation: slideDown 0.3s ease;
+    }
+
+    .feedback-msg {
+      background: #FFFFFF;
+      border: 3px solid #000000;
+      padding: 16px 40px;
+      border-radius: var(--radius);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+      font-size: 32px; font-weight: bold;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    @keyframes slideDown {
+      0% { opacity: 0; transform: translateY(-20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .feedback-msg.correct { color: #006600; border-color: #006600; }
+    .feedback-msg.retry { color: #CC6600; border-color: #CC6600; }
+
+    @keyframes popIn {
+      0% { transform: scale(0.5); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* === 完成畫面 === */
+    .complete-screen {
+      text-align: center; padding: 48px 24px;
+      display: none;
+      flex: 1;
+      flex-direction: column;
+      align-items: center; justify-content: center;
+    }
+    .complete-screen.show { display: flex; animation: fadeIn 0.3s ease; }
+    .complete-screen .icon { font-size: 80px; }
+    .complete-screen .msg { font-size: 32px; font-weight: bold; margin: 16px 0; }
+
+    .btn-primary {
+      background: var(--accent-warm); color: white;
+      border: none; border-radius: var(--radius);
+      padding: 16px 40px; font-size: 24px;
+      cursor: pointer; font-family: inherit;
+      margin-top: 16px;
+    }
+    .btn-primary:active { opacity: 0.8; }
+
+    /* === RWD === */
+    @media (max-width: 900px) {
+      .home-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .page { padding: 12px; }
+      .home-header h1 { font-size: 28px; }
+      .home-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .home-card .icon { font-size: 40px; }
+      .home-card .title { font-size: 22px; }
+      .home-card .desc { font-size: 14px; }
+      .word-game-layout { flex-direction: column; gap: 16px; }
+      .word-display { font-size: 80px; }
+      .word-options { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+      .word-option { font-size: 44px; padding: 14px; }
+      .shape-game-layout { flex-direction: column; gap: 16px; }
+      .shape-options { grid-template-columns: repeat(4, 1fr); gap: 10px; }
+      .shape-option { font-size: 48px; padding: 12px; }
+      .color-game-layout { flex-direction: column; gap: 16px; }
+      .color-options { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+      .classify-game-layout { flex-direction: column; gap: 16px; }
+      .classify-options { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .classify-option { font-size: 26px; padding: 14px; }
+      .number-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+      .number-btn { font-size: 36px; padding: 14px; }
+      .picture-game-layout { flex-direction: column; gap: 16px; }
+      .picture-options { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+      .picture-option { font-size: 24px; padding: 12px; }
+      .picture-emoji { font-size: 80px; }
+      .clock-game-layout { flex-direction: column; gap: 16px; }
+      .clock-options { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .clock-option { font-size: 28px; padding: 14px; }
+      .matching-game-layout { flex-direction: row; gap: 10px; }
+      .matching-item { font-size: 22px; padding: 10px 8px; }
+      .matching-center { display: none; }
+      .sorting-items { gap: 10px; }
+      .sorting-item { min-width: 80px; padding: 14px 16px; }
+      .sorting-item .sort-emoji { font-size: 40px; }
+      .sorting-item .sort-name { font-size: 20px; }
+      .breathing-text { font-size: 28px; }
+    }
+
+    /* === 難度滑桿 === */
+    .difficulty-bar {
+      padding: 12px 16px 8px;
+      background: #111;
+      border-radius: var(--radius);
+      margin-bottom: 16px;
+    }
+    .difficulty-bar .bar-labels {
+      display: flex; justify-content: space-between;
+      font-size: 13px; color: #888; margin-bottom: 6px;
+    }
+    .difficulty-bar input[type=range] {
+      width: 100%; accent-color: #CC0000;
+      height: 6px; cursor: pointer;
+    }
+    .difficulty-bar .bar-value {
+      text-align: center; font-size: 13px; color: #ccc; margin-top: 4px;
+    }
+    .difficulty-notice {
+      text-align: center; font-size: 14px; color: #FF6600;
+      min-height: 20px; margin-bottom: 8px;
+    }
+  /* === 情緒辨識 === */
+  .emotion-game-layout {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 24px; flex: 1; justify-content: center;
+    max-width: 600px; margin: 0 auto; width: 100%;
+  }
+  .emotion-display { font-size: 160px; line-height: 1; text-align: center; }
+  .emotion-options {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; width: 100%;
+  }
+  .emotion-btn {
+    background: var(--bg-card); border: 3px solid #CCCCCC;
+    border-radius: var(--radius); padding: 20px;
+    cursor: pointer; font-size: 32px; font-weight: bold;
+    color: #000; font-family: inherit; transition: transform 0.2s;
+  }
+  .emotion-btn:active { transform: scale(0.95); }
+  .emotion-btn.correct { border-color: var(--accent-green); animation: glow 0.5s ease; }
+  .emotion-btn.wrong { animation: shake 0.5s ease; }
+  .emotion-round { font-size: 20px; text-align: center; color: #CCCCCC; margin-bottom: 8px; }
+  @media (max-width: 600px) {
+    .emotion-display { font-size: 120px; }
+    .emotion-btn { font-size: 26px; padding: 14px; }
+  }
+  /* === 數數練習 === */
+  .counting-game-layout {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 24px; flex: 1; justify-content: center;
+    max-width: 700px; margin: 0 auto; width: 100%;
+  }
+  .counting-display {
+    background: var(--bg-card); border-radius: var(--radius);
+    padding: 24px; text-align: center; width: 100%;
+    font-size: 64px; line-height: 1.4; min-height: 160px;
+    display: flex; flex-wrap: wrap; gap: 8px;
+    align-items: center; justify-content: center;
+  }
+  .counting-question { font-size: 28px; color: #CCCCCC; text-align: center; }
+  .counting-options {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; width: 100%;
+  }
+  .counting-btn {
+    background: var(--bg-card); border: 3px solid #CCCCCC;
+    border-radius: var(--radius); padding: 20px;
+    cursor: pointer; font-size: 48px; font-weight: bold;
+    color: #000; font-family: inherit; transition: transform 0.2s;
+  }
+  .counting-btn:active { transform: scale(0.95); }
+  .counting-btn.correct { border-color: var(--accent-green); animation: glow 0.5s ease; }
+  .counting-btn.wrong { animation: shake 0.5s ease; }
+  .counting-round { font-size: 20px; text-align: center; color: #CCCCCC; margin-bottom: 8px; }
+
+
+  /* === 找不同 === */
+  .differences-game-layout {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 24px; flex: 1; justify-content: center;
+    max-width: 700px; margin: 0 auto; width: 100%;
+  }
+  .differences-row {
+    display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+  }
+  .diff-item {
+    background: var(--bg-card); border: 3px solid #CCCCCC;
+    border-radius: var(--radius); padding: 12px 16px;
+    cursor: pointer; font-size: 64px; line-height: 1;
+    transition: transform 0.2s;
+  }
+  .diff-item:active { transform: scale(0.95); }
+  .diff-item.correct { border-color: var(--accent-green); animation: glow 0.5s ease; }
+  .diff-item.wrong { animation: shake 0.5s ease; }
+  .differences-hint { font-size: 24px; color: #CCCCCC; text-align: center; }
+  .differences-round { font-size: 20px; text-align: center; color: #CCCCCC; margin-bottom: 8px; }
+  @media (max-width: 600px) {
+    .diff-item { font-size: 48px; padding: 10px 12px; }
+  }
+
+
+/* === 翻牌記憶配對 === */
+.pairs-game-layout {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 16px; flex: 1; padding-top: 8px;
+  max-width: 600px; margin: 0 auto; width: 100%;
+}
+.pairs-grid {
+  display: grid; gap: 12px; width: 100%;
+}
+.pairs-grid.grid-2x3 { grid-template-columns: repeat(3, 1fr); }
+.pairs-grid.grid-3x4 { grid-template-columns: repeat(4, 1fr); }
+.pair-card {
+  aspect-ratio: 1; border-radius: var(--radius);
+  border: 3px solid #555; background: #222;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.3s; position: relative; overflow: hidden;
+}
+.pair-card .card-front {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg-card); font-size: 52px;
+  transform: rotateY(180deg); backface-visibility: hidden;
+  transition: transform 0.3s;
+}
+.pair-card .card-back {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: #333; font-size: 36px; color: #555;
+  backface-visibility: hidden; transition: transform 0.3s;
+}
+.pair-card.flipped .card-front { transform: rotateY(0deg); }
+.pair-card.flipped .card-back  { transform: rotateY(-180deg); }
+.pair-card.matched { border-color: var(--accent-green); opacity: 0.6; pointer-events: none; }
+.pairs-round { font-size: 20px; text-align: center; color: #CCCCCC; margin-bottom: 4px; }
+@media (max-width: 600px) {
+  .pair-card .card-front { font-size: 36px; }
+}
+
+/* === 身體部位指認 === */
+.body-game-layout {
+  display: flex; gap: 32px; flex: 1; align-items: center;
+  max-width: 800px; margin: 0 auto; width: 100%;
+}
+.body-figure {
+  flex-shrink: 0; text-align: center;
+  background: var(--bg-card); border-radius: var(--radius);
+  padding: 16px; min-width: 160px;
+}
+.body-figure-img { font-size: 120px; line-height: 1; }
+.body-right { flex: 1; }
+.body-question { font-size: 32px; font-weight: bold; color: #fff; margin-bottom: 16px; text-align: center; }
+.body-options {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
+}
+.body-btn {
+  background: var(--bg-card); border: 3px solid #CCCCCC;
+  border-radius: var(--radius); padding: 20px;
+  cursor: pointer; font-size: 32px; font-weight: bold;
+  color: #000; font-family: inherit; transition: transform 0.2s;
+}
+.body-btn:active { transform: scale(0.95); }
+.body-btn.correct { border-color: var(--accent-green); animation: glow 0.5s ease; }
+.body-btn.wrong { animation: shake 0.5s ease; }
+.body-round { font-size: 20px; text-align: center; color: #CCCCCC; margin-bottom: 12px; }
+@media (max-width: 600px) {
+  .body-game-layout { flex-direction: column; gap: 16px; }
+  .body-figure-img { font-size: 80px; }
+  .body-btn { font-size: 26px; padding: 14px; }
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- ===== 首頁 ===== -->
+  <div id="page-home" class="page">
+    <div class="home-header">
+      <h1 id="home-greeting">您好！</h1>
+      <div class="date" id="home-date"></div>
+    </div>
+    <div class="difficulty-bar">
+      <div class="bar-labels">
+        <span>輕度 (1-2)</span><span>重度 (7-8)</span>
+      </div>
+      <input type="range" id="difficulty-slider" min="1" max="8" value="4">
+      <div class="bar-value" id="difficulty-value">中度 (4)</div>
+    </div>
+    <div class="difficulty-notice" id="difficulty-notice"></div>
+    <div class="home-grid" id="home-grid"></div>
+  </div>
+
+  <!-- ===== 認字遊戲 ===== -->
+  <div id="page-memory" class="page">
+    <div class="page-top">
+      <button class="back-btn" onclick="navigateTo('page-home')">← 回首頁</button>
+      <h2 class="page-title">📖 認字遊戲</h2>
+    </div>
+    <div class="word-round" id="word-round"></div>
+    <div class="word-game-layout" id="word-game-layout">
+      <div class="word-target-area">
+        <div class="label">請找到這個字！</div>
+        <div class="word-display" id="word-display"></div>
+      </div>
+      <div class="word-right">
+        <div class="word-options" id="word-options"></div>
+      </div>
+    </div>
+    <div class="complete-screen" id="memory-complete">
+      <div class="icon">📖</div>
+      <div class="msg">全部認對了！<br>你好厲害！</div>
+      <button class="btn-primary" onclick="MemoryGame.reset()">再玩一次</button>
+    </div>
+  </div>
+
+  <!-- ===== 形狀配對遊戲 ===== -->
+  <div id="page-shapes" class="page">
+    <div class="page-top">
+      <button class="back-btn" onclick="navigateTo('page-home')">← 回首頁</button>
+      <h2 class="page-title">🔷 形狀配對遊戲</h2>
+    </div>
+    <div class="shape-round" id="shape-round"></div>
+    <div class="shape-game-layout" id="shape-game-layout">
+      <div class="shape-target-area">
+        <div class="label">請找到一樣的！</div>
+        <div class="shape-display" id="shape-target"></div>
+      </div>
+      <div class="shape-right">
+        <div class="shape-options" id="shape-options"></div>
+      </div>
+    </div>
+    <div class="complete-screen" id="shapes-complete">
+      <div class="icon">🌟</div>
+      <div class="msg">太厲害了！<br>全部答對了！</div>
+      <button class="btn-primary" onclick="ShapeGame.reset()">再玩一次</button>
+    </div>
+  </div>
+
+  <!-- ===== 顏色辨識遊戲 ===== -->
+  <div id="page-colors" class="page">
+    <div class="page-top">
+      <button class="back-btn" onclick="navigateTo('page-home')">← 回首頁</button>
+      <h2 class="page-title">🎨 顏色辨識遊戲</h2>
+    </div>
+    <div class="color-round" id="color-round"></div>
+    <div class="color-game-layout" id="color-game-layout">
+      <div class="color-target-area">
+        <div class="label">這是什麼顏色？<br>請找出來！</div>
+        <div class="color-name" id="color-target-name"></div>
+      </div>
+      <div class="color-right">
+        <div class="color-options" id="color-options"></div>
+      </div>
+    </div>
+    <div class="complete-screen" id="colors-complete">
+      <div class="icon">🎨</div>
+      <div class="msg">顏色都認對了！<br>好厲害！</div>
+      <button class="btn-primary" onclick="ColorGame.reset()">再玩一次</button>
+    </div>
+  </div>
+
+  <!-- ===== 認數字遊戲 ===== -->
+  <div id="page-numbers" class="page">
+    <div class="page-top">
+      <button class="back-btn" onclick="navigateTo('page-home')">← 回首頁</button>
+      <h2 class="page-title">🔢 認數字遊戲</h2>
+    </div>
+    <div class="number-round" id="number-round"></div>
+    <div class="number-game-layout" id="number-game-layout">
+      <div class="number-target-area">
+        <div class="label">請找到這個數字！</div>
+        <div class="number-display" id="number-display"></div>
+      </div>
+      <div class="number-right">
+        <div class="number-grid" id="number-grid"></div>
+      </div>
+    </div>
+    <div class="complete-screen" id="numbers-complete">
+      <div class="icon">🔢</div>
+      <div class="msg">數字都認對了！<br>你好棒！</div>
+      <button class="btn-primary" onclick="NumberGame.reset()">再玩一次</button>
+    </div>
+  </div>
+
+  <!-- ===== 物品分類 ===== -->
+  <div id="page-classify" class="page">
+    <div class="page-top">
+      <button class="back-btn" onclick="navigateTo('page-home')">← 回首頁</button>
+      <h2 class="page-title">📦 物品分類</h2>
+    </div>
+    <div class="classify-round" id="classify-round"></div>
+    <div class="classify-game-layout" id="classify-game-layout">
+      <div class="classify-item-area">
+        <div class="label">這是什麼類的？</div>
+        <div class="classify-item" id="classify-item"></div>
+        <div class="classify-item-name" id="classify-item-name"></div>
+      </div>
+      <div class="classify-right">
+        <div class="classify-options" id="classify-options"></div>
+      </div>
+    </div>
+    <div class="complete-screen" id="classify-complete">
+      <div class="icon">📦</div>
+      <div class="msg">分類都對了！<br>好厲害！</div>
+      <button class="btn-primary" onclick="ClassifyGame.reset()">再玩一次</button>
+    </div>
+  </div>
+
+  <!-- ===== 看圖認物 ===== -->
+  <div id="page-picture" class="page">
+    <div class="page-top">
+      <button class="back-btn" onclick="navigateTo('page-home')">← 回首頁</button>
+      <h2 class="page-title">🖼️ 看圖認物</h2>
+    </div>
+    <div class="picture-round" id="picture-round"></div>
+    <div class="picture-game-layout" id="picture-game-layout">
+      <div class="picture-target-area">
+        <div class="label">這是什麼？</div>
+        <div class="picture-emoji" id="picture-emoji"></div>
+      </div>
+      <div class="picture-right">
+        <div class="picture-options" id="picture-options"></div>
+      </div>
+    </div>
+    <div class="complete-screen" id="picture-complete">
+      <div class="icon">🖼️</div>
+      <div class="msg">全部認出來了！<br>好厲害！</div>
+      <button class="btn-primary" onclick="PictureGame.reset()">再玩一次</button>
+    </div>
+  </div>
+
+  <!-- ===== 時鐘認讀 ===== -->
+  <div id="page-clock" class="page">
+    <div class="page-top">
+      <button class="back-btn" onclick="navigateTo('page-home')">← 回首頁</button>
+      <h2 class="page-title">🕐 時鐘認讀</h2>
+    </div>
+    <div class="clock-round" id="clock-round"></div>
+    <div class="clock-game-layout" id="clock-game-layout">
+      <div class="clock-target-area">
+        <div class="label">現在幾點？</div>
+        <canvas id="clock-canvas" class="clock-canvas" width="220" height="220"></canvas>
+      </div>
+      <div class="clock-right">
+        <div class="clock-options" id="clock-options"></div>
+      </div>
+    </div>
+    <div class="complete-screen" id="clock-complete">
+      <div class="icon">🕐</div>
+      <div class="msg">時間都認對了！<br>好棒！</div>
+      <button class="btn-primary" onclick="ClockGame.reset()">再玩一次</button>
+    </div>
+  </div>
+
+  <!-- ===== 連連看 ===== -->
+  <div id="page-matching" class="page">
+    <div class="page-top">
+      <button class="back-btn" onclick="navigateTo('page-home')">← 回首頁</button>
+      <h2 class="page-title">🔗 連連看</h2>
+    </div>
+    <div class="matching-round" id="matching-round"></div>
+    <div class="matching-sub" id="matching-sub"></div>
+    <div class="matching-game-layout" id="matching-game-layout">
+      <div class="matching-column" id="matching-left"></div>
+      <div class="matching-center">⇄</div>
+      <div class="matching-column" id="matching-right"></div>
+    </div>
+    <div class="complete-screen" id="matching-complete">
+      <div class="icon">🔗</div>
+      <div class="msg">全部配對了！<br>好厲害！</div>
+      <button class="btn-primary" onclick="MatchingGame.reset()">再玩一次</button>
+    </div>
+  </div>
+
+  <!-- ===== 大小排序 ===== -->
+  <div id="page-sorting" class="page">
+    <div class="page-top">
+      <button class="back-btn" onclick="navigateTo('page-home')">← 回首頁</button>
+      <h2 class="page-title">📏 大小排序</h2>
+    </div>
+    <div class="sorting-round" id="sorting-round"></div>
+    <div class="sorting-game-layout" id="sorting-game-layout">
+      <div class="sorting-hint">從最小的開始，按順序點！</div>
+      <div class="sorting-items" id="sorting-items"></div>
+    </div>
+    <div class="complete-screen" id="sorting-complete">
+      <div class="icon">📏</div>
+      <div class="msg">排序都對了！<br>好棒！</div>
+      <button class="btn-primary" onclick="SortingGame.reset()">再玩一次</button>
+    </div>
+  </div>
+
+  <!-- ===== 呼吸練習 ===== -->
+  <div id="page-breathing" class="page">
+    <div class="page-top">
+      <button class="back-btn" onclick="navigateTo('page-home')">← 回首頁</button>
+      <h2 class="page-title">💨 呼吸練習</h2>
+    </div>
+    <div class="breathing-layout">
+      <div class="breathing-text" id="breathing-text">準備好了嗎？</div>
+      <div class="breathing-circle-wrap">
+        <div class="breathing-circle" id="breathing-circle"></div>
+      </div>
+      <div class="breathing-progress" id="breathing-progress"></div>
+      <div class="breathing-controls" id="breathing-controls">
+        <button class="breathing-btn breathing-start" onclick="BreathingExercise.start()">開始練習</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 情緒辨識 ===== -->
+  <div id="page-emotion" class="page">
+    <div class="page-top">
+      <button class="back-btn" onclick="navigateTo('page-home')">← 回首頁</button>
+      <h2 class="page-title">😊 情緒辨識</h2>
+    </div>
+    <div class="emotion-round" id="emotion-round"></div>
+    <div class="emotion-game-layout" id="emotion-game-layout">
+      <div class="emotion-display" id="emotion-display"></div>
+      <div class="emotion-options" id="emotion-options"></div>
+    </div>
+    <div id="emotion-complete" class="complete-screen">
+      <div class="msg">全部答對了！<br>你好厲害！</div>
+      <button class="btn-primary" onclick="EmotionGame.reset()">再玩一次</button>
+    </div>
+  </div>
+
+  <!-- ===== 數數練習 ===== -->
+  <div id="page-counting" class="page">
+    <div class="page-top">
+      <button class="back-btn" onclick="navigateTo('page-home')">← 回首頁</button>
+      <h2 class="page-title">🔢 數數練習</h2>
+    </div>
+    <div class="counting-round" id="counting-round"></div>
+    <div class="counting-game-layout" id="counting-game-layout">
+      <div class="counting-question">有幾個？</div>
+      <div class="counting-display" id="counting-display"></div>
+      <div class="counting-options" id="counting-options"></div>
+    </div>
+    <div id="counting-complete" class="complete-screen">
+      <div class="msg">數完了！<br>數得很準確！</div>
+      <button class="btn-primary" onclick="CountingGame.reset()">再玩一次</button>
+    </div>
+  </div>
+
+  <!-- ===== 鼓勵回饋 ===== -->
+  <div class="feedback-overlay" id="feedback-overlay">
+    <div class="feedback-msg" id="feedback-msg"></div>
+  </div>
+
+  <script>
+    // ============================
+    // 共用工具
+    // ============================
+    const praiseMessages = [
+      '太棒了！👏', '好厲害！🌟', '做得好！💪',
+      '很好！繼續加油！🎉', '你真聰明！😊', '非常好！⭐'
+    ];
+
+    const retryMessages = [
+      '再試試看！沒關係 😊', '不對喔，再看看？🤔'
+    ];
+
+    // ============================
+    // 全域狀態
+    // ============================
+    const APP = {
+      level: 4,  // 1-8，預設中度
+
+      load() {
+        const saved = localStorage.getItem('dementiaApp');
+        if (saved) {
+          const data = JSON.parse(saved);
+          this.level = data.level ?? 5;
+          this.selectedGameIds = data.selectedGames ?? null;
+        }
+      },
+
+      save() {
+        localStorage.setItem('dementiaApp', JSON.stringify({
+          level: this.level,
+          selectedGames: this.selectedGameIds
+        }));
+      },
+
+      selectedGameIds: null
+    };
+
+    APP.load();
+
+    // ============================
+    // 遊戲庫
+    // ============================
+    const GAME_LIBRARY = [
+      { id: 'page-pairs',       icon: '🃏', title: '翻牌配對',   desc: '翻開找相同圖案',   min: 1, max: 3  },
+      { id: 'page-memory',      icon: '📖', title: '認字遊戲',   desc: '找出一樣的字',     min: 1, max: 4  },
+      { id: 'page-differences', icon: '🔍', title: '找不同',     desc: '找出不一樣的地方', min: 1, max: 5  },
+      { id: 'page-clock',       icon: '🕐', title: '時鐘認讀',   desc: '看時鐘說時間',     min: 1, max: 5  },
+      { id: 'page-matching',    icon: '🔗', title: '連連看',     desc: '圖片配文字',       min: 1, max: 5  },
+      { id: 'page-colors',      icon: '🎨', title: '顏色辨識',   desc: '找出正確的顏色',   min: 2, max: 7  },
+      { id: 'page-shapes',      icon: '🔷', title: '形狀配對',   desc: '找出一樣的形狀',   min: 2, max: 7  },
+      { id: 'page-picture',     icon: '🖼️', title: '看圖認物',   desc: '看圖片說名字',     min: 2, max: 7  },
+      { id: 'page-numbers',     icon: '🔢', title: '認數字',     desc: '找出一樣的數字',   min: 2, max: 7  },
+      { id: 'page-sorting',     icon: '📏', title: '大小排序',   desc: '從小排到大',       min: 2, max: 7  },
+      { id: 'page-classify',    icon: '📦', title: '物品分類',   desc: '把東西放對地方',   min: 2, max: 7  },
+      { id: 'page-counting',    icon: '🔢', title: '數數練習',   desc: '數數看有幾個',     min: 3, max: 8  },
+      { id: 'page-emotion',     icon: '😊', title: '情緒辨識',   desc: '這是什麼表情？',   min: 3, max: 8  },
+      { id: 'page-breathing',   icon: '💨', title: '呼吸練習',   desc: '跟著慢慢呼吸',     min: 5, max: 8  },
+      { id: 'page-body',        icon: '🖐️', title: '身體部位',   desc: '指出身體的部位',   min: 6, max: 8  },
+    ];
+
+    function selectGames(level) {
+      let pool = GAME_LIBRARY.filter(g => g.min <= level && level <= g.max);
+      let expand = 1;
+      while (pool.length < 10 && expand <= 5) {
+        pool = GAME_LIBRARY.filter(g => g.min <= level + expand && level - expand <= g.max);
+        expand++;
+      }
+      // Fisher-Yates shuffle，取前 10
+      for (let i = pool.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [pool[i], pool[j]] = [pool[j], pool[i]];
+      }
+      return pool.slice(0, 10).map(g => g.id);
+    }
+
+    function randomFrom(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function speak(text) {
+      if (!('speechSynthesis' in window)) return;
+      speechSynthesis.cancel();
+      const clean = text.replace(/[\u{1F000}-\u{1FFFF}]|[\u{2600}-\u{27BF}]|[\u{FE00}-\u{FEFF}]|[\u{1F900}-\u{1F9FF}]|[\u{200D}\u{20E3}\u{FE0F}]/gu, '').trim();
+      if (!clean) return;
+      const u = new SpeechSynthesisUtterance(clean);
+      u.lang = 'zh-TW';
+      u.rate = 0.7;
+      u.pitch = 1.1;
+      speechSynthesis.speak(u);
+    }
+
+    function speakSequence(texts, delayMs = 800) {
+      if (!texts.length) return;
+      speak(texts[0]);
+      texts.slice(1).forEach((t, i) => {
+        setTimeout(() => speak(t), delayMs * (i + 1));
+      });
+    }
+
+    function autoReadQuestion(questionText, optionTexts) {
+      const level = APP.level;
+      if (level < 7) {
+        speak(questionText);
+        return;
+      }
+      // 重度（1-3）：朗讀題目 + 所有選項，然後重複一次
+      const all = [questionText, ...optionTexts];
+      speakSequence(all, 1000);
+      setTimeout(() => speakSequence(all, 1000), all.length * 1000 + 1500);
+    }
+
+    function bindOptionHover(selector) {
+      const level = APP.level;
+      if (level < 3 || level > 6) return;
+      // 中度（4-6）：hover/touchmove 時朗讀選項
+      document.querySelectorAll(selector).forEach(btn => {
+        btn.addEventListener('mouseenter', () => speak(btn.textContent));
+      });
+      // Touch: 偵測手指滑過哪個元素
+      const container = document.querySelector(selector)?.parentElement;
+      if (!container) return;
+      if (container.dataset.hoverBound) return;
+      container.dataset.hoverBound = '1';
+      container.addEventListener('touchmove', (e) => {
+        const touch = e.touches[0];
+        const el = document.elementFromPoint(touch.clientX, touch.clientY);
+        const btn = el?.closest(selector);
+        if (btn && btn !== container._lastSpoken) {
+          container._lastSpoken = btn;
+          speak(btn.textContent);
+        }
+      }, { passive: true });
+    }
+
+    function showFeedback(message, type) {
+      const overlay = document.getElementById('feedback-overlay');
+      const msg = document.getElementById('feedback-msg');
+      msg.textContent = message;
+      msg.className = 'feedback-msg ' + type;
+      overlay.classList.add('show');
+      speak(message);
+      setTimeout(() => overlay.classList.remove('show'), 1500);
+    }
+
+    // ============================
+    // 頁面切換
+    // ============================
+    function navigateTo(pageId) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById(pageId).classList.add('active');
+
+      if (pageId === 'page-home') updateHomeGreeting();
+      if (pageId === 'page-memory') MemoryGame.init();
+      if (pageId === 'page-shapes') ShapeGame.init();
+      if (pageId === 'page-colors') ColorGame.init();
+      if (pageId === 'page-numbers') NumberGame.init();
+      if (pageId === 'page-classify') ClassifyGame.init();
+      if (pageId === 'page-picture') PictureGame.init();
+      if (pageId === 'page-clock') ClockGame.init();
+      if (pageId === 'page-matching') MatchingGame.init();
+      if (pageId === 'page-sorting') SortingGame.init();
+      if (pageId === 'page-emotion') EmotionGame.init();
+      if (pageId === 'page-counting') CountingGame.init();
+      if (pageId === 'page-breathing') BreathingExercise.stop();
+      if (pageId === 'page-differences') DifferencesGame.init();
+      if (pageId === 'page-pairs') PairsGame.init();
+      if (pageId === 'page-body') BodyGame.init();
+    }
+
+    function renderHomeGrid() {
+      const grid = document.getElementById('home-grid');
+      const ids = APP.selectedGameIds || [];
+      grid.innerHTML = ids.map(id => {
+        const g = GAME_LIBRARY.find(x => x.id === id);
+        if (!g) return '';
+        return `<button class="home-card" onclick="navigateTo('${g.id}')">
+      <span class="icon">${g.icon}</span>
+      <span class="title">${g.title}</span>
+      <span class="desc">${g.desc}</span>
+    </button>`;
+      }).join('');
+    }
+
+    function initDifficultySlider() {
+      const slider = document.getElementById('difficulty-slider');
+      const valueEl = document.getElementById('difficulty-value');
+      const notice = document.getElementById('difficulty-notice');
+
+      slider.value = APP.level;
+      const initV = APP.level;
+      valueEl.textContent = initV <= 2 ? '輕度 (' + initV + ')' : initV <= 6 ? '中度 (' + initV + ')' : '重度 (' + initV + ')';
+
+      if (!APP.selectedGameIds) {
+        APP.selectedGameIds = selectGames(APP.level);
+        APP.save();
+      }
+
+      if (!slider.dataset.bound) {
+        slider.dataset.bound = '1';
+        slider.addEventListener('input', () => {
+          const v = parseInt(slider.value);
+      const label = v <= 2 ? '輕度 (' + v + ')' : v <= 6 ? '中度 (' + v + ')' : '重度 (' + v + ')';
+      document.getElementById('difficulty-value').textContent = label;
+        });
+        slider.addEventListener('change', () => {
+          const newLevel = parseInt(slider.value);
+          APP.level = newLevel;
+          APP.selectedGameIds = selectGames(newLevel);
+          APP.save();
+          renderHomeGrid();
+          const n = document.getElementById('difficulty-notice');
+          n.textContent = '已根據新程度重新選擇遊戲';
+          setTimeout(() => n.textContent = '', 2500);
+        });
+      }
+    }
+
+    function updateHomeGreeting() {
+      const h = new Date().getHours();
+      let greet = '您好！';
+      if (h >= 5 && h < 12) greet = '早安！今天過得好嗎？';
+      else if (h >= 12 && h < 18) greet = '午安！今天過得好嗎？';
+      else greet = '晚安！今天辛苦了！';
+
+      document.getElementById('home-greeting').textContent = greet;
+      document.getElementById('home-date').textContent = formatDate(new Date());
+      initDifficultySlider();
+      renderHomeGrid();
+    }
+
+    function formatDate(d) {
+      const days = ['日','一','二','三','四','五','六'];
+      return d.getFullYear() + '年' + (d.getMonth()+1) + '月' + d.getDate() + '日 星期' + days[d.getDay()];
+    }
+
+    function formatTime(d) {
+      return d.getHours().toString().padStart(2,'0') + ':' + d.getMinutes().toString().padStart(2,'0');
+    }
+
+    // ============================
+    // 認字遊戲
+    // ============================
+    const MemoryGame = {
+      // 簡單字（重度用）
+      simpleGroups: [
+        ['山','水','火','木','土'],
+        ['日','月','星','雲','雨'],
+        ['人','手','口','目','耳'],
+        ['大','小','上','下','中'],
+        ['一','二','三','四','五'],
+      ],
+      // 小學程度常用字，分組確保同組的字外形相近容易混淆
+      wordGroups: [
+        ['大','太','天','犬','夫','木'],
+        ['日','目','田','白','百','自'],
+        ['人','入','八','十','千','土'],
+        ['王','玉','主','生','牛','午'],
+        ['上','下','山','出','中','水'],
+        ['手','毛','父','母','女','子'],
+        ['花','草','苗','葉','林','森'],
+        ['口','回','四','因','國','園'],
+        ['門','問','間','開','關','聞'],
+        ['馬','鳥','魚','羊','兔','象'],
+        ['風','雨','雪','雲','雷','電'],
+        ['吃','喝','叫','吹','唱','哭']
+      ],
+      currentRound: 0,
+      totalRounds: 8,
+      usedGroups: [],
+
+      init() {
+        this.currentRound = 0;
+        this.usedGroups = [];
+        document.getElementById('memory-complete').classList.remove('show');
+        document.getElementById('word-game-layout').style.display = '';
+        document.getElementById('word-round').style.display = '';
+        this.nextRound();
+      },
+
+      nextRound() {
+        this.currentRound++;
+        if (this.currentRound > this.totalRounds) {
+          document.getElementById('word-game-layout').style.display = 'none';
+          document.getElementById('word-round').style.display = 'none';
+          document.getElementById('memory-complete').classList.add('show');
+          return;
+        }
+
+        document.getElementById('word-round').textContent =
+          '第 ' + this.currentRound + ' / ' + this.totalRounds + ' 題';
+
+        const level = APP.level;
+        const groups = level >= 7 ? this.simpleGroups : this.wordGroups;
+
+        // 選一組沒用過的字
+        let available = groups.filter((_, i) => !this.usedGroups.includes(i));
+        let groupIdx = groups.indexOf(randomFrom(available));
+        this.usedGroups.push(groupIdx);
+        let group = groups[groupIdx];
+
+        // 從這組中選目標字
+        const target = randomFrom(group);
+        document.getElementById('word-display').textContent = target;
+
+        // 選 5 個不同的干擾字 + 1 個正確答案
+        let options = [{ word: target, isCorrect: true }];
+        let used = [target];
+        while (options.length < 6) {
+          const w = randomFrom(group);
+          if (used.includes(w)) continue;
+          used.push(w);
+          options.push({ word: w, isCorrect: false });
+        }
+
+        // 打亂
+        for (let i = options.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [options[i], options[j]] = [options[j], options[i]];
+        }
+
+        const container = document.getElementById('word-options');
+        container.innerHTML = '';
+        options.forEach(opt => {
+          const btn = document.createElement('button');
+          btn.className = 'word-option';
+          btn.textContent = opt.word;
+          btn.onclick = () => this.checkAnswer(opt, btn);
+          container.appendChild(btn);
+        });
+      },
+
+      checkAnswer(option, btnEl) {
+        if (option.isCorrect) {
+          btnEl.classList.add('correct');
+          showFeedback(randomFrom(praiseMessages), 'correct');
+          setTimeout(() => this.nextRound(), 1200);
+        } else {
+          btnEl.classList.add('wrong');
+          showFeedback(randomFrom(retryMessages), 'retry');
+          setTimeout(() => btnEl.classList.remove('wrong'), 500);
+        }
+      },
+
+      reset() { this.init(); }
+    };
+
+    // ============================
+    // 形狀配對遊戲
+    // ============================
+    const ShapeGame = {
+      shapes: [
+        { name: '圓形', char: '●' },
+        { name: '方形', char: '■' },
+        { name: '三角形', char: '▲' },
+        { name: '星形', char: '★' },
+        { name: '菱形', char: '◆' },
+        { name: '心形', char: '♥' }
+      ],
+      allColors: [
+        { name: '大紅', value: '#FF0000' },
+        { name: '暗紅', value: '#8B0000' },
+        { name: '橘紅', value: '#FF4500' },
+        { name: '玫瑰紅', value: '#FF007F' },
+        { name: '酒紅', value: '#722F37' },
+        { name: '珊瑚紅', value: '#FF6F61' },
+        { name: '磚紅', value: '#CB4154' },
+        { name: '桃紅', value: '#FF1493' }
+      ],
+      currentRound: 0,
+      totalRounds: 8,
+      usedColors: [],
+      target: null,
+
+      init() {
+        this.currentRound = 0;
+        this.usedColors = [];
+        document.getElementById('shapes-complete').classList.remove('show');
+        document.getElementById('shape-game-layout').style.display = '';
+        document.getElementById('shape-round').style.display = '';
+        this.nextRound();
+      },
+
+      getUnusedColor() {
+        const available = this.allColors.filter(c => !this.usedColors.includes(c.value));
+        if (available.length === 0) return randomFrom(this.allColors);
+        return randomFrom(available);
+      },
+
+      nextRound() {
+        this.currentRound++;
+        if (this.currentRound > this.totalRounds) {
+          document.getElementById('shape-game-layout').style.display = 'none';
+          document.getElementById('shape-round').style.display = 'none';
+          document.getElementById('shapes-complete').classList.add('show');
+          return;
+        }
+
+        document.getElementById('shape-round').textContent =
+          '第 ' + this.currentRound + ' / ' + this.totalRounds + ' 題';
+
+        const level = APP.level;
+        const shapeCount = level <= 2 ? 6 : level <= 6 ? 5 : 3;
+        const shapePool = this.shapes.slice(0, shapeCount);
+
+        const targetShape = randomFrom(shapePool);
+        const targetColor = this.getUnusedColor();
+        this.usedColors.push(targetColor.value);
+        this.target = { shape: targetShape, color: targetColor };
+
+        document.getElementById('shape-target').innerHTML =
+          '<span style="color:' + targetColor.value + '">' + targetShape.char + '</span>';
+
+        // 選項中每個顏色都不同
+        let usedInRound = [targetColor.value];
+        let options = [{ shape: targetShape, color: targetColor, isCorrect: true }];
+
+        while (options.length < 4) {
+          const s = randomFrom(shapePool);
+          const c = randomFrom(this.allColors);
+          if (usedInRound.includes(c.value)) continue;
+          if (s.char === targetShape.char && c.value === targetColor.value) continue;
+          usedInRound.push(c.value);
+          options.push({ shape: s, color: c, isCorrect: false });
+        }
+
+        for (let i = options.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [options[i], options[j]] = [options[j], options[i]];
+        }
+
+        const container = document.getElementById('shape-options');
+        container.innerHTML = '';
+        options.forEach(opt => {
+          const btn = document.createElement('button');
+          btn.className = 'shape-option';
+          btn.innerHTML = '<span style="color:' + opt.color.value + '">' + opt.shape.char + '</span>';
+          btn.onclick = () => this.checkAnswer(opt, btn);
+          container.appendChild(btn);
+        });
+
+        autoReadQuestion('請找出：' + targetShape.name, []);
+        bindOptionHover('.shape-option');
+      },
+
+      checkAnswer(option, btnEl) {
+        if (option.isCorrect) {
+          btnEl.classList.add('correct');
+          showFeedback(randomFrom(praiseMessages), 'correct');
+          setTimeout(() => this.nextRound(), 1200);
+        } else {
+          btnEl.classList.add('wrong');
+          showFeedback(randomFrom(retryMessages), 'retry');
+          setTimeout(() => btnEl.classList.remove('wrong'), 500);
+        }
+      },
+
+      reset() { this.init(); }
+    };
+
+    // ============================
+    // 顏色辨識遊戲
+    // ============================
+    const ColorGame = {
+      // 高對比、色系差異大的顏色，每個都清楚可辨
+      allColors: [
+        { name: '紅色', value: '#FF0000' },
+        { name: '藍色', value: '#0000FF' },
+        { name: '黃色', value: '#FFD700' },
+        { name: '綠色', value: '#009900' },
+        { name: '橘色', value: '#FF6600' },
+        { name: '紫色', value: '#7700CC' },
+        { name: '粉紅色', value: '#FF69B4' },
+        { name: '咖啡色', value: '#8B4513' },
+        { name: '黑色', value: '#000000' },
+        { name: '白色', value: '#FFFFFF' },
+        { name: '灰色', value: '#888888' },
+        { name: '天藍色', value: '#00BFFF' }
+      ],
+      currentRound: 0,
+      totalRounds: 8,
+      usedAsTarget: [],
+
+      init() {
+        this.currentRound = 0;
+        this.usedAsTarget = [];
+        document.getElementById('colors-complete').classList.remove('show');
+        document.getElementById('color-game-layout').style.display = '';
+        document.getElementById('color-round').style.display = '';
+        this.nextRound();
+      },
+
+      nextRound() {
+        this.currentRound++;
+        if (this.currentRound > this.totalRounds) {
+          document.getElementById('color-game-layout').style.display = 'none';
+          document.getElementById('color-round').style.display = 'none';
+          document.getElementById('colors-complete').classList.add('show');
+          return;
+        }
+
+        document.getElementById('color-round').textContent =
+          '第 ' + this.currentRound + ' / ' + this.totalRounds + ' 題';
+
+        const level = APP.level;
+        const optionCount = level >= 7 ? 4 : 6;
+
+        // 選一個沒當過答案的顏色作為目標
+        const available = this.allColors.filter(c => !this.usedAsTarget.includes(c.value));
+        const target = randomFrom(available);
+        this.usedAsTarget.push(target.value);
+
+        document.getElementById('color-target-name').innerHTML =
+          '<span style="color:' + target.value + '">' + target.name + '</span>';
+
+        // 選項中每個顏色都不同，且不與目標重複
+        let usedInRound = [target.value];
+        let options = [{ color: target, isCorrect: true }];
+        while (options.length < optionCount) {
+          const c = randomFrom(this.allColors);
+          if (usedInRound.includes(c.value)) continue;
+          usedInRound.push(c.value);
+          options.push({ color: c, isCorrect: false });
+        }
+
+        for (let i = options.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [options[i], options[j]] = [options[j], options[i]];
+        }
+
+        const container = document.getElementById('color-options');
+        container.innerHTML = '';
+        options.forEach(opt => {
+          const btn = document.createElement('button');
+          btn.className = 'color-option';
+          btn.style.background = opt.color.value;
+          btn.setAttribute('aria-label', opt.color.name);
+          btn.onclick = () => this.checkAnswer(opt, btn);
+          container.appendChild(btn);
+        });
+
+        autoReadQuestion('請找出' + target.name, options.map(o => o.color.name));
+        bindOptionHover('.color-option');
+      },
+
+      checkAnswer(option, btnEl) {
+        if (option.isCorrect) {
+          btnEl.classList.add('correct');
+          showFeedback(randomFrom(praiseMessages), 'correct');
+          setTimeout(() => this.nextRound(), 1200);
+        } else {
+          btnEl.classList.add('wrong');
+          showFeedback(randomFrom(retryMessages), 'retry');
+          setTimeout(() => btnEl.classList.remove('wrong'), 500);
+        }
+      },
+
+      reset() { this.init(); }
+    };
+
+    // ============================
+    // 數字排序遊戲
+    // ============================
+    const NumberGame = {
+      redColors: [
+        '#FF0000', '#8B0000', '#FF4500', '#FF007F',
+        '#722F37', '#FF6F61', '#CB4154', '#FF1493',
+        '#960018'
+      ],
+      currentRound: 0,
+      totalRounds: 8,
+      usedNumbers: [],
+
+      init() {
+        this.currentRound = 0;
+        this.usedNumbers = [];
+        document.getElementById('numbers-complete').classList.remove('show');
+        document.getElementById('number-game-layout').style.display = '';
+        document.getElementById('number-round').style.display = '';
+        this.nextRound();
+      },
+
+      nextRound() {
+        this.currentRound++;
+        if (this.currentRound > this.totalRounds) {
+          document.getElementById('number-game-layout').style.display = 'none';
+          document.getElementById('number-round').style.display = 'none';
+          document.getElementById('numbers-complete').classList.add('show');
+          return;
+        }
+
+        document.getElementById('number-round').textContent =
+          '第 ' + this.currentRound + ' / ' + this.totalRounds + ' 題';
+
+        const level = APP.level;
+        const maxNum = level <= 2 ? 20 : level <= 6 ? 10 : 5;
+        const optionCount = level <= 2 ? 6 : level <= 6 ? 4 : 3;
+
+        // 選一個沒出現過的目標數字
+        let target;
+        do { target = Math.floor(Math.random() * maxNum) + 1; }
+        while (this.usedNumbers.includes(target));
+        this.usedNumbers.push(target);
+
+        document.getElementById('number-display').textContent = target;
+
+        // 產生選項（含正確答案），數字不重複
+        let nums = [target];
+        while (nums.length < optionCount) {
+          const n = Math.floor(Math.random() * maxNum) + 1;
+          if (!nums.includes(n)) nums.push(n);
+        }
+
+        // 打亂順序
+        for (let i = nums.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [nums[i], nums[j]] = [nums[j], nums[i]];
+        }
+
+        // 打亂紅色系
+        let colors = [...this.redColors];
+        for (let i = colors.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [colors[i], colors[j]] = [colors[j], colors[i]];
+        }
+
+        const grid = document.getElementById('number-grid');
+        grid.innerHTML = '';
+        nums.forEach((num, i) => {
+          const btn = document.createElement('button');
+          btn.className = 'number-btn';
+          btn.textContent = num;
+          btn.style.background = '';
+          btn.onclick = () => this.checkAnswer(num, target, btn);
+          grid.appendChild(btn);
+        });
+
+        autoReadQuestion('請找出數字：' + target, nums.map(String));
+        bindOptionHover('.number-btn');
+      },
+
+      checkAnswer(picked, target, btnEl) {
+        if (picked === target) {
+          btnEl.classList.add('correct');
+          showFeedback(randomFrom(praiseMessages), 'correct');
+          setTimeout(() => this.nextRound(), 1200);
+        } else {
+          btnEl.classList.add('wrong');
+          showFeedback(randomFrom(retryMessages), 'retry');
+          setTimeout(() => btnEl.classList.remove('wrong'), 500);
+        }
+      },
+
+      reset() { this.init(); }
+    };
+
+    // ============================
+    // 物品分類遊戲
+    // ============================
+    const ClassifyGame = {
+      categories: [
+        {
+          name: '水果', icon: '🍎',
+          items: [
+            { emoji: '🍎', name: '蘋果' }, { emoji: '🍌', name: '香蕉' },
+            { emoji: '🍊', name: '橘子' }, { emoji: '🍇', name: '葡萄' },
+            { emoji: '🍉', name: '西瓜' }, { emoji: '🍓', name: '草莓' }
+          ]
+        },
+        {
+          name: '動物', icon: '🐕',
+          items: [
+            { emoji: '🐕', name: '狗' }, { emoji: '🐈', name: '貓' },
+            { emoji: '🐄', name: '牛' }, { emoji: '🐖', name: '豬' },
+            { emoji: '🐑', name: '羊' }, { emoji: '🐔', name: '雞' }
+          ]
+        },
+        {
+          name: '交通工具', icon: '🚗',
+          items: [
+            { emoji: '🚗', name: '汽車' }, { emoji: '🚌', name: '公車' },
+            { emoji: '🚂', name: '火車' }, { emoji: '✈️', name: '飛機' },
+            { emoji: '🚢', name: '船' }, { emoji: '🏍️', name: '機車' }
+          ]
+        },
+        {
+          name: '食物', icon: '🍚',
+          items: [
+            { emoji: '🍚', name: '白飯' }, { emoji: '🍜', name: '麵' },
+            { emoji: '🍞', name: '麵包' }, { emoji: '🥚', name: '雞蛋' },
+            { emoji: '🧁', name: '蛋糕' }, { emoji: '🍕', name: '披薩' }
+          ]
+        },
+        {
+          name: '衣物', icon: '👕',
+          items: [
+            { emoji: '👕', name: '上衣' }, { emoji: '👖', name: '褲子' },
+            { emoji: '🧣', name: '圍巾' }, { emoji: '🧤', name: '手套' },
+            { emoji: '👒', name: '帽子' }, { emoji: '👟', name: '鞋子' }
+          ]
+        },
+        {
+          name: '身體', icon: '👋',
+          items: [
+            { emoji: '👁️', name: '眼睛' }, { emoji: '👃', name: '鼻子' },
+            { emoji: '👄', name: '嘴巴' }, { emoji: '👂', name: '耳朵' },
+            { emoji: '👋', name: '手' }, { emoji: '🦶', name: '腳' }
+          ]
+        }
+      ],
+      currentRound: 0,
+      totalRounds: 8,
+      usedItems: [],
+
+      init() {
+        this.currentRound = 0;
+        this.usedItems = [];
+        document.getElementById('classify-complete').classList.remove('show');
+        document.getElementById('classify-game-layout').style.display = '';
+        document.getElementById('classify-round').style.display = '';
+        this.nextRound();
+      },
+
+      nextRound() {
+        this.currentRound++;
+        if (this.currentRound > this.totalRounds) {
+          document.getElementById('classify-game-layout').style.display = 'none';
+          document.getElementById('classify-round').style.display = 'none';
+          document.getElementById('classify-complete').classList.add('show');
+          return;
+        }
+
+        document.getElementById('classify-round').textContent =
+          '第 ' + this.currentRound + ' / ' + this.totalRounds + ' 題';
+
+        const level = APP.level;
+        const categoryCount = level <= 2 ? 4 : level <= 6 ? 3 : 2;
+        const catPool = this.categories.slice(0, Math.max(categoryCount, 2));
+
+        // 隨機選一個類別和物品（不重複）
+        let item, catIdx;
+        do {
+          catIdx = Math.floor(Math.random() * catPool.length);
+          const cat = catPool[catIdx];
+          item = randomFrom(cat.items);
+        } while (this.usedItems.includes(item.emoji));
+        this.usedItems.push(item.emoji);
+
+        const correctCat = catPool[catIdx];
+
+        document.getElementById('classify-item').textContent = item.emoji;
+        document.getElementById('classify-item-name').textContent = item.name;
+
+        // 生成類別選項（含正確的），數量依難度
+        const catOptionCount = Math.min(categoryCount, catPool.length);
+        let catOptions = [{ cat: correctCat, isCorrect: true }];
+        let usedCats = [catIdx];
+        while (catOptions.length < catOptionCount) {
+          const ci = Math.floor(Math.random() * catPool.length);
+          if (usedCats.includes(ci)) continue;
+          usedCats.push(ci);
+          catOptions.push({ cat: catPool[ci], isCorrect: false });
+        }
+
+        // 打亂
+        for (let i = catOptions.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [catOptions[i], catOptions[j]] = [catOptions[j], catOptions[i]];
+        }
+
+        const container = document.getElementById('classify-options');
+        container.innerHTML = '';
+        catOptions.forEach(opt => {
+          const btn = document.createElement('button');
+          btn.className = 'classify-option';
+          btn.innerHTML = '<span class="cat-icon">' + opt.cat.icon + '</span>' + opt.cat.name;
+          btn.onclick = () => this.checkAnswer(opt, btn);
+          container.appendChild(btn);
+        });
+
+        autoReadQuestion('這個屬於哪一類？', catOptions.map(o => o.cat.name));
+        bindOptionHover('.classify-option');
+      },
+
+      checkAnswer(option, btnEl) {
+        if (option.isCorrect) {
+          btnEl.classList.add('correct');
+          showFeedback(randomFrom(praiseMessages), 'correct');
+          setTimeout(() => this.nextRound(), 1200);
+        } else {
+          btnEl.classList.add('wrong');
+          showFeedback(randomFrom(retryMessages), 'retry');
+          setTimeout(() => btnEl.classList.remove('wrong'), 500);
+        }
+      },
+
+      reset() { this.init(); }
+    };
+
+    // ============================
+    // 看圖認物
+    // ============================
+    const PictureGame = {
+      // 常見物品：emoji + 名稱
+      items: [
+        { emoji: '🍎', name: '蘋果' }, { emoji: '🍌', name: '香蕉' },
+        { emoji: '🍊', name: '橘子' }, { emoji: '🍇', name: '葡萄' },
+        { emoji: '🍉', name: '西瓜' }, { emoji: '🍓', name: '草莓' },
+        { emoji: '🐕', name: '狗' }, { emoji: '🐈', name: '貓' },
+        { emoji: '🐟', name: '魚' }, { emoji: '🐦', name: '鳥' },
+        { emoji: '🐘', name: '大象' }, { emoji: '🐒', name: '猴子' },
+        { emoji: '🚗', name: '汽車' }, { emoji: '✈️', name: '飛機' },
+        { emoji: '🚢', name: '船' }, { emoji: '🚂', name: '火車' },
+        { emoji: '☂️', name: '雨傘' }, { emoji: '📱', name: '手機' },
+        { emoji: '👓', name: '眼鏡' }, { emoji: '🔑', name: '鑰匙' },
+        { emoji: '📚', name: '書' }, { emoji: '⌚', name: '手錶' },
+        { emoji: '🌸', name: '花' }, { emoji: '🌳', name: '樹' },
+        { emoji: '☀️', name: '太陽' }, { emoji: '🌙', name: '月亮' },
+        { emoji: '🏠', name: '房子' }, { emoji: '🌈', name: '彩虹' }
+      ],
+      currentRound: 0,
+      totalRounds: 8,
+      usedIndices: [],
+
+      init() {
+        this.currentRound = 0;
+        this.usedIndices = [];
+        document.getElementById('picture-complete').classList.remove('show');
+        document.getElementById('picture-game-layout').style.display = '';
+        document.getElementById('picture-round').style.display = '';
+        this.nextRound();
+      },
+
+      nextRound() {
+        this.currentRound++;
+        if (this.currentRound > this.totalRounds) {
+          document.getElementById('picture-game-layout').style.display = 'none';
+          document.getElementById('picture-round').style.display = 'none';
+          document.getElementById('picture-complete').classList.add('show');
+          return;
+        }
+
+        document.getElementById('picture-round').textContent =
+          '第 ' + this.currentRound + ' / ' + this.totalRounds + ' 題';
+
+        // 選一個沒用過的物品
+        let idx;
+        do { idx = Math.floor(Math.random() * this.items.length); }
+        while (this.usedIndices.includes(idx));
+        this.usedIndices.push(idx);
+
+        const target = this.items[idx];
+        document.getElementById('picture-emoji').textContent = target.emoji;
+
+        // 產生 6 個文字選項（含正確答案）
+        let options = [{ name: target.name, isCorrect: true }];
+        let usedNames = [target.name];
+        while (options.length < 6) {
+          const item = randomFrom(this.items);
+          if (usedNames.includes(item.name)) continue;
+          usedNames.push(item.name);
+          options.push({ name: item.name, isCorrect: false });
+        }
+
+        // 打亂
+        for (let i = options.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [options[i], options[j]] = [options[j], options[i]];
+        }
+
+        const container = document.getElementById('picture-options');
+        container.innerHTML = '';
+        options.forEach(opt => {
+          const btn = document.createElement('button');
+          btn.className = 'picture-option';
+          btn.textContent = opt.name;
+          btn.onclick = () => this.checkAnswer(opt, btn);
+          container.appendChild(btn);
+        });
+      },
+
+      checkAnswer(option, btnEl) {
+        if (option.isCorrect) {
+          btnEl.classList.add('correct');
+          showFeedback(randomFrom(praiseMessages), 'correct');
+          setTimeout(() => this.nextRound(), 1200);
+        } else {
+          btnEl.classList.add('wrong');
+          showFeedback(randomFrom(retryMessages), 'retry');
+          setTimeout(() => btnEl.classList.remove('wrong'), 500);
+        }
+      },
+
+      reset() { this.init(); }
+    };
+
+    // ============================
+    // 時鐘認讀
+    // ============================
+    const ClockGame = {
+      currentRound: 0,
+      totalRounds: 8,
+      usedHours: [],
+
+      init() {
+        this.currentRound = 0;
+        this.usedHours = [];
+        document.getElementById('clock-complete').classList.remove('show');
+        document.getElementById('clock-game-layout').style.display = '';
+        document.getElementById('clock-round').style.display = '';
+        this.nextRound();
+      },
+
+      // 在 Canvas 上畫類比時鐘
+      drawClock(hour, minute) {
+        minute = minute || 0;
+        const canvas = document.getElementById('clock-canvas');
+        const ctx = canvas.getContext('2d');
+        const w = canvas.width, h = canvas.height;
+        const cx = w / 2, cy = h / 2, r = Math.min(cx, cy) - 10;
+
+        ctx.clearRect(0, 0, w, h);
+
+        // 鐘面底色
+        ctx.beginPath();
+        ctx.arc(cx, cy, r, 0, Math.PI * 2);
+        ctx.fillStyle = '#FFFFF0';
+        ctx.fill();
+        ctx.strokeStyle = '#000000';
+        ctx.lineWidth = 4;
+        ctx.stroke();
+
+        // 刻度數字
+        ctx.fillStyle = '#000000';
+        ctx.font = 'bold 22px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        for (let i = 1; i <= 12; i++) {
+          const angle = (i * 30 - 90) * Math.PI / 180;
+          const nx = cx + (r - 25) * Math.cos(angle);
+          const ny = cy + (r - 25) * Math.sin(angle);
+          ctx.fillText(i, nx, ny);
+        }
+
+        // 分針 — 先畫分針，時針蓋在上面
+        const mAngle = (minute * 6 - 90) * Math.PI / 180;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(cx + (r * 0.72) * Math.cos(mAngle), cy + (r * 0.72) * Math.sin(mAngle));
+        ctx.strokeStyle = '#555555';
+        ctx.lineWidth = 5;
+        ctx.lineCap = 'round';
+        ctx.stroke();
+
+        // 時針（粗紅色，明顯易辨）— 時針位置受分鐘影響
+        const hAngle = (hour * 30 + minute * 0.5 - 90) * Math.PI / 180;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(cx + (r * 0.48) * Math.cos(hAngle), cy + (r * 0.48) * Math.sin(hAngle));
+        ctx.strokeStyle = '#CC0000';
+        ctx.lineWidth = 10;
+        ctx.lineCap = 'round';
+        ctx.stroke();
+
+        // 中心點
+        ctx.beginPath();
+        ctx.arc(cx, cy, 8, 0, Math.PI * 2);
+        ctx.fillStyle = '#CC0000';
+        ctx.fill();
+      },
+
+      nextRound() {
+        this.currentRound++;
+        if (this.currentRound > this.totalRounds) {
+          document.getElementById('clock-game-layout').style.display = 'none';
+          document.getElementById('clock-round').style.display = 'none';
+          document.getElementById('clock-complete').classList.add('show');
+          return;
+        }
+
+        document.getElementById('clock-round').textContent =
+          '第 ' + this.currentRound + ' / ' + this.totalRounds + ' 題';
+
+        const level = APP.level;
+        const minute = level >= 7 ? 0 :
+                       level >= 3 ? (Math.random() < 0.5 ? 0 : 30) :
+                       Math.floor(Math.random() * 12) * 5;
+
+        // 隨機選一個沒用過的小時
+        let hour;
+        do { hour = Math.floor(Math.random() * 12) + 1; }
+        while (this.usedHours.includes(hour));
+        this.usedHours.push(hour);
+
+        this.drawClock(hour, minute);
+
+        // 格式化時間顯示
+        const formatTime = (h, m) => m === 0 ? h + ' 點' : h + ' 點 ' + m + ' 分';
+
+        // 產生 4 個時間選項
+        let options = [{ hour: hour, minute: minute, isCorrect: true }];
+        let usedKeys = [hour + ':' + minute];
+        while (options.length < 4) {
+          const h = Math.floor(Math.random() * 12) + 1;
+          const m = level >= 7 ? 0 :
+                    level >= 3 ? (Math.random() < 0.5 ? 0 : 30) :
+                    Math.floor(Math.random() * 12) * 5;
+          const key = h + ':' + m;
+          if (usedKeys.includes(key)) continue;
+          usedKeys.push(key);
+          options.push({ hour: h, minute: m, isCorrect: false });
+        }
+
+        for (let i = options.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [options[i], options[j]] = [options[j], options[i]];
+        }
+
+        const container = document.getElementById('clock-options');
+        container.innerHTML = '';
+        options.forEach(opt => {
+          const btn = document.createElement('button');
+          btn.className = 'clock-option';
+          btn.textContent = formatTime(opt.hour, opt.minute);
+          btn.onclick = () => this.checkAnswer(opt, btn);
+          container.appendChild(btn);
+        });
+      },
+
+      checkAnswer(option, btnEl) {
+        if (option.isCorrect) {
+          btnEl.classList.add('correct');
+          showFeedback(randomFrom(praiseMessages), 'correct');
+          setTimeout(() => this.nextRound(), 1200);
+        } else {
+          btnEl.classList.add('wrong');
+          showFeedback(randomFrom(retryMessages), 'retry');
+          setTimeout(() => btnEl.classList.remove('wrong'), 500);
+        }
+      },
+
+      reset() { this.init(); }
+    };
+
+    // ============================
+    // 連連看
+    // ============================
+    const MatchingGame = {
+      // 圖文配對素材
+      allItems: [
+        { emoji: '🍎', name: '蘋果' }, { emoji: '🍌', name: '香蕉' },
+        { emoji: '🍊', name: '橘子' }, { emoji: '🍇', name: '葡萄' },
+        { emoji: '🍉', name: '西瓜' }, { emoji: '🍓', name: '草莓' },
+        { emoji: '🐕', name: '狗' }, { emoji: '🐈', name: '貓' },
+        { emoji: '🐟', name: '魚' }, { emoji: '🐦', name: '鳥' },
+        { emoji: '🐘', name: '大象' }, { emoji: '🐒', name: '猴子' },
+        { emoji: '🚗', name: '汽車' }, { emoji: '✈️', name: '飛機' },
+        { emoji: '🚢', name: '船' }, { emoji: '🚂', name: '火車' },
+        { emoji: '☂️', name: '雨傘' }, { emoji: '📱', name: '手機' },
+        { emoji: '👓', name: '眼鏡' }, { emoji: '🔑', name: '鑰匙' },
+        { emoji: '🌸', name: '花' }, { emoji: '🌳', name: '樹' },
+        { emoji: '☀️', name: '太陽' }, { emoji: '🌙', name: '月亮' }
+      ],
+      currentRound: 0,
+      totalRounds: 5,
+      pairsPerRound: 4,
+      usedIndices: [],
+      selectedLeft: null, // 目前選中的左邊項目索引
+      matchedCount: 0,
+      roundItems: [],
+
+      init() {
+        this.currentRound = 0;
+        this.usedIndices = [];
+        document.getElementById('matching-complete').classList.remove('show');
+        document.getElementById('matching-game-layout').style.display = '';
+        document.getElementById('matching-round').style.display = '';
+        document.getElementById('matching-sub').style.display = '';
+        this.nextRound();
+      },
+
+      nextRound() {
+        this.currentRound++;
+        if (this.currentRound > this.totalRounds) {
+          document.getElementById('matching-game-layout').style.display = 'none';
+          document.getElementById('matching-round').style.display = 'none';
+          document.getElementById('matching-sub').style.display = 'none';
+          document.getElementById('matching-complete').classList.add('show');
+          return;
+        }
+
+        const level = APP.level;
+        const pairCount = level <= 2 ? 5 : level <= 6 ? 4 : 3;
+        this.pairsPerRound = pairCount;
+
+        this.selectedLeft = null;
+        this.matchedCount = 0;
+
+        document.getElementById('matching-round').textContent =
+          '第 ' + this.currentRound + ' / ' + this.totalRounds + ' 回';
+        document.getElementById('matching-sub').textContent =
+          '點左邊圖片，再點右邊名字';
+
+        // 選沒用過的物品
+        this.roundItems = [];
+        while (this.roundItems.length < pairCount) {
+          const idx = Math.floor(Math.random() * this.allItems.length);
+          if (this.usedIndices.includes(idx)) continue;
+          this.usedIndices.push(idx);
+          this.roundItems.push(this.allItems[idx]);
+        }
+
+        // 左欄：emoji（原序）
+        const leftOrder = [...this.roundItems];
+        // 右欄：名字（打亂）
+        const rightOrder = [...this.roundItems];
+        for (let i = rightOrder.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [rightOrder[i], rightOrder[j]] = [rightOrder[j], rightOrder[i]];
+        }
+
+        const leftCol = document.getElementById('matching-left');
+        const rightCol = document.getElementById('matching-right');
+        leftCol.innerHTML = '';
+        rightCol.innerHTML = '';
+
+        leftOrder.forEach((item, i) => {
+          const btn = document.createElement('button');
+          btn.className = 'matching-item';
+          btn.innerHTML = '<span class="match-emoji">' + item.emoji + '</span>';
+          btn.dataset.name = item.name;
+          btn.dataset.side = 'left';
+          btn.dataset.idx = i;
+          btn.onclick = () => this.selectLeft(btn);
+          leftCol.appendChild(btn);
+        });
+
+        rightOrder.forEach((item, i) => {
+          const btn = document.createElement('button');
+          btn.className = 'matching-item';
+          btn.textContent = item.name;
+          btn.dataset.name = item.name;
+          btn.dataset.side = 'right';
+          btn.dataset.idx = i;
+          btn.onclick = () => this.selectRight(btn);
+          rightCol.appendChild(btn);
+        });
+      },
+
+      selectLeft(btn) {
+        if (btn.classList.contains('matched')) return;
+        // 取消之前的選取
+        document.querySelectorAll('#matching-left .matching-item').forEach(b =>
+          b.classList.remove('selected'));
+        btn.classList.add('selected');
+        this.selectedLeft = btn;
+      },
+
+      selectRight(btn) {
+        if (btn.classList.contains('matched')) return;
+        if (!this.selectedLeft) {
+          showFeedback('先點左邊的圖片！', 'retry');
+          return;
+        }
+
+        const leftName = this.selectedLeft.dataset.name;
+        const rightName = btn.dataset.name;
+
+        if (leftName === rightName) {
+          // 配對成功
+          this.selectedLeft.classList.remove('selected');
+          this.selectedLeft.classList.add('matched');
+          btn.classList.add('matched');
+          this.selectedLeft = null;
+          this.matchedCount++;
+          showFeedback(randomFrom(praiseMessages), 'correct');
+
+          if (this.matchedCount >= this.pairsPerRound) {
+            setTimeout(() => this.nextRound(), 1200);
+          }
+        } else {
+          // 配對失敗
+          btn.classList.add('wrong');
+          showFeedback(randomFrom(retryMessages), 'retry');
+          setTimeout(() => btn.classList.remove('wrong'), 500);
+        }
+      },
+
+      reset() { this.init(); }
+    };
+
+    // ============================
+    // 大小排序
+    // ============================
+    const SortingGame = {
+      // 每組物品按照真實大小排列（索引 0 = 最小）
+      groups: [
+        [
+          { emoji: '🐜', name: '螞蟻' }, { emoji: '🐦', name: '鳥' },
+          { emoji: '🐕', name: '狗' }, { emoji: '🐘', name: '大象' }
+        ],
+        [
+          { emoji: '🍓', name: '草莓' }, { emoji: '🍎', name: '蘋果' },
+          { emoji: '🥥', name: '椰子' }, { emoji: '🍉', name: '西瓜' }
+        ],
+        [
+          { emoji: '🔑', name: '鑰匙' }, { emoji: '📱', name: '手機' },
+          { emoji: '💻', name: '電腦' }, { emoji: '🚗', name: '汽車' }
+        ],
+        [
+          { emoji: '🐁', name: '老鼠' }, { emoji: '🐈', name: '貓' },
+          { emoji: '🐄', name: '牛' }, { emoji: '🐋', name: '鯨魚' }
+        ],
+        [
+          { emoji: '🥄', name: '湯匙' }, { emoji: '👟', name: '鞋子' },
+          { emoji: '🎒', name: '書包' }, { emoji: '🛏️', name: '床' }
+        ],
+        [
+          { emoji: '🌱', name: '小草' }, { emoji: '🌻', name: '向日葵' },
+          { emoji: '🌳', name: '大樹' }, { emoji: '🏔️', name: '山' }
+        ],
+        [
+          { emoji: '🧊', name: '冰塊' }, { emoji: '🏀', name: '籃球' },
+          { emoji: '🏠', name: '房子' }, { emoji: '🏢', name: '大樓' }
+        ],
+        [
+          { emoji: '✏️', name: '鉛筆' }, { emoji: '📚', name: '書' },
+          { emoji: '🖥️', name: '電視' }, { emoji: '🚌', name: '公車' }
+        ]
+      ],
+      currentRound: 0,
+      totalRounds: 8,
+      usedGroups: [],
+      currentOrder: [],   // 正確順序
+      nextExpected: 0,     // 下一個該點的索引
+
+      init() {
+        this.currentRound = 0;
+        this.usedGroups = [];
+        document.getElementById('sorting-complete').classList.remove('show');
+        document.getElementById('sorting-game-layout').style.display = '';
+        document.getElementById('sorting-round').style.display = '';
+        this.nextRound();
+      },
+
+      nextRound() {
+        this.currentRound++;
+        if (this.currentRound > this.totalRounds) {
+          document.getElementById('sorting-game-layout').style.display = 'none';
+          document.getElementById('sorting-round').style.display = 'none';
+          document.getElementById('sorting-complete').classList.add('show');
+          return;
+        }
+
+        document.getElementById('sorting-round').textContent =
+          '第 ' + this.currentRound + ' / ' + this.totalRounds + ' 題';
+
+        const level = APP.level;
+        const itemCount = level <= 2 ? 4 : 3;
+
+        // 選一組沒用過的
+        let groupIdx;
+        do { groupIdx = Math.floor(Math.random() * this.groups.length); }
+        while (this.usedGroups.includes(groupIdx));
+        this.usedGroups.push(groupIdx);
+
+        // 正確順序（已按大小排好），依難度限制數量
+        this.currentOrder = this.groups[groupIdx].slice(0, itemCount);
+        this.nextExpected = 0;
+
+        // 打亂顯示順序
+        const shuffled = this.currentOrder.map((item, i) => ({ ...item, correctIdx: i }));
+        for (let i = shuffled.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+
+        const container = document.getElementById('sorting-items');
+        container.innerHTML = '';
+        shuffled.forEach(item => {
+          const btn = document.createElement('button');
+          btn.className = 'sorting-item';
+          btn.innerHTML = '<span class="sort-emoji">' + item.emoji + '</span>' +
+                          '<span class="sort-name">' + item.name + '</span>';
+          btn.dataset.correctIdx = item.correctIdx;
+          btn.onclick = () => this.checkAnswer(item.correctIdx, btn);
+          container.appendChild(btn);
+        });
+      },
+
+      checkAnswer(correctIdx, btnEl) {
+        if (btnEl.classList.contains('done')) return;
+
+        if (correctIdx === this.nextExpected) {
+          this.nextExpected++;
+          btnEl.classList.add('done');
+          btnEl.dataset.order = this.nextExpected;
+          showFeedback(randomFrom(praiseMessages), 'correct');
+
+          if (this.nextExpected >= this.currentOrder.length) {
+            setTimeout(() => this.nextRound(), 1200);
+          }
+        } else {
+          btnEl.classList.add('wrong');
+          showFeedback(randomFrom(retryMessages), 'retry');
+          setTimeout(() => btnEl.classList.remove('wrong'), 500);
+        }
+      },
+
+      reset() { this.init(); }
+    };
+
+    // ============================
+    // 呼吸練習
+    // ============================
+    const BreathingExercise = {
+      timer: null,
+      currentCycle: 0,
+      totalCycles: 5,
+      phase: 'idle', // idle, inhale, hold-in, exhale, hold-out
+
+      start() {
+        this.currentCycle = 0;
+        this.phase = 'idle';
+        document.getElementById('breathing-controls').innerHTML =
+          '<button class="breathing-btn breathing-stop" onclick="BreathingExercise.stop()">停止</button>';
+        this.nextPhase();
+      },
+
+      stop() {
+        if (this.timer) clearTimeout(this.timer);
+        this.timer = null;
+        this.phase = 'idle';
+        const circle = document.getElementById('breathing-circle');
+        circle.classList.remove('inhale');
+        document.getElementById('breathing-text').textContent = '準備好了嗎？';
+        document.getElementById('breathing-progress').textContent = '';
+        document.getElementById('breathing-controls').innerHTML =
+          '<button class="breathing-btn breathing-start" onclick="BreathingExercise.start()">開始練習</button>';
+      },
+
+      nextPhase() {
+        const circle = document.getElementById('breathing-circle');
+        const text = document.getElementById('breathing-text');
+        const progress = document.getElementById('breathing-progress');
+
+        if (this.phase === 'idle' || this.phase === 'hold-out') {
+          // 開始新的一輪吸氣
+          this.currentCycle++;
+          if (this.currentCycle > this.totalCycles) {
+            text.textContent = '做得很好！休息一下 😊';
+            progress.textContent = '';
+            circle.classList.remove('inhale');
+            speak('做得很好！休息一下');
+            document.getElementById('breathing-controls').innerHTML =
+              '<button class="breathing-btn breathing-start" onclick="BreathingExercise.start()">再做一次</button>';
+            return;
+          }
+
+          progress.textContent = '第 ' + this.currentCycle + ' / ' + this.totalCycles + ' 次';
+          this.phase = 'inhale';
+          text.textContent = '吸氣... 🌬️';
+          speak('吸氣');
+          circle.classList.add('inhale');
+          this.timer = setTimeout(() => this.nextPhase(), 4000);
+
+        } else if (this.phase === 'inhale') {
+          this.phase = 'hold-in';
+          text.textContent = '憋住... ⏸️';
+          this.timer = setTimeout(() => this.nextPhase(), 2000);
+
+        } else if (this.phase === 'hold-in') {
+          this.phase = 'exhale';
+          text.textContent = '吐氣... 💨';
+          speak('吐氣');
+          circle.classList.remove('inhale');
+          this.timer = setTimeout(() => this.nextPhase(), 4000);
+
+        } else if (this.phase === 'exhale') {
+          this.phase = 'hold-out';
+          text.textContent = '放鬆... 😌';
+          this.timer = setTimeout(() => this.nextPhase(), 2000);
+        }
+      }
+    };
+
+    // ============================
+    // 啟動
+    // ============================
+    document.addEventListener('DOMContentLoaded', () => {
+      navigateTo('page-home');
+    });
+  // ============================
+  // 情緒辨識
+  // ============================
+  const EmotionGame = {
+    allEmotions: [
+      { emoji: '😊', name: '開心' },
+      { emoji: '😢', name: '難過' },
+      { emoji: '😠', name: '生氣' },
+      { emoji: '😮', name: '驚訝' },
+      { emoji: '😐', name: '平靜' },
+      { emoji: '😍', name: '喜愛' },
+    ],
+    currentRound: 0,
+    totalRounds: 8,
+    usedEmotions: [],
+
+    init() {
+      this.currentRound = 0;
+      this.usedEmotions = [];
+      document.getElementById('emotion-complete').classList.remove('show');
+      document.getElementById('emotion-game-layout').style.display = '';
+      this.nextRound();
+    },
+
+    nextRound() {
+      this.currentRound++;
+      if (this.currentRound > this.totalRounds) {
+        document.getElementById('emotion-game-layout').style.display = 'none';
+        document.getElementById('emotion-complete').classList.add('show');
+        return;
+      }
+
+      document.getElementById('emotion-round').textContent =
+        '第 ' + this.currentRound + ' / ' + this.totalRounds + ' 題';
+
+      const level = APP.level;
+      const optCount = level <= 2 ? 6 : level <= 6 ? 4 : 2;
+      const pool = this.allEmotions.slice(0, Math.max(optCount, 2));
+
+      const available = pool.filter(e => !this.usedEmotions.includes(e.emoji));
+      const target = available.length ? randomFrom(available) : randomFrom(pool);
+      this.usedEmotions.push(target.emoji);
+
+      document.getElementById('emotion-display').textContent = target.emoji;
+
+      let options = [target];
+      while (options.length < Math.min(optCount, pool.length)) {
+        const e = randomFrom(pool);
+        if (!options.find(o => o.emoji === e.emoji)) options.push(e);
+      }
+      for (let i = options.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [options[i], options[j]] = [options[j], options[i]];
+      }
+
+      const container = document.getElementById('emotion-options');
+      container.innerHTML = '';
+      options.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'emotion-btn';
+        btn.textContent = opt.name;
+        btn.onclick = () => this.checkAnswer(opt, target, btn);
+        container.appendChild(btn);
+      });
+
+      autoReadQuestion('這是什麼表情？', options.map(o => o.name));
+      bindOptionHover('.emotion-btn');
+    },
+
+    checkAnswer(opt, target, btn) {
+      if (opt.emoji === target.emoji) {
+        btn.classList.add('correct');
+        showFeedback(randomFrom(praiseMessages), 'correct');
+        setTimeout(() => this.nextRound(), 1200);
+      } else {
+        btn.classList.add('wrong');
+        showFeedback(randomFrom(retryMessages), 'retry');
+        setTimeout(() => btn.classList.remove('wrong'), 500);
+      }
+    },
+
+    reset() { this.init(); }
+  };
+
+  // ============================
+  // 數數練習
+  // ============================
+  const CountingGame = {
+    emojis: ['🍎','🌟','🐶','🌸','🍪','🎈','🐠','🌈','🏀','🦋'],
+    currentRound: 0,
+    totalRounds: 8,
+
+    init() {
+      this.currentRound = 0;
+      document.getElementById('counting-complete').classList.remove('show');
+      document.getElementById('counting-game-layout').style.display = '';
+      this.nextRound();
+    },
+
+    nextRound() {
+      this.currentRound++;
+      if (this.currentRound > this.totalRounds) {
+        document.getElementById('counting-game-layout').style.display = 'none';
+        document.getElementById('counting-complete').classList.add('show');
+        return;
+      }
+
+      document.getElementById('counting-round').textContent =
+        '第 ' + this.currentRound + ' / ' + this.totalRounds + ' 題';
+
+      const level = APP.level;
+      const maxCount = level <= 2 ? 15 : level <= 6 ? 10 : 5;
+      const optCount = level >= 7 ? 3 : 4;
+
+      const target = Math.floor(Math.random() * maxCount) + 1;
+      const emoji = randomFrom(this.emojis);
+
+      document.getElementById('counting-display').textContent = emoji.repeat(target);
+
+      let nums = [target];
+      while (nums.length < optCount) {
+        const n = Math.floor(Math.random() * maxCount) + 1;
+        if (!nums.includes(n)) nums.push(n);
+      }
+      for (let i = nums.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [nums[i], nums[j]] = [nums[j], nums[i]];
+      }
+
+      const container = document.getElementById('counting-options');
+      container.innerHTML = '';
+      nums.forEach(n => {
+        const btn = document.createElement('button');
+        btn.className = 'counting-btn';
+        btn.textContent = n;
+        btn.onclick = () => this.checkAnswer(n, target, btn);
+        container.appendChild(btn);
+      });
+
+      autoReadQuestion('有幾個？', nums.map(String));
+      bindOptionHover('.counting-btn');
+    },
+
+    checkAnswer(n, target, btn) {
+      if (n === target) {
+        btn.classList.add('correct');
+        showFeedback(randomFrom(praiseMessages), 'correct');
+        setTimeout(() => this.nextRound(), 1200);
+      } else {
+        btn.classList.add('wrong');
+        showFeedback(randomFrom(retryMessages), 'retry');
+        setTimeout(() => btn.classList.remove('wrong'), 500);
+      }
+    },
+
+    reset() { this.init(); }
+  };
+
+  // ============================
+  // 找不同
+  // ============================
+  const DifferencesGame = {
+    easyGroups: [
+      { same: '🍎', diff: '🍊' }, { same: '🐶', diff: '🐱' },
+      { same: '🌟', diff: '🌙' }, { same: '🌸', diff: '🌼' },
+      { same: '🍪', diff: '🎂' }, { same: '🚗', diff: '🚌' },
+    ],
+    mediumGroups: [
+      { same: '🔵', diff: '🔴' }, { same: '🟦', diff: '🟥' },
+      { same: '⬆️', diff: '⬇️' }, { same: '🔺', diff: '🔻' },
+    ],
+    hardGroups: [
+      { same: '😊', diff: '😄' }, { same: '🐶', diff: '🦊' },
+      { same: '🌲', diff: '🌳' }, { same: '🍇', diff: '🫐' },
+    ],
+    currentRound: 0,
+    totalRounds: 8,
+
+    init() {
+      this.currentRound = 0;
+      document.getElementById('differences-complete').classList.remove('show');
+      document.getElementById('differences-game-layout').style.display = '';
+      this.nextRound();
+    },
+
+    nextRound() {
+      this.currentRound++;
+      if (this.currentRound > this.totalRounds) {
+        document.getElementById('differences-game-layout').style.display = 'none';
+        document.getElementById('differences-complete').classList.add('show');
+        return;
+      }
+
+      document.getElementById('differences-round').textContent =
+        '第 ' + this.currentRound + ' / ' + this.totalRounds + ' 題';
+
+      const level = APP.level;
+      const groups = level <= 2 ? this.hardGroups :
+                     level <= 6 ? this.mediumGroups : this.easyGroups;
+
+      const pair = randomFrom(groups);
+      const total = 5;
+      const diffPos = Math.floor(Math.random() * total);
+
+      const items = Array(total).fill(pair.same);
+      items[diffPos] = pair.diff;
+
+      const row = document.getElementById('differences-row');
+      row.innerHTML = '';
+      items.forEach((emoji, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'diff-item';
+        btn.textContent = emoji;
+        btn.onclick = () => this.checkAnswer(i === diffPos, btn);
+        row.appendChild(btn);
+      });
+
+      autoReadQuestion('哪一個不一樣？', []);
+    },
+
+    checkAnswer(isCorrect, btn) {
+      if (isCorrect) {
+        btn.classList.add('correct');
+        showFeedback(randomFrom(praiseMessages), 'correct');
+        setTimeout(() => this.nextRound(), 1200);
+      } else {
+        btn.classList.add('wrong');
+        showFeedback(randomFrom(retryMessages), 'retry');
+        setTimeout(() => btn.classList.remove('wrong'), 500);
+      }
+    },
+
+    reset() { this.init(); }
+  };
+
+// ============================
+// 翻牌記憶配對
+// ============================
+const PairsGame = {
+  emojis: ['🍎','🐶','🌟','🎈','🌸','🍪','🐠','🦋','🌈','🎵','🌻','🦁'],
+  firstCard: null,
+  lock: false,
+  matched: 0,
+  total: 0,
+
+  init() {
+    this.firstCard = null;
+    this.lock = false;
+    this.matched = 0;
+    document.getElementById('pairs-complete').classList.remove('show');
+
+    const level = APP.level;
+    const pairCount = level <= 2 ? 6 : 3;
+    this.total = pairCount;
+
+    const grid = document.getElementById('pairs-grid');
+    grid.className = 'pairs-grid ' + (pairCount <= 3 ? 'grid-2x3' : 'grid-3x4');
+
+    const selected = this.emojis.slice(0, pairCount);
+    let cards = [...selected, ...selected];
+    for (let i = cards.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [cards[i], cards[j]] = [cards[j], cards[i]];
+    }
+
+    document.getElementById('pairs-round').textContent =
+      '找出 ' + pairCount + ' 對相同的圖案';
+
+    grid.innerHTML = '';
+    cards.forEach(emoji => {
+      const card = document.createElement('div');
+      card.className = 'pair-card';
+      card.innerHTML = `<div class="card-back">？</div><div class="card-front">${emoji}</div>`;
+      card.dataset.emoji = emoji;
+      card.onclick = () => this.flipCard(card);
+      grid.appendChild(card);
+    });
+
+    speak('翻開牌，找出相同的圖案');
+  },
+
+  flipCard(card) {
+    if (this.lock || card.classList.contains('flipped') || card.classList.contains('matched')) return;
+    card.classList.add('flipped');
+    speak(card.dataset.emoji);
+
+    if (!this.firstCard) {
+      this.firstCard = card;
+      return;
+    }
+
+    const second = card;
+    this.lock = true;
+
+    if (this.firstCard.dataset.emoji === second.dataset.emoji) {
+      this.firstCard.classList.add('matched');
+      second.classList.add('matched');
+      this.matched++;
+      this.firstCard = null;
+      this.lock = false;
+      if (this.matched === this.total) {
+        setTimeout(() => {
+          showFeedback('全部配對完成！', 'correct');
+          setTimeout(() => {
+            document.getElementById('pairs-complete').classList.add('show');
+          }, 1500);
+        }, 500);
+      }
+    } else {
+      setTimeout(() => {
+        this.firstCard.classList.remove('flipped');
+        second.classList.remove('flipped');
+        this.firstCard = null;
+        this.lock = false;
+      }, 1000);
+    }
+  },
+
+  reset() { this.init(); }
+};
+
+// ============================
+// 身體部位指認
+// ============================
+const BodyGame = {
+  basicParts: ['眼睛','嘴巴','鼻子','耳朵'],
+  advancedParts: ['眼睛','嘴巴','鼻子','耳朵','肩膀','手','腳','頭髮'],
+  currentRound: 0,
+  totalRounds: 8,
+  usedParts: [],
+
+  init() {
+    this.currentRound = 0;
+    this.usedParts = [];
+    document.getElementById('body-complete').classList.remove('show');
+    document.getElementById('body-game-layout').style.display = '';
+    this.nextRound();
+  },
+
+  nextRound() {
+    this.currentRound++;
+    if (this.currentRound > this.totalRounds) {
+      document.getElementById('body-game-layout').style.display = 'none';
+      document.getElementById('body-complete').classList.add('show');
+      return;
+    }
+
+    document.getElementById('body-round').textContent =
+      '第 ' + this.currentRound + ' / ' + this.totalRounds + ' 題';
+
+    const level = APP.level;
+    const pool = level >= 7 ? this.basicParts : this.advancedParts;
+    const optCount = level >= 7 ? 2 : 4;
+
+    const available = pool.filter(p => !this.usedParts.includes(p));
+    const target = available.length ? randomFrom(available) : randomFrom(pool);
+    this.usedParts.push(target);
+
+    document.getElementById('body-question').textContent = '指出：' + target;
+
+    let options = [target];
+    while (options.length < Math.min(optCount, pool.length)) {
+      const p = randomFrom(pool);
+      if (!options.includes(p)) options.push(p);
+    }
+    for (let i = options.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [options[i], options[j]] = [options[j], options[i]];
+    }
+
+    const container = document.getElementById('body-options');
+    container.innerHTML = '';
+    options.forEach(part => {
+      const btn = document.createElement('button');
+      btn.className = 'body-btn';
+      btn.textContent = part;
+      btn.onclick = () => this.checkAnswer(part, target, btn);
+      container.appendChild(btn);
+    });
+
+    autoReadQuestion('請指出：' + target, options);
+    bindOptionHover('.body-btn');
+  },
+
+  checkAnswer(part, target, btn) {
+    if (part === target) {
+      btn.classList.add('correct');
+      showFeedback(randomFrom(praiseMessages), 'correct');
+      setTimeout(() => this.nextRound(), 1200);
+    } else {
+      btn.classList.add('wrong');
+      showFeedback(randomFrom(retryMessages), 'retry');
+      setTimeout(() => btn.classList.remove('wrong'), 500);
+    }
+  },
+
+  reset() { this.init(); }
+};
+  </script>
+
+  <!-- ===== 找不同 ===== -->
+  <div id="page-differences" class="page">
+    <div class="page-top">
+      <button class="back-btn" onclick="navigateTo('page-home')">← 回首頁</button>
+      <h2 class="page-title">🔍 找不同</h2>
+    </div>
+    <div class="differences-round" id="differences-round"></div>
+    <div class="differences-game-layout" id="differences-game-layout">
+      <div class="differences-hint">哪一個不一樣？</div>
+      <div class="differences-row" id="differences-row"></div>
+    </div>
+    <div id="differences-complete" class="complete-screen">
+      <div class="msg">全找到了！<br>眼力真好！</div>
+      <button class="btn-primary" onclick="DifferencesGame.reset()">再玩一次</button>
+    </div>
+  </div>
+
+  <!-- ===== 翻牌記憶配對 ===== -->
+  <div id="page-pairs" class="page">
+    <div class="page-top">
+      <button class="back-btn" onclick="navigateTo('page-home')">← 回首頁</button>
+      <h2 class="page-title">🃏 翻牌配對</h2>
+    </div>
+    <div class="pairs-round" id="pairs-round"></div>
+    <div class="pairs-game-layout">
+      <div class="pairs-grid" id="pairs-grid"></div>
+    </div>
+    <div id="pairs-complete" class="complete-screen">
+      <div class="msg">全部配對完成！<br>記憶力真好！</div>
+      <button class="btn-primary" onclick="PairsGame.reset()">再玩一次</button>
+    </div>
+  </div>
+
+  <!-- ===== 身體部位指認 ===== -->
+  <div id="page-body" class="page">
+    <div class="page-top">
+      <button class="back-btn" onclick="navigateTo('page-home')">← 回首頁</button>
+      <h2 class="page-title">🖐️ 身體部位</h2>
+    </div>
+    <div class="body-round" id="body-round"></div>
+    <div class="body-game-layout" id="body-game-layout">
+      <div class="body-figure">
+        <div class="body-figure-img">🧍</div>
+      </div>
+      <div class="body-right">
+        <div class="body-question" id="body-question"></div>
+        <div class="body-options" id="body-options"></div>
+      </div>
+    </div>
+    <div id="body-complete" class="complete-screen">
+      <div class="msg">答完了！<br>身體部位都認識！</div>
+      <button class="btn-primary" onclick="BodyGame.reset()">再玩一次</button>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,6 @@
+nohup.out
+.superpowers/
+.claude/
+*.log
+.DS_Store
+Thumbs.db
