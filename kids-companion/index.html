@@ -6073,6 +6073,7 @@ var storyChoiceState = {
 };
 
 var STORY_QUIZ_DATA = [
+  // --- TODDLER (感知層: 3 pages, 2 questions, 2 choices) ---
   {
     ageGroup: 'toddler',
     emoji: '🐰',
@@ -6099,6 +6100,59 @@ var STORY_QUIZ_DATA = [
       }
     ]
   },
+  {
+    ageGroup: 'toddler',
+    emoji: '🌧️',
+    title: { zh: '小雨滴', en: 'The Little Raindrop' },
+    pages: [
+      { zh: '雨滴從天上掉下來！', en: 'A raindrop fell from the sky!', emoji: '☁️💧' },
+      { zh: '嘩啦嘩啦，流進小河裡。', en: 'Splash! It flowed into the river.', emoji: '🌊💧' },
+      { zh: '太陽出來，雨滴又飛上天！', en: 'The sun came out and the raindrop flew up again!', emoji: '☀️💧' }
+    ],
+    questions: [
+      {
+        zh: '雨滴從哪裡來？', en: 'Where did the raindrop come from?',
+        choices: [
+          { zh: '天上', en: 'The sky', emoji: '☁️', correct: true },
+          { zh: '地下', en: 'Underground', emoji: '🪨', correct: false }
+        ]
+      },
+      {
+        zh: '最後雨滴去哪裡？', en: 'Where did the raindrop go last?',
+        choices: [
+          { zh: '飛上天', en: 'Flew up to the sky', emoji: '☀️', correct: true },
+          { zh: '躲進山', en: 'Hid in the mountains', emoji: '🏔️', correct: false }
+        ]
+      }
+    ]
+  },
+  {
+    ageGroup: 'toddler',
+    emoji: '🌱',
+    title: { zh: '小種子睡覺', en: 'Little Seed Sleeps' },
+    pages: [
+      { zh: '小種子睡在土裡，黑黑的，靜靜的。', en: 'A little seed slept in the dark, quiet soil.', emoji: '🌱😴' },
+      { zh: '下雨了！種子喝了很多水，好舒服！', en: 'It rained! The seed drank lots of water and felt so good!', emoji: '🌧️💧' },
+      { zh: '哇！小芽芽冒出來了！', en: 'Wow! A little sprout popped out!', emoji: '🌿✨' }
+    ],
+    questions: [
+      {
+        zh: '種子睡在哪裡？', en: 'Where did the seed sleep?',
+        choices: [
+          { zh: '土裡', en: 'In the soil', emoji: '🌱', correct: true },
+          { zh: '樹上', en: 'On a tree', emoji: '🌳', correct: false }
+        ]
+      },
+      {
+        zh: '什麼讓種子長出芽？', en: 'What helped the seed sprout?',
+        choices: [
+          { zh: '雨水', en: 'Rain', emoji: '💧', correct: true },
+          { zh: '音樂', en: 'Music', emoji: '🎵', correct: false }
+        ]
+      }
+    ]
+  },
+  // --- SMALL (理解層: 4 pages, 3 questions, 2-3 choices) ---
   {
     ageGroup: 'small',
     emoji: '🐱',
@@ -6135,6 +6189,81 @@ var STORY_QUIZ_DATA = [
       }
     ]
   },
+  {
+    ageGroup: 'small',
+    emoji: '👵',
+    title: { zh: '阿嬤的糕點', en: "Grandma's Cakes" },
+    pages: [
+      { zh: '今天去阿嬤家，阿嬤正在廚房做糕點，香香的！', en: "Today we visited grandma. She was making cakes in the kitchen — so fragrant!", emoji: '👵🍰' },
+      { zh: '阿嬤把糕點放進盒子：「帶給鄰居叔叔家，他生病了。」', en: 'Grandma packed cakes in a box: "Bring these to our neighbor, he is sick."', emoji: '🎁🤧' },
+      { zh: '我把糕點送過去，叔叔笑了，說謝謝。', en: 'I delivered the cakes. The neighbor smiled and said thank you.', emoji: '😊💝' },
+      { zh: '回家路上，阿嬤說：「分享讓大家都快樂！」', en: 'On the way home, grandma said: "Sharing makes everyone happy!"', emoji: '👵❤️' }
+    ],
+    questions: [
+      {
+        zh: '阿嬤做糕點給誰？', en: 'Who did grandma make cakes for?',
+        choices: [
+          { zh: '生病的叔叔', en: 'The sick neighbor', emoji: '🤧', correct: true },
+          { zh: '小朋友同學', en: 'Classmates', emoji: '👫', correct: false },
+          { zh: '自己吃', en: 'For herself', emoji: '😋', correct: false }
+        ]
+      },
+      {
+        zh: '叔叔收到糕點後怎樣？', en: 'How did the neighbor feel after receiving the cakes?',
+        choices: [
+          { zh: '開心地笑', en: 'Smiled happily', emoji: '😊', correct: true },
+          { zh: '繼續生病', en: 'Stayed sick', emoji: '🤒', correct: false },
+          { zh: '不喜歡', en: 'Did not like them', emoji: '😒', correct: false }
+        ]
+      },
+      {
+        zh: '阿嬤說什麼讓大家快樂？', en: 'What does grandma say makes everyone happy?',
+        choices: [
+          { zh: '分享', en: 'Sharing', emoji: '🤝', correct: true },
+          { zh: '吃糕點', en: 'Eating cakes', emoji: '🍰', correct: false },
+          { zh: '睡覺', en: 'Sleeping', emoji: '😴', correct: false }
+        ]
+      }
+    ]
+  },
+  {
+    ageGroup: 'small',
+    emoji: '⏰',
+    title: { zh: '等一下的故事', en: 'The Story of Waiting' },
+    pages: [
+      { zh: '媽媽說：「我們排隊買冰淇淋，要等一下喔！」', en: 'Mama said: "We need to line up for ice cream — we have to wait a little!"', emoji: '🍦⏰' },
+      { zh: '前面好多人啊！小明有點不耐煩，想要插隊。', en: 'There were so many people ahead! Xiao Ming felt impatient and wanted to cut in line.', emoji: '😤👦' },
+      { zh: '媽媽說：「插隊不公平，其他人也在等。」小明深呼吸，等了下去。', en: 'Mama said: "Cutting in line is not fair — others are waiting too." Xiao Ming took a deep breath and waited.', emoji: '🧘👦' },
+      { zh: '終於輪到了！那個冰淇淋是小明吃過最好吃的！等待讓它更甜了。', en: 'Finally it was their turn! That ice cream was the best Xiao Ming had ever tasted — waiting made it sweeter!', emoji: '🍦😋' }
+    ],
+    questions: [
+      {
+        zh: '小明想做什麼不對的事？', en: 'What wrong thing did Xiao Ming want to do?',
+        choices: [
+          { zh: '插隊', en: 'Cut in line', emoji: '😤', correct: true },
+          { zh: '偷冰淇淋', en: 'Steal ice cream', emoji: '🍦', correct: false },
+          { zh: '回家', en: 'Go home', emoji: '😔', correct: false }
+        ]
+      },
+      {
+        zh: '媽媽說插隊為什麼不公平？', en: 'Why did mama say cutting in line is unfair?',
+        choices: [
+          { zh: '因為別人也在等', en: 'Because others are waiting too', emoji: '⏰', correct: true },
+          { zh: '因為冰淇淋不夠', en: 'Because there is not enough ice cream', emoji: '🍦', correct: false },
+          { zh: '因為天氣太熱', en: 'Because it is too hot', emoji: '☀️', correct: false }
+        ]
+      },
+      {
+        zh: '等到的冰淇淋感覺怎樣？', en: 'How did the ice cream feel after waiting?',
+        choices: [
+          { zh: '特別甜特別好吃', en: 'Extra sweet and delicious', emoji: '😋', correct: true },
+          { zh: '跟平常一樣', en: 'Same as usual', emoji: '😐', correct: false },
+          { zh: '其實不好吃', en: 'Not very tasty', emoji: '😒', correct: false }
+        ]
+      }
+    ]
+  },
+  // --- MIDDLE (分析層: 5 pages, 3 questions, 3-4 choices) ---
   {
     ageGroup: 'middle',
     emoji: '🐿️',
@@ -6176,6 +6305,89 @@ var STORY_QUIZ_DATA = [
       }
     ]
   },
+  {
+    ageGroup: 'middle',
+    emoji: '☂️',
+    title: { zh: '雨傘和好朋友', en: 'The Umbrella and the Best Friend' },
+    pages: [
+      { zh: '放學了，突然下起大雨！小芸有帶傘，可是好朋友小真忘了帶。', en: 'School ended and suddenly rain poured! Xiao Yun had an umbrella, but her friend Xiao Zhen had forgotten hers.', emoji: '🌧️☂️👧' },
+      { zh: '小芸想：「如果我不分傘，小真會被淋濕；可是我分了，我也會淋一半。」', en: "Xiao Yun thought: \"If I don't share, Xiao Zhen gets soaked; but if I do, I get half wet too.\"", emoji: '🤔☂️' },
+      { zh: '小芸決定分傘。兩個人擠在一把傘下，邊走邊笑，肩膀還是濕了一點。', en: 'Xiao Yun decided to share. They squeezed under one umbrella, laughing along the way — shoulders a little wet.', emoji: '☂️👭😄' },
+      { zh: '小真說：「謝謝你！你是我最好的朋友！」小芸心裡暖暖的。', en: 'Xiao Zhen said: "Thank you! You\'re my best friend!" Xiao Yun felt warm inside.', emoji: '❤️👧' },
+      { zh: '分享有時候會讓自己不方便，但好朋友值得！', en: 'Sharing sometimes makes things less convenient for you — but good friends are worth it!', emoji: '🌟👭' }
+    ],
+    questions: [
+      {
+        zh: '小芸面對什麼難題？', en: 'What dilemma did Xiao Yun face?',
+        choices: [
+          { zh: '分傘會淋雨但朋友需要幫助', en: 'Sharing means getting wet but friend needs help', emoji: '☂️', correct: true },
+          { zh: '沒有帶傘', en: 'Did not bring an umbrella', emoji: '🌧️', correct: false },
+          { zh: '自己先跑回家', en: 'Run home first', emoji: '🏃', correct: false },
+          { zh: '叫媽媽來接', en: 'Call mama to pick up', emoji: '😊', correct: false }
+        ]
+      },
+      {
+        zh: '小芸分傘後，結果是？', en: 'After Xiao Yun shared the umbrella, what happened?',
+        choices: [
+          { zh: '兩人都稍微濕了但很快樂', en: 'Both got a little wet but were very happy', emoji: '👭', correct: true },
+          { zh: '兩人都完全不濕', en: 'Neither got wet at all', emoji: '☂️', correct: false },
+          { zh: '小真生氣了', en: 'Xiao Zhen got angry', emoji: '😠', correct: false },
+          { zh: '小芸後悔了', en: 'Xiao Yun regretted it', emoji: '😔', correct: false }
+        ]
+      },
+      {
+        zh: '這個故事的道理是什麼？', en: 'What is the lesson of this story?',
+        choices: [
+          { zh: '為朋友犧牲一點點是值得的', en: 'Sacrificing a little for friends is worth it', emoji: '❤️', correct: true },
+          { zh: '出門一定要帶傘', en: 'Always bring an umbrella when going out', emoji: '☂️', correct: false },
+          { zh: '雨天不要上學', en: 'Do not go to school on rainy days', emoji: '🏫', correct: false },
+          { zh: '傘要買大一點', en: 'Buy a bigger umbrella', emoji: '😄', correct: false }
+        ]
+      }
+    ]
+  },
+  {
+    ageGroup: 'middle',
+    emoji: '🙏',
+    title: { zh: '說對不起', en: 'Saying Sorry' },
+    pages: [
+      { zh: '小傑不小心把弟弟最愛的積木塔碰倒了。弟弟大哭：「壞哥哥！」', en: "Xiao Jie accidentally knocked over his little brother's favorite block tower. Brother cried: \"Bad brother!\"", emoji: '🧱💥😭' },
+      { zh: '小傑心裡很慌，想說：「又不是故意的！」但話還沒說出口。', en: 'Xiao Jie panicked and wanted to say "It wasn\'t on purpose!" But the words stuck in his throat.', emoji: '😰👦' },
+      { zh: '媽媽說：「不管故意不故意，對方傷心了，就要先說對不起。」', en: 'Mama said: "Whether it was on purpose or not — if someone is hurt, say sorry first."', emoji: '👩❤️' },
+      { zh: '小傑走到弟弟面前，說：「對不起，我不是故意的，我們一起重新蓋好不好？」', en: 'Xiao Jie walked to his brother and said: "Sorry, it was an accident. Shall we build it together again?"', emoji: '🙏🧱' },
+      { zh: '弟弟破涕為笑，兩兄弟一起蓋了更高的塔，還高興地歡呼！', en: 'Brother stopped crying and smiled. Together they built an even taller tower and cheered with joy!', emoji: '🏆🧱👦👦' }
+    ],
+    questions: [
+      {
+        zh: '小傑為什麼猶豫要不要說對不起？', en: 'Why did Xiao Jie hesitate to say sorry?',
+        choices: [
+          { zh: '他覺得不是故意的所以不想道歉', en: 'He felt it was unintentional so did not want to apologize', emoji: '😤', correct: true },
+          { zh: '他不喜歡弟弟', en: 'He did not like his brother', emoji: '😒', correct: false },
+          { zh: '他不會說話', en: 'He could not speak', emoji: '🤐', correct: false },
+          { zh: '他太累了', en: 'He was too tired', emoji: '😴', correct: false }
+        ]
+      },
+      {
+        zh: '媽媽說道歉的條件是什麼？', en: 'According to mama, when should you say sorry?',
+        choices: [
+          { zh: '只要對方傷心了就要說', en: 'Whenever the other person is hurt', emoji: '🙏', correct: true },
+          { zh: '只有故意的時候才說', en: 'Only when it was on purpose', emoji: '😤', correct: false },
+          { zh: '等一下再說也沒關係', en: 'It is okay to say it later', emoji: '😐', correct: false },
+          { zh: '不用說對不起', en: 'No need to say sorry', emoji: '🙅', correct: false }
+        ]
+      },
+      {
+        zh: '小傑道歉後，弟弟怎麼了？', en: 'After Xiao Jie apologized, what did the brother do?',
+        choices: [
+          { zh: '破涕為笑，一起蓋塔', en: 'Stopped crying and built together', emoji: '😄', correct: true },
+          { zh: '繼續生氣', en: 'Stayed angry', emoji: '😤', correct: false },
+          { zh: '告訴媽媽', en: 'Told mama', emoji: '👩', correct: false },
+          { zh: '跑出去玩', en: 'Ran outside to play', emoji: '🏃', correct: false }
+        ]
+      }
+    ]
+  },
+  // --- LARGE (思辨層: 6 pages, 4 questions, 4-5 choices) ---
   {
     ageGroup: 'large',
     emoji: '👨‍🌾',
@@ -6226,17 +6438,117 @@ var STORY_QUIZ_DATA = [
         ]
       }
     ]
+  },
+  {
+    ageGroup: 'large',
+    emoji: '💧',
+    title: { zh: '小雨滴的旅行', en: "Little Raindrop's Journey" },
+    pages: [
+      { zh: '我是一滴水，住在大海裡，每天被太陽曬啊曬，漸漸變輕，飛上了天——我變成雲了！', en: 'I am a drop of water living in the ocean. The sun warmed me day by day. I became lighter and floated up — I became a cloud!', emoji: '🌊☀️☁️' },
+      { zh: '雲越飄越高，越走越冷，我和許多水滴聚在一起，變得好重，終於——嘩啦嘩啦，下雨了！', en: 'The cloud drifted higher and higher, growing colder. I joined many other droplets, becoming heavy, until — splash! It rained!', emoji: '☁️❄️🌧️' },
+      { zh: '我落在山上，滾進小溪，小溪變成大河，大河奔向大海。繞了一大圈，我回到家了。', en: 'I landed on a mountain, rolled into a stream, which became a river flowing to the ocean. A big circle — I was home.', emoji: '🏔️🌊🔄' },
+      { zh: '植物喝了我，動物喝了我，人類也喝了我。我的旅行讓很多生命繼續活著。', en: 'Plants drank me, animals drank me, people drank me. My journey kept many lives going.', emoji: '🌿🐘💧❤️' },
+      { zh: '科學家叫這個過程「水循環」——蒸發→凝結→降水→流回。永遠不會停止。', en: 'Scientists call this process the "water cycle" — evaporation → condensation → precipitation → return. It never stops.', emoji: '🔬🔄' },
+      { zh: '每次你喝水，那水可能去過山頂、森林、恐龍時代……水是地球最偉大的旅行家！', en: 'Every time you drink water, it may have been on a mountaintop, in a forest, in the dinosaur age... Water is Earth\'s greatest traveler!', emoji: '🦕💧🌍✨' }
+    ],
+    questions: [
+      {
+        zh: '水從大海到天上，靠什麼力量？', en: 'What force lifts water from the ocean to the sky?',
+        choices: [
+          { zh: '太陽的熱', en: 'The heat of the sun', emoji: '☀️', correct: true },
+          { zh: '風把它吹上去', en: 'Wind blew it up', emoji: '🌬️', correct: false },
+          { zh: '水自己想飛', en: 'The water wanted to fly', emoji: '💪', correct: false },
+          { zh: '月亮吸上去', en: 'The moon pulled it up', emoji: '🌙', correct: false }
+        ]
+      },
+      {
+        zh: '雲為什麼最後變成雨？', en: 'Why does a cloud eventually become rain?',
+        choices: [
+          { zh: '水滴聚集太重撐不住', en: 'Water droplets gathered and became too heavy', emoji: '☁️', correct: true },
+          { zh: '雲走累了', en: 'The cloud got tired of travelling', emoji: '😴', correct: false },
+          { zh: '風把雲打破了', en: 'Wind broke the cloud apart', emoji: '🌬️', correct: false },
+          { zh: '太陽命令它下雨', en: 'The sun ordered it to rain', emoji: '☀️', correct: false }
+        ]
+      },
+      {
+        zh: '水循環的順序是？', en: 'What is the order of the water cycle?',
+        choices: [
+          { zh: '蒸發→凝結→降水→流回', en: 'Evaporation→Condensation→Precipitation→Return', emoji: '🔄', correct: true },
+          { zh: '降水→蒸發→流回→凝結', en: 'Precipitation→Evaporation→Return→Condensation', emoji: '🌧️', correct: false },
+          { zh: '凝結→蒸發→降水→流回', en: 'Condensation→Evaporation→Precipitation→Return', emoji: '❄️', correct: false },
+          { zh: '流回→降水→凝結→蒸發', en: 'Return→Precipitation→Condensation→Evaporation', emoji: '🌊', correct: false }
+        ]
+      },
+      {
+        zh: '故事說水是「地球最偉大的旅行家」，是什麼意思？', en: 'The story calls water "Earth\'s greatest traveler." What does this mean?',
+        choices: [
+          { zh: '水不斷循環旅行，滋養地球每個角落', en: 'Water cycles endlessly, nourishing every corner of Earth', emoji: '💧', correct: true },
+          { zh: '水走得很快', en: 'Water moves very fast', emoji: '🏃', correct: false },
+          { zh: '水只在海裡才能旅行', en: 'Water can only travel in the ocean', emoji: '🌊', correct: false },
+          { zh: '水比飛機還快', en: 'Water is faster than an airplane', emoji: '✈️', correct: false }
+        ]
+      }
+    ]
+  },
+  {
+    ageGroup: 'large',
+    emoji: '🎁',
+    title: { zh: '誰的禮物最好？', en: 'Whose Gift Is Best?' },
+    pages: [
+      { zh: '阿公要過生日，三個孫子都想送禮物。大毛說：「我要買最貴的！」小毛說：「我要做最漂亮的！」阿花說：「我想陪阿公一整天。」', en: "Grandpa's birthday was coming. Three grandchildren each wanted to give a gift. Da Mao: \"I'll buy the most expensive!\" Xiao Mao: \"I'll make the most beautiful!\" A Hua: \"I want to spend the whole day with grandpa.\"", emoji: '🎂👴🎁' },
+      { zh: '大毛買了一個精緻的茶壺。阿公說：「謝謝！」放進了展示櫃。小毛做了一張卡片，阿公掛在牆上微笑。', en: 'Da Mao bought an expensive teapot. Grandpa said "Thank you!" and put it in the display case. Xiao Mao made a card, which grandpa hung on the wall with a smile.', emoji: '🫖🖼️😊' },
+      { zh: '阿花什麼都沒有買，只是牽著阿公的手，陪他走公園、聽他說老故事、一起吃阿公最愛的麵。', en: "A Hua bought nothing — she just held grandpa's hand, walked in the park with him, listened to his old stories, and ate his favorite noodles together.", emoji: '👴👧🏞️🍜' },
+      { zh: '晚上，阿公說：「今天最快樂的是和阿花一起的時光。那茶壺很美，但美麗的東西會舊；卡片很甜，但時間是最珍貴的禮物。」', en: 'That evening, grandpa said: "Today the happiest moment was time with A Hua. The teapot is beautiful, but beautiful things get old; the card is sweet, but time is the most precious gift."', emoji: '⏰💛👴' },
+      { zh: '大毛和小毛想了很久——他們有錢買禮物，卻忙著玩遊戲，沒花時間陪阿公。', en: "Da Mao and Xiao Mao thought for a long time — they had money for gifts, but were busy gaming and hadn't spent time with grandpa.", emoji: '🎮🤔' },
+      { zh: '禮物不只是東西，陪伴也是禮物。有時候，你的「在場」比任何東西都貴重。', en: 'A gift is not only an object — presence is also a gift. Sometimes, simply "being there" is worth more than anything else.', emoji: '🤝💝' }
+    ],
+    questions: [
+      {
+        zh: '阿公覺得三個禮物中，哪一個最讓他快樂？', en: 'Which gift made grandpa happiest?',
+        choices: [
+          { zh: '阿花的陪伴時間', en: "A Hua's time and company", emoji: '⏰', correct: true },
+          { zh: '大毛買的昂貴茶壺', en: "Da Mao's expensive teapot", emoji: '🫖', correct: false },
+          { zh: '小毛做的漂亮卡片', en: "Xiao Mao's beautiful card", emoji: '🖼️', correct: false },
+          { zh: '三個一樣好', en: 'All three equally good', emoji: '😊', correct: false }
+        ]
+      },
+      {
+        zh: '阿公說「美麗的東西會舊」，意思是？', en: 'Grandpa said "beautiful things get old." What does this mean?',
+        choices: [
+          { zh: '物質禮物的價值會消退，但記憶長存', en: 'Material gifts fade in value, but memories last', emoji: '💛', correct: true },
+          { zh: '所有東西都會壞掉所以不要買禮物', en: 'Everything breaks so never buy gifts', emoji: '🙅', correct: false },
+          { zh: '阿公不喜歡茶壺', en: 'Grandpa does not like teapots', emoji: '🫖', correct: false },
+          { zh: '要買更貴的禮物', en: 'Should buy more expensive gifts', emoji: '💰', correct: false }
+        ]
+      },
+      {
+        zh: '大毛和小毛為什麼感到慚愧？', en: 'Why did Da Mao and Xiao Mao feel ashamed?',
+        choices: [
+          { zh: '有能力買禮物卻沒空陪伴阿公', en: 'Had money for gifts but no time to accompany grandpa', emoji: '🎮', correct: true },
+          { zh: '他們的禮物不夠好', en: 'Their gifts were not good enough', emoji: '😔', correct: false },
+          { zh: '他們忘記阿公的生日了', en: "They forgot grandpa's birthday", emoji: '🎂', correct: false },
+          { zh: '阿公不喜歡他們', en: 'Grandpa does not like them', emoji: '😞', correct: false }
+        ]
+      },
+      {
+        zh: '如果你要送阿公生日禮物，你會怎麼做？（沒有標準答案，說說你的想法）', en: 'If you were to give grandpa a birthday gift, what would you do? (No right answer — share your thoughts)',
+        choices: [
+          { zh: '花時間陪伴他，做他喜歡的事', en: 'Spend time with him doing things he loves', emoji: '⏰', correct: true },
+          { zh: '買最貴的禮物', en: 'Buy the most expensive gift', emoji: '💰', correct: false },
+          { zh: '做一張漂亮卡片', en: 'Make a beautiful card', emoji: '🎨', correct: false },
+          { zh: '以上都可以，最重要是真心', en: 'All of the above — what matters most is sincerity', emoji: '❤️', correct: true }
+        ]
+      }
+    ]
   }
 ];
 
 function startStoryChoice() {
   clearTimeout(storyChoiceTimer);
   var ag = APP.ageGroup || 'small';
-  var story = null;
-  for (var i = 0; i < STORY_QUIZ_DATA.length; i++) {
-    if (STORY_QUIZ_DATA[i].ageGroup === ag) { story = STORY_QUIZ_DATA[i]; break; }
-  }
-  if (!story) story = STORY_QUIZ_DATA[1];
+  var pool = STORY_QUIZ_DATA.filter(function(s) { return s.ageGroup === ag; });
+  if (!pool.length) pool = STORY_QUIZ_DATA.filter(function(s) { return s.ageGroup === 'small'; });
+  var story = pool[Math.floor(Math.random() * pool.length)];
 
   storyChoiceState.story = story;
   storyChoiceState.currentPage = 0;
