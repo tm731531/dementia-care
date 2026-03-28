@@ -67,6 +67,13 @@ const APP = {
 - 連續天數：每次進 app 比對 lastPlayDate
 - 搖一搖（devicemotion）：隨機跳一個活動
 
+## 使用時長提醒
+- junior（3–4 歲）建議上限 30 分鐘，senior（5–6 歲）45 分鐘
+- 剩 5 分鐘：頂部橫幅提醒；達上限：全屏休息畫面
+- 不強制中斷，家長可點「繼續玩」延長 10 分鐘
+- APP 物件加入 `sessionStart`、`todayPlayMinutes`、`todayDate`
+- 設定面板可關閉提醒
+
 ## 資料轉移
 - 設定面板提供「匯出進度」（下載 JSON）和「匯入進度」（上傳 JSON）
 - 匯出格式包含 `version: 1` 與完整 APP 狀態
