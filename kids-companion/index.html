@@ -4984,117 +4984,287 @@ function showSortComplete() {
 var STORIES = [
   {
     id: 'monkey-king',
+    category: 'classic',
     title: { zh: '孫悟空大鬧天宮', en: 'Monkey King in Heaven' },
     cover: '🐒',
-    pages: [
-      { bg:['🏔️','🌋','🌊'], text:{zh:'很久很久以前，花果山的石頭裡蹦出一隻神奇的猴子，他就是孫悟空！',en:'Long ago, a magic monkey was born from a stone on Flower Fruit Mountain. He was Sun Wukong!'}, objects:[{emoji:'🐒',sound:{zh:'我是孫悟空！',en:'I am Sun Wukong!'},x:50,y:60}] },
-      { bg:['🌊','💧','🐟'], text:{zh:'孫悟空學會了七十二變，還能翻一個筋斗雲就飛十萬八千里！',en:'Sun Wukong learned 72 transformations and could fly 108,000 miles on a somersault cloud!'}, objects:[{emoji:'☁️',sound:{zh:'筋斗雲，飛！',en:'Somersault cloud, fly!'},x:60,y:30},{emoji:'🐒',sound:{zh:'我要去天宮！',en:'I will go to Heaven!'},x:40,y:65}] },
-      { bg:['✨','🌟','⭐'], text:{zh:'玉皇大帝派孫悟空去管馬廄，孫悟空以為是大官，結果只是小弼馬溫！',en:'The Jade Emperor sent Sun Wukong to manage the royal stables, but it was just a small job!'}, objects:[{emoji:'🐴',sound:{zh:'嘶～',en:'Neigh!'},x:55,y:60},{emoji:'😤',sound:{zh:'這算什麼官！',en:'What kind of job is this!'},x:30,y:40}] },
-      { bg:['🏯','🚪','🌸'], text:{zh:'孫悟空生氣了！他跑回花果山，自封「齊天大聖」，要跟天宮一樣大！',en:'Sun Wukong was angry! He returned home and declared himself the Great Sage Equal to Heaven!'}, objects:[{emoji:'🐒',sound:{zh:'我是齊天大聖！',en:'I am the Great Sage!'},x:50,y:55},{emoji:'👑',sound:{zh:'大王萬歲！',en:'Long live the king!'},x:70,y:35}] },
-      { bg:['🍑','🌳','🌺'], text:{zh:'王母娘娘開蟠桃宴，沒邀請孫悟空。孫悟空偷吃了所有的蟠桃！',en:'The Queen Mother held a peach banquet but did not invite Sun Wukong. He ate all the magic peaches!'}, objects:[{emoji:'🍑',sound:{zh:'好甜！再吃一個！',en:'So sweet! One more!'},x:45,y:45},{emoji:'🐒',sound:{zh:'嘿嘿嘿！',en:'Heh heh heh!'},x:65,y:60}] },
-      { bg:['🔥','💥','⚡'], text:{zh:'太上老君把孫悟空關在煉丹爐裡燒了四十九天，沒想到練出了一雙火眼金睛！',en:'Sun Wukong was locked in a furnace for 49 days, but came out with golden magic eyes!'}, objects:[{emoji:'🔥',sound:{zh:'好燙！好燙！',en:'So hot! So hot!'},x:40,y:60},{emoji:'👁️',sound:{zh:'我有火眼金睛了！',en:'I have golden eyes now!'},x:65,y:40}] },
-      { bg:['🌈','☁️','🏔️'], text:{zh:'孫悟空大鬧天宮，打得天兵天將落花流水，玉皇大帝只好請如來佛祖來幫忙！',en:'Sun Wukong fought all of Heaven\'s soldiers. The Jade Emperor had to ask Buddha for help!'}, objects:[{emoji:'⚔️',sound:{zh:'看我金箍棒！',en:'Watch my staff!'},x:35,y:50},{emoji:'🐒',sound:{zh:'天下無敵！',en:'Unbeatable!'},x:60,y:55}] },
-      { bg:['✋','🏔️','🌿'], text:{zh:'如來佛祖用五指山壓住了孫悟空，孫悟空在山下等了五百年，等待唐僧來救他。',en:'Buddha trapped Sun Wukong under Five Elements Mountain for 500 years, waiting for the monk Tang Sanzang.'}, objects:[{emoji:'🙏',sound:{zh:'我輸了……',en:'I lost...'},x:50,y:65},{emoji:'⛰️',sound:{zh:'五百年後見！',en:'See you in 500 years!'},x:65,y:40}] }
-    ]
+    pages: {
+      toddler: [
+        { bg:['🏔️','🌸','☀️'], text:{zh:'花果山的石頭裡蹦出一隻神奇猴子，他叫孫悟空！',en:'A magic monkey was born from a stone. His name is Sun Wukong!'}, objects:[{emoji:'🐒',sound:{zh:'我是孫悟空！嗨！',en:'I am Sun Wukong! Hi!'},x:50,y:60}] },
+        { bg:['☁️','✨','🌈'], text:{zh:'孫悟空會翻跟斗雲，一跳就能飛很遠很遠！',en:'Sun Wukong can ride a cloud and jump super far!'}, objects:[{emoji:'☁️',sound:{zh:'筋斗雲，飛！',en:'Cloud, fly!'},x:60,y:30},{emoji:'🐒',sound:{zh:'我飛得超快！',en:'I fly so fast!'},x:40,y:65}] },
+        { bg:['✋','⛰️','🌟'], text:{zh:'最後孫悟空被壓在大山下，等待好朋友來幫他！',en:'In the end Sun Wukong was trapped under a mountain, waiting for a friend!'}, objects:[{emoji:'🐒',sound:{zh:'有人來救我嗎？',en:'Will someone save me?'},x:50,y:65},{emoji:'⛰️',sound:{zh:'五指山！',en:'Five Elements Mountain!'},x:65,y:40}] }
+      ],
+      small: [
+        { bg:['🏔️','🌋','🌊'], text:{zh:'孫悟空從石頭裡生出來，學了七十二變，還有一根金箍棒！',en:'Sun Wukong was born from stone, learned 72 transformations and has a magic staff!'}, objects:[{emoji:'🐒',sound:{zh:'我有金箍棒！',en:'I have a magic staff!'},x:50,y:60},{emoji:'🌟',sound:{zh:'七十二變！',en:'72 transformations!'},x:30,y:40}] },
+        { bg:['🏯','👑','😤'], text:{zh:'玉皇大帝叫孫悟空去管馬，孫悟空生氣了，自己封自己做大王！',en:'The Jade Emperor told Sun Wukong to watch horses. He got angry and crowned himself king!'}, objects:[{emoji:'🐒',sound:{zh:'我是齊天大聖！',en:'I am the Great Sage!'},x:50,y:55},{emoji:'😤',sound:{zh:'憑什麼只管馬！',en:'Why should I just watch horses!'},x:70,y:40}] },
+        { bg:['🔥','💥','⚡'], text:{zh:'孫悟空大鬧天宮！打倒天兵天將，連玉皇大帝也沒辦法！',en:'Sun Wukong fought all of heaven! Even the Jade Emperor could not stop him!'}, objects:[{emoji:'🐒',sound:{zh:'看我金箍棒！',en:'Watch my staff!'},x:45,y:55},{emoji:'⚔️',sound:{zh:'天兵快跑！',en:'Heaven soldiers, run!'},x:65,y:45}] },
+        { bg:['✋','⛰️','🙏'], text:{zh:'如來佛祖用大手壓住孫悟空，孫悟空被關在山下五百年。',en:'Buddha trapped Sun Wukong under his giant hand for 500 years.'}, objects:[{emoji:'🙏',sound:{zh:'我輸了……',en:'I lost...'},x:50,y:65},{emoji:'⛰️',sound:{zh:'安靜待著吧！',en:'Stay quiet now!'},x:65,y:40}] }
+      ],
+      middle: [
+        { bg:['🏔️','🌋','🌊'], text:{zh:'花果山石頭蹦出孫悟空，他學了七十二變和筋斗雲，想當天下第一！',en:'Sun Wukong was born from stone. He learned 72 transformations and wanted to be the greatest!'}, objects:[{emoji:'🐒',sound:{zh:'我要當天下第一！',en:'I want to be the greatest!'},x:50,y:60}] },
+        { bg:['🏯','✨','😤'], text:{zh:'玉皇大帝給孫悟空一個小官「弼馬溫」管馬廄。孫悟空感到被羞辱，憤而離去！',en:'The Jade Emperor gave Sun Wukong a tiny job. Feeling humiliated, Sun Wukong left in fury!'}, objects:[{emoji:'🐒',sound:{zh:'弼馬溫？這算什麼！',en:'Horse keeper? What is this!'},x:40,y:55},{emoji:'😤',sound:{zh:'我要自封大聖！',en:'I will crown myself!'},x:65,y:45}] },
+        { bg:['🍑','🌺','🎪'], text:{zh:'孫悟空偷吃蟠桃、偷喝仙酒，鬧了個天翻地覆。驕傲讓人失去分寸！',en:'Sun Wukong stole magic peaches and divine wine, causing chaos. Pride makes us lose our sense!'}, objects:[{emoji:'🍑',sound:{zh:'嘿嘿，全部我的！',en:'Heh heh, all mine!'},x:45,y:45},{emoji:'🐒',sound:{zh:'沒人能拿我怎樣！',en:'Nobody can stop me!'},x:65,y:60}] },
+        { bg:['🔥','💥','⚡'], text:{zh:'太上老君把孫悟空放進煉丹爐燒四十九天，沒想到練出火眼金睛！',en:'Laozi put Sun Wukong in a furnace for 49 days but he came out with golden eyes instead!'}, objects:[{emoji:'🔥',sound:{zh:'燒啊燒，我不怕！',en:'Burn and burn, I am not afraid!'},x:40,y:60},{emoji:'👁️',sound:{zh:'哈！我有火眼金睛了！',en:'Ha! I have golden eyes!'},x:65,y:40}] },
+        { bg:['🌈','☁️','⚔️'], text:{zh:'孫悟空越打越勇，連十萬天兵都敵不過他！玉皇大帝無計可施。',en:'Sun Wukong grew stronger with each fight! Even 100,000 heavenly soldiers could not stop him!'}, objects:[{emoji:'🐒',sound:{zh:'天下無敵！',en:'Unbeatable!'},x:50,y:50},{emoji:'🙏',sound:{zh:'請如來佛祖幫忙！',en:'Please ask Buddha for help!'},x:70,y:35}] },
+        { bg:['✋','⛰️','🌿'], text:{zh:'如來佛祖問：「你能逃出我的手掌嗎？」孫悟空翻了個跟斗，卻還在手心裡。輸了！',en:'Buddha asked: Can you escape my palm? Sun Wukong somersaulted — still in his palm. He lost!'}, objects:[{emoji:'🙏',sound:{zh:'孫悟空，你還在我手裡。',en:'Sun Wukong, you are still in my palm.'},x:40,y:50},{emoji:'🐒',sound:{zh:'怎麼可能……',en:'How is this possible...'},x:65,y:60}] }
+      ],
+      large: [
+        { bg:['🏔️','🌋','🌊'], text:{zh:'很久很久以前，花果山的石頭裡蹦出一隻神奇的猴子，他就是孫悟空！',en:'Long ago, a magic monkey was born from a stone on Flower Fruit Mountain. He was Sun Wukong!'}, objects:[{emoji:'🐒',sound:{zh:'我是孫悟空！',en:'I am Sun Wukong!'},x:50,y:60}] },
+        { bg:['🌊','💧','🐟'], text:{zh:'孫悟空學會了七十二變，還能翻一個筋斗雲就飛十萬八千里！',en:'Sun Wukong learned 72 transformations and could fly 108,000 miles on a somersault cloud!'}, objects:[{emoji:'☁️',sound:{zh:'筋斗雲，飛！',en:'Somersault cloud, fly!'},x:60,y:30},{emoji:'🐒',sound:{zh:'我要去天宮！',en:'I will go to Heaven!'},x:40,y:65}] },
+        { bg:['✨','🌟','⭐'], text:{zh:'玉皇大帝派孫悟空去管馬廄，孫悟空以為是大官，結果只是小弼馬溫！',en:'The Jade Emperor sent Sun Wukong to manage the royal stables, but it was just a small job!'}, objects:[{emoji:'🐴',sound:{zh:'嘶～',en:'Neigh!'},x:55,y:60},{emoji:'😤',sound:{zh:'這算什麼官！',en:'What kind of job is this!'},x:30,y:40}] },
+        { bg:['🏯','🚪','🌸'], text:{zh:'孫悟空生氣了！他跑回花果山，自封「齊天大聖」，要跟天宮一樣大！',en:'Sun Wukong was angry! He returned home and declared himself the Great Sage Equal to Heaven!'}, objects:[{emoji:'🐒',sound:{zh:'我是齊天大聖！',en:'I am the Great Sage!'},x:50,y:55},{emoji:'👑',sound:{zh:'大王萬歲！',en:'Long live the king!'},x:70,y:35}] },
+        { bg:['🍑','🌳','🌺'], text:{zh:'王母娘娘開蟠桃宴，沒邀請孫悟空。孫悟空偷吃了所有的蟠桃！',en:'The Queen Mother held a peach banquet but did not invite Sun Wukong. He ate all the magic peaches!'}, objects:[{emoji:'🍑',sound:{zh:'好甜！再吃一個！',en:'So sweet! One more!'},x:45,y:45},{emoji:'🐒',sound:{zh:'嘿嘿嘿！',en:'Heh heh heh!'},x:65,y:60}] },
+        { bg:['🔥','💥','⚡'], text:{zh:'太上老君把孫悟空關在煉丹爐裡燒了四十九天，沒想到練出了一雙火眼金睛！',en:'Sun Wukong was locked in a furnace for 49 days, but came out with golden magic eyes!'}, objects:[{emoji:'🔥',sound:{zh:'好燙！好燙！',en:'So hot! So hot!'},x:40,y:60},{emoji:'👁️',sound:{zh:'我有火眼金睛了！',en:'I have golden eyes now!'},x:65,y:40}] },
+        { bg:['🌈','☁️','🏔️'], text:{zh:'孫悟空大鬧天宮，打得天兵天將落花流水，玉皇大帝只好請如來佛祖來幫忙！',en:'Sun Wukong fought all of Heaven\'s soldiers. The Jade Emperor had to ask Buddha for help!'}, objects:[{emoji:'⚔️',sound:{zh:'看我金箍棒！',en:'Watch my staff!'},x:35,y:50},{emoji:'🐒',sound:{zh:'天下無敵！',en:'Unbeatable!'},x:60,y:55}] },
+        { bg:['✋','🏔️','🌿'], text:{zh:'如來佛祖用五指山壓住了孫悟空，孫悟空在山下等了五百年，等待唐僧來救他。',en:'Buddha trapped Sun Wukong under Five Elements Mountain for 500 years, waiting for the monk Tang Sanzang.'}, objects:[{emoji:'🙏',sound:{zh:'我輸了……',en:'I lost...'},x:50,y:65},{emoji:'⛰️',sound:{zh:'五百年後見！',en:'See you in 500 years!'},x:65,y:40}] }
+      ]
+    }
   },
   {
     id: 'zhuge-wind',
+    category: 'classic',
     title: { zh: '諸葛亮借東風', en: 'Zhuge Liang Borrows the East Wind' },
     cover: '🪁',
-    pages: [
-      { bg:['🌊','⚓','🚢'], text:{zh:'三國時代，曹操率領大軍從北方南下，帶著八十萬大軍要消滅孫劉聯盟！',en:'In the Three Kingdoms era, Cao Cao led 800,000 soldiers south to destroy the Sun-Liu alliance!'}, objects:[{emoji:'⚔️',sound:{zh:'百萬大軍，進攻！',en:'March, million soldiers!'},x:40,y:55},{emoji:'🚢',sound:{zh:'戰船出發！',en:'Warships, forward!'},x:65,y:60}] },
-      { bg:['🏕️','🔥','🌙'], text:{zh:'孫權和劉備聯手，決定在赤壁用火攻打敗曹操，但需要東南風才能讓火船飄向曹軍！',en:'Sun Quan and Liu Bei decided to use fire ships at Red Cliff, but needed southeast wind to succeed!'}, objects:[{emoji:'🤝',sound:{zh:'我們合作！',en:'Let us cooperate!'},x:45,y:50},{emoji:'🔥',sound:{zh:'火攻妙計！',en:'Fire attack plan!'},x:65,y:45}] },
-      { bg:['😰','💭','🌬️'], text:{zh:'問題是：冬天只有西北風！周瑜急得生病了，諸葛亮來探望，說他能借來東風！',en:'The problem was winter only has northwest wind! Zhou Yu fell ill with worry, but Zhuge Liang said he could borrow the east wind!'}, objects:[{emoji:'🤒',sound:{zh:'沒有東風，怎麼辦？',en:'No east wind, what to do?'},x:40,y:55},{emoji:'🧙',sound:{zh:'交給我吧！',en:'Leave it to me!'},x:65,y:50}] },
-      { bg:['🏔️','🌫️','🌟'], text:{zh:'諸葛亮在南屏山上搭了七星壇，穿上道袍，手持寶劍，開始作法祭風！',en:'Zhuge Liang built a seven-star altar on a mountain, dressed as a Taoist, and began his ritual for wind!'}, objects:[{emoji:'🗡️',sound:{zh:'吾法天地之力！',en:'I call upon the power of heaven!'},x:50,y:50},{emoji:'⭐',sound:{zh:'七星護佑！',en:'Seven stars protect us!'},x:70,y:30}] },
-      { bg:['🌙','💫','🌊'], text:{zh:'周瑜派人監視諸葛亮，準備在借到風後就殺掉諸葛亮，免得他幫劉備！',en:'Zhou Yu sent spies to watch Zhuge Liang, planning to kill him after getting the wind to prevent him from helping Liu Bei!'}, objects:[{emoji:'🗡️',sound:{zh:'不能留他！',en:'We cannot keep him!'},x:55,y:45},{emoji:'🕵️',sound:{zh:'監視中……',en:'Watching...'},x:30,y:55}] },
-      { bg:['🌬️','🌊','⚡'], text:{zh:'第三天，東南風果然來了！帆船鼓滿了風，黃蓋駕著火船衝向曹操的戰艦！',en:'On the third day, the southeast wind arrived! Fire ships sailed toward Cao Cao\'s fleet!'}, objects:[{emoji:'💨',sound:{zh:'東風來了！',en:'The east wind is here!'},x:40,y:40},{emoji:'🚢',sound:{zh:'火攻，衝啊！',en:'Fire attack, charge!'},x:65,y:55}] },
-      { bg:['🔥','💥','🌊'], text:{zh:'赤壁之戰爆發！曹操的戰船全部著火，曹軍大敗，曹操狼狽逃跑！',en:'The Battle of Red Cliff! Cao Cao\'s ships all caught fire. His army was defeated and he fled!'}, objects:[{emoji:'🔥',sound:{zh:'燒！燒！燒！',en:'Burn! Burn! Burn!'},x:45,y:50},{emoji:'😱',sound:{zh:'快逃啊！',en:'Run away!'},x:65,y:45}] },
-      { bg:['🌅','🌸','✨'], text:{zh:'諸葛亮早就預料到了一切，他早一步離開，回到劉備身邊。三國鼎立的時代正式開始！',en:'Zhuge Liang had planned everything. He returned to Liu Bei, and the Three Kingdoms era truly began!'}, objects:[{emoji:'🧙',sound:{zh:'一切盡在掌握中。',en:'Everything is under control.'},x:50,y:55},{emoji:'✨',sound:{zh:'三國時代開始！',en:'Three Kingdoms begins!'},x:70,y:35}] }
-    ]
+    pages: {
+      toddler: [
+        { bg:['🧙','🪁','✨'], text:{zh:'有個超聰明的叔叔叫諸葛亮，他很厲害，什麼事情都算得到！',en:'There was a very clever man named Zhuge Liang. He could predict anything!'}, objects:[{emoji:'🧙',sound:{zh:'我是諸葛亮！',en:'I am Zhuge Liang!'},x:50,y:55}] },
+        { bg:['🌬️','💨','🌊'], text:{zh:'大家需要風才能打贏，諸葛亮說「交給我！」，風就來了！',en:'Everyone needed wind to win the battle. Zhuge Liang said leave it to me and the wind came!'}, objects:[{emoji:'🌬️',sound:{zh:'東風來了！',en:'The east wind is here!'},x:40,y:40},{emoji:'🧙',sound:{zh:'我借來東風了！',en:'I borrowed the east wind!'},x:65,y:55}] },
+        { bg:['🔥','🚢','🎉'], text:{zh:'風把火吹向壞人的船，好人贏了！諸葛亮真聰明！',en:'The wind blew fire toward the enemy ships. The good side won! How clever!'}, objects:[{emoji:'🔥',sound:{zh:'火燒連船！',en:'Fire burns the ships!'},x:40,y:50},{emoji:'🎉',sound:{zh:'我們贏了！',en:'We won!'},x:65,y:45}] }
+      ],
+      small: [
+        { bg:['🌊','⚓','🚢'], text:{zh:'曹操帶著很多很多士兵要打孫權和劉備，大家都很害怕！',en:'Cao Cao brought a huge army to fight Sun Quan and Liu Bei. Everyone was scared!'}, objects:[{emoji:'⚔️',sound:{zh:'我有很多士兵！',en:'I have so many soldiers!'},x:35,y:50},{emoji:'😨',sound:{zh:'怎麼辦？',en:'What do we do?'},x:65,y:55}] },
+        { bg:['🔥','💭','🌬️'], text:{zh:'聰明的計畫：用火攻！但是要有東南風，火才能吹向曹操的船！',en:'Clever plan: use fire! But they needed southeast wind to blow fire toward Cao Cao!'}, objects:[{emoji:'🤔',sound:{zh:'沒有東南風……',en:'No southeast wind...'},x:40,y:50},{emoji:'🧙',sound:{zh:'我來借東風！',en:'I will borrow the east wind!'},x:65,y:45}] },
+        { bg:['🌬️','💨','⚡'], text:{zh:'諸葛亮在高台上作法，第三天，東南風來了！大家出發攻擊！',en:'Zhuge Liang performed his ritual. On day three, the southeast wind arrived! Attack!'}, objects:[{emoji:'💨',sound:{zh:'東南風！來了！',en:'Southeast wind! It is here!'},x:40,y:40},{emoji:'🔥',sound:{zh:'火攻！出發！',en:'Fire attack! Go!'},x:65,y:50}] },
+        { bg:['🔥','💥','🎉'], text:{zh:'曹操的船全燒了，他輸了逃跑！諸葛亮已經偷偷離開，真是高手！',en:'Cao Cao\'s ships burned and he fled! Zhuge Liang had already slipped away. A true master!'}, objects:[{emoji:'😱',sound:{zh:'我輸了！快逃！',en:'I lost! Retreat!'},x:35,y:50},{emoji:'🧙',sound:{zh:'一切盡在掌握。',en:'Everything is under control.'},x:65,y:50}] }
+      ],
+      middle: [
+        { bg:['🌊','⚓','🚢'], text:{zh:'三國時代，曹操八十萬大軍南下，孫劉聯盟決定在赤壁迎戰！',en:'Three Kingdoms: Cao Cao\'s 800,000 troops marched south. The alliance decided to fight at Red Cliff!'}, objects:[{emoji:'⚔️',sound:{zh:'八十萬大軍南下！',en:'800,000 troops march south!'},x:35,y:50},{emoji:'🤝',sound:{zh:'我們要合作對抗！',en:'We must work together!'},x:65,y:55}] },
+        { bg:['💭','🔥','🌬️'], text:{zh:'火攻是最好的計謀——但冬天只有西北風。東南風才能讓火船燒向曹軍。',en:'Fire attack is the best plan but winter has only northwest wind. Southeast wind is needed!'}, objects:[{emoji:'🤒',sound:{zh:'沒有東南風，怎麼辦？',en:'No southeast wind, what do we do?'},x:40,y:55},{emoji:'🧙',sound:{zh:'我能借來東風！',en:'I can borrow the east wind!'},x:65,y:45}] },
+        { bg:['🏔️','🌟','⭐'], text:{zh:'諸葛亮在七星壇上，穿道袍持寶劍，三天三夜祭風——其實他精通天文，算好了風向！',en:'On the altar for three days and nights but Zhuge Liang was really using his knowledge of astronomy!'}, objects:[{emoji:'🧙',sound:{zh:'我精通天文，早已算好！',en:'I know astronomy, I calculated it!'},x:50,y:50},{emoji:'⭐',sound:{zh:'七星連線！',en:'Seven stars aligned!'},x:70,y:30}] },
+        { bg:['😒','🗡️','🌙'], text:{zh:'周瑜嫉妒諸葛亮太聰明，派人在借到風後殺掉他。諸葛亮早已預料到了！',en:'Zhou Yu was jealous of Zhuge Liang\'s brilliance and planned to kill him. But Zhuge Liang knew!'}, objects:[{emoji:'😒',sound:{zh:'他太聰明了，不能留！',en:'He is too smart, he must go!'},x:35,y:45},{emoji:'🧙',sound:{zh:'我早已安排好退路。',en:'I have already planned my escape.'},x:65,y:50}] },
+        { bg:['🌬️','🔥','🚢'], text:{zh:'東南風起！黃蓋駕著裝滿柴草的船衝向曹軍，一把火，曹操的戰船全燒了！',en:'The east wind rose! Fire ships charged into Cao Cao\'s fleet and all his ships burned!'}, objects:[{emoji:'💨',sound:{zh:'東風來了！衝！',en:'East wind is here! Charge!'},x:40,y:40},{emoji:'🔥',sound:{zh:'燒！燒！燒！',en:'Burn! Burn! Burn!'},x:65,y:55}] },
+        { bg:['🌅','🌸','✨'], text:{zh:'諸葛亮早一步離開，回到劉備身邊。赤壁之戰奠定了三國鼎立的格局！',en:'Zhuge Liang slipped away to Liu Bei. Red Cliff determined the Three Kingdoms balance of power!'}, objects:[{emoji:'🧙',sound:{zh:'三國鼎立的時代開始了。',en:'The Three Kingdoms era truly begins.'},x:50,y:55},{emoji:'✨',sound:{zh:'智慧是最強的武器！',en:'Wisdom is the strongest weapon!'},x:70,y:35}] }
+      ],
+      large: [
+        { bg:['🌊','⚓','🚢'], text:{zh:'三國時代，曹操率領大軍從北方南下，帶著八十萬大軍要消滅孫劉聯盟！',en:'In the Three Kingdoms era, Cao Cao led 800,000 soldiers south to destroy the Sun-Liu alliance!'}, objects:[{emoji:'⚔️',sound:{zh:'百萬大軍，進攻！',en:'March, million soldiers!'},x:40,y:55},{emoji:'🚢',sound:{zh:'戰船出發！',en:'Warships, forward!'},x:65,y:60}] },
+        { bg:['🏕️','🔥','🌙'], text:{zh:'孫權和劉備聯手，決定在赤壁用火攻打敗曹操，但需要東南風才能讓火船飄向曹軍！',en:'Sun Quan and Liu Bei decided to use fire ships at Red Cliff, but needed southeast wind to succeed!'}, objects:[{emoji:'🤝',sound:{zh:'我們合作！',en:'Let us cooperate!'},x:45,y:50},{emoji:'🔥',sound:{zh:'火攻妙計！',en:'Fire attack plan!'},x:65,y:45}] },
+        { bg:['😰','💭','🌬️'], text:{zh:'問題是：冬天只有西北風！周瑜急得生病了，諸葛亮來探望，說他能借來東風！',en:'The problem was winter only has northwest wind! Zhou Yu fell ill with worry, but Zhuge Liang said he could borrow the east wind!'}, objects:[{emoji:'🤒',sound:{zh:'沒有東風，怎麼辦？',en:'No east wind, what to do?'},x:40,y:55},{emoji:'🧙',sound:{zh:'交給我吧！',en:'Leave it to me!'},x:65,y:50}] },
+        { bg:['🏔️','🌫️','🌟'], text:{zh:'諸葛亮在南屏山上搭了七星壇，穿上道袍，手持寶劍，開始作法祭風！',en:'Zhuge Liang built a seven-star altar on a mountain, dressed as a Taoist, and began his ritual for wind!'}, objects:[{emoji:'🗡️',sound:{zh:'吾法天地之力！',en:'I call upon the power of heaven!'},x:50,y:50},{emoji:'⭐',sound:{zh:'七星護佑！',en:'Seven stars protect us!'},x:70,y:30}] },
+        { bg:['🌙','💫','🌊'], text:{zh:'周瑜派人監視諸葛亮，準備在借到風後就殺掉諸葛亮，免得他幫劉備！',en:'Zhou Yu sent spies to watch Zhuge Liang, planning to kill him after getting the wind to prevent him from helping Liu Bei!'}, objects:[{emoji:'🗡️',sound:{zh:'不能留他！',en:'We cannot keep him!'},x:55,y:45},{emoji:'🕵️',sound:{zh:'監視中……',en:'Watching...'},x:30,y:55}] },
+        { bg:['🌬️','🌊','⚡'], text:{zh:'第三天，東南風果然來了！帆船鼓滿了風，黃蓋駕著火船衝向曹操的戰艦！',en:'On the third day, the southeast wind arrived! Fire ships sailed toward Cao Cao\'s fleet!'}, objects:[{emoji:'💨',sound:{zh:'東風來了！',en:'The east wind is here!'},x:40,y:40},{emoji:'🚢',sound:{zh:'火攻，衝啊！',en:'Fire attack, charge!'},x:65,y:55}] },
+        { bg:['🔥','💥','🌊'], text:{zh:'赤壁之戰爆發！曹操的戰船全部著火，曹軍大敗，曹操狼狽逃跑！',en:'The Battle of Red Cliff! Cao Cao\'s ships all caught fire. His army was defeated and he fled!'}, objects:[{emoji:'🔥',sound:{zh:'燒！燒！燒！',en:'Burn! Burn! Burn!'},x:45,y:50},{emoji:'😱',sound:{zh:'快逃啊！',en:'Run away!'},x:65,y:45}] },
+        { bg:['🌅','🌸','✨'], text:{zh:'諸葛亮早就預料到了一切，他早一步離開，回到劉備身邊。三國鼎立的時代正式開始！',en:'Zhuge Liang had planned everything. He returned to Liu Bei, and the Three Kingdoms era truly began!'}, objects:[{emoji:'🧙',sound:{zh:'一切盡在掌握中。',en:'Everything is under control.'},x:50,y:55},{emoji:'✨',sound:{zh:'三國時代開始！',en:'Three Kingdoms begins!'},x:70,y:35}] }
+      ]
+    }
   },
   {
     id: 'little-bear',
+    category: 'tale',
     title: { zh: '小熊找蜂蜜', en: 'Bear Finds Honey' },
     cover: '🐻',
-    pages: [
-      { bg:['🌲','🌲','🌿'], text:{zh:'森林裡住著一隻棕色的小熊，他最喜歡吃甜甜的蜂蜜！',en:'A brown bear lived in the forest. His favorite food was sweet honey!'}, objects:[{emoji:'🐻',sound:{zh:'我愛吃蜂蜜！',en:'I love honey!'},x:50,y:60}] },
-      { bg:['☀️','🌸','🌻'], text:{zh:'有一天早上，小熊的肚子咕嚕咕嚕叫，他決定出去找蜂蜜！',en:'One morning, the bear\'s tummy growled. He decided to go find some honey!'}, objects:[{emoji:'🐻',sound:{zh:'咕嚕咕嚕，好餓！',en:'Growl growl, I am hungry!'},x:45,y:60},{emoji:'☀️',sound:{zh:'早安！',en:'Good morning!'},x:70,y:20}] },
-      { bg:['🌺','🌷','🐝'], text:{zh:'小熊聞到花香，跟著香味走，看到好多蜜蜂在採花蜜！',en:'The bear smelled flowers and followed the scent. He saw many bees collecting nectar!'}, objects:[{emoji:'🐝',sound:{zh:'嗡嗡嗡！',en:'Buzz buzz!'},x:55,y:40},{emoji:'🌸',sound:{zh:'我的花粉！',en:'My pollen!'},x:30,y:50}] },
-      { bg:['🌳','🍃','🐦'], text:{zh:'蜜蜂飛進了一棵大樹的樹洞裡，小熊探頭一看，裡面有好大的蜂巢！',en:'The bees flew into a hollow tree. The bear peeked inside and saw a huge honeycomb!'}, objects:[{emoji:'🍯',sound:{zh:'蜂蜜！蜂蜜！',en:'Honey! Honey!'},x:60,y:45},{emoji:'🐻',sound:{zh:'找到了！',en:'Found it!'},x:35,y:60}] },
-      { bg:['😬','🐝','💥'], text:{zh:'小熊伸手去拿蜂蜜，蜜蜂生氣了！嗡嗡嗡，一大群蜜蜂飛過來螫他！',en:'The bear reached for the honey, and the bees got angry! A swarm of bees came to sting him!'}, objects:[{emoji:'😤',sound:{zh:'你們的蜂蜜！',en:'Give me your honey!'},x:40,y:55},{emoji:'🐝',sound:{zh:'不行！這是我們的！',en:'No! This is ours!'},x:65,y:40}] },
-      { bg:['💨','🌊','🌿'], text:{zh:'小熊嚇得拔腿就跑，衝到河邊跳進水裡，蜜蜂才飛走了。哎喲，好痛！',en:'The bear ran away and jumped into the river. The bees finally left. Ouch, that hurt!'}, objects:[{emoji:'😭',sound:{zh:'哎喲！好痛！',en:'Ouch! That hurts!'},x:45,y:55},{emoji:'💧',sound:{zh:'水好涼！',en:'The water is cool!'},x:65,y:50}] },
-      { bg:['🦔','🌰','🍃'], text:{zh:'河邊有一隻小刺蝟，他告訴小熊：用煙可以讓蜜蜂睡著，這樣就能安全拿蜂蜜！',en:'A hedgehog by the river told the bear: smoke makes bees sleepy, so you can safely get the honey!'}, objects:[{emoji:'🦔',sound:{zh:'我教你一個秘訣！',en:'Let me teach you a trick!'},x:35,y:55},{emoji:'🐻',sound:{zh:'真的嗎？',en:'Really?'},x:60,y:60}] },
-      { bg:['🌈','⭐','🍯'], text:{zh:'小熊用樹枝點了煙，蜜蜂都睡著了，他輕輕拿走一小罐蜂蜜，開心地回家了！',en:'The bear used smoke to make the bees sleep, took a small jar of honey, and went home happily!'}, objects:[{emoji:'🐻',sound:{zh:'謝謝刺蝟朋友！',en:'Thank you, hedgehog friend!'},x:45,y:55},{emoji:'🍯',sound:{zh:'甜甜的蜂蜜！',en:'Sweet honey!'},x:65,y:45}] }
-    ]
+    pages: {
+      toddler: [
+        { bg:['🌲','🌿','☀️'], text:{zh:'小熊最喜歡吃蜂蜜，甜甜的，好好吃！',en:'The little bear loves honey most, it is so sweet and yummy!'}, objects:[{emoji:'🐻',sound:{zh:'我愛蜂蜜！',en:'I love honey!'},x:50,y:60},{emoji:'🍯',sound:{zh:'甜甜的！',en:'So sweet!'},x:70,y:40}] },
+        { bg:['🐝','🌸','🌳'], text:{zh:'小熊去找蜂蜜，看到好多蜜蜂！嗡嗡嗡！蜜蜂嚇到他了！',en:'The bear went to find honey and saw many bees! Buzz buzz! The bees scared him!'}, objects:[{emoji:'🐝',sound:{zh:'嗡嗡嗡！走開！',en:'Buzz buzz! Go away!'},x:40,y:45},{emoji:'🐻',sound:{zh:'啊！好多蜜蜂！',en:'Ahh! So many bees!'},x:65,y:60}] },
+        { bg:['🌈','🍯','🦔'], text:{zh:'小刺蝟告訴他用煙的辦法，小熊拿到蜂蜜了！好聰明！',en:'The hedgehog told him to use smoke. The bear got his honey! So clever!'}, objects:[{emoji:'🦔',sound:{zh:'用煙！蜜蜂就睡覺！',en:'Use smoke! Bees will sleep!'},x:35,y:55},{emoji:'🐻',sound:{zh:'謝謝你！',en:'Thank you!'},x:65,y:55}] }
+      ],
+      small: [
+        { bg:['🌲','☀️','🌿'], text:{zh:'小熊肚子餓，出門找蜂蜜，他跟著花香，找到了藏著蜂巢的大樹！',en:'The hungry bear followed the flower scent and found the tree with the honeycomb!'}, objects:[{emoji:'🐻',sound:{zh:'咕嚕嚕！我去找蜂蜜！',en:'Growl! I will go find honey!'},x:45,y:60},{emoji:'🌸',sound:{zh:'花香，這邊！',en:'Follow the scent this way!'},x:65,y:40}] },
+        { bg:['😬','🐝','💥'], text:{zh:'小熊伸手拿蜂蜜，蜜蜂生氣了，螫了他好多下！小熊跑去跳進河裡！',en:'The bear grabbed for honey, the bees attacked! He ran and jumped into the river!'}, objects:[{emoji:'🐝',sound:{zh:'這是我們的蜂蜜！',en:'This is our honey!'},x:40,y:45},{emoji:'🐻',sound:{zh:'哎喲！好痛！',en:'Ouch! That hurts!'},x:65,y:60}] },
+        { bg:['🦔','💡','🌿'], text:{zh:'河邊的小刺蝟說：「用樹枝點煙，蜜蜂就會睡著，你就能拿蜂蜜了！」',en:'The hedgehog said: light a smoky fire with sticks, it makes bees sleepy!'}, objects:[{emoji:'🦔',sound:{zh:'煙可以讓蜜蜂睡著！',en:'Smoke makes bees sleepy!'},x:35,y:55},{emoji:'🐻',sound:{zh:'真的嗎？我來試試！',en:'Really? Let me try!'},x:65,y:55}] },
+        { bg:['🍯','🎉','🌈'], text:{zh:'小熊用煙讓蜜蜂睡著，輕輕拿走一罐蜂蜜，回家了！遇到困難要想辦法！',en:'The bear used smoke, took the honey and went home. When you face problems, think creatively!'}, objects:[{emoji:'🐻',sound:{zh:'謝謝刺蝟！下次我知道了！',en:'Thanks hedgehog! Now I know!'},x:45,y:55},{emoji:'🍯',sound:{zh:'甜甜的蜂蜜！',en:'Sweet honey!'},x:65,y:45}] }
+      ],
+      middle: [
+        { bg:['🌲','🌲','🌿'], text:{zh:'森林裡住著一隻棕色的小熊，他最喜歡吃甜甜的蜂蜜！',en:'A brown bear lived in the forest. His favorite food was sweet honey!'}, objects:[{emoji:'🐻',sound:{zh:'我愛吃蜂蜜！',en:'I love honey!'},x:50,y:60}] },
+        { bg:['🌳','🍃','🐦'], text:{zh:'蜜蜂飛進了一棵大樹的樹洞裡，小熊探頭一看，裡面有好大的蜂巢！',en:'The bees flew into a hollow tree. The bear peeked inside and saw a huge honeycomb!'}, objects:[{emoji:'🍯',sound:{zh:'蜂蜜！蜂蜜！',en:'Honey! Honey!'},x:60,y:45},{emoji:'🐻',sound:{zh:'找到了！',en:'Found it!'},x:35,y:60}] },
+        { bg:['😬','🐝','💥'], text:{zh:'小熊伸手去拿蜂蜜，蜜蜂生氣了！嗡嗡嗡，一大群蜜蜂飛過來螫他！',en:'The bear reached for the honey, and the bees got angry! A swarm of bees came to sting him!'}, objects:[{emoji:'😤',sound:{zh:'你們的蜂蜜！',en:'Give me your honey!'},x:40,y:55},{emoji:'🐝',sound:{zh:'不行！這是我們的！',en:'No! This is ours!'},x:65,y:40}] },
+        { bg:['🦔','🌰','🍃'], text:{zh:'河邊有一隻小刺蝟，他告訴小熊：用煙可以讓蜜蜂睡著，這樣就能安全拿蜂蜜！',en:'A hedgehog by the river told the bear: smoke makes bees sleepy, so you can safely get the honey!'}, objects:[{emoji:'🦔',sound:{zh:'我教你一個秘訣！',en:'Let me teach you a trick!'},x:35,y:55},{emoji:'🐻',sound:{zh:'真的嗎？',en:'Really?'},x:60,y:60}] },
+        { bg:['🌈','⭐','🍯'], text:{zh:'小熊用樹枝點了煙，蜜蜂都睡著了，他輕輕拿走一小罐蜂蜜，開心地回家了！',en:'The bear used smoke to make the bees sleep, took a small jar of honey, and went home happily!'}, objects:[{emoji:'🐻',sound:{zh:'謝謝刺蝟朋友！',en:'Thank you, hedgehog friend!'},x:45,y:55},{emoji:'🍯',sound:{zh:'甜甜的蜂蜜！',en:'Sweet honey!'},x:65,y:45}] }
+      ],
+      large: [
+        { bg:['🌲','🌲','🌿'], text:{zh:'森林裡住著一隻棕色的小熊，他最喜歡吃甜甜的蜂蜜！',en:'A brown bear lived in the forest. His favorite food was sweet honey!'}, objects:[{emoji:'🐻',sound:{zh:'我愛吃蜂蜜！',en:'I love honey!'},x:50,y:60}] },
+        { bg:['☀️','🌸','🌻'], text:{zh:'有一天早上，小熊的肚子咕嚕咕嚕叫，他決定出去找蜂蜜！',en:'One morning, the bear\'s tummy growled. He decided to go find some honey!'}, objects:[{emoji:'🐻',sound:{zh:'咕嚕咕嚕，好餓！',en:'Growl growl, I am hungry!'},x:45,y:60},{emoji:'☀️',sound:{zh:'早安！',en:'Good morning!'},x:70,y:20}] },
+        { bg:['🌺','🌷','🐝'], text:{zh:'小熊聞到花香，跟著香味走，看到好多蜜蜂在採花蜜！',en:'The bear smelled flowers and followed the scent. He saw many bees collecting nectar!'}, objects:[{emoji:'🐝',sound:{zh:'嗡嗡嗡！',en:'Buzz buzz!'},x:55,y:40},{emoji:'🌸',sound:{zh:'我的花粉！',en:'My pollen!'},x:30,y:50}] },
+        { bg:['🌳','🍃','🐦'], text:{zh:'蜜蜂飛進了一棵大樹的樹洞裡，小熊探頭一看，裡面有好大的蜂巢！',en:'The bees flew into a hollow tree. The bear peeked inside and saw a huge honeycomb!'}, objects:[{emoji:'🍯',sound:{zh:'蜂蜜！蜂蜜！',en:'Honey! Honey!'},x:60,y:45},{emoji:'🐻',sound:{zh:'找到了！',en:'Found it!'},x:35,y:60}] },
+        { bg:['😬','🐝','💥'], text:{zh:'小熊伸手去拿蜂蜜，蜜蜂生氣了！嗡嗡嗡，一大群蜜蜂飛過來螫他！',en:'The bear reached for the honey, and the bees got angry! A swarm of bees came to sting him!'}, objects:[{emoji:'😤',sound:{zh:'你們的蜂蜜！',en:'Give me your honey!'},x:40,y:55},{emoji:'🐝',sound:{zh:'不行！這是我們的！',en:'No! This is ours!'},x:65,y:40}] },
+        { bg:['💨','🌊','🌿'], text:{zh:'小熊嚇得拔腿就跑，衝到河邊跳進水裡，蜜蜂才飛走了。哎喲，好痛！',en:'The bear ran away and jumped into the river. The bees finally left. Ouch, that hurt!'}, objects:[{emoji:'😭',sound:{zh:'哎喲！好痛！',en:'Ouch! That hurts!'},x:45,y:55},{emoji:'💧',sound:{zh:'水好涼！',en:'The water is cool!'},x:65,y:50}] },
+        { bg:['🦔','🌰','🍃'], text:{zh:'河邊有一隻小刺蝟，他告訴小熊：用煙可以讓蜜蜂睡著，這樣就能安全拿蜂蜜！',en:'A hedgehog by the river told the bear: smoke makes bees sleepy, so you can safely get the honey!'}, objects:[{emoji:'🦔',sound:{zh:'我教你一個秘訣！',en:'Let me teach you a trick!'},x:35,y:55},{emoji:'🐻',sound:{zh:'真的嗎？',en:'Really?'},x:60,y:60}] },
+        { bg:['🌈','⭐','🍯'], text:{zh:'小熊用樹枝點了煙，蜜蜂都睡著了，他輕輕拿走一小罐蜂蜜，開心地回家了！',en:'The bear used smoke to make the bees sleep, took a small jar of honey, and went home happily!'}, objects:[{emoji:'🐻',sound:{zh:'謝謝刺蝟朋友！',en:'Thank you, hedgehog friend!'},x:45,y:55},{emoji:'🍯',sound:{zh:'甜甜的蜂蜜！',en:'Sweet honey!'},x:65,y:45}] }
+      ]
+    }
   },
   {
     id: 'north-wind',
+    category: 'tale',
     title: { zh: '北風與太陽', en: 'The North Wind and the Sun' },
     cover: '🌞',
-    pages: [
-      { bg:['🌬️','❄️','🌨️'], text:{zh:'北風和太陽都覺得自己最厲害，他們決定比賽，看誰能讓旅人脫下大衣！',en:'The North Wind and the Sun both thought they were the strongest. They decided to have a contest!'}, objects:[{emoji:'🌬️',sound:{zh:'我力氣最大！',en:'I am the strongest!'},x:30,y:50},{emoji:'🌞',sound:{zh:'我們比一比吧！',en:'Let us have a contest!'},x:70,y:40}] },
-      { bg:['🌲','🛤️','🌫️'], text:{zh:'路上有一位旅人，穿著厚厚的大衣走路。北風說：「我先來！」',en:'A traveler walked on the road, wearing a thick coat. The North Wind said: I will go first!'}, objects:[{emoji:'🚶',sound:{zh:'好冷的天氣啊！',en:'What a cold day!'},x:50,y:60},{emoji:'🌬️',sound:{zh:'讓我來吹！',en:'Let me blow!'},x:20,y:40}] },
-      { bg:['💨','🌪️','🌀'], text:{zh:'北風用力吹啊吹，呼呼呼！風越來越大，大樹都搖晃起來！',en:'The North Wind blew and blew, whoosh whoosh! The wind got stronger and stronger, the trees shook!'}, objects:[{emoji:'🌬️',sound:{zh:'呼呼呼！吹走它！',en:'Whoosh whoosh! Blow it away!'},x:25,y:45},{emoji:'🌲',sound:{zh:'搖搖搖！',en:'Shake shake shake!'},x:65,y:50}] },
-      { bg:['🧥','❄️','🥶'], text:{zh:'旅人覺得好冷，把大衣裹得更緊了！北風越吹越使勁，旅人卻抓得越緊！',en:'The traveler felt cold and wrapped the coat even tighter! The harder the wind blew, the tighter he held!'}, objects:[{emoji:'🚶',sound:{zh:'好冷！我要抱緊！',en:'So cold! I must hold tight!'},x:50,y:55},{emoji:'😤',sound:{zh:'怎麼不脫！',en:'Why won\'t he take it off!'},x:20,y:40}] },
-      { bg:['😮','💦','🌤️'], text:{zh:'北風累了，輸了。現在換太陽了！太陽微笑著，慢慢把暖洋洋的光灑下來。',en:'The North Wind was tired and lost. Now it was the Sun\'s turn! The Sun smiled and gently shone warm light.'}, objects:[{emoji:'🌞',sound:{zh:'換我了，看好囉！',en:'My turn now, watch!'},x:65,y:35},{emoji:'🌬️',sound:{zh:'哼……',en:'Hmph...'},x:20,y:50}] },
-      { bg:['☀️','🌈','🌸'], text:{zh:'太陽的光越來越溫暖，旅人感到好熱，他解開了大衣的扣子，脫下了大衣！',en:'The Sun shone warmer and warmer. The traveler felt hot, unbuttoned the coat, and took it off!'}, objects:[{emoji:'🚶',sound:{zh:'好暖！我要脫衣服了！',en:'So warm! I will take off my coat!'},x:50,y:55},{emoji:'🌞',sound:{zh:'溫柔才是真力量！',en:'Gentleness is true strength!'},x:70,y:30}] }
-    ]
+    pages: {
+      toddler: [
+        { bg:['🌬️','🌞','☁️'], text:{zh:'北風和太陽是好朋友，但他們都說自己最厲害！',en:'The North Wind and the Sun were friends, but both said they were the strongest!'}, objects:[{emoji:'🌬️',sound:{zh:'我最大！',en:'I am the strongest!'},x:30,y:50},{emoji:'🌞',sound:{zh:'不，我最厲害！',en:'No, I am the best!'},x:70,y:40}] },
+        { bg:['🧥','💨','🚶'], text:{zh:'北風用力吹，旅人把大衣抱得更緊！太陽曬暖，旅人把大衣脫了！',en:'The wind blew hard and the traveler held his coat tight! The sun shone warm and he took it off!'}, objects:[{emoji:'🌬️',sound:{zh:'呼呼呼！吹走！',en:'Whoosh! Blow away!'},x:25,y:45},{emoji:'🌞',sound:{zh:'暖洋洋！',en:'Nice and warm!'},x:70,y:35}] },
+        { bg:['🌞','🏆','🌈'], text:{zh:'太陽用溫暖贏了！溫柔比用力更有用！',en:'The Sun won with warmth! Gentleness works better than force!'}, objects:[{emoji:'🌞',sound:{zh:'溫柔才是真力量！',en:'Gentleness is true strength!'},x:55,y:45},{emoji:'🏆',sound:{zh:'太陽贏了！',en:'The Sun wins!'},x:70,y:30}] }
+      ],
+      small: [
+        { bg:['🌬️','❄️','🌨️'], text:{zh:'北風和太陽都覺得自己最厲害，他們決定比賽，看誰能讓旅人脫下大衣！',en:'The North Wind and the Sun both thought they were the strongest. They decided to have a contest!'}, objects:[{emoji:'🌬️',sound:{zh:'我力氣最大！',en:'I am the strongest!'},x:30,y:50},{emoji:'🌞',sound:{zh:'我們比一比吧！',en:'Let us have a contest!'},x:70,y:40}] },
+        { bg:['💨','🌪️','🌀'], text:{zh:'北風用力吹啊吹，呼呼呼！風越來越大，大樹都搖晃起來！',en:'The North Wind blew and blew, whoosh whoosh! The wind got stronger, the trees shook!'}, objects:[{emoji:'🌬️',sound:{zh:'呼呼呼！吹走它！',en:'Whoosh whoosh! Blow it away!'},x:25,y:45},{emoji:'🌲',sound:{zh:'搖搖搖！',en:'Shake shake shake!'},x:65,y:50}] },
+        { bg:['🧥','❄️','🥶'], text:{zh:'旅人覺得好冷，把大衣裹得更緊了！北風越吹越使勁，旅人卻抓得越緊！',en:'The traveler felt cold and wrapped the coat even tighter! The harder the wind blew, the tighter he held!'}, objects:[{emoji:'🚶',sound:{zh:'好冷！我要抱緊！',en:'So cold! I must hold tight!'},x:50,y:55},{emoji:'😤',sound:{zh:'怎麼不脫！',en:'Why will he not take it off!'},x:20,y:40}] },
+        { bg:['☀️','🌈','🌸'], text:{zh:'太陽的光越來越溫暖，旅人感到好熱，他解開了大衣的扣子，脫下了大衣！',en:'The Sun shone warmer and warmer. The traveler felt hot, unbuttoned the coat, and took it off!'}, objects:[{emoji:'🚶',sound:{zh:'好暖！我要脫衣服了！',en:'So warm! I will take off my coat!'},x:50,y:55},{emoji:'🌞',sound:{zh:'溫柔才是真力量！',en:'Gentleness is true strength!'},x:70,y:30}] }
+      ],
+      middle: [
+        { bg:['🌬️','❄️','🌨️'], text:{zh:'北風和太陽都覺得自己最厲害，他們決定比賽，看誰能讓旅人脫下大衣！',en:'The North Wind and the Sun both thought they were the strongest. They decided to have a contest!'}, objects:[{emoji:'🌬️',sound:{zh:'我力氣最大！',en:'I am the strongest!'},x:30,y:50},{emoji:'🌞',sound:{zh:'我們比一比吧！',en:'Let us have a contest!'},x:70,y:40}] },
+        { bg:['🌲','🛤️','🌫️'], text:{zh:'路上有一位旅人，穿著厚厚的大衣走路。北風說：「我先來！」',en:'A traveler walked on the road, wearing a thick coat. The North Wind said: I will go first!'}, objects:[{emoji:'🚶',sound:{zh:'好冷的天氣啊！',en:'What a cold day!'},x:50,y:60},{emoji:'🌬️',sound:{zh:'讓我來吹！',en:'Let me blow!'},x:20,y:40}] },
+        { bg:['💨','🌪️','🌀'], text:{zh:'北風用力吹啊吹，呼呼呼！風越來越大，大樹都搖晃起來！',en:'The North Wind blew and blew, whoosh whoosh! The wind got stronger and stronger, the trees shook!'}, objects:[{emoji:'🌬️',sound:{zh:'呼呼呼！吹走它！',en:'Whoosh whoosh! Blow it away!'},x:25,y:45},{emoji:'🌲',sound:{zh:'搖搖搖！',en:'Shake shake shake!'},x:65,y:50}] },
+        { bg:['🧥','❄️','🥶'], text:{zh:'旅人覺得好冷，把大衣裹得更緊了！北風越吹越使勁，旅人卻抓得越緊！',en:'The traveler felt cold and wrapped the coat even tighter! The harder the wind blew, the tighter he held!'}, objects:[{emoji:'🚶',sound:{zh:'好冷！我要抱緊！',en:'So cold! I must hold tight!'},x:50,y:55},{emoji:'😤',sound:{zh:'怎麼不脫！',en:'Why will he not take it off!'},x:20,y:40}] },
+        { bg:['☀️','🌈','🌸'], text:{zh:'太陽的光越來越溫暖，旅人感到好熱，他解開了大衣的扣子，脫下了大衣！',en:'The Sun shone warmer and warmer. The traveler felt hot, unbuttoned the coat, and took it off!'}, objects:[{emoji:'🚶',sound:{zh:'好暖！我要脫衣服了！',en:'So warm! I will take off my coat!'},x:50,y:55},{emoji:'🌞',sound:{zh:'溫柔才是真力量！',en:'Gentleness is true strength!'},x:70,y:30}] }
+      ],
+      large: [
+        { bg:['🌬️','❄️','🌨️'], text:{zh:'北風和太陽都覺得自己最厲害，他們決定比賽，看誰能讓旅人脫下大衣！',en:'The North Wind and the Sun both thought they were the strongest. They decided to have a contest!'}, objects:[{emoji:'🌬️',sound:{zh:'我力氣最大！',en:'I am the strongest!'},x:30,y:50},{emoji:'🌞',sound:{zh:'我們比一比吧！',en:'Let us have a contest!'},x:70,y:40}] },
+        { bg:['🌲','🛤️','🌫️'], text:{zh:'路上有一位旅人，穿著厚厚的大衣走路。北風說：「我先來！」',en:'A traveler walked on the road, wearing a thick coat. The North Wind said: I will go first!'}, objects:[{emoji:'🚶',sound:{zh:'好冷的天氣啊！',en:'What a cold day!'},x:50,y:60},{emoji:'🌬️',sound:{zh:'讓我來吹！',en:'Let me blow!'},x:20,y:40}] },
+        { bg:['💨','🌪️','🌀'], text:{zh:'北風用力吹啊吹，呼呼呼！風越來越大，大樹都搖晃起來！',en:'The North Wind blew and blew, whoosh whoosh! The wind got stronger and stronger, the trees shook!'}, objects:[{emoji:'🌬️',sound:{zh:'呼呼呼！吹走它！',en:'Whoosh whoosh! Blow it away!'},x:25,y:45},{emoji:'🌲',sound:{zh:'搖搖搖！',en:'Shake shake shake!'},x:65,y:50}] },
+        { bg:['🧥','❄️','🥶'], text:{zh:'旅人覺得好冷，把大衣裹得更緊了！北風越吹越使勁，旅人卻抓得越緊！',en:'The traveler felt cold and wrapped the coat even tighter! The harder the wind blew, the tighter he held!'}, objects:[{emoji:'🚶',sound:{zh:'好冷！我要抱緊！',en:'So cold! I must hold tight!'},x:50,y:55},{emoji:'😤',sound:{zh:'怎麼不脫！',en:'Why won\'t he take it off!'},x:20,y:40}] },
+        { bg:['😮','💦','🌤️'], text:{zh:'北風累了，輸了。現在換太陽了！太陽微笑著，慢慢把暖洋洋的光灑下來。',en:'The North Wind was tired and lost. Now it was the Sun\'s turn! The Sun smiled and gently shone warm light.'}, objects:[{emoji:'🌞',sound:{zh:'換我了，看好囉！',en:'My turn now, watch!'},x:65,y:35},{emoji:'🌬️',sound:{zh:'哼……',en:'Hmph...'},x:20,y:50}] },
+        { bg:['☀️','🌈','🌸'], text:{zh:'太陽的光越來越溫暖，旅人感到好熱，他解開了大衣的扣子，脫下了大衣！',en:'The Sun shone warmer and warmer. The traveler felt hot, unbuttoned the coat, and took it off!'}, objects:[{emoji:'🚶',sound:{zh:'好暖！我要脫衣服了！',en:'So warm! I will take off my coat!'},x:50,y:55},{emoji:'🌞',sound:{zh:'溫柔才是真力量！',en:'Gentleness is true strength!'},x:70,y:30}] }
+      ]
+    }
   },
   {
     id: 'crow-water',
+    category: 'tale',
     title: { zh: '烏鴉喝水', en: 'The Crow and the Pitcher' },
     cover: '🐦',
-    pages: [
-      { bg:['☀️','🌿','🌾'], text:{zh:'夏天好熱好熱，一隻烏鴉飛啊飛，飛了好遠好遠，口渴極了！',en:'It was a very hot summer. A crow flew and flew a long way and became very thirsty!'}, objects:[{emoji:'🐦',sound:{zh:'好渴啊！我要找水喝！',en:'So thirsty! I need to find water!'},x:50,y:45}] },
-      { bg:['🌻','🪨','🌳'], text:{zh:'烏鴉終於發現了一個水瓶！他飛下去一看，水只有一點點，在瓶子底部。',en:'The crow finally found a pitcher! He flew down and saw only a little water at the bottom.'}, objects:[{emoji:'🐦',sound:{zh:'有水！可是……',en:'There is water! But...'},x:40,y:50},{emoji:'🏺',sound:{zh:'裡面有水哦！',en:'There is water inside!'},x:65,y:55}] },
-      { bg:['😟','💭','🌿'], text:{zh:'烏鴉把嘴伸進去，喝不到。水太少了，瓶口太窄了。怎麼辦呢？',en:'The crow tried to drink but could not reach. The water was too low, the neck too narrow. What to do?'}, objects:[{emoji:'🐦',sound:{zh:'喝不到……怎麼辦？',en:'Can\'t reach it... what now?'},x:45,y:50},{emoji:'🤔',sound:{zh:'想想辦法！',en:'Think of something!'},x:65,y:35}] },
-      { bg:['🪨','🌱','🌍'], text:{zh:'烏鴉看到地上有很多小石子，他想到了一個好辦法！他開始一顆一顆撿石子。',en:'The crow saw many pebbles on the ground. He thought of a great idea! He began picking up pebbles one by one.'}, objects:[{emoji:'🐦',sound:{zh:'我有辦法了！',en:'I have an idea!'},x:40,y:55},{emoji:'🪨',sound:{zh:'小石子，我來了！',en:'Pebbles, here I come!'},x:65,y:60}] },
-      { bg:['💧','🏺','🪨'], text:{zh:'烏鴉把石子一顆一顆丟進水瓶，水慢慢地升高了！越來越高！',en:'The crow dropped pebbles into the pitcher one by one. The water slowly rose higher and higher!'}, objects:[{emoji:'🐦',sound:{zh:'丟一顆，再丟一顆！',en:'One more, and one more!'},x:40,y:45},{emoji:'🏺',sound:{zh:'水升高了！',en:'The water is rising!'},x:65,y:55}] },
-      { bg:['🎉','💧','🌈'], text:{zh:'終於！水升到瓶口了！烏鴉高興地喝到了甜甜的水，動動腦就能解決問題！',en:'Finally! The water reached the top! The crow happily drank. Using your brain can solve any problem!'}, objects:[{emoji:'🐦',sound:{zh:'我喝到了！動腦最棒！',en:'I drank it! Using your brain is great!'},x:45,y:50},{emoji:'💧',sound:{zh:'咕嚕咕嚕！',en:'Gulp gulp gulp!'},x:65,y:45}] }
-    ]
+    pages: {
+      toddler: [
+        { bg:['☀️','🌿','🐦'], text:{zh:'一隻烏鴉好渴，他到處找水喝！',en:'A crow was very thirsty and went to find water!'}, objects:[{emoji:'🐦',sound:{zh:'好渴啊！找水！',en:'So thirsty! Find water!'},x:50,y:45}] },
+        { bg:['🏺','🪨','💭'], text:{zh:'烏鴉找到一個瓶子！但是水在很底下，他想到了用石子的好辦法！',en:'The crow found a pitcher! But the water was deep down. He had a clever idea with pebbles!'}, objects:[{emoji:'🐦',sound:{zh:'放石子！水就升高！',en:'Put stones in! Water rises!'},x:40,y:50},{emoji:'🏺',sound:{zh:'水在裡面！',en:'Water is inside!'},x:65,y:55}] },
+        { bg:['💧','🎉','🌈'], text:{zh:'烏鴉一顆一顆放石子，水升上來了，他喝到水了！動腦就能解決問題！',en:'The crow put in pebbles one by one, the water rose, and he drank! Using your brain solves problems!'}, objects:[{emoji:'🐦',sound:{zh:'我喝到了！動腦最棒！',en:'I drank it! Using your brain is great!'},x:45,y:50},{emoji:'💧',sound:{zh:'咕嚕咕嚕！',en:'Gulp gulp!'},x:65,y:45}] }
+      ],
+      small: [
+        { bg:['☀️','🌿','🌾'], text:{zh:'夏天好熱好熱，一隻烏鴉飛了好遠好遠，口渴極了！',en:'It was a very hot summer. A crow flew a long way and became very thirsty!'}, objects:[{emoji:'🐦',sound:{zh:'好渴啊！我要找水喝！',en:'So thirsty! I need to find water!'},x:50,y:45}] },
+        { bg:['🌻','🪨','🏺'], text:{zh:'烏鴉終於發現了一個水瓶！裡面有水，但水只有一點點，在瓶底。喝不到！',en:'The crow found a pitcher! There was water inside, but only a little at the bottom. He could not reach!'}, objects:[{emoji:'🐦',sound:{zh:'有水！但喝不到……',en:'There is water! But I cannot reach...'},x:40,y:50},{emoji:'🏺',sound:{zh:'裡面有水哦！',en:'There is water inside!'},x:65,y:55}] },
+        { bg:['🪨','🌱','💡'], text:{zh:'烏鴉看到地上有很多小石子，他想到了一個好辦法！開始一顆一顆把石子丟進瓶子！',en:'The crow saw many pebbles. He thought of a great idea! He began dropping pebbles into the pitcher!'}, objects:[{emoji:'🐦',sound:{zh:'我有辦法了！',en:'I have an idea!'},x:40,y:55},{emoji:'🪨',sound:{zh:'小石子，我來了！',en:'Pebbles, here I come!'},x:65,y:60}] },
+        { bg:['🎉','💧','🌈'], text:{zh:'水慢慢升高，終於到瓶口了！烏鴉高興地喝到了水，動動腦就能解決問題！',en:'The water rose slowly to the top! The crow happily drank. Using your brain can solve any problem!'}, objects:[{emoji:'🐦',sound:{zh:'我喝到了！動腦最棒！',en:'I drank it! Using your brain is great!'},x:45,y:50},{emoji:'💧',sound:{zh:'咕嚕咕嚕！',en:'Gulp gulp gulp!'},x:65,y:45}] }
+      ],
+      middle: [
+        { bg:['☀️','🌿','🌾'], text:{zh:'夏天好熱好熱，一隻烏鴉飛啊飛，飛了好遠好遠，口渴極了！',en:'It was a very hot summer. A crow flew and flew a long way and became very thirsty!'}, objects:[{emoji:'🐦',sound:{zh:'好渴啊！我要找水喝！',en:'So thirsty! I need to find water!'},x:50,y:45}] },
+        { bg:['🌻','🪨','🌳'], text:{zh:'烏鴉終於發現了一個水瓶！他飛下去一看，水只有一點點，在瓶子底部。',en:'The crow finally found a pitcher! He flew down and saw only a little water at the bottom.'}, objects:[{emoji:'🐦',sound:{zh:'有水！可是……',en:'There is water! But...'},x:40,y:50},{emoji:'🏺',sound:{zh:'裡面有水哦！',en:'There is water inside!'},x:65,y:55}] },
+        { bg:['😟','💭','🌿'], text:{zh:'烏鴉把嘴伸進去，喝不到。水太少了，瓶口太窄了。怎麼辦呢？',en:'The crow tried to drink but could not reach. The water was too low, the neck too narrow. What to do?'}, objects:[{emoji:'🐦',sound:{zh:'喝不到……怎麼辦？',en:'Cannot reach it... what now?'},x:45,y:50},{emoji:'🤔',sound:{zh:'想想辦法！',en:'Think of something!'},x:65,y:35}] },
+        { bg:['🪨','🌱','🌍'], text:{zh:'烏鴉看到地上有很多小石子，他想到了一個好辦法！他開始一顆一顆撿石子。',en:'The crow saw many pebbles on the ground. He thought of a great idea! He began picking up pebbles one by one.'}, objects:[{emoji:'🐦',sound:{zh:'我有辦法了！',en:'I have an idea!'},x:40,y:55},{emoji:'🪨',sound:{zh:'小石子，我來了！',en:'Pebbles, here I come!'},x:65,y:60}] },
+        { bg:['🎉','💧','🌈'], text:{zh:'終於！水升到瓶口了！烏鴉高興地喝到了甜甜的水，動動腦就能解決問題！',en:'Finally! The water reached the top! The crow happily drank. Using your brain can solve any problem!'}, objects:[{emoji:'🐦',sound:{zh:'我喝到了！動腦最棒！',en:'I drank it! Using your brain is great!'},x:45,y:50},{emoji:'💧',sound:{zh:'咕嚕咕嚕！',en:'Gulp gulp gulp!'},x:65,y:45}] }
+      ],
+      large: [
+        { bg:['☀️','🌿','🌾'], text:{zh:'夏天好熱好熱，一隻烏鴉飛啊飛，飛了好遠好遠，口渴極了！',en:'It was a very hot summer. A crow flew and flew a long way and became very thirsty!'}, objects:[{emoji:'🐦',sound:{zh:'好渴啊！我要找水喝！',en:'So thirsty! I need to find water!'},x:50,y:45}] },
+        { bg:['🌻','🪨','🌳'], text:{zh:'烏鴉終於發現了一個水瓶！他飛下去一看，水只有一點點，在瓶子底部。',en:'The crow finally found a pitcher! He flew down and saw only a little water at the bottom.'}, objects:[{emoji:'🐦',sound:{zh:'有水！可是……',en:'There is water! But...'},x:40,y:50},{emoji:'🏺',sound:{zh:'裡面有水哦！',en:'There is water inside!'},x:65,y:55}] },
+        { bg:['😟','💭','🌿'], text:{zh:'烏鴉把嘴伸進去，喝不到。水太少了，瓶口太窄了。怎麼辦呢？',en:'The crow tried to drink but could not reach. The water was too low, the neck too narrow. What to do?'}, objects:[{emoji:'🐦',sound:{zh:'喝不到……怎麼辦？',en:'Can\'t reach it... what now?'},x:45,y:50},{emoji:'🤔',sound:{zh:'想想辦法！',en:'Think of something!'},x:65,y:35}] },
+        { bg:['🪨','🌱','🌍'], text:{zh:'烏鴉看到地上有很多小石子，他想到了一個好辦法！他開始一顆一顆撿石子。',en:'The crow saw many pebbles on the ground. He thought of a great idea! He began picking up pebbles one by one.'}, objects:[{emoji:'🐦',sound:{zh:'我有辦法了！',en:'I have an idea!'},x:40,y:55},{emoji:'🪨',sound:{zh:'小石子，我來了！',en:'Pebbles, here I come!'},x:65,y:60}] },
+        { bg:['💧','🏺','🪨'], text:{zh:'烏鴉把石子一顆一顆丟進水瓶，水慢慢地升高了！越來越高！',en:'The crow dropped pebbles into the pitcher one by one. The water slowly rose higher and higher!'}, objects:[{emoji:'🐦',sound:{zh:'丟一顆，再丟一顆！',en:'One more, and one more!'},x:40,y:45},{emoji:'🏺',sound:{zh:'水升高了！',en:'The water is rising!'},x:65,y:55}] },
+        { bg:['🎉','💧','🌈'], text:{zh:'終於！水升到瓶口了！烏鴉高興地喝到了甜甜的水，動動腦就能解決問題！',en:'Finally! The water reached the top! The crow happily drank. Using your brain can solve any problem!'}, objects:[{emoji:'🐦',sound:{zh:'我喝到了！動腦最棒！',en:'I drank it! Using your brain is great!'},x:45,y:50},{emoji:'💧',sound:{zh:'咕嚕咕嚕！',en:'Gulp gulp gulp!'},x:65,y:45}] }
+      ]
+    }
   },
   {
     id: 'tortoise',
+    category: 'tale',
     title: { zh: '龜兔賽跑', en: 'The Tortoise and the Hare' },
     cover: '🐢',
-    pages: [
-      { bg:['🌲','🌸','🌿'], text:{zh:'森林裡住著一隻兔子和一隻烏龜。兔子跑得飛快，常常嘲笑烏龜走路太慢！',en:'A hare and a tortoise lived in the forest. The hare ran very fast and often laughed at the slow tortoise!'}, objects:[{emoji:'🐇',sound:{zh:'哈哈哈！你走那麼慢！',en:'Ha ha ha! You walk so slow!'},x:40,y:50},{emoji:'🐢',sound:{zh:'慢有慢的好處。',en:'Slow has its advantages.'},x:65,y:60}] },
-      { bg:['🏁','🌳','🌤️'], text:{zh:'烏龜生氣了，向兔子提出挑戰：「我們來比賽跑步吧！」大家都圍過來看！',en:'The tortoise got angry and challenged the hare: Let us have a race! Everyone came to watch!'}, objects:[{emoji:'🐢',sound:{zh:'我要和你比賽！',en:'I challenge you to a race!'},x:40,y:55},{emoji:'🐇',sound:{zh:'哈！你確定嗎？',en:'Ha! Are you sure?'},x:65,y:45}] },
-      { bg:['🎺','🦊','🦁'], text:{zh:'比賽開始！兔子一下子就跑得很遠，烏龜慢慢慢慢地向前爬。',en:'The race began! The hare ran far ahead quickly. The tortoise slowly crawled forward step by step.'}, objects:[{emoji:'🐇',sound:{zh:'衝啊！太容易了！',en:'Charge! This is too easy!'},x:30,y:45},{emoji:'🐢',sound:{zh:'一步一步，繼續走！',en:'One step at a time, keep going!'},x:65,y:60}] },
-      { bg:['🌳','😴','💤'], text:{zh:'兔子跑到大樹旁，回頭一看，烏龜還在很遠很遠的地方。他心想：我可以睡一覺！',en:'The hare reached a big tree, looked back, and saw the tortoise was far behind. He thought: I can take a nap!'}, objects:[{emoji:'🐇',sound:{zh:'烏龜還很遠呢！睡一下！',en:'Tortoise is still far away! I will nap!'},x:40,y:50},{emoji:'💤',sound:{zh:'呼嚕呼嚕……',en:'Snore snore...'},x:65,y:40}] },
-      { bg:['🌿','🐾','🌼'], text:{zh:'烏龜一直走，一直走，不停不停。他爬過了樹旁睡覺的兔子，繼續往前！',en:'The tortoise kept walking and walking without stopping. He passed the sleeping hare and kept going!'}, objects:[{emoji:'🐢',sound:{zh:'加油！不能停下來！',en:'Keep going! Cannot stop!'},x:45,y:55},{emoji:'🐇',sound:{zh:'呼嚕呼嚕……',en:'Snore snore...'},x:70,y:45}] },
-      { bg:['🏆','🎉','🌈'], text:{zh:'烏龜到達終點了！歡呼聲叫醒了兔子，兔子趕快跑，卻已經太晚了！',en:'The tortoise reached the finish line! The cheers woke up the hare. He ran fast but it was too late!'}, objects:[{emoji:'🐢',sound:{zh:'我到了！我贏了！',en:'I made it! I won!'},x:40,y:50},{emoji:'🐇',sound:{zh:'不！怎麼可能！',en:'No! How is this possible!'},x:65,y:50}] },
-      { bg:['⭐','🌸','✨'], text:{zh:'烏龜贏了！堅持努力，一步一腳印，就算慢也能到達終點！',en:'The tortoise won! Persistence and effort, step by step, even slowly you can reach the goal!'}, objects:[{emoji:'🐢',sound:{zh:'堅持就是勝利！',en:'Persistence is victory!'},x:45,y:50},{emoji:'🏆',sound:{zh:'烏龜萬歲！',en:'Hooray for tortoise!'},x:65,y:35}] }
-    ]
+    pages: {
+      toddler: [
+        { bg:['🌲','🌸','🌿'], text:{zh:'兔子跑很快，常常笑烏龜慢！烏龜說：我們來比賽吧！',en:'The hare ran fast and always laughed at the slow tortoise! The tortoise said: Let us race!'}, objects:[{emoji:'🐇',sound:{zh:'你好慢！',en:'You are so slow!'},x:40,y:50},{emoji:'🐢',sound:{zh:'我們來比賽！',en:'Let us have a race!'},x:65,y:60}] },
+        { bg:['🌳','😴','🐢'], text:{zh:'兔子跑很遠就停下來睡覺了！烏龜一步一步慢慢走，從來不停！',en:'The hare ran far then stopped to sleep! The tortoise walked slowly, step by step, never stopping!'}, objects:[{emoji:'🐇',sound:{zh:'呼嚕呼嚕……',en:'Snore snore...'},x:40,y:50},{emoji:'🐢',sound:{zh:'一步一步！繼續走！',en:'One step at a time! Keep going!'},x:65,y:55}] },
+        { bg:['🏆','🎉','🌈'], text:{zh:'烏龜到終點了！烏龜贏了！努力不放棄，就算慢也能贏！',en:'The tortoise reached the finish line! The tortoise won! Keep trying and you can win even if you are slow!'}, objects:[{emoji:'🐢',sound:{zh:'我贏了！',en:'I won!'},x:45,y:50},{emoji:'🏆',sound:{zh:'烏龜萬歲！',en:'Hooray for tortoise!'},x:65,y:35}] }
+      ],
+      small: [
+        { bg:['🌲','🌸','🌿'], text:{zh:'森林裡住著一隻兔子和一隻烏龜。兔子跑得飛快，常常嘲笑烏龜走路太慢！',en:'A hare and a tortoise lived in the forest. The hare ran very fast and often laughed at the slow tortoise!'}, objects:[{emoji:'🐇',sound:{zh:'哈哈哈！你走那麼慢！',en:'Ha ha ha! You walk so slow!'},x:40,y:50},{emoji:'🐢',sound:{zh:'慢有慢的好處。',en:'Slow has its advantages.'},x:65,y:60}] },
+        { bg:['🎺','🦊','🏁'], text:{zh:'比賽開始！兔子一下子就跑得很遠，烏龜慢慢慢慢地向前爬。',en:'The race began! The hare ran far ahead quickly. The tortoise slowly crawled forward step by step.'}, objects:[{emoji:'🐇',sound:{zh:'衝啊！太容易了！',en:'Charge! This is too easy!'},x:30,y:45},{emoji:'🐢',sound:{zh:'一步一步，繼續走！',en:'One step at a time, keep going!'},x:65,y:60}] },
+        { bg:['🌳','😴','💤'], text:{zh:'兔子跑到大樹旁，心想：烏龜那麼慢，我可以睡一覺！就睡著了……',en:'The hare reached a big tree and thought: Tortoise is so slow, I can take a nap! And fell asleep...'}, objects:[{emoji:'🐇',sound:{zh:'烏龜還很遠呢！睡一下！',en:'Tortoise is still far away! I will nap!'},x:40,y:50},{emoji:'💤',sound:{zh:'呼嚕呼嚕……',en:'Snore snore...'},x:65,y:40}] },
+        { bg:['🏆','🎉','🌈'], text:{zh:'烏龜到達終點了！歡呼聲叫醒了兔子，他趕快跑，但已經太晚了！烏龜贏了！',en:'The tortoise reached the finish line! The cheers woke the hare but it was too late! The tortoise won!'}, objects:[{emoji:'🐢',sound:{zh:'我到了！我贏了！',en:'I made it! I won!'},x:40,y:50},{emoji:'🐇',sound:{zh:'不！怎麼可能！',en:'No! How is this possible!'},x:65,y:50}] }
+      ],
+      middle: [
+        { bg:['🌲','🌸','🌿'], text:{zh:'森林裡住著一隻兔子和一隻烏龜。兔子跑得飛快，常常嘲笑烏龜走路太慢！',en:'A hare and a tortoise lived in the forest. The hare ran very fast and often laughed at the slow tortoise!'}, objects:[{emoji:'🐇',sound:{zh:'哈哈哈！你走那麼慢！',en:'Ha ha ha! You walk so slow!'},x:40,y:50},{emoji:'🐢',sound:{zh:'慢有慢的好處。',en:'Slow has its advantages.'},x:65,y:60}] },
+        { bg:['🏁','🌳','🌤️'], text:{zh:'烏龜生氣了，向兔子提出挑戰：「我們來比賽跑步吧！」大家都圍過來看！',en:'The tortoise got angry and challenged the hare: Let us have a race! Everyone came to watch!'}, objects:[{emoji:'🐢',sound:{zh:'我要和你比賽！',en:'I challenge you to a race!'},x:40,y:55},{emoji:'🐇',sound:{zh:'哈！你確定嗎？',en:'Ha! Are you sure?'},x:65,y:45}] },
+        { bg:['🎺','🦊','🦁'], text:{zh:'比賽開始！兔子一下子就跑得很遠，烏龜慢慢慢慢地向前爬。',en:'The race began! The hare ran far ahead quickly. The tortoise slowly crawled forward step by step.'}, objects:[{emoji:'🐇',sound:{zh:'衝啊！太容易了！',en:'Charge! This is too easy!'},x:30,y:45},{emoji:'🐢',sound:{zh:'一步一步，繼續走！',en:'One step at a time, keep going!'},x:65,y:60}] },
+        { bg:['🌳','😴','💤'], text:{zh:'兔子跑到大樹旁，回頭一看，烏龜還在很遠很遠的地方。他心想：我可以睡一覺！',en:'The hare reached a big tree, looked back, and saw the tortoise was far behind. He thought: I can take a nap!'}, objects:[{emoji:'🐇',sound:{zh:'烏龜還很遠呢！睡一下！',en:'Tortoise is still far away! I will nap!'},x:40,y:50},{emoji:'💤',sound:{zh:'呼嚕呼嚕……',en:'Snore snore...'},x:65,y:40}] },
+        { bg:['🏆','🎉','🌈'], text:{zh:'烏龜到達終點了！歡呼聲叫醒了兔子，兔子趕快跑，卻已經太晚了！堅持就是勝利！',en:'The tortoise reached the finish line! The cheers woke up the hare. He ran fast but it was too late! Persistence wins!'}, objects:[{emoji:'🐢',sound:{zh:'我到了！我贏了！',en:'I made it! I won!'},x:40,y:50},{emoji:'🐇',sound:{zh:'不！怎麼可能！',en:'No! How is this possible!'},x:65,y:50}] }
+      ],
+      large: [
+        { bg:['🌲','🌸','🌿'], text:{zh:'森林裡住著一隻兔子和一隻烏龜。兔子跑得飛快，常常嘲笑烏龜走路太慢！',en:'A hare and a tortoise lived in the forest. The hare ran very fast and often laughed at the slow tortoise!'}, objects:[{emoji:'🐇',sound:{zh:'哈哈哈！你走那麼慢！',en:'Ha ha ha! You walk so slow!'},x:40,y:50},{emoji:'🐢',sound:{zh:'慢有慢的好處。',en:'Slow has its advantages.'},x:65,y:60}] },
+        { bg:['🏁','🌳','🌤️'], text:{zh:'烏龜生氣了，向兔子提出挑戰：「我們來比賽跑步吧！」大家都圍過來看！',en:'The tortoise got angry and challenged the hare: Let us have a race! Everyone came to watch!'}, objects:[{emoji:'🐢',sound:{zh:'我要和你比賽！',en:'I challenge you to a race!'},x:40,y:55},{emoji:'🐇',sound:{zh:'哈！你確定嗎？',en:'Ha! Are you sure?'},x:65,y:45}] },
+        { bg:['🎺','🦊','🦁'], text:{zh:'比賽開始！兔子一下子就跑得很遠，烏龜慢慢慢慢地向前爬。',en:'The race began! The hare ran far ahead quickly. The tortoise slowly crawled forward step by step.'}, objects:[{emoji:'🐇',sound:{zh:'衝啊！太容易了！',en:'Charge! This is too easy!'},x:30,y:45},{emoji:'🐢',sound:{zh:'一步一步，繼續走！',en:'One step at a time, keep going!'},x:65,y:60}] },
+        { bg:['🌳','😴','💤'], text:{zh:'兔子跑到大樹旁，回頭一看，烏龜還在很遠很遠的地方。他心想：我可以睡一覺！',en:'The hare reached a big tree, looked back, and saw the tortoise was far behind. He thought: I can take a nap!'}, objects:[{emoji:'🐇',sound:{zh:'烏龜還很遠呢！睡一下！',en:'Tortoise is still far away! I will nap!'},x:40,y:50},{emoji:'💤',sound:{zh:'呼嚕呼嚕……',en:'Snore snore...'},x:65,y:40}] },
+        { bg:['🌿','🐾','🌼'], text:{zh:'烏龜一直走，一直走，不停不停。他爬過了樹旁睡覺的兔子，繼續往前！',en:'The tortoise kept walking and walking without stopping. He passed the sleeping hare and kept going!'}, objects:[{emoji:'🐢',sound:{zh:'加油！不能停下來！',en:'Keep going! Cannot stop!'},x:45,y:55},{emoji:'🐇',sound:{zh:'呼嚕呼嚕……',en:'Snore snore...'},x:70,y:45}] },
+        { bg:['🏆','🎉','🌈'], text:{zh:'烏龜到達終點了！歡呼聲叫醒了兔子，兔子趕快跑，卻已經太晚了！',en:'The tortoise reached the finish line! The cheers woke up the hare. He ran fast but it was too late!'}, objects:[{emoji:'🐢',sound:{zh:'我到了！我贏了！',en:'I made it! I won!'},x:40,y:50},{emoji:'🐇',sound:{zh:'不！怎麼可能！',en:'No! How is this possible!'},x:65,y:50}] },
+        { bg:['⭐','🌸','✨'], text:{zh:'烏龜贏了！堅持努力，一步一腳印，就算慢也能到達終點！',en:'The tortoise won! Persistence and effort, step by step, even slowly you can reach the goal!'}, objects:[{emoji:'🐢',sound:{zh:'堅持就是勝利！',en:'Persistence is victory!'},x:45,y:50},{emoji:'🏆',sound:{zh:'烏龜萬歲！',en:'Hooray for tortoise!'},x:65,y:35}] }
+      ]
+    }
   },
   {
     id: 'three-pigs',
+    category: 'tale',
     title: { zh: '三隻小豬', en: 'The Three Little Pigs' },
     cover: '🐷',
-    pages: [
-      { bg:['🌲','🌸','☀️'], text:{zh:'三隻小豬長大了，要離開媽媽，各自去蓋自己的房子！',en:'Three little pigs grew up and left their mother to each build their own house!'}, objects:[{emoji:'🐷',sound:{zh:'媽媽再見！我要蓋房子了！',en:'Goodbye Mama! I will build my house!'},x:50,y:55},{emoji:'🐷',sound:{zh:'要蓋好棒的房子！',en:'I will build a great house!'},x:30,y:50}] },
-      { bg:['🌾','🏠','💨'], text:{zh:'豬大哥很懶，用稻草蓋房子，一天就蓋好了，他開心地玩去了！',en:'The first pig was lazy. He built a straw house in one day and happily went to play!'}, objects:[{emoji:'🐷',sound:{zh:'草房好快！去玩囉！',en:'Straw house done fast! Time to play!'},x:45,y:55},{emoji:'🏠',sound:{zh:'我是草屋！',en:'I am a straw house!'},x:65,y:45}] },
-      { bg:['🌿','🏡','🌤️'], text:{zh:'豬二哥用木頭蓋房子，三天蓋好了，他也跑去玩了！',en:'The second pig built a wooden house in three days. He also went off to play!'}, objects:[{emoji:'🐷',sound:{zh:'木房蓋好了！去玩！',en:'Wooden house done! Off to play!'},x:45,y:55},{emoji:'🏡',sound:{zh:'我是木屋！',en:'I am a wooden house!'},x:65,y:45}] },
-      { bg:['🧱','🔨','🏗️'], text:{zh:'豬小弟努力用磚頭蓋房子，蓋了十天，蓋了一棟堅固的磚房！',en:'The third pig worked hard building a brick house for ten days. He built a strong solid brick house!'}, objects:[{emoji:'🐷',sound:{zh:'要蓋最堅固的房子！',en:'I will build the strongest house!'},x:40,y:55},{emoji:'🧱',sound:{zh:'一塊一塊疊上去！',en:'Brick by brick!'},x:65,y:50}] },
-      { bg:['🌑','🐺','😨'], text:{zh:'晚上，大野狼來了！他走到草房前，深深吸一口氣，用力一吹——',en:'At night, the big bad wolf arrived! He walked to the straw house, took a deep breath, and blew hard!'}, objects:[{emoji:'🐺',sound:{zh:'我要吹倒你的房子！',en:'I will blow your house down!'},x:35,y:50},{emoji:'💨',sound:{zh:'呼！呼！呼！',en:'Huff and puff and puff!'},x:65,y:45}] },
-      { bg:['💨','🌪️','😱'], text:{zh:'草房被吹倒了！豬大哥嚇得跑去木房找豬二哥。大野狼又追來吹木房！',en:'The straw house blew down! The first pig ran to the wooden house. The wolf chased and blew on the wood house!'}, objects:[{emoji:'🐷',sound:{zh:'快跑！去木房！',en:'Run! To the wooden house!'},x:40,y:55},{emoji:'🐺',sound:{zh:'呼！呼！呼！',en:'Huff! Puff! Puff!'},x:65,y:45}] },
-      { bg:['💥','😭','🏃'], text:{zh:'木房也被吹倒了！兩隻小豬趕快跑去找豬小弟，躲進堅固的磚房！',en:'The wooden house fell too! Both pigs ran to the third pig\'s strong brick house!'}, objects:[{emoji:'🐷',sound:{zh:'快！去磚房！',en:'Hurry! To the brick house!'},x:40,y:55},{emoji:'🐷',sound:{zh:'快點快點！',en:'Hurry hurry!'},x:60,y:55}] },
-      { bg:['🧱','😤','🎉'], text:{zh:'大野狼吹啊吹，磚房一點都不動！大野狼累壞了，只好跑掉了！認真做事才能保護自己！',en:'The wolf huffed and puffed, but the brick house did not move! The wolf gave up. Working hard protects you!'}, objects:[{emoji:'🐺',sound:{zh:'吹不倒！我走了！',en:'Cannot blow it down! I give up!'},x:30,y:50},{emoji:'🐷',sound:{zh:'磚房最安全！認真最棒！',en:'Brick house is safest! Hard work wins!'},x:65,y:55}] }
-    ]
+    pages: {
+      toddler: [
+        { bg:['🌲','🌸','☀️'], text:{zh:'三隻小豬長大了，各自去蓋房子！草房、木房、磚房！',en:'Three little pigs grew up and each built a house! Straw, wood, and brick!'}, objects:[{emoji:'🐷',sound:{zh:'我要蓋房子！',en:'I will build my house!'},x:50,y:55},{emoji:'🏠',sound:{zh:'我是房子！',en:'I am a house!'},x:30,y:45}] },
+        { bg:['🌑','🐺','💨'], text:{zh:'大野狼來了！呼呼呼！草房和木房都被吹倒了！',en:'The big bad wolf came! Huff and puff! The straw and wood houses blew down!'}, objects:[{emoji:'🐺',sound:{zh:'我要吹倒你的房子！',en:'I will blow your house down!'},x:35,y:50},{emoji:'💨',sound:{zh:'呼呼呼！',en:'Huff and puff!'},x:65,y:45}] },
+        { bg:['🧱','🎉','🌈'], text:{zh:'磚房吹不倒！小豬們都躲在裡面好安全！認真做事最棒！',en:'The brick house could not be blown down! The pigs were safe inside! Working hard is the best!'}, objects:[{emoji:'🐷',sound:{zh:'磚房最安全！',en:'Brick house is the safest!'},x:50,y:55},{emoji:'🧱',sound:{zh:'吹不倒！吹不倒！',en:'Cannot blow it down!'},x:70,y:40}] }
+      ],
+      small: [
+        { bg:['🌲','🌸','☀️'], text:{zh:'三隻小豬長大了，要離開媽媽，各自去蓋自己的房子！',en:'Three little pigs grew up and left their mother to each build their own house!'}, objects:[{emoji:'🐷',sound:{zh:'媽媽再見！我要蓋房子了！',en:'Goodbye Mama! I will build my house!'},x:50,y:55},{emoji:'🐷',sound:{zh:'要蓋好棒的房子！',en:'I will build a great house!'},x:30,y:50}] },
+        { bg:['🌾','🌿','🧱'], text:{zh:'老大用稻草，很快蓋好去玩了。老二用木頭，三天蓋好。老三認真用磚頭蓋了十天！',en:'The first used straw and finished fast. The second used wood in three days. The third used brick and took ten days!'}, objects:[{emoji:'🐷',sound:{zh:'我用磚頭，要蓋最堅固的！',en:'I use brick to build the strongest!'},x:45,y:55},{emoji:'🧱',sound:{zh:'一塊一塊疊上去！',en:'Brick by brick!'},x:65,y:50}] },
+        { bg:['🌑','🐺','😨'], text:{zh:'大野狼來了！呼呼呼，吹倒草房，又吹倒木房！小豬們都跑去磚房！',en:'The wolf came! He blew down the straw house and the wood house! All pigs ran to the brick house!'}, objects:[{emoji:'🐺',sound:{zh:'我要吹倒你的房子！',en:'I will blow your house down!'},x:35,y:50},{emoji:'🐷',sound:{zh:'快跑！去磚房！',en:'Run! To the brick house!'},x:65,y:55}] },
+        { bg:['🧱','😤','🎉'], text:{zh:'大野狼吹啊吹，磚房一點都不動！大野狼累壞了，只好跑掉了！認真做事才能保護自己！',en:'The wolf huffed and puffed but the brick house did not move! The wolf gave up. Working hard protects you!'}, objects:[{emoji:'🐺',sound:{zh:'吹不倒！我走了！',en:'Cannot blow it down! I give up!'},x:30,y:50},{emoji:'🐷',sound:{zh:'磚房最安全！認真最棒！',en:'Brick house is safest! Hard work wins!'},x:65,y:55}] }
+      ],
+      middle: [
+        { bg:['🌲','🌸','☀️'], text:{zh:'三隻小豬長大了，要離開媽媽，各自去蓋自己的房子！',en:'Three little pigs grew up and left their mother to each build their own house!'}, objects:[{emoji:'🐷',sound:{zh:'媽媽再見！我要蓋房子了！',en:'Goodbye Mama! I will build my house!'},x:50,y:55},{emoji:'🐷',sound:{zh:'要蓋好棒的房子！',en:'I will build a great house!'},x:30,y:50}] },
+        { bg:['🌾','🏠','💨'], text:{zh:'豬大哥很懶，用稻草蓋房子，一天就蓋好了，他開心地玩去了！',en:'The first pig was lazy. He built a straw house in one day and happily went to play!'}, objects:[{emoji:'🐷',sound:{zh:'草房好快！去玩囉！',en:'Straw house done fast! Time to play!'},x:45,y:55},{emoji:'🏠',sound:{zh:'我是草屋！',en:'I am a straw house!'},x:65,y:45}] },
+        { bg:['🧱','🔨','🏗️'], text:{zh:'豬小弟努力用磚頭蓋房子，蓋了十天，蓋了一棟堅固的磚房！',en:'The third pig worked hard building a brick house for ten days. He built a strong solid brick house!'}, objects:[{emoji:'🐷',sound:{zh:'要蓋最堅固的房子！',en:'I will build the strongest house!'},x:40,y:55},{emoji:'🧱',sound:{zh:'一塊一塊疊上去！',en:'Brick by brick!'},x:65,y:50}] },
+        { bg:['🌑','🐺','😨'], text:{zh:'晚上，大野狼來了！他走到草房前，深深吸一口氣，用力一吹——草房被吹倒了！',en:'At night, the big bad wolf arrived! He blew hard and the straw house blew down!'}, objects:[{emoji:'🐺',sound:{zh:'我要吹倒你的房子！',en:'I will blow your house down!'},x:35,y:50},{emoji:'💨',sound:{zh:'呼！呼！呼！',en:'Huff and puff and puff!'},x:65,y:45}] },
+        { bg:['🧱','😤','🎉'], text:{zh:'大野狼吹啊吹，磚房一點都不動！大野狼累壞了，只好跑掉了！認真做事才能保護自己！',en:'The wolf huffed and puffed but the brick house did not move! The wolf gave up. Working hard protects you!'}, objects:[{emoji:'🐺',sound:{zh:'吹不倒！我走了！',en:'Cannot blow it down! I give up!'},x:30,y:50},{emoji:'🐷',sound:{zh:'磚房最安全！認真最棒！',en:'Brick house is safest! Hard work wins!'},x:65,y:55}] }
+      ],
+      large: [
+        { bg:['🌲','🌸','☀️'], text:{zh:'三隻小豬長大了，要離開媽媽，各自去蓋自己的房子！',en:'Three little pigs grew up and left their mother to each build their own house!'}, objects:[{emoji:'🐷',sound:{zh:'媽媽再見！我要蓋房子了！',en:'Goodbye Mama! I will build my house!'},x:50,y:55},{emoji:'🐷',sound:{zh:'要蓋好棒的房子！',en:'I will build a great house!'},x:30,y:50}] },
+        { bg:['🌾','🏠','💨'], text:{zh:'豬大哥很懶，用稻草蓋房子，一天就蓋好了，他開心地玩去了！',en:'The first pig was lazy. He built a straw house in one day and happily went to play!'}, objects:[{emoji:'🐷',sound:{zh:'草房好快！去玩囉！',en:'Straw house done fast! Time to play!'},x:45,y:55},{emoji:'🏠',sound:{zh:'我是草屋！',en:'I am a straw house!'},x:65,y:45}] },
+        { bg:['🌿','🏡','🌤️'], text:{zh:'豬二哥用木頭蓋房子，三天蓋好了，他也跑去玩了！',en:'The second pig built a wooden house in three days. He also went off to play!'}, objects:[{emoji:'🐷',sound:{zh:'木房蓋好了！去玩！',en:'Wooden house done! Off to play!'},x:45,y:55},{emoji:'🏡',sound:{zh:'我是木屋！',en:'I am a wooden house!'},x:65,y:45}] },
+        { bg:['🧱','🔨','🏗️'], text:{zh:'豬小弟努力用磚頭蓋房子，蓋了十天，蓋了一棟堅固的磚房！',en:'The third pig worked hard building a brick house for ten days. He built a strong solid brick house!'}, objects:[{emoji:'🐷',sound:{zh:'要蓋最堅固的房子！',en:'I will build the strongest house!'},x:40,y:55},{emoji:'🧱',sound:{zh:'一塊一塊疊上去！',en:'Brick by brick!'},x:65,y:50}] },
+        { bg:['🌑','🐺','😨'], text:{zh:'晚上，大野狼來了！他走到草房前，深深吸一口氣，用力一吹——',en:'At night, the big bad wolf arrived! He walked to the straw house, took a deep breath, and blew hard!'}, objects:[{emoji:'🐺',sound:{zh:'我要吹倒你的房子！',en:'I will blow your house down!'},x:35,y:50},{emoji:'💨',sound:{zh:'呼！呼！呼！',en:'Huff and puff and puff!'},x:65,y:45}] },
+        { bg:['💨','🌪️','😱'], text:{zh:'草房被吹倒了！豬大哥嚇得跑去木房找豬二哥。大野狼又追來吹木房！',en:'The straw house blew down! The first pig ran to the wooden house. The wolf chased and blew on the wood house!'}, objects:[{emoji:'🐷',sound:{zh:'快跑！去木房！',en:'Run! To the wooden house!'},x:40,y:55},{emoji:'🐺',sound:{zh:'呼！呼！呼！',en:'Huff! Puff! Puff!'},x:65,y:45}] },
+        { bg:['💥','😭','🏃'], text:{zh:'木房也被吹倒了！兩隻小豬趕快跑去找豬小弟，躲進堅固的磚房！',en:'The wooden house fell too! Both pigs ran to the third pig\'s strong brick house!'}, objects:[{emoji:'🐷',sound:{zh:'快！去磚房！',en:'Hurry! To the brick house!'},x:40,y:55},{emoji:'🐷',sound:{zh:'快點快點！',en:'Hurry hurry!'},x:60,y:55}] },
+        { bg:['🧱','😤','🎉'], text:{zh:'大野狼吹啊吹，磚房一點都不動！大野狼累壞了，只好跑掉了！認真做事才能保護自己！',en:'The wolf huffed and puffed, but the brick house did not move! The wolf gave up. Working hard protects you!'}, objects:[{emoji:'🐺',sound:{zh:'吹不倒！我走了！',en:'Cannot blow it down! I give up!'},x:30,y:50},{emoji:'🐷',sound:{zh:'磚房最安全！認真最棒！',en:'Brick house is safest! Hard work wins!'},x:65,y:55}] }
+      ]
+    }
   },
   {
     id: 'farmer-goblin',
+    category: 'tale',
     title: { zh: '農夫和鬼怪', en: 'The Farmer and the Goblin' },
     cover: '👹',
-    pages: [
-      { bg:['🌾','🌅','🌿'], text:{zh:'從前有個勤勞的農夫，每天辛苦耕田，終於種出了滿滿的蘿蔔！',en:'Once there was a hardworking farmer who plowed his field every day and grew a field full of radishes!'}, objects:[{emoji:'👨‍🌾',sound:{zh:'今年收成好豐盛啊！',en:'What a great harvest this year!'},x:40,y:55},{emoji:'🥕',sound:{zh:'我是大蘿蔔！',en:'I am a big radish!'},x:65,y:50}] },
-      { bg:['🌑','👹','😱'], text:{zh:'突然，一個可怕的鬼怪出現了！鬼怪說：「這塊田是我的！蘿蔔要分我一半！」',en:'Suddenly, a scary goblin appeared! The goblin said: "This field is mine! Give me half the radishes!"'}, objects:[{emoji:'👹',sound:{zh:'這塊田是我的！給我一半！',en:'This field is mine! Give me half!'},x:35,y:45},{emoji:'👨‍🌾',sound:{zh:'什麼？！',en:'What?!'},x:65,y:55}] },
-      { bg:['🤔','💡','🌾'], text:{zh:'聰明的農夫不怕鬼怪，他想了想說：「好！但你要哪一半？地上的還是地下的？」',en:'The clever farmer was not afraid. He thought and said: "Fine! But which half do you want? Above ground or below ground?"'}, objects:[{emoji:'👨‍🌾',sound:{zh:'你要上面的還是下面的？',en:'Do you want the top or the bottom?'},x:40,y:55},{emoji:'👹',sound:{zh:'嗯……我要上面的！',en:'Hmm... I want the top!'},x:65,y:45}] },
-      { bg:['🥕','🌱','😆'], text:{zh:'鬼怪選了上面的葉子，農夫卻拿走了所有的大蘿蔔！鬼怪只得到一堆葉子，氣得哇哇叫！',en:'The goblin chose the leafy tops, but the farmer took all the big radishes! The goblin only got leaves and howled with anger!'}, objects:[{emoji:'👹',sound:{zh:'只有葉子？！我被騙了！',en:'Only leaves?! I was tricked!'},x:35,y:45},{emoji:'👨‍🌾',sound:{zh:'哈哈！蘿蔔在地下！',en:'Ha ha! Radishes are underground!'},x:65,y:55}] },
-      { bg:['🌽','🍃','☀️'], text:{zh:'第二年，農夫種了玉米。鬼怪又來了，這次大叫：「我要下面的！」',en:'The next year, the farmer planted corn. The goblin came again and shouted: "This time I want the bottom half!"'}, objects:[{emoji:'👹',sound:{zh:'我要下面的！根和泥土！',en:'I want the bottom! Roots and soil!'},x:35,y:45},{emoji:'🌽',sound:{zh:'我是高高的玉米！',en:'I am tall corn!'},x:65,y:40}] },
-      { bg:['🌽','😂','🎉'], text:{zh:'可是玉米長在上面！鬼怪又只拿到了一堆泥土和根，農夫帶著金黃玉米哈哈大笑回家了！',en:'But corn grows up top! The goblin got only roots and dirt again. The farmer laughed and went home with golden corn!'}, objects:[{emoji:'👨‍🌾',sound:{zh:'哈哈！玉米在上面！再見囉！',en:'Ha ha! Corn is on top! Goodbye!'},x:40,y:55},{emoji:'👹',sound:{zh:'又被騙了！！',en:'Tricked again!!'},x:65,y:45}] },
-      { bg:['🏡','🌈','⭐'], text:{zh:'鬼怪再也不敢來搗亂了。農夫靠著智慧保護了自己的收成，快樂地生活著。遇到困難要動腦筋！',en:'The goblin never bothered the farmer again. With cleverness, the farmer protected his harvest and lived happily. Use your brain when faced with problems!'}, objects:[{emoji:'👨‍🌾',sound:{zh:'智慧比力氣更重要！',en:'Wisdom is more powerful than strength!'},x:40,y:55},{emoji:'⭐',sound:{zh:'好棒的農夫！',en:'What a clever farmer!'},x:65,y:40}] }
-    ]
+    pages: {
+      toddler: [
+        { bg:['🌾','🌅','🌿'], text:{zh:'有個勤勞的農夫種了好多蘿蔔！他很高興！',en:'A hardworking farmer grew lots of radishes! He was very happy!'}, objects:[{emoji:'👨‍🌾',sound:{zh:'我種了好多蘿蔔！',en:'I grew so many radishes!'},x:40,y:55},{emoji:'🥕',sound:{zh:'我是大蘿蔔！',en:'I am a big radish!'},x:65,y:50}] },
+        { bg:['👹','💡','🌾'], text:{zh:'鬼怪要搶蘿蔔！農夫很聰明，用問題把鬼怪騙了，鬼怪只拿到葉子！',en:'A goblin tried to steal the radishes! The clever farmer tricked the goblin who only got leaves!'}, objects:[{emoji:'👹',sound:{zh:'給我一半！',en:'Give me half!'},x:35,y:45},{emoji:'👨‍🌾',sound:{zh:'你要上面還是下面？',en:'Do you want the top or the bottom?'},x:65,y:55}] },
+        { bg:['🏡','🌈','⭐'], text:{zh:'農夫靠著聰明的腦袋保護了收成！動腦比用力更厲害！',en:'The farmer protected his harvest with his clever brain! Thinking beats force!'}, objects:[{emoji:'👨‍🌾',sound:{zh:'智慧比力氣重要！',en:'Wisdom beats strength!'},x:45,y:55},{emoji:'⭐',sound:{zh:'好棒的農夫！',en:'What a clever farmer!'},x:65,y:40}] }
+      ],
+      small: [
+        { bg:['🌾','🌅','🌿'], text:{zh:'從前有個勤勞的農夫，每天辛苦耕田，種出了滿滿的蘿蔔！',en:'Once there was a hardworking farmer who plowed every day and grew a field full of radishes!'}, objects:[{emoji:'👨‍🌾',sound:{zh:'今年收成好豐盛啊！',en:'What a great harvest this year!'},x:40,y:55},{emoji:'🥕',sound:{zh:'我是大蘿蔔！',en:'I am a big radish!'},x:65,y:50}] },
+        { bg:['🌑','👹','😱'], text:{zh:'突然，一個可怕的鬼怪出現了！說：「這塊田是我的！蘿蔔要分我一半！」',en:'Suddenly, a scary goblin appeared and said: This field is mine! Give me half the radishes!'}, objects:[{emoji:'👹',sound:{zh:'這塊田是我的！給我一半！',en:'This field is mine! Give me half!'},x:35,y:45},{emoji:'👨‍🌾',sound:{zh:'什麼？！',en:'What?!'},x:65,y:55}] },
+        { bg:['🤔','💡','🥕'], text:{zh:'聰明的農夫說：「好！你要哪一半？地上的還是地下的？」鬼怪選了上面的葉子！',en:'The clever farmer said: Fine! Which half? Above ground or below? The goblin chose the top leaves!'}, objects:[{emoji:'👨‍🌾',sound:{zh:'你要上面的還是下面的？',en:'Do you want the top or the bottom?'},x:40,y:55},{emoji:'👹',sound:{zh:'我要上面的！',en:'I want the top!'},x:65,y:45}] },
+        { bg:['🌽','😂','🎉'], text:{zh:'農夫拿走了蘿蔔，鬼怪只得到葉子！下一年農夫改種玉米，鬼怪又被騙了！',en:'The farmer got the radishes and the goblin got only leaves! Next year corn tricked the goblin again!'}, objects:[{emoji:'👹',sound:{zh:'又被騙了！！',en:'Tricked again!!'},x:35,y:45},{emoji:'👨‍🌾',sound:{zh:'哈哈！智慧最強！',en:'Ha ha! Wisdom wins!'},x:65,y:55}] }
+      ],
+      middle: [
+        { bg:['🌾','🌅','🌿'], text:{zh:'從前有個勤勞的農夫，每天辛苦耕田，終於種出了滿滿的蘿蔔！',en:'Once there was a hardworking farmer who plowed his field every day and grew a field full of radishes!'}, objects:[{emoji:'👨‍🌾',sound:{zh:'今年收成好豐盛啊！',en:'What a great harvest this year!'},x:40,y:55},{emoji:'🥕',sound:{zh:'我是大蘿蔔！',en:'I am a big radish!'},x:65,y:50}] },
+        { bg:['🌑','👹','😱'], text:{zh:'突然，一個可怕的鬼怪出現了！鬼怪說：「這塊田是我的！蘿蔔要分我一半！」',en:'Suddenly, a scary goblin appeared! The goblin said: This field is mine! Give me half the radishes!'}, objects:[{emoji:'👹',sound:{zh:'這塊田是我的！給我一半！',en:'This field is mine! Give me half!'},x:35,y:45},{emoji:'👨‍🌾',sound:{zh:'什麼？！',en:'What?!'},x:65,y:55}] },
+        { bg:['🤔','💡','🌾'], text:{zh:'聰明的農夫不怕鬼怪，他想了想說：「好！但你要哪一半？地上的還是地下的？」',en:'The clever farmer was not afraid. He thought and said: Fine! But which half? Above ground or below ground?'}, objects:[{emoji:'👨‍🌾',sound:{zh:'你要上面的還是下面的？',en:'Do you want the top or the bottom?'},x:40,y:55},{emoji:'👹',sound:{zh:'嗯……我要上面的！',en:'Hmm... I want the top!'},x:65,y:45}] },
+        { bg:['🥕','🌱','😆'], text:{zh:'鬼怪選了上面的葉子，農夫卻拿走了所有的大蘿蔔！鬼怪只得到一堆葉子，氣得哇哇叫！',en:'The goblin chose the leafy tops, but the farmer took all the big radishes! The goblin only got leaves!'}, objects:[{emoji:'👹',sound:{zh:'只有葉子？！我被騙了！',en:'Only leaves?! I was tricked!'},x:35,y:45},{emoji:'👨‍🌾',sound:{zh:'哈哈！蘿蔔在地下！',en:'Ha ha! Radishes are underground!'},x:65,y:55}] },
+        { bg:['🌽','😂','🎉'], text:{zh:'可是玉米長在上面！鬼怪又只拿到了一堆泥土和根，農夫帶著金黃玉米哈哈大笑回家了！',en:'But corn grows up top! The goblin got only roots and dirt again. The farmer laughed and went home with golden corn!'}, objects:[{emoji:'👨‍🌾',sound:{zh:'哈哈！玉米在上面！再見囉！',en:'Ha ha! Corn is on top! Goodbye!'},x:40,y:55},{emoji:'👹',sound:{zh:'又被騙了！！',en:'Tricked again!!'},x:65,y:45}] }
+      ],
+      large: [
+        { bg:['🌾','🌅','🌿'], text:{zh:'從前有個勤勞的農夫，每天辛苦耕田，終於種出了滿滿的蘿蔔！',en:'Once there was a hardworking farmer who plowed his field every day and grew a field full of radishes!'}, objects:[{emoji:'👨‍🌾',sound:{zh:'今年收成好豐盛啊！',en:'What a great harvest this year!'},x:40,y:55},{emoji:'🥕',sound:{zh:'我是大蘿蔔！',en:'I am a big radish!'},x:65,y:50}] },
+        { bg:['🌑','👹','😱'], text:{zh:'突然，一個可怕的鬼怪出現了！鬼怪說：「這塊田是我的！蘿蔔要分我一半！」',en:'Suddenly, a scary goblin appeared! The goblin said: "This field is mine! Give me half the radishes!"'}, objects:[{emoji:'👹',sound:{zh:'這塊田是我的！給我一半！',en:'This field is mine! Give me half!'},x:35,y:45},{emoji:'👨‍🌾',sound:{zh:'什麼？！',en:'What?!'},x:65,y:55}] },
+        { bg:['🤔','💡','🌾'], text:{zh:'聰明的農夫不怕鬼怪，他想了想說：「好！但你要哪一半？地上的還是地下的？」',en:'The clever farmer was not afraid. He thought and said: "Fine! But which half do you want? Above ground or below ground?"'}, objects:[{emoji:'👨‍🌾',sound:{zh:'你要上面的還是下面的？',en:'Do you want the top or the bottom?'},x:40,y:55},{emoji:'👹',sound:{zh:'嗯……我要上面的！',en:'Hmm... I want the top!'},x:65,y:45}] },
+        { bg:['🥕','🌱','😆'], text:{zh:'鬼怪選了上面的葉子，農夫卻拿走了所有的大蘿蔔！鬼怪只得到一堆葉子，氣得哇哇叫！',en:'The goblin chose the leafy tops, but the farmer took all the big radishes! The goblin only got leaves and howled with anger!'}, objects:[{emoji:'👹',sound:{zh:'只有葉子？！我被騙了！',en:'Only leaves?! I was tricked!'},x:35,y:45},{emoji:'👨‍🌾',sound:{zh:'哈哈！蘿蔔在地下！',en:'Ha ha! Radishes are underground!'},x:65,y:55}] },
+        { bg:['🌽','🍃','☀️'], text:{zh:'第二年，農夫種了玉米。鬼怪又來了，這次大叫：「我要下面的！」',en:'The next year, the farmer planted corn. The goblin came again and shouted: "This time I want the bottom half!"'}, objects:[{emoji:'👹',sound:{zh:'我要下面的！根和泥土！',en:'I want the bottom! Roots and soil!'},x:35,y:45},{emoji:'🌽',sound:{zh:'我是高高的玉米！',en:'I am tall corn!'},x:65,y:40}] },
+        { bg:['🌽','😂','🎉'], text:{zh:'可是玉米長在上面！鬼怪又只拿到了一堆泥土和根，農夫帶著金黃玉米哈哈大笑回家了！',en:'But corn grows up top! The goblin got only roots and dirt again. The farmer laughed and went home with golden corn!'}, objects:[{emoji:'👨‍🌾',sound:{zh:'哈哈！玉米在上面！再見囉！',en:'Ha ha! Corn is on top! Goodbye!'},x:40,y:55},{emoji:'👹',sound:{zh:'又被騙了！！',en:'Tricked again!!'},x:65,y:45}] },
+        { bg:['🏡','🌈','⭐'], text:{zh:'鬼怪再也不敢來搗亂了。農夫靠著智慧保護了自己的收成，快樂地生活著。遇到困難要動腦筋！',en:'The goblin never bothered the farmer again. With cleverness, the farmer protected his harvest and lived happily. Use your brain when faced with problems!'}, objects:[{emoji:'👨‍🌾',sound:{zh:'智慧比力氣更重要！',en:'Wisdom is more powerful than strength!'},x:40,y:55},{emoji:'⭐',sound:{zh:'好棒的農夫！',en:'What a clever farmer!'},x:65,y:40}] }
+      ]
+    }
   }
 ];
 
@@ -5115,17 +5285,34 @@ function showStoryShelf() {
   renderStoryShelf();
 }
 
+function getStoryPages(story) {
+  if (Array.isArray(story.pages)) return story.pages; // legacy fallback
+  return story.pages[APP.ageGroup] || story.pages['small'] || [];
+}
+
+function makeStoryCard(story, lang) {
+  return '<div class="story-book-card" onclick="openStoryBook(\'' + story.id + '\')">'
+    + '<div class="story-book-cover">' + story.cover + '</div>'
+    + '<div class="story-book-title">' + story.title[lang] + '</div>'
+    + '</div>';
+}
+
 function renderStoryShelf() {
   var grid = document.getElementById('story-book-grid');
   if (!grid) return;
   var lang = APP.language || 'zh';
+  var tales = STORIES.filter(function(s) { return s.category === 'tale'; });
+  var classics = STORIES.filter(function(s) { return s.category === 'classic'; });
+
   var html = '';
-  STORIES.forEach(function(story) {
-    html += '<div class="story-book-card" onclick="openStoryBook(\'' + story.id + '\')">';
-    html += '<div class="story-book-cover">' + story.cover + '</div>';
-    html += '<div class="story-book-title">' + story.title[lang] + '</div>';
-    html += '</div>';
-  });
+  if (tales.length) {
+    html += '<div style="width:100%;text-align:left;font-size:13px;color:#aaa;padding:4px 8px 2px;letter-spacing:1px;">童話故事</div>';
+    tales.forEach(function(story) { html += makeStoryCard(story, lang); });
+  }
+  if (classics.length) {
+    html += '<div style="width:100%;text-align:left;font-size:13px;color:#E8B84A;padding:8px 8px 2px;letter-spacing:1px;">🌟 經典故事</div>';
+    classics.forEach(function(story) { html += makeStoryCard(story, lang); });
+  }
   grid.innerHTML = html;
 }
 
@@ -5160,11 +5347,12 @@ function closeStoryReader() {
 function renderStoryPage(pageIdx) {
   var story = storyState.currentStory;
   if (!story) return;
-  var page = story.pages[pageIdx];
+  var pages = getStoryPages(story);
+  var page = pages[pageIdx];
   if (!page) return;
 
   var lang = APP.language || 'zh';
-  var total = story.pages.length;
+  var total = pages.length;
 
   // Update page number
   var pageNumEl = document.getElementById('story-page-num');
@@ -5220,7 +5408,7 @@ function renderStoryPage(pageIdx) {
 function storyObjectClick(el, pageIdx, objIdx) {
   var story = storyState.currentStory;
   if (!story) return;
-  var page = story.pages[pageIdx];
+  var page = getStoryPages(story)[pageIdx];
   if (!page) return;
   var obj = page.objects[objIdx];
   if (!obj) return;
@@ -5238,7 +5426,7 @@ function storyObjectClick(el, pageIdx, objIdx) {
 function storyReadAloud() {
   var story = storyState.currentStory;
   if (!story) return;
-  var page = story.pages[storyState.currentPage];
+  var page = getStoryPages(story)[storyState.currentPage];
   if (!page) return;
   var lang = APP.language || 'zh';
   speak(page.text[lang]);
@@ -5247,7 +5435,7 @@ function storyReadAloud() {
 function storyNextPage() {
   var story = storyState.currentStory;
   if (!story) return;
-  var total = story.pages.length;
+  var total = getStoryPages(story).length;
   if (storyState.currentPage < total - 1) {
     storyState.currentPage++;
     renderStoryPage(storyState.currentPage);
@@ -5277,11 +5465,8 @@ function setupStorySwipe() {
   var newScene = scene.cloneNode(true);
   scene.parentNode.replaceChild(newScene, scene);
 
-  // Re-bind button handlers lost after clone
-  var backBtn = newScene.querySelector('.back-btn');
-  if (backBtn) backBtn.addEventListener('click', function() { closeStoryReader(); });
-  var praiseBtn = newScene.querySelector('.praise-btn');
-  if (praiseBtn) praiseBtn.addEventListener('click', function() { showPraiseOverlay(); });
+  // Re-bind nav button handlers lost after clone
+  // Note: .back-btn and .praise-btn retain their inline onclick after cloneNode — no re-binding needed
   var prevBtn = newScene.querySelector('#story-prev');
   if (prevBtn) prevBtn.addEventListener('click', function() { storyPrevPage(); });
   var playBtn = newScene.querySelector('#story-play');
@@ -6221,6 +6406,7 @@ function storyChoiceAnswer(choiceEl, isCorrect, qIdx) {
         feedback.textContent = '';
         choiceEl.style.background = '#fff';
         choiceEl.style.borderColor = '#e0d6cc';
+        storyChoiceState.locked = false;
       }, 900);
     }
   }
