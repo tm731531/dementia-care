@@ -28,8 +28,8 @@
 3. 確認全域 APP 狀態正確
 
 ### Age Group Rule
-每個遊戲活動**必須**有 junior（3–4 歲）和 senior（5–6 歲）兩個分支。
-沒有年齡差異的實作視為不完整。
+每個遊戲活動**必須**有四個分支：`toddler`（幼幼班）、`small`（小班）、`middle`（中班）、`large`（大班）。
+沒有完整四個等級的實作視為不完整。
 
 ### Debug Limit (overrides systematic-debugging skill)
 同一個問題 3 次修復失敗後：

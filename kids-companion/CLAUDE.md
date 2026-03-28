@@ -14,7 +14,7 @@
 ```javascript
 const APP = {
   language: 'zh',           // 'zh' | 'en'
-  ageGroup: 'junior',       // 'junior'(3-4歲) | 'senior'(5-6歲)
+  ageGroup: 'small',        // 'toddler'|'small'|'middle'|'large'
   character: '🦊',          // 選定的角色 emoji
   stars: 0,                 // 今日累積星星
   stickers: [],             // 已解鎖的貼紙 ID 陣列
@@ -31,12 +31,15 @@ const APP = {
 
 ## 年齡組差異（ageGroup）
 
-| | junior（3–4 歲） | senior（5–6 歲） |
-|--|--|--|
-| 選項數 | 2–3 個 | 4–6 個 |
-| 語音 | 自動朗讀題目 + 所有選項 | 自動朗讀題目 |
-| 答錯 | 高亮正確答案 | 只提示再試 |
-| 文字 | 超大字體 | 大字體 |
+依台灣幼兒園分班：`toddler`（幼幼班）、`small`（小班）、`middle`（中班）、`large`（大班）
+
+| | toddler | small | middle | large |
+|--|---------|-------|--------|-------|
+| 選項數 | 2 | 2–3 | 3–4 | 4–6 |
+| 語音 | 題目＋選項，重複一次 | 題目＋選項 | 題目＋hover | 只朗讀題目 |
+| 答錯 | 直接高亮 | 高亮 | 第2次才高亮 | 只提示 |
+| 字體 | 140px | 120px | 100px | 80px |
+| 拖拉 | 否 | 否 | 是 | 是 |
 
 ## 視覺風格（溫暖自然）
 - 主色：暖橘 `#E8724A`
