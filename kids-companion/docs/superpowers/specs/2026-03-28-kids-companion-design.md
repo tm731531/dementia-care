@@ -224,6 +224,46 @@ function autoReadForJunior(question, options) {
 
 ---
 
+## 資料轉移機制
+
+localStorage 只存在當前裝置，換裝置即遺失。設定面板提供匯出/匯入功能讓家長轉移孩子的進度。
+
+### 匯出
+- 設定面板底部「匯出進度」按鈕
+- 將完整 APP 狀態序列化為 JSON，觸發瀏覽器下載
+- 檔名：`kids-companion-backup-YYYYMMDD.json`
+- 格式：
+```json
+{
+  "version": 1,
+  "exportedAt": "2026-03-28T14:00:00",
+  "data": {
+    "language": "zh",
+    "ageGroup": "junior",
+    "character": "🦊",
+    "stars": 3,
+    "stickers": ["page-chinese", "page-memory"],
+    "streak": 5,
+    "lastPlayDate": "2026-03-28",
+    "completedToday": ["page-chinese"]
+  }
+}
+```
+
+### 匯入
+- 設定面板底部「匯入進度」按鈕
+- 點擊後開啟系統檔案選擇器（`<input type="file" accept=".json">`）
+- 讀取 JSON，驗證 `version` 欄位存在且為數字
+- 驗證通過：覆蓋 localStorage，顯示「進度已還原！」並重新載入
+- 驗證失敗（格式錯誤）：顯示「檔案格式不對，請選正確的備份檔」
+
+### 注意事項
+- 匯入會**完全覆蓋**現有進度，操作前顯示確認提示
+- 不支援跨版本合併，只做整包覆蓋
+- 匯出/匯入操作均為純前端，不傳送任何資料到外部
+
+---
+
 ## 不在本次範圍
 
 - 使用者帳號 / 多孩子切換

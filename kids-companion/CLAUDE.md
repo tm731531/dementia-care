@@ -67,6 +67,12 @@ const APP = {
 - 連續天數：每次進 app 比對 lastPlayDate
 - 搖一搖（devicemotion）：隨機跳一個活動
 
+## 資料轉移
+- 設定面板提供「匯出進度」（下載 JSON）和「匯入進度」（上傳 JSON）
+- 匯出格式包含 `version: 1` 與完整 APP 狀態
+- 匯入前顯示確認提示，驗證 `version` 欄位後整包覆蓋 localStorage
+- 完全前端操作，不傳送任何資料到外部
+
 ## 開發指引
 - 修改一個活動時，不得影響其他活動（避免改 A 壞 B）
 - 新活動必須接入 ageGroup 系統（junior/senior 分支）
