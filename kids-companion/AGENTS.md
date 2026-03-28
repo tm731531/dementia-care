@@ -21,6 +21,13 @@
 **所有程式碼必須在 `index.html` 內。** 嚴禁建立額外的 `.js`、`.css` 檔案。
 任何 subagent 違反此規則，reviewer 必須拒絕並要求修正。
 
+### Anchor Rule（維護性）
+每個區塊**必須**包在錨點註解內：
+```html
+<!-- #SECTION:NAME --> ... <!-- #END:NAME -->
+```
+定位問題時用 `grep -n "#SECTION:" index.html` 找行號，再 Read 該範圍。**禁止整包讀取 index.html。**
+
 ### No-Regression Rule
 每個任務完成後，user-reviewer subagent 必須：
 1. 確認新功能正常
