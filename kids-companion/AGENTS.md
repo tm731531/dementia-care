@@ -21,12 +21,74 @@
 **所有程式碼必須在 `index.html` 內。** 嚴禁建立額外的 `.js`、`.css` 檔案。
 任何 subagent 違反此規則，reviewer 必須拒絕並要求修正。
 
-### Anchor Rule（維護性）
-每個區塊**必須**包在錨點註解內：
+### Anchor Rule（維護性 — 強制）
+
+`index.html` 是 6800+ 行的單一大檔案。**錨點系統是唯一讓未來維護者（人類或 AI）不需讀取整個檔案就能精確定位程式碼的機制。**
+
+#### 格式
+
+HTML/CSS 區塊：
 ```html
-<!-- #SECTION:NAME --> ... <!-- #END:NAME -->
+<!-- #SECTION:NAME -->
+...content...
+<!-- #END:NAME -->
 ```
-定位問題時用 `grep -n "#SECTION:" index.html` 找行號，再 Read 該範圍。**禁止整包讀取 index.html。**
+
+JS 區塊（在 `<script>` 內）：
+```javascript
+// <!-- #SECTION:NAME -->
+...content...
+// <!-- #END:NAME -->
+```
+
+#### Implementer 必須遵守
+
+每一個新增到 `index.html` 的程式碼區塊，**必須**包在錨點內。無例外。
+- 新活動 HTML → `PAGE-{ACTIVITY-NAME}`
+- 新活動 JS → `PAGE-{ACTIVITY-NAME}-JS`
+- 新 CSS 區塊 → 適當的系統區塊名稱
+- 任何工具函式群組 → 對應的系統區塊名稱
+
+沒有錨點的新增程式碼 = 不可維護的技術債。
+
+#### Reviewer 必須執行
+
+**拒絕**任何缺少錨點的新增程式碼。具體驗證：
+1. 執行 `grep -n "#SECTION:" index.html` 確認新區塊的錨點存在
+2. 確認起始與結束錨點名稱完全一致
+3. 如果新程式碼沒有錨點，要求 implementer 補上後才能合併
+
+#### 標準定位工作流程
+
+```bash
+# 找目標區塊
+grep -n "#SECTION:PAGE-MEMORY" index.html
+# → 3241:<!-- #SECTION:PAGE-MEMORY -->
+
+grep -n "#END:PAGE-MEMORY" index.html
+# → 3350:<!-- #END:PAGE-MEMORY -->
+
+# 只讀取該範圍（110 行，不是 6800 行）
+# Read lines 3241–3350
+```
+
+**禁止整包讀取 index.html。**
+
+### Size Awareness Rule（大區塊警示）
+
+在讀取任何區塊之前，先確認其行數範圍：
+
+```bash
+# 先確認起始與結束行號
+grep -n "#SECTION:PAGE-MEMORY" index.html   # → start line
+grep -n "#END:PAGE-MEMORY" index.html       # → end line
+# 計算行數 = end - start
+```
+
+規則：
+- **單次最多讀取 400 行**。如果區塊超過 400 行，分多次讀取（用 offset/limit）。
+- **區塊超過 300 行**，考慮是否需要拆分成子區塊（用巢狀錨點）。
+- 不要在沒有確認行數的情況下直接讀取大區塊。
 
 ### No-Regression Rule
 每個任務完成後，user-reviewer subagent 必須：

@@ -1450,6 +1450,33 @@ body {
 </div>
 <!-- #END:PAGE-DUBBING -->
 
+<!-- #SECTION:PAGE-SOCIAL -->
+<div class="page" id="page-social">
+  <div class="game-header">
+    <button class="back-btn" onclick="navigateTo('page-home')">←</button>
+    <span class="game-title" id="social-header-title">🤝 情境小劇場</span>
+    <button class="praise-btn" onclick="showPraiseOverlay()">👏</button>
+  </div>
+  <div id="social-game-area" style="display:flex;flex-direction:column;align-items:center;padding:20px;text-align:center;">
+    <div id="social-type-badge" style="display:inline-block;padding:4px 14px;border-radius:20px;font-size:13px;font-weight:700;margin-bottom:10px;color:#fff;background:#5B9BD5;">🧠 社交情境</div>
+    <div id="social-progress" style="font-size:14px;color:#888;margin-bottom:10px;">第 1 / 6 題</div>
+    <div id="social-scene-emoji" style="font-size:44px;line-height:1;margin-bottom:4px;min-height:50px;"></div>
+    <div id="social-main-emoji" style="font-size:80px;line-height:1;margin:8px 0 12px;">😊</div>
+    <div id="social-question" style="font-size:20px;font-weight:700;margin-bottom:12px;color:#444;max-width:320px;line-height:1.4;"></div>
+    <div id="social-hint" style="font-size:15px;color:#888;margin-bottom:14px;min-height:20px;max-width:300px;"></div>
+    <div id="social-choices" style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;max-width:380px;"></div>
+    <div id="social-explanation" style="display:none;background:#FFF3E0;border-radius:14px;padding:12px 18px;margin-top:16px;font-size:15px;color:#E8724A;max-width:320px;line-height:1.5;"></div>
+  </div>
+  <div class="complete-screen" id="social-complete">
+    <div style="font-size:64px;">🤝🌟</div>
+    <h2 id="social-complete-title">太棒了！你好有愛心！</h2>
+    <p id="social-complete-sub">You are so kind and smart!</p>
+    <button class="btn btn-primary" onclick="navigateTo('page-home')">回首頁</button>
+    <button class="btn btn-secondary" onclick="startSocialGame()">再玩一次</button>
+  </div>
+</div>
+<!-- #END:PAGE-SOCIAL -->
+
 <!-- Time banner -->
 <div class="time-banner" id="time-banner">
   再玩 5 分鐘就要讓眼睛休息一下喔 👀
@@ -1730,6 +1757,7 @@ function navigateTo(pageId) {
   if (pageId === 'page-story-choice') startStoryChoice();
   if (pageId === 'page-dubbing') startDubbingGame();
   if (pageId === 'page-weather') { clearTimeout(weatherTimer); startWeatherGame(); }
+  if (pageId === 'page-social') { clearTimeout(socialTimer); startSocialGame(); }
 }
 
 function switchTab(tabId, btnEl) {
@@ -6834,6 +6862,581 @@ function showWeatherComplete() {
   }
 }
 // <!-- #END:PAGE-WEATHER-JS -->
+
+// <!-- #SECTION:PAGE-SOCIAL-JS -->
+var SOCIAL_DATA = {
+  toddler: [
+    {
+      type: 'emotion',
+      emoji: '😊',
+      question: { zh: '這個表情是什麼感覺？', en: 'What feeling is this?' },
+      hint: { zh: '看看嘴巴，是笑還是哭？', en: 'Look at the mouth — smiling or crying?' },
+      choices: [
+        { emoji: '😊', zh: '高興', en: 'Happy', correct: true },
+        { emoji: '😢', zh: '傷心', en: 'Sad', correct: false }
+      ],
+      explanation: { zh: '笑臉表示高興！', en: 'A big smile means happy!' }
+    },
+    {
+      type: 'emotion',
+      emoji: '😢',
+      question: { zh: '眼淚流下來，這是什麼感覺？', en: 'Tears are falling — what feeling is this?' },
+      hint: { zh: '哭的時候是開心還是傷心？', en: 'When we cry, are we happy or sad?' },
+      choices: [
+        { emoji: '😢', zh: '傷心', en: 'Sad', correct: true },
+        { emoji: '😡', zh: '生氣', en: 'Angry', correct: false }
+      ],
+      explanation: { zh: '眼淚代表傷心。', en: 'Tears mean sadness.' }
+    },
+    {
+      type: 'emotion',
+      emoji: '😡',
+      question: { zh: '眉毛皺起來、臉紅紅的，這是什麼感覺？', en: 'Eyebrows frowning, face red — what feeling?' },
+      hint: { zh: '這個表情看起來很不高興！', en: 'This face looks very unhappy!' },
+      choices: [
+        { emoji: '😡', zh: '生氣', en: 'Angry', correct: true },
+        { emoji: '😊', zh: '高興', en: 'Happy', correct: false }
+      ],
+      explanation: { zh: '皺眉頭表示生氣！', en: 'A frown means angry!' }
+    },
+    {
+      type: 'emotion',
+      emoji: '😨',
+      question: { zh: '眼睛張很大、嘴巴張開，這是什麼感覺？', en: 'Big eyes, open mouth — what feeling?' },
+      hint: { zh: '看到嚇人的東西會有這個表情！', en: 'We make this face when something scares us!' },
+      choices: [
+        { emoji: '😨', zh: '害怕', en: 'Scared', correct: true },
+        { emoji: '😊', zh: '高興', en: 'Happy', correct: false }
+      ],
+      explanation: { zh: '大眼睛張開代表害怕！', en: 'Wide eyes mean scared!' }
+    },
+    {
+      type: 'money',
+      emoji: '🪙',
+      question: { zh: '這是幾元的硬幣？', en: 'How much is this coin worth?' },
+      hint: { zh: '這是最小的硬幣，是1元！', en: 'This is the smallest coin — 1 yuan!' },
+      choices: [
+        { emoji: '1️⃣', zh: '1元', en: '1 yuan', correct: true },
+        { emoji: '🔟', zh: '10元', en: '10 yuan', correct: false }
+      ],
+      explanation: { zh: '這是1元硬幣！', en: 'This is a 1-yuan coin!' }
+    },
+    {
+      type: 'money',
+      emoji: '🪙🪙🪙🪙🪙',
+      question: { zh: '5個1元，合起來是幾元？', en: 'Five 1-yuan coins together = how much?' },
+      hint: { zh: '數一數：1、2、3、4、5！', en: 'Count them: 1, 2, 3, 4, 5!' },
+      choices: [
+        { emoji: '5️⃣', zh: '5元', en: '5 yuan', correct: true },
+        { emoji: '1️⃣', zh: '1元', en: '1 yuan', correct: false }
+      ],
+      explanation: { zh: '5個1元 = 5元！', en: '5 coins of 1 yuan = 5 yuan!' }
+    }
+  ],
+  small: [
+    {
+      type: 'situation',
+      emoji: '🤝',
+      scene: '🌳🏫',
+      question: { zh: '朋友跌倒了，你會怎麼做？', en: 'Your friend fell down. What do you do?' },
+      hint: { zh: '好朋友應該互相幫助！', en: 'Good friends help each other!' },
+      choices: [
+        { emoji: '🤝', zh: '幫他站起來', en: 'Help them up', correct: true },
+        { emoji: '🎮', zh: '繼續玩', en: 'Keep playing', correct: false },
+        { emoji: '😄', zh: '哈哈笑他', en: 'Laugh at them', correct: false }
+      ],
+      explanation: { zh: '幫助跌倒的朋友，才是真正的好朋友！', en: 'Helping a fallen friend shows you care!' }
+    },
+    {
+      type: 'situation',
+      emoji: '🍰',
+      scene: '🍽️',
+      question: { zh: '只剩一塊蛋糕，你和朋友都想要，怎麼辦？', en: 'Only one piece of cake left — both of you want it. What do you do?' },
+      hint: { zh: '分享才是好辦法！', en: 'Sharing is the best way!' },
+      choices: [
+        { emoji: '🍰🍰', zh: '分成兩半分享', en: 'Split and share', correct: true },
+        { emoji: '😋', zh: '自己全部吃掉', en: 'Eat it all myself', correct: false },
+        { emoji: '🗑️', zh: '丟掉算了', en: 'Just throw it away', correct: false }
+      ],
+      explanation: { zh: '分享讓兩個人都開心！', en: 'Sharing makes both of you happy!' }
+    },
+    {
+      type: 'situation',
+      emoji: '😢',
+      scene: '🏠',
+      question: { zh: '弟弟在哭，你會怎麼做？', en: 'Your little brother is crying. What do you do?' },
+      hint: { zh: '關心別人很重要！', en: 'Caring for others is important!' },
+      choices: [
+        { emoji: '🤗', zh: '問他怎麼了', en: 'Ask what happened', correct: true },
+        { emoji: '🙈', zh: '不理他', en: 'Ignore him', correct: false },
+        { emoji: '😭', zh: '一起哭', en: 'Cry together', correct: false }
+      ],
+      explanation: { zh: '關心他人，問問他發生了什麼事！', en: 'Show you care by asking what is wrong!' }
+    },
+    {
+      type: 'situation',
+      emoji: '💔',
+      scene: '🏠',
+      question: { zh: '不小心打破東西，你該怎麼做？', en: 'You accidentally broke something. What should you do?' },
+      hint: { zh: '做錯事要勇敢承認！', en: 'Be brave and admit what happened!' },
+      choices: [
+        { emoji: '🙏', zh: '說對不起', en: 'Say sorry', correct: true },
+        { emoji: '🤐', zh: '假裝沒發生', en: 'Pretend nothing happened', correct: false },
+        { emoji: '👉', zh: '怪別人', en: 'Blame someone else', correct: false }
+      ],
+      explanation: { zh: '說對不起是誠實和勇敢的表現！', en: 'Saying sorry is honest and brave!' }
+    },
+    {
+      type: 'money',
+      emoji: '🍬',
+      scene: '🏪',
+      question: { zh: '你有10元，買了3元的糖，還剩幾元？', en: 'You have 10 yuan, buy 3-yuan candy. How much is left?' },
+      hint: { zh: '10減去3等於幾？', en: '10 minus 3 equals how much?' },
+      choices: [
+        { emoji: '7️⃣', zh: '7元', en: '7 yuan', correct: true },
+        { emoji: '🔟', zh: '13元', en: '13 yuan', correct: false },
+        { emoji: '3️⃣', zh: '3元', en: '3 yuan', correct: false }
+      ],
+      explanation: { zh: '10 - 3 = 7，還剩7元！', en: '10 - 3 = 7 yuan left!' }
+    },
+    {
+      type: 'money',
+      emoji: '🍎🧸',
+      question: { zh: '食物和玩具，哪一個是「需要」的？', en: 'Food and a toy — which one do you NEED?' },
+      hint: { zh: '沒有食物我們會餓肚子！', en: 'Without food we will be hungry!' },
+      choices: [
+        { emoji: '🍎', zh: '食物（需要）', en: 'Food (need)', correct: true },
+        { emoji: '🧸', zh: '玩具（想要）', en: 'Toy (want)', correct: false }
+      ],
+      explanation: { zh: '食物是需要的，玩具是想要的！', en: 'Food is a need; a toy is a want!' }
+    }
+  ],
+  middle: [
+    {
+      type: 'emotion',
+      emoji: '😔',
+      scene: '🏫👫',
+      question: { zh: '小明被同學嘲笑了，他可能有什麼感覺？', en: 'Xiao Ming was mocked by classmates. What might he feel?' },
+      choices: [
+        { emoji: '😢😡😞', zh: '傷心、生氣、委屈（都有可能）', en: 'Sad, angry, hurt (all possible)', correct: true },
+        { emoji: '😊', zh: '只是高興', en: 'Just happy', correct: false },
+        { emoji: '😴', zh: '想睡覺', en: 'Just sleepy', correct: false },
+        { emoji: '🤔', zh: '完全沒感覺', en: 'No feeling at all', correct: false }
+      ],
+      explanation: { zh: '被嘲笑時，人可能同時感到傷心、生氣和委屈，這些都是正常的感受！', en: 'When mocked, people can feel sad, angry, and hurt all at once — that is completely normal!' }
+    },
+    {
+      type: 'situation',
+      emoji: '📱',
+      scene: '🏠🤝',
+      question: { zh: '你答應朋友一起玩，但後來不想去了，應該怎麼做？', en: 'You promised to play with a friend but now you don\'t want to go. What should you do?' },
+      choices: [
+        { emoji: '📞', zh: '打電話說明並道歉', en: 'Call and explain, then apologize', correct: true },
+        { emoji: '🤷', zh: '直接不去，不說', en: 'Just don\'t go without saying anything', correct: false },
+        { emoji: '👤', zh: '叫別人代替去', en: 'Send someone else instead', correct: false },
+        { emoji: '🥱', zh: '說你生病了（謊言）', en: 'Say you are sick (a lie)', correct: false }
+      ],
+      explanation: { zh: '守信用很重要！如果不能去，要誠實說明並道歉，朋友會更尊重你。', en: 'Keeping promises matters! If you cannot go, be honest and apologize — friends will respect you more.' }
+    },
+    {
+      type: 'situation',
+      emoji: '🧒',
+      scene: '🏫🪑',
+      question: { zh: '班上新來的同學一個人坐，你會怎麼做？', en: 'A new classmate sits alone. What would you do?' },
+      choices: [
+        { emoji: '👋', zh: '去打招呼，邀他一起玩', en: 'Go say hi and invite them to play', correct: true },
+        { emoji: '⏳', zh: '等他自己來找你', en: 'Wait for them to come to you', correct: false },
+        { emoji: '🗣️', zh: '跟朋友說他很奇怪', en: 'Tell friends he seems weird', correct: false },
+        { emoji: '📵', zh: '假裝沒看到', en: 'Pretend not to notice', correct: false }
+      ],
+      explanation: { zh: '主動去打招呼讓新同學感到歡迎，這就是善意！', en: 'Taking the first step makes a new classmate feel welcome — that is kindness!' }
+    },
+    {
+      type: 'situation',
+      emoji: '🤥',
+      scene: '🤝💬',
+      question: { zh: '朋友說謊，但是是為了保護你，你怎麼看？', en: 'A friend lied, but did it to protect you. How do you see this?' },
+      choices: [
+        { emoji: '🤔', zh: '出發點好，但誠實更重要', en: 'Good intentions, but honesty matters more', correct: true },
+        { emoji: '👍', zh: '說謊沒關係，目的是好的', en: 'Lying is fine if the purpose is good', correct: false },
+        { emoji: '😡', zh: '說謊就是壞人', en: 'If you lie you are a bad person', correct: false },
+        { emoji: '🤷', zh: '朋友的事不關我', en: 'Not my business', correct: false }
+      ],
+      explanation: { zh: '善意的謊言動機雖好，但長期靠誠實溝通才能建立真正的信任。', en: 'A well-meaning lie has good intentions, but honest communication builds real trust over time.' }
+    },
+    {
+      type: 'money',
+      emoji: '🐝💰',
+      question: { zh: '小花想買80元的玩具，每天存10元，需要存幾天？', en: 'Xiao Hua wants an 80-yuan toy and saves 10 yuan per day. How many days?' },
+      choices: [
+        { emoji: '8️⃣', zh: '8天', en: '8 days', correct: true },
+        { emoji: '🔟', zh: '10天', en: '10 days', correct: false },
+        { emoji: '8️⃣0️⃣', zh: '80天', en: '80 days', correct: false },
+        { emoji: '1️⃣8️⃣', zh: '18天', en: '18 days', correct: false }
+      ],
+      explanation: { zh: '80 ÷ 10 = 8天！每天存一點，夢想就會實現！', en: '80 ÷ 10 = 8 days! Save a little each day and your dream comes true!' }
+    },
+    {
+      type: 'money',
+      emoji: '📚🧸',
+      question: { zh: '你有50元，想買30元的書和25元的玩具，錢夠嗎？', en: 'You have 50 yuan. A book costs 30, a toy costs 25. Is that enough?' },
+      choices: [
+        { emoji: '❌', zh: '不夠！需要55元', en: 'Not enough! Need 55 yuan', correct: true },
+        { emoji: '✅', zh: '夠了', en: 'Yes, enough', correct: false },
+        { emoji: '💫', zh: '剛剛好', en: 'Exactly right', correct: false },
+        { emoji: '🤷', zh: '不知道', en: 'I don\'t know', correct: false }
+      ],
+      explanation: { zh: '30 + 25 = 55元，但你只有50元，差5元，要先選一樣！', en: '30 + 25 = 55 yuan, but you only have 50. You are 5 yuan short — choose one first!' }
+    },
+    {
+      type: 'money',
+      emoji: '🐷💰',
+      question: { zh: '爸爸給你20元，買零食花了8元，剩下的最好怎麼用？', en: 'Dad gave you 20 yuan. Spent 8 on snacks. Best use for the rest?' },
+      choices: [
+        { emoji: '🐷', zh: '存起來，以後用', en: 'Save it for later', correct: true },
+        { emoji: '🍭', zh: '全部再買零食', en: 'Buy more snacks with all of it', correct: false },
+        { emoji: '🎁', zh: '全部給朋友', en: 'Give it all to a friend', correct: false },
+        { emoji: '🗑️', zh: '丟掉', en: 'Throw it away', correct: false }
+      ],
+      explanation: { zh: '存錢讓你以後可以買更需要或更好的東西，這叫做延遲滿足！', en: 'Saving means you can buy something better later — that is called delayed gratification!' }
+    },
+    {
+      type: 'money',
+      emoji: '🏦',
+      question: { zh: '「存錢」是什麼意思？', en: 'What does "saving money" mean?' },
+      choices: [
+        { emoji: '🐷', zh: '把錢放安全地方，以後用', en: 'Keep money safe for later use', correct: true },
+        { emoji: '🎁', zh: '把錢送給別人', en: 'Give money to others', correct: false },
+        { emoji: '✨', zh: '錢變多的魔法', en: 'A magic that makes money multiply', correct: false },
+        { emoji: '🤝', zh: '借錢給銀行', en: 'Lending money to the bank', correct: false }
+      ],
+      explanation: { zh: '存錢是把錢放在安全的地方，需要的時候再用，這是很聰明的習慣！', en: 'Saving is keeping your money safe so you can use it when needed — a very smart habit!' }
+    }
+  ],
+  large: [
+    {
+      type: 'situation',
+      emoji: '👀',
+      scene: '🏫',
+      question: { zh: '你知道好朋友拿了別人的東西卻沒說，你會怎麼做？', en: 'You know your best friend took something without telling. What do you do?' },
+      choices: [
+        { emoji: '🗣️', zh: '私下告訴朋友這樣不對，建議他還回去', en: 'Tell your friend privately it is wrong and suggest returning it', correct: true },
+        { emoji: '🤐', zh: '不說，幫他保密', en: 'Say nothing — keep their secret', correct: false },
+        { emoji: '📣', zh: '馬上告訴老師讓他出糗', en: 'Tell the teacher right away to embarrass them', correct: false },
+        { emoji: '😤', zh: '和他絕交', en: 'End the friendship', correct: false }
+      ],
+      explanation: { zh: '真正的朋友會私下提醒對方，給他機會改正，而不是直接傷害他。', en: 'A true friend reminds the other privately, giving them a chance to make things right.' }
+    },
+    {
+      type: 'situation',
+      emoji: '⚖️',
+      scene: '🏫👫',
+      question: { zh: '兩個好朋友吵架，都來找你幫忙，你怎麼做？', en: 'Two friends are fighting and both ask you for help. What do you do?' },
+      choices: [
+        { emoji: '⚖️', zh: '保持中立，幫他們說出各自的感受', en: 'Stay neutral, help each express their feelings', correct: true },
+        { emoji: '👈', zh: '偏幫比較好的那個', en: 'Take sides with your closer friend', correct: false },
+        { emoji: '🏃', zh: '不管，走開', en: 'Walk away and ignore it', correct: false },
+        { emoji: '📣', zh: '替他們做決定，命令和好', en: 'Make the decision for them and order them to make up', correct: false }
+      ],
+      explanation: { zh: '中立調解，讓雙方都被聽見，才能真正解決衝突，不傷友誼。', en: 'Neutral mediation lets both sides be heard — the best way to resolve conflict without hurting friendship.' }
+    },
+    {
+      type: 'situation',
+      emoji: '🗳️',
+      scene: '🏫',
+      question: { zh: '班上投票選活動，你喜歡的和大家不一樣，你會怎麼做？', en: 'The class votes on an activity — yours differs from the majority. What do you do?' },
+      choices: [
+        { emoji: '🗣️', zh: '說出自己的想法，但尊重多數決定', en: 'Express your view but respect the majority decision', correct: true },
+        { emoji: '😤', zh: '生氣，不參加活動', en: 'Get angry and refuse to participate', correct: false },
+        { emoji: '🤐', zh: '不說話，假裝同意', en: 'Say nothing and pretend to agree', correct: false },
+        { emoji: '😢', zh: '難過，要大家換成你的', en: 'Feel hurt and demand everyone switch to yours', correct: false }
+      ],
+      explanation: { zh: '說出自己的意見很重要，但民主就是尊重多數人的選擇，同時讓少數聲音被聽見。', en: 'Speaking up matters, but democracy means respecting the majority while ensuring minority voices are heard.' }
+    },
+    {
+      type: 'situation',
+      emoji: '🌟',
+      scene: '🏠',
+      question: { zh: '你做了一件好事，但沒有人知道，你會怎麼想？', en: 'You did something good but nobody knows. How do you feel about it?' },
+      choices: [
+        { emoji: '😊', zh: '我做了對的事，這樣就夠了', en: 'I did the right thing — that is enough', correct: true },
+        { emoji: '😤', zh: '很不開心，沒人表揚我', en: 'Upset that no one praised me', correct: false },
+        { emoji: '📣', zh: '馬上去告訴大家', en: 'Go tell everyone right away', correct: false },
+        { emoji: '😞', zh: '下次不做好事了', en: 'Won\'t do good things if there is no reward', correct: false }
+      ],
+      explanation: { zh: '做好事不需要被表揚——內心的滿足感才是最真實的獎勵！', en: 'Doing good does not need praise — the inner satisfaction is the truest reward!' }
+    },
+    {
+      type: 'situation',
+      emoji: '🫂',
+      scene: '👫💬',
+      question: { zh: '朋友突然很難過，說什麼都不想做、不想上學、不想跟大家玩，你最應該怎麼做？', en: 'Your friend suddenly seems very sad — not wanting to do anything, go to school, or play. What should you do?' },
+      choices: [
+        { emoji: '🧑‍🏫', zh: '陪著他，並告訴信任的大人（父母、老師）', en: 'Stay with them and tell a trusted adult (parent, teacher)', correct: true },
+        { emoji: '🙈', zh: '假裝沒看到，等他自己好', en: 'Ignore it and wait for them to feel better alone', correct: false },
+        { emoji: '🤷', zh: '叫他想開一點就好了', en: 'Just tell them to cheer up', correct: false },
+        { emoji: '📱', zh: '幫他玩遊戲讓他開心', en: 'Distract them with games', correct: false }
+      ],
+      explanation: { zh: '當朋友一直很難過，最重要的是陪伴他、告訴大人——大人有能力幫助他，這是對朋友最好的支持。', en: 'When a friend is deeply sad, the most important thing is to stay with them and tell a trusted adult — adults can help in ways we cannot. That is true friendship.' }
+    },
+    {
+      type: 'money',
+      emoji: '🧩💰',
+      question: { zh: '你有100元，朋友說要一起買150元的玩具，你怎麼決定？', en: 'You have 100 yuan. A friend wants to buy a 150-yuan toy together. How do you decide?' },
+      choices: [
+        { emoji: '🧮', zh: '先算差多少，討論是否值得和能力範圍', en: 'Calculate the gap first, discuss if it is worth it and affordable', correct: true },
+        { emoji: '✅', zh: '朋友說買就買，不用想太多', en: 'Friend says buy it, so just do it', correct: false },
+        { emoji: '❌', zh: '直接拒絕，完全不考慮', en: 'Flat out refuse without considering', correct: false },
+        { emoji: '🤷', zh: '借錢買，再慢慢還', en: 'Borrow money to buy it and pay back later', correct: false }
+      ],
+      explanation: { zh: '買東西要先算清楚：差50元，是否需要？合不合理？量力而為才是智慧！', en: 'Before buying, calculate: you need 50 more yuan. Is it necessary? Is it reasonable? Spending within your means is wisdom!' }
+    },
+    {
+      type: 'money',
+      emoji: '🛒',
+      question: { zh: '媽媽給你200元買東西，清單有米、蔬菜、肉，但你看到喜歡的零食，你會？', en: 'Mom gave you 200 yuan for groceries (rice, vegs, meat). You see snacks you like. What do you do?' },
+      choices: [
+        { emoji: '📋', zh: '先買清單上的，有多才考慮零食', en: 'Buy the list items first; get snacks only if there is money left', correct: true },
+        { emoji: '🍭', zh: '先買零食，剩下的買清單', en: 'Buy snacks first, then the list', correct: false },
+        { emoji: '🛍️', zh: '兩樣都買，不管夠不夠', en: 'Buy both no matter what', correct: false },
+        { emoji: '🏃', zh: '全部不買，把錢留著', en: 'Buy nothing and keep all the money', correct: false }
+      ],
+      explanation: { zh: '預算是有目的的，先完成任務（清單），有餘裕才享受（零食）——這就是財務優先順序！', en: 'A budget has a purpose. Complete the mission (the list) first; enjoy extras only if budget allows — this is financial priority!' }
+    },
+    {
+      type: 'money',
+      emoji: '⏳💡',
+      question: { zh: '小明有100元，哪個選擇說明了「延遲滿足」？', en: 'Xiao Ming has 100 yuan. Which choice shows "delayed gratification"?' },
+      choices: [
+        { emoji: '⏳', zh: '存起來加上下週的50元，買更好的', en: 'Save it, add next week\'s 50 yuan, buy something better', correct: true },
+        { emoji: '🧸', zh: '買一個100元大玩具，馬上', en: 'Buy one 100-yuan toy immediately', correct: false },
+        { emoji: '🎁', zh: '買10個10元小玩具', en: 'Buy 10 small toys at 10 yuan each', correct: false },
+        { emoji: '🎲', zh: '用100元玩遊戲機，花完為止', en: 'Play 100 yuan at an arcade until it runs out', correct: false }
+      ],
+      explanation: { zh: '延遲滿足=現在忍耐，換取未來更大的好處！等到有150元再買，能買到更好的東西。', en: 'Delayed gratification = patience now for bigger rewards later! Wait for 150 yuan and buy something even better.' }
+    },
+    {
+      type: 'money',
+      emoji: '🤝💳',
+      question: { zh: '什麼是「信用」？', en: 'What is "credit" or trustworthiness?' },
+      choices: [
+        { emoji: '🤝', zh: '說到做到，借的錢還回去，讓人信任你', en: 'Keep your word, repay debts, earn people\'s trust', correct: true },
+        { emoji: '💰', zh: '有很多錢的人才有信用', en: 'Only rich people have credit', correct: false },
+        { emoji: '📝', zh: '銀行給的一張卡', en: 'Just a card the bank gives you', correct: false },
+        { emoji: '🎭', zh: '讓別人覺得你很厲害', en: 'Making others think you are impressive', correct: false }
+      ],
+      explanation: { zh: '信用是別人對你的信任——說到做到、誠實還錢，你的信用就越來越好！', en: 'Credit is others\' trust in you — keep promises and repay honestly, and your credit grows stronger!' }
+    },
+    {
+      type: 'money',
+      emoji: '🍋💵',
+      question: { zh: '開檸檬水攤：杯子10元、檸檬20元，賣出5杯每杯15元，賺了多少？', en: 'Lemonade stand: cups cost 10, lemons 20. Sold 5 cups at 15 yuan each. Profit?' },
+      choices: [
+        { emoji: '4️⃣5️⃣', zh: '45元（5×15=75，成本30，利潤45）', en: '45 yuan (5×15=75 revenue, cost 30, profit 45)', correct: true },
+        { emoji: '7️⃣5️⃣', zh: '75元（只算收入）', en: '75 yuan (only counting revenue)', correct: false },
+        { emoji: '3️⃣0️⃣', zh: '30元（只算成本）', en: '30 yuan (only the cost)', correct: false },
+        { emoji: '5️⃣', zh: '5元（5杯）', en: '5 yuan (5 cups)', correct: false }
+      ],
+      explanation: { zh: '收入75元 - 成本30元 = 利潤45元！這就是損益計算，開店就要懂這個！', en: 'Revenue 75 - Cost 30 = Profit 45 yuan! This is a simple income statement — every business owner needs this!' }
+    }
+  ]
+};
+
+var socialState = { idx: 0, questions: [], wrongCount: 0, locked: false };
+var socialTimer = null;
+
+function startSocialGame() {
+  clearTimeout(socialTimer);
+  var ag = APP.ageGroup || 'small';
+  var pool = SOCIAL_DATA[ag] || SOCIAL_DATA['small'];
+  var shuffled = pool.slice().sort(function() { return Math.random() - 0.5; });
+  var counts = { toddler: 6, small: 6, middle: 8, large: 10 };
+  var count = counts[ag] || 6;
+  socialState.questions = shuffled.slice(0, Math.min(count, shuffled.length));
+  socialState.idx = 0;
+  socialState.wrongCount = 0;
+  socialState.locked = false;
+
+  var comp = document.getElementById('social-complete');
+  if (comp) comp.classList.remove('show');
+  var gameArea = document.getElementById('social-game-area');
+  if (gameArea) gameArea.style.display = 'flex';
+  var expBox = document.getElementById('social-explanation');
+  if (expBox) expBox.style.display = 'none';
+
+  showSocialQuestion(0);
+}
+
+function showSocialQuestion(idx) {
+  clearTimeout(socialTimer);
+  socialState.idx = idx;
+  socialState.wrongCount = 0;
+  socialState.locked = false;
+
+  var q = socialState.questions[idx];
+  var lang = APP.language || 'zh';
+  var ag = APP.ageGroup || 'small';
+  var total = socialState.questions.length;
+
+  // Progress
+  var progEl = document.getElementById('social-progress');
+  if (progEl) progEl.textContent = (lang === 'zh' ? '第 ' : 'Q ') + (idx + 1) + ' / ' + total;
+
+  // Type badge
+  var badgeEl = document.getElementById('social-type-badge');
+  if (badgeEl) {
+    var isMoneyType = (q.type === 'money');
+    badgeEl.textContent = isMoneyType ? '💰 理財小學堂' : '🧠 社交情境';
+    badgeEl.style.background = isMoneyType ? '#5AAB61' : '#5B9BD5';
+  }
+
+  // Scene
+  var sceneEl = document.getElementById('social-scene-emoji');
+  if (sceneEl) sceneEl.textContent = q.scene || '';
+
+  // Main emoji
+  var mainEl = document.getElementById('social-main-emoji');
+  if (mainEl) mainEl.textContent = q.emoji || '';
+
+  // Question
+  var qEl = document.getElementById('social-question');
+  if (qEl) qEl.textContent = q.question[lang] || q.question.zh;
+
+  // Hint (toddler/small always show, middle optional, large hidden)
+  var hintEl = document.getElementById('social-hint');
+  if (hintEl) {
+    if (q.hint && (ag === 'toddler' || ag === 'small')) {
+      hintEl.textContent = q.hint[lang] || q.hint.zh;
+      hintEl.style.display = '';
+    } else {
+      hintEl.textContent = '';
+      hintEl.style.display = 'none';
+    }
+  }
+
+  // Explanation box hidden at start
+  var expEl = document.getElementById('social-explanation');
+  if (expEl) expEl.style.display = 'none';
+
+  // Render choices
+  renderSocialChoices(q.choices, q.explanation, lang, ag);
+
+  // Voice
+  if (APP.soundEnabled !== false) {
+    var qText = q.question[lang] || q.question.zh;
+    speak(qText);
+    if (ag === 'toddler') {
+      socialTimer = setTimeout(function() { speak(qText); }, 2000);
+    }
+  }
+}
+
+function renderSocialChoices(choices, explanation, lang, ag) {
+  var container = document.getElementById('social-choices');
+  if (!container) return;
+  var emojiFontSize = (ag === 'toddler' || ag === 'small') ? '48px' : '36px';
+  var textFontSize = (ag === 'toddler' || ag === 'small') ? '18px' : '15px';
+  container.innerHTML = '';
+  choices.forEach(function(c) {
+    var btn = document.createElement('button');
+    btn.style.cssText = 'background:#fff;border:3px solid #e0d6cc;border-radius:20px;padding:14px 18px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;min-width:90px;max-width:160px;transition:border-color 0.2s;';
+    btn.innerHTML = '<span style="font-size:' + emojiFontSize + ';line-height:1;">' + c.emoji + '</span>'
+      + '<span style="font-size:' + textFontSize + ';font-weight:600;color:#444;text-align:center;line-height:1.3;">' + (c[lang] || c.zh) + '</span>';
+    btn.addEventListener('pointerup', function() { socialAnswer(btn, c.correct, explanation, choices); });
+    container.appendChild(btn);
+  });
+}
+
+function socialAnswer(btn, isCorrect, explanation, choices) {
+  if (socialState.locked) return;
+  socialState.locked = true;
+  var ag = APP.ageGroup || 'small';
+  var lang = APP.language || 'zh';
+
+  if (isCorrect) {
+    btn.style.borderColor = '#4CAF50';
+    btn.style.background = '#E8F5E9';
+    if (APP.soundEnabled !== false) speak(lang === 'zh' ? '答對了！好棒！' : 'Correct! Great job!');
+    launchConfettiSmall();
+
+    // Show explanation for middle/large
+    if (ag === 'middle' || ag === 'large') {
+      var expEl = document.getElementById('social-explanation');
+      if (expEl && explanation) {
+        expEl.textContent = (lang === 'zh' ? '💡 ' : '💡 ') + (explanation[lang] || explanation.zh);
+        expEl.style.display = 'block';
+      }
+    }
+
+    socialTimer = setTimeout(function() {
+      var next = socialState.idx + 1;
+      if (next >= socialState.questions.length) {
+        showSocialComplete();
+      } else {
+        showSocialQuestion(next);
+      }
+    }, ag === 'middle' || ag === 'large' ? 2000 : 1200);
+  } else {
+    socialState.wrongCount++;
+    btn.style.borderColor = '#f44336';
+    btn.style.background = '#FFEBEE';
+
+    var showAnswer = false;
+    if (ag === 'toddler' || ag === 'small') showAnswer = true;
+    else if (ag === 'middle' && socialState.wrongCount >= 2) showAnswer = true;
+
+    if (showAnswer) {
+      var container = document.getElementById('social-choices');
+      if (container) {
+        var btns = container.querySelectorAll('button');
+        btns.forEach(function(b, i) {
+          if (choices[i] && choices[i].correct) {
+            b.style.borderColor = '#4CAF50';
+            b.style.background = '#E8F5E9';
+          }
+        });
+      }
+    }
+
+    if (APP.soundEnabled !== false) speak(lang === 'zh' ? '哎呀，再試一次！' : 'Oops, try again!');
+
+    socialTimer = setTimeout(function() {
+      btn.style.borderColor = '#e0d6cc';
+      btn.style.background = '#fff';
+      socialState.locked = false;
+    }, 700);
+  }
+}
+
+function showSocialComplete() {
+  var gameArea = document.getElementById('social-game-area');
+  if (gameArea) gameArea.style.display = 'none';
+  var comp = document.getElementById('social-complete');
+  if (comp) comp.classList.add('show');
+  completeActivity('page-social');
+  var lang = APP.language || 'zh';
+  var ag = APP.ageGroup || 'small';
+  var msgs = {
+    zh: {
+      toddler: '你好棒！學會認識感情了！',
+      small: '太棒了！你好有愛心！',
+      middle: '好厲害！你懂得關心別人！',
+      large: '超棒！你有智慧又有愛心！'
+    },
+    en: {
+      toddler: 'Amazing! You learned about feelings!',
+      small: 'Wonderful! You are so caring!',
+      middle: 'Great! You know how to show empathy!',
+      large: 'Outstanding! You are wise and kind!'
+    }
+  };
+  var titleEl = document.getElementById('social-complete-title');
+  var subEl = document.getElementById('social-complete-sub');
+  if (titleEl) titleEl.textContent = msgs.zh[ag] || msgs.zh.small;
+  if (subEl) subEl.textContent = msgs.en[ag] || msgs.en.small;
+  if (APP.soundEnabled !== false) speak(msgs.zh[ag] || msgs.zh.small);
+}
+// <!-- #END:PAGE-SOCIAL-JS -->
 </script>
 
 </body>
