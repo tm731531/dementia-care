@@ -5588,25 +5588,77 @@ var NURSERY_RHYMES = [
       {freq:294,duration:0.35},{freq:330,duration:0.35},{freq:392,duration:0.35},{freq:440,duration:0.7},
       {freq:392,duration:0.35},{freq:330,duration:0.35},{freq:294,duration:0.35},{freq:330,duration:1.0}
     ]
+  },
+  {
+    id: 'happy-clap',
+    title: { zh: '如果高興你就拍拍手', en: 'If You\'re Happy' },
+    emoji: '👏',
+    actions: ['拍拍手 👏', '跺跺腳 🦶', '點點頭 👆', '拍拍手 👏'],
+    lines: [
+      { zh: '如果高興你就拍拍手，', en: 'If you\'re happy and you know it, clap your hands,' },
+      { zh: '如果高興你就跺跺腳，', en: 'If you\'re happy and you know it, stomp your feet,' },
+      { zh: '如果高興你就點點頭，', en: 'If you\'re happy and you know it, nod your head,' },
+      { zh: '如果高興就表現出來！', en: 'If you\'re happy and you know it, show it now!' }
+    ],
+    notes: [
+      {freq:392,duration:0.3},{freq:392,duration:0.3},{freq:392,duration:0.3},{freq:330,duration:0.3},{freq:392,duration:0.5},{freq:0,duration:0.25},{freq:392,duration:0.5},
+      {freq:392,duration:0.3},{freq:392,duration:0.3},{freq:392,duration:0.3},{freq:330,duration:0.3},{freq:392,duration:0.5},{freq:0,duration:0.25},{freq:392,duration:0.5},
+      {freq:440,duration:0.3},{freq:440,duration:0.3},{freq:440,duration:0.3},{freq:440,duration:0.3},{freq:392,duration:0.3},{freq:330,duration:0.3},{freq:392,duration:0.6},
+      {freq:392,duration:0.3},{freq:392,duration:0.3},{freq:392,duration:0.3},{freq:330,duration:0.3},{freq:392,duration:1.0}
+    ]
+  },
+  {
+    id: 'bee-song',
+    title: { zh: '小蜜蜂', en: 'Little Bee' },
+    emoji: '🐝',
+    lines: [
+      { zh: '嗡嗡嗡，嗡嗡嗡，', en: 'Buzz buzz buzz, buzz buzz buzz,' },
+      { zh: '大家一起勤做工，', en: 'Everyone work together hard,' },
+      { zh: '來匆匆，去匆匆，', en: 'Busy coming, busy going,' },
+      { zh: '做工趣味濃！', en: 'Work is full of fun!' }
+    ],
+    notes: [
+      {freq:330,duration:0.25},{freq:330,duration:0.25},{freq:330,duration:0.25},{freq:0,duration:0.15},{freq:330,duration:0.25},{freq:330,duration:0.25},{freq:330,duration:0.25},{freq:0,duration:0.2},
+      {freq:392,duration:0.25},{freq:392,duration:0.25},{freq:330,duration:0.25},{freq:392,duration:0.25},{freq:392,duration:0.25},{freq:330,duration:0.25},{freq:294,duration:0.25},{freq:262,duration:0.6},
+      {freq:392,duration:0.3},{freq:440,duration:0.3},{freq:392,duration:0.5},{freq:0,duration:0.2},{freq:330,duration:0.3},{freq:349,duration:0.3},{freq:330,duration:0.5},{freq:0,duration:0.15},
+      {freq:392,duration:0.25},{freq:330,duration:0.25},{freq:262,duration:0.25},{freq:330,duration:0.25},{freq:392,duration:0.9}
+    ]
+  },
+  {
+    id: 'head-shoulders',
+    title: { zh: '頭兒肩膀膝腳趾', en: 'Head Shoulders Knees and Toes' },
+    emoji: '👦',
+    actions: ['摸頭和肩 🙌', '摸膝和腳趾 🦶', '摸眼耳嘴鼻 👃', '從頭到腳都摸到 🤸'],
+    lines: [
+      { zh: '頭兒肩膀，', en: 'Head and shoulders,' },
+      { zh: '膝腳趾，膝腳趾，', en: 'Knees and toes, knees and toes,' },
+      { zh: '眼睛耳朵嘴和鼻，', en: 'Eyes and ears and mouth and nose,' },
+      { zh: '頭兒肩膀膝腳趾！', en: 'Head and shoulders knees and toes!' }
+    ],
+    notes: [
+      {freq:392,duration:0.35},{freq:392,duration:0.35},{freq:440,duration:0.35},{freq:392,duration:0.35},
+      {freq:330,duration:0.35},{freq:330,duration:0.35},{freq:294,duration:0.5},{freq:0,duration:0.15},{freq:294,duration:0.35},{freq:294,duration:0.35},{freq:262,duration:0.5},
+      {freq:330,duration:0.3},{freq:294,duration:0.3},{freq:262,duration:0.3},{freq:262,duration:0.2},{freq:294,duration:0.2},{freq:330,duration:0.2},{freq:392,duration:0.55},
+      {freq:392,duration:0.3},{freq:440,duration:0.3},{freq:392,duration:0.3},{freq:330,duration:0.3},{freq:294,duration:0.3},{freq:262,duration:0.8}
+    ]
   }
 ];
 
 var rhymesMelodyCtx = null;
-var rhymesMelodyScheduled = [];
+var rhymesMelodyLoopTimer = null;
+var rhymesMelodyLoopNotes = null;
 
-function startRhymeMelody(notes) {
-  stopRhymeMelody();
-  if (!APP.soundEnabled) return;
-  if (!notes || notes.length === 0) return;
+function playMelodyOnce(notes, onComplete) {
+  if (!notes || notes.length === 0) { if (onComplete) onComplete(); return; }
   try {
     rhymesMelodyCtx = new (window.AudioContext || window.webkitAudioContext)();
-  } catch(e) { return; }
-
+  } catch(e) { if (onComplete) onComplete(); return; }
   var now = rhymesMelodyCtx.currentTime + 0.05;
   var tempo = 1.6;
-
+  var totalDuration = 0;
   notes.forEach(function(note) {
-    if (note.freq === 0) { now += note.duration * tempo; return; }
+    var dur = note.duration * tempo;
+    if (note.freq === 0) { now += dur; totalDuration += dur; return; }
     var osc = rhymesMelodyCtx.createOscillator();
     var gain = rhymesMelodyCtx.createGain();
     osc.connect(gain);
@@ -5615,19 +5667,38 @@ function startRhymeMelody(notes) {
     osc.frequency.setValueAtTime(note.freq, now);
     gain.gain.setValueAtTime(0, now);
     gain.gain.linearRampToValueAtTime(0.18, now + 0.02);
-    gain.gain.setValueAtTime(0.18, now + note.duration * tempo - 0.05);
-    gain.gain.linearRampToValueAtTime(0, now + note.duration * tempo);
+    gain.gain.setValueAtTime(0.18, now + dur - 0.05);
+    gain.gain.linearRampToValueAtTime(0, now + dur);
     osc.start(now);
-    osc.stop(now + note.duration * tempo);
-    now += note.duration * tempo;
+    osc.stop(now + dur);
+    now += dur;
+    totalDuration += dur;
   });
+  if (onComplete) {
+    rhymesMelodyLoopTimer = setTimeout(onComplete, Math.round(totalDuration * 1000) + 100);
+  }
+}
+
+function startRhymeMelody(notes) {
+  stopRhymeMelody();
+  if (!APP.soundEnabled) return;
+  if (!notes || notes.length === 0) return;
+  rhymesMelodyLoopNotes = notes;
+  function loop() {
+    if (!rhymesMelodyLoopNotes) return;
+    if (rhymesMelodyCtx) { try { rhymesMelodyCtx.close(); } catch(e) {} rhymesMelodyCtx = null; }
+    playMelodyOnce(rhymesMelodyLoopNotes, function() {
+      rhymesMelodyLoopTimer = setTimeout(loop, 800);
+    });
+  }
+  loop();
 }
 
 function stopRhymeMelody() {
-  if (rhymesMelodyCtx) {
-    try { rhymesMelodyCtx.close(); } catch(e) {}
-    rhymesMelodyCtx = null;
-  }
+  rhymesMelodyLoopNotes = null;
+  clearTimeout(rhymesMelodyLoopTimer);
+  rhymesMelodyLoopTimer = null;
+  if (rhymesMelodyCtx) { try { rhymesMelodyCtx.close(); } catch(e) {} rhymesMelodyCtx = null; }
 }
 
 var rhymesState = {
@@ -5733,6 +5804,9 @@ function renderRhymeLines() {
     html += line[lang];
     if (!isSmall) {
       html += '<span style="font-size:' + (parseInt(fontSize) - 8) + 'px;color:var(--color-muted,#aaa);margin-left:12px;">' + line.en + '</span>';
+    }
+    if (rhyme.actions && rhyme.actions[idx]) {
+      html += '<div style="font-size:18px;color:#E8724A;margin-top:4px;">' + rhyme.actions[idx] + '</div>';
     }
     html += '</div>';
   });
