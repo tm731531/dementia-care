@@ -2,21 +2,10 @@
 
 ## 專案簡介
 2–6 歲兒童平板學習 app，寓教於樂，親子兩用，中英文可切換。
-完全離線可用，無需伺服器或建置工具。
-
-## 檔案職責（硬性規定）
-
-| 檔案 | 負責內容 | 禁止放入 |
-|------|---------|---------|
-| `index.html` | HTML + CSS + JS 邏輯 + 活動資料 | 任何 base64 圖片資料 |
-| `images.js` | 所有 base64 圖片資料（`var IMG`） | 任何邏輯或 HTML |
-
-- `images.js` 在 `index.html` 用 `<script src="images.js">` 載入（先於主 script）
-- **嚴禁**把 base64 圖片放進 `index.html`
-- **嚴禁**在 `images.js` 以外再建立其他 JS/CSS 檔（邏輯仍集中 `index.html`）
+所有功能集中在單一 `index.html`，無需伺服器或建置工具，完全離線可用。
 
 ## 技術架構
-- **雙檔案**：`index.html`（邏輯）+ `images.js`（圖片資料），完全離線可用
+- **單一檔案**：所有 HTML + CSS + JS 在 `index.html`，嚴禁分拆成多個 JS/CSS 檔
 - **純前端**：無任何外部依賴，完全離線可用
 - **語音**：Web Speech API，`zh-TW` / `en-US` 可切換，rate: 0.85，pitch: 1.2
 - **狀態**：全域 `APP` 物件 + localStorage（key: `kidsCompanion`）
@@ -222,7 +211,7 @@ grep -n "#SECTION:IMAGES" index.html
 ```
 
 **禁止讀取 `#SECTION:IMAGES-*` 的實際資料區塊**（每行含數十 KB base64，讀一行 = 數萬 token）。
-新增圖片時，直接在 `images.js` 對應 `Object.assign(IMG, {...})` 區塊末尾附加 key-value，勿整塊讀取。
+新增圖片時，直接在對應 `Object.assign(IMG, {...})` 區塊末尾附加 key-value，勿整塊讀取。
 
 ### 標準維護工作流程
 
@@ -235,17 +224,14 @@ grep -n "#SECTION:PAGE-SOCIAL" index.html
 grep -n "#END:PAGE-SOCIAL" index.html
 # → 1510:<!-- #END:PAGE-SOCIAL -->
 
-# Step 3: 只讀取該範圍（58 行）
+# Step 3: 只讀取該範圍（58 行，而非 6800 行）
 # Read lines 1453–1510
 
 # 列出所有錨點，快速瀏覽結構
 grep -n "#SECTION:" index.html
-
-# 查找圖片區塊（在 images.js，不在 index.html）
-grep -n "#SECTION:IMAGES" images.js
 ```
 
-**禁止整包讀取 `index.html` 或 `images.js`。** 任何修改前必須先定位錨點。
+**禁止整包讀取 `index.html`。** 任何修改前必須先定位錨點。
 
 ## 檔案結構
 ```
@@ -253,8 +239,7 @@ kids-companion/
   CLAUDE.md          # 開發指引（本檔案）
   AGENTS.md          # Agent 團隊設定
   README.md          # 使用手冊（給家長）
-  index.html         # 應用程式主體（HTML + CSS + JS 邏輯）
-  images.js          # 所有 base64 圖片資料（禁止讀取內容，只 append）
+  index.html         # 應用程式主體
   docs/
     design.md        # UI/UX 設計規格
     features.md      # 功能規格書
