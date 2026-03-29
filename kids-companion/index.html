@@ -9816,6 +9816,364 @@ var ANIMALS = {
 };
 // <!-- #END:PAGE-ZOO-DATA -->
 
+// <!-- #SECTION:PAGE-FOOD-JS -->
+var foodState = {
+  currentCategory: null,
+  currentIdx: 0,
+  quizPending: false,
+  quizActive: false
+};
+
+function showFoodShelf() {
+  foodState.currentCategory = null;
+  foodState.currentIdx = 0;
+  var shelf = document.getElementById('food-shelf');
+  var browse = document.getElementById('food-browse');
+  var quiz = document.getElementById('food-quiz');
+  var complete = document.getElementById('food-complete');
+  if (shelf) shelf.style.display = '';
+  if (browse) browse.style.display = 'none';
+  if (quiz) quiz.style.display = 'none';
+  if (complete) complete.classList.remove('show');
+  document.getElementById('food-title').textContent = '🍎 食物原型';
+  document.getElementById('food-progress-label').textContent = '';
+  document.getElementById('food-back-btn').onclick = function() { navigateTo('page-home'); };
+  renderFoodShelf();
+}
+
+function renderFoodShelf() {
+  var grid = document.getElementById('food-category-grid');
+  if (!grid) return;
+  var lang = APP.language || 'zh';
+  var html = '';
+  FOOD_CATEGORIES.forEach(function(cat) {
+    var count = (FOODS[cat.id] || []).length;
+    html += '<div class="food-category-card" onclick="openFoodCategory(\'' + cat.id + '\')">';
+    html += '<span class="food-category-icon">' + cat.emoji + '</span>';
+    html += '<div class="food-category-name">' + cat.name[lang] + '</div>';
+    html += '<div class="food-category-count">' + count + ' 種食物</div>';
+    html += '</div>';
+  });
+  grid.innerHTML = html;
+}
+
+function foodBack() {
+  if (foodState.currentCategory) {
+    if ('speechSynthesis' in window) speechSynthesis.cancel();
+    showFoodShelf();
+  } else {
+    navigateTo('page-home');
+  }
+}
+
+function foodBackToShelf() {
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  var complete = document.getElementById('food-complete');
+  if (complete) complete.classList.remove('show');
+  showFoodShelf();
+}
+
+function foodRestart() {
+  var complete = document.getElementById('food-complete');
+  if (complete) complete.classList.remove('show');
+  foodState.currentIdx = 0;
+  foodState.quizPending = false;
+  foodState.quizActive = false;
+  showFoodBrowse();
+}
+
+function openFoodCategory(catId) {
+  var cat = null;
+  for (var i = 0; i < FOOD_CATEGORIES.length; i++) {
+    if (FOOD_CATEGORIES[i].id === catId) { cat = FOOD_CATEGORIES[i]; break; }
+  }
+  if (!cat) return;
+  foodState.currentCategory = catId;
+  foodState.currentIdx = 0;
+  foodState.quizPending = false;
+  foodState.quizActive = false;
+
+  var lang = APP.language || 'zh';
+  document.getElementById('food-title').textContent = cat.emoji + ' ' + cat.name[lang];
+  document.getElementById('food-back-btn').onclick = function() { showFoodShelf(); };
+
+  var shelf = document.getElementById('food-shelf');
+  if (shelf) shelf.style.display = 'none';
+  showFoodBrowse();
+}
+
+function showFoodBrowse() {
+  var browse = document.getElementById('food-browse');
+  var quiz = document.getElementById('food-quiz');
+  if (browse) browse.style.display = '';
+  if (quiz) quiz.style.display = 'none';
+  foodState.quizActive = false;
+  renderFoodCard();
+}
+
+function renderFoodCard() {
+  var foods = FOODS[foodState.currentCategory] || [];
+  var idx = foodState.currentIdx;
+  var food = foods[idx];
+  if (!food) return;
+
+  var lang = APP.language || 'zh';
+  var ag = APP.ageGroup;
+  var isSmall = (ag === 'toddler' || ag === 'small');
+  var isLarge = (ag === 'large');
+
+  var total = foods.length;
+  document.getElementById('food-progress-label').textContent = (idx + 1) + '/' + total;
+  document.getElementById('food-browse-progress').textContent = (idx + 1) + ' / ' + total;
+
+  var prevBtn = document.getElementById('food-prev-btn');
+  var nextBtn = document.getElementById('food-next-btn');
+  if (prevBtn) prevBtn.style.display = idx === 0 ? 'none' : '';
+  if (nextBtn) nextBtn.textContent = idx === total - 1 ? '完成 ✓' : '下一個 →';
+
+  var imgSrc = (typeof IMG !== 'undefined' && IMG['food-' + food.id]) ? IMG['food-' + food.id] : '';
+  var photoClass = isSmall ? 'food-item-photo-large' : 'food-item-photo';
+  var html = '';
+
+  if (imgSrc) {
+    html += '<img src="' + imgSrc + '" class="' + photoClass + '" alt="' + food[lang] + '" onclick="foodSpeak()" style="cursor:pointer">';
+  } else {
+    html += '<div class="' + photoClass + '" onclick="foodSpeak()" style="display:flex;align-items:center;justify-content:center;background:#f0ebe3;cursor:pointer;font-size:80px">' + food.emoji + '</div>';
+  }
+
+  html += '<div class="food-item-name" onclick="foodSpeak()" style="cursor:pointer">' + food[lang] + '</div>';
+
+  if (!isSmall) {
+    html += '<div class="food-item-name-en">' + food.en + '</div>';
+  }
+
+  if (!isSmall && food.desc) {
+    html += '<div class="food-item-desc">' + food.desc[lang] + '</div>';
+  }
+
+  if (food.benefit) {
+    html += '<div class="food-item-benefit">' + food.benefit[lang] + '</div>';
+  }
+
+  if (isLarge && food.desc) {
+    html += '<div class="food-item-detail">' + food.desc[lang] + '</div>';
+  }
+
+  document.getElementById('food-browse-card').innerHTML = html;
+
+  if (isSmall) {
+    setTimeout(function() { foodSpeak(); }, 400);
+  }
+}
+
+function foodSpeak() {
+  var foods = FOODS[foodState.currentCategory] || [];
+  var food = foods[foodState.currentIdx];
+  if (!food) return;
+  var lang = APP.language || 'zh';
+  var ag = APP.ageGroup;
+  var isSmall = (ag === 'toddler' || ag === 'small');
+  var text = food[lang];
+  if (!isSmall && food.desc) text += '。' + food.desc[lang];
+  if ('speechSynthesis' in window) {
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(text);
+    u.lang = lang === 'zh' ? 'zh-TW' : 'en-US';
+    u.rate = 0.85; u.pitch = 1.2;
+    speechSynthesis.speak(u);
+  }
+}
+
+function foodPrev() {
+  if (foodState.currentIdx > 0) {
+    if ('speechSynthesis' in window) speechSynthesis.cancel();
+    foodState.currentIdx--;
+    renderFoodCard();
+  }
+}
+
+function foodNext() {
+  var foods = FOODS[foodState.currentCategory] || [];
+  var ag = APP.ageGroup;
+  var isSmall = (ag === 'toddler' || ag === 'small');
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+
+  var nextIdx = foodState.currentIdx + 1;
+  var shouldQuiz = !isSmall && nextIdx % 5 === 0 && nextIdx < foods.length;
+
+  if (nextIdx >= foods.length) {
+    if (!isSmall && !foodState.quizPending) {
+      foodState.quizPending = true;
+      startFoodQuiz();
+    } else {
+      showFoodComplete();
+    }
+  } else if (shouldQuiz) {
+    foodState.currentIdx = nextIdx;
+    foodState.quizPending = true;
+    startFoodQuiz();
+  } else {
+    foodState.currentIdx = nextIdx;
+    renderFoodCard();
+  }
+}
+
+function startFoodQuiz() {
+  var browse = document.getElementById('food-browse');
+  var quiz = document.getElementById('food-quiz');
+  if (browse) browse.style.display = 'none';
+  if (quiz) quiz.style.display = '';
+  foodState.quizActive = true;
+
+  var foods = FOODS[foodState.currentCategory] || [];
+  var ag = APP.ageGroup;
+  var isSmall = (ag === 'toddler' || ag === 'small');
+  var isMiddle = (ag === 'middle');
+  var isLarge = (ag === 'large');
+  var lang = APP.language || 'zh';
+
+  var qIdx = foodState.currentIdx - 1;
+  if (qIdx < 0) qIdx = 0;
+  var qFood = foods[qIdx];
+
+  var imgSrc = (typeof IMG !== 'undefined' && IMG['food-' + qFood.id]) ? IMG['food-' + qFood.id] : '';
+  var html = '';
+
+  if (isSmall) {
+    var numChoices = (ag === 'toddler') ? 2 : 3;
+    html += '<div class="food-quiz-question">' + (lang === 'zh' ? '這是什麼食物？' : 'What food is this?') + '</div>';
+    if (imgSrc) {
+      html += '<div style="text-align:center;margin-bottom:16px"><img src="' + imgSrc + '" style="width:min(200px,60vw);height:min(200px,60vw);object-fit:cover;border-radius:16px" alt="?"></div>';
+    } else {
+      html += '<div style="text-align:center;font-size:80px;margin-bottom:16px">' + qFood.emoji + '</div>';
+    }
+    var pool = foods.filter(function(f) { return f.id !== qFood.id; });
+    var shuffled = pool.slice().sort(function() { return Math.random() - 0.5; });
+    var choices = [qFood].concat(shuffled.slice(0, numChoices - 1)).sort(function() { return Math.random() - 0.5; });
+    html += '<div class="food-quiz-choices choices-' + numChoices + '">';
+    choices.forEach(function(c) {
+      html += '<button class="food-quiz-btn" onclick="foodQuizAnswer(this,' + (c.id === qFood.id) + ',\'' + qFood.id + '\',\'name\')">' + c[lang] + '</button>';
+    });
+    html += '</div>';
+    if ('speechSynthesis' in window) {
+      speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(lang === 'zh' ? '這是什麼食物？' : 'What food is this?');
+      u.lang = lang === 'zh' ? 'zh-TW' : 'en-US'; u.rate = 0.85; u.pitch = 1.2;
+      speechSynthesis.speak(u);
+    }
+  } else {
+    var numCatChoices = isMiddle ? 3 : 4;
+    html += '<div class="food-quiz-question">' + (lang === 'zh' ? '這是哪一類食物？' : 'Which food group is this?') + '</div>';
+    if (imgSrc) {
+      html += '<div style="text-align:center;margin-bottom:16px"><img src="' + imgSrc + '" style="width:min(200px,60vw);height:min(200px,60vw);object-fit:cover;border-radius:16px" alt="?"></div>';
+    } else {
+      html += '<div style="text-align:center;font-size:80px;margin-bottom:16px">' + qFood.emoji + '</div>';
+    }
+    var correctCat = null;
+    for (var i = 0; i < FOOD_CATEGORIES.length; i++) {
+      if (FOOD_CATEGORIES[i].id === foodState.currentCategory) { correctCat = FOOD_CATEGORIES[i]; break; }
+    }
+    var wrongCats = FOOD_CATEGORIES.filter(function(c) { return c.id !== foodState.currentCategory; });
+    var shuffledWrong = wrongCats.slice().sort(function() { return Math.random() - 0.5; });
+    var catChoices = [correctCat].concat(shuffledWrong.slice(0, numCatChoices - 1)).sort(function() { return Math.random() - 0.5; });
+    html += '<div class="food-quiz-choices choices-' + numCatChoices + '">';
+    catChoices.forEach(function(c) {
+      html += '<button class="food-quiz-btn" onclick="foodQuizAnswer(this,' + (c.id === foodState.currentCategory) + ',\'' + foodState.currentCategory + '\',\'category\')">' + c.emoji + ' ' + c.name[lang] + '</button>';
+    });
+    html += '</div>';
+    if (!isLarge && 'speechSynthesis' in window) {
+      speechSynthesis.cancel();
+      var u2 = new SpeechSynthesisUtterance(lang === 'zh' ? '這是哪一類食物？' : 'Which food group is this?');
+      u2.lang = lang === 'zh' ? 'zh-TW' : 'en-US'; u2.rate = 0.85; u2.pitch = 1.2;
+      speechSynthesis.speak(u2);
+    }
+  }
+
+  document.getElementById('food-quiz-area').innerHTML = html;
+}
+
+function foodQuizAnswer(btn, isCorrect, correctId, quizType) {
+  var area = document.getElementById('food-quiz-area');
+  var btns = area.querySelectorAll('.food-quiz-btn');
+  btns.forEach(function(b) { b.disabled = true; });
+
+  var lang = APP.language || 'zh';
+
+  if (isCorrect) {
+    btn.classList.add('correct');
+    playCorrectSound();
+    var msg = '';
+    if (quizType === 'category') {
+      var correctCat = null;
+      for (var i = 0; i < FOOD_CATEGORIES.length; i++) {
+        if (FOOD_CATEGORIES[i].id === correctId) { correctCat = FOOD_CATEGORIES[i]; break; }
+      }
+      msg = lang === 'zh' ? '答對了！是' + (correctCat ? correctCat.name.zh : '') + '！' : 'Correct! It\'s ' + (correctCat ? correctCat.name.en : '') + '!';
+    } else {
+      var foods = FOODS[foodState.currentCategory] || [];
+      var correctFood = null;
+      for (var j = 0; j < foods.length; j++) {
+        if (foods[j].id === correctId) { correctFood = foods[j]; break; }
+      }
+      msg = lang === 'zh' ? '答對了！是' + (correctFood ? correctFood.zh : '') + '！' : 'Correct! It\'s ' + (correctFood ? correctFood.en : '') + '!';
+    }
+    if ('speechSynthesis' in window) {
+      speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(msg);
+      u.lang = lang === 'zh' ? 'zh-TW' : 'en-US'; u.rate = 0.85; u.pitch = 1.2;
+      speechSynthesis.speak(u);
+    }
+    setTimeout(function() { foodAfterQuiz(); }, 1500);
+  } else {
+    btn.classList.add('wrong');
+    playWrongSound();
+    btns.forEach(function(b) {
+      if (b !== btn) {
+        var bText = b.textContent.trim();
+        if (quizType === 'category') {
+          var cc = null;
+          for (var i = 0; i < FOOD_CATEGORIES.length; i++) {
+            if (FOOD_CATEGORIES[i].id === correctId) { cc = FOOD_CATEGORIES[i]; break; }
+          }
+          if (cc && bText.indexOf(cc.name[lang]) !== -1) b.classList.add('correct');
+        } else {
+          var foods2 = FOODS[foodState.currentCategory] || [];
+          var cf = null;
+          for (var j = 0; j < foods2.length; j++) {
+            if (foods2[j].id === correctId) { cf = foods2[j]; break; }
+          }
+          if (cf && bText === cf[lang]) b.classList.add('correct');
+        }
+      }
+    });
+    var msg2 = lang === 'zh' ? '哎呀，再試一次！' : 'Oops, try again!';
+    if ('speechSynthesis' in window) {
+      speechSynthesis.cancel();
+      var u2 = new SpeechSynthesisUtterance(msg2);
+      u2.lang = lang === 'zh' ? 'zh-TW' : 'en-US'; u2.rate = 0.85; u2.pitch = 1.2;
+      speechSynthesis.speak(u2);
+    }
+    setTimeout(function() { foodAfterQuiz(); }, 2000);
+  }
+}
+
+function foodAfterQuiz() {
+  foodState.quizPending = false;
+  var foods = FOODS[foodState.currentCategory] || [];
+  if (foodState.currentIdx >= foods.length) {
+    showFoodComplete();
+  } else {
+    showFoodBrowse();
+  }
+}
+
+function showFoodComplete() {
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  showCompleteScreen('food-complete');
+  completeActivity('page-food');
+}
+// <!-- #END:PAGE-FOOD-JS -->
+
 // <!-- #SECTION:PAGE-ZOO-JS -->
 var zooState = {
   currentCategory: null,
