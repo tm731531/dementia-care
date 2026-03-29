@@ -1431,7 +1431,6 @@ body {
     <div class="game-header">
       <button class="back-btn" onclick="closeRhymesReader()">← 童謠</button>
       <span id="rhymes-title">童謠標題</span>
-      <button id="rhymes-play-btn" class="btn btn-secondary" onclick="playRhyme()" style="padding:6px 16px;font-size:18px">▶ 朗讀</button>
     </div>
     <button class="praise-btn" onclick="showPraiseOverlay()">👏</button>
     <div id="rhymes-display"></div>
@@ -1440,8 +1439,8 @@ body {
     <div class="complete-content">
       <div style="font-size:80px">🎵</div>
       <h2 id="rhymes-complete-msg">唱完了！真棒！</h2>
-      <button class="btn btn-primary" onclick="navigateTo('page-home')">回首頁</button>
-      <button class="btn btn-secondary" onclick="replayRhyme()">再唱一次</button>
+      <button class="btn btn-primary" onclick="replayRhyme()">再聽一次 🎵</button>
+      <button class="btn btn-secondary" onclick="closeRhymesReader()">換一首</button>
     </div>
   </div>
 </div>
@@ -6087,24 +6086,10 @@ function openRhyme(rhymeId) {
   var titleEl = document.getElementById('rhymes-title');
   if (titleEl) titleEl.textContent = rhyme.emoji + ' ' + rhyme.title[APP.language || 'zh'];
 
-  // Show/hide play button based on age group
-  var playBtn = document.getElementById('rhymes-play-btn');
-  var ag = APP.ageGroup;
-  if (playBtn) {
-    if (ag === 'toddler' || ag === 'small') {
-      playBtn.style.display = 'none';
-    } else {
-      playBtn.style.display = '';
-    }
-  }
-
   renderRhymeLines();
 
-  // Play melody immediately on open (all age groups)
-  startRhymeMelody(rhyme.notes || []);
-
-  // Auto-read for all age groups
-  setTimeout(function() { playRhyme(); }, 600);
+  // Play melody once on open
+  setTimeout(function() { playRhyme(); }, 300);
 }
 
 function closeRhymesReader() {
@@ -6127,11 +6112,7 @@ function renderRhymeLines() {
 
   var html = '<div style="padding:24px 16px;">';
   rhyme.lines.forEach(function(line, idx) {
-    var isActive = (idx === rhymesState.currentLineIdx && rhymesState.isPlaying);
-    var highlight = isActive
-      ? 'background:var(--color-accent,#FFB347);border-radius:12px;padding:6px 12px;'
-      : 'padding:6px 12px;';
-    html += '<div id="rhyme-line-' + idx + '" style="font-size:' + fontSize + ';margin:8px 0;transition:background 0.3s;' + highlight + '">';
+    html += '<div style="font-size:' + fontSize + ';margin:8px 0;padding:6px 12px;">';
     html += line[lang];
     if (!isSmall) {
       html += '<span style="font-size:' + (parseInt(fontSize) - 8) + 'px;color:var(--color-muted,#aaa);margin-left:12px;">' + line.en + '</span>';
@@ -6171,56 +6152,18 @@ function highlightRhymeLine(idx) {
 function playRhyme() {
   var rhyme = rhymesState.currentRhyme;
   if (!rhyme || rhymesState.isPlaying) return;
-
-  startRhymeMelody(rhyme.notes || []);
-
-  if ('speechSynthesis' in window) speechSynthesis.cancel();
   rhymesState.isPlaying = true;
-  rhymesState.currentLineIdx = 0;
-
-  var lang = APP.language || 'zh';
-  var lines = rhyme.lines;
-
-  function speakLine(idx) {
-    if (idx >= lines.length) {
-      rhymesState.isPlaying = false;
-      showRhymesComplete();
-      return;
-    }
-    rhymesState.currentLineIdx = idx;
-    highlightRhymeLine(idx);
-
-    var text = lines[idx][lang];
-    // Strip punctuation for cleaner TTS
-    var cleanText = text.replace(/[，。！？、…]/g, ' ').trim();
-
-    if ('speechSynthesis' in window) {
-      speechSynthesis.cancel();
-      var utterance = new SpeechSynthesisUtterance(cleanText);
-      utterance.lang = lang === 'zh' ? 'zh-TW' : 'en-US';
-      utterance.rate = 0.78;
-      utterance.pitch = 1.2;
-      utterance.onend = function() {
-        setTimeout(function() { speakLine(idx + 1); }, 500);
-      };
-      utterance.onerror = function() {
-        setTimeout(function() { speakLine(idx + 1); }, 800);
-      };
-      speechSynthesis.speak(utterance);
-    } else {
-      setTimeout(function() { speakLine(idx + 1); }, 1000);
-    }
-  }
-
-  speakLine(0);
+  stopRhymeMelody();
+  playMelodyOnce(rhyme.notes || [], function() {
+    rhymesState.isPlaying = false;
+    showRhymesComplete();
+  });
 }
 
 function replayRhyme() {
   var complete = document.getElementById('rhymes-complete');
   if (complete) complete.classList.remove('show');
   rhymesState.isPlaying = false;
-  rhymesState.currentLineIdx = 0;
-  renderRhymeLines();
   setTimeout(function() { playRhyme(); }, 300);
 }
 
