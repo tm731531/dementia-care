@@ -1751,6 +1751,47 @@ body {
 </div>
 <!-- #END:PAGE-SOCIAL -->
 
+<!-- #SECTION:PAGE-ZOO -->
+<div class="page" id="page-zoo">
+  <div class="game-header">
+    <button class="back-btn" id="zoo-back-btn" onclick="zooBack()">← 返回</button>
+    <span class="game-title" id="zoo-title">🦁 動物園</span>
+    <span class="round-counter" id="zoo-progress-label"></span>
+  </div>
+  <button class="praise-btn" onclick="showPraiseOverlay()">👏</button>
+
+  <!-- Category shelf -->
+  <div id="zoo-shelf">
+    <div class="zoo-category-grid" id="zoo-category-grid"></div>
+  </div>
+
+  <!-- Browse mode -->
+  <div id="zoo-browse" style="display:none">
+    <div class="zoo-browse-card" id="zoo-browse-card"></div>
+    <div class="zoo-nav">
+      <button class="btn btn-secondary" id="zoo-prev-btn" onclick="zooPrev()" style="padding:10px 20px">← 上一隻</button>
+      <span class="zoo-progress" id="zoo-browse-progress"></span>
+      <button class="btn btn-primary" id="zoo-next-btn" onclick="zooNext()" style="padding:10px 20px">下一隻 →</button>
+    </div>
+  </div>
+
+  <!-- Quiz mode -->
+  <div id="zoo-quiz" style="display:none">
+    <div class="zoo-quiz-area" id="zoo-quiz-area"></div>
+  </div>
+
+  <!-- Complete screen -->
+  <div class="complete-screen" id="zoo-complete">
+    <div class="complete-content">
+      <div style="font-size:80px">🦁</div>
+      <h2>動物小達人！</h2>
+      <button class="btn btn-primary" onclick="zooRestart()">再看一次 🔄</button>
+      <button class="btn btn-secondary" onclick="zooBackToShelf()">換分類</button>
+    </div>
+  </div>
+</div>
+<!-- #END:PAGE-ZOO -->
+
 <!-- #SECTION:PAGE-MONEY -->
 <div class="page" id="page-money">
   <div class="game-header">
