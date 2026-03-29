@@ -24,6 +24,9 @@
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
 }
+html {
+  overscroll-behavior: none;
+}
 
 body {
   font-family: 'Nunito', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
@@ -32,6 +35,7 @@ body {
   font-size: 22px;
   min-height: 100vh;
   overflow-x: hidden;
+  overscroll-behavior: none;
   user-select: none;
   -webkit-user-select: none;
 }
@@ -2656,6 +2660,18 @@ function initShakeDetection() {
 
 
 // Startup logic
+// Block pull-to-refresh on iOS Safari (overscroll-behavior CSS doesn't work there)
+document.addEventListener('touchmove', function(e) {
+  var el = e.target;
+  while (el && el !== document.body) {
+    var style = window.getComputedStyle(el);
+    var ov = style.overflow + style.overflowY;
+    if (ov.indexOf('scroll') !== -1 || ov.indexOf('auto') !== -1) return;
+    el = el.parentElement;
+  }
+  e.preventDefault();
+}, { passive: false });
+
 window.onload = function() {
   loadState();
   resetDailyIfNeeded();
