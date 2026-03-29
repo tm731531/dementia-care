@@ -9955,10 +9955,6 @@ function renderFoodCard() {
     html += '<div class="food-item-benefit">' + food.benefit[lang] + '</div>';
   }
 
-  if (isLarge && food.desc) {
-    html += '<div class="food-item-detail">' + food.desc[lang] + '</div>';
-  }
-
   document.getElementById('food-browse-card').innerHTML = html;
 
   if (isSmall) {
