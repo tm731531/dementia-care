@@ -2116,6 +2116,7 @@ function navigateTo(pageId) {
   if (pageId === 'page-sort') startSortGame();
   if (pageId === 'page-story') showStoryShelf();
   if (pageId === 'page-rhymes') showRhymesShelf();
+  if (pageId === 'page-zoo') showZooShelf();
   if (pageId === 'page-riddles') startRiddlesGame();
   clearTimeout(storyChoiceTimer);
   if (pageId === 'page-story-choice') startStoryChoice();
@@ -9517,6 +9518,311 @@ var ANIMALS = {
   ]
 };
 // <!-- #END:PAGE-ZOO-DATA -->
+
+// <!-- #SECTION:PAGE-ZOO-JS -->
+var zooState = {
+  currentCategory: null,
+  currentIdx: 0,
+  quizPending: false,
+  quizActive: false
+};
+
+function showZooShelf() {
+  zooState.currentCategory = null;
+  zooState.currentIdx = 0;
+  var shelf = document.getElementById('zoo-shelf');
+  var browse = document.getElementById('zoo-browse');
+  var quiz = document.getElementById('zoo-quiz');
+  var complete = document.getElementById('zoo-complete');
+  if (shelf) shelf.style.display = '';
+  if (browse) browse.style.display = 'none';
+  if (quiz) quiz.style.display = 'none';
+  if (complete) complete.classList.remove('show');
+  document.getElementById('zoo-title').textContent = '🦁 動物園';
+  document.getElementById('zoo-progress-label').textContent = '';
+  document.getElementById('zoo-back-btn').onclick = function() { navigateTo('page-home'); };
+  renderZooShelf();
+}
+
+function renderZooShelf() {
+  var grid = document.getElementById('zoo-category-grid');
+  if (!grid) return;
+  var lang = APP.language || 'zh';
+  var html = '';
+  ANIMAL_CATEGORIES.forEach(function(cat) {
+    var count = (ANIMALS[cat.id] || []).length;
+    html += '<div class="zoo-category-card" onclick="openZooCategory(\'' + cat.id + '\')">';
+    html += '<span class="zoo-category-icon">' + cat.emoji + '</span>';
+    html += '<div class="zoo-category-name">' + cat.name[lang] + '</div>';
+    html += '<div class="zoo-category-count">' + count + ' 種動物</div>';
+    html += '</div>';
+  });
+  grid.innerHTML = html;
+}
+
+function zooBack() {
+  if (zooState.currentCategory) {
+    if ('speechSynthesis' in window) speechSynthesis.cancel();
+    showZooShelf();
+  } else {
+    navigateTo('page-home');
+  }
+}
+
+function zooBackToShelf() {
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  var complete = document.getElementById('zoo-complete');
+  if (complete) complete.classList.remove('show');
+  showZooShelf();
+}
+
+function zooRestart() {
+  var complete = document.getElementById('zoo-complete');
+  if (complete) complete.classList.remove('show');
+  zooState.currentIdx = 0;
+  zooState.quizPending = false;
+  zooState.quizActive = false;
+  showZooBrowse();
+}
+
+function openZooCategory(catId) {
+  var cat = null;
+  for (var i = 0; i < ANIMAL_CATEGORIES.length; i++) {
+    if (ANIMAL_CATEGORIES[i].id === catId) { cat = ANIMAL_CATEGORIES[i]; break; }
+  }
+  if (!cat) return;
+  zooState.currentCategory = catId;
+  zooState.currentIdx = 0;
+  zooState.quizPending = false;
+  zooState.quizActive = false;
+
+  var lang = APP.language || 'zh';
+  document.getElementById('zoo-title').textContent = cat.emoji + ' ' + cat.name[lang];
+  document.getElementById('zoo-back-btn').onclick = function() { showZooShelf(); };
+
+  var shelf = document.getElementById('zoo-shelf');
+  if (shelf) shelf.style.display = 'none';
+  showZooBrowse();
+}
+
+function showZooBrowse() {
+  var browse = document.getElementById('zoo-browse');
+  var quiz = document.getElementById('zoo-quiz');
+  if (browse) browse.style.display = '';
+  if (quiz) quiz.style.display = 'none';
+  zooState.quizActive = false;
+  renderZooCard();
+}
+
+function renderZooCard() {
+  var animals = ANIMALS[zooState.currentCategory] || [];
+  var idx = zooState.currentIdx;
+  var animal = animals[idx];
+  if (!animal) return;
+
+  var lang = APP.language || 'zh';
+  var ag = APP.ageGroup;
+  var isSmall = (ag === 'toddler' || ag === 'small');
+  var isLarge = (ag === 'large');
+
+  var total = animals.length;
+  document.getElementById('zoo-progress-label').textContent = (idx + 1) + '/' + total;
+  document.getElementById('zoo-browse-progress').textContent = (idx + 1) + ' / ' + total;
+
+  var prevBtn = document.getElementById('zoo-prev-btn');
+  var nextBtn = document.getElementById('zoo-next-btn');
+  if (prevBtn) prevBtn.style.display = idx === 0 ? 'none' : '';
+  if (nextBtn) nextBtn.textContent = idx === total - 1 ? '完成 ✓' : '下一隻 →';
+
+  var imgSrc = (typeof IMG !== 'undefined' && IMG['zoo-' + animal.id]) ? IMG['zoo-' + animal.id] : '';
+  var photoClass = isSmall ? 'zoo-animal-photo-large' : 'zoo-animal-photo';
+  var html = '';
+
+  if (imgSrc) {
+    html += '<img src="' + imgSrc + '" class="' + photoClass + '" alt="' + animal[lang] + '" onclick="zooSpeak()" style="cursor:pointer">';
+  } else {
+    html += '<div class="' + photoClass + '" onclick="zooSpeak()" style="display:flex;align-items:center;justify-content:center;background:#f0ebe3;cursor:pointer;font-size:80px">' + animal.emoji + '</div>';
+  }
+
+  html += '<div class="zoo-animal-name" onclick="zooSpeak()" style="cursor:pointer">' + animal[lang] + '</div>';
+
+  if (!isSmall) {
+    html += '<div class="zoo-animal-name-en">' + animal.en + '</div>';
+  }
+
+  if (!isSmall && animal.desc) {
+    html += '<div class="zoo-animal-desc">' + animal.desc[lang] + '</div>';
+  }
+
+  if (isLarge && animal.detail) {
+    html += '<div class="zoo-animal-detail">' + animal.detail[lang] + '</div>';
+  }
+
+  document.getElementById('zoo-browse-card').innerHTML = html;
+
+  if (isSmall) {
+    setTimeout(function() { zooSpeak(); }, 400);
+  }
+}
+
+function zooSpeak() {
+  var animals = ANIMALS[zooState.currentCategory] || [];
+  var animal = animals[zooState.currentIdx];
+  if (!animal) return;
+  var lang = APP.language || 'zh';
+  var ag = APP.ageGroup;
+  var isSmall = (ag === 'toddler' || ag === 'small');
+  var text = animal[lang];
+  if (!isSmall && animal.desc) text += '。' + animal.desc[lang];
+  if ('speechSynthesis' in window) {
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(text);
+    u.lang = lang === 'zh' ? 'zh-TW' : 'en-US';
+    u.rate = 0.85; u.pitch = 1.2;
+    speechSynthesis.speak(u);
+  }
+}
+
+function zooPrev() {
+  if (zooState.currentIdx > 0) {
+    if ('speechSynthesis' in window) speechSynthesis.cancel();
+    zooState.currentIdx--;
+    renderZooCard();
+  }
+}
+
+function zooNext() {
+  var animals = ANIMALS[zooState.currentCategory] || [];
+  var ag = APP.ageGroup;
+  var isSmall = (ag === 'toddler' || ag === 'small');
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+
+  var nextIdx = zooState.currentIdx + 1;
+  var shouldQuiz = !isSmall && nextIdx % 5 === 0 && nextIdx < animals.length;
+
+  if (nextIdx >= animals.length) {
+    if (!isSmall && !zooState.quizPending) {
+      zooState.quizPending = true;
+      startZooQuiz();
+    } else {
+      showZooComplete();
+    }
+  } else if (shouldQuiz) {
+    zooState.currentIdx = nextIdx;
+    zooState.quizPending = true;
+    startZooQuiz();
+  } else {
+    zooState.currentIdx = nextIdx;
+    renderZooCard();
+  }
+}
+
+function startZooQuiz() {
+  var browse = document.getElementById('zoo-browse');
+  var quiz = document.getElementById('zoo-quiz');
+  if (browse) browse.style.display = 'none';
+  if (quiz) quiz.style.display = '';
+  zooState.quizActive = true;
+
+  var animals = ANIMALS[zooState.currentCategory] || [];
+  var ag = APP.ageGroup;
+  var isLarge = (ag === 'large');
+  var numChoices = isLarge ? 4 : 2;
+  var lang = APP.language || 'zh';
+
+  var qIdx = zooState.currentIdx - 1;
+  if (qIdx < 0) qIdx = 0;
+  var qAnimal = animals[qIdx];
+
+  var pool = animals.filter(function(a) { return a.id !== qAnimal.id; });
+  var shuffled = pool.slice().sort(function() { return Math.random() - 0.5; });
+  var distractors = shuffled.slice(0, numChoices - 1);
+  var choices = [qAnimal].concat(distractors).sort(function() { return Math.random() - 0.5; });
+
+  var imgSrc = (typeof IMG !== 'undefined' && IMG['zoo-' + qAnimal.id]) ? IMG['zoo-' + qAnimal.id] : '';
+  var html = '<div class="zoo-quiz-question">' + (lang === 'zh' ? '這是什麼動物？' : 'What animal is this?') + '</div>';
+
+  if (imgSrc) {
+    html += '<div style="text-align:center;margin-bottom:16px"><img src="' + imgSrc + '" style="width:min(200px,60vw);height:min(200px,60vw);object-fit:cover;border-radius:16px" alt="?"></div>';
+  } else {
+    html += '<div style="text-align:center;font-size:80px;margin-bottom:16px">' + qAnimal.emoji + '</div>';
+  }
+
+  html += '<div class="zoo-quiz-choices choices-' + numChoices + '">';
+  choices.forEach(function(c) {
+    html += '<button class="zoo-quiz-btn" onclick="zooQuizAnswer(this,' + (c.id === qAnimal.id ? 'true' : 'false') + ',\'' + qAnimal.id + '\')">' + c[lang] + '</button>';
+  });
+  html += '</div>';
+
+  document.getElementById('zoo-quiz-area').innerHTML = html;
+
+  if ('speechSynthesis' in window) {
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(lang === 'zh' ? '這是什麼動物？' : 'What animal is this?');
+    u.lang = lang === 'zh' ? 'zh-TW' : 'en-US';
+    u.rate = 0.85; u.pitch = 1.2;
+    speechSynthesis.speak(u);
+  }
+}
+
+function zooQuizAnswer(btn, isCorrect, correctId) {
+  var area = document.getElementById('zoo-quiz-area');
+  var btns = area.querySelectorAll('.zoo-quiz-btn');
+  btns.forEach(function(b) { b.disabled = true; });
+
+  var lang = APP.language || 'zh';
+  var animals = ANIMALS[zooState.currentCategory] || [];
+  var correctAnimal = null;
+  for (var i = 0; i < animals.length; i++) {
+    if (animals[i].id === correctId) { correctAnimal = animals[i]; break; }
+  }
+
+  if (isCorrect) {
+    btn.classList.add('correct');
+    playCorrectSound();
+    if ('speechSynthesis' in window) {
+      speechSynthesis.cancel();
+      var msg = lang === 'zh' ? '答對了！是' + (correctAnimal ? correctAnimal.zh : '') + '！' : 'Correct! It\'s a ' + (correctAnimal ? correctAnimal.en : '') + '!';
+      var u = new SpeechSynthesisUtterance(msg);
+      u.lang = lang === 'zh' ? 'zh-TW' : 'en-US';
+      u.rate = 0.85; u.pitch = 1.2;
+      speechSynthesis.speak(u);
+    }
+    setTimeout(function() { zooAfterQuiz(); }, 1500);
+  } else {
+    btn.classList.add('wrong');
+    playWrongSound();
+    btns.forEach(function(b) {
+      if (correctAnimal && b.textContent === correctAnimal[lang]) b.classList.add('correct');
+    });
+    if ('speechSynthesis' in window) {
+      speechSynthesis.cancel();
+      var msg2 = lang === 'zh' ? '哎呀，再試一次！是' + (correctAnimal ? correctAnimal.zh : '') + '喔！' : 'Oops! It\'s a ' + (correctAnimal ? correctAnimal.en : '') + '!';
+      var u2 = new SpeechSynthesisUtterance(msg2);
+      u2.lang = lang === 'zh' ? 'zh-TW' : 'en-US';
+      u2.rate = 0.85; u2.pitch = 1.2;
+      speechSynthesis.speak(u2);
+    }
+    setTimeout(function() { zooAfterQuiz(); }, 2000);
+  }
+}
+
+function zooAfterQuiz() {
+  zooState.quizPending = false;
+  var animals = ANIMALS[zooState.currentCategory] || [];
+  if (zooState.currentIdx >= animals.length) {
+    showZooComplete();
+  } else {
+    showZooBrowse();
+  }
+}
+
+function showZooComplete() {
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  showCompleteScreen('zoo-complete');
+  completeActivity('page-zoo');
+}
+// <!-- #END:PAGE-ZOO-JS -->
 
 // <!-- #SECTION:PAGE-MONEY-JS -->
 
