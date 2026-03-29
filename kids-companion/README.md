@@ -155,6 +155,14 @@ npx serve -l 8003 .
 
 ---
 
+## 支持這個專案
+
+如果這個工具對你的孩子有幫助，歡迎請我喝杯咖啡：
+
+<a href="https://www.buymeacoffee.com/tomting" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+
+---
+
 ## 作者
 
 **Tom Ting** — [blog.tomting.com](https://blog.tomting.com/)
