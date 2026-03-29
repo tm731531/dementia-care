@@ -965,6 +965,121 @@ body {
 }
 .money-cmp-col.winner { border-color:var(--color-primary); background:#fff3ee; }
 
+/* Zoo Activity */
+.zoo-category-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  padding: 16px;
+}
+.zoo-category-card {
+  background: var(--color-card);
+  border-radius: 20px;
+  padding: 24px 16px;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: transform 0.15s;
+  border: 3px solid transparent;
+}
+.zoo-category-card:active { transform: scale(0.95); border-color: var(--color-primary); }
+.zoo-category-icon { font-size: 48px; display: block; margin-bottom: 8px; }
+.zoo-category-name { font-size: 20px; font-weight: 700; }
+.zoo-category-count { font-size: 14px; color: var(--color-muted, #aaa); margin-top: 4px; }
+
+.zoo-browse-card {
+  background: var(--color-card);
+  border-radius: 24px;
+  padding: 20px;
+  margin: 0 16px 16px;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+.zoo-animal-photo {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 16px;
+  display: block;
+  margin: 0 auto 16px;
+  background: #eee;
+}
+.zoo-animal-photo-large {
+  width: min(280px, 80vw);
+  height: min(280px, 80vw);
+  object-fit: cover;
+  border-radius: 20px;
+  display: block;
+  margin: 0 auto 16px;
+  background: #eee;
+}
+.zoo-animal-name {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--color-text);
+}
+.zoo-animal-name-en {
+  font-size: 16px;
+  color: var(--color-muted, #aaa);
+  margin-top: 2px;
+}
+.zoo-animal-desc {
+  font-size: 18px;
+  color: var(--color-text);
+  margin-top: 12px;
+  line-height: 1.5;
+}
+.zoo-animal-detail {
+  font-size: 16px;
+  color: #666;
+  margin-top: 8px;
+  line-height: 1.6;
+  background: #f9f5f0;
+  border-radius: 12px;
+  padding: 10px 14px;
+  text-align: left;
+}
+.zoo-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px 16px;
+}
+.zoo-progress {
+  font-size: 16px;
+  color: var(--color-muted, #aaa);
+  font-weight: 600;
+}
+.zoo-quiz-area {
+  padding: 16px;
+}
+.zoo-quiz-question {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+.zoo-quiz-choices {
+  display: grid;
+  gap: 10px;
+}
+.zoo-quiz-choices.choices-2 { grid-template-columns: 1fr 1fr; }
+.zoo-quiz-choices.choices-4 { grid-template-columns: 1fr 1fr; }
+.zoo-quiz-btn {
+  background: var(--color-card);
+  border: 3px solid #eee;
+  border-radius: 16px;
+  padding: 14px 10px;
+  font-size: 18px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: transform 0.1s, border-color 0.2s, background 0.2s;
+}
+.zoo-quiz-btn:active { transform: scale(0.96); }
+.zoo-quiz-btn.correct { border-color: #4CAF50; background: #E8F5E9; }
+.zoo-quiz-btn.wrong { border-color: #F44336; background: #FFEBEE; }
+
 /* <!-- #END:CSS --> */
   </style>
 </head>
