@@ -199,6 +199,10 @@ JS 區塊（在 `<script>` 標籤內）：
 | `#SECTION:PAGE-MATH-JS` | 數學樂園 JS 邏輯（算術 + 時鐘） |
 | `#SECTION:PAGE-PLATE` | 餐盤設計活動 |
 | `#SECTION:PAGE-PLATE-JS` | 餐盤設計 JS 邏輯 |
+| `#SECTION:PAGE-SCENE` | 場景佈置活動 |
+| `#SECTION:PAGE-SCENE-DATA` | 場景素材資料 |
+| `#SECTION:PAGE-SCENE-JS` | 場景佈置 JS 邏輯 |
+| `#SECTION:IMAGES-SCENE` | 場景素材照片（36 張，檔案末尾） |
 | `#SECTION:IMAGES-CURRENCY` (×2) | 硬幣圖片（檔案頭部空宣告 + 檔案末尾實際資料） |
 | `#SECTION:IMAGES-ZOO` | 動物園照片（120 張，緊接 IMAGES-CURRENCY 之後，檔案末尾） |
 | `#SECTION:IMAGES-FOOD` | 食物照片（108 張，緊接 IMAGES-ZOO 之後，檔案末尾） |
