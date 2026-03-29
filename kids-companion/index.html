@@ -1431,6 +1431,10 @@ body {
     <div class="game-header">
       <button class="back-btn" onclick="closeRhymesReader()">← 童謠</button>
       <span id="rhymes-title">童謠標題</span>
+      <div style="display:flex;gap:6px;flex-shrink:0">
+        <button id="rhyme-mode-melody" class="btn btn-primary" onclick="setRhymeMode('melody')" style="padding:6px 14px;font-size:16px">🎵 曲</button>
+        <button id="rhyme-mode-both" class="btn btn-secondary" onclick="setRhymeMode('both')" style="padding:6px 14px;font-size:16px">🎶 歌+曲</button>
+      </div>
     </div>
     <button class="praise-btn" onclick="showPraiseOverlay()">👏</button>
     <div id="rhymes-display"></div>
@@ -6036,7 +6040,8 @@ function stopRhymeMelody() {
 var rhymesState = {
   currentRhyme: null,
   currentLineIdx: 0,
-  isPlaying: false
+  isPlaying: false,
+  mode: 'melody'   // 'melody' | 'both'
 };
 
 function showRhymesShelf() {
@@ -6077,6 +6082,8 @@ function openRhyme(rhymeId) {
   rhymesState.currentRhyme = rhyme;
   rhymesState.currentLineIdx = 0;
   rhymesState.isPlaying = false;
+  rhymesState.mode = 'melody';
+  updateRhymeModeButtons();
 
   var shelf = document.getElementById('rhymes-shelf');
   var reader = document.getElementById('rhymes-reader');
@@ -6112,7 +6119,8 @@ function renderRhymeLines() {
 
   var html = '<div style="padding:24px 16px;">';
   rhyme.lines.forEach(function(line, idx) {
-    html += '<div style="font-size:' + fontSize + ';margin:8px 0;padding:6px 12px;">';
+    var idAttr = rhymesState.mode === 'both' ? ' id="rhyme-line-' + idx + '"' : '';
+    html += '<div' + idAttr + ' style="font-size:' + fontSize + ';margin:8px 0;padding:6px 12px;">';
     html += line[lang];
     if (!isSmall) {
       html += '<span style="font-size:' + (parseInt(fontSize) - 8) + 'px;color:var(--color-muted,#aaa);margin-left:12px;">' + line.en + '</span>';
@@ -6154,16 +6162,71 @@ function playRhyme() {
   if (!rhyme || rhymesState.isPlaying) return;
   rhymesState.isPlaying = true;
   stopRhymeMelody();
-  playMelodyOnce(rhyme.notes || [], function() {
-    rhymesState.isPlaying = false;
-    showRhymesComplete();
-  });
+
+  if (rhymesState.mode === 'both') {
+    // Melody loops + speech reads each line
+    startRhymeMelody(rhyme.notes || []);
+    if ('speechSynthesis' in window) speechSynthesis.cancel();
+    rhymesState.currentLineIdx = 0;
+    renderRhymeLines();
+    var lang = APP.language || 'zh';
+    var lines = rhyme.lines;
+    function speakLine(idx) {
+      if (!rhymesState.isPlaying) return;
+      if (idx >= lines.length) {
+        rhymesState.isPlaying = false;
+        showRhymesComplete();
+        return;
+      }
+      rhymesState.currentLineIdx = idx;
+      highlightRhymeLine(idx);
+      var text = lines[idx][lang].replace(/[，。！？、…]/g, ' ').trim();
+      if ('speechSynthesis' in window) {
+        speechSynthesis.cancel();
+        var u = new SpeechSynthesisUtterance(text);
+        u.lang = lang === 'zh' ? 'zh-TW' : 'en-US';
+        u.rate = 0.78;
+        u.pitch = 1.2;
+        u.onend = function() { setTimeout(function() { speakLine(idx + 1); }, 500); };
+        u.onerror = function() { setTimeout(function() { speakLine(idx + 1); }, 800); };
+        speechSynthesis.speak(u);
+      } else {
+        setTimeout(function() { speakLine(idx + 1); }, 1000);
+      }
+    }
+    speakLine(0);
+  } else {
+    // Melody only, play once
+    playMelodyOnce(rhyme.notes || [], function() {
+      rhymesState.isPlaying = false;
+      showRhymesComplete();
+    });
+  }
+}
+
+function setRhymeMode(mode) {
+  rhymesState.mode = mode;
+  updateRhymeModeButtons();
+  stopRhymeMelody();
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  rhymesState.isPlaying = false;
+  rhymesState.currentLineIdx = 0;
+  renderRhymeLines();
+  setTimeout(function() { playRhyme(); }, 300);
+}
+
+function updateRhymeModeButtons() {
+  var mBtn = document.getElementById('rhyme-mode-melody');
+  var bBtn = document.getElementById('rhyme-mode-both');
+  if (mBtn) mBtn.className = rhymesState.mode === 'melody' ? 'btn btn-primary' : 'btn btn-secondary';
+  if (bBtn) bBtn.className = rhymesState.mode === 'both' ? 'btn btn-primary' : 'btn btn-secondary';
 }
 
 function replayRhyme() {
   var complete = document.getElementById('rhymes-complete');
   if (complete) complete.classList.remove('show');
   rhymesState.isPlaying = false;
+  rhymesState.currentLineIdx = 0;
   setTimeout(function() { playRhyme(); }, 300);
 }
 
