@@ -203,6 +203,9 @@ JS 區塊（在 `<script>` 標籤內）：
 | `#SECTION:PAGE-SCENE-DATA` | 場景素材資料 |
 | `#SECTION:PAGE-SCENE-JS` | 場景佈置 JS 邏輯 |
 | `#SECTION:IMAGES-SCENE` | 場景素材照片（36 張，檔案末尾） |
+| `#SECTION:PAGE-STORY-BUILD` | 故事拼組活動 |
+| `#SECTION:PAGE-STORY-BUILD-DATA` | 故事拼組資料（動作詞、結局詞） |
+| `#SECTION:PAGE-STORY-BUILD-JS` | 故事拼組 JS 邏輯 |
 | `#SECTION:IMAGES-CURRENCY` (×2) | 硬幣圖片（檔案頭部空宣告 + 檔案末尾實際資料） |
 | `#SECTION:IMAGES-ZOO` | 動物園照片（120 張，緊接 IMAGES-CURRENCY 之後，檔案末尾） |
 | `#SECTION:IMAGES-FOOD` | 食物照片（108 張，緊接 IMAGES-ZOO 之後，檔案末尾） |
