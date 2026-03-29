@@ -1881,6 +1881,47 @@ body {
 </div>
 <!-- #END:PAGE-SOCIAL -->
 
+<!-- #SECTION:PAGE-FOOD -->
+<div class="page" id="page-food">
+  <div class="game-header">
+    <button class="back-btn" id="food-back-btn" onclick="foodBack()">← 返回</button>
+    <span class="game-title" id="food-title">🍎 食物原型</span>
+    <span class="round-counter" id="food-progress-label"></span>
+  </div>
+  <button class="praise-btn" onclick="showPraiseOverlay()">👏</button>
+
+  <!-- Category shelf -->
+  <div id="food-shelf">
+    <div class="food-category-grid" id="food-category-grid"></div>
+  </div>
+
+  <!-- Browse mode -->
+  <div id="food-browse" style="display:none">
+    <div class="food-browse-card" id="food-browse-card"></div>
+    <div class="food-nav">
+      <button class="btn btn-secondary" id="food-prev-btn" onclick="foodPrev()" style="padding:10px 20px">← 上一個</button>
+      <span class="food-progress" id="food-browse-progress"></span>
+      <button class="btn btn-primary" id="food-next-btn" onclick="foodNext()" style="padding:10px 20px">下一個 →</button>
+    </div>
+  </div>
+
+  <!-- Quiz mode -->
+  <div id="food-quiz" style="display:none">
+    <div class="food-quiz-area" id="food-quiz-area"></div>
+  </div>
+
+  <!-- Complete screen -->
+  <div class="complete-screen" id="food-complete">
+    <div class="complete-content">
+      <div style="font-size:80px">🍎</div>
+      <h2>飲食小達人！</h2>
+      <button class="btn btn-primary" onclick="foodRestart()">再看一次 🔄</button>
+      <button class="btn btn-secondary" onclick="foodBackToShelf()">換分類</button>
+    </div>
+  </div>
+</div>
+<!-- #END:PAGE-FOOD -->
+
 <!-- #SECTION:PAGE-ZOO -->
 <div class="page" id="page-zoo">
   <div class="game-header">
