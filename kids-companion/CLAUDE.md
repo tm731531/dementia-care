@@ -191,8 +191,24 @@ JS 區塊（在 `<script>` 標籤內）：
 | `#SECTION:PAGE-MEMORY` | 記憶翻牌活動 |
 | `#SECTION:PAGE-SORT` | 排序分類活動 |
 | `#SECTION:PAGE-STORY` | 互動繪本活動 |
+| `#SECTION:PAGE-ZOO` | 動物園活動 |
+| `#SECTION:IMAGES-CURRENCY` (×2) | 硬幣圖片（line ~2007 空宣告；line ~10368 實際資料） |
+| `#SECTION:IMAGES-ZOO` | 動物園照片（line ~10376，120 張，緊接 IMAGES-CURRENCY 之後） |
 
 新增活動時，在此表格補充對應行。
+
+### 圖片資料說明（重要：避免 token 浪費）
+
+圖片 base64 資料**全部集中在檔案末尾**（`</script>` 前約 130 行）：
+
+```
+line ~2007  var IMG = {};          ← 空宣告（3行，安全讀取）
+line ~10368 #SECTION:IMAGES-CURRENCY  ← 4 張硬幣圖
+line ~10376 #SECTION:IMAGES-ZOO       ← 120 張動物圖
+```
+
+**禁止讀取 `#SECTION:IMAGES-*` 的內容**（每行含數十 KB base64，讀一行 = 數萬 token）。
+新增圖片時，直接在對應 `Object.assign(IMG, {...})` 區塊末尾附加 key-value，勿整塊讀取。
 
 ### 標準維護工作流程
 
