@@ -159,11 +159,8 @@ npx serve -l 8003 .
 
 如果這個工具對你的孩子有幫助，歡迎請我喝杯咖啡：
 
-**Bank Transfer (Taiwan):**
-- CTBC Bank (822)
-- Account: 204530014618
-
-**銀行轉帳：** 中國信託（822）帳號 204530014618
+**Donate (Taiwan — ECPay):** https://p.ecpay.com.tw/DD480
+支援信用卡 / ATM / 超商付款
 
 ---
 
