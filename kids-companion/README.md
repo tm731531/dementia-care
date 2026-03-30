@@ -159,7 +159,7 @@ npx serve -l 8003 .
 
 如果這個工具對你的孩子有幫助，歡迎請我喝杯咖啡：
 
-**Donate (Taiwan — ECPay):** https://p.ecpay.com.tw/DD480
+**Donate (Taiwan — ECPay):** https://p.ecpay.com.tw/DA0BC8F
 支援信用卡 / ATM / 超商付款
 
 ---
