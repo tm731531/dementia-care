@@ -62,8 +62,9 @@ npx serve kids-companion -l 8003
 
 如果這些工具對你有幫助，歡迎請我喝杯咖啡：
 
-**Donate (Taiwan — ECPay):** https://p.ecpay.com.tw/DA0BC8F
-支援信用卡 / ATM / 超商付款
+**銀行轉帳 Bank Transfer (Taiwan):**
+- 中國信託 CTBC Bank（822）
+- 帳號 Account：204530014618
 
 ---
 
