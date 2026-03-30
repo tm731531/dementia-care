@@ -159,11 +159,11 @@ npx serve -l 8003 .
 
 如果這個工具對你的孩子有幫助，歡迎請我喝杯咖啡：
 
-**台灣用戶 — 銀行轉帳：**
-- 中國信託（822）
-- 帳號：204530014618
+**Bank Transfer (Taiwan):**
+- CTBC Bank (822)
+- Account: 204530014618
 
-[![Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/tomting)
+**銀行轉帳：** 中國信託（822）帳號 204530014618
 
 ---
 
