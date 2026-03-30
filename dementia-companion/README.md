@@ -144,7 +144,7 @@ loginctl enable-linger $USER
 
 如果這個工具對你的照護生活有幫助，歡迎請我喝杯咖啡：
 
-<a href="https://www.buymeacoffee.com/tomting" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+[![Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/tomting)
 
 ---
 
