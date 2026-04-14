@@ -1,0 +1,31 @@
+# Local configuration with secrets
+config.py
+apikey
+allowed_users.txt
+
+# Runtime state
+telegram_offset.txt
+pending_notes.json
+inbox/
+bot.log
+*.log
+
+# Virtual environment
+venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+
+# Test captures (may contain PII)
+*.jpg
+*.jpeg
+*.png
+!docs/*.jpg
+!docs/*.png
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

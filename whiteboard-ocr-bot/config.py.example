@@ -1,0 +1,46 @@
+"""Copy this file to config.py and fill in your own values. config.py is gitignored."""
+
+# ---- Gemini API ----
+# Get key from https://aistudio.google.com/apikey
+GEMINI_API_KEY = "YOUR_GEMINI_API_KEY"
+
+# Primary OCR model. gemini-3-flash-preview has free tier of 20 req/day.
+GEMINI_MODEL = "gemini-3-flash-preview"
+
+# ---- Telegram Bot ----
+# Create via @BotFather in Telegram, get token
+TELEGRAM_BOT_TOKEN = "YOUR_BOT_TOKEN"
+
+# Whitelist: only these Telegram user IDs may interact with the bot.
+# Find your own ID via @userinfobot.
+ALLOWED_USER_IDS = [123456789]
+
+# ---- iDempiere REST API ----
+# Your iDempiere server
+IDEMPIERE_URL = "http://YOUR_IDEMPIERE_HOST:8080/api/v1"
+IDEMPIERE_USER = "YOUR_USER"
+IDEMPIERE_PASS = "YOUR_PASSWORD"
+IDEMPIERE_CLIENT_ID = 1000000   # AD_Client_ID
+IDEMPIERE_ROLE_ID   = 1000000   # AD_Role_ID
+IDEMPIERE_ORG_ID    = 0         # AD_Org_ID
+IDEMPIERE_WAREHOUSE_ID = 0
+
+# ---- Patient / Record Defaults ----
+# Hardcoded to avoid OCR errors on name handwriting
+PATIENT_NAME = "PATIENT_NAME_HERE"
+# C_BPartner_ID of the reporter (family member / caregiver)
+REPORTER_BPARTNER_ID = 1000000
+
+# Target table name in iDempiere (the custom caregiving records table)
+# See README for schema expectations.
+TARGET_TABLE = "z_momsystem"
+
+# ---- TAPO Camera (optional, only if you use the PTZ ONVIF path) ----
+# RTSP credentials are the same as ONVIF credentials on TAPO C200
+TAPO_HOST = "192.168.X.X"   # your camera's local IP
+TAPO_ONVIF_PORT = 2020
+TAPO_RTSP_USER = "YOUR_RTSP_USER"
+TAPO_RTSP_PASS = "YOUR_RTSP_PASSWORD"
+# Resolved after SetPreset: see ptz_tool.py
+TAPO_PRESET_MONITOR = "mom"
+TAPO_PRESET_WHITEBOARD = "whiteboard"
