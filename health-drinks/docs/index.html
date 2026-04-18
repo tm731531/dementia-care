@@ -172,7 +172,8 @@ body { font-family: 'Noto Sans TC', system-ui, sans-serif; background: var(--bg)
   box-shadow: 0 1px 4px rgba(0,0,0,.07);
 }
 .compare-table {
-  border-collapse: collapse;
+  border-collapse: separate;   /* sticky 需要 separate */
+  border-spacing: 0;
   background: var(--card);
   min-width: 700px;
   width: 100%;
@@ -187,33 +188,43 @@ body { font-family: 'Noto Sans TC', system-ui, sans-serif; background: var(--bg)
   font-weight: 600;
   position: sticky;
   top: 0;
+  z-index: 1;
+  border-bottom: 2px solid #1b4d35;
 }
 .compare-table th.row-header {
   background: #1b4d35;
   text-align: left;
-  min-width: 130px;
+  min-width: 150px;
   position: sticky;
   left: 0;
-  z-index: 2;
+  top: 0;
+  z-index: 3;
 }
 .compare-table td {
   padding: .5rem .75rem;
   text-align: center;
   border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
   white-space: nowrap;
 }
 .compare-table td.row-label {
   background: #f4faf7;
   font-weight: 600;
   text-align: left;
-  color: var(--muted);
+  color: var(--text);
   position: sticky;
   left: 0;
+  z-index: 1;
   border-right: 2px solid var(--border);
+  min-width: 150px;
 }
 .compare-table tr:last-child td { border-bottom: none; }
-.compare-table tr:hover td { background: #edf7f2; }
+.compare-table tr:hover td:not(.row-label) { background: #edf7f2; }
 .compare-table tr:hover td.row-label { background: #e0f0e8; }
+/* 熱度色 */
+.cell-best  { background: #c8f0da !important; color: #1a5c35; font-weight: 700; }
+.cell-good  { background: #e8f7ee !important; }
+.cell-warn  { background: #fff3cd !important; color: #7a5c00; }
 /* 熱度色 */
 .cell-best  { background: #c8f0da !important; color: #1a5c35; font-weight: 700; }
 .cell-good  { background: #e8f7ee !important; }
