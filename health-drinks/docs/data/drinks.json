@@ -13,8 +13,12 @@
       "脂肪(g)": 0,
       "碳水化合物(g)": 10.5
     },
-    "image": null,
-    "categories": ["fermented milk drinks", "probiotic drinks", "dairy drinks"]
+    "image": "https://images.openfoodfacts.org/images/products/490/210/214/1109/1.400.jpg",
+    "categories": [
+      "fermented milk drinks",
+      "probiotic drinks",
+      "dairy drinks"
+    ]
   },
   {
     "id": "5000112637922",
@@ -31,8 +35,12 @@
       "碳水化合物(g)": 6.4,
       "維生素C(mg)": 0
     },
-    "image": null,
-    "categories": ["sports drinks", "isotonic drinks", "beverages"]
+    "image": "https://images.openfoodfacts.org/images/products/500/011/263/7922/1.400.jpg",
+    "categories": [
+      "sports drinks",
+      "isotonic drinks",
+      "beverages"
+    ]
   },
   {
     "id": "5000112548167",
@@ -49,8 +57,12 @@
       "碳水化合物(g)": 17.5,
       "咖啡因(mg)": 12
     },
-    "image": null,
-    "categories": ["energy drinks", "carbonated drinks", "beverages"]
+    "image": "https://images.openfoodfacts.org/images/products/500/011/254/8167/1.400.jpg",
+    "categories": [
+      "energy drinks",
+      "carbonated drinks",
+      "beverages"
+    ]
   },
   {
     "id": "4006381333498",
@@ -67,8 +79,13 @@
       "碳水化合物(g)": 10.5,
       "維生素C(mg)": 12
     },
-    "image": null,
-    "categories": ["fruit drinks", "juice drinks", "beverages", "kids drinks"]
+    "image": "https://images.openfoodfacts.org/images/products/400/638/133/3498/1.400.jpg",
+    "categories": [
+      "fruit drinks",
+      "juice drinks",
+      "beverages",
+      "kids drinks"
+    ]
   },
   {
     "id": "3228857000166",
@@ -85,8 +102,12 @@
       "碳水化合物(g)": 13,
       "維生素C(mg)": 30
     },
-    "image": null,
-    "categories": ["smoothies", "fruit drinks", "beverages"]
+    "image": "https://images.openfoodfacts.org/images/products/322/885/700/0166/1.400.jpg",
+    "categories": [
+      "smoothies",
+      "fruit drinks",
+      "beverages"
+    ]
   },
   {
     "id": "5011546300017",
@@ -103,8 +124,12 @@
       "碳水化合物(g)": 9.5,
       "維生素C(mg)": 45
     },
-    "image": null,
-    "categories": ["fruit drinks", "juice drinks", "beverages"]
+    "image": "https://images.openfoodfacts.org/images/products/501/154/630/0017/1.400.jpg",
+    "categories": [
+      "fruit drinks",
+      "juice drinks",
+      "beverages"
+    ]
   },
   {
     "id": "8718452011427",
@@ -121,8 +146,13 @@
       "碳水化合物(g)": 14,
       "維生素C(mg)": 0
     },
-    "image": null,
-    "categories": ["dairy drinks", "milk drinks", "beverages", "kids drinks"]
+    "image": "https://images.openfoodfacts.org/images/products/871/845/201/1427/1.400.jpg",
+    "categories": [
+      "dairy drinks",
+      "milk drinks",
+      "beverages",
+      "kids drinks"
+    ]
   },
   {
     "id": "4901085615744",
@@ -138,8 +168,12 @@
       "脂肪(g)": 0,
       "碳水化合物(g)": 9.2
     },
-    "image": null,
-    "categories": ["lactic acid drinks", "soft drinks", "beverages"]
+    "image": "https://images.openfoodfacts.org/images/products/490/108/561/5744/1.400.jpg",
+    "categories": [
+      "lactic acid drinks",
+      "soft drinks",
+      "beverages"
+    ]
   },
   {
     "id": "demo_green_tea_001",
@@ -156,8 +190,12 @@
       "碳水化合物(g)": 0,
       "咖啡因(mg)": 16
     },
-    "image": null,
-    "categories": ["green tea", "tea beverages", "beverages"]
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Oi_Ocha_bottle.jpg/240px-Oi_Ocha_bottle.jpg",
+    "categories": [
+      "green tea",
+      "tea beverages",
+      "beverages"
+    ]
   },
   {
     "id": "demo_kombucha_001",
@@ -174,8 +212,13 @@
       "碳水化合物(g)": 7,
       "咖啡因(mg)": 8
     },
-    "image": null,
-    "categories": ["kombucha", "fermented drinks", "probiotic drinks", "beverages"]
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Kombucha_Mature.jpg/240px-Kombucha_Mature.jpg",
+    "categories": [
+      "kombucha",
+      "fermented drinks",
+      "probiotic drinks",
+      "beverages"
+    ]
   },
   {
     "id": "demo_protein_001",
@@ -192,8 +235,13 @@
       "碳水化合物(g)": 12,
       "維生素C(mg)": 0
     },
-    "image": null,
-    "categories": ["probiotic drinks", "dairy drinks", "fermented milk drinks", "beverages"]
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Actimel_bottles.jpg/240px-Actimel_bottles.jpg",
+    "categories": [
+      "probiotic drinks",
+      "dairy drinks",
+      "fermented milk drinks",
+      "beverages"
+    ]
   },
   {
     "id": "demo_electrolyte_001",
@@ -209,7 +257,12 @@
       "脂肪(g)": 0,
       "碳水化合物(g)": 6.2
     },
-    "image": null,
-    "categories": ["sports drinks", "isotonic drinks", "electrolyte drinks", "beverages"]
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Pocari_Sweat_Can.jpg/240px-Pocari_Sweat_Can.jpg",
+    "categories": [
+      "sports drinks",
+      "isotonic drinks",
+      "electrolyte drinks",
+      "beverages"
+    ]
   }
 ]
