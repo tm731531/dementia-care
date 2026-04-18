@@ -30,19 +30,57 @@ body { font-family: 'Noto Sans TC', system-ui, sans-serif; background: var(--bg)
 
 /* ── CONTROLS ── */
 .controls {
-  max-width: 1200px; margin: 1.2rem auto .8rem; padding: 0 1rem;
+  max-width: 1200px; margin: 1.2rem auto 0; padding: 0 1rem;
   display: flex; flex-wrap: wrap; gap: .75rem; align-items: center;
 }
-.controls input, .controls select {
+.controls input {
   padding: .5rem .85rem; border: 1.5px solid var(--border); border-radius: 8px;
   font-size: .9rem; font-family: inherit; background: #fff; outline: none;
+  flex: 1; min-width: 180px;
 }
-.controls input { flex: 1; min-width: 180px; }
-.controls input:focus, .controls select:focus { border-color: var(--green-light); }
+.controls input:focus { border-color: var(--green-light); }
 #count { color: var(--muted); font-size: .85rem; margin-left: auto; white-space: nowrap; }
 
+/* ── CATEGORY CHECKBOXES ── */
+.cat-filter {
+  max-width: 1200px; margin: .6rem auto 0; padding: 0 1rem;
+  display: flex; flex-wrap: wrap; gap: .4rem; align-items: center;
+}
+.cat-filter-label { font-size: .8rem; color: var(--muted); margin-right: .2rem; }
+.cat-chip {
+  display: inline-flex; align-items: center; gap: .3rem;
+  padding: .25rem .7rem; border-radius: 20px; font-size: .8rem; cursor: pointer;
+  border: 1.5px solid var(--border); background: #fff; color: var(--muted);
+  user-select: none; transition: all .15s;
+}
+.cat-chip input { display: none; }
+.cat-chip.active {
+  background: var(--green); border-color: var(--green); color: #fff;
+}
+
+/* ── HIDDEN DRINKS TRAY ── */
+.hidden-tray {
+  max-width: 1200px; margin: .5rem auto 0; padding: 0 1rem;
+  display: none; flex-wrap: wrap; gap: .4rem; align-items: center;
+}
+.hidden-tray-label { font-size: .8rem; color: var(--muted); }
+.restore-chip {
+  display: inline-flex; align-items: center; gap: .3rem;
+  padding: .2rem .6rem; border-radius: 20px; font-size: .75rem; cursor: pointer;
+  border: 1.5px solid #bbb; background: #f0f0f0; color: #666;
+  transition: all .15s;
+}
+.restore-chip:hover { background: var(--green-pale); border-color: var(--green-light); color: var(--green); }
+.restore-chip .restore-x { font-size: .9rem; line-height: 1; }
+#btn-show-all {
+  padding: .2rem .7rem; border-radius: 20px; font-size: .75rem; cursor: pointer;
+  border: 1.5px solid var(--green-light); background: #fff; color: var(--green);
+  font-family: inherit;
+}
+#btn-show-all:hover { background: var(--green-pale); }
+
 /* ── TABLE SECTION ── */
-.table-section { max-width: 1200px; margin: 0 auto 3rem; padding: 0 1rem; }
+.table-section { max-width: 1200px; margin: .8rem auto 3rem; padding: 0 1rem; }
 
 .table-outer {
   display: flex;
@@ -80,6 +118,7 @@ body { font-family: 'Noto Sans TC', system-ui, sans-serif; background: var(--bg)
 .tbl-right thead th {
   background: var(--green); color: #fff;
   text-align: center; min-width: 120px;
+  vertical-align: top;
 }
 .tbl-left tbody td {
   background: #f4faf7; padding: .5rem .9rem;
@@ -99,7 +138,16 @@ body { font-family: 'Noto Sans TC', system-ui, sans-serif; background: var(--bg)
 
 .col-name  { font-size: .78rem; line-height: 1.3; white-space: normal; max-width: 120px; }
 .col-brand { font-size: .7rem; opacity: .75; }
-.col-vol   { font-size: .7rem; opacity: .6; }
+
+/* hide button inside column header */
+.hide-col-btn {
+  display: block; margin: 0 auto .3rem;
+  width: 18px; height: 18px; line-height: 18px; text-align: center;
+  border-radius: 50%; border: none; cursor: pointer;
+  background: rgba(255,255,255,.25); color: #fff; font-size: .75rem;
+  transition: background .15s;
+}
+.hide-col-btn:hover { background: rgba(255,255,255,.5); color: #1b4d35; }
 
 #no-result { text-align: center; color: var(--muted); padding: 3rem; display: none; }
 </style>
@@ -113,8 +161,16 @@ body { font-family: 'Noto Sans TC', system-ui, sans-serif; background: var(--bg)
 
 <div class="controls">
   <input type="text" id="search" placeholder="🔍 搜尋飲品名稱或品牌…">
-  <select id="filter-cat"><option value="">全部類別</option></select>
   <span id="count"></span>
+</div>
+
+<div class="cat-filter" id="cat-filter">
+  <span class="cat-filter-label">類別：</span>
+</div>
+
+<div class="hidden-tray" id="hidden-tray">
+  <span class="hidden-tray-label">已隱藏：</span>
+  <button id="btn-show-all">全部顯示</button>
 </div>
 
 <div class="table-section">
@@ -260,24 +316,59 @@ const NUTRIENT_ORDER = [
   "維生素C(mg)","維生素D(mcg)","咖啡因(mg)"
 ];
 
-function allCategories() {
-  const s = new Set();
-  DRINKS.forEach(d => d.categories.forEach(c => s.add(c)));
-  return [...s].sort();
-}
+// 狀態
+const selectedCats = new Set();  // 空 = 全選
+const hiddenIds    = new Set();
 
+// ── 類別 checkbox 初始化 ──
 function initCategoryFilter() {
-  const sel = document.getElementById("filter-cat");
-  allCategories().forEach(c => {
-    const o = document.createElement("option");
-    o.value = c; o.textContent = c;
-    sel.appendChild(o);
+  const cats = [...new Set(DRINKS.flatMap(d => d.categories))].sort();
+  const container = document.getElementById("cat-filter");
+  cats.forEach(c => {
+    const label = document.createElement("label");
+    label.className = "cat-chip";
+    label.innerHTML = `<input type="checkbox" value="${c}">${c}`;
+    label.querySelector("input").addEventListener("change", e => {
+      if (e.target.checked) selectedCats.add(c); else selectedCats.delete(c);
+      label.classList.toggle("active", e.target.checked);
+      applyFilters();
+    });
+    container.appendChild(label);
   });
 }
 
+// ── 隱藏 tray ──
+function refreshHiddenTray() {
+  const tray = document.getElementById("hidden-tray");
+  // 清除舊的 restore chips（保留 label 和 button）
+  tray.querySelectorAll(".restore-chip").forEach(el => el.remove());
+
+  if (hiddenIds.size === 0) {
+    tray.style.display = "none";
+    return;
+  }
+  tray.style.display = "flex";
+  const btn = document.getElementById("btn-show-all");
+  hiddenIds.forEach(id => {
+    const d = DRINKS.find(x => x.id === id);
+    if (!d) return;
+    const chip = document.createElement("span");
+    chip.className = "restore-chip";
+    chip.innerHTML = `<span>${d.name}</span><span class="restore-x">↩</span>`;
+    chip.title = "點擊還原";
+    chip.addEventListener("click", () => {
+      hiddenIds.delete(id);
+      refreshHiddenTray();
+      applyFilters();
+    });
+    tray.insertBefore(chip, btn);
+  });
+}
+
+// ── 建表 ──
 function buildTable(list) {
   const noResult = document.getElementById("no-result");
-  const outer = document.getElementById("table-outer");
+  const outer    = document.getElementById("table-outer");
   if (!list.length) {
     noResult.style.display = "block";
     outer.style.display = "none";
@@ -286,7 +377,7 @@ function buildTable(list) {
   noResult.style.display = "none";
   outer.style.display = "flex";
 
-  // 計算成分聯集，依偏好順序排列
+  // 成分聯集
   const keySet = new Set();
   list.forEach(d => Object.keys(d.nutrients || {}).forEach(k => keySet.add(k)));
   const ordered = NUTRIENT_ORDER.filter(k => keySet.has(k));
@@ -298,13 +389,17 @@ function buildTable(list) {
   document.getElementById("tbody-left").innerHTML =
     rows.map(k => `<tr><td>${k}</td></tr>`).join("");
 
-  // 右欄
+  // 右欄 header（含隱藏按鈕）
   document.getElementById("thead-right").innerHTML =
     "<tr>" + list.map(d =>
-      `<th><div class="col-name">${d.name}</div>` +
-      `<div class="col-brand">${d.brand}</div></th>`
+      `<th>` +
+      `<button class="hide-col-btn" data-id="${d.id}" title="隱藏此欄">×</button>` +
+      `<div class="col-name">${d.name}</div>` +
+      `<div class="col-brand">${d.brand}</div>` +
+      `</th>`
     ).join("") + "</tr>";
 
+  // 右欄 body
   document.getElementById("tbody-right").innerHTML =
     rows.map(k => {
       const cells = list.map(d => {
@@ -314,25 +409,39 @@ function buildTable(list) {
       return `<tr>${cells}</tr>`;
     }).join("");
 
+  // 隱藏按鈕事件
+  document.querySelectorAll(".hide-col-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      hiddenIds.add(btn.dataset.id);
+      refreshHiddenTray();
+      applyFilters();
+    });
+  });
+
   // 左右垂直同步捲動
   const left  = document.getElementById("table-left");
   const right = document.getElementById("table-right");
   right.onscroll = () => { left.scrollTop = right.scrollTop; };
 }
 
+// ── 篩選 ──
 function applyFilters() {
-  const q   = document.getElementById("search").value.toLowerCase();
-  const cat = document.getElementById("filter-cat").value;
+  const q = document.getElementById("search").value.toLowerCase();
   const filtered = DRINKS.filter(d =>
+    !hiddenIds.has(d.id) &&
     (d.name.toLowerCase().includes(q) || (d.brand || "").toLowerCase().includes(q)) &&
-    (!cat || d.categories.includes(cat))
+    (selectedCats.size === 0 || d.categories.some(c => selectedCats.has(c)))
   );
-  document.getElementById("count").textContent = `共 ${filtered.length} 筆`;
+  document.getElementById("count").textContent = `顯示 ${filtered.length} 筆`;
   buildTable(filtered);
 }
 
 document.getElementById("search").addEventListener("input", applyFilters);
-document.getElementById("filter-cat").addEventListener("change", applyFilters);
+document.getElementById("btn-show-all").addEventListener("click", () => {
+  hiddenIds.clear();
+  refreshHiddenTray();
+  applyFilters();
+});
 
 initCategoryFilter();
 applyFilters();
