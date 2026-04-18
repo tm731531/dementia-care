@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>市售健康飲品成分分析 | 180–280ml</title>
+<meta name="description" content="市售 180–280ml 健康營養飲品成分比較分析，含熱量、糖分、鈉、蛋白質等營養素視覺化圖表。">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  --green: #2e7d5e;
+  --green-light: #52b788;
+  --green-pale: #d8f3e8;
+  --bg: #f4faf7;
+  --card: #ffffff;
+  --text: #1a2e25;
+  --muted: #5a7a6a;
+  --border: #d0e8dc;
+  --orange: #e07b39;
+  --blue: #3a7bd5;
+  --red: #d94f4f;
+  --yellow: #e8b84b;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Noto Sans TC', system-ui, sans-serif; background: var(--bg); color: var(--text); }
+
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(135deg, #1b4d35 0%, #2e7d5e 60%, #52b788 100%);
+  color: #fff;
+  padding: 3rem 1.5rem 2.5rem;
+  text-align: center;
+}
+.hero h1 { font-size: clamp(1.4rem, 4vw, 2.2rem); font-weight: 700; letter-spacing: .02em; }
+.hero p { margin-top: .6rem; opacity: .85; font-size: .95rem; }
+.hero .badges { display: flex; gap: .5rem; justify-content: center; flex-wrap: wrap; margin-top: 1.2rem; }
+.badge { background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.3); border-radius: 20px; padding: .3rem .9rem; font-size: .8rem; }
+
+/* ── CONTROLS ── */
+.controls {
+  max-width: 1100px; margin: 1.5rem auto .5rem; padding: 0 1rem;
+  display: flex; flex-wrap: wrap; gap: .75rem; align-items: center;
+}
+.controls input, .controls select {
+  padding: .55rem .9rem; border: 1.5px solid var(--border); border-radius: 8px;
+  font-size: .9rem; font-family: inherit; background: #fff; outline: none;
+}
+.controls input { flex: 1; min-width: 180px; }
+.controls input:focus, .controls select:focus { border-color: var(--green-light); }
+#count { color: var(--muted); font-size: .85rem; margin-left: auto; }
+
+/* ── SUMMARY STATS ── */
+.stats-row {
+  max-width: 1100px; margin: 1rem auto; padding: 0 1rem;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: .75rem;
+}
+.stat-card {
+  background: var(--card); border-radius: 12px; padding: 1rem 1.2rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06); text-align: center;
+}
+.stat-card .val { font-size: 1.6rem; font-weight: 700; color: var(--green); }
+.stat-card .lbl { font-size: .78rem; color: var(--muted); margin-top: .2rem; }
+
+/* ── CHARTS ── */
+.charts-section {
+  max-width: 1100px; margin: 1rem auto; padding: 0 1rem;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;
+}
+.chart-card {
+  background: var(--card); border-radius: 12px; padding: 1.2rem 1.4rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+.chart-card h3 { font-size: .85rem; color: var(--muted); margin-bottom: 1rem; font-weight: 500; }
+.chart-card canvas { max-height: 220px; }
+
+/* ── RANKING TABLE ── */
+.ranking-section {
+  max-width: 1100px; margin: 1rem auto; padding: 0 1rem;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;
+}
+.rank-card {
+  background: var(--card); border-radius: 12px; padding: 1.2rem 1.4rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+.rank-card h3 { font-size: .85rem; color: var(--muted); margin-bottom: .8rem; font-weight: 500; }
+.rank-item {
+  display: flex; align-items: center; gap: .6rem;
+  padding: .45rem 0; border-bottom: 1px solid var(--border); font-size: .85rem;
+}
+.rank-item:last-child { border-bottom: none; }
+.rank-no { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: .72rem; font-weight: 700; flex-shrink: 0; }
+.rank-no.gold   { background: #ffd700; color: #7a5c00; }
+.rank-no.silver { background: #c0c0c0; color: #444; }
+.rank-no.bronze { background: #cd7f32; color: #fff; }
+.rank-no.other  { background: var(--green-pale); color: var(--green); }
+.rank-name { flex: 1; line-height: 1.3; }
+.rank-val { font-weight: 600; color: var(--text); }
+
+/* ── PRODUCT GRID ── */
+#grid {
+  max-width: 1100px; margin: 1rem auto 3rem; padding: 0 1rem;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 1rem;
+}
+.card {
+  background: var(--card); border-radius: 14px; overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,.07); cursor: pointer;
+  transition: transform .15s, box-shadow .15s;
+}
+.card:hover { transform: translateY(-3px); box-shadow: 0 6px 18px rgba(0,0,0,.12); }
+.card-img {
+  width: 100%; height: 160px; object-fit: contain;
+  background: linear-gradient(135deg, #f0faf5, #e8f5ee); padding: .75rem;
+}
+.card-body { padding: 1rem 1.1rem 1.1rem; }
+.card-body h2 { font-size: .95rem; font-weight: 600; line-height: 1.35; }
+.card-brand { font-size: .78rem; color: var(--muted); margin-top: .2rem; }
+.card-tags { display: flex; gap: .35rem; flex-wrap: wrap; margin-top: .55rem; }
+.tag { font-size: .7rem; padding: .15rem .5rem; border-radius: 20px; background: var(--green-pale); color: var(--green); }
+.tag.orange { background: #fdebd8; color: var(--orange); }
+.tag.blue   { background: #dce8f8; color: var(--blue); }
+
+/* ── NUTRIBAR ── */
+.nutribar { margin-top: .85rem; }
+.nb-row { display: flex; align-items: center; gap: .5rem; margin-bottom: .35rem; font-size: .78rem; }
+.nb-lbl { width: 82px; color: var(--muted); flex-shrink: 0; }
+.nb-track { flex: 1; height: 7px; background: #e8f0ec; border-radius: 4px; overflow: hidden; }
+.nb-fill { height: 100%; border-radius: 4px; transition: width .4s; }
+.nb-val { width: 44px; text-align: right; font-weight: 500; }
+
+/* ── MODAL ── */
+#overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,.5); z-index: 200;
+  align-items: center; justify-content: center; padding: 1rem;
+}
+#overlay.open { display: flex; }
+#modal {
+  background: #fff; border-radius: 18px;
+  max-width: 560px; width: 100%; max-height: 90vh; overflow-y: auto;
+  padding: 1.6rem; position: relative;
+}
+#modal-close {
+  position: absolute; top: 1rem; right: 1rem;
+  background: var(--bg); border: none; border-radius: 50%;
+  width: 32px; height: 32px; font-size: 1rem; cursor: pointer; color: var(--muted);
+}
+#modal img { width: 100%; max-height: 200px; object-fit: contain; background: #f0faf5; border-radius: 10px; margin-bottom: 1rem; }
+#modal h2 { font-size: 1.15rem; font-weight: 700; }
+#modal .m-brand { color: var(--muted); font-size: .85rem; margin: .25rem 0 .75rem; }
+.m-section { font-size: .75rem; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: .06em; margin: 1rem 0 .4rem; }
+#modal table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+#modal td { padding: .4rem .5rem; border-bottom: 1px solid var(--border); }
+#modal td:last-child { text-align: right; font-weight: 600; }
+.m-ingredients { font-size: .82rem; line-height: 1.7; color: #444; }
+.score-ring { display: flex; align-items: center; gap: 1rem; margin: .5rem 0 1rem; }
+.ring { width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; font-weight: 700; flex-shrink: 0; }
+.score-desc { font-size: .82rem; color: var(--muted); line-height: 1.5; }
+
+#no-result { text-align: center; color: var(--muted); padding: 3rem; display: none; }
+
+@media (max-width: 600px) {
+  .charts-section, .ranking-section { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <h1>🥤 市售健康飲品成分分析</h1>
+  <p>容量 180–280ml・成分透明化・幫你選對飲品</p>
+  <div class="badges">
+    <span class="badge">📊 熱量比較</span>
+    <span class="badge">🍬 糖分排行</span>
+    <span class="badge">🧂 鈉含量</span>
+    <span class="badge">💪 蛋白質</span>
+    <span class="badge">☕ 咖啡因</span>
+  </div>
+</header>
+
+<div class="controls">
+  <input type="text" id="search" placeholder="🔍 搜尋飲品名稱或品牌…">
+  <select id="sort">
+    <option value="name">依名稱排序</option>
+    <option value="energy_asc">熱量 低→高</option>
+    <option value="energy_desc">熱量 高→低</option>
+    <option value="sugar_asc">糖分 低→高</option>
+    <option value="sugar_desc">糖分 高→低</option>
+    <option value="sodium_asc">鈉 低→高</option>
+    <option value="protein_desc">蛋白質 高→低</option>
+  </select>
+  <select id="filter-cat">
+    <option value="">全部類別</option>
+  </select>
+  <span id="count"></span>
+</div>
+
+<!-- 統計摘要 -->
+<div class="stats-row" id="stats-row"></div>
+
+<!-- 圖表 -->
+<div class="charts-section">
+  <div class="chart-card">
+    <h3>📊 熱量比較（kcal / 100ml）</h3>
+    <canvas id="chartEnergy"></canvas>
+  </div>
+  <div class="chart-card">
+    <h3>🍬 糖分比較（g / 100ml）</h3>
+    <canvas id="chartSugar"></canvas>
+  </div>
+  <div class="chart-card">
+    <h3>🔵 熱量 vs 糖分 散佈圖</h3>
+    <canvas id="chartScatter"></canvas>
+  </div>
+  <div class="chart-card">
+    <h3>🧂 鈉含量比較（mg / 100ml）</h3>
+    <canvas id="chartSodium"></canvas>
+  </div>
+</div>
+
+<!-- 排行榜 -->
+<div class="ranking-section">
+  <div class="rank-card">
+    <h3>🏆 最低熱量 TOP 5</h3>
+    <div id="rank-energy-low"></div>
+  </div>
+  <div class="rank-card">
+    <h3>🍬 最低糖分 TOP 5</h3>
+    <div id="rank-sugar-low"></div>
+  </div>
+  <div class="rank-card">
+    <h3>💪 最高蛋白質 TOP 5</h3>
+    <div id="rank-protein-high"></div>
+  </div>
+  <div class="rank-card">
+    <h3>⚠️ 高糖警示（>10g/100ml）</h3>
+    <div id="rank-sugar-high"></div>
+  </div>
+</div>
+
+<!-- 產品卡片 -->
+<div id="grid"></div>
+<div id="no-result">找不到符合的飲品</div>
+
+<!-- Modal -->
+<div id="overlay">
+  <div id="modal">
+    <button id="modal-close">✕</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<script>
+// ── 資料 ──
+const DRINKS = 
+[
+  {"id":"4902102141109","name":"Yakult 養樂多","brand":"Yakult","volume_ml":200,"ingredients":"水、脫脂奶粉、葡萄糖、蔗糖、活性乳酸菌 Lactobacillus casei Shirota","nutrients":{"熱量(kcal)":46,"糖(g)":10.2,"鈉(mg)":15,"蛋白質(g)":1.2,"脂肪(g)":0,"碳水化合物(g)":10.5},"image":null,"categories":["發酵乳飲品","益生菌飲品","乳製品飲料"]},
+  {"id":"5000112637922","name":"Lucozade Sport 橙味","brand":"Lucozade","volume_ml":250,"ingredients":"水、葡萄糖漿、檸檬酸、氯化鈉、氯化鉀、香料、甜味劑（安賽蜜、蔗糖素）、β-胡蘿蔔素、維生素 B3/B6/B12","nutrients":{"熱量(kcal)":26,"糖(g)":3.2,"鈉(mg)":46,"蛋白質(g)":0,"脂肪(g)":0,"碳水化合物(g)":6.4},"image":null,"categories":["運動飲料","等滲飲料","飲料"]},
+  {"id":"5000112548167","name":"Lucozade Energy 原味","brand":"Lucozade","volume_ml":250,"ingredients":"碳酸水、葡萄糖漿、檸檬酸、乳酸、香料、防腐劑（苯甲酸鈉）、咖啡因、日落黃色素","nutrients":{"熱量(kcal)":70,"糖(g)":17,"鈉(mg)":0,"蛋白質(g)":0,"脂肪(g)":0,"碳水化合物(g)":17.5,"咖啡因(mg)":12},"image":null,"categories":["能量飲料","碳酸飲料","飲料"]},
+  {"id":"4006381333498","name":"Capri-Sun 綜合維他命","brand":"Capri-Sun","volume_ml":200,"ingredients":"水、果汁（蘋果10%、橙5%、百香果1%）、糖、檸檬酸、維生素 C/B6/B12/菸鹼酸/泛酸/葉酸","nutrients":{"熱量(kcal)":42,"糖(g)":9.8,"鈉(mg)":5,"蛋白質(g)":0.1,"脂肪(g)":0,"碳水化合物(g)":10.5,"維生素C(mg)":12},"image":null,"categories":["果汁飲料","兒童飲料","飲料"]},
+  {"id":"3228857000166","name":"Innocent 草莓香蕉果昔","brand":"Innocent","volume_ml":250,"ingredients":"草莓泥、香蕉泥、蘋果汁、檸檬汁","nutrients":{"熱量(kcal)":55,"糖(g)":12.5,"鈉(mg)":5,"蛋白質(g)":0.5,"脂肪(g)":0.1,"碳水化合物(g)":13,"維生素C(mg)":30},"image":null,"categories":["果昔","果汁飲料","飲料"]},
+  {"id":"5011546300017","name":"Ribena 黑醋栗","brand":"Ribena","volume_ml":250,"ingredients":"水、黑醋栗汁（12%）、糖、檸檬酸、維生素C、防腐劑（山梨酸鉀）","nutrients":{"熱量(kcal)":38,"糖(g)":9,"鈉(mg)":10,"蛋白質(g)":0,"脂肪(g)":0,"碳水化合物(g)":9.5,"維生素C(mg)":45},"image":null,"categories":["果汁飲料","飲料"]},
+  {"id":"8718452011427","name":"Fristi 草莓乳飲","brand":"Fristi","volume_ml":200,"ingredients":"脫脂牛奶、糖、草莓泥（5%）、變性澱粉、香料、胭脂紅色素、維生素D","nutrients":{"熱量(kcal)":72,"糖(g)":12.5,"鈉(mg)":55,"蛋白質(g)":3.2,"脂肪(g)":0.1,"碳水化合物(g)":14},"image":null,"categories":["乳製品飲料","兒童飲料","飲料"]},
+  {"id":"4901085615744","name":"Calpis 可爾必思","brand":"Calpis","volume_ml":200,"ingredients":"水、糖、脫脂奶粉、乳酸、檸檬酸、香料","nutrients":{"熱量(kcal)":38,"糖(g)":8.5,"鈉(mg)":20,"蛋白質(g)":0.4,"脂肪(g)":0,"碳水化合物(g)":9.2},"image":null,"categories":["乳酸飲料","軟性飲料","飲料"]},
+  {"id":"demo_green_tea_001","name":"伊藤園 おーいお茶 綠茶","brand":"伊藤園 Ito En","volume_ml":245,"ingredients":"水、綠茶","nutrients":{"熱量(kcal)":0,"糖(g)":0,"鈉(mg)":5,"蛋白質(g)":0,"脂肪(g)":0,"碳水化合物(g)":0,"咖啡因(mg)":16},"image":null,"categories":["綠茶","茶飲料","飲料"]},
+  {"id":"demo_kombucha_001","name":"GT's Kombucha 原味","brand":"GT's Living Foods","volume_ml":240,"ingredients":"有機生康普茶（過濾水、有機蔗糖、有機紅茶、有機綠茶、康普茶菌種）","nutrients":{"熱量(kcal)":30,"糖(g)":2,"鈉(mg)":10,"蛋白質(g)":0,"脂肪(g)":0,"碳水化合物(g)":7,"咖啡因(mg)":8},"image":null,"categories":["康普茶","發酵飲料","益生菌飲品","飲料"]},
+  {"id":"demo_protein_001","name":"Actimel 草莓益生菌","brand":"Danone","volume_ml":200,"ingredients":"脫脂牛奶、糖、草莓泥（3%）、葡萄糖漿、變性澱粉、L. casei Danone、維生素 B6/D","nutrients":{"熱量(kcal)":68,"糖(g)":11.5,"鈉(mg)":60,"蛋白質(g)":3.3,"脂肪(g)":1.5,"碳水化合物(g)":12},"image":null,"categories":["益生菌飲品","乳製品飲料","發酵乳飲品","飲料"]},
+  {"id":"demo_electrolyte_001","name":"Pocari Sweat 寶礦力水得","brand":"大塚製藥 Otsuka","volume_ml":250,"ingredients":"水、糖、檸檬酸、氯化鈉、氯化鉀、乳酸鈣、碳酸鎂、檸檬酸鈉","nutrients":{"熱量(kcal)":25,"糖(g)":6.2,"鈉(mg)":49,"蛋白質(g)":0,"脂肪(g)":0,"碳水化合物(g)":6.2},"image":null,"categories":["運動飲料","等滲飲料","電解質飲料","飲料"]},
+  {"id":"demo_vitaminwater_001","name":"Glacéau Vitaminwater 檸檬","brand":"Glacéau","volume_ml":240,"ingredients":"水、果糖、蔗糖、檸檬酸、維生素 C/B3/B5/B6/B12、天然香料","nutrients":{"熱量(kcal)":21,"糖(g)":5.2,"鈉(mg)":0,"蛋白質(g)":0,"脂肪(g)":0,"碳水化合物(g)":5.5,"維生素C(mg)":40},"image":null,"categories":["維他命飲料","機能飲料","飲料"]},
+  {"id":"demo_soymilk_001","name":"光泉豆漿 無糖","brand":"光泉","volume_ml":200,"ingredients":"水、非基改黃豆","nutrients":{"熱量(kcal)":35,"糖(g)":0,"鈉(mg)":80,"蛋白質(g)":3.5,"脂肪(g)":1.8,"碳水化合物(g)":1.5},"image":null,"categories":["豆漿","植物奶","飲料"]},
+  {"id":"demo_oatmilk_001","name":"Oatly 燕麥奶 原味","brand":"Oatly","volume_ml":250,"ingredients":"水、燕麥（10%）、菜籽油、鹽、維生素 D2/B12/B2、鈣","nutrients":{"熱量(kcal)":47,"糖(g)":4,"鈉(mg)":60,"蛋白質(g)":1,"脂肪(g)":1.5,"碳水化合物(g)":6.5},"image":null,"categories":["燕麥奶","植物奶","飲料"]},
+  {"id":"demo_coconut_001","name":"Vita Coco 椰子水","brand":"Vita Coco","volume_ml":250,"ingredients":"100% 純椰子水","nutrients":{"熱量(kcal)":19,"糖(g)":3.8,"鈉(mg)":44,"蛋白質(g)":0.2,"脂肪(g)":0,"碳水化合物(g)":4.5},"image":null,"categories":["椰子水","天然飲料","飲料"]},
+  {"id":"demo_blacktea_001","name":"統一麥香紅茶","brand":"統一","volume_ml":250,"ingredients":"水、紅茶、砂糖、檸檬酸","nutrients":{"熱量(kcal)":32,"糖(g)":7.5,"鈉(mg)":10,"蛋白質(g)":0,"脂肪(g)":0,"碳水化合物(g)":8,"咖啡因(mg)":20},"image":null,"categories":["紅茶","茶飲料","飲料"]},
+  {"id":"demo_oolong_001","name":"茶裏王 無糖烏龍茶","brand":"統一","volume_ml":250,"ingredients":"水、烏龍茶","nutrients":{"熱量(kcal)":0,"糖(g)":0,"鈉(mg)":5,"蛋白質(g)":0,"脂肪(g)":0,"碳水化合物(g)":0,"咖啡因(mg)":18},"image":null,"categories":["烏龍茶","茶飲料","無糖飲料","飲料"]},
+  {"id":"demo_aloe_001","name":"OKF 蘆薈飲料","brand":"OKF","volume_ml":240,"ingredients":"水、蘆薈果肉（15%）、糖、檸檬酸、天然香料","nutrients":{"熱量(kcal)":28,"糖(g)":6.5,"鈉(mg)":5,"蛋白質(g)":0,"脂肪(g)":0,"碳水化合物(g)":7},"image":null,"categories":["蘆薈飲料","機能飲料","飲料"]},
+  {"id":"demo_collagen_001","name":"FANCL 膠原蛋白飲","brand":"FANCL","volume_ml":200,"ingredients":"水、膠原蛋白胜肽（2000mg）、維生素C、檸檬酸、香料","nutrients":{"熱量(kcal)":18,"糖(g)":0,"鈉(mg)":30,"蛋白質(g)":4.5,"脂肪(g)":0,"碳水化合物(g)":0.5,"維生素C(mg)":100},"image":null,"categories":["膠原蛋白飲","美容飲料","機能飲料","飲料"]},
+  {"id":"demo_probiotic_001","name":"BioKefir 克菲爾益生菌飲","brand":"BioKefir","volume_ml":200,"ingredients":"低脂牛奶、活性克菲爾菌種（L. acidophilus, B. lactis, L. rhamnosus）","nutrients":{"熱量(kcal)":52,"糖(g)":4.8,"鈉(mg)":55,"蛋白質(g)":3.8,"脂肪(g)":1.2,"碳水化合物(g)":5.5},"image":null,"categories":["益生菌飲品","發酵乳飲品","乳製品飲料","飲料"]}
+];
+
+// ── 工具函式 ──
+const N = (d, k) => d.nutrients?.[k] ?? null;
+const PLACEHOLDER = `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="200" height="160"><rect fill="#f0faf5" width="200" height="160"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#5a7a6a" font-size="13" font-family="sans-serif">無圖片</text></svg>')}`;
+
+// 健康評分（0-100，越高越健康）
+function healthScore(d) {
+  let score = 100;
+  const sugar = N(d, "糖(g)") ?? 5;
+  const energy = N(d, "熱量(kcal)") ?? 30;
+  const sodium = N(d, "鈉(mg)") ?? 20;
+  const protein = N(d, "蛋白質(g)") ?? 0;
+  score -= Math.min(40, sugar * 3);       // 糖扣分
+  score -= Math.min(20, energy * 0.25);   // 熱量扣分
+  score -= Math.min(15, sodium * 0.08);   // 鈉扣分
+  score += Math.min(15, protein * 3);     // 蛋白質加分
+  return Math.max(0, Math.min(100, Math.round(score)));
+}
+
+function scoreColor(s) {
+  if (s >= 75) return "#2e7d5e";
+  if (s >= 50) return "#e8b84b";
+  return "#d94f4f";
+}
+
+function scoreLabel(s) {
+  if (s >= 75) return "優良";
+  if (s >= 50) return "普通";
+  return "注意";
+}
+
+// 條形顏色
+const BAR_COLORS = {
+  "熱量(kcal)": "#e07b39",
+  "糖(g)":      "#d94f4f",
+  "鈉(mg)":     "#3a7bd5",
+  "蛋白質(g)":  "#2e7d5e",
+};
+const BAR_MAX = { "熱量(kcal)": 80, "糖(g)": 15, "鈉(mg)": 150, "蛋白質(g)": 6 };
+const BAR_KEYS = Object.keys(BAR_MAX);
+
+// ── 初始化 ──
+let filtered = [...DRINKS];
+
+function allCategories() {
+  const s = new Set();
+  DRINKS.forEach(d => d.categories.forEach(c => s.add(c)));
+  return [...s].sort();
+}
+
+function initCategoryFilter() {
+  const sel = document.getElementById("filter-cat");
+  allCategories().forEach(c => {
+    const o = document.createElement("option");
+    o.value = c; o.textContent = c;
+    sel.appendChild(o);
+  });
+}
+
+// ── 統計摘要 ──
+function renderStats(list) {
+  const vals = k => list.map(d => N(d, k)).filter(v => v !== null);
+  const avg = arr => arr.length ? (arr.reduce((a,b)=>a+b,0)/arr.length).toFixed(1) : "—";
+  const min = arr => arr.length ? Math.min(...arr) : "—";
+
+  const stats = [
+    { val: list.length, lbl: "飲品總數" },
+    { val: avg(vals("熱量(kcal)")), lbl: "平均熱量 kcal/100ml" },
+    { val: avg(vals("糖(g)")), lbl: "平均糖分 g/100ml" },
+    { val: min(vals("熱量(kcal)")), lbl: "最低熱量 kcal/100ml" },
+    { val: min(vals("糖(g)")), lbl: "最低糖分 g/100ml" },
+  ];
+  document.getElementById("stats-row").innerHTML = stats.map(s =>
+    `<div class="stat-card"><div class="val">${s.val}</div><div class="lbl">${s.lbl}</div></div>`
+  ).join("");
+}
+
+// ── 排行榜 ──
+function rankItems(list, key, asc, limit = 5) {
+  return list
+    .filter(d => N(d, key) !== null)
+    .sort((a, b) => asc ? N(a,key)-N(b,key) : N(b,key)-N(a,key))
+    .slice(0, limit);
+}
+
+function renderRank(elId, items, key) {
+  const medals = ["gold","silver","bronze","other","other"];
+  document.getElementById(elId).innerHTML = items.map((d, i) => `
+    <div class="rank-item">
+      <div class="rank-no ${medals[i]}">${i+1}</div>
+      <div class="rank-name">${d.name}<br><small style="color:var(--muted)">${d.brand}</small></div>
+      <div class="rank-val">${N(d,key)}</div>
+    </div>
+  `).join("") || "<div style='color:var(--muted);font-size:.85rem;padding:.5rem'>無資料</div>";
+}
+
+function renderRankings(list) {
+  renderRank("rank-energy-low", rankItems(list,"熱量(kcal)",true), "熱量(kcal)");
+  renderRank("rank-sugar-low",  rankItems(list,"糖(g)",true),      "糖(g)");
+  renderRank("rank-protein-high", rankItems(list,"蛋白質(g)",false), "蛋白質(g)");
+  const highSugar = list.filter(d => (N(d,"糖(g)") ?? 0) > 10)
+    .sort((a,b) => N(b,"糖(g)")-N(a,"糖(g)")).slice(0,5);
+  renderRank("rank-sugar-high", highSugar, "糖(g)");
+}
+
+// ── 圖表 ──
+let charts = {};
+function destroyCharts() { Object.values(charts).forEach(c => c.destroy()); charts = {}; }
+
+function buildCharts(list) {
+  destroyCharts();
+  const GREEN = "rgba(82,183,136,0.8)";
+  const ORANGE = "rgba(224,123,57,0.8)";
+  const BLUE = "rgba(58,123,213,0.8)";
+  const sorted = [...list].sort((a,b) => (N(a,"熱量(kcal)")??0)-(N(b,"熱量(kcal)")??0));
+
+  // 熱量橫條
+  const eData = sorted.filter(d => N(d,"熱量(kcal)")!==null);
+  charts.energy = new Chart(document.getElementById("chartEnergy"), {
+    type: "bar",
+    data: {
+      labels: eData.map(d => d.name.length > 12 ? d.name.slice(0,12)+"…" : d.name),
+      datasets: [{ data: eData.map(d => N(d,"熱量(kcal)")), backgroundColor: ORANGE, borderRadius: 4 }]
+    },
+    options: { indexAxis:"y", plugins:{legend:{display:false}}, scales:{x:{beginAtZero:true}} }
+  });
+
+  // 糖分橫條
+  const sData = [...list].filter(d=>N(d,"糖(g)")!==null).sort((a,b)=>N(a,"糖(g)")-N(b,"糖(g)"));
+  charts.sugar = new Chart(document.getElementById("chartSugar"), {
+    type: "bar",
+    data: {
+      labels: sData.map(d => d.name.length > 12 ? d.name.slice(0,12)+"…" : d.name),
+      datasets: [{ data: sData.map(d => N(d,"糖(g)")), backgroundColor: d => d.raw > 10 ? "rgba(217,79,79,0.8)" : GREEN, borderRadius: 4 }]
+    },
+    options: { indexAxis:"y", plugins:{legend:{display:false}}, scales:{x:{beginAtZero:true}} }
+  });
+
+  // 散佈圖
+  const scatter = list.filter(d=>N(d,"熱量(kcal)")!==null&&N(d,"糖(g)")!==null)
+    .map(d=>({x:N(d,"糖(g)"),y:N(d,"熱量(kcal)"),label:d.name}));
+  charts.scatter = new Chart(document.getElementById("chartScatter"), {
+    type: "scatter",
+    data: { datasets: [{ data: scatter, backgroundColor: GREEN, pointRadius: 6, pointHoverRadius: 8 }] },
+    options: {
+      plugins: { legend:{display:false}, tooltip:{callbacks:{label:c=>`${c.raw.label}: 糖${c.raw.x}g, ${c.raw.y}kcal`}} },
+      scales: { x:{title:{display:true,text:"糖(g/100ml)"}}, y:{title:{display:true,text:"熱量(kcal/100ml)"}} }
+    }
+  });
+
+  // 鈉橫條
+  const naData = [...list].filter(d=>N(d,"鈉(mg)")!==null).sort((a,b)=>N(b,"鈉(mg)")-N(a,"鈉(mg)"));
+  charts.sodium = new Chart(document.getElementById("chartSodium"), {
+    type: "bar",
+    data: {
+      labels: naData.map(d => d.name.length > 12 ? d.name.slice(0,12)+"…" : d.name),
+      datasets: [{ data: naData.map(d => N(d,"鈉(mg)")), backgroundColor: BLUE, borderRadius: 4 }]
+    },
+    options: { indexAxis:"y", plugins:{legend:{display:false}}, scales:{x:{beginAtZero:true}} }
+  });
+}
+
+// ── 卡片 ──
+function renderGrid(list) {
+  document.getElementById("count").textContent = `共 ${list.length} 筆`;
+  document.getElementById("no-result").style.display = list.length ? "none" : "block";
+  document.getElementById("grid").innerHTML = list.map((d, i) => {
+    const score = healthScore(d);
+    const bars = BAR_KEYS.map(k => {
+      const v = N(d, k);
+      if (v === null) return "";
+      const pct = Math.min(100, (v / BAR_MAX[k]) * 100).toFixed(1);
+      const color = BAR_COLORS[k] || "var(--green-light)";
+      return `<div class="nb-row">
+        <span class="nb-lbl">${k}</span>
+        <div class="nb-track"><div class="nb-fill" style="width:${pct}%;background:${color}"></div></div>
+        <span class="nb-val">${v}</span>
+      </div>`;
+    }).join("");
+    const tagColors = ["","orange","blue","","orange"];
+    const tags = d.categories.slice(0,3).map((c,i)=>`<span class="tag ${tagColors[i]||""}">${c}</span>`).join("");
+    return `<div class="card" onclick="openModal(${DRINKS.indexOf(d)})">
+      <img class="card-img" src="${d.image||PLACEHOLDER}" alt="${d.name}" onerror="this.src='${PLACEHOLDER}'">
+      <div class="card-body">
+        <h2>${d.name}</h2>
+        <div class="card-brand">${d.brand} · ${d.volume_ml}ml</div>
+        <div class="card-tags">${tags}<span class="tag" style="background:${scoreColor(score)}22;color:${scoreColor(score)}">${scoreLabel(score)} ${score}</span></div>
+        <div class="nutribar">${bars}</div>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+// ── Modal ──
+function openModal(idx) {
+  const d = DRINKS[idx];
+  const score = healthScore(d);
+  const rows = Object.entries(d.nutrients||{}).map(([k,v])=>`<tr><td>${k}</td><td>${v}</td></tr>`).join("");
+  document.getElementById("modal-content").innerHTML = `
+    <img src="${d.image||PLACEHOLDER}" alt="${d.name}" onerror="this.src='${PLACEHOLDER}'">
+    <h2>${d.name}</h2>
+    <div class="m-brand">${d.brand} · ${d.volume_ml}ml</div>
+    <div class="score-ring">
+      <div class="ring" style="background:${scoreColor(score)}22;color:${scoreColor(score)};border:3px solid ${scoreColor(score)}">${score}</div>
+      <div class="score-desc">健康評分 <strong>${scoreLabel(score)}</strong><br>
+        綜合熱量、糖分、鈉含量與蛋白質計算<br>
+        <small style="color:var(--muted)">100分為最佳，僅供參考</small>
+      </div>
+    </div>
+    ${rows ? `<div class="m-section">營養成分（per 100ml）</div><table>${rows}</table>` : ""}
+    ${d.ingredients ? `<div class="m-section">成分列表</div><div class="m-ingredients">${d.ingredients}</div>` : ""}
+    ${d.categories?.length ? `<div class="m-section">類別</div><div class="m-ingredients">${d.categories.join("・")}</div>` : ""}
+  `;
+  document.getElementById("overlay").classList.add("open");
+}
+
+document.getElementById("modal-close").onclick = () => document.getElementById("overlay").classList.remove("open");
+document.getElementById("overlay").onclick = e => { if(e.target===document.getElementById("overlay")) document.getElementById("overlay").classList.remove("open"); };
+
+// ── 篩選 & 排序 ──
+function applyFilters() {
+  const q = document.getElementById("search").value.toLowerCase();
+  const sort = document.getElementById("sort").value;
+  const cat = document.getElementById("filter-cat").value;
+
+  filtered = DRINKS.filter(d =>
+    (d.name.toLowerCase().includes(q) || (d.brand||"").toLowerCase().includes(q)) &&
+    (!cat || d.categories.includes(cat))
+  );
+
+  const [key, dir] = {
+    name:         ["name", "asc"],
+    energy_asc:   ["熱量(kcal)", "asc"],
+    energy_desc:  ["熱量(kcal)", "desc"],
+    sugar_asc:    ["糖(g)", "asc"],
+    sugar_desc:   ["糖(g)", "desc"],
+    sodium_asc:   ["鈉(mg)", "asc"],
+    protein_desc: ["蛋白質(g)", "desc"],
+  }[sort] || ["name","asc"];
+
+  filtered.sort((a,b) => {
+    if (key === "name") return a.name.localeCompare(b.name, "zh-TW");
+    const av = N(a,key)??999, bv = N(b,key)??999;
+    return dir === "asc" ? av-bv : bv-av;
+  });
+
+  renderStats(filtered);
+  renderRankings(filtered);
+  buildCharts(filtered);
+  renderGrid(filtered);
+}
+
+document.getElementById("search").addEventListener("input", applyFilters);
+document.getElementById("sort").addEventListener("change", applyFilters);
+document.getElementById("filter-cat").addEventListener("change", applyFilters);
+
+initCategoryFilter();
+applyFilters();
+</script>
+</body>
+</html>

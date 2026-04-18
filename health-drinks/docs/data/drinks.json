@@ -1,0 +1,215 @@
+[
+  {
+    "id": "4902102141109",
+    "name": "Yakult",
+    "brand": "Yakult",
+    "volume_ml": 200,
+    "ingredients": "Water, Skimmed milk, Glucose, Sucrose, Live Lactobacillus casei Shirota",
+    "nutrients": {
+      "熱量(kcal)": 46,
+      "糖(g)": 10.2,
+      "鈉(mg)": 15,
+      "蛋白質(g)": 1.2,
+      "脂肪(g)": 0,
+      "碳水化合物(g)": 10.5
+    },
+    "image": null,
+    "categories": ["fermented milk drinks", "probiotic drinks", "dairy drinks"]
+  },
+  {
+    "id": "5000112637922",
+    "name": "Lucozade Sport Orange",
+    "brand": "Lucozade",
+    "volume_ml": 250,
+    "ingredients": "Water, Glucose Syrup, Citric Acid, Sodium Chloride, Potassium Chloride, Flavouring, Sweeteners (Acesulfame K, Sucralose), Colour (Beta-Carotene), Vitamins (B3, B6, B12)",
+    "nutrients": {
+      "熱量(kcal)": 26,
+      "糖(g)": 3.2,
+      "鈉(mg)": 46,
+      "蛋白質(g)": 0,
+      "脂肪(g)": 0,
+      "碳水化合物(g)": 6.4,
+      "維生素C(mg)": 0
+    },
+    "image": null,
+    "categories": ["sports drinks", "isotonic drinks", "beverages"]
+  },
+  {
+    "id": "5000112548167",
+    "name": "Lucozade Energy Original",
+    "brand": "Lucozade",
+    "volume_ml": 250,
+    "ingredients": "Carbonated Water, Glucose Syrup, Citric Acid, Lactic Acid, Flavouring, Preservative (Sodium Benzoate), Caffeine, Colour (Sunset Yellow FCF)",
+    "nutrients": {
+      "熱量(kcal)": 70,
+      "糖(g)": 17,
+      "鈉(mg)": 0,
+      "蛋白質(g)": 0,
+      "脂肪(g)": 0,
+      "碳水化合物(g)": 17.5,
+      "咖啡因(mg)": 12
+    },
+    "image": null,
+    "categories": ["energy drinks", "carbonated drinks", "beverages"]
+  },
+  {
+    "id": "4006381333498",
+    "name": "Capri-Sun Multivitamin",
+    "brand": "Capri-Sun",
+    "volume_ml": 200,
+    "ingredients": "Water, Fruit Juices (Apple 10%, Orange 5%, Passion Fruit 1%), Sugar, Citric Acid, Vitamins (C, B6, B12, Niacin, Pantothenic Acid, Folic Acid)",
+    "nutrients": {
+      "熱量(kcal)": 42,
+      "糖(g)": 9.8,
+      "鈉(mg)": 5,
+      "蛋白質(g)": 0.1,
+      "脂肪(g)": 0,
+      "碳水化合物(g)": 10.5,
+      "維生素C(mg)": 12
+    },
+    "image": null,
+    "categories": ["fruit drinks", "juice drinks", "beverages", "kids drinks"]
+  },
+  {
+    "id": "3228857000166",
+    "name": "Innocent Smoothie Strawberry & Banana",
+    "brand": "Innocent",
+    "volume_ml": 250,
+    "ingredients": "Crushed Strawberries, Banana Purée, Apple Juice, Lemon Juice",
+    "nutrients": {
+      "熱量(kcal)": 55,
+      "糖(g)": 12.5,
+      "鈉(mg)": 5,
+      "蛋白質(g)": 0.5,
+      "脂肪(g)": 0.1,
+      "碳水化合物(g)": 13,
+      "維生素C(mg)": 30
+    },
+    "image": null,
+    "categories": ["smoothies", "fruit drinks", "beverages"]
+  },
+  {
+    "id": "5011546300017",
+    "name": "Ribena Blackcurrant",
+    "brand": "Ribena",
+    "volume_ml": 250,
+    "ingredients": "Water, Blackcurrant Juice (12%), Sugar, Citric Acid, Vitamin C, Preservative (Potassium Sorbate)",
+    "nutrients": {
+      "熱量(kcal)": 38,
+      "糖(g)": 9,
+      "鈉(mg)": 10,
+      "蛋白質(g)": 0,
+      "脂肪(g)": 0,
+      "碳水化合物(g)": 9.5,
+      "維生素C(mg)": 45
+    },
+    "image": null,
+    "categories": ["fruit drinks", "juice drinks", "beverages"]
+  },
+  {
+    "id": "8718452011427",
+    "name": "Fristi Strawberry",
+    "brand": "Fristi",
+    "volume_ml": 200,
+    "ingredients": "Skimmed Milk, Sugar, Strawberry Purée (5%), Modified Starch, Flavouring, Colour (Carmine), Vitamin D",
+    "nutrients": {
+      "熱量(kcal)": 72,
+      "糖(g)": 12.5,
+      "鈉(mg)": 55,
+      "蛋白質(g)": 3.2,
+      "脂肪(g)": 0.1,
+      "碳水化合物(g)": 14,
+      "維生素C(mg)": 0
+    },
+    "image": null,
+    "categories": ["dairy drinks", "milk drinks", "beverages", "kids drinks"]
+  },
+  {
+    "id": "4901085615744",
+    "name": "Calpis Water",
+    "brand": "Calpis",
+    "volume_ml": 200,
+    "ingredients": "Water, Sugar, Skimmed Milk Powder, Lactic Acid, Citric Acid, Flavouring",
+    "nutrients": {
+      "熱量(kcal)": 38,
+      "糖(g)": 8.5,
+      "鈉(mg)": 20,
+      "蛋白質(g)": 0.4,
+      "脂肪(g)": 0,
+      "碳水化合物(g)": 9.2
+    },
+    "image": null,
+    "categories": ["lactic acid drinks", "soft drinks", "beverages"]
+  },
+  {
+    "id": "demo_green_tea_001",
+    "name": "Ito En Oi Ocha Green Tea",
+    "brand": "Ito En",
+    "volume_ml": 245,
+    "ingredients": "Water, Green Tea",
+    "nutrients": {
+      "熱量(kcal)": 0,
+      "糖(g)": 0,
+      "鈉(mg)": 5,
+      "蛋白質(g)": 0,
+      "脂肪(g)": 0,
+      "碳水化合物(g)": 0,
+      "咖啡因(mg)": 16
+    },
+    "image": null,
+    "categories": ["green tea", "tea beverages", "beverages"]
+  },
+  {
+    "id": "demo_kombucha_001",
+    "name": "GT's Kombucha Original",
+    "brand": "GT's Living Foods",
+    "volume_ml": 240,
+    "ingredients": "Organic Raw Kombucha (Filtered Water, Organic Cane Sugar, Organic Black Tea, Organic Green Tea, Kombucha Culture)",
+    "nutrients": {
+      "熱量(kcal)": 30,
+      "糖(g)": 2,
+      "鈉(mg)": 10,
+      "蛋白質(g)": 0,
+      "脂肪(g)": 0,
+      "碳水化合物(g)": 7,
+      "咖啡因(mg)": 8
+    },
+    "image": null,
+    "categories": ["kombucha", "fermented drinks", "probiotic drinks", "beverages"]
+  },
+  {
+    "id": "demo_protein_001",
+    "name": "Actimel Strawberry",
+    "brand": "Danone",
+    "volume_ml": 200,
+    "ingredients": "Skimmed Milk, Sugar, Strawberry Purée (3%), Glucose Syrup, Modified Starch, L. casei Danone, Vitamins (B6, D)",
+    "nutrients": {
+      "熱量(kcal)": 68,
+      "糖(g)": 11.5,
+      "鈉(mg)": 60,
+      "蛋白質(g)": 3.3,
+      "脂肪(g)": 1.5,
+      "碳水化合物(g)": 12,
+      "維生素C(mg)": 0
+    },
+    "image": null,
+    "categories": ["probiotic drinks", "dairy drinks", "fermented milk drinks", "beverages"]
+  },
+  {
+    "id": "demo_electrolyte_001",
+    "name": "Pocari Sweat",
+    "brand": "Otsuka",
+    "volume_ml": 250,
+    "ingredients": "Water, Sugar, Citric Acid, Sodium Chloride, Potassium Chloride, Calcium Lactate, Magnesium Carbonate, Sodium Citrate",
+    "nutrients": {
+      "熱量(kcal)": 25,
+      "糖(g)": 6.2,
+      "鈉(mg)": 49,
+      "蛋白質(g)": 0,
+      "脂肪(g)": 0,
+      "碳水化合物(g)": 6.2
+    },
+    "image": null,
+    "categories": ["sports drinks", "isotonic drinks", "electrolyte drinks", "beverages"]
+  }
+]
