@@ -166,65 +166,72 @@ body { font-family: 'Noto Sans TC', system-ui, sans-serif; background: var(--bg)
 .compare-section h2 {
   font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: .75rem;
 }
-.compare-wrap {
-  overflow-x: auto;
+.compare-outer {
+  display: flex;
   border-radius: 12px;
   box-shadow: 0 1px 4px rgba(0,0,0,.07);
+  overflow: hidden;
+  max-height: 540px;
 }
-.compare-table {
-  border-collapse: separate;   /* sticky 需要 separate */
-  border-spacing: 0;
-  background: var(--card);
-  min-width: 700px;
-  width: 100%;
+/* 左欄固定 */
+.compare-left {
+  flex-shrink: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  z-index: 2;
+  box-shadow: 2px 0 6px rgba(0,0,0,.08);
+}
+.compare-left::-webkit-scrollbar { display: none; }
+/* 右欄橫向捲動 */
+.compare-right {
+  flex: 1;
+  overflow-x: auto;
+  overflow-y: auto;
+}
+/* 左右捲動同步 */
+.compare-table-left, .compare-table-right {
+  border-collapse: collapse;
   font-size: .82rem;
+  white-space: nowrap;
 }
-.compare-table th {
+.compare-table-left th, .compare-table-right th {
   background: var(--green);
   color: #fff;
-  padding: .6rem .75rem;
-  text-align: center;
-  white-space: nowrap;
+  padding: .6rem .85rem;
   font-weight: 600;
   position: sticky;
   top: 0;
   z-index: 1;
   border-bottom: 2px solid #1b4d35;
 }
-.compare-table th.row-header {
-  background: #1b4d35;
+.compare-table-left th { background: #1b4d35; text-align: left; min-width: 160px; }
+.compare-table-right th { text-align: center; min-width: 110px; }
+.compare-table-left td {
+  background: #f4faf7;
+  padding: .5rem .85rem;
+  font-weight: 600;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  border-right: 3px solid var(--border);
   text-align: left;
-  min-width: 150px;
-  position: sticky;
-  left: 0;
-  top: 0;
-  z-index: 3;
 }
-.compare-table td {
+.compare-table-right td {
   padding: .5rem .75rem;
   text-align: center;
   border-bottom: 1px solid var(--border);
   border-right: 1px solid var(--border);
-  white-space: nowrap;
 }
-.compare-table td.row-label {
-  background: #f4faf7;
-  font-weight: 600;
-  text-align: left;
-  color: var(--text);
-  position: sticky;
-  left: 0;
-  z-index: 1;
-  border-right: 2px solid var(--border);
-  min-width: 150px;
-}
-.compare-table tr:last-child td { border-bottom: none; }
-.compare-table tr:hover td:not(.row-label) { background: #edf7f2; }
-.compare-table tr:hover td.row-label { background: #e0f0e8; }
+.compare-table-left tr:hover td { background: #e0f0e8; }
+.compare-table-right tr:hover td { background: #edf7f2; }
 /* 熱度色 */
-.cell-best  { background: #c8f0da !important; color: #1a5c35; font-weight: 700; }
-.cell-good  { background: #e8f7ee !important; }
-.cell-warn  { background: #fff3cd !important; color: #7a5c00; }
+.cell-best { background: #c8f0da !important; color: #1a5c35; font-weight: 700; }
+.cell-good { background: #e8f7ee !important; }
+.cell-warn { background: #fff3cd !important; color: #7a5c00; }
+.cell-bad  { background: #fde8e8 !important; color: #8b1a1a; font-weight: 700; }
+.cell-na   { color: #bbb; }
+.col-name  { font-size: .78rem; line-height: 1.3; }
+.col-brand { font-size: .7rem; opacity: .75; }
 /* 熱度色 */
 .cell-best  { background: #c8f0da !important; color: #1a5c35; font-weight: 700; }
 .cell-good  { background: #e8f7ee !important; }
@@ -317,11 +324,19 @@ body { font-family: 'Noto Sans TC', system-ui, sans-serif; background: var(--bg)
 <!-- 比較矩陣表格 -->
 <div class="compare-section">
   <h2>📋 成分比較矩陣</h2>
-  <div class="compare-wrap">
-    <table class="compare-table" id="compare-table">
-      <thead id="compare-head"></thead>
-      <tbody id="compare-body"></tbody>
-    </table>
+  <div class="compare-outer" id="compare-outer">
+    <div class="compare-left">
+      <table class="compare-table-left">
+        <thead id="compare-head-left"></thead>
+        <tbody id="compare-body-left"></tbody>
+      </table>
+    </div>
+    <div class="compare-right" id="compare-right">
+      <table class="compare-table-right">
+        <thead id="compare-head-right"></thead>
+        <tbody id="compare-body-right"></tbody>
+      </table>
+    </div>
   </div>
 </div>
 
@@ -655,30 +670,31 @@ function cellClass(val, row) {
 }
 
 function buildCompareTable(list) {
-  const drinks = list.slice(0, 20); // 最多顯示 20 欄避免太寬
-  const head = document.getElementById("compare-head");
-  const body = document.getElementById("compare-body");
+  const drinks = list.slice(0, 20);
 
-  // 表頭
-  head.innerHTML = `<tr>
-    <th class="row-header">成分 / 飲品</th>
-    ${drinks.map(d => `<th><div class="col-name">${d.name}</div><div class="col-brand">${d.brand}</div></th>`).join("")}
-  </tr>`;
+  // 左欄（成分標籤）
+  document.getElementById("compare-head-left").innerHTML =
+    `<tr><th>成分 / 飲品</th></tr>`;
+  document.getElementById("compare-body-left").innerHTML =
+    COMPARE_ROWS.map(r => `<tr><td>${r.label}</td></tr>`).join("");
 
-  // 每一列
-  body.innerHTML = COMPARE_ROWS.map(row => {
-    const cells = drinks.map(d => {
-      let val;
-      if (row.key === "_score") val = healthScore(d);
-      else if (row.key === "_vol") val = d.volume_ml;
-      else val = N(d, row.key);
-
-      if (val === null) return `<td class="cell-na">—</td>`;
-      const cls = cellClass(val, row);
-      return `<td class="${cls}">${val}${row.unit ? " " + row.unit : ""}</td>`;
+  // 右欄（各飲品數值）
+  document.getElementById("compare-head-right").innerHTML =
+    `<tr>${drinks.map(d => `<th><div class="col-name">${d.name}</div><div class="col-brand">${d.brand}</div></th>`).join("")}</tr>`;
+  document.getElementById("compare-body-right").innerHTML =
+    COMPARE_ROWS.map(row => {
+      const cells = drinks.map(d => {
+        let val = row.key === "_score" ? healthScore(d) : row.key === "_vol" ? d.volume_ml : N(d, row.key);
+        if (val === null) return `<td class="cell-na">—</td>`;
+        return `<td class="${cellClass(val, row)}">${val}${row.unit ? " "+row.unit : ""}</td>`;
+      }).join("");
+      return `<tr>${cells}</tr>`;
     }).join("");
-    return `<tr><td class="row-label">${row.label}</td>${cells}</tr>`;
-  }).join("");
+
+  // 左右同步捲動
+  const left = document.querySelector(".compare-left");
+  const right = document.getElementById("compare-right");
+  right.onscroll = () => { left.scrollTop = right.scrollTop; };
 }
 
 // 重新執行一次讓表格出現
