@@ -79,7 +79,7 @@
       "碳水化合物(g)": 10.5,
       "維生素C(mg)": 12
     },
-    "image": null,
+    "image": "images/caprisun.jpg",
     "categories": [
       "fruit drinks",
       "juice drinks",
@@ -168,7 +168,7 @@
       "脂肪(g)": 0,
       "碳水化合物(g)": 9.2
     },
-    "image": null,
+    "image": "images/calpis.jpg",
     "categories": [
       "lactic acid drinks",
       "soft drinks",
@@ -263,6 +263,478 @@
       "isotonic drinks",
       "electrolyte drinks",
       "beverages"
+    ]
+  },
+  {
+    "id": "tw_yakult_light",
+    "name": "養樂多 LIGHT",
+    "brand": "Yakult",
+    "volume_ml": 200,
+    "ingredients": "水、脫脂奶粉、砂糖、葡萄糖、活性乳酸菌 L. casei Shirota、香料",
+    "nutrients": {
+      "熱量(kcal)": 30,
+      "糖(g)": 6.5,
+      "鈉(mg)": 15,
+      "蛋白質(g)": 1.2,
+      "脂肪(g)": 0,
+      "碳水化合物(g)": 6.8
+    },
+    "image": null,
+    "categories": [
+      "益生菌飲品",
+      "低卡飲料",
+      "乳製品飲料"
+    ]
+  },
+  {
+    "id": "tw_pocari_250",
+    "name": "寶礦力水得 Pocari Sweat",
+    "brand": "大塚製藥",
+    "volume_ml": 250,
+    "ingredients": "水、砂糖、葡萄糖、檸檬酸、氯化鈉、氯化鉀、乳酸鈣、碳酸鎂、檸檬酸鈉",
+    "nutrients": {
+      "熱量(kcal)": 25,
+      "糖(g)": 6.2,
+      "鈉(mg)": 49,
+      "蛋白質(g)": 0,
+      "脂肪(g)": 0,
+      "碳水化合物(g)": 6.2
+    },
+    "image": "images/pocari.jpg",
+    "categories": [
+      "運動飲料",
+      "電解質飲料",
+      "等滲飲料"
+    ]
+  },
+  {
+    "id": "tw_aquarius",
+    "name": "水動樂 Aquarius",
+    "brand": "可口可樂",
+    "volume_ml": 250,
+    "ingredients": "水、砂糖、檸檬酸、氯化鈉、氯化鉀、維生素C、香料",
+    "nutrients": {
+      "熱量(kcal)": 22,
+      "糖(g)": 5.3,
+      "鈉(mg)": 42,
+      "蛋白質(g)": 0,
+      "脂肪(g)": 0,
+      "碳水化合物(g)": 5.5,
+      "維生素C(mg)": 15
+    },
+    "image": null,
+    "categories": [
+      "運動飲料",
+      "電解質飲料",
+      "飲料"
+    ]
+  },
+  {
+    "id": "tw_green_tea_uni",
+    "name": "統一 茶裏王 無糖綠茶",
+    "brand": "統一",
+    "volume_ml": 250,
+    "ingredients": "水、綠茶",
+    "nutrients": {
+      "熱量(kcal)": 0,
+      "糖(g)": 0,
+      "鈉(mg)": 5,
+      "蛋白質(g)": 0,
+      "脂肪(g)": 0,
+      "碳水化合物(g)": 0,
+      "咖啡因(mg)": 18
+    },
+    "image": "images/green_tea.jpg",
+    "categories": [
+      "綠茶",
+      "無糖茶飲",
+      "飲料"
+    ]
+  },
+  {
+    "id": "tw_oolong_uni",
+    "name": "統一 麥香紅茶",
+    "brand": "統一",
+    "volume_ml": 250,
+    "ingredients": "水、紅茶、砂糖、檸檬酸",
+    "nutrients": {
+      "熱量(kcal)": 32,
+      "糖(g)": 7.5,
+      "鈉(mg)": 10,
+      "蛋白質(g)": 0,
+      "脂肪(g)": 0,
+      "碳水化合物(g)": 8,
+      "咖啡因(mg)": 20
+    },
+    "image": null,
+    "categories": [
+      "紅茶",
+      "茶飲料",
+      "飲料"
+    ]
+  },
+  {
+    "id": "tw_soymilk_kuang",
+    "name": "光泉豆漿 無糖",
+    "brand": "光泉",
+    "volume_ml": 200,
+    "ingredients": "水、非基改黃豆",
+    "nutrients": {
+      "熱量(kcal)": 35,
+      "糖(g)": 0,
+      "鈉(mg)": 80,
+      "蛋白質(g)": 3.5,
+      "脂肪(g)": 1.8,
+      "碳水化合物(g)": 1.5
+    },
+    "image": null,
+    "categories": [
+      "豆漿",
+      "植物奶",
+      "無糖飲料"
+    ]
+  },
+  {
+    "id": "tw_soymilk_wei",
+    "name": "味全 每日C 柳橙汁",
+    "brand": "味全",
+    "volume_ml": 250,
+    "ingredients": "柳橙汁（100%）",
+    "nutrients": {
+      "熱量(kcal)": 45,
+      "糖(g)": 9.5,
+      "鈉(mg)": 2,
+      "蛋白質(g)": 0.7,
+      "脂肪(g)": 0.1,
+      "碳水化合物(g)": 10.5,
+      "維生素C(mg)": 50
+    },
+    "image": null,
+    "categories": [
+      "果汁",
+      "100%果汁",
+      "飲料"
+    ]
+  },
+  {
+    "id": "jp_calpis_water",
+    "name": "カルピスウォーター",
+    "brand": "Calpis（アサヒ）",
+    "volume_ml": 200,
+    "ingredients": "水、砂糖、脫脂粉乳、乳酸、檸檬酸、香料",
+    "nutrients": {
+      "熱量(kcal)": 38,
+      "糖(g)": 8.5,
+      "鈉(mg)": 20,
+      "蛋白質(g)": 0.4,
+      "脂肪(g)": 0,
+      "碳水化合物(g)": 9.2
+    },
+    "image": "images/calpis.jpg",
+    "categories": [
+      "乳酸飲料",
+      "軟性飲料",
+      "飲料"
+    ]
+  },
+  {
+    "id": "jp_suntory_oolong",
+    "name": "サントリー 烏龍茶",
+    "brand": "Suntory",
+    "volume_ml": 245,
+    "ingredients": "水、烏龍茶",
+    "nutrients": {
+      "熱量(kcal)": 0,
+      "糖(g)": 0,
+      "鈉(mg)": 8,
+      "蛋白質(g)": 0,
+      "脂肪(g)": 0,
+      "碳水化合物(g)": 0,
+      "咖啡因(mg)": 20
+    },
+    "image": null,
+    "categories": [
+      "烏龍茶",
+      "無糖茶飲",
+      "飲料"
+    ]
+  },
+  {
+    "id": "jp_yakult400",
+    "name": "ヤクルト 400",
+    "brand": "Yakult",
+    "volume_ml": 200,
+    "ingredients": "水、脫脂奶粉、砂糖、葡萄糖、活性乳酸菌 L. casei Shirota 400億個",
+    "nutrients": {
+      "熱量(kcal)": 50,
+      "糖(g)": 10.8,
+      "鈉(mg)": 18,
+      "蛋白質(g)": 1.3,
+      "脂肪(g)": 0,
+      "碳水化合物(g)": 11.2
+    },
+    "image": "images/yakult2.jpg",
+    "categories": [
+      "益生菌飲品",
+      "乳製品飲料",
+      "機能飲料"
+    ]
+  },
+  {
+    "id": "jp_meiji_r1",
+    "name": "明治 R-1 乳酸菌飲料",
+    "brand": "明治",
+    "volume_ml": 200,
+    "ingredients": "脫脂牛奶、砂糖、活性乳酸菌 OLL1073R-1、維生素D",
+    "nutrients": {
+      "熱量(kcal)": 65,
+      "糖(g)": 12,
+      "鈉(mg)": 55,
+      "蛋白質(g)": 3.4,
+      "脂肪(g)": 0.1,
+      "碳水化合物(g)": 13
+    },
+    "image": null,
+    "categories": [
+      "益生菌飲品",
+      "乳製品飲料",
+      "機能飲料"
+    ]
+  },
+  {
+    "id": "jp_c1000",
+    "name": "C1000 ビタミンレモン",
+    "brand": "House Wellness",
+    "volume_ml": 200,
+    "ingredients": "水、果糖葡萄糖液糖、維生素C（1000mg）、檸檬酸、香料",
+    "nutrients": {
+      "熱量(kcal)": 38,
+      "糖(g)": 8.8,
+      "鈉(mg)": 5,
+      "蛋白質(g)": 0,
+      "脂肪(g)": 0,
+      "碳水化合物(g)": 9.5,
+      "維生素C(mg)": 1000
+    },
+    "image": null,
+    "categories": [
+      "維他命飲料",
+      "機能飲料",
+      "飲料"
+    ]
+  },
+  {
+    "id": "jp_amino_vital",
+    "name": "アミノバイタル ゼリー",
+    "brand": "Ajinomoto",
+    "volume_ml": 180,
+    "ingredients": "水、砂糖、BCAA（纈胺酸、白胺酸、異白胺酸）、檸檬酸、香料、維生素B6",
+    "nutrients": {
+      "熱量(kcal)": 45,
+      "糖(g)": 10,
+      "鈉(mg)": 30,
+      "蛋白質(g)": 2.5,
+      "脂肪(g)": 0,
+      "碳水化合物(g)": 10.5
+    },
+    "image": null,
+    "categories": [
+      "胺基酸飲料",
+      "運動飲料",
+      "機能飲料"
+    ]
+  },
+  {
+    "id": "eu_actimel_orig",
+    "name": "Actimel Original",
+    "brand": "Danone",
+    "volume_ml": 200,
+    "ingredients": "Skimmed Milk, Sugar, Glucose Syrup, Modified Starch, L. casei Danone, Vitamins B6/D",
+    "nutrients": {
+      "熱量(kcal)": 62,
+      "糖(g)": 10.5,
+      "鈉(mg)": 58,
+      "蛋白質(g)": 3.3,
+      "脂肪(g)": 1.5,
+      "碳水化合物(g)": 11
+    },
+    "image": "images/actimel.jpg",
+    "categories": [
+      "益生菌飲品",
+      "乳製品飲料",
+      "機能飲料"
+    ]
+  },
+  {
+    "id": "eu_vitacoco",
+    "name": "Vita Coco 椰子水",
+    "brand": "Vita Coco",
+    "volume_ml": 250,
+    "ingredients": "100% Pure Coconut Water",
+    "nutrients": {
+      "熱量(kcal)": 19,
+      "糖(g)": 3.8,
+      "鈉(mg)": 44,
+      "蛋白質(g)": 0.2,
+      "脂肪(g)": 0,
+      "碳水化合物(g)": 4.5
+    },
+    "image": "images/vitacoco.jpg",
+    "categories": [
+      "椰子水",
+      "天然飲料",
+      "飲料"
+    ]
+  },
+  {
+    "id": "eu_oatly",
+    "name": "Oatly 燕麥奶 原味",
+    "brand": "Oatly",
+    "volume_ml": 250,
+    "ingredients": "Water, Oats (10%), Rapeseed Oil, Salt, Vitamins D2/B12/B2, Calcium",
+    "nutrients": {
+      "熱量(kcal)": 47,
+      "糖(g)": 4,
+      "鈉(mg)": 60,
+      "蛋白質(g)": 1,
+      "脂肪(g)": 1.5,
+      "碳水化合物(g)": 6.5
+    },
+    "image": "images/oatmilk.jpg",
+    "categories": [
+      "燕麥奶",
+      "植物奶",
+      "飲料"
+    ]
+  },
+  {
+    "id": "eu_innocent_kids",
+    "name": "Innocent Kids Orange",
+    "brand": "Innocent",
+    "volume_ml": 180,
+    "ingredients": "Orange Juice (100%), Vitamin C",
+    "nutrients": {
+      "熱量(kcal)": 42,
+      "糖(g)": 9,
+      "鈉(mg)": 2,
+      "蛋白質(g)": 0.7,
+      "脂肪(g)": 0,
+      "碳水化合物(g)": 10,
+      "維生素C(mg)": 30
+    },
+    "image": "images/innocent_smoothie.jpg",
+    "categories": [
+      "果汁",
+      "兒童飲料",
+      "100%果汁"
+    ]
+  },
+  {
+    "id": "eu_gt_kombucha",
+    "name": "GT's Kombucha Gingerade",
+    "brand": "GT's Living Foods",
+    "volume_ml": 240,
+    "ingredients": "Organic Raw Kombucha, Organic Ginger Juice (3%), Organic Lemon Juice",
+    "nutrients": {
+      "熱量(kcal)": 25,
+      "糖(g)": 1.5,
+      "鈉(mg)": 10,
+      "蛋白質(g)": 0,
+      "脂肪(g)": 0,
+      "碳水化合物(g)": 6,
+      "咖啡因(mg)": 8
+    },
+    "image": "images/kombucha.jpg",
+    "categories": [
+      "康普茶",
+      "發酵飲料",
+      "益生菌飲品"
+    ]
+  },
+  {
+    "id": "eu_kefir",
+    "name": "BioKefir 克菲爾益生菌飲",
+    "brand": "BioKefir",
+    "volume_ml": 200,
+    "ingredients": "Low-fat Milk, Active Kefir Cultures (L. acidophilus, B. lactis, L. rhamnosus)",
+    "nutrients": {
+      "熱量(kcal)": 52,
+      "糖(g)": 4.8,
+      "鈉(mg)": 55,
+      "蛋白質(g)": 3.8,
+      "脂肪(g)": 1.2,
+      "碳水化合物(g)": 5.5
+    },
+    "image": "images/kefir.jpg",
+    "categories": [
+      "益生菌飲品",
+      "發酵乳飲品",
+      "乳製品飲料"
+    ]
+  },
+  {
+    "id": "eu_aloe",
+    "name": "OKF 蘆薈飲料",
+    "brand": "OKF",
+    "volume_ml": 240,
+    "ingredients": "Water, Aloe Vera Pulp (15%), Sugar, Citric Acid, Natural Flavour",
+    "nutrients": {
+      "熱量(kcal)": 28,
+      "糖(g)": 6.5,
+      "鈉(mg)": 5,
+      "蛋白質(g)": 0,
+      "脂肪(g)": 0,
+      "碳水化合物(g)": 7
+    },
+    "image": "images/aloe.jpg",
+    "categories": [
+      "蘆薈飲料",
+      "機能飲料",
+      "飲料"
+    ]
+  },
+  {
+    "id": "eu_fancl_collagen",
+    "name": "FANCL 膠原蛋白飲",
+    "brand": "FANCL",
+    "volume_ml": 200,
+    "ingredients": "水、膠原蛋白胜肽（2000mg）、維生素C（100mg）、檸檬酸、香料",
+    "nutrients": {
+      "熱量(kcal)": 18,
+      "糖(g)": 0,
+      "鈉(mg)": 30,
+      "蛋白質(g)": 4.5,
+      "脂肪(g)": 0,
+      "碳水化合物(g)": 0.5,
+      "維生素C(mg)": 100
+    },
+    "image": null,
+    "categories": [
+      "膠原蛋白飲",
+      "美容飲料",
+      "機能飲料"
+    ]
+  },
+  {
+    "id": "eu_vitaminwater",
+    "name": "Glacéau Vitaminwater 檸檬",
+    "brand": "Glacéau",
+    "volume_ml": 240,
+    "ingredients": "Water, Fructose, Sucrose, Citric Acid, Vitamin C, B3, B5, B6, B12, Natural Flavour",
+    "nutrients": {
+      "熱量(kcal)": 21,
+      "糖(g)": 5.2,
+      "鈉(mg)": 0,
+      "蛋白質(g)": 0,
+      "脂肪(g)": 0,
+      "碳水化合物(g)": 5.5,
+      "維生素C(mg)": 40
+    },
+    "image": null,
+    "categories": [
+      "維他命飲料",
+      "機能飲料",
+      "飲料"
     ]
   }
 ]
