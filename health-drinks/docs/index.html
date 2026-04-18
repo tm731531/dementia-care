@@ -108,10 +108,18 @@ body { font-family: 'Noto Sans TC', system-ui, sans-serif; background: var(--bg)
   transition: transform .15s, box-shadow .15s;
 }
 .card:hover { transform: translateY(-3px); box-shadow: 0 6px 18px rgba(0,0,0,.12); }
+.card-img-wrap { position: relative; width: 100%; height: 160px; background: linear-gradient(135deg, #f0faf5, #e8f5ee); }
 .card-img {
-  width: 100%; height: 160px; object-fit: contain;
-  background: linear-gradient(135deg, #f0faf5, #e8f5ee); padding: .75rem;
+  width: 100%; height: 160px; object-fit: contain; padding: .75rem;
+  position: absolute; top: 0; left: 0; transition: opacity .25s;
 }
+.card-img.hidden { opacity: 0; pointer-events: none; }
+.img-toggle {
+  position: absolute; bottom: 6px; right: 6px; z-index: 2;
+  background: rgba(0,0,0,.45); color: #fff; border: none; border-radius: 12px;
+  font-size: .68rem; padding: .2rem .5rem; cursor: pointer; line-height: 1.4;
+}
+.img-toggle:hover { background: var(--green); }
 .card-body { padding: 1rem 1.1rem 1.1rem; }
 .card-body h2 { font-size: .95rem; font-weight: 600; line-height: 1.35; }
 .card-brand { font-size: .78rem; color: var(--muted); margin-top: .2rem; }
@@ -559,8 +567,14 @@ function renderGrid(list) {
     }).join("");
     const tagColors = ["","orange","blue","","orange"];
     const tags = d.categories.slice(0,3).map((c,i)=>`<span class="tag ${tagColors[i]||""}">${c}</span>`).join("");
-    return `<div class="card" onclick="openModal(${DRINKS.indexOf(d)})">
-      <img class="card-img" src="${d.image||PLACEHOLDER}" alt="${d.name}" onerror="this.src='${PLACEHOLDER}'">
+    const hasNutrImg = !!d.image_nutrition;
+    const idx = DRINKS.indexOf(d);
+    return `<div class="card" onclick="openModal(${idx})">
+      <div class="card-img-wrap">
+        <img class="card-img" id="cimg-${idx}" src="${d.image||PLACEHOLDER}" alt="${d.name}" onerror="this.src='${PLACEHOLDER}'">
+        ${hasNutrImg ? `<img class="card-img hidden" id="cimg-n-${idx}" src="${d.image_nutrition}" alt="成分表">
+        <button class="img-toggle" onclick="event.stopPropagation();toggleCardImg(${idx})" id="ctoggle-${idx}">📋 成分表</button>` : ''}
+      </div>
       <div class="card-body">
         <h2>${d.name}</h2>
         <div class="card-brand">${d.brand} · ${d.volume_ml}ml</div>
@@ -571,13 +585,42 @@ function renderGrid(list) {
   }).join("");
 }
 
+function toggleCardImg(idx) {
+  const prod = document.getElementById(`cimg-${idx}`);
+  const nutr = document.getElementById(`cimg-n-${idx}`);
+  const btn  = document.getElementById(`ctoggle-${idx}`);
+  if (!nutr) return;
+  const showingNutr = !nutr.classList.contains('hidden');
+  prod.classList.toggle('hidden', !showingNutr);
+  nutr.classList.toggle('hidden', showingNutr);
+  btn.textContent = showingNutr ? '📋 成分表' : '🖼 產品圖';
+}
+
 // ── Modal ──
 function openModal(idx) {
   const d = DRINKS[idx];
   const score = healthScore(d);
   const rows = Object.entries(d.nutrients||{}).map(([k,v])=>`<tr><td>${k}</td><td>${v}</td></tr>`).join("");
+
+  // 圖片區：產品圖 + 成分表圖並排（若有）
+  const imgSection = d.image_nutrition
+    ? `<div style="display:flex;gap:.5rem;margin-bottom:1rem">
+        <div style="flex:1;text-align:center">
+          <img src="${d.image||PLACEHOLDER}" alt="${d.name}" onerror="this.src='${PLACEHOLDER}'"
+            style="width:100%;max-height:160px;object-fit:contain;background:#f0faf5;border-radius:8px">
+          <div style="font-size:.72rem;color:var(--muted);margin-top:.3rem">產品圖</div>
+        </div>
+        <div style="flex:1;text-align:center">
+          <img src="${d.image_nutrition}" alt="成分表"
+            style="width:100%;max-height:160px;object-fit:contain;background:#f0faf5;border-radius:8px">
+          <div style="font-size:.72rem;color:var(--muted);margin-top:.3rem">📋 成分表</div>
+        </div>
+      </div>`
+    : `<img src="${d.image||PLACEHOLDER}" alt="${d.name}" onerror="this.src='${PLACEHOLDER}'"
+        style="width:100%;max-height:200px;object-fit:contain;background:#f0faf5;border-radius:10px;margin-bottom:1rem">`;
+
   document.getElementById("modal-content").innerHTML = `
-    <img src="${d.image||PLACEHOLDER}" alt="${d.name}" onerror="this.src='${PLACEHOLDER}'">
+    ${imgSection}
     <h2>${d.name}</h2>
     <div class="m-brand">${d.brand} · ${d.volume_ml}ml</div>
     <div class="score-ring">

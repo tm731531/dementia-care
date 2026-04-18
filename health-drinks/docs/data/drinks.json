@@ -18,7 +18,8 @@
       "fermented milk drinks",
       "probiotic drinks",
       "dairy drinks"
-    ]
+    ],
+    "image_nutrition": null
   },
   {
     "id": "5000112637922",
@@ -40,7 +41,8 @@
       "sports drinks",
       "isotonic drinks",
       "beverages"
-    ]
+    ],
+    "image_nutrition": "images/lucozade_sport_nutrition.jpg"
   },
   {
     "id": "5000112548167",
@@ -62,7 +64,8 @@
       "energy drinks",
       "carbonated drinks",
       "beverages"
-    ]
+    ],
+    "image_nutrition": "images/lucozade_energy_nutrition.jpg"
   },
   {
     "id": "4006381333498",
@@ -85,7 +88,8 @@
       "juice drinks",
       "beverages",
       "kids drinks"
-    ]
+    ],
+    "image_nutrition": null
   },
   {
     "id": "3228857000166",
@@ -107,7 +111,8 @@
       "smoothies",
       "fruit drinks",
       "beverages"
-    ]
+    ],
+    "image_nutrition": "images/innocent_nutrition.jpg"
   },
   {
     "id": "5011546300017",
@@ -129,7 +134,8 @@
       "fruit drinks",
       "juice drinks",
       "beverages"
-    ]
+    ],
+    "image_nutrition": null
   },
   {
     "id": "8718452011427",
@@ -152,7 +158,8 @@
       "milk drinks",
       "beverages",
       "kids drinks"
-    ]
+    ],
+    "image_nutrition": null
   },
   {
     "id": "4901085615744",
@@ -173,7 +180,8 @@
       "lactic acid drinks",
       "soft drinks",
       "beverages"
-    ]
+    ],
+    "image_nutrition": null
   },
   {
     "id": "demo_green_tea_001",
@@ -195,7 +203,8 @@
       "green tea",
       "tea beverages",
       "beverages"
-    ]
+    ],
+    "image_nutrition": null
   },
   {
     "id": "demo_kombucha_001",
@@ -218,7 +227,8 @@
       "fermented drinks",
       "probiotic drinks",
       "beverages"
-    ]
+    ],
+    "image_nutrition": null
   },
   {
     "id": "demo_protein_001",
@@ -241,7 +251,8 @@
       "dairy drinks",
       "fermented milk drinks",
       "beverages"
-    ]
+    ],
+    "image_nutrition": null
   },
   {
     "id": "demo_electrolyte_001",
@@ -263,7 +274,8 @@
       "isotonic drinks",
       "electrolyte drinks",
       "beverages"
-    ]
+    ],
+    "image_nutrition": "images/pocari_nutrition.jpg"
   },
   {
     "id": "tw_yakult_light",
@@ -284,7 +296,8 @@
       "益生菌飲品",
       "低卡飲料",
       "乳製品飲料"
-    ]
+    ],
+    "image_nutrition": null
   },
   {
     "id": "tw_pocari_250",
@@ -305,7 +318,8 @@
       "運動飲料",
       "電解質飲料",
       "等滲飲料"
-    ]
+    ],
+    "image_nutrition": "images/pocari_nutrition.jpg"
   },
   {
     "id": "tw_aquarius",
@@ -327,7 +341,8 @@
       "運動飲料",
       "電解質飲料",
       "飲料"
-    ]
+    ],
+    "image_nutrition": null
   },
   {
     "id": "tw_green_tea_uni",
@@ -349,7 +364,8 @@
       "綠茶",
       "無糖茶飲",
       "飲料"
-    ]
+    ],
+    "image_nutrition": null
   },
   {
     "id": "tw_oolong_uni",
@@ -371,7 +387,8 @@
       "紅茶",
       "茶飲料",
       "飲料"
-    ]
+    ],
+    "image_nutrition": null
   },
   {
     "id": "tw_soymilk_kuang",
@@ -392,7 +409,8 @@
       "豆漿",
       "植物奶",
       "無糖飲料"
-    ]
+    ],
+    "image_nutrition": null
   },
   {
     "id": "tw_soymilk_wei",
@@ -414,7 +432,8 @@
       "果汁",
       "100%果汁",
       "飲料"
-    ]
+    ],
+    "image_nutrition": null
   },
   {
     "id": "jp_calpis_water",
@@ -435,7 +454,8 @@
       "乳酸飲料",
       "軟性飲料",
       "飲料"
-    ]
+    ],
+    "image_nutrition": null
   },
   {
     "id": "jp_suntory_oolong",
@@ -457,7 +477,8 @@
       "烏龍茶",
       "無糖茶飲",
       "飲料"
-    ]
+    ],
+    "image_nutrition": null
   },
   {
     "id": "jp_yakult400",
@@ -478,7 +499,8 @@
       "益生菌飲品",
       "乳製品飲料",
       "機能飲料"
-    ]
+    ],
+    "image_nutrition": null
   },
   {
     "id": "jp_meiji_r1",
@@ -499,7 +521,8 @@
       "益生菌飲品",
       "乳製品飲料",
       "機能飲料"
-    ]
+    ],
+    "image_nutrition": null
   },
   {
     "id": "jp_c1000",
@@ -521,7 +544,8 @@
       "維他命飲料",
       "機能飲料",
       "飲料"
-    ]
+    ],
+    "image_nutrition": null
   },
   {
     "id": "jp_amino_vital",
@@ -542,7 +566,8 @@
       "胺基酸飲料",
       "運動飲料",
       "機能飲料"
-    ]
+    ],
+    "image_nutrition": null
   },
   {
     "id": "eu_actimel_orig",
@@ -563,7 +588,8 @@
       "益生菌飲品",
       "乳製品飲料",
       "機能飲料"
-    ]
+    ],
+    "image_nutrition": null
   },
   {
     "id": "eu_vitacoco",
@@ -584,7 +610,8 @@
       "椰子水",
       "天然飲料",
       "飲料"
-    ]
+    ],
+    "image_nutrition": null
   },
   {
     "id": "eu_oatly",
@@ -605,7 +632,8 @@
       "燕麥奶",
       "植物奶",
       "飲料"
-    ]
+    ],
+    "image_nutrition": null
   },
   {
     "id": "eu_innocent_kids",
@@ -627,7 +655,8 @@
       "果汁",
       "兒童飲料",
       "100%果汁"
-    ]
+    ],
+    "image_nutrition": null
   },
   {
     "id": "eu_gt_kombucha",
@@ -649,7 +678,8 @@
       "康普茶",
       "發酵飲料",
       "益生菌飲品"
-    ]
+    ],
+    "image_nutrition": null
   },
   {
     "id": "eu_kefir",
@@ -670,7 +700,8 @@
       "益生菌飲品",
       "發酵乳飲品",
       "乳製品飲料"
-    ]
+    ],
+    "image_nutrition": null
   },
   {
     "id": "eu_aloe",
@@ -691,7 +722,8 @@
       "蘆薈飲料",
       "機能飲料",
       "飲料"
-    ]
+    ],
+    "image_nutrition": null
   },
   {
     "id": "eu_fancl_collagen",
@@ -713,7 +745,8 @@
       "膠原蛋白飲",
       "美容飲料",
       "機能飲料"
-    ]
+    ],
+    "image_nutrition": null
   },
   {
     "id": "eu_vitaminwater",
@@ -735,6 +768,7 @@
       "維他命飲料",
       "機能飲料",
       "飲料"
-    ]
+    ],
+    "image_nutrition": null
   }
 ]
