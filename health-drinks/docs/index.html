@@ -143,13 +143,34 @@ body { font-family: 'Noto Sans TC', system-ui, sans-serif; background: var(--bg)
 
 /* hide button inside column header */
 .hide-col-btn {
-  display: block; margin: 0 auto .3rem;
-  width: 18px; height: 18px; line-height: 18px; text-align: center;
+  display: block; margin: 0 auto .4rem;
+  width: 28px; height: 28px; line-height: 28px; text-align: center;
   border-radius: 50%; border: none; cursor: pointer;
-  background: rgba(255,255,255,.25); color: #fff; font-size: .75rem;
+  background: rgba(255,255,255,.3); color: #fff; font-size: 1rem; font-weight: 700;
   transition: background .15s;
 }
-.hide-col-btn:hover { background: rgba(255,255,255,.5); color: #1b4d35; }
+.hide-col-btn:hover { background: rgba(255,255,255,.6); color: #1b4d35; }
+
+/* value color coding */
+.cell-best  { background: #c8edd8 !important; font-weight: 600; }
+.cell-worst { background: #fde8e8 !important; color: #b94040; }
+
+/* sortable left column */
+#tbody-left td { cursor: pointer; }
+#tbody-left td.sort-active { background: #b8dfc9 !important; font-weight: 700; }
+
+/* per-100ml toggle */
+.toolbar {
+  max-width: 1200px; margin: .6rem auto 0; padding: 0 1rem;
+  display: flex; gap: .5rem; align-items: center; flex-wrap: wrap;
+}
+.toggle-btn {
+  padding: .3rem .9rem; border-radius: 20px; font-size: .8rem; cursor: pointer;
+  border: 1.5px solid var(--border); background: #fff; color: var(--muted);
+  font-family: inherit; transition: all .15s;
+}
+.toggle-btn.active { background: var(--green); border-color: var(--green); color: #fff; }
+.toolbar-hint { font-size: .75rem; color: var(--muted); }
 
 #no-result { text-align: center; color: var(--muted); padding: 3rem; display: none; }
 </style>
@@ -173,6 +194,11 @@ body { font-family: 'Noto Sans TC', system-ui, sans-serif; background: var(--bg)
 <div class="hidden-tray" id="hidden-tray">
   <span class="hidden-tray-label">已隱藏：</span>
   <button id="btn-show-all">全部顯示</button>
+</div>
+
+<div class="toolbar">
+  <button class="toggle-btn" id="btn-per100">每 100ml 換算</button>
+  <span class="toolbar-hint">點左欄成分名稱可排序・點右欄 × 可隱藏產品</span>
 </div>
 
 <script src="data/drinks.js"></script>
@@ -202,9 +228,15 @@ const NUTRIENT_ORDER = [
   "維生素C(mg)","維生素D(mcg)","咖啡因(mg)"
 ];
 
+const LOWER_IS_BETTER  = new Set(["熱量(kcal)","糖(g)","脂肪(g)","飽和脂肪(g)","反式脂肪(g)","鈉(mg)","膽固醇(mg)","咖啡因(mg)"]);
+const HIGHER_IS_BETTER = new Set(["蛋白質(g)","膳食纖維(g)","鉀(mg)","鈣(mg)","磷(mg)","鎂(mg)","鋅(mg)","鐵(mg)","維生素C(mg)","維生素D(mcg)"]);
+
 // 狀態
-const selectedCats = new Set();  // 空 = 全選
+const selectedCats = new Set();
 const hiddenIds    = new Set();
+let sortKey = null;
+let sortDir = 1;   // 1=升冪 -1=降冪
+let per100  = false;
 
 // ── 類別 checkbox 初始化 ──
 function initCategoryFilter() {
@@ -263,6 +295,15 @@ function buildTable(list) {
   noResult.style.display = "none";
   outer.style.display = "flex";
 
+  // 排序
+  if (sortKey) {
+    list = [...list].sort((a, b) => {
+      const va = sortKey === "容量(ml)" ? a.volume_ml : (a.nutrients?.[sortKey] ?? -Infinity);
+      const vb = sortKey === "容量(ml)" ? b.volume_ml : (b.nutrients?.[sortKey] ?? -Infinity);
+      return (va - vb) * sortDir;
+    });
+  }
+
   // 成分聯集
   const keySet = new Set();
   list.forEach(d => Object.keys(d.nutrients || {}).forEach(k => keySet.add(k)));
@@ -270,10 +311,22 @@ function buildTable(list) {
   const extra   = [...keySet].filter(k => !NUTRIENT_ORDER.includes(k));
   const rows    = ["容量(ml)", ...ordered, ...extra];
 
+  // 取值（支援 per100 換算）
+  function val(d, k) {
+    const raw = k === "容量(ml)" ? d.volume_ml : (d.nutrients?.[k] ?? null);
+    if (raw === null) return null;
+    if (per100 && k !== "容量(ml)") return Math.round(raw / d.volume_ml * 1000) / 10;
+    return raw;
+  }
+
   // 左欄
   document.getElementById("thead-left").innerHTML = "<tr><th>成分 / 飲品</th></tr>";
   document.getElementById("tbody-left").innerHTML =
-    rows.map(k => `<tr><td>${k}</td></tr>`).join("");
+    rows.map(k => {
+      const isActive = sortKey === k;
+      const arrow = isActive ? (sortDir === 1 ? " ↑" : " ↓") : "";
+      return `<tr><td class="${isActive ? "sort-active" : ""}" data-key="${k}">${k}${arrow}</td></tr>`;
+    }).join("");
 
   // 右欄 header（含隱藏按鈕）
   document.getElementById("thead-right").innerHTML =
@@ -285,15 +338,33 @@ function buildTable(list) {
       `</th>`
     ).join("") + "</tr>";
 
-  // 右欄 body
+  // 右欄 body（含顏色標記）
   document.getElementById("tbody-right").innerHTML =
     rows.map(k => {
-      const cells = list.map(d => {
-        const val = k === "容量(ml)" ? d.volume_ml : (d.nutrients?.[k] ?? null);
-        return val === null ? `<td class="na">—</td>` : `<td>${val}</td>`;
+      const vals = list.map(d => val(d, k));
+      const nonNull = vals.filter(v => v !== null);
+      const min = nonNull.length > 1 ? Math.min(...nonNull) : null;
+      const max = nonNull.length > 1 ? Math.max(...nonNull) : null;
+      const cells = vals.map(v => {
+        if (v === null) return `<td class="na">—</td>`;
+        let cls = "";
+        if (min !== null && min !== max) {
+          if (LOWER_IS_BETTER.has(k))       cls = v === min ? "cell-best" : v === max ? "cell-worst" : "";
+          else if (HIGHER_IS_BETTER.has(k)) cls = v === max ? "cell-best" : v === min ? "cell-worst" : "";
+        }
+        return `<td class="${cls}">${v}</td>`;
       }).join("");
       return `<tr>${cells}</tr>`;
     }).join("");
+
+  // 排序點擊
+  document.querySelectorAll("#tbody-left td").forEach(td => {
+    td.addEventListener("click", () => {
+      const k = td.dataset.key;
+      if (sortKey === k) sortDir *= -1; else { sortKey = k; sortDir = 1; }
+      applyFilters();
+    });
+  });
 
   // 隱藏按鈕事件
   document.querySelectorAll(".hide-col-btn").forEach(btn => {
@@ -304,7 +375,7 @@ function buildTable(list) {
     });
   });
 
-  // 同步 header 高度（右欄商品名稱可能較高）
+  // 同步 header 高度
   requestAnimationFrame(() => {
     const lh = document.querySelector("#thead-left tr");
     const rh = document.querySelector("#thead-right tr");
@@ -338,6 +409,11 @@ document.getElementById("search").addEventListener("input", applyFilters);
 document.getElementById("btn-show-all").addEventListener("click", () => {
   hiddenIds.clear();
   refreshHiddenTray();
+  applyFilters();
+});
+document.getElementById("btn-per100").addEventListener("click", function() {
+  per100 = !per100;
+  this.classList.toggle("active", per100);
   applyFilters();
 });
 
