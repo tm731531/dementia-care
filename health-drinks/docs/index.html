@@ -319,6 +319,7 @@ function buildTable(list) {
   const left  = document.getElementById("table-left");
   const right = document.getElementById("table-right");
   right.onscroll = () => { left.scrollTop = right.scrollTop; };
+  left.onscroll  = () => { right.scrollTop = left.scrollTop; };
 }
 
 // ── 篩選 ──
