@@ -114,21 +114,23 @@ body { font-family: 'Noto Sans TC', system-ui, sans-serif; background: var(--bg)
 .tbl-left thead th {
   background: #1b4d35; color: #fff;
   text-align: left; min-width: 170px;
+  vertical-align: middle;
 }
 .tbl-right thead th {
   background: var(--green); color: #fff;
   text-align: center; min-width: 120px;
   vertical-align: top;
 }
+.tbl-left tbody tr, .tbl-right tbody tr { height: 36px; }
 .tbl-left tbody td {
-  background: #f4faf7; padding: .5rem .9rem;
+  background: #f4faf7; padding: 0 .9rem;
   font-weight: 500; color: var(--text);
   border-bottom: 1px solid var(--border);
   border-right: 3px solid var(--border);
   min-width: 170px;
 }
 .tbl-right tbody td {
-  padding: .5rem .75rem; text-align: center;
+  padding: 0 .75rem; text-align: center;
   border-bottom: 1px solid var(--border);
   border-right: 1px solid var(--border);
 }
@@ -300,6 +302,17 @@ function buildTable(list) {
       refreshHiddenTray();
       applyFilters();
     });
+  });
+
+  // 同步 header 高度（右欄商品名稱可能較高）
+  requestAnimationFrame(() => {
+    const lh = document.querySelector("#thead-left tr");
+    const rh = document.querySelector("#thead-right tr");
+    if (lh && rh) {
+      const h = Math.max(lh.offsetHeight, rh.offsetHeight);
+      lh.style.height = h + "px";
+      rh.style.height = h + "px";
+    }
   });
 
   // 左右垂直同步捲動
