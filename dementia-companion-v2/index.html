@@ -331,6 +331,23 @@
     .tip-icon:hover { background: #555555; }
     .screen { position: relative; } /* 讓 tip-icon 的 absolute 定位錨定在 screen */
 
+    /* ===== Summary button（今日摘要觸發） ===== */
+    .summary-btn {
+      display: none;
+      margin: 24px auto 0;
+      background: transparent;
+      color: #FFFFFF;
+      border: 2px solid #FFFFFF;
+      padding: 14px 28px;
+      font-size: 18px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 600;
+    }
+    .summary-btn.show { display: block; }
+    .summary-btn:hover { background: #FFFFFF; color: #000000; }
+
     /* ===== Complete screen ===== */
     .complete {
       background: var(--card);
@@ -818,6 +835,8 @@
       目前難度：<span id="level-label">中度 (4)</span>
       <button onclick="showDifficultyModal()">調整</button>
     </div>
+
+    <button class="summary-btn" id="summary-btn" onclick="showSummaryModal()">📝 把今天傳給家人</button>
   </div>
 
   <!-- ===== Game picker (fallback) ===== -->
@@ -1358,7 +1377,13 @@ function goHome() {
   // ensure breathing stops if running
   try { BreathingExercise.stop(); } catch(e) {}
   renderRecommendation();
+  renderSummaryButton();
   showScreen('home');
+}
+
+// stub — Task 10 加稱呼設定,Task 12 加完整 modal
+function showSummaryModal() {
+  console.log('summary modal stub — session:', APP.session.completed);
 }
 
 function showPicker() {
