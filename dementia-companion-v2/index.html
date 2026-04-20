@@ -1656,6 +1656,7 @@ function handleColorPick(el, opt) {
   const g = APP.game;
   if (opt.name === g.currentAnswer.name) {
     el.classList.add('correct');
+    TipBanner.show('color', 'correct');
     const praise = randomPraise();
     showFeedback(praise);
     speak(praise);
@@ -1760,6 +1761,7 @@ const WordGame = {
   checkAnswer(opt, btn) {
     if (opt.isCorrect) {
       btn.classList.add('correct');
+      TipBanner.show('word', 'correct');
       const p = randomPraise();
       showFeedback(p); speak(p);
       setTimeout(() => this.nextRound(), 1200);
@@ -1855,6 +1857,7 @@ const ShapeGame = {
   checkAnswer(opt, btn) {
     if (opt.isCorrect) {
       btn.classList.add('correct');
+      TipBanner.show('shape', 'correct');
       const p = randomPraise();
       showFeedback(p); speak(p);
       setTimeout(() => this.nextRound(), 1200);
@@ -1931,6 +1934,7 @@ const NumberGame = {
   checkAnswer(picked, target, btn) {
     if (picked === target) {
       btn.classList.add('correct');
+      TipBanner.show('number', 'correct');
       const p = randomPraise();
       showFeedback(p); speak(p);
       setTimeout(() => this.nextRound(), 1200);
@@ -2045,6 +2049,7 @@ const ClassifyGame = {
   checkAnswer(opt, btn) {
     if (opt.isCorrect) {
       btn.classList.add('correct');
+      TipBanner.show('classify', 'correct');
       const p = randomPraise();
       showFeedback(p); speak(p);
       setTimeout(() => this.nextRound(), 1200);
@@ -2140,6 +2145,7 @@ const PictureGame = {
   checkAnswer(opt, btn) {
     if (opt.isCorrect) {
       btn.classList.add('correct');
+      TipBanner.show('picture', 'correct');
       const p = randomPraise();
       showFeedback(p); speak(p);
       setTimeout(() => this.nextRound(), 1200);
@@ -2281,6 +2287,7 @@ const ClockGame = {
   checkAnswer(opt, btn) {
     if (opt.isCorrect) {
       btn.classList.add('correct');
+      TipBanner.show('clock', 'correct');
       const p = randomPraise();
       showFeedback(p); speak(p);
       setTimeout(() => this.nextRound(), 1200);
@@ -2412,6 +2419,7 @@ const MatchingGame = {
       this.selectedLeft.classList.remove('selected');
       this.selectedLeft.classList.add('matched');
       btn.classList.add('matched');
+      TipBanner.show('matching', 'correct');
       this.selectedLeft = null;
       this.matchedCount++;
       const p = randomPraise();
@@ -2502,6 +2510,7 @@ const SortingGame = {
       this.nextExpected++;
       btn.classList.add('done');
       btn.dataset.order = this.nextExpected;
+      TipBanner.show('sorting', 'correct');
       const p = randomPraise();
       showFeedback(p); speak(p);
       if (this.nextExpected >= this.currentOrder.length) {
@@ -2676,6 +2685,7 @@ const EmotionGame = {
   checkAnswer(opt, target, btn) {
     if (opt.emoji === target.emoji) {
       btn.classList.add('correct');
+      TipBanner.show('emotion', 'correct');
       const p = randomPraise();
       showFeedback(p); speak(p);
       setTimeout(() => this.nextRound(), 1200);
@@ -2746,6 +2756,7 @@ const CountingGame = {
   checkAnswer(n, target, btn) {
     if (n === target) {
       btn.classList.add('correct');
+      TipBanner.show('counting', 'correct');
       const p = randomPraise();
       showFeedback(p); speak(p);
       setTimeout(() => this.nextRound(), 1200);
@@ -2821,6 +2832,7 @@ const DifferencesGame = {
   checkAnswer(isCorrect, btn) {
     if (isCorrect) {
       btn.classList.add('correct');
+      TipBanner.show('differences', 'correct');
       const p = randomPraise();
       showFeedback(p); speak(p);
       setTimeout(() => this.nextRound(), 1200);
@@ -2892,6 +2904,7 @@ const PairsGame = {
     if (this.firstCard.dataset.emoji === second.dataset.emoji) {
       this.firstCard.classList.add('matched');
       second.classList.add('matched');
+      TipBanner.show('pairs', 'correct');
       this.matched++;
       this.firstCard = null;
       this.lock = false;
@@ -2977,6 +2990,7 @@ const BodyGame = {
   checkAnswer(part, target, btn) {
     if (part === target) {
       btn.classList.add('correct');
+      TipBanner.show('body', 'correct');
       const p = randomPraise();
       showFeedback(p); speak(p);
       setTimeout(() => this.nextRound(), 1200);
