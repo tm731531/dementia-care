@@ -30,7 +30,7 @@
       padding: 24px 16px 48px;
     }
 
-    .screen { display: none; max-width: 720px; margin: 0 auto; }
+    .screen { display: none; max-width: 960px; margin: 0 auto; }
     .screen.active { display: block; }
 
     /* ===== Top greeting ===== */
@@ -75,7 +75,7 @@
       margin-bottom: 12px;
     }
     .recommend .context {
-      color: #666;
+      color: #333;
       font-size: 18px;
       margin-bottom: 32px;
     }
@@ -96,39 +96,43 @@
     .btn-primary:hover { transform: scale(1.03); }
     .btn-primary:active { transform: scale(0.97); }
 
-    /* ===== Secondary actions (smaller, less visual weight) ===== */
+    /* ===== Secondary actions ===== */
     .secondary-row {
       display: flex;
       justify-content: center;
-      gap: 24px;
-      margin-top: 24px;
+      gap: 16px;
+      margin-top: 28px;
       flex-wrap: wrap;
     }
     .btn-text {
       background: transparent;
-      color: var(--muted);
-      border: none;
+      color: #000000;
+      border: 2px solid #000000;
       font-size: 18px;
-      padding: 12px 20px;
+      padding: 14px 24px;
       cursor: pointer;
-      text-decoration: underline;
-      text-underline-offset: 4px;
       font-family: inherit;
       min-height: 48px;
+      border-radius: 12px;
+      font-weight: 600;
+      transition: background 0.15s, color 0.15s;
     }
-    .btn-text:hover { color: var(--text); }
+    .btn-text:hover {
+      background: #000000;
+      color: #FFFFFF;
+    }
 
     /* ===== Difficulty pill (collapsed) ===== */
     .difficulty-pill {
       margin-top: 48px;
       text-align: center;
-      color: var(--muted);
+      color: #FFFFFF;
       font-size: 18px;
     }
     .difficulty-pill button {
       background: transparent;
-      border: 1px solid var(--muted);
-      color: var(--muted);
+      border: 2px solid #FFFFFF;
+      color: #FFFFFF;
       padding: 10px 20px;
       border-radius: 24px;
       margin-left: 12px;
@@ -136,8 +140,9 @@
       font-size: 16px;
       font-family: inherit;
       min-height: 44px;
+      font-weight: 500;
     }
-    .difficulty-pill button:hover { border-color: var(--text); color: var(--text); }
+    .difficulty-pill button:hover { background: #FFFFFF; color: #000000; }
 
     /* ===== Difficulty modal ===== */
     .modal-backdrop {
@@ -163,7 +168,7 @@
     .slider-labels {
       display: flex;
       justify-content: space-between;
-      color: #666;
+      color: #333;
       margin-bottom: 12px;
       font-size: 16px;
     }
@@ -203,11 +208,11 @@
       cursor: pointer; font-family: inherit; min-height: 56px;
     }
 
-    /* ===== Game picker screen ===== */
+    /* ===== Game picker / generic game screens ===== */
     .back-btn {
       background: transparent;
-      border: 2px solid var(--muted);
-      color: var(--text);
+      border: 2px solid #FFFFFF;
+      color: #FFFFFF;
       padding: 12px 20px;
       border-radius: 12px;
       font-size: 18px;
@@ -215,8 +220,9 @@
       font-family: inherit;
       margin-bottom: 24px;
       min-height: 48px;
+      font-weight: 500;
     }
-    .back-btn:hover { border-color: var(--text); }
+    .back-btn:hover { background: #FFFFFF; color: #000000; }
     .page-title {
       font-size: 32px;
       text-align: center;
@@ -224,7 +230,7 @@
     }
     .game-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
       gap: 16px;
     }
     .game-card {
@@ -242,68 +248,18 @@
     .game-card:hover { transform: translateY(-4px); }
     .game-card .card-icon { font-size: 64px; display: block; margin-bottom: 12px; }
     .game-card .card-name { font-size: 22px; font-weight: 700; }
-    .game-card.disabled { opacity: 0.3; cursor: not-allowed; }
-    .game-card.disabled:hover { transform: none; }
 
-    /* ===== Color game screen ===== */
     .game-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 32px;
-    }
-    .game-header h2 { font-size: 28px; }
-    .progress-dots {
-      display: flex;
-      gap: 8px;
-      justify-content: center;
-      margin-bottom: 32px;
-    }
-    .progress-dots .dot {
-      width: 14px; height: 14px;
-      border-radius: 50%;
-      background: #444;
-    }
-    .progress-dots .dot.done { background: var(--ok); }
-    .progress-dots .dot.current { background: var(--accent); }
-
-    .target-name {
-      background: var(--card);
-      color: var(--text-on-card);
-      padding: 48px 24px;
-      border-radius: var(--radius);
-      text-align: center;
+      gap: 12px;
       margin-bottom: 24px;
+      flex-wrap: wrap;
     }
-    .target-name .label { font-size: 22px; color: #666; margin-bottom: 12px; }
-    .target-name .name { font-size: 72px; font-weight: 700; }
-
-    .color-options {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-    }
-    .color-swatch {
-      height: 140px;
-      border-radius: var(--radius);
-      border: 4px solid transparent;
-      cursor: pointer;
-      transition: transform 0.15s, border-color 0.15s;
-      position: relative;
-    }
-    .color-swatch:hover { transform: scale(1.03); }
-    .color-swatch.correct { border-color: var(--ok); animation: glow 0.5s; }
-    .color-swatch.wrong { animation: shake 0.5s; }
-
-    @keyframes glow {
-      0%, 100% { box-shadow: 0 0 0 rgba(0,170,0,0); }
-      50% { box-shadow: 0 0 40px rgba(0,170,0,0.8); }
-    }
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-10px); }
-      75% { transform: translateX(10px); }
-    }
+    .game-header h2 { font-size: 28px; flex: 1; text-align: center; }
+    .game-header .back-btn { margin-bottom: 0; }
+    .round-indicator { font-size: 20px; text-align: center; color: var(--muted); margin-bottom: 12px; }
 
     /* ===== Feedback banner ===== */
     .feedback {
@@ -336,16 +292,451 @@
     .complete.show { display: block; }
     .complete .big { font-size: 120px; margin-bottom: 24px; }
     .complete h3 { font-size: 36px; margin-bottom: 16px; }
-    .complete p { font-size: 22px; color: #666; margin-bottom: 32px; }
+    .complete p { font-size: 22px; color: #333; margin-bottom: 32px; }
 
-    @media (max-width: 480px) {
+    /* ===== Shared animations ===== */
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 0 0 rgba(0,170,0,0); }
+      50% { box-shadow: 0 0 40px rgba(0,170,0,0.8); }
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-10px); }
+      75% { transform: translateX(10px); }
+    }
+
+    /* ===== Color game ===== */
+    .target-name {
+      background: var(--card);
+      color: var(--text-on-card);
+      padding: 48px 24px;
+      border-radius: var(--radius);
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .target-name .label { font-size: 22px; color: #333; margin-bottom: 12px; }
+    .target-name .name { font-size: 72px; font-weight: 700; }
+
+    .color-options {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .color-swatch {
+      height: 140px;
+      border-radius: var(--radius);
+      border: 4px solid transparent;
+      cursor: pointer;
+      transition: transform 0.15s, border-color 0.15s;
+    }
+    .color-swatch:hover { transform: scale(1.03); }
+    .color-swatch.correct { border-color: var(--ok); animation: glow 0.5s; }
+    .color-swatch.wrong { animation: shake 0.5s; }
+
+    /* ===== Word game ===== */
+    .word-display-box {
+      background: var(--card); color: var(--text-on-card);
+      padding: 32px; border-radius: var(--radius);
+      text-align: center; margin-bottom: 24px;
+    }
+    .word-display-box .label { font-size: 22px; color: #333; margin-bottom: 12px; }
+    .word-display { font-size: 120px; font-weight: bold; color: #CC0000; line-height: 1.2; }
+    .word-options {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+    }
+    .word-option {
+      background: var(--card); color: var(--text-on-card);
+      border: 3px solid #CCCCCC;
+      border-radius: var(--radius);
+      padding: 20px; cursor: pointer; text-align: center;
+      font-size: 64px; font-weight: bold;
+      font-family: inherit; transition: transform 0.15s;
+    }
+    .word-option:hover { transform: scale(1.03); }
+    .word-option.correct { border-color: var(--ok); background: #CCFFCC; animation: glow 0.5s; }
+    .word-option.wrong { animation: shake 0.5s; }
+
+    /* ===== Shape game ===== */
+    .shape-display-box {
+      background: var(--card); color: var(--text-on-card);
+      padding: 32px; border-radius: var(--radius);
+      text-align: center; margin-bottom: 24px;
+    }
+    .shape-display-box .label { font-size: 22px; color: #333; margin-bottom: 12px; }
+    .shape-display { font-size: 120px; line-height: 1.2; }
+    .shape-options {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+    }
+    .shape-option {
+      background: var(--card); color: var(--text-on-card);
+      border: 3px solid #CCCCCC;
+      border-radius: var(--radius);
+      padding: 20px; cursor: pointer; text-align: center;
+      font-size: 80px; line-height: 1.2;
+      font-family: inherit; transition: transform 0.15s;
+    }
+    .shape-option:hover { transform: scale(1.03); }
+    .shape-option.correct { border-color: var(--ok); animation: glow 0.5s; }
+    .shape-option.wrong { animation: shake 0.5s; }
+
+    /* ===== Number game ===== */
+    .number-display-box {
+      background: var(--card); color: var(--text-on-card);
+      padding: 32px; border-radius: var(--radius);
+      text-align: center; margin-bottom: 24px;
+    }
+    .number-display-box .label { font-size: 22px; color: #333; margin-bottom: 12px; }
+    .number-display { font-size: 140px; font-weight: bold; color: #CC0000; line-height: 1; }
+    .number-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+    }
+    .number-btn {
+      background: #FFFFFF; color: #CC0000;
+      border: 3px solid #CC0000;
+      border-radius: var(--radius);
+      padding: 24px; cursor: pointer; text-align: center;
+      font-size: 52px; font-weight: bold;
+      font-family: inherit; transition: transform 0.15s;
+    }
+    .number-btn:hover { transform: scale(1.03); }
+    .number-btn.correct { border-color: var(--ok); animation: glow 0.5s; }
+    .number-btn.wrong { animation: shake 0.5s; }
+
+    /* ===== Classify game ===== */
+    .classify-item-box {
+      background: var(--card); color: var(--text-on-card);
+      padding: 32px; border-radius: var(--radius);
+      text-align: center; margin-bottom: 24px;
+    }
+    .classify-item-box .label { font-size: 22px; color: #333; margin-bottom: 12px; }
+    .classify-item { font-size: 120px; line-height: 1.2; }
+    .classify-item-name { font-size: 32px; font-weight: bold; color: #000; margin-top: 8px; }
+    .classify-options {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
+    }
+    .classify-option {
+      background: var(--card); color: var(--text-on-card);
+      border: 3px solid #CCCCCC;
+      border-radius: var(--radius);
+      padding: 24px; cursor: pointer; text-align: center;
+      font-size: 28px; font-weight: bold;
+      font-family: inherit; transition: transform 0.15s;
+    }
+    .classify-option:hover { transform: scale(1.03); }
+    .classify-option .cat-icon { font-size: 56px; display: block; margin-bottom: 8px; }
+    .classify-option.correct { border-color: var(--ok); background: #CCFFCC; animation: glow 0.5s; }
+    .classify-option.wrong { animation: shake 0.5s; }
+
+    /* ===== Picture game ===== */
+    .picture-emoji-box {
+      background: var(--card); color: var(--text-on-card);
+      padding: 32px; border-radius: var(--radius);
+      text-align: center; margin-bottom: 24px;
+    }
+    .picture-emoji-box .label { font-size: 22px; color: #333; margin-bottom: 12px; }
+    .picture-emoji { font-size: 140px; line-height: 1.2; }
+    .picture-options {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+    }
+    .picture-option {
+      background: var(--card); color: var(--text-on-card);
+      border: 3px solid #CCCCCC;
+      border-radius: var(--radius);
+      padding: 20px; cursor: pointer; text-align: center;
+      font-size: 28px; font-weight: bold;
+      font-family: inherit; transition: transform 0.15s;
+    }
+    .picture-option:hover { transform: scale(1.03); }
+    .picture-option.correct { border-color: var(--ok); background: #CCFFCC; animation: glow 0.5s; }
+    .picture-option.wrong { animation: shake 0.5s; }
+
+    /* ===== Clock game ===== */
+    .clock-box {
+      background: var(--card); color: var(--text-on-card);
+      padding: 24px; border-radius: var(--radius);
+      text-align: center; margin-bottom: 24px;
+    }
+    .clock-box .label { font-size: 22px; color: #333; margin-bottom: 12px; }
+    .clock-canvas { display: block; margin: 0 auto; }
+    .clock-options {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
+    }
+    .clock-option {
+      background: var(--card); color: var(--text-on-card);
+      border: 3px solid #CCCCCC;
+      border-radius: var(--radius);
+      padding: 20px; cursor: pointer; text-align: center;
+      font-size: 32px; font-weight: bold;
+      font-family: inherit; transition: transform 0.15s;
+    }
+    .clock-option:hover { transform: scale(1.03); }
+    .clock-option.correct { border-color: var(--ok); background: #CCFFCC; animation: glow 0.5s; }
+    .clock-option.wrong { animation: shake 0.5s; }
+
+    /* ===== Matching game ===== */
+    .matching-sub { font-size: 18px; text-align: center; color: var(--muted); margin-bottom: 16px; }
+    .matching-layout {
+      display: flex; gap: 24px; align-items: flex-start;
+    }
+    .matching-column {
+      flex: 1; display: flex; flex-direction: column; gap: 12px;
+    }
+    .matching-center {
+      display: flex; align-items: center; font-size: 36px; color: #FFFFFF;
+      padding-top: 40px;
+    }
+    .matching-item {
+      background: var(--card); color: var(--text-on-card);
+      border: 3px solid #CCCCCC;
+      border-radius: var(--radius); padding: 16px 20px;
+      cursor: pointer; text-align: center;
+      font-size: 32px; font-weight: bold;
+      font-family: inherit; transition: transform 0.15s, border-color 0.15s;
+    }
+    .matching-item .match-emoji { font-size: 48px; }
+    .matching-item:hover { transform: scale(1.02); }
+    .matching-item.selected { border-color: var(--accent); background: #FFF3E0; }
+    .matching-item.matched {
+      border-color: var(--ok); background: #CCFFCC;
+      opacity: 0.6; cursor: default; pointer-events: none;
+    }
+    .matching-item.wrong { animation: shake 0.5s; }
+
+    /* ===== Sorting game ===== */
+    .sorting-hint {
+      font-size: 28px; text-align: center;
+      background: var(--card); color: var(--text-on-card);
+      padding: 16px 32px; border-radius: var(--radius);
+      margin-bottom: 24px;
+    }
+    .sorting-items {
+      display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;
+    }
+    .sorting-item {
+      background: var(--card); color: var(--text-on-card);
+      border: 3px solid #CCCCCC;
+      border-radius: var(--radius); padding: 20px 24px;
+      cursor: pointer; text-align: center;
+      font-family: inherit; transition: transform 0.15s;
+      min-width: 120px; position: relative;
+    }
+    .sorting-item .sort-emoji { font-size: 56px; display: block; margin-bottom: 4px; }
+    .sorting-item .sort-name { font-size: 24px; font-weight: bold; }
+    .sorting-item:hover { transform: scale(1.03); }
+    .sorting-item.done {
+      border-color: var(--ok); background: #CCFFCC;
+      pointer-events: none;
+    }
+    .sorting-item.done::after {
+      content: attr(data-order); position: absolute; top: -12px; right: -12px;
+      background: var(--ok); color: white; width: 32px; height: 32px;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 18px; font-weight: bold;
+    }
+    .sorting-item.wrong { animation: shake 0.5s; }
+
+    /* ===== Breathing exercise ===== */
+    .breathing-layout {
+      display: flex; flex-direction: column; align-items: center; gap: 24px;
+      padding: 32px 16px;
+    }
+    .breathing-text {
+      font-size: 40px; font-weight: bold;
+      text-align: center; min-height: 60px;
+    }
+    .breathing-circle-wrap {
+      width: 280px; height: 280px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .breathing-circle {
+      width: 80px; height: 80px; border-radius: 50%;
+      background: radial-gradient(circle, #66BBFF, #0066CC);
+      transition: width 4s ease-in-out, height 4s ease-in-out;
+    }
+    .breathing-circle.inhale { width: 260px; height: 260px; }
+    .breathing-progress { font-size: 20px; color: var(--muted); }
+    .breathing-btn {
+      border: none; border-radius: var(--radius);
+      padding: 18px 40px; font-size: 22px;
+      cursor: pointer; font-family: inherit;
+      font-weight: bold;
+    }
+    .breathing-start { background: var(--ok); color: white; }
+    .breathing-stop { background: #CC3333; color: white; }
+
+    /* ===== Emotion game ===== */
+    .emotion-display-box {
+      background: var(--card); color: var(--text-on-card);
+      padding: 40px; border-radius: var(--radius);
+      text-align: center; margin-bottom: 24px;
+    }
+    .emotion-display { font-size: 180px; line-height: 1; }
+    .emotion-options {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
+    }
+    .emotion-btn {
+      background: var(--card); color: var(--text-on-card);
+      border: 3px solid #CCCCCC;
+      border-radius: var(--radius);
+      padding: 24px; cursor: pointer;
+      font-size: 32px; font-weight: bold;
+      font-family: inherit; transition: transform 0.15s;
+    }
+    .emotion-btn:hover { transform: scale(1.03); }
+    .emotion-btn.correct { border-color: var(--ok); animation: glow 0.5s; }
+    .emotion-btn.wrong { animation: shake 0.5s; }
+
+    /* ===== Counting game ===== */
+    .counting-display-box {
+      background: var(--card); color: var(--text-on-card);
+      padding: 24px; border-radius: var(--radius);
+      text-align: center; margin-bottom: 16px;
+    }
+    .counting-question { font-size: 28px; color: #333; margin-bottom: 12px; }
+    .counting-display {
+      font-size: 56px; line-height: 1.4; min-height: 160px;
+      display: flex; flex-wrap: wrap; gap: 8px;
+      align-items: center; justify-content: center;
+    }
+    .counting-options {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+    }
+    .counting-btn {
+      background: var(--card); color: var(--text-on-card);
+      border: 3px solid #CCCCCC;
+      border-radius: var(--radius);
+      padding: 24px; cursor: pointer;
+      font-size: 48px; font-weight: bold;
+      font-family: inherit; transition: transform 0.15s;
+    }
+    .counting-btn:hover { transform: scale(1.03); }
+    .counting-btn.correct { border-color: var(--ok); animation: glow 0.5s; }
+    .counting-btn.wrong { animation: shake 0.5s; }
+
+    /* ===== Differences game ===== */
+    .differences-hint {
+      font-size: 28px; text-align: center;
+      background: var(--card); color: var(--text-on-card);
+      padding: 16px; border-radius: var(--radius);
+      margin-bottom: 24px;
+    }
+    .differences-row {
+      display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+    }
+    .diff-item {
+      background: var(--card); color: var(--text-on-card);
+      border: 3px solid #CCCCCC;
+      border-radius: var(--radius); padding: 16px 20px;
+      cursor: pointer; font-size: 72px; line-height: 1;
+      transition: transform 0.15s;
+    }
+    .diff-item:hover { transform: scale(1.05); }
+    .diff-item.correct { border-color: var(--ok); animation: glow 0.5s; }
+    .diff-item.wrong { animation: shake 0.5s; }
+
+    /* ===== Pairs game ===== */
+    .pairs-grid {
+      display: grid; gap: 12px;
+      max-width: 600px; margin: 0 auto;
+    }
+    .pairs-grid.grid-2x3 { grid-template-columns: repeat(3, 1fr); }
+    .pairs-grid.grid-3x4 { grid-template-columns: repeat(4, 1fr); }
+    .pair-card {
+      aspect-ratio: 1; border-radius: var(--radius);
+      border: 3px solid #555; background: #222;
+      cursor: pointer;
+      position: relative; overflow: hidden;
+    }
+    .pair-card .card-front {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--card); font-size: 56px;
+      transform: rotateY(180deg); backface-visibility: hidden;
+      transition: transform 0.3s;
+    }
+    .pair-card .card-back {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: #333; font-size: 40px; color: #888;
+      backface-visibility: hidden; transition: transform 0.3s;
+    }
+    .pair-card.flipped .card-front { transform: rotateY(0deg); }
+    .pair-card.flipped .card-back  { transform: rotateY(-180deg); }
+    .pair-card.matched { border-color: var(--ok); opacity: 0.6; pointer-events: none; }
+
+    /* ===== Body game ===== */
+    .body-layout {
+      display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap;
+    }
+    .body-figure {
+      flex-shrink: 0;
+      background: var(--card); color: var(--text-on-card);
+      border-radius: var(--radius);
+      padding: 20px; min-width: 160px;
+      text-align: center;
+    }
+    .body-figure-img { font-size: 140px; line-height: 1; }
+    .body-right { flex: 1; min-width: 240px; }
+    .body-question {
+      font-size: 32px; font-weight: bold;
+      text-align: center; margin-bottom: 20px;
+    }
+    .body-options {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
+    }
+    .body-btn {
+      background: var(--card); color: var(--text-on-card);
+      border: 3px solid #CCCCCC;
+      border-radius: var(--radius);
+      padding: 24px; cursor: pointer;
+      font-size: 32px; font-weight: bold;
+      font-family: inherit; transition: transform 0.15s;
+    }
+    .body-btn:hover { transform: scale(1.03); }
+    .body-btn.correct { border-color: var(--ok); animation: glow 0.5s; }
+    .body-btn.wrong { animation: shake 0.5s; }
+
+    @media (max-width: 600px) {
       body { padding: 16px 12px 32px; font-size: 18px; }
       .recommend { padding: 32px 20px; }
       .recommend .icon { font-size: 96px; }
       .recommend .game-name { font-size: 36px; }
       .btn-primary { padding: 20px 36px; font-size: 24px; }
       .target-name .name { font-size: 56px; }
-      .color-swatch { height: 120px; }
+      .color-swatch { height: 110px; }
+      .color-options { grid-template-columns: repeat(2, 1fr); }
+      .word-display { font-size: 80px; }
+      .word-options { grid-template-columns: repeat(3, 1fr); }
+      .word-option { font-size: 44px; padding: 14px; }
+      .shape-display { font-size: 80px; }
+      .shape-options { grid-template-columns: repeat(4, 1fr); }
+      .shape-option { font-size: 52px; padding: 12px; }
+      .number-display { font-size: 96px; }
+      .number-btn { font-size: 36px; padding: 16px; }
+      .classify-item { font-size: 80px; }
+      .classify-option { font-size: 22px; }
+      .classify-option .cat-icon { font-size: 40px; }
+      .picture-emoji { font-size: 96px; }
+      .picture-option { font-size: 22px; padding: 14px; }
+      .clock-option { font-size: 26px; padding: 14px; }
+      .matching-center { display: none; }
+      .matching-item { font-size: 22px; padding: 10px; }
+      .matching-item .match-emoji { font-size: 40px; }
+      .sorting-item { min-width: 80px; padding: 14px; }
+      .sorting-item .sort-emoji { font-size: 40px; }
+      .sorting-item .sort-name { font-size: 18px; }
+      .breathing-text { font-size: 28px; }
+      .breathing-circle-wrap { width: 220px; height: 220px; }
+      .breathing-circle.inhale { width: 210px; height: 210px; }
+      .emotion-display { font-size: 120px; }
+      .emotion-btn { font-size: 24px; padding: 16px; }
+      .counting-display { font-size: 40px; }
+      .counting-btn { font-size: 32px; padding: 16px; }
+      .diff-item { font-size: 48px; padding: 10px 12px; }
+      .pair-card .card-front { font-size: 36px; }
+      .body-figure-img { font-size: 96px; }
+      .body-btn { font-size: 24px; padding: 16px; }
+      .body-question { font-size: 26px; }
     }
   </style>
 </head>
@@ -391,17 +782,303 @@
       <h2>🎨 顏色辨識</h2>
       <div style="width: 100px;"></div>
     </div>
-    <div class="progress-dots" id="color-dots"></div>
+    <div class="round-indicator" id="color-round"></div>
     <div class="target-name">
       <div class="label">請找出這個顏色</div>
       <div class="name" id="color-target"></div>
     </div>
     <div class="color-options" id="color-options"></div>
-
     <div class="complete" id="color-complete">
-      <div class="big">🎉</div>
-      <h3>全部完成了！</h3>
-      <p>你好棒！一起做了 6 題</p>
+      <div class="big">🎨</div>
+      <h3>顏色都認對了！</h3>
+      <p>好厲害！</p>
+      <button class="btn-primary" onclick="goHome()">回首頁</button>
+    </div>
+  </div>
+
+  <!-- ===== Word game ===== -->
+  <div id="game-word" class="screen">
+    <div class="game-header">
+      <button class="back-btn" onclick="goHome()">← 回首頁</button>
+      <h2>📖 認字遊戲</h2>
+      <div style="width: 100px;"></div>
+    </div>
+    <div class="round-indicator" id="word-round"></div>
+    <div class="word-display-box">
+      <div class="label">請找到這個字！</div>
+      <div class="word-display" id="word-display"></div>
+    </div>
+    <div class="word-options" id="word-options"></div>
+    <div class="complete" id="word-complete">
+      <div class="big">📖</div>
+      <h3>全部認對了！</h3>
+      <p>你好厲害！</p>
+      <button class="btn-primary" onclick="goHome()">回首頁</button>
+    </div>
+  </div>
+
+  <!-- ===== Shape game ===== -->
+  <div id="game-shape" class="screen">
+    <div class="game-header">
+      <button class="back-btn" onclick="goHome()">← 回首頁</button>
+      <h2>🔷 形狀配對</h2>
+      <div style="width: 100px;"></div>
+    </div>
+    <div class="round-indicator" id="shape-round"></div>
+    <div class="shape-display-box">
+      <div class="label">請找到一樣的！</div>
+      <div class="shape-display" id="shape-target"></div>
+    </div>
+    <div class="shape-options" id="shape-options"></div>
+    <div class="complete" id="shape-complete">
+      <div class="big">🌟</div>
+      <h3>太厲害了！</h3>
+      <p>全部答對了！</p>
+      <button class="btn-primary" onclick="goHome()">回首頁</button>
+    </div>
+  </div>
+
+  <!-- ===== Number game ===== -->
+  <div id="game-number" class="screen">
+    <div class="game-header">
+      <button class="back-btn" onclick="goHome()">← 回首頁</button>
+      <h2>🔢 認數字</h2>
+      <div style="width: 100px;"></div>
+    </div>
+    <div class="round-indicator" id="number-round"></div>
+    <div class="number-display-box">
+      <div class="label">請找到這個數字！</div>
+      <div class="number-display" id="number-display"></div>
+    </div>
+    <div class="number-grid" id="number-grid"></div>
+    <div class="complete" id="number-complete">
+      <div class="big">🔢</div>
+      <h3>數字都認對了！</h3>
+      <p>你好棒！</p>
+      <button class="btn-primary" onclick="goHome()">回首頁</button>
+    </div>
+  </div>
+
+  <!-- ===== Classify game ===== -->
+  <div id="game-classify" class="screen">
+    <div class="game-header">
+      <button class="back-btn" onclick="goHome()">← 回首頁</button>
+      <h2>📦 物品分類</h2>
+      <div style="width: 100px;"></div>
+    </div>
+    <div class="round-indicator" id="classify-round"></div>
+    <div class="classify-item-box">
+      <div class="label">這是什麼類的？</div>
+      <div class="classify-item" id="classify-item"></div>
+      <div class="classify-item-name" id="classify-item-name"></div>
+    </div>
+    <div class="classify-options" id="classify-options"></div>
+    <div class="complete" id="classify-complete">
+      <div class="big">📦</div>
+      <h3>分類都對了！</h3>
+      <p>好厲害！</p>
+      <button class="btn-primary" onclick="goHome()">回首頁</button>
+    </div>
+  </div>
+
+  <!-- ===== Picture game ===== -->
+  <div id="game-picture" class="screen">
+    <div class="game-header">
+      <button class="back-btn" onclick="goHome()">← 回首頁</button>
+      <h2>🖼️ 看圖認物</h2>
+      <div style="width: 100px;"></div>
+    </div>
+    <div class="round-indicator" id="picture-round"></div>
+    <div class="picture-emoji-box">
+      <div class="label">這是什麼？</div>
+      <div class="picture-emoji" id="picture-emoji"></div>
+    </div>
+    <div class="picture-options" id="picture-options"></div>
+    <div class="complete" id="picture-complete">
+      <div class="big">🖼️</div>
+      <h3>全部認出來了！</h3>
+      <p>好厲害！</p>
+      <button class="btn-primary" onclick="goHome()">回首頁</button>
+    </div>
+  </div>
+
+  <!-- ===== Clock game ===== -->
+  <div id="game-clock" class="screen">
+    <div class="game-header">
+      <button class="back-btn" onclick="goHome()">← 回首頁</button>
+      <h2>🕐 時鐘認讀</h2>
+      <div style="width: 100px;"></div>
+    </div>
+    <div class="round-indicator" id="clock-round"></div>
+    <div class="clock-box">
+      <div class="label">現在幾點？</div>
+      <canvas id="clock-canvas" class="clock-canvas" width="240" height="240"></canvas>
+    </div>
+    <div class="clock-options" id="clock-options"></div>
+    <div class="complete" id="clock-complete">
+      <div class="big">🕐</div>
+      <h3>時間都認對了！</h3>
+      <p>好棒！</p>
+      <button class="btn-primary" onclick="goHome()">回首頁</button>
+    </div>
+  </div>
+
+  <!-- ===== Matching game ===== -->
+  <div id="game-matching" class="screen">
+    <div class="game-header">
+      <button class="back-btn" onclick="goHome()">← 回首頁</button>
+      <h2>🔗 連連看</h2>
+      <div style="width: 100px;"></div>
+    </div>
+    <div class="round-indicator" id="matching-round"></div>
+    <div class="matching-sub" id="matching-sub">點左邊圖片，再點右邊名字</div>
+    <div class="matching-layout">
+      <div class="matching-column" id="matching-left"></div>
+      <div class="matching-center">⇄</div>
+      <div class="matching-column" id="matching-right"></div>
+    </div>
+    <div class="complete" id="matching-complete">
+      <div class="big">🔗</div>
+      <h3>全部配對了！</h3>
+      <p>好厲害！</p>
+      <button class="btn-primary" onclick="goHome()">回首頁</button>
+    </div>
+  </div>
+
+  <!-- ===== Sorting game ===== -->
+  <div id="game-sorting" class="screen">
+    <div class="game-header">
+      <button class="back-btn" onclick="goHome()">← 回首頁</button>
+      <h2>📏 大小排序</h2>
+      <div style="width: 100px;"></div>
+    </div>
+    <div class="round-indicator" id="sorting-round"></div>
+    <div class="sorting-hint">從最小的開始，按順序點！</div>
+    <div class="sorting-items" id="sorting-items"></div>
+    <div class="complete" id="sorting-complete">
+      <div class="big">📏</div>
+      <h3>排序都對了！</h3>
+      <p>好棒！</p>
+      <button class="btn-primary" onclick="goHome()">回首頁</button>
+    </div>
+  </div>
+
+  <!-- ===== Breathing exercise ===== -->
+  <div id="game-breath" class="screen">
+    <div class="game-header">
+      <button class="back-btn" onclick="exitBreath()">← 回首頁</button>
+      <h2>🌬️ 呼吸練習</h2>
+      <div style="width: 100px;"></div>
+    </div>
+    <div class="breathing-layout">
+      <div class="breathing-text" id="breathing-text">準備好了嗎？</div>
+      <div class="breathing-circle-wrap">
+        <div class="breathing-circle" id="breathing-circle"></div>
+      </div>
+      <div class="breathing-progress" id="breathing-progress"></div>
+      <div id="breathing-controls">
+        <button class="breathing-btn breathing-start" onclick="BreathingExercise.start()">開始練習</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Emotion game ===== -->
+  <div id="game-emotion" class="screen">
+    <div class="game-header">
+      <button class="back-btn" onclick="goHome()">← 回首頁</button>
+      <h2>😊 情緒辨識</h2>
+      <div style="width: 100px;"></div>
+    </div>
+    <div class="round-indicator" id="emotion-round"></div>
+    <div class="emotion-display-box">
+      <div class="emotion-display" id="emotion-display"></div>
+    </div>
+    <div class="emotion-options" id="emotion-options"></div>
+    <div class="complete" id="emotion-complete">
+      <div class="big">😊</div>
+      <h3>全部答對了！</h3>
+      <p>你好厲害！</p>
+      <button class="btn-primary" onclick="goHome()">回首頁</button>
+    </div>
+  </div>
+
+  <!-- ===== Counting game ===== -->
+  <div id="game-counting" class="screen">
+    <div class="game-header">
+      <button class="back-btn" onclick="goHome()">← 回首頁</button>
+      <h2>🔢 數數練習</h2>
+      <div style="width: 100px;"></div>
+    </div>
+    <div class="round-indicator" id="counting-round"></div>
+    <div class="counting-display-box">
+      <div class="counting-question">有幾個？</div>
+      <div class="counting-display" id="counting-display"></div>
+    </div>
+    <div class="counting-options" id="counting-options"></div>
+    <div class="complete" id="counting-complete">
+      <div class="big">🔢</div>
+      <h3>數完了！</h3>
+      <p>數得很準確！</p>
+      <button class="btn-primary" onclick="goHome()">回首頁</button>
+    </div>
+  </div>
+
+  <!-- ===== Differences game ===== -->
+  <div id="game-differences" class="screen">
+    <div class="game-header">
+      <button class="back-btn" onclick="goHome()">← 回首頁</button>
+      <h2>🔍 找不同</h2>
+      <div style="width: 100px;"></div>
+    </div>
+    <div class="round-indicator" id="differences-round"></div>
+    <div class="differences-hint">哪一個不一樣？</div>
+    <div class="differences-row" id="differences-row"></div>
+    <div class="complete" id="differences-complete">
+      <div class="big">🔍</div>
+      <h3>全找到了！</h3>
+      <p>眼力真好！</p>
+      <button class="btn-primary" onclick="goHome()">回首頁</button>
+    </div>
+  </div>
+
+  <!-- ===== Pairs game ===== -->
+  <div id="game-pairs" class="screen">
+    <div class="game-header">
+      <button class="back-btn" onclick="goHome()">← 回首頁</button>
+      <h2>🃏 翻牌配對</h2>
+      <div style="width: 100px;"></div>
+    </div>
+    <div class="round-indicator" id="pairs-round"></div>
+    <div class="pairs-grid" id="pairs-grid"></div>
+    <div class="complete" id="pairs-complete">
+      <div class="big">🃏</div>
+      <h3>全部配對完成！</h3>
+      <p>記憶力真好！</p>
+      <button class="btn-primary" onclick="goHome()">回首頁</button>
+    </div>
+  </div>
+
+  <!-- ===== Body game ===== -->
+  <div id="game-body" class="screen">
+    <div class="game-header">
+      <button class="back-btn" onclick="goHome()">← 回首頁</button>
+      <h2>🖐️ 身體部位</h2>
+      <div style="width: 100px;"></div>
+    </div>
+    <div class="round-indicator" id="body-round"></div>
+    <div class="body-layout">
+      <div class="body-figure">
+        <div class="body-figure-img">🧍</div>
+      </div>
+      <div class="body-right">
+        <div class="body-question" id="body-question"></div>
+        <div class="body-options" id="body-options"></div>
+      </div>
+    </div>
+    <div class="complete" id="body-complete">
+      <div class="big">🖐️</div>
+      <h3>答完了！</h3>
+      <p>身體部位都認識！</p>
       <button class="btn-primary" onclick="goHome()">回首頁</button>
     </div>
   </div>
@@ -461,14 +1138,21 @@ function saveState() {
 // Game library
 // ====================================================================
 const GAMES = [
-  { id: 'color',    icon: '🎨', name: '顏色辨識', min: 2, max: 7, impl: true,  timeFit: ['afternoon'] },
-  { id: 'memory',   icon: '🃏', name: '翻牌配對', min: 1, max: 3, impl: false, timeFit: ['afternoon'] },
-  { id: 'chars',    icon: '📖', name: '認字遊戲', min: 1, max: 4, impl: false, timeFit: ['morning'] },
-  { id: 'breath',   icon: '🌬️', name: '呼吸練習', min: 5, max: 8, impl: false, timeFit: ['evening'] },
-  { id: 'objects',  icon: '🖼️', name: '看圖認物', min: 2, max: 7, impl: false, timeFit: ['morning'] },
-  { id: 'numbers',  icon: '🔢', name: '認數字',   min: 2, max: 7, impl: false, timeFit: ['morning'] },
-  { id: 'shapes',   icon: '🔷', name: '形狀配對', min: 2, max: 7, impl: false, timeFit: ['afternoon'] },
-  { id: 'emotion',  icon: '😊', name: '情緒辨識', min: 3, max: 8, impl: false, timeFit: ['afternoon', 'evening'] },
+  { id: 'color',       icon: '🎨',  name: '顏色辨識', min: 2, max: 7, impl: true, timeFit: ['afternoon'] },
+  { id: 'word',        icon: '📖',  name: '認字遊戲', min: 1, max: 4, impl: true, timeFit: ['morning'] },
+  { id: 'shape',       icon: '🔷',  name: '形狀配對', min: 2, max: 7, impl: true, timeFit: ['afternoon'] },
+  { id: 'number',      icon: '🔢',  name: '認數字',   min: 2, max: 7, impl: true, timeFit: ['morning'] },
+  { id: 'classify',    icon: '📦',  name: '物品分類', min: 2, max: 7, impl: true, timeFit: ['afternoon'] },
+  { id: 'picture',     icon: '🖼️',  name: '看圖認物', min: 2, max: 7, impl: true, timeFit: ['morning'] },
+  { id: 'clock',       icon: '🕐',  name: '時鐘認讀', min: 1, max: 5, impl: true, timeFit: ['afternoon'] },
+  { id: 'matching',    icon: '🔗',  name: '連連看',   min: 1, max: 5, impl: true, timeFit: ['afternoon'] },
+  { id: 'sorting',     icon: '📏',  name: '大小排序', min: 2, max: 7, impl: true, timeFit: ['afternoon'] },
+  { id: 'breath',      icon: '🌬️', name: '呼吸練習', min: 5, max: 8, impl: true, timeFit: ['morning', 'evening'] },
+  { id: 'emotion',     icon: '😊',  name: '情緒辨識', min: 3, max: 8, impl: true, timeFit: ['evening'] },
+  { id: 'counting',    icon: '🔢',  name: '數數練習', min: 3, max: 8, impl: true, timeFit: ['afternoon'] },
+  { id: 'differences', icon: '🔍',  name: '找不同',   min: 1, max: 5, impl: true, timeFit: ['afternoon'] },
+  { id: 'pairs',       icon: '🃏',  name: '翻牌配對', min: 1, max: 3, impl: true, timeFit: ['afternoon'] },
+  { id: 'body',        icon: '🖐️', name: '身體部位', min: 6, max: 8, impl: true, timeFit: ['afternoon'] },
 ];
 
 function getTimeOfDay() {
@@ -514,6 +1198,9 @@ function showScreen(id) {
 }
 
 function goHome() {
+  try { speechSynthesis.cancel(); } catch(e) {}
+  // ensure breathing stops if running
+  try { BreathingExercise.stop(); } catch(e) {}
   renderRecommendation();
   showScreen('home');
 }
@@ -602,10 +1289,9 @@ function renderGameGrid() {
   grid.innerHTML = '';
   eligibleGames().forEach(g => {
     const btn = document.createElement('button');
-    btn.className = 'game-card' + (g.impl ? '' : ' disabled');
+    btn.className = 'game-card';
     btn.innerHTML = `<span class="card-icon">${g.icon}</span><span class="card-name">${g.name}</span>`;
-    if (g.impl) btn.onclick = () => startGame(g.id);
-    else btn.title = '尚未實作';
+    btn.onclick = () => startGame(g.id);
     grid.appendChild(btn);
   });
 }
@@ -613,9 +1299,24 @@ function renderGameGrid() {
 function startGame(id) {
   APP.history[id] = Date.now();
   saveState();
-  if (id === 'color') startColorGame();
-  else {
-    showFeedback('這個活動還在準備中 😊', true);
+  switch (id) {
+    case 'color':       startColorGame(); break;
+    case 'word':        WordGame.init(); break;
+    case 'shape':       ShapeGame.init(); break;
+    case 'number':      NumberGame.init(); break;
+    case 'classify':    ClassifyGame.init(); break;
+    case 'picture':     PictureGame.init(); break;
+    case 'clock':       ClockGame.init(); break;
+    case 'matching':    MatchingGame.init(); break;
+    case 'sorting':     SortingGame.init(); break;
+    case 'breath':      startBreathGame(); break;
+    case 'emotion':     EmotionGame.init(); break;
+    case 'counting':    CountingGame.init(); break;
+    case 'differences': DifferencesGame.init(); break;
+    case 'pairs':       PairsGame.init(); break;
+    case 'body':        BodyGame.init(); break;
+    default:
+      showFeedback('這個活動還在準備中 😊', true);
   }
 }
 
@@ -647,22 +1348,69 @@ document.getElementById('level-slider').addEventListener('input', (e) => {
 });
 
 // ====================================================================
-// Voice
+// Voice & shared helpers
 // ====================================================================
 function speak(text, onEnd) {
   if (!('speechSynthesis' in window)) { onEnd && onEnd(); return; }
   try { speechSynthesis.cancel(); } catch(e) {}
-  const clean = text.replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, '');
+  const clean = text.replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE00}-\u{FEFF}\u{1F900}-\u{1F9FF}\u{200D}\u{20E3}]/gu, '').trim();
+  if (!clean) { onEnd && onEnd(); return; }
   const u = new SpeechSynthesisUtterance(clean);
   u.lang = 'zh-TW'; u.rate = 0.7; u.pitch = 1.1;
   if (onEnd) u.onend = onEnd;
   speechSynthesis.speak(u);
 }
+
 function speakSequence(texts, gap, onDone) {
   if (texts.length === 0) { onDone && onDone(); return; }
   speak(texts[0], () => {
-    setTimeout(() => speakSequence(texts.slice(1), gap, onDone), gap);
+    setTimeout(() => speakSequence(texts.slice(1), gap, onDone), gap || 800);
   });
+}
+
+// Difficulty-aware auto-read
+function autoReadQuestion(questionText, optionTexts) {
+  const level = APP.level;
+  if (level < 7) {
+    speak(questionText);
+    return;
+  }
+  // Severe (7-8): read question + all options, then repeat
+  const all = [questionText, ...(optionTexts || [])];
+  speakSequence(all, 800);
+  setTimeout(() => speakSequence(all, 800), all.length * 900 + 1200);
+}
+
+// Hover read for medium difficulty (3-6)
+function bindOptionHover(selector) {
+  const level = APP.level;
+  if (level < 3 || level > 6) return;
+  document.querySelectorAll(selector).forEach(btn => {
+    btn.addEventListener('mouseenter', () => speak(btn.textContent));
+  });
+  const container = document.querySelector(selector)?.parentElement;
+  if (!container) return;
+  if (container.dataset.hoverBound) return;
+  container.dataset.hoverBound = '1';
+  container.addEventListener('touchmove', (e) => {
+    const touch = e.touches[0];
+    const el = document.elementFromPoint(touch.clientX, touch.clientY);
+    const btn = el?.closest(selector);
+    if (btn && btn !== container._lastSpoken) {
+      container._lastSpoken = btn;
+      speak(btn.textContent);
+    }
+  }, { passive: true });
+}
+
+function randomFrom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+function shuffle(a) {
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
 }
 
 // ====================================================================
@@ -675,8 +1423,10 @@ function showFeedback(text, warn) {
   setTimeout(() => { el.classList.remove('show'); }, 1500);
 }
 
-const PRAISES = ['太棒了！👏', '好厲害！🌟', '做得好！💪', '你真聰明！😊', '非常好！⭐'];
-function randomPraise() { return PRAISES[Math.floor(Math.random() * PRAISES.length)]; }
+const PRAISES = ['太棒了！👏', '好厲害！🌟', '做得好！💪', '你真聰明！😊', '非常好！⭐', '很好！繼續加油！🎉'];
+const RETRIES = ['再試試看！沒關係 😊', '不對喔，再看看？🤔'];
+function randomPraise() { return randomFrom(PRAISES); }
+function randomRetry() { return randomFrom(RETRIES); }
 
 // ====================================================================
 // Color game
@@ -692,13 +1442,15 @@ const COLORS = [
   { name: '咖啡色', hex: '#8B4513' },
   { name: '黑色', hex: '#000000' },
   { name: '白色', hex: '#FFFFFF' },
+  { name: '灰色', hex: '#888888' },
+  { name: '天藍色', hex: '#00BFFF' },
 ];
 
 function startColorGame() {
   APP.game = {
     type: 'color',
     round: 0,
-    total: 6,
+    total: 8,
     used: [],
     currentAnswer: null,
   };
@@ -707,34 +1459,27 @@ function startColorGame() {
   nextColorRound();
 }
 
-function optionCount() {
-  if (APP.level <= 2) return 6;
-  if (APP.level <= 6) return 6;
-  return 4;
-}
-
 function nextColorRound() {
   const g = APP.game;
-  if (g.round >= g.total) { finishColorGame(); return; }
+  g.round++;
+  if (g.round > g.total) { finishColorGame(); return; }
 
-  // pick unused target
+  document.getElementById('color-round').textContent = `第 ${g.round} / ${g.total} 題`;
+
   const avail = COLORS.filter(c => !g.used.includes(c.name));
   const pool = avail.length > 0 ? avail : COLORS;
-  const target = pool[Math.floor(Math.random() * pool.length)];
+  const target = randomFrom(pool);
   g.used.push(target.name);
   g.currentAnswer = target;
 
-  // pick distractors
-  const n = optionCount();
-  const distractors = COLORS.filter(c => c.name !== target.name);
-  shuffle(distractors);
-  const options = [target, ...distractors.slice(0, n - 1)];
-  shuffle(options);
+  const n = APP.level >= 7 ? 4 : 6;
+  const distractors = shuffle(COLORS.filter(c => c.name !== target.name));
+  const options = shuffle([target, ...distractors.slice(0, n - 1)]);
 
-  // render target
-  document.getElementById('color-target').textContent = target.name;
+  // Target uses its color as text color for visual cue
+  document.getElementById('color-target').innerHTML =
+    `<span style="color:${target.hex === '#FFFFFF' ? '#000' : target.hex}">${target.name}</span>`;
 
-  // render options
   const grid = document.getElementById('color-options');
   grid.innerHTML = '';
   grid.style.gridTemplateColumns = (n <= 4) ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)';
@@ -743,6 +1488,8 @@ function nextColorRound() {
     sw.className = 'color-swatch';
     sw.style.background = opt.hex;
     if (opt.hex === '#FFFFFF') sw.style.border = '4px solid #CCC';
+    sw.setAttribute('aria-label', opt.name);
+    sw.dataset.name = opt.name;
     sw.onclick = () => handleColorPick(sw, opt);
     if (APP.level >= 3 && APP.level <= 6) {
       sw.onmouseenter = () => speak(opt.name);
@@ -750,29 +1497,7 @@ function nextColorRound() {
     grid.appendChild(sw);
   });
 
-  // render progress dots
-  renderColorDots();
-
-  // speak based on level
-  const question = `請找出${target.name}`;
-  if (APP.level >= 7) {
-    const allNames = options.map(o => o.name);
-    speakSequence([question, ...allNames, question, ...allNames], 800);
-  } else {
-    speak(question);
-  }
-}
-
-function renderColorDots() {
-  const dots = document.getElementById('color-dots');
-  dots.innerHTML = '';
-  for (let i = 0; i < APP.game.total; i++) {
-    const d = document.createElement('div');
-    d.className = 'dot';
-    if (i < APP.game.round) d.classList.add('done');
-    else if (i === APP.game.round) d.classList.add('current');
-    dots.appendChild(d);
-  }
+  autoReadQuestion(`請找出${target.name}`, options.map(o => o.name));
 }
 
 function handleColorPick(el, opt) {
@@ -782,12 +1507,12 @@ function handleColorPick(el, opt) {
     const praise = randomPraise();
     showFeedback(praise);
     speak(praise);
-    g.round++;
     setTimeout(nextColorRound, 1400);
   } else {
     el.classList.add('wrong');
-    showFeedback('再試試看 😊', true);
-    speak('再試試看');
+    const retry = randomRetry();
+    showFeedback(retry, true);
+    speak(retry);
     setTimeout(() => el.classList.remove('wrong'), 500);
   }
 }
@@ -797,12 +1522,1306 @@ function finishColorGame() {
   speak('全部完成了，你好厲害！');
 }
 
-function shuffle(a) {
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
+// ====================================================================
+// Word game (認字)
+// ====================================================================
+const WordGame = {
+  simpleGroups: [
+    ['山','水','火','木','土'],
+    ['日','月','星','雲','雨'],
+    ['人','手','口','目','耳'],
+    ['大','小','上','下','中'],
+    ['一','二','三','四','五'],
+  ],
+  wordGroups: [
+    ['大','太','天','犬','夫','木'],
+    ['日','目','田','白','百','自'],
+    ['人','入','八','十','千','土'],
+    ['王','玉','主','生','牛','午'],
+    ['上','下','山','出','中','水'],
+    ['手','毛','父','母','女','子'],
+    ['花','草','苗','葉','林','森'],
+    ['口','回','四','因','國','園'],
+    ['門','問','間','開','關','聞'],
+    ['馬','鳥','魚','羊','兔','象'],
+    ['風','雨','雪','雲','雷','電'],
+    ['吃','喝','叫','吹','唱','哭'],
+  ],
+  round: 0,
+  total: 8,
+  usedGroups: [],
+  target: null,
+
+  init() {
+    this.round = 0;
+    this.usedGroups = [];
+    document.getElementById('word-complete').classList.remove('show');
+    showScreen('game-word');
+    this.nextRound();
+  },
+
+  nextRound() {
+    this.round++;
+    if (this.round > this.total) {
+      document.getElementById('word-complete').classList.add('show');
+      speak('全部認對了，你好厲害！');
+      return;
+    }
+    document.getElementById('word-round').textContent = `第 ${this.round} / ${this.total} 題`;
+
+    const groups = APP.level >= 7 ? this.simpleGroups : this.wordGroups;
+    const available = groups.filter((_, i) => !this.usedGroups.includes(i));
+    const pool = available.length > 0 ? available : groups;
+    const group = randomFrom(pool);
+    this.usedGroups.push(groups.indexOf(group));
+
+    const target = randomFrom(group);
+    this.target = target;
+    document.getElementById('word-display').textContent = target;
+
+    // Pick distractors from same group
+    let options = [{ word: target, isCorrect: true }];
+    let used = [target];
+    while (options.length < 6 && used.length < group.length) {
+      const w = randomFrom(group);
+      if (used.includes(w)) continue;
+      used.push(w);
+      options.push({ word: w, isCorrect: false });
+    }
+    shuffle(options);
+
+    const container = document.getElementById('word-options');
+    container.innerHTML = '';
+    options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'word-option';
+      btn.textContent = opt.word;
+      btn.onclick = () => this.checkAnswer(opt, btn);
+      container.appendChild(btn);
+    });
+
+    autoReadQuestion(`請找出：${target}`, options.map(o => o.word));
+    bindOptionHover('.word-option');
+  },
+
+  checkAnswer(opt, btn) {
+    if (opt.isCorrect) {
+      btn.classList.add('correct');
+      const p = randomPraise();
+      showFeedback(p); speak(p);
+      setTimeout(() => this.nextRound(), 1200);
+    } else {
+      btn.classList.add('wrong');
+      const r = randomRetry();
+      showFeedback(r, true); speak(r);
+      setTimeout(() => btn.classList.remove('wrong'), 500);
+    }
+  },
+};
+
+// ====================================================================
+// Shape game
+// ====================================================================
+const ShapeGame = {
+  shapes: [
+    { name: '圓形', char: '●' },
+    { name: '方形', char: '■' },
+    { name: '三角形', char: '▲' },
+    { name: '星形', char: '★' },
+    { name: '菱形', char: '◆' },
+    { name: '心形', char: '♥' },
+  ],
+  palette: [
+    '#FF0000', '#8B0000', '#FF4500', '#FF007F',
+    '#722F37', '#FF6F61', '#CB4154', '#FF1493',
+  ],
+  round: 0,
+  total: 8,
+  usedColors: [],
+
+  init() {
+    this.round = 0;
+    this.usedColors = [];
+    document.getElementById('shape-complete').classList.remove('show');
+    showScreen('game-shape');
+    this.nextRound();
+  },
+
+  nextRound() {
+    this.round++;
+    if (this.round > this.total) {
+      document.getElementById('shape-complete').classList.add('show');
+      speak('太厲害了，全部答對了！');
+      return;
+    }
+    document.getElementById('shape-round').textContent = `第 ${this.round} / ${this.total} 題`;
+
+    const level = APP.level;
+    const shapeCount = level <= 2 ? 6 : level <= 6 ? 5 : 3;
+    const shapePool = this.shapes.slice(0, shapeCount);
+
+    const targetShape = randomFrom(shapePool);
+    let availColors = this.palette.filter(c => !this.usedColors.includes(c));
+    if (availColors.length === 0) availColors = this.palette.slice();
+    const targetColor = randomFrom(availColors);
+    this.usedColors.push(targetColor);
+
+    document.getElementById('shape-target').innerHTML =
+      `<span style="color:${targetColor}">${targetShape.char}</span>`;
+
+    let usedInRound = [targetColor];
+    let options = [{ shape: targetShape, color: targetColor, isCorrect: true }];
+    while (options.length < 4) {
+      const s = randomFrom(shapePool);
+      const c = randomFrom(this.palette);
+      if (usedInRound.includes(c)) continue;
+      if (s.char === targetShape.char && c === targetColor) continue;
+      usedInRound.push(c);
+      options.push({ shape: s, color: c, isCorrect: false });
+    }
+    shuffle(options);
+
+    const container = document.getElementById('shape-options');
+    container.innerHTML = '';
+    options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'shape-option';
+      btn.innerHTML = `<span style="color:${opt.color}">${opt.shape.char}</span>`;
+      btn.dataset.name = opt.shape.name;
+      btn.onclick = () => this.checkAnswer(opt, btn);
+      if (APP.level >= 3 && APP.level <= 6) {
+        btn.onmouseenter = () => speak(opt.shape.name);
+      }
+      container.appendChild(btn);
+    });
+
+    autoReadQuestion(`請找出：${targetShape.name}`, options.map(o => o.shape.name));
+  },
+
+  checkAnswer(opt, btn) {
+    if (opt.isCorrect) {
+      btn.classList.add('correct');
+      const p = randomPraise();
+      showFeedback(p); speak(p);
+      setTimeout(() => this.nextRound(), 1200);
+    } else {
+      btn.classList.add('wrong');
+      const r = randomRetry();
+      showFeedback(r, true); speak(r);
+      setTimeout(() => btn.classList.remove('wrong'), 500);
+    }
+  },
+};
+
+// ====================================================================
+// Number game
+// ====================================================================
+const NumberGame = {
+  round: 0,
+  total: 8,
+  usedNumbers: [],
+
+  init() {
+    this.round = 0;
+    this.usedNumbers = [];
+    document.getElementById('number-complete').classList.remove('show');
+    showScreen('game-number');
+    this.nextRound();
+  },
+
+  nextRound() {
+    this.round++;
+    if (this.round > this.total) {
+      document.getElementById('number-complete').classList.add('show');
+      speak('數字都認對了，你好棒！');
+      return;
+    }
+    document.getElementById('number-round').textContent = `第 ${this.round} / ${this.total} 題`;
+
+    const level = APP.level;
+    const maxNum = level <= 2 ? 20 : level <= 6 ? 10 : 5;
+    const optionCount = level <= 2 ? 6 : level <= 6 ? 4 : 3;
+
+    let target;
+    let tries = 0;
+    do {
+      target = Math.floor(Math.random() * maxNum) + 1;
+      tries++;
+    } while (this.usedNumbers.includes(target) && tries < 50);
+    this.usedNumbers.push(target);
+
+    document.getElementById('number-display').textContent = target;
+
+    let nums = [target];
+    while (nums.length < optionCount) {
+      const n = Math.floor(Math.random() * maxNum) + 1;
+      if (!nums.includes(n)) nums.push(n);
+    }
+    shuffle(nums);
+
+    const grid = document.getElementById('number-grid');
+    grid.innerHTML = '';
+    nums.forEach(n => {
+      const btn = document.createElement('button');
+      btn.className = 'number-btn';
+      btn.textContent = n;
+      btn.onclick = () => this.checkAnswer(n, target, btn);
+      grid.appendChild(btn);
+    });
+
+    autoReadQuestion(`請找出數字：${target}`, nums.map(String));
+    bindOptionHover('.number-btn');
+  },
+
+  checkAnswer(picked, target, btn) {
+    if (picked === target) {
+      btn.classList.add('correct');
+      const p = randomPraise();
+      showFeedback(p); speak(p);
+      setTimeout(() => this.nextRound(), 1200);
+    } else {
+      btn.classList.add('wrong');
+      const r = randomRetry();
+      showFeedback(r, true); speak(r);
+      setTimeout(() => btn.classList.remove('wrong'), 500);
+    }
+  },
+};
+
+// ====================================================================
+// Classify game
+// ====================================================================
+const ClassifyGame = {
+  categories: [
+    { name: '水果', icon: '🍎', items: [
+      { emoji: '🍎', name: '蘋果' }, { emoji: '🍌', name: '香蕉' },
+      { emoji: '🍊', name: '橘子' }, { emoji: '🍇', name: '葡萄' },
+      { emoji: '🍉', name: '西瓜' }, { emoji: '🍓', name: '草莓' },
+    ]},
+    { name: '動物', icon: '🐕', items: [
+      { emoji: '🐕', name: '狗' }, { emoji: '🐈', name: '貓' },
+      { emoji: '🐄', name: '牛' }, { emoji: '🐖', name: '豬' },
+      { emoji: '🐑', name: '羊' }, { emoji: '🐔', name: '雞' },
+    ]},
+    { name: '交通工具', icon: '🚗', items: [
+      { emoji: '🚗', name: '汽車' }, { emoji: '🚌', name: '公車' },
+      { emoji: '🚂', name: '火車' }, { emoji: '✈️', name: '飛機' },
+      { emoji: '🚢', name: '船' }, { emoji: '🏍️', name: '機車' },
+    ]},
+    { name: '食物', icon: '🍚', items: [
+      { emoji: '🍚', name: '白飯' }, { emoji: '🍜', name: '麵' },
+      { emoji: '🍞', name: '麵包' }, { emoji: '🥚', name: '雞蛋' },
+      { emoji: '🧁', name: '蛋糕' }, { emoji: '🍕', name: '披薩' },
+    ]},
+    { name: '衣物', icon: '👕', items: [
+      { emoji: '👕', name: '上衣' }, { emoji: '👖', name: '褲子' },
+      { emoji: '🧣', name: '圍巾' }, { emoji: '🧤', name: '手套' },
+      { emoji: '👒', name: '帽子' }, { emoji: '👟', name: '鞋子' },
+    ]},
+    { name: '身體', icon: '👋', items: [
+      { emoji: '👁️', name: '眼睛' }, { emoji: '👃', name: '鼻子' },
+      { emoji: '👄', name: '嘴巴' }, { emoji: '👂', name: '耳朵' },
+      { emoji: '👋', name: '手' }, { emoji: '🦶', name: '腳' },
+    ]},
+  ],
+  round: 0,
+  total: 8,
+  usedItems: [],
+
+  init() {
+    this.round = 0;
+    this.usedItems = [];
+    document.getElementById('classify-complete').classList.remove('show');
+    showScreen('game-classify');
+    this.nextRound();
+  },
+
+  nextRound() {
+    this.round++;
+    if (this.round > this.total) {
+      document.getElementById('classify-complete').classList.add('show');
+      speak('分類都對了，好厲害！');
+      return;
+    }
+    document.getElementById('classify-round').textContent = `第 ${this.round} / ${this.total} 題`;
+
+    const level = APP.level;
+    const catCount = level <= 2 ? 4 : level <= 6 ? 3 : 2;
+    const catPool = this.categories.slice(0, Math.max(catCount, 2));
+
+    let item, catIdx, tries = 0;
+    do {
+      catIdx = Math.floor(Math.random() * catPool.length);
+      item = randomFrom(catPool[catIdx].items);
+      tries++;
+    } while (this.usedItems.includes(item.emoji) && tries < 50);
+    this.usedItems.push(item.emoji);
+    const correctCat = catPool[catIdx];
+
+    document.getElementById('classify-item').textContent = item.emoji;
+    document.getElementById('classify-item-name').textContent = item.name;
+
+    const catOptCount = Math.min(catCount, catPool.length);
+    let catOptions = [{ cat: correctCat, isCorrect: true }];
+    let usedCats = [catIdx];
+    while (catOptions.length < catOptCount) {
+      const ci = Math.floor(Math.random() * catPool.length);
+      if (usedCats.includes(ci)) continue;
+      usedCats.push(ci);
+      catOptions.push({ cat: catPool[ci], isCorrect: false });
+    }
+    shuffle(catOptions);
+
+    const container = document.getElementById('classify-options');
+    container.innerHTML = '';
+    catOptions.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'classify-option';
+      btn.innerHTML = `<span class="cat-icon">${opt.cat.icon}</span>${opt.cat.name}`;
+      btn.onclick = () => this.checkAnswer(opt, btn);
+      container.appendChild(btn);
+    });
+
+    autoReadQuestion(`${item.name}是哪一類？`, catOptions.map(o => o.cat.name));
+    bindOptionHover('.classify-option');
+  },
+
+  checkAnswer(opt, btn) {
+    if (opt.isCorrect) {
+      btn.classList.add('correct');
+      const p = randomPraise();
+      showFeedback(p); speak(p);
+      setTimeout(() => this.nextRound(), 1200);
+    } else {
+      btn.classList.add('wrong');
+      const r = randomRetry();
+      showFeedback(r, true); speak(r);
+      setTimeout(() => btn.classList.remove('wrong'), 500);
+    }
+  },
+};
+
+// ====================================================================
+// Picture game (看圖認物)
+// ====================================================================
+const PictureGame = {
+  items: [
+    { emoji: '🍎', name: '蘋果' }, { emoji: '🍌', name: '香蕉' },
+    { emoji: '🍊', name: '橘子' }, { emoji: '🍇', name: '葡萄' },
+    { emoji: '🍉', name: '西瓜' }, { emoji: '🍓', name: '草莓' },
+    { emoji: '🐕', name: '狗' }, { emoji: '🐈', name: '貓' },
+    { emoji: '🐟', name: '魚' }, { emoji: '🐦', name: '鳥' },
+    { emoji: '🐘', name: '大象' }, { emoji: '🐒', name: '猴子' },
+    { emoji: '🚗', name: '汽車' }, { emoji: '✈️', name: '飛機' },
+    { emoji: '🚢', name: '船' }, { emoji: '🚂', name: '火車' },
+    { emoji: '☂️', name: '雨傘' }, { emoji: '📱', name: '手機' },
+    { emoji: '👓', name: '眼鏡' }, { emoji: '🔑', name: '鑰匙' },
+    { emoji: '📚', name: '書' }, { emoji: '⌚', name: '手錶' },
+    { emoji: '🌸', name: '花' }, { emoji: '🌳', name: '樹' },
+    { emoji: '☀️', name: '太陽' }, { emoji: '🌙', name: '月亮' },
+    { emoji: '🏠', name: '房子' }, { emoji: '🌈', name: '彩虹' },
+  ],
+  round: 0,
+  total: 8,
+  usedIdx: [],
+
+  init() {
+    this.round = 0;
+    this.usedIdx = [];
+    document.getElementById('picture-complete').classList.remove('show');
+    showScreen('game-picture');
+    this.nextRound();
+  },
+
+  nextRound() {
+    this.round++;
+    if (this.round > this.total) {
+      document.getElementById('picture-complete').classList.add('show');
+      speak('全部認出來了，好厲害！');
+      return;
+    }
+    document.getElementById('picture-round').textContent = `第 ${this.round} / ${this.total} 題`;
+
+    const level = APP.level;
+    const optCount = level <= 2 ? 6 : level <= 6 ? 4 : 3;
+
+    let idx, tries = 0;
+    do {
+      idx = Math.floor(Math.random() * this.items.length);
+      tries++;
+    } while (this.usedIdx.includes(idx) && tries < 50);
+    this.usedIdx.push(idx);
+
+    const target = this.items[idx];
+    document.getElementById('picture-emoji').textContent = target.emoji;
+
+    let options = [{ name: target.name, isCorrect: true }];
+    let usedNames = [target.name];
+    while (options.length < optCount) {
+      const it = randomFrom(this.items);
+      if (usedNames.includes(it.name)) continue;
+      usedNames.push(it.name);
+      options.push({ name: it.name, isCorrect: false });
+    }
+    shuffle(options);
+
+    const container = document.getElementById('picture-options');
+    container.innerHTML = '';
+    container.style.gridTemplateColumns = optCount <= 3 ? 'repeat(3, 1fr)' : 'repeat(3, 1fr)';
+    options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'picture-option';
+      btn.textContent = opt.name;
+      btn.onclick = () => this.checkAnswer(opt, btn);
+      container.appendChild(btn);
+    });
+
+    autoReadQuestion('這是什麼？', options.map(o => o.name));
+    bindOptionHover('.picture-option');
+  },
+
+  checkAnswer(opt, btn) {
+    if (opt.isCorrect) {
+      btn.classList.add('correct');
+      const p = randomPraise();
+      showFeedback(p); speak(p);
+      setTimeout(() => this.nextRound(), 1200);
+    } else {
+      btn.classList.add('wrong');
+      const r = randomRetry();
+      showFeedback(r, true); speak(r);
+      setTimeout(() => btn.classList.remove('wrong'), 500);
+    }
+  },
+};
+
+// ====================================================================
+// Clock game
+// ====================================================================
+const ClockGame = {
+  round: 0,
+  total: 8,
+  usedHours: [],
+
+  init() {
+    this.round = 0;
+    this.usedHours = [];
+    document.getElementById('clock-complete').classList.remove('show');
+    showScreen('game-clock');
+    this.nextRound();
+  },
+
+  drawClock(hour, minute) {
+    minute = minute || 0;
+    const canvas = document.getElementById('clock-canvas');
+    const ctx = canvas.getContext('2d');
+    const w = canvas.width, h = canvas.height;
+    const cx = w / 2, cy = h / 2, r = Math.min(cx, cy) - 10;
+
+    ctx.clearRect(0, 0, w, h);
+
+    // face
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    ctx.fillStyle = '#FFFFF0';
+    ctx.fill();
+    ctx.strokeStyle = '#000';
+    ctx.lineWidth = 4;
+    ctx.stroke();
+
+    // numbers
+    ctx.fillStyle = '#000';
+    ctx.font = 'bold 22px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    for (let i = 1; i <= 12; i++) {
+      const angle = (i * 30 - 90) * Math.PI / 180;
+      const nx = cx + (r - 25) * Math.cos(angle);
+      const ny = cy + (r - 25) * Math.sin(angle);
+      ctx.fillText(i, nx, ny);
+    }
+
+    // minute hand
+    const mAngle = (minute * 6 - 90) * Math.PI / 180;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(cx + (r * 0.72) * Math.cos(mAngle), cy + (r * 0.72) * Math.sin(mAngle));
+    ctx.strokeStyle = '#555';
+    ctx.lineWidth = 5;
+    ctx.lineCap = 'round';
+    ctx.stroke();
+
+    // hour hand
+    const hAngle = (hour * 30 + minute * 0.5 - 90) * Math.PI / 180;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(cx + (r * 0.48) * Math.cos(hAngle), cy + (r * 0.48) * Math.sin(hAngle));
+    ctx.strokeStyle = '#CC0000';
+    ctx.lineWidth = 10;
+    ctx.lineCap = 'round';
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(cx, cy, 8, 0, Math.PI * 2);
+    ctx.fillStyle = '#CC0000';
+    ctx.fill();
+  },
+
+  nextRound() {
+    this.round++;
+    if (this.round > this.total) {
+      document.getElementById('clock-complete').classList.add('show');
+      speak('時間都認對了，好棒！');
+      return;
+    }
+    document.getElementById('clock-round').textContent = `第 ${this.round} / ${this.total} 題`;
+
+    const level = APP.level;
+    const minute = level >= 7 ? 0 :
+                   level >= 3 ? (Math.random() < 0.5 ? 0 : 30) :
+                   Math.floor(Math.random() * 12) * 5;
+
+    let hour, tries = 0;
+    do {
+      hour = Math.floor(Math.random() * 12) + 1;
+      tries++;
+    } while (this.usedHours.includes(hour) && tries < 50);
+    this.usedHours.push(hour);
+
+    this.drawClock(hour, minute);
+
+    const fmt = (h, m) => m === 0 ? `${h} 點` : `${h} 點 ${m} 分`;
+
+    let options = [{ hour, minute, isCorrect: true }];
+    let usedKeys = [`${hour}:${minute}`];
+    while (options.length < 4) {
+      const h2 = Math.floor(Math.random() * 12) + 1;
+      const m2 = level >= 7 ? 0 :
+                 level >= 3 ? (Math.random() < 0.5 ? 0 : 30) :
+                 Math.floor(Math.random() * 12) * 5;
+      const key = `${h2}:${m2}`;
+      if (usedKeys.includes(key)) continue;
+      usedKeys.push(key);
+      options.push({ hour: h2, minute: m2, isCorrect: false });
+    }
+    shuffle(options);
+
+    const container = document.getElementById('clock-options');
+    container.innerHTML = '';
+    options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'clock-option';
+      btn.textContent = fmt(opt.hour, opt.minute);
+      btn.onclick = () => this.checkAnswer(opt, btn);
+      container.appendChild(btn);
+    });
+
+    autoReadQuestion('現在幾點？', options.map(o => fmt(o.hour, o.minute)));
+    bindOptionHover('.clock-option');
+  },
+
+  checkAnswer(opt, btn) {
+    if (opt.isCorrect) {
+      btn.classList.add('correct');
+      const p = randomPraise();
+      showFeedback(p); speak(p);
+      setTimeout(() => this.nextRound(), 1200);
+    } else {
+      btn.classList.add('wrong');
+      const r = randomRetry();
+      showFeedback(r, true); speak(r);
+      setTimeout(() => btn.classList.remove('wrong'), 500);
+    }
+  },
+};
+
+// ====================================================================
+// Matching game (連連看)
+// ====================================================================
+const MatchingGame = {
+  allItems: [
+    { emoji: '🍎', name: '蘋果' }, { emoji: '🍌', name: '香蕉' },
+    { emoji: '🍊', name: '橘子' }, { emoji: '🍇', name: '葡萄' },
+    { emoji: '🍉', name: '西瓜' }, { emoji: '🍓', name: '草莓' },
+    { emoji: '🐕', name: '狗' }, { emoji: '🐈', name: '貓' },
+    { emoji: '🐟', name: '魚' }, { emoji: '🐦', name: '鳥' },
+    { emoji: '🐘', name: '大象' }, { emoji: '🐒', name: '猴子' },
+    { emoji: '🚗', name: '汽車' }, { emoji: '✈️', name: '飛機' },
+    { emoji: '🚢', name: '船' }, { emoji: '🚂', name: '火車' },
+    { emoji: '☂️', name: '雨傘' }, { emoji: '📱', name: '手機' },
+    { emoji: '👓', name: '眼鏡' }, { emoji: '🔑', name: '鑰匙' },
+    { emoji: '🌸', name: '花' }, { emoji: '🌳', name: '樹' },
+    { emoji: '☀️', name: '太陽' }, { emoji: '🌙', name: '月亮' },
+  ],
+  round: 0,
+  total: 5,
+  pairsPerRound: 4,
+  usedIndices: [],
+  selectedLeft: null,
+  matchedCount: 0,
+
+  init() {
+    this.round = 0;
+    this.usedIndices = [];
+    document.getElementById('matching-complete').classList.remove('show');
+    showScreen('game-matching');
+    this.nextRound();
+  },
+
+  nextRound() {
+    this.round++;
+    if (this.round > this.total) {
+      document.getElementById('matching-complete').classList.add('show');
+      speak('全部配對了，好厲害！');
+      return;
+    }
+
+    const level = APP.level;
+    const pairCount = level <= 2 ? 5 : level <= 6 ? 4 : 3;
+    this.pairsPerRound = pairCount;
+    this.selectedLeft = null;
+    this.matchedCount = 0;
+
+    document.getElementById('matching-round').textContent = `第 ${this.round} / ${this.total} 回`;
+
+    let roundItems = [];
+    let tries = 0;
+    while (roundItems.length < pairCount && tries < 200) {
+      const idx = Math.floor(Math.random() * this.allItems.length);
+      tries++;
+      if (this.usedIndices.includes(idx)) continue;
+      if (roundItems.find(r => r.emoji === this.allItems[idx].emoji)) continue;
+      this.usedIndices.push(idx);
+      roundItems.push(this.allItems[idx]);
+    }
+    // fallback if exhausted
+    if (roundItems.length < pairCount) {
+      while (roundItems.length < pairCount) {
+        const it = randomFrom(this.allItems);
+        if (roundItems.find(r => r.emoji === it.emoji)) continue;
+        roundItems.push(it);
+      }
+    }
+
+    const leftOrder = [...roundItems];
+    const rightOrder = shuffle([...roundItems]);
+
+    const leftCol = document.getElementById('matching-left');
+    const rightCol = document.getElementById('matching-right');
+    leftCol.innerHTML = '';
+    rightCol.innerHTML = '';
+
+    leftOrder.forEach(item => {
+      const btn = document.createElement('button');
+      btn.className = 'matching-item';
+      btn.innerHTML = `<span class="match-emoji">${item.emoji}</span>`;
+      btn.dataset.name = item.name;
+      btn.onclick = () => this.selectLeft(btn);
+      leftCol.appendChild(btn);
+    });
+
+    rightOrder.forEach(item => {
+      const btn = document.createElement('button');
+      btn.className = 'matching-item';
+      btn.textContent = item.name;
+      btn.dataset.name = item.name;
+      btn.onclick = () => this.selectRight(btn);
+      rightCol.appendChild(btn);
+    });
+
+    speak('點左邊圖片，再點右邊名字');
+  },
+
+  selectLeft(btn) {
+    if (btn.classList.contains('matched')) return;
+    document.querySelectorAll('#matching-left .matching-item').forEach(b =>
+      b.classList.remove('selected'));
+    btn.classList.add('selected');
+    this.selectedLeft = btn;
+    speak(btn.dataset.name);
+  },
+
+  selectRight(btn) {
+    if (btn.classList.contains('matched')) return;
+    if (!this.selectedLeft) {
+      showFeedback('先點左邊的圖片！', true);
+      return;
+    }
+    const leftName = this.selectedLeft.dataset.name;
+    const rightName = btn.dataset.name;
+    if (leftName === rightName) {
+      this.selectedLeft.classList.remove('selected');
+      this.selectedLeft.classList.add('matched');
+      btn.classList.add('matched');
+      this.selectedLeft = null;
+      this.matchedCount++;
+      const p = randomPraise();
+      showFeedback(p); speak(p);
+      if (this.matchedCount >= this.pairsPerRound) {
+        setTimeout(() => this.nextRound(), 1200);
+      }
+    } else {
+      btn.classList.add('wrong');
+      const r = randomRetry();
+      showFeedback(r, true); speak(r);
+      setTimeout(() => btn.classList.remove('wrong'), 500);
+    }
+  },
+};
+
+// ====================================================================
+// Sorting game (大小排序)
+// ====================================================================
+const SortingGame = {
+  groups: [
+    [{ emoji: '🐜', name: '螞蟻' }, { emoji: '🐦', name: '鳥' }, { emoji: '🐕', name: '狗' }, { emoji: '🐘', name: '大象' }],
+    [{ emoji: '🍓', name: '草莓' }, { emoji: '🍎', name: '蘋果' }, { emoji: '🥥', name: '椰子' }, { emoji: '🍉', name: '西瓜' }],
+    [{ emoji: '🔑', name: '鑰匙' }, { emoji: '📱', name: '手機' }, { emoji: '💻', name: '電腦' }, { emoji: '🚗', name: '汽車' }],
+    [{ emoji: '🐁', name: '老鼠' }, { emoji: '🐈', name: '貓' }, { emoji: '🐄', name: '牛' }, { emoji: '🐋', name: '鯨魚' }],
+    [{ emoji: '🥄', name: '湯匙' }, { emoji: '👟', name: '鞋子' }, { emoji: '🎒', name: '書包' }, { emoji: '🛏️', name: '床' }],
+    [{ emoji: '🌱', name: '小草' }, { emoji: '🌻', name: '向日葵' }, { emoji: '🌳', name: '大樹' }, { emoji: '🏔️', name: '山' }],
+    [{ emoji: '🧊', name: '冰塊' }, { emoji: '🏀', name: '籃球' }, { emoji: '🏠', name: '房子' }, { emoji: '🏢', name: '大樓' }],
+    [{ emoji: '✏️', name: '鉛筆' }, { emoji: '📚', name: '書' }, { emoji: '🖥️', name: '電視' }, { emoji: '🚌', name: '公車' }],
+  ],
+  round: 0,
+  total: 8,
+  usedGroups: [],
+  currentOrder: [],
+  nextExpected: 0,
+
+  init() {
+    this.round = 0;
+    this.usedGroups = [];
+    document.getElementById('sorting-complete').classList.remove('show');
+    showScreen('game-sorting');
+    this.nextRound();
+  },
+
+  nextRound() {
+    this.round++;
+    if (this.round > this.total) {
+      document.getElementById('sorting-complete').classList.add('show');
+      speak('排序都對了，好棒！');
+      return;
+    }
+    document.getElementById('sorting-round').textContent = `第 ${this.round} / ${this.total} 題`;
+
+    const level = APP.level;
+    const itemCount = level <= 2 ? 4 : 3;
+
+    let gIdx, tries = 0;
+    do {
+      gIdx = Math.floor(Math.random() * this.groups.length);
+      tries++;
+    } while (this.usedGroups.includes(gIdx) && tries < 50);
+    this.usedGroups.push(gIdx);
+
+    this.currentOrder = this.groups[gIdx].slice(0, itemCount);
+    this.nextExpected = 0;
+
+    const shuffled = this.currentOrder.map((item, i) => ({ ...item, correctIdx: i }));
+    shuffle(shuffled);
+
+    const container = document.getElementById('sorting-items');
+    container.innerHTML = '';
+    shuffled.forEach(item => {
+      const btn = document.createElement('button');
+      btn.className = 'sorting-item';
+      btn.innerHTML = `<span class="sort-emoji">${item.emoji}</span><span class="sort-name">${item.name}</span>`;
+      btn.dataset.correctIdx = item.correctIdx;
+      btn.onclick = () => this.checkAnswer(item.correctIdx, btn);
+      container.appendChild(btn);
+    });
+
+    autoReadQuestion('從最小的開始，按順序點', this.currentOrder.map(i => i.name));
+  },
+
+  checkAnswer(correctIdx, btn) {
+    if (btn.classList.contains('done')) return;
+    if (correctIdx === this.nextExpected) {
+      this.nextExpected++;
+      btn.classList.add('done');
+      btn.dataset.order = this.nextExpected;
+      const p = randomPraise();
+      showFeedback(p); speak(p);
+      if (this.nextExpected >= this.currentOrder.length) {
+        setTimeout(() => this.nextRound(), 1200);
+      }
+    } else {
+      btn.classList.add('wrong');
+      const r = randomRetry();
+      showFeedback(r, true); speak(r);
+      setTimeout(() => btn.classList.remove('wrong'), 500);
+    }
+  },
+};
+
+// ====================================================================
+// Breathing exercise
+// ====================================================================
+function startBreathGame() {
+  showScreen('game-breath');
+  BreathingExercise.reset();
 }
+
+function exitBreath() {
+  BreathingExercise.stop();
+  goHome();
+}
+
+const BreathingExercise = {
+  timer: null,
+  currentCycle: 0,
+  totalCycles: 5,
+  phase: 'idle',
+
+  reset() {
+    this.stop();
+    document.getElementById('breathing-text').textContent = '準備好了嗎？';
+    document.getElementById('breathing-progress').textContent = '';
+    document.getElementById('breathing-controls').innerHTML =
+      '<button class="breathing-btn breathing-start" onclick="BreathingExercise.start()">開始練習</button>';
+  },
+
+  start() {
+    this.currentCycle = 0;
+    this.phase = 'idle';
+    document.getElementById('breathing-controls').innerHTML =
+      '<button class="breathing-btn breathing-stop" onclick="BreathingExercise.stop()">停止</button>';
+    this.nextPhase();
+  },
+
+  stop() {
+    if (this.timer) clearTimeout(this.timer);
+    this.timer = null;
+    this.phase = 'idle';
+    const circle = document.getElementById('breathing-circle');
+    if (circle) circle.classList.remove('inhale');
+    const text = document.getElementById('breathing-text');
+    const progress = document.getElementById('breathing-progress');
+    const controls = document.getElementById('breathing-controls');
+    if (text) text.textContent = '準備好了嗎？';
+    if (progress) progress.textContent = '';
+    if (controls) controls.innerHTML =
+      '<button class="breathing-btn breathing-start" onclick="BreathingExercise.start()">開始練習</button>';
+  },
+
+  nextPhase() {
+    const circle = document.getElementById('breathing-circle');
+    const text = document.getElementById('breathing-text');
+    const progress = document.getElementById('breathing-progress');
+    if (!circle || !text || !progress) return;
+
+    if (this.phase === 'idle' || this.phase === 'hold-out') {
+      this.currentCycle++;
+      if (this.currentCycle > this.totalCycles) {
+        text.textContent = '做得很好！休息一下 😊';
+        progress.textContent = '';
+        circle.classList.remove('inhale');
+        speak('做得很好，休息一下');
+        document.getElementById('breathing-controls').innerHTML =
+          '<button class="breathing-btn breathing-start" onclick="BreathingExercise.start()">再做一次</button>';
+        return;
+      }
+      progress.textContent = `第 ${this.currentCycle} / ${this.totalCycles} 次`;
+      this.phase = 'inhale';
+      text.textContent = '吸氣... 🌬️';
+      speak('吸氣');
+      circle.classList.add('inhale');
+      this.timer = setTimeout(() => this.nextPhase(), 4000);
+    } else if (this.phase === 'inhale') {
+      this.phase = 'hold-in';
+      text.textContent = '憋住... ⏸️';
+      this.timer = setTimeout(() => this.nextPhase(), 2000);
+    } else if (this.phase === 'hold-in') {
+      this.phase = 'exhale';
+      text.textContent = '吐氣... 💨';
+      speak('吐氣');
+      circle.classList.remove('inhale');
+      this.timer = setTimeout(() => this.nextPhase(), 4000);
+    } else if (this.phase === 'exhale') {
+      this.phase = 'hold-out';
+      text.textContent = '放鬆... 😌';
+      this.timer = setTimeout(() => this.nextPhase(), 2000);
+    }
+  },
+};
+
+// ====================================================================
+// Emotion game
+// ====================================================================
+const EmotionGame = {
+  allEmotions: [
+    { emoji: '😊', name: '開心' },
+    { emoji: '😢', name: '難過' },
+    { emoji: '😠', name: '生氣' },
+    { emoji: '😮', name: '驚訝' },
+    { emoji: '😐', name: '平靜' },
+    { emoji: '😍', name: '喜愛' },
+  ],
+  round: 0,
+  total: 8,
+  used: [],
+
+  init() {
+    this.round = 0;
+    this.used = [];
+    document.getElementById('emotion-complete').classList.remove('show');
+    showScreen('game-emotion');
+    this.nextRound();
+  },
+
+  nextRound() {
+    this.round++;
+    if (this.round > this.total) {
+      document.getElementById('emotion-complete').classList.add('show');
+      speak('全部答對了，你好厲害！');
+      return;
+    }
+    document.getElementById('emotion-round').textContent = `第 ${this.round} / ${this.total} 題`;
+
+    const level = APP.level;
+    const optCount = level <= 2 ? 6 : level <= 6 ? 4 : 2;
+    const pool = this.allEmotions.slice(0, Math.max(optCount, 2));
+
+    const available = pool.filter(e => !this.used.includes(e.emoji));
+    const target = available.length ? randomFrom(available) : randomFrom(pool);
+    this.used.push(target.emoji);
+
+    document.getElementById('emotion-display').textContent = target.emoji;
+
+    let options = [target];
+    while (options.length < Math.min(optCount, pool.length)) {
+      const e = randomFrom(pool);
+      if (!options.find(o => o.emoji === e.emoji)) options.push(e);
+    }
+    shuffle(options);
+
+    const container = document.getElementById('emotion-options');
+    container.innerHTML = '';
+    options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'emotion-btn';
+      btn.textContent = opt.name;
+      btn.onclick = () => this.checkAnswer(opt, target, btn);
+      container.appendChild(btn);
+    });
+
+    autoReadQuestion('這是什麼表情？', options.map(o => o.name));
+    bindOptionHover('.emotion-btn');
+  },
+
+  checkAnswer(opt, target, btn) {
+    if (opt.emoji === target.emoji) {
+      btn.classList.add('correct');
+      const p = randomPraise();
+      showFeedback(p); speak(p);
+      setTimeout(() => this.nextRound(), 1200);
+    } else {
+      btn.classList.add('wrong');
+      const r = randomRetry();
+      showFeedback(r, true); speak(r);
+      setTimeout(() => btn.classList.remove('wrong'), 500);
+    }
+  },
+};
+
+// ====================================================================
+// Counting game
+// ====================================================================
+const CountingGame = {
+  emojis: ['🍎','🌟','🐶','🌸','🍪','🎈','🐠','🌈','🏀','🦋'],
+  round: 0,
+  total: 8,
+
+  init() {
+    this.round = 0;
+    document.getElementById('counting-complete').classList.remove('show');
+    showScreen('game-counting');
+    this.nextRound();
+  },
+
+  nextRound() {
+    this.round++;
+    if (this.round > this.total) {
+      document.getElementById('counting-complete').classList.add('show');
+      speak('數完了，數得很準確！');
+      return;
+    }
+    document.getElementById('counting-round').textContent = `第 ${this.round} / ${this.total} 題`;
+
+    const level = APP.level;
+    const maxCount = level <= 2 ? 15 : level <= 6 ? 10 : 5;
+    const optCount = level >= 7 ? 3 : 4;
+
+    const target = Math.floor(Math.random() * maxCount) + 1;
+    const emoji = randomFrom(this.emojis);
+
+    document.getElementById('counting-display').textContent = emoji.repeat(target);
+
+    let nums = [target];
+    while (nums.length < optCount) {
+      const n = Math.floor(Math.random() * maxCount) + 1;
+      if (!nums.includes(n)) nums.push(n);
+    }
+    shuffle(nums);
+
+    const container = document.getElementById('counting-options');
+    container.innerHTML = '';
+    nums.forEach(n => {
+      const btn = document.createElement('button');
+      btn.className = 'counting-btn';
+      btn.textContent = n;
+      btn.onclick = () => this.checkAnswer(n, target, btn);
+      container.appendChild(btn);
+    });
+
+    autoReadQuestion('有幾個？', nums.map(String));
+    bindOptionHover('.counting-btn');
+  },
+
+  checkAnswer(n, target, btn) {
+    if (n === target) {
+      btn.classList.add('correct');
+      const p = randomPraise();
+      showFeedback(p); speak(p);
+      setTimeout(() => this.nextRound(), 1200);
+    } else {
+      btn.classList.add('wrong');
+      const r = randomRetry();
+      showFeedback(r, true); speak(r);
+      setTimeout(() => btn.classList.remove('wrong'), 500);
+    }
+  },
+};
+
+// ====================================================================
+// Differences game (找不同)
+// ====================================================================
+const DifferencesGame = {
+  easyGroups: [
+    { same: '🍎', diff: '🍊' }, { same: '🐶', diff: '🐱' },
+    { same: '🌟', diff: '🌙' }, { same: '🌸', diff: '🌼' },
+    { same: '🍪', diff: '🎂' }, { same: '🚗', diff: '🚌' },
+  ],
+  mediumGroups: [
+    { same: '🔵', diff: '🔴' }, { same: '🟦', diff: '🟥' },
+    { same: '⬆️', diff: '⬇️' }, { same: '🔺', diff: '🔻' },
+  ],
+  hardGroups: [
+    { same: '😊', diff: '😄' }, { same: '🐶', diff: '🦊' },
+    { same: '🌲', diff: '🌳' }, { same: '🍇', diff: '🫐' },
+  ],
+  round: 0,
+  total: 8,
+
+  init() {
+    this.round = 0;
+    document.getElementById('differences-complete').classList.remove('show');
+    showScreen('game-differences');
+    this.nextRound();
+  },
+
+  nextRound() {
+    this.round++;
+    if (this.round > this.total) {
+      document.getElementById('differences-complete').classList.add('show');
+      speak('全找到了，眼力真好！');
+      return;
+    }
+    document.getElementById('differences-round').textContent = `第 ${this.round} / ${this.total} 題`;
+
+    const level = APP.level;
+    const groups = level <= 2 ? this.hardGroups :
+                   level <= 6 ? this.mediumGroups : this.easyGroups;
+
+    const pair = randomFrom(groups);
+    const total = 5;
+    const diffPos = Math.floor(Math.random() * total);
+    const items = Array(total).fill(pair.same);
+    items[diffPos] = pair.diff;
+
+    const row = document.getElementById('differences-row');
+    row.innerHTML = '';
+    items.forEach((emoji, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'diff-item';
+      btn.textContent = emoji;
+      btn.onclick = () => this.checkAnswer(i === diffPos, btn);
+      row.appendChild(btn);
+    });
+
+    autoReadQuestion('哪一個不一樣？', []);
+  },
+
+  checkAnswer(isCorrect, btn) {
+    if (isCorrect) {
+      btn.classList.add('correct');
+      const p = randomPraise();
+      showFeedback(p); speak(p);
+      setTimeout(() => this.nextRound(), 1200);
+    } else {
+      btn.classList.add('wrong');
+      const r = randomRetry();
+      showFeedback(r, true); speak(r);
+      setTimeout(() => btn.classList.remove('wrong'), 500);
+    }
+  },
+};
+
+// ====================================================================
+// Pairs game (翻牌配對)
+// ====================================================================
+const PairsGame = {
+  emojis: ['🍎','🐶','🌟','🎈','🌸','🍪','🐠','🦋','🌈','🎵','🌻','🦁'],
+  firstCard: null,
+  lock: false,
+  matched: 0,
+  total: 0,
+
+  init() {
+    document.getElementById('pairs-complete').classList.remove('show');
+    showScreen('game-pairs');
+    this.firstCard = null;
+    this.lock = false;
+    this.matched = 0;
+
+    const level = APP.level;
+    const pairCount = level <= 2 ? 6 : 3;
+    this.total = pairCount;
+
+    const grid = document.getElementById('pairs-grid');
+    grid.className = 'pairs-grid ' + (pairCount <= 3 ? 'grid-2x3' : 'grid-3x4');
+
+    const selected = this.emojis.slice(0, pairCount);
+    const cards = shuffle([...selected, ...selected]);
+
+    document.getElementById('pairs-round').textContent = `找出 ${pairCount} 對相同的圖案`;
+
+    grid.innerHTML = '';
+    cards.forEach(emoji => {
+      const card = document.createElement('div');
+      card.className = 'pair-card';
+      card.innerHTML = `<div class="card-back">？</div><div class="card-front">${emoji}</div>`;
+      card.dataset.emoji = emoji;
+      card.onclick = () => this.flipCard(card);
+      grid.appendChild(card);
+    });
+
+    speak('翻開牌，找出相同的圖案');
+  },
+
+  flipCard(card) {
+    if (this.lock || card.classList.contains('flipped') || card.classList.contains('matched')) return;
+    card.classList.add('flipped');
+    speak(card.dataset.emoji);
+
+    if (!this.firstCard) {
+      this.firstCard = card;
+      return;
+    }
+
+    const second = card;
+    this.lock = true;
+
+    if (this.firstCard.dataset.emoji === second.dataset.emoji) {
+      this.firstCard.classList.add('matched');
+      second.classList.add('matched');
+      this.matched++;
+      this.firstCard = null;
+      this.lock = false;
+      if (this.matched === this.total) {
+        setTimeout(() => {
+          const p = randomPraise();
+          showFeedback(p); speak('全部配對完成！記憶力真好');
+          setTimeout(() => {
+            document.getElementById('pairs-complete').classList.add('show');
+          }, 1200);
+        }, 400);
+      }
+    } else {
+      setTimeout(() => {
+        this.firstCard.classList.remove('flipped');
+        second.classList.remove('flipped');
+        this.firstCard = null;
+        this.lock = false;
+      }, 1000);
+    }
+  },
+};
+
+// ====================================================================
+// Body game (身體部位)
+// ====================================================================
+const BodyGame = {
+  basicParts: ['眼睛','嘴巴','鼻子','耳朵'],
+  advancedParts: ['眼睛','嘴巴','鼻子','耳朵','肩膀','手','腳','頭髮'],
+  round: 0,
+  total: 8,
+  used: [],
+
+  init() {
+    this.round = 0;
+    this.used = [];
+    document.getElementById('body-complete').classList.remove('show');
+    showScreen('game-body');
+    this.nextRound();
+  },
+
+  nextRound() {
+    this.round++;
+    if (this.round > this.total) {
+      document.getElementById('body-complete').classList.add('show');
+      speak('答完了，身體部位都認識！');
+      return;
+    }
+    document.getElementById('body-round').textContent = `第 ${this.round} / ${this.total} 題`;
+
+    const level = APP.level;
+    const pool = level >= 7 ? this.basicParts : this.advancedParts;
+    const optCount = level >= 7 ? 2 : 4;
+
+    const available = pool.filter(p => !this.used.includes(p));
+    const target = available.length ? randomFrom(available) : randomFrom(pool);
+    this.used.push(target);
+
+    document.getElementById('body-question').textContent = '指出：' + target;
+
+    let options = [target];
+    while (options.length < Math.min(optCount, pool.length)) {
+      const p = randomFrom(pool);
+      if (!options.includes(p)) options.push(p);
+    }
+    shuffle(options);
+
+    const container = document.getElementById('body-options');
+    container.innerHTML = '';
+    options.forEach(part => {
+      const btn = document.createElement('button');
+      btn.className = 'body-btn';
+      btn.textContent = part;
+      btn.onclick = () => this.checkAnswer(part, target, btn);
+      container.appendChild(btn);
+    });
+
+    autoReadQuestion(`請指出：${target}`, options);
+    bindOptionHover('.body-btn');
+  },
+
+  checkAnswer(part, target, btn) {
+    if (part === target) {
+      btn.classList.add('correct');
+      const p = randomPraise();
+      showFeedback(p); speak(p);
+      setTimeout(() => this.nextRound(), 1200);
+    } else {
+      btn.classList.add('wrong');
+      const r = randomRetry();
+      showFeedback(r, true); speak(r);
+      setTimeout(() => btn.classList.remove('wrong'), 500);
+    }
+  },
+};
 
 // ====================================================================
 // Init
