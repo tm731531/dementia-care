@@ -1716,21 +1716,31 @@ document.getElementById('level-slider').addEventListener('input', (e) => {
 // ====================================================================
 // Voice & shared helpers
 // ====================================================================
+// 語音管理器:用世代編號 + 追蹤 setTimeout,避免答對後舊語音/排程殘留繼續唸
+const _voice = { gen: 0, timers: [] };
+function _clearVoiceTimers() {
+  _voice.timers.forEach(t => clearTimeout(t));
+  _voice.timers = [];
+}
+
 function speak(text, onEnd) {
   if (!('speechSynthesis' in window)) { onEnd && onEnd(); return; }
+  _clearVoiceTimers();
+  const gen = ++_voice.gen;
   try { speechSynthesis.cancel(); } catch(e) {}
   const clean = text.replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE00}-\u{FEFF}\u{1F900}-\u{1F9FF}\u{200D}\u{20E3}]/gu, '').trim();
   if (!clean) { onEnd && onEnd(); return; }
   const u = new SpeechSynthesisUtterance(clean);
   u.lang = 'zh-TW'; u.rate = 0.7; u.pitch = 1.1;
-  if (onEnd) u.onend = onEnd;
+  u.onend = () => { if (gen === _voice.gen && onEnd) onEnd(); };
   speechSynthesis.speak(u);
 }
 
 function speakSequence(texts, gap, onDone) {
   if (texts.length === 0) { onDone && onDone(); return; }
   speak(texts[0], () => {
-    setTimeout(() => speakSequence(texts.slice(1), gap, onDone), gap || 800);
+    const t = setTimeout(() => speakSequence(texts.slice(1), gap, onDone), gap || 800);
+    _voice.timers.push(t);
   });
 }
 
@@ -1744,7 +1754,8 @@ function autoReadQuestion(questionText, optionTexts) {
   // Severe (7-8): read question + all options, then repeat
   const all = [questionText, ...(optionTexts || [])];
   speakSequence(all, 800);
-  setTimeout(() => speakSequence(all, 800), all.length * 900 + 1200);
+  const t = setTimeout(() => speakSequence(all, 800), all.length * 900 + 1200);
+  _voice.timers.push(t);
 }
 
 // Hover read for medium difficulty (3-6)
