@@ -265,7 +265,7 @@
     .feedback {
       position: fixed;
       top: 20px; left: 50%;
-      transform: translateX(-50%) translateY(-120%);
+      transform: translateX(-50%) translateY(-40px);
       background: var(--ok);
       color: white;
       padding: 20px 40px;
@@ -274,9 +274,14 @@
       font-weight: 700;
       box-shadow: 0 8px 24px rgba(0,170,0,0.4);
       z-index: 200;
-      transition: transform 0.3s;
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.3s, opacity 0.3s;
     }
-    .feedback.show { transform: translateX(-50%) translateY(0); }
+    .feedback.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
     .feedback.warn { background: var(--warn); }
 
     /* ===== Complete screen ===== */
