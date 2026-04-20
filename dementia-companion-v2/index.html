@@ -1457,6 +1457,41 @@ function promptCustomName() {
   if (name && name.trim()) saveElderName(name.trim());
 }
 
+// formatSummary: 依 session 資料產生摘要文字(純函數,無 DOM 依賴,可用 node 測試)
+function formatSummary(session, elderName, now) {
+  now = now || new Date();
+  const name = elderName || '家人';
+
+  const h = now.getHours();
+  let timeLabel;
+  if (h < 5)       timeLabel = '凌晨';
+  else if (h < 11) timeLabel = '早上';
+  else if (h < 13) timeLabel = '中午';
+  else if (h < 18) timeLabel = '下午';
+  else if (h < 22) timeLabel = '晚上';
+  else             timeLabel = '深夜';
+
+  const dateStr = now.getFullYear() + '/' + (now.getMonth() + 1) + '/' + now.getDate();
+  const mins = Math.max(1, Math.ceil((now.getTime() - session.startTime) / 60000));
+
+  const activityLines = session.completed.map(c => '▸ ' + c.name).join('\n');
+
+  const count = session.completed.length;
+  let desc;
+  if (count === 1)       desc = '一起做了一件事，陪著他就很好';
+  else if (count === 2)  desc = '他配合度不錯，狀態還可以';
+  else if (count === 3)  desc = '他配合度很好，狀態平穩 😊';
+  else if (count <= 5)   desc = '今天狀態很好，玩了好幾樣 🌟';
+  else                   desc = '今天狀態非常好，玩了一圈呢 🎉';
+
+  return '📝 ' + dateStr + ' ' + timeLabel + '\n'
+    + '今天和' + name + '一起玩了 ' + mins + ' 分鐘\n'
+    + '\n'
+    + activityLines + '\n'
+    + '\n'
+    + desc;
+}
+
 // Task 12 會補上完整預覽 modal,這裡先做到「沒名字先問」
 function showSummaryModal() {
   const name = getElderName();
