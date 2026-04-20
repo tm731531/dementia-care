@@ -10,6 +10,7 @@
 
 > 讀這些再動工：`~/.claude/projects/-home-tom/memory/brain/`
 
+- `health-drinks-data-entry.md` — **⚠️ 必讀** 飲品資料錄入原則、踩坑紀錄、欄位命名規範
 - `design-principles.md` — 前端元件設計原則
 - `python-crawler-data.md` — 爬蟲 / 資料處理注意事項（scripts/scraper.py）
 
@@ -83,7 +84,8 @@ health-drinks/
 
 ## 開發規則
 
-- 所有修改集中在 `docs/index.html`（單一檔案網站）。
+- 所有修改集中在 `docs/index.html`（UI）與 `docs/data/drinks.js`（資料）。
 - 不引入 npm / build step，保持純靜態可直接在 GitHub Pages 部署。
-- 每次新增飲品：在 `DRINKS` 陣列補一筆 JSON，圖片放入 `docs/images/`。
+- **每次新增飲品：標籤有什麼填什麼，包含所有微量元素，不可自行省略。**
+- 資料以「每份體積」儲存，網站自動換算 per 100ml（除以 volume_ml）。
 - 修 CSS 前先搜尋是否有重複定義。
