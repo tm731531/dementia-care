@@ -1197,6 +1197,11 @@ const APP = {
   history: {},            // { gameId: lastPlayedTimestamp }
   currentRec: null,       // current recommendation game
   game: null,             // current game state
+  session: {              // 當次 session 記憶體,reload 即歸零(刻意不存 localStorage)
+    startTime: Date.now(),
+    completed: [],        // [{ id, name, icon, finishedAt }]
+  },
+  pendingAfterName: null, // 稱呼設定完成後要執行的 callback
 };
 
 function loadState() {
@@ -1471,6 +1476,30 @@ function startGame(id) {
   }
 }
 
+// 記錄一個活動完成(純 session,不存 localStorage)
+function recordCompletion(id) {
+  const game = GAMES.find(g => g.id === id);
+  if (!game) return;
+  APP.session.completed.push({
+    id: id,
+    name: game.name,
+    icon: game.icon,
+    finishedAt: Date.now(),
+  });
+  renderSummaryButton();
+}
+
+// placeholder — Task 9 會實作為條件顯示首頁的「把今天傳給家人」按鈕
+function renderSummaryButton() {
+  const btn = document.getElementById('summary-btn');
+  if (!btn) return;
+  if (APP.session.completed.length >= 1) {
+    btn.classList.add('show');
+  } else {
+    btn.classList.remove('show');
+  }
+}
+
 // ====================================================================
 // Difficulty modal
 // ====================================================================
@@ -1673,6 +1702,7 @@ function handleColorPick(el, opt) {
 function finishColorGame() {
   document.getElementById('color-complete').classList.add('show');
   TipBanner.show('color', 'complete');
+  recordCompletion('color');
   speak('全部完成了，你好厲害！');
 }
 
@@ -1720,6 +1750,7 @@ const WordGame = {
     if (this.round > this.total) {
       document.getElementById('word-complete').classList.add('show');
       TipBanner.show('word', 'complete');
+      recordCompletion('word');
       speak('全部認對了，你好厲害！');
       return;
     }
@@ -1810,6 +1841,7 @@ const ShapeGame = {
     if (this.round > this.total) {
       document.getElementById('shape-complete').classList.add('show');
       TipBanner.show('shape', 'complete');
+      recordCompletion('shape');
       speak('太厲害了，全部答對了！');
       return;
     }
@@ -1895,6 +1927,7 @@ const NumberGame = {
     if (this.round > this.total) {
       document.getElementById('number-complete').classList.add('show');
       TipBanner.show('number', 'complete');
+      recordCompletion('number');
       speak('數字都認對了，你好棒！');
       return;
     }
@@ -2005,6 +2038,7 @@ const ClassifyGame = {
     if (this.round > this.total) {
       document.getElementById('classify-complete').classList.add('show');
       TipBanner.show('classify', 'complete');
+      recordCompletion('classify');
       speak('分類都對了，好厲害！');
       return;
     }
@@ -2105,6 +2139,7 @@ const PictureGame = {
     if (this.round > this.total) {
       document.getElementById('picture-complete').classList.add('show');
       TipBanner.show('picture', 'complete');
+      recordCompletion('picture');
       speak('全部認出來了，好厲害！');
       return;
     }
@@ -2242,6 +2277,7 @@ const ClockGame = {
     if (this.round > this.total) {
       document.getElementById('clock-complete').classList.add('show');
       TipBanner.show('clock', 'complete');
+      recordCompletion('clock');
       speak('時間都認對了，好棒！');
       return;
     }
@@ -2346,6 +2382,7 @@ const MatchingGame = {
     if (this.round > this.total) {
       document.getElementById('matching-complete').classList.add('show');
       TipBanner.show('matching', 'complete');
+      recordCompletion('matching');
       speak('全部配對了，好厲害！');
       return;
     }
@@ -2478,6 +2515,7 @@ const SortingGame = {
     if (this.round > this.total) {
       document.getElementById('sorting-complete').classList.add('show');
       TipBanner.show('sorting', 'complete');
+      recordCompletion('sorting');
       speak('排序都對了，好棒！');
       return;
     }
@@ -2601,6 +2639,7 @@ const BreathingExercise = {
         document.getElementById('breathing-controls').innerHTML =
           '<button class="breathing-btn breathing-start" onclick="BreathingExercise.start()">再做一次</button>';
         TipBanner.show('breath', 'complete');
+        recordCompletion('breath');
         return;
       }
       if (this.currentCycle === 3) {
@@ -2660,6 +2699,7 @@ const EmotionGame = {
     if (this.round > this.total) {
       document.getElementById('emotion-complete').classList.add('show');
       TipBanner.show('emotion', 'complete');
+      recordCompletion('emotion');
       speak('全部答對了，你好厲害！');
       return;
     }
@@ -2733,6 +2773,7 @@ const CountingGame = {
     if (this.round > this.total) {
       document.getElementById('counting-complete').classList.add('show');
       TipBanner.show('counting', 'complete');
+      recordCompletion('counting');
       speak('數完了，數得很準確！');
       return;
     }
@@ -2817,6 +2858,7 @@ const DifferencesGame = {
     if (this.round > this.total) {
       document.getElementById('differences-complete').classList.add('show');
       TipBanner.show('differences', 'complete');
+      recordCompletion('differences');
       speak('全找到了，眼力真好！');
       return;
     }
@@ -2931,6 +2973,7 @@ const PairsGame = {
           setTimeout(() => {
             document.getElementById('pairs-complete').classList.add('show');
             TipBanner.show('pairs', 'complete');
+            recordCompletion('pairs');
           }, 1200);
         }, 400);
       }
@@ -2969,6 +3012,7 @@ const BodyGame = {
     if (this.round > this.total) {
       document.getElementById('body-complete').classList.add('show');
       TipBanner.show('body', 'complete');
+      recordCompletion('body');
       speak('答完了，身體部位都認識！');
       return;
     }
