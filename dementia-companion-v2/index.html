@@ -1232,6 +1232,20 @@
     </div>
   </div>
 
+  <!-- ===== Summary modal ===== -->
+  <div class="modal-backdrop" id="summary-modal">
+    <div class="modal">
+      <h2>今天的紀錄</h2>
+      <pre id="summary-text" style="background:#F5F5F5; color:#000; padding:20px; border-radius:12px; font-family:inherit; font-size:16px; white-space:pre-wrap; line-height:1.6; margin:0;"></pre>
+      <textarea id="summary-fallback" style="display:none; width:100%; padding:12px; font-family:inherit; font-size:14px; margin-top:12px; border-radius:8px; border:1px solid #CCC;" rows="8" readonly></textarea>
+      <div id="summary-hint" style="display:none; color:#CC6600; font-size:14px; margin-top:8px; text-align:center;">複製不了，請長按上方選取後複製</div>
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeSummaryModal()">我不要傳</button>
+        <button class="btn-ok" onclick="copySummary()">📋 複製傳 LINE</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ===== Elder name modal ===== -->
   <div class="modal-backdrop" id="elder-name-modal">
     <div class="modal">
@@ -1492,14 +1506,45 @@ function formatSummary(session, elderName, now) {
     + desc;
 }
 
-// Task 12 會補上完整預覽 modal,這裡先做到「沒名字先問」
 function showSummaryModal() {
   const name = getElderName();
   if (!name) {
     showElderNameModal(() => showSummaryModal());
     return;
   }
-  console.log('summary stub — name:', name, 'session:', APP.session.completed);
+  const text = formatSummary(APP.session, name, new Date());
+  document.getElementById('summary-text').textContent = text;
+  document.getElementById('summary-fallback').value = text;
+  document.getElementById('summary-fallback').style.display = 'none';
+  document.getElementById('summary-hint').style.display = 'none';
+  document.getElementById('summary-modal').classList.add('show');
+}
+
+function closeSummaryModal() {
+  document.getElementById('summary-modal').classList.remove('show');
+}
+
+function copySummary() {
+  const text = document.getElementById('summary-text').textContent;
+  const doFallback = () => {
+    const ta = document.getElementById('summary-fallback');
+    ta.style.display = 'block';
+    ta.focus();
+    ta.select();
+    document.getElementById('summary-hint').style.display = 'block';
+  };
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(
+      () => {
+        showFeedback('已複製，貼到 LINE 群就好');
+        setTimeout(closeSummaryModal, 1500);
+      },
+      doFallback
+    );
+  } else {
+    doFallback();
+  }
 }
 
 function showPicker() {
