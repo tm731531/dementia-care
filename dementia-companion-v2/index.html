@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>陪伴小幫手 v2 — 今天一起做這個好嗎？</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #000000;
+      --card: #FFFFFF;
+      --text: #FFFFFF;
+      --text-on-card: #000000;
+      --muted: #CCCCCC;
+      --accent: #FF6600;
+      --ok: #00AA00;
+      --warn: #CC6600;
+      --radius: 20px;
+      --shadow: 0 8px 24px rgba(255,255,255,0.06);
+    }
+
+    body {
+      font-family: "Microsoft JhengHei", "PingFang TC", "Noto Sans TC", sans-serif;
+      font-size: 20px;
+      line-height: 1.6;
+      color: var(--text);
+      background: var(--bg);
+      min-height: 100vh;
+      padding: 24px 16px 48px;
+    }
+
+    .screen { display: none; max-width: 720px; margin: 0 auto; }
+    .screen.active { display: block; }
+
+    /* ===== Top greeting ===== */
+    .greeting {
+      text-align: center;
+      padding: 16px 0 32px;
+    }
+    .greeting .hello {
+      font-size: 32px;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+    .greeting .date {
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    /* ===== Recommendation card ===== */
+    .recommend {
+      background: var(--card);
+      color: var(--text-on-card);
+      border-radius: var(--radius);
+      padding: 48px 32px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+    }
+    .recommend .icon {
+      font-size: 120px;
+      line-height: 1;
+      margin-bottom: 24px;
+      display: block;
+    }
+    .recommend .suggest {
+      font-size: 28px;
+      font-weight: 400;
+      margin-bottom: 8px;
+    }
+    .recommend .game-name {
+      font-size: 44px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .recommend .context {
+      color: #666;
+      font-size: 18px;
+      margin-bottom: 32px;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 24px 48px;
+      font-size: 28px;
+      font-weight: 700;
+      border-radius: var(--radius);
+      cursor: pointer;
+      min-height: 72px;
+      min-width: 240px;
+      transition: transform 0.15s;
+      font-family: inherit;
+    }
+    .btn-primary:hover { transform: scale(1.03); }
+    .btn-primary:active { transform: scale(0.97); }
+
+    /* ===== Secondary actions (smaller, less visual weight) ===== */
+    .secondary-row {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+    .btn-text {
+      background: transparent;
+      color: var(--muted);
+      border: none;
+      font-size: 18px;
+      padding: 12px 20px;
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      font-family: inherit;
+      min-height: 48px;
+    }
+    .btn-text:hover { color: var(--text); }
+
+    /* ===== Difficulty pill (collapsed) ===== */
+    .difficulty-pill {
+      margin-top: 48px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 18px;
+    }
+    .difficulty-pill button {
+      background: transparent;
+      border: 1px solid var(--muted);
+      color: var(--muted);
+      padding: 10px 20px;
+      border-radius: 24px;
+      margin-left: 12px;
+      cursor: pointer;
+      font-size: 16px;
+      font-family: inherit;
+      min-height: 44px;
+    }
+    .difficulty-pill button:hover { border-color: var(--text); color: var(--text); }
+
+    /* ===== Difficulty modal ===== */
+    .modal-backdrop {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .modal-backdrop.show { display: flex; }
+    .modal {
+      background: var(--card);
+      color: var(--text-on-card);
+      border-radius: var(--radius);
+      padding: 40px 32px;
+      max-width: 520px;
+      width: 100%;
+    }
+    .modal h2 { font-size: 28px; margin-bottom: 24px; text-align: center; }
+    .slider-wrap { padding: 16px 0; }
+    .slider-labels {
+      display: flex;
+      justify-content: space-between;
+      color: #666;
+      margin-bottom: 12px;
+      font-size: 16px;
+    }
+    input[type="range"] {
+      width: 100%;
+      height: 40px;
+      -webkit-appearance: none;
+      appearance: none;
+      background: linear-gradient(to right, #0066FF, #FF6600, #CC0000);
+      border-radius: 20px;
+      outline: none;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: white;
+      border: 4px solid var(--accent);
+      cursor: pointer;
+    }
+    .level-text {
+      text-align: center;
+      font-size: 28px;
+      font-weight: 700;
+      margin: 20px 0;
+    }
+    .modal-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; }
+    .btn-ok {
+      background: var(--accent); color: white; border: none;
+      padding: 16px 32px; border-radius: 16px; font-size: 20px;
+      cursor: pointer; font-family: inherit; min-height: 56px;
+    }
+    .btn-cancel {
+      background: #EEE; color: #333; border: none;
+      padding: 16px 32px; border-radius: 16px; font-size: 20px;
+      cursor: pointer; font-family: inherit; min-height: 56px;
+    }
+
+    /* ===== Game picker screen ===== */
+    .back-btn {
+      background: transparent;
+      border: 2px solid var(--muted);
+      color: var(--text);
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-size: 18px;
+      cursor: pointer;
+      font-family: inherit;
+      margin-bottom: 24px;
+      min-height: 48px;
+    }
+    .back-btn:hover { border-color: var(--text); }
+    .page-title {
+      font-size: 32px;
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .game-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    .game-card {
+      background: var(--card);
+      color: var(--text-on-card);
+      border-radius: var(--radius);
+      padding: 32px 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.15s;
+      min-height: 160px;
+      border: none;
+      font-family: inherit;
+    }
+    .game-card:hover { transform: translateY(-4px); }
+    .game-card .card-icon { font-size: 64px; display: block; margin-bottom: 12px; }
+    .game-card .card-name { font-size: 22px; font-weight: 700; }
+    .game-card.disabled { opacity: 0.3; cursor: not-allowed; }
+    .game-card.disabled:hover { transform: none; }
+
+    /* ===== Color game screen ===== */
+    .game-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 32px;
+    }
+    .game-header h2 { font-size: 28px; }
+    .progress-dots {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 32px;
+    }
+    .progress-dots .dot {
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: #444;
+    }
+    .progress-dots .dot.done { background: var(--ok); }
+    .progress-dots .dot.current { background: var(--accent); }
+
+    .target-name {
+      background: var(--card);
+      color: var(--text-on-card);
+      padding: 48px 24px;
+      border-radius: var(--radius);
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .target-name .label { font-size: 22px; color: #666; margin-bottom: 12px; }
+    .target-name .name { font-size: 72px; font-weight: 700; }
+
+    .color-options {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    .color-swatch {
+      height: 140px;
+      border-radius: var(--radius);
+      border: 4px solid transparent;
+      cursor: pointer;
+      transition: transform 0.15s, border-color 0.15s;
+      position: relative;
+    }
+    .color-swatch:hover { transform: scale(1.03); }
+    .color-swatch.correct { border-color: var(--ok); animation: glow 0.5s; }
+    .color-swatch.wrong { animation: shake 0.5s; }
+
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 0 0 rgba(0,170,0,0); }
+      50% { box-shadow: 0 0 40px rgba(0,170,0,0.8); }
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-10px); }
+      75% { transform: translateX(10px); }
+    }
+
+    /* ===== Feedback banner ===== */
+    .feedback {
+      position: fixed;
+      top: 20px; left: 50%;
+      transform: translateX(-50%) translateY(-120%);
+      background: var(--ok);
+      color: white;
+      padding: 20px 40px;
+      border-radius: 16px;
+      font-size: 28px;
+      font-weight: 700;
+      box-shadow: 0 8px 24px rgba(0,170,0,0.4);
+      z-index: 200;
+      transition: transform 0.3s;
+    }
+    .feedback.show { transform: translateX(-50%) translateY(0); }
+    .feedback.warn { background: var(--warn); }
+
+    /* ===== Complete screen ===== */
+    .complete {
+      background: var(--card);
+      color: var(--text-on-card);
+      border-radius: var(--radius);
+      padding: 64px 32px;
+      text-align: center;
+      margin-top: 48px;
+      display: none;
+    }
+    .complete.show { display: block; }
+    .complete .big { font-size: 120px; margin-bottom: 24px; }
+    .complete h3 { font-size: 36px; margin-bottom: 16px; }
+    .complete p { font-size: 22px; color: #666; margin-bottom: 32px; }
+
+    @media (max-width: 480px) {
+      body { padding: 16px 12px 32px; font-size: 18px; }
+      .recommend { padding: 32px 20px; }
+      .recommend .icon { font-size: 96px; }
+      .recommend .game-name { font-size: 36px; }
+      .btn-primary { padding: 20px 36px; font-size: 24px; }
+      .target-name .name { font-size: 56px; }
+      .color-swatch { height: 120px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== Home (recommendation) ===== -->
+  <div id="home" class="screen active">
+    <div class="greeting">
+      <div class="hello" id="greet-hello">您好</div>
+      <div class="date" id="greet-date"></div>
+    </div>
+
+    <div class="recommend">
+      <span class="icon" id="rec-icon">🎨</span>
+      <div class="suggest">今天來玩這個好嗎？</div>
+      <div class="game-name" id="rec-name">顏色辨識</div>
+      <div class="context" id="rec-context">放鬆一下眼睛，找找看顏色</div>
+      <button class="btn-primary" onclick="startRecommended()">好，開始 →</button>
+
+      <div class="secondary-row">
+        <button class="btn-text" onclick="nextRecommendation()">換一個</button>
+        <button class="btn-text" onclick="showPicker()">我想自己選</button>
+      </div>
+    </div>
+
+    <div class="difficulty-pill">
+      目前難度：<span id="level-label">中度 (4)</span>
+      <button onclick="showDifficultyModal()">調整</button>
+    </div>
+  </div>
+
+  <!-- ===== Game picker (fallback) ===== -->
+  <div id="picker" class="screen">
+    <button class="back-btn" onclick="goHome()">← 回首頁</button>
+    <h2 class="page-title">所有活動</h2>
+    <div class="game-grid" id="game-grid"></div>
+  </div>
+
+  <!-- ===== Color game ===== -->
+  <div id="game-color" class="screen">
+    <div class="game-header">
+      <button class="back-btn" onclick="goHome()">← 回首頁</button>
+      <h2>🎨 顏色辨識</h2>
+      <div style="width: 100px;"></div>
+    </div>
+    <div class="progress-dots" id="color-dots"></div>
+    <div class="target-name">
+      <div class="label">請找出這個顏色</div>
+      <div class="name" id="color-target"></div>
+    </div>
+    <div class="color-options" id="color-options"></div>
+
+    <div class="complete" id="color-complete">
+      <div class="big">🎉</div>
+      <h3>全部完成了！</h3>
+      <p>你好棒！一起做了 6 題</p>
+      <button class="btn-primary" onclick="goHome()">回首頁</button>
+    </div>
+  </div>
+
+  <!-- ===== Difficulty modal ===== -->
+  <div class="modal-backdrop" id="diff-modal">
+    <div class="modal">
+      <h2>調整認知程度</h2>
+      <div class="slider-wrap">
+        <div class="slider-labels">
+          <span>輕度 (1)</span>
+          <span>中度</span>
+          <span>重度 (8)</span>
+        </div>
+        <input type="range" min="1" max="8" value="4" id="level-slider">
+      </div>
+      <div class="level-text" id="modal-level-text">中度 (4)</div>
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeDifficultyModal()">取消</button>
+        <button class="btn-ok" onclick="saveDifficulty()">確定</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Feedback banner ===== -->
+  <div class="feedback" id="feedback"></div>
+
+<script>
+// ====================================================================
+// APP state & persistence
+// ====================================================================
+const APP = {
+  level: 4,
+  history: {},            // { gameId: lastPlayedTimestamp }
+  currentRec: null,       // current recommendation game
+  game: null,             // current game state
+};
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem('dementiaAppV2');
+    if (raw) {
+      const s = JSON.parse(raw);
+      APP.level = s.level || 4;
+      APP.history = s.history || {};
+    }
+  } catch (e) {}
+}
+function saveState() {
+  localStorage.setItem('dementiaAppV2', JSON.stringify({
+    level: APP.level,
+    history: APP.history,
+  }));
+}
+
+// ====================================================================
+// Game library
+// ====================================================================
+const GAMES = [
+  { id: 'color',    icon: '🎨', name: '顏色辨識', min: 2, max: 7, impl: true,  timeFit: ['afternoon'] },
+  { id: 'memory',   icon: '🃏', name: '翻牌配對', min: 1, max: 3, impl: false, timeFit: ['afternoon'] },
+  { id: 'chars',    icon: '📖', name: '認字遊戲', min: 1, max: 4, impl: false, timeFit: ['morning'] },
+  { id: 'breath',   icon: '🌬️', name: '呼吸練習', min: 5, max: 8, impl: false, timeFit: ['evening'] },
+  { id: 'objects',  icon: '🖼️', name: '看圖認物', min: 2, max: 7, impl: false, timeFit: ['morning'] },
+  { id: 'numbers',  icon: '🔢', name: '認數字',   min: 2, max: 7, impl: false, timeFit: ['morning'] },
+  { id: 'shapes',   icon: '🔷', name: '形狀配對', min: 2, max: 7, impl: false, timeFit: ['afternoon'] },
+  { id: 'emotion',  icon: '😊', name: '情緒辨識', min: 3, max: 8, impl: false, timeFit: ['afternoon', 'evening'] },
+];
+
+function getTimeOfDay() {
+  const h = new Date().getHours();
+  if (h < 11) return 'morning';
+  if (h < 18) return 'afternoon';
+  return 'evening';
+}
+
+function eligibleGames() {
+  return GAMES.filter(g => APP.level >= g.min && APP.level <= g.max);
+}
+
+// Score-based recommendation
+function scoreGame(g) {
+  const now = Date.now();
+  const last = APP.history[g.id] || 0;
+  const daysSince = last === 0 ? 999 : (now - last) / (1000 * 60 * 60 * 24);
+
+  let score = 0;
+  if (g.timeFit && g.timeFit.includes(getTimeOfDay())) score += 3;
+  if (daysSince > 7) score += 3;
+  else if (daysSince > 1) score += 2;
+  else if (daysSince > 0.25) score += 1;
+  score += Math.random() * 0.5; // tiebreaker
+  return score;
+}
+
+function pickRecommendation(exclude) {
+  const pool = eligibleGames().filter(g => !exclude || g.id !== exclude);
+  if (pool.length === 0) return null;
+  pool.sort((a, b) => scoreGame(b) - scoreGame(a));
+  return pool[0];
+}
+
+// ====================================================================
+// Screen navigation
+// ====================================================================
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function goHome() {
+  renderRecommendation();
+  showScreen('home');
+}
+
+function showPicker() {
+  renderGameGrid();
+  showScreen('picker');
+}
+
+// ====================================================================
+// Greeting
+// ====================================================================
+function renderGreeting() {
+  const now = new Date();
+  const h = now.getHours();
+  let hello = '您好';
+  if (h < 6) hello = '夜深了';
+  else if (h < 11) hello = '早安';
+  else if (h < 13) hello = '午安';
+  else if (h < 18) hello = '午後好';
+  else hello = '晚安';
+
+  document.getElementById('greet-hello').textContent = hello;
+
+  const days = ['日', '一', '二', '三', '四', '五', '六'];
+  const dateStr = `${now.getFullYear()}/${now.getMonth()+1}/${now.getDate()} 星期${days[now.getDay()]} ${now.toLocaleTimeString('zh-TW', {hour: '2-digit', minute: '2-digit'})}`;
+  document.getElementById('greet-date').textContent = dateStr;
+}
+
+// ====================================================================
+// Recommendation card
+// ====================================================================
+function renderRecommendation() {
+  const game = pickRecommendation();
+  APP.currentRec = game;
+  if (!game) {
+    document.getElementById('rec-name').textContent = '無可推薦';
+    return;
+  }
+  document.getElementById('rec-icon').textContent = game.icon;
+  document.getElementById('rec-name').textContent = game.name;
+
+  const last = APP.history[game.id];
+  let ctx;
+  if (!last) ctx = '還沒玩過，來試試？';
+  else {
+    const days = Math.floor((Date.now() - last) / (1000 * 60 * 60 * 24));
+    if (days === 0) ctx = '今天剛玩過，換個節奏也可以';
+    else if (days === 1) ctx = '昨天玩過了';
+    else ctx = `上次玩是 ${days} 天前`;
+  }
+  document.getElementById('rec-context').textContent = ctx;
+
+  document.getElementById('level-label').textContent = levelLabel(APP.level);
+}
+
+function nextRecommendation() {
+  const currentId = APP.currentRec && APP.currentRec.id;
+  const game = pickRecommendation(currentId);
+  if (!game) return;
+  APP.currentRec = game;
+  document.getElementById('rec-icon').textContent = game.icon;
+  document.getElementById('rec-name').textContent = game.name;
+
+  const last = APP.history[game.id];
+  let ctx;
+  if (!last) ctx = '還沒玩過，來試試？';
+  else {
+    const days = Math.floor((Date.now() - last) / (1000 * 60 * 60 * 24));
+    if (days === 0) ctx = '今天剛玩過';
+    else ctx = `上次玩是 ${days} 天前`;
+  }
+  document.getElementById('rec-context').textContent = ctx;
+}
+
+function startRecommended() {
+  if (!APP.currentRec) return;
+  startGame(APP.currentRec.id);
+}
+
+// ====================================================================
+// Game grid (fallback picker)
+// ====================================================================
+function renderGameGrid() {
+  const grid = document.getElementById('game-grid');
+  grid.innerHTML = '';
+  eligibleGames().forEach(g => {
+    const btn = document.createElement('button');
+    btn.className = 'game-card' + (g.impl ? '' : ' disabled');
+    btn.innerHTML = `<span class="card-icon">${g.icon}</span><span class="card-name">${g.name}</span>`;
+    if (g.impl) btn.onclick = () => startGame(g.id);
+    else btn.title = '尚未實作';
+    grid.appendChild(btn);
+  });
+}
+
+function startGame(id) {
+  APP.history[id] = Date.now();
+  saveState();
+  if (id === 'color') startColorGame();
+  else {
+    showFeedback('這個活動還在準備中 😊', true);
+  }
+}
+
+// ====================================================================
+// Difficulty modal
+// ====================================================================
+function levelLabel(lv) {
+  if (lv <= 2) return `輕度 (${lv})`;
+  if (lv <= 6) return `中度 (${lv})`;
+  return `重度 (${lv})`;
+}
+
+function showDifficultyModal() {
+  document.getElementById('level-slider').value = APP.level;
+  document.getElementById('modal-level-text').textContent = levelLabel(APP.level);
+  document.getElementById('diff-modal').classList.add('show');
+}
+function closeDifficultyModal() {
+  document.getElementById('diff-modal').classList.remove('show');
+}
+function saveDifficulty() {
+  APP.level = parseInt(document.getElementById('level-slider').value);
+  saveState();
+  closeDifficultyModal();
+  renderRecommendation();
+}
+document.getElementById('level-slider').addEventListener('input', (e) => {
+  document.getElementById('modal-level-text').textContent = levelLabel(parseInt(e.target.value));
+});
+
+// ====================================================================
+// Voice
+// ====================================================================
+function speak(text, onEnd) {
+  if (!('speechSynthesis' in window)) { onEnd && onEnd(); return; }
+  try { speechSynthesis.cancel(); } catch(e) {}
+  const clean = text.replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, '');
+  const u = new SpeechSynthesisUtterance(clean);
+  u.lang = 'zh-TW'; u.rate = 0.7; u.pitch = 1.1;
+  if (onEnd) u.onend = onEnd;
+  speechSynthesis.speak(u);
+}
+function speakSequence(texts, gap, onDone) {
+  if (texts.length === 0) { onDone && onDone(); return; }
+  speak(texts[0], () => {
+    setTimeout(() => speakSequence(texts.slice(1), gap, onDone), gap);
+  });
+}
+
+// ====================================================================
+// Feedback banner
+// ====================================================================
+function showFeedback(text, warn) {
+  const el = document.getElementById('feedback');
+  el.textContent = text;
+  el.className = 'feedback show' + (warn ? ' warn' : '');
+  setTimeout(() => { el.classList.remove('show'); }, 1500);
+}
+
+const PRAISES = ['太棒了！👏', '好厲害！🌟', '做得好！💪', '你真聰明！😊', '非常好！⭐'];
+function randomPraise() { return PRAISES[Math.floor(Math.random() * PRAISES.length)]; }
+
+// ====================================================================
+// Color game
+// ====================================================================
+const COLORS = [
+  { name: '紅色', hex: '#FF0000' },
+  { name: '藍色', hex: '#0066FF' },
+  { name: '黃色', hex: '#FFD700' },
+  { name: '綠色', hex: '#009900' },
+  { name: '橘色', hex: '#FF6600' },
+  { name: '紫色', hex: '#7700CC' },
+  { name: '粉紅色', hex: '#FF69B4' },
+  { name: '咖啡色', hex: '#8B4513' },
+  { name: '黑色', hex: '#000000' },
+  { name: '白色', hex: '#FFFFFF' },
+];
+
+function startColorGame() {
+  APP.game = {
+    type: 'color',
+    round: 0,
+    total: 6,
+    used: [],
+    currentAnswer: null,
+  };
+  document.getElementById('color-complete').classList.remove('show');
+  showScreen('game-color');
+  nextColorRound();
+}
+
+function optionCount() {
+  if (APP.level <= 2) return 6;
+  if (APP.level <= 6) return 6;
+  return 4;
+}
+
+function nextColorRound() {
+  const g = APP.game;
+  if (g.round >= g.total) { finishColorGame(); return; }
+
+  // pick unused target
+  const avail = COLORS.filter(c => !g.used.includes(c.name));
+  const pool = avail.length > 0 ? avail : COLORS;
+  const target = pool[Math.floor(Math.random() * pool.length)];
+  g.used.push(target.name);
+  g.currentAnswer = target;
+
+  // pick distractors
+  const n = optionCount();
+  const distractors = COLORS.filter(c => c.name !== target.name);
+  shuffle(distractors);
+  const options = [target, ...distractors.slice(0, n - 1)];
+  shuffle(options);
+
+  // render target
+  document.getElementById('color-target').textContent = target.name;
+
+  // render options
+  const grid = document.getElementById('color-options');
+  grid.innerHTML = '';
+  grid.style.gridTemplateColumns = (n <= 4) ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)';
+  options.forEach(opt => {
+    const sw = document.createElement('button');
+    sw.className = 'color-swatch';
+    sw.style.background = opt.hex;
+    if (opt.hex === '#FFFFFF') sw.style.border = '4px solid #CCC';
+    sw.onclick = () => handleColorPick(sw, opt);
+    if (APP.level >= 3 && APP.level <= 6) {
+      sw.onmouseenter = () => speak(opt.name);
+    }
+    grid.appendChild(sw);
+  });
+
+  // render progress dots
+  renderColorDots();
+
+  // speak based on level
+  const question = `請找出${target.name}`;
+  if (APP.level >= 7) {
+    const allNames = options.map(o => o.name);
+    speakSequence([question, ...allNames, question, ...allNames], 800);
+  } else {
+    speak(question);
+  }
+}
+
+function renderColorDots() {
+  const dots = document.getElementById('color-dots');
+  dots.innerHTML = '';
+  for (let i = 0; i < APP.game.total; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot';
+    if (i < APP.game.round) d.classList.add('done');
+    else if (i === APP.game.round) d.classList.add('current');
+    dots.appendChild(d);
+  }
+}
+
+function handleColorPick(el, opt) {
+  const g = APP.game;
+  if (opt.name === g.currentAnswer.name) {
+    el.classList.add('correct');
+    const praise = randomPraise();
+    showFeedback(praise);
+    speak(praise);
+    g.round++;
+    setTimeout(nextColorRound, 1400);
+  } else {
+    el.classList.add('wrong');
+    showFeedback('再試試看 😊', true);
+    speak('再試試看');
+    setTimeout(() => el.classList.remove('wrong'), 500);
+  }
+}
+
+function finishColorGame() {
+  document.getElementById('color-complete').classList.add('show');
+  speak('全部完成了，你好厲害！');
+}
+
+function shuffle(a) {
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+}
+
+// ====================================================================
+// Init
+// ====================================================================
+loadState();
+renderGreeting();
+renderRecommendation();
+setInterval(renderGreeting, 60000); // refresh time display
+</script>
+
+</body>
+</html>
