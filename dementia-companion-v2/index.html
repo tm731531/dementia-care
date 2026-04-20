@@ -1197,10 +1197,10 @@
     <div class="round-indicator" id="body-round"></div>
     <div class="body-layout">
       <div class="body-figure">
-        <div class="body-figure-img">🧍</div>
+        <div class="body-figure-img" id="body-emoji">👁️</div>
       </div>
       <div class="body-right">
-        <div class="body-question" id="body-question"></div>
+        <div class="body-question" id="body-question">這是身體哪個部位？</div>
         <div class="body-options" id="body-options"></div>
       </div>
     </div>
@@ -3205,8 +3205,22 @@ const PairsGame = {
 // Body game (身體部位)
 // ====================================================================
 const BodyGame = {
-  basicParts: ['眼睛','嘴巴','鼻子','耳朵'],
-  advancedParts: ['眼睛','嘴巴','鼻子','耳朵','肩膀','手','腳','頭髮'],
+  // 只收有明顯 emoji 的部位。肩膀/頭髮 emoji 不清楚,移除避免混淆。
+  basicParts: [
+    { emoji: '👁️', name: '眼睛' },
+    { emoji: '👄', name: '嘴巴' },
+    { emoji: '👃', name: '鼻子' },
+    { emoji: '👂', name: '耳朵' },
+  ],
+  advancedParts: [
+    { emoji: '👁️', name: '眼睛' },
+    { emoji: '👄', name: '嘴巴' },
+    { emoji: '👃', name: '鼻子' },
+    { emoji: '👂', name: '耳朵' },
+    { emoji: '✋', name: '手' },
+    { emoji: '🦶', name: '腳' },
+    { emoji: '🦷', name: '牙齒' },
+  ],
   round: 0,
   total: 8,
   used: [],
@@ -3235,16 +3249,17 @@ const BodyGame = {
     const pool = level >= 7 ? this.basicParts : this.advancedParts;
     const optCount = level >= 7 ? 2 : 4;
 
-    const available = pool.filter(p => !this.used.includes(p));
+    const available = pool.filter(p => !this.used.includes(p.name));
     const target = available.length ? randomFrom(available) : randomFrom(pool);
-    this.used.push(target);
+    this.used.push(target.name);
 
-    document.getElementById('body-question').textContent = '指出：' + target;
+    document.getElementById('body-emoji').textContent = target.emoji;
+    document.getElementById('body-question').textContent = '這是身體哪個部位？';
 
     let options = [target];
     while (options.length < Math.min(optCount, pool.length)) {
       const p = randomFrom(pool);
-      if (!options.includes(p)) options.push(p);
+      if (!options.find(o => o.name === p.name)) options.push(p);
     }
     shuffle(options);
 
@@ -3253,12 +3268,12 @@ const BodyGame = {
     options.forEach(part => {
       const btn = document.createElement('button');
       btn.className = 'body-btn';
-      btn.textContent = part;
-      btn.onclick = () => this.checkAnswer(part, target, btn);
+      btn.textContent = part.name;
+      btn.onclick = () => this.checkAnswer(part.name, target.name, btn);
       container.appendChild(btn);
     });
 
-    autoReadQuestion(`請指出：${target}`, options);
+    autoReadQuestion('這是身體哪個部位？', options.map(o => o.name));
     bindOptionHover('.body-btn');
   },
 
