@@ -207,6 +207,34 @@
       padding: 16px 32px; border-radius: 16px; font-size: 20px;
       cursor: pointer; font-family: inherit; min-height: 56px;
     }
+    .name-choices {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .btn-name-choice {
+      background: #000000;
+      color: #FFFFFF;
+      border: 2px solid #000000;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 22px;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 700;
+      min-height: 56px;
+    }
+    .btn-name-choice:hover {
+      background: #FFFFFF;
+      color: #000000;
+    }
+    .modal-sub {
+      color: #333;
+      font-size: 16px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
 
     /* ===== Game picker / generic game screens ===== */
     .back-btn {
@@ -1204,6 +1232,28 @@
     </div>
   </div>
 
+  <!-- ===== Elder name modal ===== -->
+  <div class="modal-backdrop" id="elder-name-modal">
+    <div class="modal">
+      <h2>請問要怎麼稱呼長輩？</h2>
+      <p class="modal-sub">之後的紀錄都會這樣寫</p>
+      <div class="name-choices">
+        <button class="btn-name-choice" onclick="saveElderName('爸')">爸</button>
+        <button class="btn-name-choice" onclick="saveElderName('媽')">媽</button>
+        <button class="btn-name-choice" onclick="saveElderName('奶奶')">奶奶</button>
+        <button class="btn-name-choice" onclick="saveElderName('外公')">外公</button>
+        <button class="btn-name-choice" onclick="saveElderName('外婆')">外婆</button>
+        <button class="btn-name-choice" onclick="saveElderName('阿公')">阿公</button>
+        <button class="btn-name-choice" onclick="saveElderName('阿嬤')">阿嬤</button>
+        <button class="btn-name-choice" onclick="saveElderName('爺爺')">爺爺</button>
+        <button class="btn-name-choice" onclick="promptCustomName()">其他...</button>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeElderNameModal()">取消</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ===== Feedback banner ===== -->
   <div class="feedback" id="feedback"></div>
 
@@ -1381,9 +1431,40 @@ function goHome() {
   showScreen('home');
 }
 
-// stub — Task 10 加稱呼設定,Task 12 加完整 modal
+function getElderName() {
+  try { return localStorage.getItem('elderName') || ''; } catch(e) { return ''; }
+}
+
+function showElderNameModal(onDone) {
+  APP.pendingAfterName = onDone || null;
+  document.getElementById('elder-name-modal').classList.add('show');
+}
+
+function closeElderNameModal() {
+  document.getElementById('elder-name-modal').classList.remove('show');
+  APP.pendingAfterName = null;
+}
+
+function saveElderName(name) {
+  try { localStorage.setItem('elderName', name); } catch(e) {}
+  const cb = APP.pendingAfterName;
+  closeElderNameModal();
+  if (cb) cb();
+}
+
+function promptCustomName() {
+  const name = window.prompt('請輸入稱呼（例如：阿公、阿嬤）');
+  if (name && name.trim()) saveElderName(name.trim());
+}
+
+// Task 12 會補上完整預覽 modal,這裡先做到「沒名字先問」
 function showSummaryModal() {
-  console.log('summary modal stub — session:', APP.session.completed);
+  const name = getElderName();
+  if (!name) {
+    showElderNameModal(() => showSummaryModal());
+    return;
+  }
+  console.log('summary stub — name:', name, 'session:', APP.session.completed);
 }
 
 function showPicker() {
