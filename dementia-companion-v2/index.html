@@ -1227,6 +1227,55 @@ const TIPS = {
   body:        { start: '聽聽看要指哪裡',                       correct: '對，就是那邊',               complete: '你身體的名稱都記得很清楚' },
 };
 
+// TipBanner 控制器：管理遊戲畫面上的陪伴指南
+const TipBanner = {
+  currentGame: null,
+  currentMoment: null,
+  collapseTimer: null,
+
+  // 在指定遊戲的 banner 元素顯示對應時機的提示，並在 5 秒後收起成 icon
+  show(gameId, moment) {
+    this.currentGame = gameId;
+    this.currentMoment = moment;
+
+    const tip = TIPS[gameId] && TIPS[gameId][moment];
+    if (!tip) return;
+
+    const banner = document.getElementById('tip-banner-' + gameId);
+    const icon = document.getElementById('tip-icon-' + gameId);
+    if (!banner || !icon) return;
+
+    banner.textContent = tip;
+    banner.classList.add('show');
+    icon.classList.remove('show');
+
+    clearTimeout(this.collapseTimer);
+    // complete 時機不自動收起，讓它一直顯示在完成畫面
+    if (moment !== 'complete') {
+      this.collapseTimer = setTimeout(() => this.collapse(), 5000);
+    }
+  },
+
+  collapse() {
+    if (!this.currentGame) return;
+    const banner = document.getElementById('tip-banner-' + this.currentGame);
+    const icon = document.getElementById('tip-icon-' + this.currentGame);
+    if (banner) banner.classList.remove('show');
+    if (icon) icon.classList.add('show');
+  },
+
+  expand() {
+    if (!this.currentGame || !this.currentMoment) return;
+    this.show(this.currentGame, this.currentMoment);
+  },
+
+  reset() {
+    this.currentGame = null;
+    this.currentMoment = null;
+    clearTimeout(this.collapseTimer);
+  },
+};
+
 function getTimeOfDay() {
   const h = new Date().getHours();
   if (h < 11) return 'morning';
