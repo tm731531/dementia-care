@@ -114,6 +114,148 @@ const DRINKS = [
     }
   },
   {
+    id: "quaker-chicken-essence-original",
+    name: "原味水解雞精",
+    brand: "桂格 Quaker",
+    volume_ml: 68,
+    image: "images/桂格原味水解雞精.jpg",
+    categories: ["雞精"],
+    nutrients: {
+      "熱量(kcal)": 22.8, "蛋白質(g)": 5.7, "脂肪(g)": 0, "飽和脂肪(g)": 0,
+      "反式脂肪(g)": 0, "膽固醇(mg)": 0, "碳水化合物(g)": 0, "糖(g)": 0,
+      "鈉(mg)": 66, "鉀(mg)": 158
+    }
+  },
+  {
+    id: "abbott-pediasure-vanilla",
+    name: "小安素均衡完整營養配方(香草)",
+    brand: "亞培 Abbott",
+    volume_ml: 225,
+    image: "images/亞培小安素PediaSure香草.jpg",
+    categories: ["嬰幼兒配方"],
+    nutrients: {
+      "熱量(kcal)": 226, "蛋白質(g)": 6.7, "脂肪(g)": 8.8, "飽和脂肪(g)": 2.0,
+      "反式脂肪(g)": 0, "碳水化合物(g)": 30.5, "糖(g)": 8.7,
+      "膳食纖維(g)": 0.7, "鈉(mg)": 225
+    }
+  },
+  {
+    id: "wyeth-s26-gold",
+    name: "S-26金愛兒樂",
+    brand: "惠氏 Wyeth",
+    volume_ml: 100,
+    image: "images/惠氏S-26金愛兒樂.jpg",
+    categories: ["嬰幼兒配方"],
+    nutrients: {
+      "熱量(kcal)": 66, "蛋白質(g)": 1.3, "脂肪(g)": 3.6, "飽和脂肪(g)": 1.4,
+      "反式脂肪(g)": 0, "碳水化合物(g)": 7.4, "糖(g)": 6.9,
+      "膳食纖維(g)": 0.5, "鈉(mg)": 17
+    }
+  },
+  {
+    id: "abbott-ensure-hmb-original",
+    name: "原味安素HMB均衡營養升級配方",
+    brand: "亞培 Abbott",
+    volume_ml: 237,
+    image: "images/亞培安素HMB.jpg",
+    categories: ["醫療營養品"],
+    nutrients: {
+      "熱量(kcal)": 262, "蛋白質(g)": 10.5, "脂肪(g)": 8.5, "飽和脂肪(g)": 2.1,
+      "反式脂肪(g)": 0, "碳水化合物(g)": 35.2, "糖(g)": 1.4,
+      "膳食纖維(g)": 0, "鈉(mg)": 223
+    }
+  },
+  {
+    id: "abbott-glucerna-powder-vanilla",
+    name: "葡勝納粉狀配方(香草)",
+    brand: "亞培 Abbott",
+    volume_ml: 237,
+    image: "images/亞培葡勝納粉狀香草.jpg",
+    categories: ["醫療營養品"],
+    nutrients: {
+      "熱量(kcal)": 226, "蛋白質(g)": 10.2, "脂肪(g)": 8.7, "飽和脂肪(g)": 1.1,
+      "反式脂肪(g)": 0, "碳水化合物(g)": 30, "糖(g)": 5.6,
+      "膳食纖維(g)": 4.4, "鈉(mg)": 264
+    }
+  },
+  {
+    id: "quaker-complete-original",
+    name: "完膳營養素(原味即飲)",
+    brand: "桂格 Quaker",
+    volume_ml: 237,
+    image: "images/桂格完膳營養素即飲.jpg",
+    categories: ["醫療營養品"],
+    nutrients: {
+      "熱量(kcal)": 235, "蛋白質(g)": 12, "脂肪(g)": 9, "飽和脂肪(g)": 2,
+      "反式脂肪(g)": 0, "碳水化合物(g)": 28.9, "糖(g)": 5.9,
+      "膳食纖維(g)": 5, "鈉(mg)": 161
+    }
+  },
+  {
+    id: "quaker-complete-diabetes",
+    name: "完膳營養素(糖尿病適用)",
+    brand: "桂格 Quaker",
+    volume_ml: 237,
+    image: "images/桂格完膳營養素糖尿病.jpg",
+    categories: ["醫療營養品"],
+    nutrients: {
+      "熱量(kcal)": 250, "蛋白質(g)": 12, "脂肪(g)": 9.4, "飽和脂肪(g)": 2.1,
+      "反式脂肪(g)": 0, "碳水化合物(g)": 32, "糖(g)": 1.8,
+      "膳食纖維(g)": 5.3, "鈉(mg)": 265
+    }
+  },
+  {
+    id: "redcow-agei-diabetes",
+    name: "愛基均衡及糖尿病配方營養素",
+    brand: "紅牛 Red Cow",
+    volume_ml: 237,
+    image: "images/紅牛愛基均衡糖尿病配方.jpg",
+    categories: ["醫療營養品"],
+    nutrients: {
+      "熱量(kcal)": 251, "蛋白質(g)": 11.5, "脂肪(g)": 9, "飽和脂肪(g)": 1.7,
+      "反式脂肪(g)": 0, "碳水化合物(g)": 33.2, "糖(g)": 12.4,
+      "膳食纖維(g)": 4.3, "鈉(mg)": 217
+    }
+  },
+  {
+    id: "protison-whey-original",
+    name: "補體素優蛋白(原味)",
+    brand: "補體素 Protison / SMAD",
+    volume_ml: 225,
+    image: "images/補體素Protison優蛋白.jpg",
+    categories: ["高蛋白補充品"],
+    nutrients: {
+      "熱量(kcal)": 88.6, "蛋白質(g)": 13, "脂肪(g)": 0.8, "飽和脂肪(g)": 0.6,
+      "反式脂肪(g)": 0, "碳水化合物(g)": 7.4, "糖(g)": 6.3, "鈉(mg)": 60
+    }
+  },
+  {
+    id: "redcow-gold-protein",
+    name: "康健黃金蛋白高鈣營養配方",
+    brand: "紅牛 Red Cow",
+    volume_ml: 200,
+    image: "images/紅牛康健黃金蛋白.jpg",
+    categories: ["高蛋白補充品"],
+    nutrients: {
+      "熱量(kcal)": 151, "蛋白質(g)": 17.8, "脂肪(g)": 2.2, "飽和脂肪(g)": 1.3,
+      "反式脂肪(g)": 0, "碳水化合物(g)": 16, "糖(g)": 8.8,
+      "膳食纖維(g)": 1.8, "鈉(mg)": 76, "鈣(mg)": 672
+    }
+  },
+  {
+    id: "sentosa-nutri-supplement",
+    name: "三多補体健營養補充食品",
+    brand: "三多 SENTOSA",
+    volume_ml: 225,
+    image: "images/三多補体健SENTOSA.jpg",
+    categories: ["高蛋白補充品"],
+    nutrients: {
+      "熱量(kcal)": 97, "蛋白質(g)": 15.1, "脂肪(g)": 0.8, "飽和脂肪(g)": 0.5,
+      "反式脂肪(g)": 0, "碳水化合物(g)": 7.4, "糖(g)": 4.8,
+      "鈉(mg)": 55, "鈣(mg)": 263
+    }
+  },
+  {
     id: "abbott-ensure-ex-220",
     name: "安素EX即飲配方(原味)",
     brand: "亞培 Abbott",
