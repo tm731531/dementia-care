@@ -931,7 +931,7 @@
     <div class="tip-banner" id="tip-banner-shape" onclick="TipBanner.collapse()"></div>
     <div class="round-indicator" id="shape-round"></div>
     <div class="shape-display-box">
-      <div class="label">請找到一樣的！</div>
+      <div class="label">請找出相同的形狀（顏色可以不同）</div>
       <div class="shape-display" id="shape-target"></div>
     </div>
     <div class="shape-options" id="shape-options"></div>
@@ -2016,9 +2016,14 @@ const ShapeGame = {
     { name: '菱形', char: '◆' },
     { name: '心形', char: '♥' },
   ],
+  // 高對比不同色系,不只紅色(原本全紅系會讓兩個同形狀不同紅色看起來一樣)
   palette: [
-    '#FF0000', '#8B0000', '#FF4500', '#FF007F',
-    '#722F37', '#FF6F61', '#CB4154', '#FF1493',
+    '#FF0000', // 紅
+    '#0066FF', // 藍
+    '#FFCC00', // 黃
+    '#00AA00', // 綠
+    '#FF6600', // 橘
+    '#9900CC', // 紫
   ],
   round: 0,
   total: 8,
@@ -2057,13 +2062,24 @@ const ShapeGame = {
     document.getElementById('shape-target').innerHTML =
       `<span style="color:${targetColor}">${targetShape.char}</span>`;
 
+    // 干擾選項必須是不同形狀(這是形狀遊戲,不是色感測試)
+    // 每個選項一個獨立顏色,避免玩家誤以為「找顏色」
+    let usedShapes = [targetShape.char];
     let usedInRound = [targetColor];
     let options = [{ shape: targetShape, color: targetColor, isCorrect: true }];
-    while (options.length < 4) {
-      const s = randomFrom(shapePool);
-      const c = randomFrom(this.palette);
-      if (usedInRound.includes(c)) continue;
-      if (s.char === targetShape.char && c === targetColor) continue;
+    const otherShapes = shapePool.filter(s => s.char !== targetShape.char);
+    shuffle(otherShapes);
+    let safety = 0;
+    while (options.length < 4 && safety < 50) {
+      safety++;
+      // 先從還沒用過的形狀挑
+      const availShapes = otherShapes.filter(s => !usedShapes.includes(s.char));
+      if (availShapes.length === 0) break; // 形狀池不夠,直接結束
+      const s = randomFrom(availShapes);
+      const availColors = this.palette.filter(c => !usedInRound.includes(c));
+      if (availColors.length === 0) break;
+      const c = randomFrom(availColors);
+      usedShapes.push(s.char);
       usedInRound.push(c);
       options.push({ shape: s, color: c, isCorrect: false });
     }
