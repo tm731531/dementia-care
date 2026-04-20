@@ -1607,6 +1607,7 @@ function startColorGame() {
   };
   document.getElementById('color-complete').classList.remove('show');
   showScreen('game-color');
+  TipBanner.show('color', 'start');
   nextColorRound();
 }
 
@@ -1708,6 +1709,7 @@ const WordGame = {
     this.usedGroups = [];
     document.getElementById('word-complete').classList.remove('show');
     showScreen('game-word');
+    TipBanner.show('word', 'start');
     this.nextRound();
   },
 
@@ -1795,6 +1797,7 @@ const ShapeGame = {
     this.usedColors = [];
     document.getElementById('shape-complete').classList.remove('show');
     showScreen('game-shape');
+    TipBanner.show('shape', 'start');
     this.nextRound();
   },
 
@@ -1877,6 +1880,7 @@ const NumberGame = {
     this.usedNumbers = [];
     document.getElementById('number-complete').classList.remove('show');
     showScreen('game-number');
+    TipBanner.show('number', 'start');
     this.nextRound();
   },
 
@@ -1984,6 +1988,7 @@ const ClassifyGame = {
     this.usedItems = [];
     document.getElementById('classify-complete').classList.remove('show');
     showScreen('game-classify');
+    TipBanner.show('classify', 'start');
     this.nextRound();
   },
 
@@ -2081,6 +2086,7 @@ const PictureGame = {
     this.usedIdx = [];
     document.getElementById('picture-complete').classList.remove('show');
     showScreen('game-picture');
+    TipBanner.show('picture', 'start');
     this.nextRound();
   },
 
@@ -2159,6 +2165,7 @@ const ClockGame = {
     this.usedHours = [];
     document.getElementById('clock-complete').classList.remove('show');
     showScreen('game-clock');
+    TipBanner.show('clock', 'start');
     this.nextRound();
   },
 
@@ -2316,6 +2323,7 @@ const MatchingGame = {
     this.usedIndices = [];
     document.getElementById('matching-complete').classList.remove('show');
     showScreen('game-matching');
+    TipBanner.show('matching', 'start');
     this.nextRound();
   },
 
@@ -2445,6 +2453,7 @@ const SortingGame = {
     this.usedGroups = [];
     document.getElementById('sorting-complete').classList.remove('show');
     showScreen('game-sorting');
+    TipBanner.show('sorting', 'start');
     this.nextRound();
   },
 
@@ -2512,6 +2521,7 @@ const SortingGame = {
 // ====================================================================
 function startBreathGame() {
   showScreen('game-breath');
+  TipBanner.show('breath', 'start');
   BreathingExercise.reset();
 }
 
@@ -2619,6 +2629,7 @@ const EmotionGame = {
     this.used = [];
     document.getElementById('emotion-complete').classList.remove('show');
     showScreen('game-emotion');
+    TipBanner.show('emotion', 'start');
     this.nextRound();
   },
 
@@ -2689,6 +2700,7 @@ const CountingGame = {
     this.round = 0;
     document.getElementById('counting-complete').classList.remove('show');
     showScreen('game-counting');
+    TipBanner.show('counting', 'start');
     this.nextRound();
   },
 
@@ -2770,6 +2782,7 @@ const DifferencesGame = {
     this.round = 0;
     document.getElementById('differences-complete').classList.remove('show');
     showScreen('game-differences');
+    TipBanner.show('differences', 'start');
     this.nextRound();
   },
 
@@ -2833,6 +2846,7 @@ const PairsGame = {
   init() {
     document.getElementById('pairs-complete').classList.remove('show');
     showScreen('game-pairs');
+    TipBanner.show('pairs', 'start');
     this.firstCard = null;
     this.lock = false;
     this.matched = 0;
@@ -2916,6 +2930,7 @@ const BodyGame = {
     this.used = [];
     document.getElementById('body-complete').classList.remove('show');
     showScreen('game-body');
+    TipBanner.show('body', 'start');
     this.nextRound();
   },
 
