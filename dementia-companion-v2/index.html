@@ -1160,6 +1160,26 @@ const GAMES = [
   { id: 'body',        icon: '🖐️', name: '身體部位', min: 6, max: 8, impl: true, timeFit: ['afternoon'] },
 ];
 
+// 45 條陪伴提示：15 遊戲 × 3 時機（start / correct / complete）
+// breath 特例：correct 用 mid（中段顯示），因為呼吸練習沒有「答對」概念，回饋要在做到一半時給
+const TIPS = {
+  color:       { start: '哇，好多顏色，你以前最愛穿什麼顏色？', correct: '對！你好厲害',            complete: '今天陪你看顏色，我也覺得很漂亮' },
+  pairs:       { start: '這個要記一下，慢慢翻沒關係',           correct: '哎喲！你記得耶',            complete: '你記憶力真好' },
+  word:        { start: '這個字你以前就認得吧',                 correct: '對啦，這個字你小時候就會了', complete: '今天還認這麼多字，真棒' },
+  differences: { start: '看看這兩排哪一個不一樣？',              correct: '你眼睛真利！',               complete: '你觀察力比我還好' },
+  clock:       { start: '以前上學都要看這個呢',                 correct: '你看時間很準',              complete: '看時鐘不難吧？' },
+  matching:    { start: '看看哪個配哪個，慢慢來',                correct: '對！就是這一對',            complete: '都配對完了，好厲害' },
+  shape:       { start: '看看是什麼形狀',                       correct: '對啦，一樣的形狀',           complete: '這些形狀你都認得' },
+  picture:     { start: '這個你認得吧，以前家裡可能有',          correct: '沒錯！',                     complete: '這些東西你都認得好熟' },
+  number:      { start: '以前買菜都要算錢的',                   correct: '對，就是這個數字',           complete: '數字你還是那麼清楚' },
+  sorting:     { start: '從小到大排排看',                       correct: '對！你排得真好',             complete: '你很會排喔' },
+  classify:    { start: '想想這個是哪一類',                     correct: '沒錯，就是那邊',             complete: '分類對你來說不難吧' },
+  counting:    { start: '一起數數看有幾個',                     correct: '對，就是這麼多個',           complete: '數得很準' },
+  emotion:     { start: '看看他的表情是怎麼樣',                 correct: '對，他看起來就是這樣',       complete: '你很會看人的心情' },
+  breath:      { start: '我們一起慢慢呼吸',                     mid:     '吸氣...吐氣...不急',        complete: '輕輕摸摸他的手，這樣就好' },
+  body:        { start: '聽聽看要指哪裡',                       correct: '對，就是那邊',               complete: '你身體的名稱都記得很清楚' },
+};
+
 function getTimeOfDay() {
   const h = new Date().getHours();
   if (h < 11) return 'morning';
