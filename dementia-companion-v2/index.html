@@ -1672,6 +1672,7 @@ function handleColorPick(el, opt) {
 
 function finishColorGame() {
   document.getElementById('color-complete').classList.add('show');
+  TipBanner.show('color', 'complete');
   speak('全部完成了，你好厲害！');
 }
 
@@ -1718,6 +1719,7 @@ const WordGame = {
     this.round++;
     if (this.round > this.total) {
       document.getElementById('word-complete').classList.add('show');
+      TipBanner.show('word', 'complete');
       speak('全部認對了，你好厲害！');
       return;
     }
@@ -1807,6 +1809,7 @@ const ShapeGame = {
     this.round++;
     if (this.round > this.total) {
       document.getElementById('shape-complete').classList.add('show');
+      TipBanner.show('shape', 'complete');
       speak('太厲害了，全部答對了！');
       return;
     }
@@ -1891,6 +1894,7 @@ const NumberGame = {
     this.round++;
     if (this.round > this.total) {
       document.getElementById('number-complete').classList.add('show');
+      TipBanner.show('number', 'complete');
       speak('數字都認對了，你好棒！');
       return;
     }
@@ -2000,6 +2004,7 @@ const ClassifyGame = {
     this.round++;
     if (this.round > this.total) {
       document.getElementById('classify-complete').classList.add('show');
+      TipBanner.show('classify', 'complete');
       speak('分類都對了，好厲害！');
       return;
     }
@@ -2099,6 +2104,7 @@ const PictureGame = {
     this.round++;
     if (this.round > this.total) {
       document.getElementById('picture-complete').classList.add('show');
+      TipBanner.show('picture', 'complete');
       speak('全部認出來了，好厲害！');
       return;
     }
@@ -2235,6 +2241,7 @@ const ClockGame = {
     this.round++;
     if (this.round > this.total) {
       document.getElementById('clock-complete').classList.add('show');
+      TipBanner.show('clock', 'complete');
       speak('時間都認對了，好棒！');
       return;
     }
@@ -2338,6 +2345,7 @@ const MatchingGame = {
     this.round++;
     if (this.round > this.total) {
       document.getElementById('matching-complete').classList.add('show');
+      TipBanner.show('matching', 'complete');
       speak('全部配對了，好厲害！');
       return;
     }
@@ -2469,6 +2477,7 @@ const SortingGame = {
     this.round++;
     if (this.round > this.total) {
       document.getElementById('sorting-complete').classList.add('show');
+      TipBanner.show('sorting', 'complete');
       speak('排序都對了，好棒！');
       return;
     }
@@ -2591,7 +2600,11 @@ const BreathingExercise = {
         speak('做得很好，休息一下');
         document.getElementById('breathing-controls').innerHTML =
           '<button class="breathing-btn breathing-start" onclick="BreathingExercise.start()">再做一次</button>';
+        TipBanner.show('breath', 'complete');
         return;
+      }
+      if (this.currentCycle === 3) {
+        TipBanner.show('breath', 'mid');
       }
       progress.textContent = `第 ${this.currentCycle} / ${this.totalCycles} 次`;
       this.phase = 'inhale';
@@ -2646,6 +2659,7 @@ const EmotionGame = {
     this.round++;
     if (this.round > this.total) {
       document.getElementById('emotion-complete').classList.add('show');
+      TipBanner.show('emotion', 'complete');
       speak('全部答對了，你好厲害！');
       return;
     }
@@ -2718,6 +2732,7 @@ const CountingGame = {
     this.round++;
     if (this.round > this.total) {
       document.getElementById('counting-complete').classList.add('show');
+      TipBanner.show('counting', 'complete');
       speak('數完了，數得很準確！');
       return;
     }
@@ -2801,6 +2816,7 @@ const DifferencesGame = {
     this.round++;
     if (this.round > this.total) {
       document.getElementById('differences-complete').classList.add('show');
+      TipBanner.show('differences', 'complete');
       speak('全找到了，眼力真好！');
       return;
     }
@@ -2914,6 +2930,7 @@ const PairsGame = {
           showFeedback(p); speak('全部配對完成！記憶力真好');
           setTimeout(() => {
             document.getElementById('pairs-complete').classList.add('show');
+            TipBanner.show('pairs', 'complete');
           }, 1200);
         }, 400);
       }
@@ -2951,6 +2968,7 @@ const BodyGame = {
     this.round++;
     if (this.round > this.total) {
       document.getElementById('body-complete').classList.add('show');
+      TipBanner.show('body', 'complete');
       speak('答完了，身體部位都認識！');
       return;
     }
