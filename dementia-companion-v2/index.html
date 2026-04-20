@@ -284,6 +284,53 @@
     }
     .feedback.warn { background: var(--warn); }
 
+    /* ===== Tip banner（照護者陪伴指南） ===== */
+    .tip-banner {
+      background: #333333;
+      color: #FFFFFF;
+      padding: 16px 24px;
+      border-radius: 12px;
+      font-size: 18px;
+      line-height: 1.5;
+      margin-bottom: 16px;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: opacity 0.3s, transform 0.3s;
+      pointer-events: none;
+      display: none;
+    }
+    .tip-banner.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+      display: block;
+    }
+    .tip-banner::before {
+      content: '💬 ';
+    }
+    .tip-icon {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #333333;
+      border: 2px solid #FFFFFF;
+      color: #FFFFFF;
+      font-size: 22px;
+      line-height: 40px;
+      text-align: center;
+      cursor: pointer;
+      font-family: inherit;
+      padding: 0;
+      z-index: 50;
+      display: none;
+    }
+    .tip-icon.show { display: block; }
+    .tip-icon:hover { background: #555555; }
+    .screen { position: relative; } /* 讓 tip-icon 的 absolute 定位錨定在 screen */
+
     /* ===== Complete screen ===== */
     .complete {
       background: var(--card);
