@@ -605,9 +605,12 @@
 
   <!-- 回診倒數 -->
   <div class="countdown-card" id="countdown-card">
-    <div class="countdown-label">下次回診</div>
-    <div class="countdown-main" id="countdown-main">—</div>
-    <button class="action-btn" onclick="openApptModal()">改日期</button>
+    <div style="flex:1; min-width:0;">
+      <div class="countdown-label">下次回診</div>
+      <div class="countdown-main" id="countdown-main">—</div>
+      <div id="countdown-sub" style="font-size:11px; opacity:0.85; margin-top:4px;"></div>
+    </div>
+    <button class="action-btn" onclick="openApptModal()">管理</button>
   </div>
 
   <!-- 異常趨勢 -->
@@ -658,17 +661,20 @@
     <button class="record-btn" id="record-btn" onclick="toggleRecording()" aria-label="錄音">🎤</button>
   </div>
 
-  <!-- 回診日期設定 modal -->
+  <!-- 回診清單管理 modal -->
   <div class="modal-backdrop" id="appt-modal">
     <div class="modal">
       <button class="modal-close" onclick="closeApptModal()">×</button>
-      <h3>下次回診是哪天？</h3>
-      <p style="color:var(--text-muted); font-size:14px; margin-bottom:12px;">設定後會用來倒數、並把「上次回診到現在」的狀況跟「上個月」做對比</p>
-      <input type="date" id="appt-date-input" style="width:100%; padding:12px; border:1px solid var(--border); border-radius:8px; font-size:16px; font-family:inherit;">
-      <div style="display:flex; gap:8px; margin-top:16px;">
-        <button onclick="clearAppt()" style="flex:1; padding:12px; border:1px solid var(--border); background:white; border-radius:8px; font-family:inherit; cursor:pointer;">清除</button>
-        <button onclick="saveAppt()" style="flex:2; padding:12px; background:var(--primary); color:white; border:none; border-radius:8px; font-family:inherit; font-weight:600; cursor:pointer;">儲存</button>
+      <h3>回診日期</h3>
+      <p style="color:var(--text-muted); font-size:14px; margin-bottom:12px;">把每次回診日都加進來,系統會用最近兩次回診當比對窗口(上次到今天 vs 上上次到上次)</p>
+
+      <div style="display:flex; gap:8px; margin-bottom:16px;">
+        <input type="date" id="appt-date-input" style="flex:1; padding:12px; border:1px solid var(--border); border-radius:8px; font-size:16px; font-family:inherit;">
+        <button onclick="addVisit()" style="padding:12px 18px; background:var(--primary); color:white; border:none; border-radius:8px; font-family:inherit; font-weight:600; cursor:pointer;">加入</button>
       </div>
+
+      <div style="font-size:13px; color:var(--text-muted); margin-bottom:6px;">已記錄的回診</div>
+      <div id="visit-list"></div>
     </div>
   </div>
 
@@ -698,7 +704,8 @@ const CONFIG = {
   LS_QUESTIONS: 'clinicQuestions',
   LS_RECORDINGS: 'clinicRecordings',
   LS_CACHE: 'clinicMomDataCache',
-  LS_NEXT_APPT: 'clinicNextAppt',  // 'YYYY-MM-DD'
+  LS_VISITS: 'clinicVisits',       // JSON array of 'YYYY-MM-DD' 排序
+  LS_NEXT_APPT: 'clinicNextAppt',  // 舊 schema,會自動 migrate 進 LS_VISITS
 };
 
 // 症狀 pattern — 分類 + regex + 排除詞(解決「打」抓到「打招呼」的誤判)
@@ -912,61 +919,164 @@ function renderSummary() {
 }
 
 // =============================================================
-// 回診倒數
+// 回診清單(source of truth 一個 sorted array)
 // =============================================================
-function getNextAppt() {
-  try { return localStorage.getItem(CONFIG.LS_NEXT_APPT) || ''; } catch { return ''; }
+function loadVisits() {
+  try {
+    const raw = localStorage.getItem(CONFIG.LS_VISITS);
+    if (!raw) return [];
+    const arr = JSON.parse(raw);
+    return Array.isArray(arr) ? arr.filter(d => typeof d === 'string').sort() : [];
+  } catch { return []; }
 }
+function saveVisits(arr) {
+  const clean = [...new Set(arr.filter(d => d && /^\d{4}-\d{2}-\d{2}$/.test(d)))].sort();
+  localStorage.setItem(CONFIG.LS_VISITS, JSON.stringify(clean));
+}
+// 一次性 migrate 舊的 LS_NEXT_APPT 進 LS_VISITS
+function migrateOldApptKey() {
+  try {
+    const old = localStorage.getItem(CONFIG.LS_NEXT_APPT);
+    if (old && /^\d{4}-\d{2}-\d{2}$/.test(old)) {
+      const visits = loadVisits();
+      if (!visits.includes(old)) saveVisits([...visits, old]);
+      localStorage.removeItem(CONFIG.LS_NEXT_APPT);
+    }
+  } catch {}
+}
+
+function todayStr() { return new Date().toISOString().split('T')[0]; }
+function getNextVisit() {
+  const t = todayStr();
+  return loadVisits().find(d => d >= t) || null;
+}
+function getPastVisits() {
+  const t = todayStr();
+  return loadVisits().filter(d => d < t).reverse(); // 最近的在前
+}
+
+// =============================================================
+// 回診倒數 UI
+// =============================================================
 function renderCountdown() {
-  const iso = getNextAppt();
+  const next = getNextVisit();
+  const past = getPastVisits();
   const cardEl = document.getElementById('countdown-card');
   const mainEl = document.getElementById('countdown-main');
+  const subEl  = document.getElementById('countdown-sub');
   cardEl.classList.remove('urgent', 'overdue');
-  if (!iso) {
-    mainEl.textContent = '還沒設定,按「改日期」輸入';
+
+  if (!next && past.length === 0) {
+    mainEl.textContent = '還沒記錄回診日,按「管理」輸入';
+    if (subEl) subEl.textContent = '';
     return;
   }
+
   const today = new Date();
   today.setHours(0,0,0,0);
-  const appt = new Date(iso + 'T00:00:00');
-  const days = Math.round((appt - today) / 86400000);
   const days_of_week = ['日','一','二','三','四','五','六'];
-  const dateStr = `${appt.getMonth()+1}/${appt.getDate()} 週${days_of_week[appt.getDay()]}`;
-  if (days < 0) {
-    mainEl.textContent = `已過 ${-days} 天 · ${dateStr}`;
-    cardEl.classList.add('overdue');
-  } else if (days === 0) {
-    mainEl.textContent = `今天! · ${dateStr}`;
-    cardEl.classList.add('urgent');
-  } else if (days === 1) {
-    mainEl.textContent = `明天 · ${dateStr}`;
-    cardEl.classList.add('urgent');
-  } else if (days <= 3) {
-    mainEl.textContent = `${days} 天後 · ${dateStr}`;
-    cardEl.classList.add('urgent');
+  const fmt = iso => {
+    const d = new Date(iso + 'T00:00:00');
+    return `${d.getMonth()+1}/${d.getDate()} 週${days_of_week[d.getDay()]}`;
+  };
+
+  // 主文字:下次回診
+  if (next) {
+    const appt = new Date(next + 'T00:00:00');
+    const days = Math.round((appt - today) / 86400000);
+    const dateStr = fmt(next);
+    if (days === 0) { mainEl.textContent = `今天! · ${dateStr}`; cardEl.classList.add('urgent'); }
+    else if (days === 1) { mainEl.textContent = `明天 · ${dateStr}`; cardEl.classList.add('urgent'); }
+    else if (days <= 3) { mainEl.textContent = `${days} 天後 · ${dateStr}`; cardEl.classList.add('urgent'); }
+    else { mainEl.textContent = `${days} 天後 · ${dateStr}`; }
   } else {
-    mainEl.textContent = `${days} 天後 · ${dateStr}`;
+    mainEl.textContent = '下次回診還沒設';
+    cardEl.classList.add('overdue');
+  }
+
+  // 副文字:上次回診多久前 + 比對窗口
+  if (subEl) {
+    if (past.length > 0) {
+      const last = past[0];
+      const daysSinceLast = Math.round((today - new Date(last + 'T00:00:00')) / 86400000);
+      const win = computeWindows();
+      let extra = '';
+      if (win) extra = ` · 比對:${win.recentFrom.slice(5)}→今天 vs ${win.baselineFrom.slice(5)}→${win.baselineTo.slice(5)}`;
+      subEl.textContent = `上次回診 ${fmt(last)}(${daysSinceLast} 天前)${extra}`;
+    } else {
+      subEl.textContent = '還沒記錄上次回診,anomaly 比對用近 14 天 vs 之前';
+    }
   }
 }
+
+// 比對窗口:用最近兩次回診切(recent = 上次回診→今天,baseline = 上上次回診→上次回診)
+// 沒夠的 past → null(caller 用預設的近 14 天 vs 之前)
+function computeWindows() {
+  const past = getPastVisits();
+  if (past.length === 0) return null;
+  const recentFrom = past[0];
+  const recentTo = todayStr();
+  if (past.length === 1) {
+    // 只有一次:baseline 從 1/1 到上次回診
+    return { recentFrom, recentTo, baselineFrom: '2026-01-01', baselineTo: recentFrom };
+  }
+  return { recentFrom, recentTo, baselineFrom: past[1], baselineTo: recentFrom };
+}
+
+// =============================================================
+// 回診清單管理 modal
+// =============================================================
 function openApptModal() {
-  document.getElementById('appt-date-input').value = getNextAppt();
+  renderVisitList();
+  document.getElementById('appt-date-input').value = '';
   document.getElementById('appt-modal').classList.add('show');
 }
 function closeApptModal() {
   document.getElementById('appt-modal').classList.remove('show');
 }
-function saveAppt() {
+function renderVisitList() {
+  const el = document.getElementById('visit-list');
+  if (!el) return;
+  const visits = loadVisits();
+  const t = todayStr();
+  if (visits.length === 0) {
+    el.innerHTML = '<div class="empty">還沒記錄任何回診日</div>';
+    return;
+  }
+  // 倒序:新→舊
+  el.innerHTML = visits.slice().reverse().map(d => {
+    const days_of_week = ['日','一','二','三','四','五','六'];
+    const dt = new Date(d + 'T00:00:00');
+    const label = `${dt.getMonth()+1}/${dt.getDate()} 週${days_of_week[dt.getDay()]}`;
+    const isFuture = d >= t;
+    const tag = isFuture ? '<span style="color:var(--primary); font-weight:600;">下次</span>' : '<span style="color:var(--text-muted);">已過</span>';
+    return `
+      <div style="display:flex; align-items:center; gap:8px; padding:8px 0; border-bottom:1px dashed var(--border);">
+        <div style="flex:1;">
+          <span style="font-weight:600;">${label}</span>
+          <span style="font-size:12px; margin-left:6px;">${tag}</span>
+        </div>
+        <button style="background:transparent; border:none; color:var(--danger); cursor:pointer; font-size:18px;" onclick="deleteVisit('${d}')">×</button>
+      </div>
+    `;
+  }).join('');
+}
+function addVisit() {
   const v = document.getElementById('appt-date-input').value;
   if (!v) { showToast('請先選日期'); return; }
-  try { localStorage.setItem(CONFIG.LS_NEXT_APPT, v); } catch {}
-  closeApptModal();
+  const visits = loadVisits();
+  if (visits.includes(v)) { showToast('這天已經加過了'); return; }
+  saveVisits([...visits, v]);
+  document.getElementById('appt-date-input').value = '';
+  renderVisitList();
   renderCountdown();
-  renderAnomalies(); // 比對窗口會因回診日期變動而改
-  showToast('設定好了');
+  renderAnomalies();
+  showToast('加入回診日');
 }
-function clearAppt() {
-  try { localStorage.removeItem(CONFIG.LS_NEXT_APPT); } catch {}
-  closeApptModal();
+function deleteVisit(d) {
+  const visits = loadVisits().filter(x => x !== d);
+  saveVisits(visits);
+  renderVisitList();
   renderCountdown();
   renderAnomalies();
 }
@@ -982,13 +1092,34 @@ function renderAnomalies() {
     return;
   }
 
-  // 切窗口:近 14 天 vs 前面 16 天(大約就是一個月回診週期的前後對比)
-  const recentDays = 14;
-  const cutoff = new Date();
-  cutoff.setDate(cutoff.getDate() - recentDays);
-  cutoff.setHours(0,0,0,0);
-  const recent   = records.filter(r => r.DateDoc && new Date(r.DateDoc) >= cutoff);
-  const baseline = records.filter(r => r.DateDoc && new Date(r.DateDoc) <  cutoff);
+  // 切窗口:優先用使用者登記的「最近兩次回診」當邊界;沒回診資料時 fallback 近 14 天
+  const win = computeWindows();
+  let recentFromStr, recentToStr, baselineFromStr, baselineToStr, windowLabel;
+  if (win) {
+    recentFromStr   = win.recentFrom;
+    recentToStr     = win.recentTo;
+    baselineFromStr = win.baselineFrom;
+    baselineToStr   = win.baselineTo;
+    windowLabel     = `上次回診(${win.recentFrom.slice(5)})後`;
+  } else {
+    const cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() - 14);
+    cutoff.setHours(0,0,0,0);
+    recentFromStr   = cutoff.toISOString().split('T')[0];
+    recentToStr     = todayStr();
+    baselineFromStr = '2026-01-01';
+    baselineToStr   = recentFromStr;
+    windowLabel     = '近 14 天';
+  }
+  const inRange = (r, fromStr, toStr) => {
+    if (!r.DateDoc) return false;
+    const d = r.DateDoc.slice(0, 10);
+    return d >= fromStr && d < toStr;
+  };
+  const recent   = records.filter(r => inRange(r, recentFromStr, recentToStr) || r.DateDoc.slice(0,10) === recentToStr);
+  const baseline = records.filter(r => inRange(r, baselineFromStr, baselineToStr));
+  const recentDays = Math.max(1, Math.round((new Date(recentToStr) - new Date(recentFromStr)) / 86400000));
+  const baselineDays = Math.max(1, Math.round((new Date(baselineToStr) - new Date(baselineFromStr)) / 86400000));
 
   const anomalies = [];
 
@@ -1018,7 +1149,7 @@ function renderAnomalies() {
         severity: sev,
         icon: sev === 'high' ? '⚠️' : '👀',
         title: `${spec.zh}變差了`,
-        detail: `近 ${recentDays} 天有 ${r.pct}% 不是『${spec.goodLabel}』(主要是${worstLabel}),之前只有 ${b.pct}%`,
+        detail: `${windowLabel}有 ${r.pct}% 不是『${spec.goodLabel}』(主要是${worstLabel}),之前只有 ${b.pct}%`,
         suggestQuestion: `媽媽最近${spec.zh}變差(${worstLabel}),要不要調藥或檢查?`,
       });
     }
@@ -1032,7 +1163,7 @@ function renderAnomalies() {
       severity: (mealR.pct - mealB.pct) >= 30 ? 'high' : 'mid',
       icon: '🍽️',
       title: '最近常拒食/吃很少',
-      detail: `近 ${recentDays} 天有 ${mealR.count}/${mealR.total} 餐拒食或吃少(${mealR.pct}%),之前只有 ${mealB.pct}%`,
+      detail: `${windowLabel}有 ${mealR.count}/${mealR.total} 餐拒食或吃少(${mealR.pct}%),之前只有 ${mealB.pct}%`,
       suggestQuestion: '媽媽最近常拒食或吃很少,要不要評估口腔或用藥副作用?',
     });
   }
@@ -1076,7 +1207,7 @@ function renderAnomalies() {
       key:  '拒食+情緒不穩',
       minDays: 2,
       title: '情緒性拒食',
-      detailFn: n => `近 ${recentDays} 天有 ${n} 天同時出現拒食/吃少跟坐立不安`,
+      detailFn: n => `${windowLabel}有 ${n} 天同時出現拒食/吃少跟坐立不安`,
       suggestQuestion: '媽媽情緒不穩時常常不吃飯,是用藥副作用還是焦慮?',
     },
     {
@@ -1085,7 +1216,7 @@ function renderAnomalies() {
       key:  '睡眠差+精神差',
       minDays: 3,
       title: '睡眠差隔天精神不好',
-      detailFn: n => `近 ${recentDays} 天有 ${n} 天晚上睡不好、隔天晨起精神差`,
+      detailFn: n => `${windowLabel}有 ${n} 天晚上睡不好、隔天晨起精神差`,
       suggestQuestion: '媽媽睡眠斷續/差跟隔天精神差常一起出現,要不要評估助眠或褪黑激素?',
     },
     {
@@ -1097,7 +1228,7 @@ function renderAnomalies() {
       key:  '便秘+食慾差',
       minDays: 2,
       title: '便秘伴食慾差',
-      detailFn: n => `近 ${recentDays} 天有 ${n} 天便秘加上拒食/吃少`,
+      detailFn: n => `${windowLabel}有 ${n} 天便秘加上拒食/吃少`,
       suggestQuestion: '媽媽便秘常伴隨食慾差,要不要檢查腸胃或調纖維/水分?',
     },
     {
@@ -1112,7 +1243,7 @@ function renderAnomalies() {
       key: '嗜睡+活動未完成',
       minDays: 3,
       title: '白天精神差且不活動',
-      detailFn: n => `近 ${recentDays} 天有 ${n} 天精神差+日間活動未完成`,
+      detailFn: n => `${windowLabel}有 ${n} 天精神差+日間活動未完成`,
       suggestQuestion: '媽媽常精神差+不活動,要不要看看是否用藥過度或失智進程?',
     },
   ];
@@ -1737,6 +1868,7 @@ function renderTodayDate() {
 // Init
 // =============================================================
 function init() {
+  migrateOldApptKey();
   renderTodayDate();
   renderQuestions();
   renderRecordings();
