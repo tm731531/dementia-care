@@ -695,34 +695,45 @@ function renderSummary() {
     return;
   }
 
-  // 摘要統計
-  const stats = {
-    sleep: countField(records, 'LastNightSleep', { G: '良好', S: '斷續', N: '差' }),
-    mental: countField(records, 'MorningMentalStatus', { N: '穩定', A: '煩躁', B: '差' }),
-    breakfast: countField(records, 'Breakfast', { N: '正常', '10000002': '拒食', '10000001': '少', '10000009': '多' }),
-    activity: countField(records, 'DailyActivity', { C: '完成', N: '未完成', S: '抗拒' }),
-  };
+  // 摘要統計 — 取最近 7 天跟 30 天兩個視角
+  const last7 = records.slice(0, 7);
+  const sleep7   = countField(last7, 'LastNightSleep',      { G: '良好', S: '斷續', N: '差' });
+  const mental7  = countField(last7, 'MorningMentalStatus', { N: '穩定', A: '煩躁', B: '差' });
+  const meals7   = mealStats(last7);
+  const activity7= countField(last7, 'DailyActivity',       { C: '完成', N: '未完成', S: '抗拒' });
+  const accompany7= countField(last7, 'Companionship',      { '10000003': '穩定', '10000004': '坐立不安', '10000005': '疲倦' });
+  const excretion7= countField(last7, 'ExcretionStatus',    { '10000006': '正常', '10000007': '便秘', '10000008': '稀' });
 
   const html = `
     <div class="summary-item">
       <div class="label">😴 睡眠</div>
-      <div class="value">${stats.sleep.topLabel}</div>
-      <div class="trend ${stats.sleep.grade}">${stats.sleep.distribution}</div>
-    </div>
-    <div class="summary-item">
-      <div class="label">🍚 早餐食慾</div>
-      <div class="value">${stats.breakfast.topLabel}</div>
-      <div class="trend ${stats.breakfast.grade}">${stats.breakfast.distribution}</div>
+      <div class="value">${sleep7.topLabel}</div>
+      <div class="trend ${sleep7.grade}">近 7 天 · ${sleep7.distribution}</div>
     </div>
     <div class="summary-item">
       <div class="label">🧠 晨起精神</div>
-      <div class="value">${stats.mental.topLabel}</div>
-      <div class="trend ${stats.mental.grade}">${stats.mental.distribution}</div>
+      <div class="value">${mental7.topLabel}</div>
+      <div class="trend ${mental7.grade}">近 7 天 · ${mental7.distribution}</div>
+    </div>
+    <div class="summary-item">
+      <div class="label">🍽️ 三餐</div>
+      <div class="value">${meals7.headline}</div>
+      <div class="trend ${meals7.grade}">近 7 天 · ${meals7.detail}</div>
+    </div>
+    <div class="summary-item">
+      <div class="label">🫂 陪伴狀態</div>
+      <div class="value">${accompany7.topLabel}</div>
+      <div class="trend ${accompany7.grade}">近 7 天 · ${accompany7.distribution}</div>
     </div>
     <div class="summary-item">
       <div class="label">🚶 日間活動</div>
-      <div class="value">${stats.activity.topLabel}</div>
-      <div class="trend ${stats.activity.grade}">${stats.activity.distribution}</div>
+      <div class="value">${activity7.topLabel}</div>
+      <div class="trend ${activity7.grade}">近 7 天 · ${activity7.distribution}</div>
+    </div>
+    <div class="summary-item">
+      <div class="label">🫧 排泄</div>
+      <div class="value">${excretion7.topLabel}</div>
+      <div class="trend ${excretion7.grade}">近 7 天 · ${excretion7.distribution}</div>
     </div>
   `;
   document.getElementById('summary-grid').innerHTML = html;
@@ -741,6 +752,38 @@ function renderSummary() {
       </div>
     `).join('');
   }
+}
+
+// 三餐合併分析:看拒食/少食的頻率
+function mealStats(records) {
+  const map = { N: '正常', '10000001': '少', '10000009': '多', '10000002': '拒食' };
+  let ok = 0, less = 0, more = 0, refuse = 0, total = 0;
+  for (const r of records) {
+    for (const f of ['Breakfast', 'Lunch', 'Dinner']) {
+      let v = r[f];
+      if (v == null || v === '') continue;
+      if (typeof v === 'object' && v !== null) v = v.id || v.propertyLabel || v.identifier;
+      v = String(v);
+      total++;
+      if (v === 'N') ok++;
+      else if (v === '10000001') less++;
+      else if (v === '10000009') more++;
+      else if (v === '10000002') refuse++;
+    }
+  }
+  if (total === 0) return { headline: '無資料', detail: '—', grade: '' };
+  const okPct = Math.round(ok / total * 100);
+  const badCount = refuse + less;
+  let headline, grade;
+  if (okPct >= 80)      { headline = '正常為主'; grade = 'good'; }
+  else if (okPct >= 60) { headline = '多數正常'; grade = 'good'; }
+  else if (okPct >= 40) { headline = '偶有不吃'; grade = 'warn'; }
+  else                  { headline = '常拒食';   grade = 'bad';  }
+  const parts = [];
+  if (refuse > 0) parts.push(`拒食 ${refuse}`);
+  if (less > 0)   parts.push(`吃少 ${less}`);
+  parts.push(`正常 ${ok}`);
+  return { headline, detail: parts.join(' · '), grade };
 }
 
 function countField(records, field, labelMap) {
