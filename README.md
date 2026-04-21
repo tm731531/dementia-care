@@ -1,32 +1,41 @@
 # Dementia Care Tools
 
-一位很 I 的軟體工程師做的兩個工具。一個給失智家人，一個給 2023 年出生的女兒。
+一位很 I 的軟體工程師做的一組工具。主線是**失智照護生態系**——給失智家人的陪伴遊戲、每日紀錄自動化、帶長輩回診的手機陪伴；支線是**其他家用工具**——2023 年出生的女兒用的學習平台、自己買健康飲品用的比較網站。
 
-純前端、單一 HTML 檔、零伺服器、零廣告、零追蹤、完全離線可用。
+純前端、單一 HTML 檔為主、零伺服器、零廣告、零追蹤、完全離線可用。
 想做什麼就做什麼，用最純粹的技術，讓每個家庭都能免費使用。
 
 ---
 
 ## 工具列表
 
+### 🧠 失智照護生態系
+
 | 工具 | 對象 | 類型 | 說明 |
 |------|------|------|------|
-| [陪伴小幫手](./dementia-companion/) | 失智症長輩 + 照護者 | 互動遊戲 | 15 種認知訓練遊戲，8 級難度自動調整 |
-| [小朋友學習樂園](./kids-companion/) | 2–6 歲幼兒 + 家長 | 互動遊戲 | 25+ 種寓教於樂的學習活動 |
+| [陪伴小幫手（原版）](./dementia-companion/) | 失智症長輩 + 照護者 | 互動遊戲 | 15 種認知訓練遊戲，8 級難度自動調整 |
+| [陪伴小幫手 v2（試驗版）](./dementia-companion-v2/) | 失智症長輩 + 照護者 | 互動遊戲 | v1 同款遊戲，新設計：推薦式首頁 + 照護者陪伴指南 + 今日摘要分享 |
 | [白板 OCR 紀錄 Bot](./whiteboard-ocr-bot/) | 家屬 + iDempiere | Telegram Bot | 每日照片 → Gemini 3 OCR → 自動寫入 iDempiere，每月回診給醫生看 |
-| [就診小幫手](./mom-clinic-companion/) | 照護者 | 手機 Web App | 回診前 prep 工具：拉 iDempiere 記錄、自動抓異常、症狀分類、診間錄音 |
+| [就診小幫手](./mom-clinic-companion/) | 照護者 | 手機 Web App | 回診前 prep 工具：拉 iDempiere 紀錄、自動抓異常、症狀分類、診間錄音 |
+
+### 🎨 其他家用工具
+
+| 工具 | 對象 | 類型 | 說明 |
+|------|------|------|------|
+| [小朋友學習樂園](./kids-companion/) | 2–6 歲幼兒 + 家長 | 互動遊戲 | 25+ 種寓教於樂的學習活動 |
+| [健康飲品成分分析](./health-drinks/) | 自用 | 網站 | 市售 180–280ml 飲品熱量/糖/鈉/蛋白質比較 |
 
 ---
 
 ## 為什麼做這個
 
-### 陪伴小幫手
+### 陪伴小幫手（原版）
 
 陪伴失智家人時，想話題、找互動方式來促進腦部活動，對一個內向的人來說相當消耗腦力。所以做了這個工具——打開就能用，不用想話題，遊戲自動引導互動。希望幫助所有同樣辛苦的照護者。
 
-### 小朋友學習樂園
+### 陪伴小幫手 v2
 
-為了 2023 年出生的女兒，想做一個跟她互動的遊戲。不想裝 app、不想看廣告、不想傳資料到外面。一個 HTML 檔，開了就能玩。
+v1 每天實際使用後，發現「10 格遊戲自己挑」的首頁其實又把決策成本丟回給已經很累的照護者。v2 換一個方向：首頁直接「今天一起做這個好嗎？」推薦一個活動，一鍵開始。同時多做兩個照護者支援功能——**45 條陪伴指南**（每個遊戲 3 條可直接對長輩說的話）跟**今日摘要分享**（完成活動後一鍵產出可貼 LINE 家族群的今日紀錄）。v1 並存沒被取代，可以對照比較。
 
 ### 白板 OCR 紀錄 Bot
 
@@ -63,34 +72,46 @@
 </tr>
 </table>
 
+### 小朋友學習樂園
+
+為了 2023 年出生的女兒，想做一個跟她互動的遊戲。不想裝 app、不想看廣告、不想傳資料到外面。一個 HTML 檔，開了就能玩。班別從幼幼班到大班，選項數、語音輔助、字體大小都自動配合年齡調。
+
+### 健康飲品成分分析
+
+在家樂福或大樹藥局前猶豫要買哪瓶能量/營養飲時，需要快速比較熱量、糖、蛋白質。市售 app 不是塞廣告就是要登入，所以自己做一個純前端網站，資料從 Open Food Facts 爬下來，容量限制 180–280ml（外出隨手一瓶的範圍）。
+
 ---
 
 ## 技術特色
 
-- **單一檔案**：每個工具就是一個 `index.html`，所有 HTML + CSS + JS 都在裡面
-- **零依賴**：不需要 npm、不需要 build、不需要伺服器（雙擊開檔案就能用）
-- **完全離線**：所有圖片內嵌 base64，語音用瀏覽器內建 Web Speech API
-- **零資料外傳**：進度存在瀏覽器 localStorage，不送任何東西到外部
+所有工具共用的哲學——**最純粹的技術，最低的門檻**：
+
+- **前端工具用單一 HTML 檔**：`dementia-companion`、`dementia-companion-v2`、`kids-companion` 雙擊就能開，不用 npm、不用 build、不用伺服器
+- **零追蹤、零廣告**：進度都存瀏覽器 localStorage，不送資料到外部分析服務
+- **語音用瀏覽器內建**：Web Speech API，不依賴雲端 TTS
+- **離線優先**：即使需要 API 的 `mom-clinic-companion`，也會 cache 最後同步版本給診間弱網使用
+- **Python 後端只在真的需要時才用**：`whiteboard-ocr-bot` 走 Telegram + Gemini API，`health-drinks` 用 scraper 產靜態資料
 
 ---
 
-## 快速使用
+## 各工具安裝 / 使用
 
-直接用瀏覽器開檔案就能用：
+每個 subdirectory 都有自己的 `README.md` 寫快速開始。摘要如下：
+
+| 工具 | 怎麼用 |
+|------|-------|
+| [陪伴小幫手（原版）](./dementia-companion/) | 直接 `open dementia-companion/index.html` |
+| [陪伴小幫手 v2](./dementia-companion-v2/) | 直接 `open dementia-companion-v2/index.html`（跟 v1 可以並用） |
+| [小朋友學習樂園](./kids-companion/) | 直接 `open kids-companion/index.html` |
+| [白板 OCR 紀錄 Bot](./whiteboard-ocr-bot/) | 先試玩 demo（`open index.html`）；正式版需 Python + Gemini API key |
+| [就診小幫手](./mom-clinic-companion/) | 部署到 GitHub Pages，需 iDempiere 開 CORS（見 [CORS-MIGRATION.md](./mom-clinic-companion/CORS-MIGRATION.md)） |
+| [健康飲品成分分析](./health-drinks/) | 跑 scraper 產資料，或用已上線 GitHub Pages 版本 |
+
+或用本機伺服器一次跑所有純前端工具：
 
 ```bash
-# 失智照護工具
-open dementia-companion/index.html
-
-# 兒童學習平台
-open kids-companion/index.html
-```
-
-或用本機伺服器：
-
-```bash
-npx serve dementia-companion -l 8002
-npx serve kids-companion -l 8003
+python3 -m http.server 8000
+# 開 http://localhost:8000
 ```
 
 ---
