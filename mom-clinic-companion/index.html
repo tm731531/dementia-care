@@ -310,6 +310,52 @@
       color: var(--text-muted);
     }
 
+    /* ===== Day detail（modal 裡每天的明細） ===== */
+    .day-detail {
+      border-bottom: 1px solid var(--border);
+      padding: 12px 0;
+    }
+    .day-detail:last-child { border-bottom: none; }
+    .day-detail-date {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+    .detail-row {
+      display: flex;
+      gap: 10px;
+      padding: 4px 0;
+      font-size: 13px;
+      align-items: flex-start;
+    }
+    .detail-group {
+      flex-shrink: 0;
+      width: 66px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+    .detail-items {
+      flex: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 10px;
+    }
+    .detail-k {
+      color: var(--text-muted);
+      margin-right: 4px;
+    }
+    .detail-v {
+      color: var(--text);
+      font-weight: 600;
+    }
+    .detail-desc {
+      flex: 1;
+      color: var(--text);
+      line-height: 1.5;
+      white-space: pre-wrap;
+    }
+
     /* ===== Login screen ===== */
     .login-screen {
       position: fixed;
@@ -483,17 +529,17 @@
 // =============================================================
 // 設定
 // =============================================================
+const IS_LOCAL = (location.hostname === 'localhost' || location.hostname === '127.0.0.1');
 const CONFIG = {
-  // 自動偵測 API endpoint:本地開發用 localhost:8080,GH Pages 用 production
-  API_BASE: (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+  // 自動偵測 API endpoint 跟 auth 參數:
+  // 本地 = 開發機 iDempiere(SuperUser/System,client/role=0)
+  // 其他 = production idempiere.tomting.com(Tom/Tom,client/role=1000000)
+  API_BASE: IS_LOCAL
     ? 'http://localhost:8080/api/v1'
     : 'https://idempiere.tomting.com/api/v1',
-  AUTH: {
-    clientId: 1000000,
-    roleId: 1000000,
-    organizationId: 0,
-    warehouseId: 0,
-  },
+  AUTH: IS_LOCAL
+    ? { clientId: 0, roleId: 0, organizationId: 0, warehouseId: 0 }
+    : { clientId: 1000000, roleId: 1000000, organizationId: 0, warehouseId: 0 },
   // 媽媽的 business partner id（從 brain file：C_BPartner_ID = 丁肇璽 = Tom 自己）
   // 實際媽媽的 BP id 要從 iDempiere 查,這裡先放 placeholder
   MOM_BP_NAME: '孫玉美',
@@ -657,8 +703,6 @@ function renderSummary() {
     activity: countField(records, 'DailyActivity', { C: '完成', N: '未完成', S: '抗拒' }),
   };
 
-  const bpAvg = avgBP(records);
-
   const html = `
     <div class="summary-item">
       <div class="label">😴 睡眠</div>
@@ -679,10 +723,6 @@ function renderSummary() {
       <div class="label">🚶 日間活動</div>
       <div class="value">${stats.activity.topLabel}</div>
       <div class="trend ${stats.activity.grade}">${stats.activity.distribution}</div>
-    </div>
-    <div class="summary-item" style="grid-column: 1 / -1">
-      <div class="label">💉 血壓平均 (${bpAvg.count} 筆)</div>
-      <div class="value">${bpAvg.sys} / ${bpAvg.dia} · 脈搏 ${bpAvg.pulse}</div>
     </div>
   `;
   document.getElementById('summary-grid').innerHTML = html;
@@ -727,24 +767,21 @@ function countField(records, field, labelMap) {
   return { topLabel, distribution, grade };
 }
 
-function avgBP(records) {
-  let sumSys = 0, sumDia = 0, sumP = 0, count = 0;
-  for (const r of records) {
-    if (r.SystolicBP && r.DiastolicBP) {
-      sumSys += Number(r.SystolicBP);
-      sumDia += Number(r.DiastolicBP);
-      sumP += Number(r.Pulse) || 0;
-      count++;
-    }
-  }
-  if (count === 0) return { sys: '—', dia: '—', pulse: '—', count: 0 };
-  return {
-    sys: Math.round(sumSys / count),
-    dia: Math.round(sumDia / count),
-    pulse: sumP ? Math.round(sumP / count) : '—',
-    count,
-  };
-}
+// Z_momSystem 欄位 → 中文名 + 值翻譯(選項對照)
+const FIELD_META = {
+  NightActivity:       { zh: '夜間活動', values: { C: '完成', N: '未完成', S: '抗拒' } },
+  BeforeSleepStatus:   { zh: '睡前狀況', values: { X: '亢奮', N: '正常', S: '疲倦' } },
+  LastNightSleep:      { zh: '昨夜睡眠', values: { G: '良好', S: '斷續', N: '差' } },
+  MorningMentalStatus: { zh: '晨起精神', values: { N: '穩定', A: '煩躁', B: '差' } },
+  Breakfast:           { zh: '早餐',     values: { N: '正常', '10000001': '少', '10000009': '多', '10000002': '拒食' } },
+  Lunch:               { zh: '午餐',     values: { N: '正常', '10000001': '少', '10000009': '多', '10000002': '拒食' } },
+  Dinner:              { zh: '晚餐',     values: { N: '正常', '10000001': '少', '10000009': '多', '10000002': '拒食' } },
+  DailyActivity:       { zh: '日間活動', values: { C: '完成', N: '未完成', S: '抗拒' } },
+  outgoing:            { zh: '外出',     values: { C: '穩定', N: '疲倦', S: '抗拒' } },
+  Companionship:       { zh: '陪伴',     values: { '10000003': '穩定', '10000004': '坐立不安', '10000005': '疲倦' } },
+  ExcretionStatus:     { zh: '排泄',     values: { '10000006': '正常', '10000007': '便秘', '10000008': '稀' } },
+  Bathing:             { zh: '洗澡',     values: { C: '完成', N: '未完成', S: '抗拒' } },
+};
 
 function showDetailsModal() {
   if (!STATE.momData || STATE.momData.length === 0) {
@@ -753,9 +790,9 @@ function showDetailsModal() {
   }
   const recent = STATE.momData.slice(0, 10);
   const html = recent.map(r => `
-    <div class="recording-item">
-      <div class="time">${fmtDate(r.DateDoc)}</div>
-      <div class="text">${fmtRecord(r)}</div>
+    <div class="day-detail">
+      <div class="day-detail-date">${fmtDate(r.DateDoc)}</div>
+      ${renderDayDetail(r)}
     </div>
   `).join('');
   document.getElementById('detail-content').innerHTML = html;
@@ -765,17 +802,38 @@ function hideDetailsModal() {
   document.getElementById('detail-modal').classList.remove('show');
 }
 
-function fmtRecord(r) {
-  const parts = [];
-  if (r.LastNightSleep) parts.push(`睡眠: ${valStr(r.LastNightSleep)}`);
-  if (r.Breakfast) parts.push(`早餐: ${valStr(r.Breakfast)}`);
-  if (r.SystolicBP) parts.push(`血壓: ${r.SystolicBP}/${r.DiastolicBP}`);
-  if (r.Description) parts.push(`備註: ${r.Description}`);
-  return parts.join('  ·  ') || '—';
+function renderDayDetail(r) {
+  // 依分類分組:睡眠相關 / 三餐 / 活動 / 其他
+  const groups = [
+    ['🌙 夜間', ['NightActivity', 'BeforeSleepStatus', 'LastNightSleep']],
+    ['🌅 晨起', ['MorningMentalStatus']],
+    ['🍽️ 三餐', ['Breakfast', 'Lunch', 'Dinner']],
+    ['🚶 白天', ['DailyActivity', 'outgoing', 'Companionship']],
+    ['🫧 其他', ['ExcretionStatus', 'Bathing']],
+  ];
+  const lines = [];
+  for (const [groupLabel, fields] of groups) {
+    const parts = [];
+    for (const f of fields) {
+      const v = translateField(r, f);
+      if (v) parts.push(`<span class="detail-k">${FIELD_META[f].zh}</span><span class="detail-v">${escapeHtml(v)}</span>`);
+    }
+    if (parts.length) lines.push(`<div class="detail-row"><div class="detail-group">${groupLabel}</div><div class="detail-items">${parts.join('')}</div></div>`);
+  }
+  if (r.Description && r.Description.trim()) {
+    lines.push(`<div class="detail-row"><div class="detail-group">📝 備註</div><div class="detail-desc">${escapeHtml(r.Description)}</div></div>`);
+  }
+  return lines.join('') || '<div class="empty">這一天沒有資料</div>';
 }
-function valStr(v) {
-  if (typeof v === 'object' && v !== null) return v.propertyLabel || v.identifier || v.id || '';
-  return String(v);
+
+function translateField(r, field) {
+  let v = r[field];
+  if (v == null || v === '') return null;
+  if (typeof v === 'object' && v !== null) v = v.id || v.propertyLabel || v.identifier;
+  const key = String(v);
+  const meta = FIELD_META[field];
+  if (!meta) return key;
+  return meta.values[key] || key;
 }
 
 // =============================================================
