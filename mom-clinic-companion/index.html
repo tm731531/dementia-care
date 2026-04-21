@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0066CC">
+  <title>就診小幫手 — 媽媽回診陪伴工具</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    :root {
+      --bg: #F5F7FA;
+      --card: #FFFFFF;
+      --text: #1A1A1A;
+      --text-muted: #555;
+      --primary: #0066CC;
+      --primary-dark: #004499;
+      --accent-warm: #FF6600;
+      --ok: #00A852;
+      --warn: #E67E22;
+      --danger: #D32F2F;
+      --border: #E0E4EA;
+      --shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    body {
+      font-family: "Microsoft JhengHei", "PingFang TC", "Noto Sans TC", sans-serif;
+      font-size: 17px;
+      line-height: 1.5;
+      color: var(--text);
+      background: var(--bg);
+      min-height: 100vh;
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 12px 14px 120px;
+    }
+
+    /* ===== Header ===== */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 4px 16px;
+    }
+    .header .title {
+      font-size: 22px;
+      font-weight: 700;
+    }
+    .header .date {
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+    .header .sync-status {
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .header .sync-status.offline { color: var(--warn); }
+    .header .sync-status.synced { color: var(--ok); }
+
+    /* ===== Cards ===== */
+    .card {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .card-header h2 {
+      font-size: 18px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .card-header .action-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--primary);
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    /* ===== Summary section ===== */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .summary-item {
+      background: var(--bg);
+      padding: 10px 12px;
+      border-radius: 8px;
+    }
+    .summary-item .label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+    .summary-item .value {
+      font-size: 15px;
+      font-weight: 600;
+    }
+    .summary-item .trend {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .summary-item .trend.good { color: var(--ok); }
+    .summary-item .trend.warn { color: var(--warn); }
+    .summary-item .trend.bad { color: var(--danger); }
+
+    .events-list {
+      margin-top: 12px;
+      font-size: 14px;
+    }
+    .events-list .event-item {
+      padding: 8px 0;
+      border-bottom: 1px dashed var(--border);
+      color: var(--text-muted);
+    }
+    .events-list .event-item:last-child { border-bottom: none; }
+    .events-list .event-date { font-weight: 600; color: var(--text); margin-right: 6px; }
+
+    /* ===== Questions list ===== */
+    .question-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px dashed var(--border);
+    }
+    .question-item:last-child { border-bottom: none; }
+    .question-item .checkbox {
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      border: 2px solid var(--primary);
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: white;
+    }
+    .question-item .checkbox.checked {
+      background: var(--primary);
+      color: white;
+    }
+    .question-item .checkbox.checked::after {
+      content: '✓';
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .question-item .text {
+      flex: 1;
+      font-size: 16px;
+      padding-top: 2px;
+    }
+    .question-item.checked .text {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+    .question-item .del-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 20px;
+      cursor: pointer;
+      padding: 0 4px;
+    }
+    .add-question {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .add-question input {
+      flex: 1;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 16px;
+      font-family: inherit;
+    }
+    .add-question button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    /* ===== Record button (fixed bottom) ===== */
+    .record-wrap {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      padding: 16px;
+      background: linear-gradient(to top, var(--bg) 60%, transparent);
+      display: flex;
+      justify-content: center;
+      pointer-events: none;
+    }
+    .record-btn {
+      pointer-events: auto;
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      background: var(--accent-warm);
+      color: white;
+      border: none;
+      font-size: 32px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(255,102,0,0.4);
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.1s, background 0.2s;
+    }
+    .record-btn:active { transform: scale(0.95); }
+    .record-btn.recording {
+      background: var(--danger);
+      animation: pulse 1s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 4px 12px rgba(211,47,47,0.4); }
+      50% { box-shadow: 0 4px 24px rgba(211,47,47,0.8); }
+    }
+
+    /* ===== Recording list ===== */
+    .recording-item {
+      padding: 12px;
+      background: var(--bg);
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+    .recording-item .time {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .recording-item .text {
+      font-size: 15px;
+      line-height: 1.6;
+    }
+    .recording-item .actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .recording-item button {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid var(--border);
+      background: white;
+      border-radius: 6px;
+      font-size: 13px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .recording-item button.primary {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    /* ===== Modal (detail view) ===== */
+    .modal-backdrop {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 100;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .modal-backdrop.show { display: flex; }
+    .modal {
+      background: var(--card);
+      border-radius: 16px 16px 0 0;
+      padding: 20px;
+      width: 100%;
+      max-width: 640px;
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+    .modal h3 {
+      font-size: 18px;
+      margin-bottom: 16px;
+    }
+    .modal-close {
+      float: right;
+      background: transparent;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--text-muted);
+    }
+
+    /* ===== Login screen ===== */
+    .login-screen {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      z-index: 200;
+    }
+    .login-screen.show { display: flex; }
+    .login-box {
+      background: var(--card);
+      padding: 32px 24px;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 340px;
+      box-shadow: var(--shadow);
+    }
+    .login-box h1 {
+      font-size: 22px;
+      margin-bottom: 6px;
+      text-align: center;
+    }
+    .login-box .sub {
+      color: var(--text-muted);
+      text-align: center;
+      margin-bottom: 24px;
+      font-size: 14px;
+    }
+    .login-box input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 16px;
+      margin-bottom: 12px;
+      font-family: inherit;
+    }
+    .login-box button {
+      width: 100%;
+      padding: 14px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .login-box .err {
+      color: var(--danger);
+      font-size: 13px;
+      text-align: center;
+      margin-bottom: 8px;
+      min-height: 18px;
+    }
+
+    /* ===== Toast ===== */
+    .toast {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-150%);
+      background: var(--text);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      z-index: 300;
+      transition: transform 0.3s;
+      max-width: 90%;
+      text-align: center;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+
+    /* ===== Empty state ===== */
+    .empty {
+      text-align: center;
+      color: var(--text-muted);
+      padding: 16px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== Login ===== -->
+  <div class="login-screen" id="login-screen">
+    <div class="login-box">
+      <h1>🏥 就診小幫手</h1>
+      <div class="sub">連線 iDempiere 照顧系統</div>
+      <input type="text" id="login-user" placeholder="使用者名稱" autocomplete="username">
+      <input type="password" id="login-pass" placeholder="密碼" autocomplete="current-password">
+      <div class="err" id="login-err"></div>
+      <button onclick="doLogin()">登入</button>
+    </div>
+  </div>
+
+  <!-- ===== Main UI ===== -->
+  <div class="header">
+    <div>
+      <div class="title">🏥 就診小幫手</div>
+      <div class="date" id="today-date">—</div>
+    </div>
+    <div class="sync-status" id="sync-status">● 準備中</div>
+  </div>
+
+  <!-- Summary card -->
+  <div class="card">
+    <div class="card-header">
+      <h2>📊 媽媽最近 30 天</h2>
+      <button class="action-btn" onclick="showDetailsModal()">看詳細</button>
+    </div>
+    <div class="summary-grid" id="summary-grid">
+      <div class="summary-item"><div class="label">睡眠</div><div class="value">—</div></div>
+      <div class="summary-item"><div class="label">食慾</div><div class="value">—</div></div>
+      <div class="summary-item"><div class="label">心情</div><div class="value">—</div></div>
+      <div class="summary-item"><div class="label">活動</div><div class="value">—</div></div>
+    </div>
+    <div class="events-list" id="events-list">
+      <div class="empty">—</div>
+    </div>
+  </div>
+
+  <!-- Questions card -->
+  <div class="card">
+    <div class="card-header">
+      <h2>❓ 這次要問醫生</h2>
+      <button class="action-btn" onclick="clearCheckedQuestions()">清已完成</button>
+    </div>
+    <div id="questions-list"></div>
+    <div class="add-question">
+      <input type="text" id="new-question" placeholder="加一個問題…" onkeypress="if(event.key==='Enter')addQuestion()">
+      <button onclick="addQuestion()">加</button>
+    </div>
+  </div>
+
+  <!-- Recordings card -->
+  <div class="card">
+    <div class="card-header">
+      <h2>🎙️ 診間錄音</h2>
+      <button class="action-btn" onclick="syncRecordings()">同步到 iDempiere</button>
+    </div>
+    <div id="recordings-list">
+      <div class="empty">按下方橘色按鈕開始錄音</div>
+    </div>
+  </div>
+
+  <!-- Record button -->
+  <div class="record-wrap">
+    <button class="record-btn" id="record-btn" onclick="toggleRecording()" aria-label="錄音">🎤</button>
+  </div>
+
+  <!-- Detail modal -->
+  <div class="modal-backdrop" id="detail-modal">
+    <div class="modal">
+      <button class="modal-close" onclick="hideDetailsModal()">×</button>
+      <h3>媽媽最近 30 天 詳細</h3>
+      <div id="detail-content">—</div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+<script>
+// =============================================================
+// 設定
+// =============================================================
+const CONFIG = {
+  // 自動偵測 API endpoint:本地開發用 localhost:8080,GH Pages 用 production
+  API_BASE: (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+    ? 'http://localhost:8080/api/v1'
+    : 'https://idempiere.tomting.com/api/v1',
+  AUTH: {
+    clientId: 1000000,
+    roleId: 1000000,
+    organizationId: 0,
+    warehouseId: 0,
+  },
+  // 媽媽的 business partner id（從 brain file：C_BPartner_ID = 丁肇璽 = Tom 自己）
+  // 實際媽媽的 BP id 要從 iDempiere 查,這裡先放 placeholder
+  MOM_BP_NAME: '孫玉美',
+  // localStorage keys
+  LS_TOKEN: 'clinicToken',
+  LS_QUESTIONS: 'clinicQuestions',
+  LS_RECORDINGS: 'clinicRecordings',
+  LS_CACHE: 'clinicMomDataCache',
+};
+
+const STATE = {
+  token: null,
+  momData: null, // 近 30 天 Z_momSystem records
+  recognition: null,
+  isRecording: false,
+  currentTranscript: '',
+};
+
+// =============================================================
+// 登入
+// =============================================================
+async function doLogin() {
+  const user = document.getElementById('login-user').value.trim();
+  const pass = document.getElementById('login-pass').value;
+  const errEl = document.getElementById('login-err');
+  errEl.textContent = '';
+
+  if (!user || !pass) {
+    errEl.textContent = '請輸入帳號密碼';
+    return;
+  }
+
+  try {
+    const res = await fetch(`${CONFIG.API_BASE}/auth/tokens`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        userName: user,
+        password: pass,
+        parameters: {
+          clientId: CONFIG.AUTH.clientId,
+          roleId: CONFIG.AUTH.roleId,
+          organizationId: CONFIG.AUTH.organizationId,
+          warehouseId: CONFIG.AUTH.warehouseId,
+        }
+      }),
+    });
+
+    if (!res.ok) {
+      errEl.textContent = `登入失敗 (${res.status})`;
+      return;
+    }
+
+    const data = await res.json();
+    const token = data.token;
+    if (!token) {
+      errEl.textContent = '登入回應異常,找不到 token';
+      return;
+    }
+
+    STATE.token = token;
+    sessionStorage.setItem(CONFIG.LS_TOKEN, token);
+    hideLoginScreen();
+    await loadMomData();
+  } catch (e) {
+    errEl.textContent = `網路錯誤: ${e.message}`;
+  }
+}
+
+function showLoginScreen() {
+  document.getElementById('login-screen').classList.add('show');
+}
+function hideLoginScreen() {
+  document.getElementById('login-screen').classList.remove('show');
+}
+
+// =============================================================
+// 讀取媽媽資料(近 30 天)
+// =============================================================
+async function loadMomData() {
+  setSyncStatus('讀取中…', '');
+
+  // 先從 cache 秒顯示
+  const cached = loadCache();
+  if (cached) {
+    STATE.momData = cached.data;
+    renderSummary();
+    setSyncStatus(`● 離線資料 ${fmtRelative(cached.at)}`, 'offline');
+  }
+
+  if (!navigator.onLine) {
+    if (!cached) {
+      setSyncStatus('● 離線,無快取資料', 'offline');
+    }
+    return;
+  }
+
+  try {
+    // 抓近 30 天的 Z_momSystem
+    const days = 30;
+    const since = new Date();
+    since.setDate(since.getDate() - days);
+    const sinceStr = since.toISOString().split('T')[0];
+
+    const url = `${CONFIG.API_BASE}/models/Z_momSystem?$filter=DateDoc ge '${sinceStr}'&$orderby=DateDoc desc&$top=50`;
+    const res = await fetch(url, {
+      headers: { 'Authorization': `Bearer ${STATE.token}` },
+    });
+
+    if (res.status === 401) {
+      setSyncStatus('● 需要重新登入', 'offline');
+      showLoginScreen();
+      return;
+    }
+
+    if (!res.ok) {
+      setSyncStatus(`● API 錯誤 ${res.status},用離線資料`, 'offline');
+      return;
+    }
+
+    const data = await res.json();
+    STATE.momData = data.records || data.value || [];
+    saveCache(STATE.momData);
+    renderSummary();
+    setSyncStatus(`● 同步完成 ${fmtTime(new Date())}`, 'synced');
+  } catch (e) {
+    setSyncStatus(`● ${e.message},用離線資料`, 'offline');
+  }
+}
+
+function loadCache() {
+  try {
+    const raw = localStorage.getItem(CONFIG.LS_CACHE);
+    if (!raw) return null;
+    return JSON.parse(raw);
+  } catch { return null; }
+}
+function saveCache(data) {
+  localStorage.setItem(CONFIG.LS_CACHE, JSON.stringify({ at: Date.now(), data }));
+}
+
+// =============================================================
+// 渲染摘要
+// =============================================================
+function renderSummary() {
+  if (!STATE.momData) return;
+
+  const records = STATE.momData;
+  const total = records.length;
+  if (total === 0) {
+    document.getElementById('summary-grid').innerHTML =
+      '<div class="empty" style="grid-column:1/-1">近 30 天沒有紀錄</div>';
+    return;
+  }
+
+  // 摘要統計
+  const stats = {
+    sleep: countField(records, 'LastNightSleep', { G: '良好', S: '斷續', N: '差' }),
+    mental: countField(records, 'MorningMentalStatus', { N: '穩定', A: '煩躁', B: '差' }),
+    breakfast: countField(records, 'Breakfast', { N: '正常', '10000002': '拒食', '10000001': '少', '10000009': '多' }),
+    activity: countField(records, 'DailyActivity', { C: '完成', N: '未完成', S: '抗拒' }),
+  };
+
+  const bpAvg = avgBP(records);
+
+  const html = `
+    <div class="summary-item">
+      <div class="label">😴 睡眠</div>
+      <div class="value">${stats.sleep.topLabel}</div>
+      <div class="trend ${stats.sleep.grade}">${stats.sleep.distribution}</div>
+    </div>
+    <div class="summary-item">
+      <div class="label">🍚 早餐食慾</div>
+      <div class="value">${stats.breakfast.topLabel}</div>
+      <div class="trend ${stats.breakfast.grade}">${stats.breakfast.distribution}</div>
+    </div>
+    <div class="summary-item">
+      <div class="label">🧠 晨起精神</div>
+      <div class="value">${stats.mental.topLabel}</div>
+      <div class="trend ${stats.mental.grade}">${stats.mental.distribution}</div>
+    </div>
+    <div class="summary-item">
+      <div class="label">🚶 日間活動</div>
+      <div class="value">${stats.activity.topLabel}</div>
+      <div class="trend ${stats.activity.grade}">${stats.activity.distribution}</div>
+    </div>
+    <div class="summary-item" style="grid-column: 1 / -1">
+      <div class="label">💉 血壓平均 (${bpAvg.count} 筆)</div>
+      <div class="value">${bpAvg.sys} / ${bpAvg.dia} · 脈搏 ${bpAvg.pulse}</div>
+    </div>
+  `;
+  document.getElementById('summary-grid').innerHTML = html;
+
+  // 特殊事件
+  const events = records
+    .filter(r => r.Description && r.Description.trim())
+    .slice(0, 5);
+  const eventsEl = document.getElementById('events-list');
+  if (events.length === 0) {
+    eventsEl.innerHTML = '<div class="empty">近期沒有特殊事件</div>';
+  } else {
+    eventsEl.innerHTML = events.map(r => `
+      <div class="event-item">
+        <span class="event-date">${fmtDate(r.DateDoc)}</span>${escapeHtml(r.Description)}
+      </div>
+    `).join('');
+  }
+}
+
+function countField(records, field, labelMap) {
+  const counts = {};
+  let total = 0;
+  for (const r of records) {
+    let v = r[field];
+    if (v == null || v === '') continue;
+    // iDempiere reference list 可能是 {id, identifier} 物件,也可能是字串
+    if (typeof v === 'object' && v !== null) v = v.id || v.propertyLabel || v.identifier;
+    v = String(v);
+    counts[v] = (counts[v] || 0) + 1;
+    total++;
+  }
+  const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+  if (sorted.length === 0) return { topLabel: '無資料', distribution: '—', grade: '' };
+  const [topKey, topCount] = sorted[0];
+  const topLabel = labelMap[topKey] || topKey;
+  const pct = Math.round(topCount / total * 100);
+  const distribution = `${pct}% (${topCount}/${total} 天)`;
+  // 判定好壞(主觀規則)
+  const goodKeys = ['G','N','C','10000003'];
+  const grade = goodKeys.includes(topKey) ? 'good' : (topKey === 'A' || topKey === 'S' ? 'warn' : 'bad');
+  return { topLabel, distribution, grade };
+}
+
+function avgBP(records) {
+  let sumSys = 0, sumDia = 0, sumP = 0, count = 0;
+  for (const r of records) {
+    if (r.SystolicBP && r.DiastolicBP) {
+      sumSys += Number(r.SystolicBP);
+      sumDia += Number(r.DiastolicBP);
+      sumP += Number(r.Pulse) || 0;
+      count++;
+    }
+  }
+  if (count === 0) return { sys: '—', dia: '—', pulse: '—', count: 0 };
+  return {
+    sys: Math.round(sumSys / count),
+    dia: Math.round(sumDia / count),
+    pulse: sumP ? Math.round(sumP / count) : '—',
+    count,
+  };
+}
+
+function showDetailsModal() {
+  if (!STATE.momData || STATE.momData.length === 0) {
+    showToast('沒有資料可看');
+    return;
+  }
+  const recent = STATE.momData.slice(0, 10);
+  const html = recent.map(r => `
+    <div class="recording-item">
+      <div class="time">${fmtDate(r.DateDoc)}</div>
+      <div class="text">${fmtRecord(r)}</div>
+    </div>
+  `).join('');
+  document.getElementById('detail-content').innerHTML = html;
+  document.getElementById('detail-modal').classList.add('show');
+}
+function hideDetailsModal() {
+  document.getElementById('detail-modal').classList.remove('show');
+}
+
+function fmtRecord(r) {
+  const parts = [];
+  if (r.LastNightSleep) parts.push(`睡眠: ${valStr(r.LastNightSleep)}`);
+  if (r.Breakfast) parts.push(`早餐: ${valStr(r.Breakfast)}`);
+  if (r.SystolicBP) parts.push(`血壓: ${r.SystolicBP}/${r.DiastolicBP}`);
+  if (r.Description) parts.push(`備註: ${r.Description}`);
+  return parts.join('  ·  ') || '—';
+}
+function valStr(v) {
+  if (typeof v === 'object' && v !== null) return v.propertyLabel || v.identifier || v.id || '';
+  return String(v);
+}
+
+// =============================================================
+// 問題清單
+// =============================================================
+function loadQuestions() {
+  try {
+    return JSON.parse(localStorage.getItem(CONFIG.LS_QUESTIONS) || '[]');
+  } catch { return []; }
+}
+function saveQuestions(qs) {
+  localStorage.setItem(CONFIG.LS_QUESTIONS, JSON.stringify(qs));
+}
+function renderQuestions() {
+  const qs = loadQuestions();
+  const el = document.getElementById('questions-list');
+  if (qs.length === 0) {
+    el.innerHTML = '<div class="empty">還沒有想問的問題,下面輸入加一個</div>';
+    return;
+  }
+  el.innerHTML = qs.map((q, i) => `
+    <div class="question-item ${q.checked ? 'checked' : ''}">
+      <div class="checkbox ${q.checked ? 'checked' : ''}" onclick="toggleQuestion(${i})"></div>
+      <div class="text">${escapeHtml(q.text)}</div>
+      <button class="del-btn" onclick="deleteQuestion(${i})">×</button>
+    </div>
+  `).join('');
+}
+function addQuestion() {
+  const input = document.getElementById('new-question');
+  const text = input.value.trim();
+  if (!text) return;
+  const qs = loadQuestions();
+  qs.push({ text, checked: false, addedAt: Date.now() });
+  saveQuestions(qs);
+  input.value = '';
+  renderQuestions();
+}
+function toggleQuestion(i) {
+  const qs = loadQuestions();
+  qs[i].checked = !qs[i].checked;
+  saveQuestions(qs);
+  renderQuestions();
+}
+function deleteQuestion(i) {
+  const qs = loadQuestions();
+  qs.splice(i, 1);
+  saveQuestions(qs);
+  renderQuestions();
+}
+function clearCheckedQuestions() {
+  const qs = loadQuestions().filter(q => !q.checked);
+  saveQuestions(qs);
+  renderQuestions();
+  showToast('已清除已勾選項目');
+}
+
+// =============================================================
+// 錄音(Web Speech API 即時轉文字)
+// =============================================================
+function initRecognition() {
+  const Rec = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!Rec) {
+    return null;
+  }
+  const r = new Rec();
+  r.lang = 'zh-TW';
+  r.continuous = true;
+  r.interimResults = true;
+  return r;
+}
+
+function toggleRecording() {
+  if (STATE.isRecording) {
+    stopRecording();
+  } else {
+    startRecording();
+  }
+}
+
+function startRecording() {
+  if (!STATE.recognition) {
+    STATE.recognition = initRecognition();
+    if (!STATE.recognition) {
+      showToast('這個瀏覽器不支援語音辨識 😢');
+      return;
+    }
+  }
+  STATE.currentTranscript = '';
+
+  STATE.recognition.onresult = (event) => {
+    let interim = '', final = '';
+    for (let i = event.resultIndex; i < event.results.length; i++) {
+      const t = event.results[i][0].transcript;
+      if (event.results[i].isFinal) final += t;
+      else interim += t;
+    }
+    if (final) STATE.currentTranscript += final;
+  };
+  STATE.recognition.onerror = (e) => {
+    showToast(`錄音錯誤: ${e.error}`);
+    setRecordingUI(false);
+  };
+  STATE.recognition.onend = () => {
+    // 如果還在錄音狀態就是使用者沒按停,自動重啟(Web Speech API 有 timeout)
+    if (STATE.isRecording) {
+      try { STATE.recognition.start(); } catch {}
+    }
+  };
+
+  try {
+    STATE.recognition.start();
+    STATE.isRecording = true;
+    setRecordingUI(true);
+    showToast('開始錄音 🎙️');
+  } catch (e) {
+    showToast(`無法啟動錄音: ${e.message}`);
+  }
+}
+
+function stopRecording() {
+  STATE.isRecording = false;
+  try { STATE.recognition.stop(); } catch {}
+  setRecordingUI(false);
+
+  const text = STATE.currentTranscript.trim();
+  if (!text) {
+    showToast('沒有錄到文字 🤷');
+    return;
+  }
+
+  const recordings = loadRecordings();
+  recordings.unshift({
+    text,
+    recordedAt: Date.now(),
+    synced: false,
+  });
+  saveRecordings(recordings);
+  renderRecordings();
+  showToast('已存到本機,回家可同步');
+}
+
+function setRecordingUI(on) {
+  const btn = document.getElementById('record-btn');
+  btn.textContent = on ? '⏹' : '🎤';
+  btn.classList.toggle('recording', on);
+}
+
+function loadRecordings() {
+  try { return JSON.parse(localStorage.getItem(CONFIG.LS_RECORDINGS) || '[]'); }
+  catch { return []; }
+}
+function saveRecordings(recs) {
+  localStorage.setItem(CONFIG.LS_RECORDINGS, JSON.stringify(recs));
+}
+function renderRecordings() {
+  const recs = loadRecordings();
+  const el = document.getElementById('recordings-list');
+  if (recs.length === 0) {
+    el.innerHTML = '<div class="empty">按下方橘色按鈕開始錄音</div>';
+    return;
+  }
+  el.innerHTML = recs.map((r, i) => `
+    <div class="recording-item">
+      <div class="time">${fmtRelative(r.recordedAt)}${r.synced ? ' · ✓ 已同步' : ' · 待同步'}</div>
+      <div class="text">${escapeHtml(r.text)}</div>
+      <div class="actions">
+        <button onclick="copyRecording(${i})">複製</button>
+        <button onclick="deleteRecording(${i})">刪除</button>
+      </div>
+    </div>
+  `).join('');
+}
+function deleteRecording(i) {
+  if (!confirm('確定刪除這筆錄音?')) return;
+  const recs = loadRecordings();
+  recs.splice(i, 1);
+  saveRecordings(recs);
+  renderRecordings();
+}
+function copyRecording(i) {
+  const recs = loadRecordings();
+  navigator.clipboard.writeText(recs[i].text).then(
+    () => showToast('已複製到剪貼簿'),
+    () => showToast('複製失敗')
+  );
+}
+
+async function syncRecordings() {
+  const recs = loadRecordings();
+  const toSync = recs.filter(r => !r.synced);
+  if (toSync.length === 0) {
+    showToast('沒有待同步的錄音');
+    return;
+  }
+  if (!navigator.onLine) {
+    showToast('目前離線,無法同步');
+    return;
+  }
+  if (!STATE.token) {
+    showLoginScreen();
+    return;
+  }
+
+  let okCount = 0;
+  for (const r of toSync) {
+    try {
+      const dateStr = new Date(r.recordedAt).toISOString().split('T')[0];
+      const res = await fetch(`${CONFIG.API_BASE}/models/Z_momSystem`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${STATE.token}`,
+        },
+        body: JSON.stringify({
+          DateDoc: dateStr,
+          Description: `[就診錄音] ${r.text}`,
+          Name: '孫玉美',
+        }),
+      });
+      if (res.ok) {
+        r.synced = true;
+        okCount++;
+      }
+    } catch (e) {
+      console.error('sync failed', e);
+    }
+  }
+  saveRecordings(recs);
+  renderRecordings();
+  showToast(`已同步 ${okCount}/${toSync.length} 筆`);
+}
+
+// =============================================================
+// UI helpers
+// =============================================================
+function setSyncStatus(text, cls) {
+  const el = document.getElementById('sync-status');
+  el.textContent = text;
+  el.className = 'sync-status ' + cls;
+}
+
+function showToast(text, duration = 1800) {
+  const el = document.getElementById('toast');
+  el.textContent = text;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), duration);
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+}
+
+function fmtDate(s) {
+  if (!s) return '—';
+  const d = new Date(s);
+  if (isNaN(d)) return String(s).substring(0, 10);
+  return `${d.getMonth()+1}/${d.getDate()}`;
+}
+function fmtTime(d) {
+  return `${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}`;
+}
+function fmtRelative(ts) {
+  const ms = Date.now() - ts;
+  const min = Math.floor(ms / 60000);
+  if (min < 1) return '剛剛';
+  if (min < 60) return `${min} 分鐘前`;
+  const h = Math.floor(min / 60);
+  if (h < 24) return `${h} 小時前`;
+  const d = Math.floor(h / 24);
+  return `${d} 天前`;
+}
+
+function renderTodayDate() {
+  const d = new Date();
+  const days = ['日','一','二','三','四','五','六'];
+  document.getElementById('today-date').textContent =
+    `${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()} 星期${days[d.getDay()]}`;
+}
+
+// =============================================================
+// Init
+// =============================================================
+function init() {
+  renderTodayDate();
+  renderQuestions();
+  renderRecordings();
+
+  const savedToken = sessionStorage.getItem(CONFIG.LS_TOKEN);
+  if (savedToken) {
+    STATE.token = savedToken;
+    loadMomData();
+  } else {
+    showLoginScreen();
+    // 先從 cache 撈個樣子出來
+    const cached = loadCache();
+    if (cached) {
+      STATE.momData = cached.data;
+      renderSummary();
+    }
+  }
+
+  // 連線狀態監聽
+  window.addEventListener('online', () => loadMomData());
+  window.addEventListener('offline', () => setSyncStatus('● 離線', 'offline'));
+}
+
+init();
+</script>
+
+</body>
+</html>
