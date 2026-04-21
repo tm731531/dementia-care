@@ -701,13 +701,78 @@ const CONFIG = {
   LS_NEXT_APPT: 'clinicNextAppt',  // 'YYYY-MM-DD'
 };
 
-// 關鍵字 → 從 Description 抓「值得提醒的症狀」
-const SYMPTOM_KEYWORDS = [
-  '痛', '不舒服', '無法', '抬不起', '抬起', '打人', '打', '摔', '跌',
-  '吞', '咬', '忘記', '燒', '暈', '抽', '顫', '抖動', '失禁',
-  '便秘', '嘔', '吐', '瀉', '迷路', '找不到', '傷', '嗜睡',
-  '不吃', '拒絕', '哭', '罵', '撞', '走失', '咳', '喘',
+// 症狀 pattern — 分類 + regex + 排除詞(解決「打」抓到「打招呼」的誤判)
+// 每個 group 內任一 pattern 命中 → 貼一個 group 的 tag
+const SYMPTOM_GROUPS = [
+  {
+    key: '攻擊行為', severity: 'high',
+    patterns: [/打人/, /要打/, /想打/, /動手/, /揮拳/, /打.?媽媽/, /咬人/, /罵人/, /推人/],
+    exclude: [/打招呼/, /打電話/, /打開/, /打掃/, /打扮/, /打字/, /打針/, /打點/, /打翻/, /打破/],
+  },
+  {
+    key: '疼痛', severity: 'high',
+    patterns: [/疼(?!愛)/, /痛(?!哭)/, /酸痛/, /刺痛/, /抽痛/, /不舒服/, /難受/],
+    exclude: [],
+  },
+  {
+    key: '身體功能', severity: 'high',
+    patterns: [/無法(?!入睡|睡)/, /抬不起/, /提不起/, /站不起來/, /走不動/, /舉不起/, /使不上力/],
+    exclude: [],
+  },
+  {
+    key: '跌倒撞擊', severity: 'high',
+    patterns: [/摔/, /跌/, /撞到/, /絆倒/, /倒地/],
+    exclude: [/摔角/, /撞見/],
+  },
+  {
+    key: '吞嚥口腔', severity: 'mid',
+    patterns: [/吞(?!下)/, /嗆到/, /咬到/, /流口水/, /口齒不清/],
+    exclude: [],
+  },
+  {
+    key: '大腦認知', severity: 'mid',
+    patterns: [/忘記/, /想不起來/, /叫不出/, /迷路/, /走失/, /找不到(?!東西)/, /不認得/],
+    exclude: [/忘記.?吃/],  // 忘記吃飯屬於飲食,另有 group
+  },
+  {
+    key: '發燒暈眩', severity: 'high',
+    patterns: [/發燒/, /發熱/, /燒到/, /頭暈/, /暈眩/, /天旋地轉/, /昏倒/],
+    exclude: [/不燒/],
+  },
+  {
+    key: '抽搐顫抖', severity: 'high',
+    patterns: [/抽搐/, /抽筋/, /顫抖/, /抖動/, /手抖(?!一下)/, /發抖/],
+    exclude: [],
+  },
+  {
+    key: '腸胃失禁', severity: 'mid',
+    patterns: [/便秘/, /失禁/, /嘔吐/, /腹瀉/, /拉肚子/, /挫屎/, /尿在/],
+    exclude: [],
+  },
+  {
+    key: '嗜睡呼吸', severity: 'mid',
+    patterns: [/嗜睡/, /昏睡/, /叫不醒/, /喘(?!氣|息)/, /呼吸困難/, /咳嗽/],
+    exclude: [],
+  },
+  {
+    key: '情緒失控', severity: 'mid',
+    patterns: [/哭(?!笑)/, /大哭/, /崩潰/, /歇斯底里/, /一直叫/, /大叫/, /罵三字經/],
+    exclude: [/哭笑不得/],
+  },
+  {
+    key: '飲食異常', severity: 'mid',
+    patterns: [/拒食/, /拒絕.?吃/, /不吃/, /吃不下/, /一口都不/, /吐出來/],
+    exclude: [/不吃藥(?!嗎)/, /不吃辣/],
+  },
+  {
+    key: '皮膚傷口', severity: 'low',
+    patterns: [/傷口/, /破皮/, /紅腫/, /瘀青/, /流血/, /擦傷/],
+    exclude: [],
+  },
 ];
+
+// severity 權重 → 排序時高的排前面
+const SEVERITY_WEIGHT = { high: 3, mid: 2, low: 1 };
 
 const STATE = {
   token: null,
@@ -797,13 +862,9 @@ async function loadMomData() {
   }
 
   try {
-    // 抓近 30 天的 Z_momSystem
-    const days = 30;
-    const since = new Date();
-    since.setDate(since.getDate() - days);
-    const sinceStr = since.toISOString().split('T')[0];
-
-    const url = `${CONFIG.API_BASE}/models/Z_momSystem?$filter=DateDoc ge '${sinceStr}'&$orderby=DateDoc desc&$top=50`;
+    // 拉自 2026-01-01 起的全部 Z_momSystem,讓規則引擎有夠長的 baseline 做對比
+    const sinceStr = '2026-01-01';
+    const url = `${CONFIG.API_BASE}/models/Z_momSystem?$filter=DateDoc ge '${sinceStr}'&$orderby=DateDoc desc&$top=200`;
     const res = await fetch(url, {
       headers: { 'Authorization': `Bearer ${STATE.token}` },
     });
@@ -976,6 +1037,120 @@ function renderAnomalies() {
     });
   }
 
+  // 偵測 2:連續天數同一異常(streak)
+  // records 是日期 desc,找最近的連續異常
+  const streakSpecs = trendSpecs.concat([
+    // 多餐拒食當連續異常信號
+  ]);
+  for (const spec of streakSpecs) {
+    const badSet = new Set(spec.badVals.map(String));
+    let streak = 0;
+    let streakLabel = '';
+    for (const r of records) {
+      let v = r[spec.f];
+      if (v == null || v === '') break; // 空值中斷連續
+      if (typeof v === 'object' && v !== null) v = v.id || v.propertyLabel || v.identifier;
+      v = String(v);
+      if (badSet.has(v)) {
+        streak++;
+        if (!streakLabel) streakLabel = spec.badAlias[v] || v;
+      } else break;
+    }
+    if (streak >= 4) {
+      anomalies.push({
+        severity: streak >= 7 ? 'high' : 'mid',
+        icon: '📉',
+        title: `${spec.zh}連續 ${streak} 天${streakLabel}`,
+        detail: `從昨天往回看,已經連續 ${streak} 天處於「${streakLabel}」狀態`,
+        suggestQuestion: `媽媽${spec.zh}已連續 ${streak} 天${streakLabel},要不要調整?`,
+      });
+    }
+  }
+
+  // 偵測 3:跨欄位同日組合(失智照顧常見的 co-occurrence pattern)
+  // 只看近 recentDays 天
+  const coRules = [
+    {
+      when: r => isBad(r, 'Breakfast', ['10000002','10000001']) || isBad(r, 'Lunch', ['10000002','10000001']) || isBad(r, 'Dinner', ['10000002','10000001']),
+      and:  r => isBad(r, 'Companionship', ['10000004','10000005']),
+      key:  '拒食+情緒不穩',
+      minDays: 2,
+      title: '情緒性拒食',
+      detailFn: n => `近 ${recentDays} 天有 ${n} 天同時出現拒食/吃少跟坐立不安`,
+      suggestQuestion: '媽媽情緒不穩時常常不吃飯,是用藥副作用還是焦慮?',
+    },
+    {
+      when: r => isBad(r, 'LastNightSleep', ['N','S']),
+      and:  r => isBad(r, 'MorningMentalStatus', ['A','B']),
+      key:  '睡眠差+精神差',
+      minDays: 3,
+      title: '睡眠差隔天精神不好',
+      detailFn: n => `近 ${recentDays} 天有 ${n} 天晚上睡不好、隔天晨起精神差`,
+      suggestQuestion: '媽媽睡眠斷續/差跟隔天精神差常一起出現,要不要評估助眠或褪黑激素?',
+    },
+    {
+      when: r => isBad(r, 'ExcretionStatus', ['10000007']), // 便秘
+      and:  r => {
+        const v1 = valOf(r, 'Breakfast'), v2 = valOf(r, 'Lunch'), v3 = valOf(r, 'Dinner');
+        return [v1,v2,v3].some(v => v === '10000002' || v === '10000001');
+      },
+      key:  '便秘+食慾差',
+      minDays: 2,
+      title: '便秘伴食慾差',
+      detailFn: n => `近 ${recentDays} 天有 ${n} 天便秘加上拒食/吃少`,
+      suggestQuestion: '媽媽便秘常伴隨食慾差,要不要檢查腸胃或調纖維/水分?',
+    },
+    {
+      when: r => {
+        const v = valOf(r, 'MorningMentalStatus');
+        return v === 'B'; // 差
+      },
+      and: r => {
+        const v = valOf(r, 'DailyActivity');
+        return v === 'N' || v === 'S'; // 未完成或抗拒
+      },
+      key: '嗜睡+活動未完成',
+      minDays: 3,
+      title: '白天精神差且不活動',
+      detailFn: n => `近 ${recentDays} 天有 ${n} 天精神差+日間活動未完成`,
+      suggestQuestion: '媽媽常精神差+不活動,要不要看看是否用藥過度或失智進程?',
+    },
+  ];
+
+  for (const rule of coRules) {
+    let days = 0;
+    for (const r of recent) {
+      if (rule.when(r) && rule.and(r)) days++;
+    }
+    if (days >= rule.minDays) {
+      anomalies.push({
+        severity: days >= rule.minDays * 2 ? 'high' : 'mid',
+        icon: '🔗',
+        title: rule.title,
+        detail: rule.detailFn(days),
+        suggestQuestion: rule.suggestQuestion,
+      });
+    }
+  }
+
+  // 偵測 4:長期問題(不是變差,是一直不好 — baseline 就差)
+  const chronicSpecs = trendSpecs.filter(s => s.f !== 'ExcretionStatus'); // 排泄資料常不全不適合
+  for (const spec of chronicSpecs) {
+    const all = badRatio(records, spec.f, spec.badVals);
+    if (all.total >= 30 && all.pct >= 60) {
+      // 避免跟趨勢項目重複(趨勢項是「變差」,這裡是「長期」)
+      const dup = anomalies.some(a => a.title.includes(spec.zh));
+      if (dup) continue;
+      anomalies.push({
+        severity: all.pct >= 80 ? 'mid' : 'low',
+        icon: '🧱',
+        title: `${spec.zh}是長期問題`,
+        detail: `從 1/1 算起 ${all.pct}% 的天數${spec.zh}不理想,不是最近才有`,
+        suggestQuestion: `${spec.zh}長期都不好(${all.pct}%),要不要從根本調整?`,
+      });
+    }
+  }
+
   if (anomalies.length === 0) {
     el.innerHTML = '<div class="empty">💚 這段時間狀況算穩定,沒有明顯變差的項目</div>';
     return;
@@ -993,6 +1168,19 @@ function renderAnomalies() {
       <button class="anomaly-suggest-btn" id="anomaly-btn-${i}" onclick="addSuggestedQuestion('${escapeAttr(a.suggestQuestion)}', 'anomaly-btn-${i}')">加進問題</button>
     </div>
   `).join('');
+}
+
+// 取出 Z_momSystem 欄位值(處理物件/字串兩種格式,回傳字串)
+function valOf(r, field) {
+  let v = r[field];
+  if (v == null || v === '') return null;
+  if (typeof v === 'object' && v !== null) v = v.id || v.propertyLabel || v.identifier;
+  return String(v);
+}
+function isBad(r, field, badVals) {
+  const v = valOf(r, field);
+  if (v == null) return false;
+  return badVals.map(String).includes(v);
 }
 
 function badRatio(records, field, badVals) {
@@ -1036,51 +1224,84 @@ function mealRefusalRate(records) {
 // =============================================================
 // 關鍵事件(從 Description 抓症狀關鍵字)
 // =============================================================
+function matchSymptomGroups(text) {
+  const matched = [];
+  for (const g of SYMPTOM_GROUPS) {
+    if (g.exclude.some(rx => rx.test(text))) continue;
+    if (g.patterns.some(rx => rx.test(text))) matched.push(g);
+  }
+  return matched;
+}
+
 function renderSymptomEvents() {
   const el = document.getElementById('symptom-events-list');
   const countEl = document.getElementById('events-count');
   const records = STATE.momData || [];
   if (records.length === 0) {
-    el.innerHTML = '<div class="empty">近 30 天沒有紀錄</div>';
+    el.innerHTML = '<div class="empty">沒有紀錄</div>';
     countEl.textContent = '';
     return;
   }
 
+  // 近 30 天範圍抓事件(記錄按日期 desc 排序)
+  const days = 30;
+  const cutoff = new Date();
+  cutoff.setDate(cutoff.getDate() - days);
+  cutoff.setHours(0,0,0,0);
+
   const events = [];
   for (const r of records) {
-    if (!r.Description) continue;
-    // Description 可能多段,用換行或 [TAG] 分割
+    if (!r.Description || !r.DateDoc) continue;
+    const recDate = new Date(r.DateDoc);
+    if (recDate < cutoff) continue;
     const chunks = r.Description.split(/\n+/).map(s => s.trim()).filter(Boolean);
     for (const chunk of chunks) {
-      const matched = SYMPTOM_KEYWORDS.filter(k => chunk.includes(k));
-      if (matched.length === 0) continue;
-      // 剝掉前綴 [DAY|HH:MM] 讓文字更乾淨
+      const groups = matchSymptomGroups(chunk);
+      if (groups.length === 0) continue;
       const text = chunk.replace(/^\[[^\]]+\]\s*/, '').trim();
       if (!text) continue;
+      // severity 取 group 裡最高者
+      const severity = groups.map(g => SEVERITY_WEIGHT[g.severity]).reduce((a,b)=>Math.max(a,b), 0);
       events.push({
         date: r.DateDoc,
         text,
-        keywords: [...new Set(matched)],
+        groups: [...new Set(groups.map(g => g.key))],
+        severity,
       });
     }
   }
 
+  // 同 group 出現幾次(用來顯示「近 30 天 3 次」類的提示)
+  const groupCount = {};
+  for (const e of events) {
+    for (const g of e.groups) {
+      groupCount[g] = (groupCount[g] || 0) + 1;
+    }
+  }
+
+  // 排序:severity 高→低,同 severity 日期新→舊
+  events.sort((a, b) => b.severity - a.severity || (a.date < b.date ? 1 : -1));
+
   countEl.textContent = events.length === 0 ? '' : `(${events.length} 則)`;
 
   if (events.length === 0) {
-    el.innerHTML = '<div class="empty">沒有抓到值得提醒的症狀關鍵字 🌿</div>';
+    el.innerHTML = '<div class="empty">沒有抓到值得提醒的症狀 🌿</div>';
     return;
   }
   el.innerHTML = events.map((e, i) => `
-    <div class="symptom-item">
+    <div class="symptom-item" data-severity="${e.severity}">
       <div class="symptom-body">
         <div class="symptom-meta">
           <span class="symptom-date">${fmtDate(e.date)}</span>
-          <span class="symptom-keywords">${e.keywords.map(k => `<span class="symptom-keyword">${escapeHtml(k)}</span>`).join('')}</span>
+          <span class="symptom-keywords">${e.groups.map(g => {
+            const freq = groupCount[g];
+            const badge = freq > 1 ? ` ×${freq}` : '';
+            return `<span class="symptom-keyword">${escapeHtml(g)}${badge}</span>`;
+          }).join('')}</span>
         </div>
         <div class="symptom-text">${escapeHtml(e.text)}</div>
       </div>
-      <button class="anomaly-suggest-btn" id="symptom-btn-${i}" onclick="addSuggestedQuestion('${escapeAttr(fmtDate(e.date) + ' ' + e.text.slice(0, 40) + (e.text.length > 40 ? '…' : ''))}', 'symptom-btn-${i}')">加進問題</button>
+      <button class="anomaly-suggest-btn" id="symptom-btn-${i}" onclick="addSuggestedQuestion('${escapeAttr(fmtDate(e.date) + ' ' + e.text.slice(0, 50) + (e.text.length > 50 ? '…' : ''))}', 'symptom-btn-${i}')">加進問題</button>
     </div>
   `).join('');
 }
