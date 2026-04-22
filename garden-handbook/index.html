@@ -497,7 +497,7 @@ footer a { color: var(--primary); text-decoration: none; }
 
   <div class="plant-sections">
     <details class="plant-section" open>
-      <summary><span class="summary-text">🪣 挑盆器的 5 原則</span></summary>
+      <summary><span class="summary-text">🏺 挑盆器的 5 原則</span></summary>
       <div class="section-body">
         <p>植物跟盆器有「黃金比例」大約是 <strong>1 : 1.68</strong>。盆器高度是 1,植物高度約 1.68 倍,最好看。</p>
         <ol>
@@ -660,8 +660,8 @@ const CATEGORIES = [
   { id: 'leafy',   label: '葉菜', emoji: '🥬' },
   { id: 'herb',    label: '香草', emoji: '🌿' },
   { id: 'fruit',   label: '果菜', emoji: '🍅' },
-  { id: 'root',    label: '根莖', emoji: '🍠' },
-  { id: 'foliage', label: '觀葉', emoji: '🪴' },
+  { id: 'root',    label: '根莖', emoji: '🥕' },
+  { id: 'foliage', label: '觀葉', emoji: '🌳' },
 ];
 
 const LEVEL_LABELS = { mild: '輕度', moderate: '中度', severe: '重度' };
@@ -706,7 +706,7 @@ const PLANTS = [
 </div>`,
       },
       {
-        id: 'pot-soil', emoji: '🪣', heading: '盆器與土壤',
+        id: 'pot-soil', emoji: '🏺', heading: '盆器與土壤',
         html: `
 <h4 style="color:var(--primary);">盆器</h4>
 <ul>
@@ -730,7 +730,7 @@ const PLANTS = [
 </ul>`,
       },
       {
-        id: 'steps', emoji: '🪴', heading: '種植步驟',
+        id: 'steps', emoji: '🌳', heading: '種植步驟',
         html: `
 <ol>
 <li><strong>選盆</strong> — 見上面「盆器與土壤」</li>
@@ -834,7 +834,7 @@ const PLANTS = [
   {
     id: 'snake-plant',
     name: '虎尾蘭',
-    emoji: '🪴',
+    emoji: '🌳',
     category: 'foliage',
     meta: {
       difficulty: '極低(忘了澆也活)',
@@ -864,7 +864,7 @@ const PLANTS = [
 </ul>`,
       },
       {
-        id: 'pot-soil', emoji: '🪣', heading: '盆器與土壤',
+        id: 'pot-soil', emoji: '🏺', heading: '盆器與土壤',
         html: `
 <h4 style="color:var(--primary);">盆器</h4>
 <ul>
@@ -999,7 +999,7 @@ const PLANTS = [
 </ul>`,
       },
       {
-        id: 'pot-soil', emoji: '🪣', heading: '盆器與土壤',
+        id: 'pot-soil', emoji: '🏺', heading: '盆器與土壤',
         html: `
 <h4 style="color:var(--primary);">水耕(家人分工首選)</h4>
 <ul>
@@ -1087,6 +1087,539 @@ const PLANTS = [
 <p>這份「小孩也會參與、綠意還在」的接續感,對照顧者的孤立感有幫助。</p>`,
         },
       },
+    ],
+  },
+
+  // =========== 小番茄(果菜)===========
+  {
+    id: 'cherry-tomato', name: '小番茄', emoji: '🍅', category: 'fruit',
+    meta: {
+      difficulty: '中等(光夠就能成功)',
+      season: '春、秋最佳(夏太熱反而不結果)',
+      light: '全日照(6 小時以上)',
+      location: '陽台 / 戶外',
+    },
+    sections: [
+      { id: 'why', emoji: '💡', heading: '為什麼值得種', html: `
+<ul>
+<li><strong>reward 超清楚</strong> — 從綠轉紅,每天都在變,視覺反饋強</li>
+<li><strong>一株可採 2-3 個月</strong></li>
+<li><strong>全家儀式感代表</strong> — 小孩特別愛</li>
+<li>但<strong>需要 6 小時以上日照</strong>,沒光就長不好</li>
+</ul>`},
+      { id: 'obtain', emoji: '🛒', heading: '取得方式', html: `
+<ul>
+<li><strong>花市幼苗(推薦)</strong> — 春秋花市有各種品種,一株 50-100 元。挑枝幹挺、葉色綠的</li>
+<li><strong>種子(進階)</strong> — 室內育苗 4-6 週再移盆,適合有耐心的人</li>
+</ul>`},
+      { id: 'pot-soil', emoji: '🏺', heading: '盆器與土壤', html: `
+<h4 style="color:var(--primary);">盆器</h4>
+<ul>
+<li>直徑 <strong>30 公分以上</strong>、深 <strong>30 公分以上</strong>(根系要深,小盆會矮化結果量少)</li>
+<li>盆底排水孔必備</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">土壤</h4>
+<ul>
+<li>富含有機質的培養土 + 蛭石/珍珠石增加排水</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">追肥(關鍵!)</h4>
+<ul>
+<li><strong>開花前</strong>:以<strong>磷鉀肥</strong>為主(促花)</li>
+<li><strong>結果期</strong>:補<strong>鈣肥</strong>(缺鈣會尾腐病,果底發黑)</li>
+<li>每 2 週液肥一次。蛋殼磨粉撒土面是天然鈣源</li>
+</ul>`},
+      { id: 'steps', emoji: '🌳', heading: '種植步驟', html: `
+<ol>
+<li>大盆填培養土九分滿</li>
+<li>幼苗輕脫盆(勿破壞根系),種入壓實</li>
+<li>澆透水(盆底有水流出)</li>
+<li>立支柱(番茄會長高,要扶)</li>
+<li>放全日照處</li>
+</ol>`},
+      { id: 'timing', emoji: '⏳', heading: '等待時間', html: `
+<table>
+<thead><tr><th>階段</th><th>時間</th></tr></thead>
+<tbody>
+<tr><td>幼苗種下 → 開花</td><td>4-6 週</td></tr>
+<tr><td>開花 → 果熟採收</td><td>3-4 週</td></tr>
+<tr><td>持續結果期</td><td>2-3 個月</td></tr>
+</tbody>
+</table>`},
+      { id: 'harvest', emoji: '✂️', heading: '採收', html: `
+<ul>
+<li>果實<strong>紅透</strong>再採(半紅會繼續在枝上熟)</li>
+<li>輕輕轉動自然脫落,不要硬拔(會傷枝)</li>
+<li>持續採收促進新花新果</li>
+<li><strong>授粉小技巧</strong>:開花期每天輕搖花枝幫授粉,果率會明顯提高</li>
+</ul>`},
+      { id: 'troubleshoot', emoji: '🛡', heading: '失敗點與除錯', html: `
+<table>
+<thead><tr><th>症狀</th><th>原因</th><th>對策</th></tr></thead>
+<tbody>
+<tr><td>開花多卻不結果</td><td>光不足 / 沒授粉</td><td>移到光更好處;開花期每天搖花枝</td></tr>
+<tr><td>果底發黑(尾腐病)</td><td><strong>缺鈣</strong></td><td>加鈣鎂肥或撒蛋殼粉;澆水要均勻</td></tr>
+<tr><td>葉子捲曲</td><td>缺水 / 缺鎂</td><td>土表乾才澆;補鎂肥</td></tr>
+<tr><td>葉有白粉</td><td>白粉病</td><td>通風、葉面噴稀釋牛奶(1:10)</td></tr>
+<tr><td>果皮裂開</td><td>久旱突然大澆</td><td>澆水保節奏</td></tr>
+</tbody>
+</table>`},
+      { id: 'dementia', emoji: '🧠', heading: '失智照護應用 Notes', byLevel: {
+        mild: `
+<div class="callout"><h4>📍 輕度:全家一起的每日儀式</h4>
+<p style="margin:0;">紅果對各年齡都有吸引力。小番茄可以是<strong>全家一起</strong>的 moment。</p></div>
+<ul>
+<li>澆水、搖花枝授粉 — 她都能自己做</li>
+<li>每天一起看有沒有紅的,紅了讓她採</li>
+<li>採收後請她洗、分裝、挑壞的</li>
+<li>「今天是幾顆紅的?」三代共同儀式</li>
+</ul>`,
+        moderate: `
+<div class="callout"><h4>📍 中度:你剪她分,她受益</h4>
+<p style="margin:0;">她無法完整管理,但可以參與關鍵節點。</p></div>
+<ul>
+<li>你負責日常澆水、施肥</li>
+<li><strong>採收時請她一起</strong>:你轉下紅果,她放進碗裡</li>
+<li>洗果子她能做(水中搖動、濾水) — 手部重複動作</li>
+<li>搖花枝授粉動作單純,她也能做</li>
+</ul>`,
+        severe: `
+<div class="callout"><h4>📍 重度:視覺 + 味覺陪伴</h4>
+<p style="margin:0;">不要求動作。紅色果實是視覺刺激,甜酸味是味覺連結。</p></div>
+<ul>
+<li>帶她看綠果變紅 — 慢慢變化對臥床長輩是溫柔的刺激</li>
+<li>採一顆紅的放她手上握,讓她聞、讓她吃</li>
+<li>小番茄是<strong>她這輩子吃過的味道</strong>,味覺記憶可能還在</li>
+</ul>`,
+      }},
+      { id: 'log', emoji: '📓', heading: '實測紀錄', html: `
+<p style="color:var(--muted);font-size:14px;"><em>由通識整理,Tom 家尚未實測。歡迎試種後 <a href="https://github.com/tm731531/dementia-care" style="color:var(--primary);">PR 補實測</a>。</em></p>`},
+    ],
+  },
+
+  // =========== 草莓(果菜)===========
+  {
+    id: 'strawberry', name: '草莓', emoji: '🍓', category: 'fruit',
+    meta: {
+      difficulty: '中等(夏天熱,不適合)',
+      season: '秋冬(11 月 – 隔年 4 月)',
+      light: '全日照(以早晨陽光為主)',
+      location: '陽台 / 戶外',
+    },
+    sections: [
+      { id: 'why', emoji: '💡', heading: '為什麼值得種', html: `
+<ul>
+<li><strong>小孩代言</strong> — 紅紅的、甜的,家裡有小孩就必種</li>
+<li><strong>採摘即食</strong> — reward 立刻到嘴裡</li>
+<li><strong>走莖繁殖</strong> — 一株會長出新株,越種越多</li>
+<li>台灣夏天太熱會休眠,要有心理準備:<strong>這是季節性植物</strong></li>
+</ul>`},
+      { id: 'obtain', emoji: '🛒', heading: '取得方式', html: `
+<ul>
+<li><strong>幼苗(主流)</strong> — 秋天 10-11 月花市有賣,一株 50-80 元</li>
+<li><strong>走莖(匍匐莖)</strong> — 朋友家有種可以剪一段走莖來扦插</li>
+<li>挑葉色翠綠、莖粗壯、無紅斑的</li>
+</ul>`},
+      { id: 'pot-soil', emoji: '🏺', heading: '盆器與土壤', html: `
+<h4 style="color:var(--primary);">盆器</h4>
+<ul>
+<li><strong>長條盆 或 吊盆</strong>(根系淺,不用深盆)</li>
+<li>深 15-20 cm 足夠</li>
+<li>吊盆特別適合 — 垂下來的草莓很美觀,也避免果實接觸土面</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">土壤</h4>
+<ul>
+<li><strong>排水性佳的砂質壤土</strong>,pH 微酸性(6.0-6.5)</li>
+<li>培養土混泥炭土 + 珍珠石</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">追肥</h4>
+<ul>
+<li><strong>花期前</strong>:磷鉀肥促花</li>
+<li><strong>結果期</strong>:<strong>禁止施氮肥</strong>(只會長葉不長果)</li>
+<li>鉀肥 + 鈣肥幫助果實飽滿</li>
+</ul>`},
+      { id: 'steps', emoji: '🌳', heading: '種植步驟', html: `
+<ol>
+<li>秋天(10-11 月)買幼苗</li>
+<li>長條盆填土至九分滿</li>
+<li>幼苗脫盆種入,<strong>生長點(心)要露出土面</strong>,埋太深會爛</li>
+<li>澆透水</li>
+<li>放全日照處(早晨太陽為主)</li>
+</ol>`},
+      { id: 'timing', emoji: '⏳', heading: '等待時間', html: `
+<table>
+<thead><tr><th>階段</th><th>時間</th></tr></thead>
+<tbody>
+<tr><td>幼苗種下 → 第一批花</td><td>4-6 週</td></tr>
+<tr><td>開花 → 果紅</td><td>4-5 週</td></tr>
+<tr><td>結果期</td><td>冬到春(約 4 個月)</td></tr>
+<tr><td>夏季</td><td>休眠,不結果</td></tr>
+</tbody>
+</table>`},
+      { id: 'harvest', emoji: '✂️', heading: '採收', html: `
+<ul>
+<li>等到<strong>整顆紅透</strong>再摘(離枝後不會再熟)</li>
+<li>連蒂一起摘下,保持果實完整</li>
+<li>新鮮採摘直接吃最好</li>
+</ul>`},
+      { id: 'troubleshoot', emoji: '🛡', heading: '失敗點與除錯', html: `
+<table>
+<thead><tr><th>症狀</th><th>原因</th><th>對策</th></tr></thead>
+<tbody>
+<tr><td>葉多無花</td><td>氮肥太多</td><td>停氮肥,改磷鉀</td></tr>
+<tr><td>葉子發黑 / 發白</td><td>真菌 / 白粉病</td><td>通風、減少淋濕葉面</td></tr>
+<tr><td>有螞蟻</td><td>有蚜蟲(共生)</td><td>抓蚜蟲、水沖</td></tr>
+<tr><td>果實變小</td><td>光不足 / 缺鉀</td><td>移光處;補鉀肥</td></tr>
+<tr><td>生長點發黑</td><td>種太深</td><td>重新種,心露出土面</td></tr>
+</tbody>
+</table>`},
+      { id: 'dementia', emoji: '🧠', heading: '失智照護應用 Notes', byLevel: {
+        mild: `
+<div class="callout"><h4>📍 輕度:祖孫共同記憶製造機</h4>
+<p style="margin:0;">草莓幾乎沒有長輩不喜歡,特別是跟小孩一起摘。</p></div>
+<ul>
+<li>秋冬季節一起種幼苗 — 從無到有的陪伴</li>
+<li>每天一起去看有沒有紅的</li>
+<li>她自己摘、自己吃 — 採摘即食的立即 reward</li>
+<li>跟小孩一起摘 — 一個祖孫場景</li>
+</ul>`,
+        moderate: `
+<div class="callout"><h4>📍 中度:她參與採與吃</h4>
+<p style="margin:0;">動作簡單:看到紅的 → 摘 → 放嘴裡。這個流程她可以完成。</p></div>
+<ul>
+<li>你負責日常照顧、除葉、補肥</li>
+<li>採收時牽她到盆邊,一起找紅的</li>
+<li>紅果很小,抓握對她的手指是<strong>溫和的運動</strong></li>
+<li>吃一顆的甜 — 不需語言,味覺直達</li>
+</ul>`,
+        severe: `
+<div class="callout"><h4>📍 重度:紅與甜的簡單喜悅</h4>
+<p style="margin:0;">草莓可能比其他活動更容易讓重度失智長輩有反應 — 因為太鮮明。</p></div>
+<ul>
+<li>採一顆洗淨放她手中,或切半放嘴邊</li>
+<li>紅與綠的視覺對比強烈,視覺刺激清楚</li>
+<li>甜味是幾乎所有人都會反應的味道</li>
+<li>不要求什麼,只要她吃一口那個甜</li>
+</ul>`,
+      }},
+      { id: 'log', emoji: '📓', heading: '實測紀錄', html: `
+<p style="color:var(--muted);font-size:14px;"><em>由通識整理,Tom 家尚未實測。歡迎試種後 <a href="https://github.com/tm731531/dementia-care" style="color:var(--primary);">PR 補實測</a>。</em></p>`},
+    ],
+  },
+
+  // =========== 九層塔(香草)===========
+  {
+    id: 'thai-basil', name: '九層塔', emoji: '🌿', category: 'herb',
+    meta: {
+      difficulty: '低(夏天超好長)',
+      season: '春、夏、秋(冬天會枯萎)',
+      light: '全日照 / 半日照',
+      location: '陽台 / 窗邊 / 戶外',
+    },
+    sections: [
+      { id: 'why', emoji: '💡', heading: '為什麼值得種', html: `
+<ul>
+<li><strong>台菜熟悉的味道</strong> — 三杯雞、炒海瓜子、蛋餅…台灣人幾乎都吃過</li>
+<li><strong>超好長</strong> — 夏天一週長一次高度,越剪越茂</li>
+<li><strong>強烈香氣</strong> — 對失智長輩有嗅覺觸發力</li>
+<li>扦插也活,一枝可以分好幾株</li>
+</ul>`},
+      { id: 'obtain', emoji: '🛒', heading: '取得方式', html: `
+<ul>
+<li><strong>種子</strong> — 撒種超容易,傳統市場、園藝店都有</li>
+<li><strong>幼苗</strong> — 花市、大賣場園藝區都有</li>
+<li><strong>扦插</strong> — 菜市場買的九層塔莖插水裡幾天就長根</li>
+</ul>`},
+      { id: 'pot-soil', emoji: '🏺', heading: '盆器與土壤', html: `
+<h4 style="color:var(--primary);">盆器</h4>
+<ul>
+<li>直徑 <strong>20 公分以上</strong>足夠(根系不大)</li>
+<li>排水孔必備</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">土壤</h4>
+<ul>
+<li>一般培養土即可,不挑</li>
+<li>排水稍好(不要積水)</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">追肥</h4>
+<ul>
+<li>月 1-2 次液肥(氮肥為主,促進葉長)</li>
+<li>生長期常採就常補</li>
+</ul>`},
+      { id: 'steps', emoji: '🌳', heading: '種植步驟', html: `
+<ol>
+<li>盆填培養土</li>
+<li>撒種(種子間距 5 cm 以上),或種幼苗</li>
+<li>澆水保持土壤濕潤</li>
+<li>約 1-2 週發芽 / 幼苗 2-3 天適應</li>
+<li>放全日照或半日照</li>
+</ol>`},
+      { id: 'timing', emoji: '⏳', heading: '等待時間', html: `
+<table>
+<thead><tr><th>階段</th><th>時間</th></tr></thead>
+<tbody>
+<tr><td>種子 → 發芽</td><td>7-14 天</td></tr>
+<tr><td>發芽 → 首次採收</td><td>4-6 週</td></tr>
+<tr><td>幼苗 → 首次採收</td><td>2-3 週</td></tr>
+<tr><td>持續採收期</td><td>整個春夏秋</td></tr>
+</tbody>
+</table>`},
+      { id: 'harvest', emoji: '✂️', heading: '採收', html: `
+<ul>
+<li><strong>剪頂端促分枝</strong>,越剪越茂密</li>
+<li>一次剪頂端 3-5 cm</li>
+<li><strong>花穗看到就剪掉</strong> — 開花後葉子會變苦,植株也停止長新葉</li>
+<li>冬天會枯萎,春天再重種</li>
+</ul>`},
+      { id: 'troubleshoot', emoji: '🛡', heading: '失敗點與除錯', html: `
+<table>
+<thead><tr><th>症狀</th><th>原因</th><th>對策</th></tr></thead>
+<tbody>
+<tr><td>開始開花</td><td>自然生長循環</td><td>剪掉花穗延長葉期</td></tr>
+<tr><td>葉子變小</td><td>氮肥不足 / 採太頻繁</td><td>補液肥;採收後多等幾天</td></tr>
+<tr><td>葉子有蟲咬</td><td>蚜蟲或菜蟲</td><td>水沖、手抓</td></tr>
+<tr><td>葉色變深、變苦</td><td>已經開花了</td><td>剪花穗 + 修剪頂端促新芽</td></tr>
+</tbody>
+</table>`},
+      { id: 'dementia', emoji: '🧠', heading: '失智照護應用 Notes', byLevel: {
+        mild: `
+<div class="callout"><h4>📍 輕度:她的廚房記憶庫觸發器</h4>
+<p style="margin:0;">九層塔的氣味對大部分台灣長輩是<strong>熟悉到閉眼就認得的</strong>。她可能會想起三杯雞、蛋餅這些她做過的料理。</p></div>
+<ul>
+<li>讓她剪葉子(頂端剪,她拿剪刀還行)</li>
+<li>請她洗、剝、分裝</li>
+<li>晚餐做三杯雞/九層塔煎蛋時讓她知道「這是妳陽台剪的」</li>
+<li>香氣 = 時光機。閒聊「以前家裡煮這個嗎?」</li>
+</ul>`,
+        moderate: `
+<div class="callout"><h4>📍 中度:剪剝香氣的三步</h4>
+<p style="margin:0;">剪、洗、聞,三個動作都很單一,她能做。</p></div>
+<ul>
+<li>你剪好葉放她面前的碗</li>
+<li>她<strong>剝老梗、分小葉</strong> — 跟剝蒜頭同類動作</li>
+<li>搓一片葉在手上,<strong>強烈香氣直接刺激嗅覺</strong>(嗅覺是最後退化的感官之一)</li>
+<li>炒菜時房間充滿熟悉的味道,她可能會走過來</li>
+</ul>`,
+        severe: `
+<div class="callout"><h4>📍 重度:香氣陪伴</h4>
+<p style="margin:0;">不要求動作。香氣本身就是陪伴。</p></div>
+<ul>
+<li>搓一片葉放她鼻前讓她聞</li>
+<li>放一束在她床邊或餐桌旁,香氣緩釋</li>
+<li>煮她喜歡的料理時,香氣會自然散到她附近</li>
+<li>嗅覺喚起的記憶比視覺深 —<strong>她可能反應在一個你沒預期的瞬間</strong></li>
+</ul>`,
+      }},
+      { id: 'log', emoji: '📓', heading: '實測紀錄', html: `
+<p style="color:var(--muted);font-size:14px;"><em>由通識整理,Tom 家尚未實測。歡迎試種後 <a href="https://github.com/tm731531/dementia-care" style="color:var(--primary);">PR 補實測</a>。</em></p>`},
+    ],
+  },
+
+  // =========== 韭菜(葉菜)===========
+  {
+    id: 'chinese-chive', name: '韭菜', emoji: '🌱', category: 'leafy',
+    meta: {
+      difficulty: '低(種下去幾乎不死)',
+      season: '四季皆可,春秋最旺',
+      light: '半日照 / 全日照',
+      location: '陽台 / 戶外',
+    },
+    sections: [
+      { id: 'why', emoji: '💡', heading: '為什麼值得種', html: `
+<ul>
+<li><strong>種下去不死</strong> — 多年生,一次種可以採好幾年</li>
+<li><strong>越剪越長</strong> — 一年可採 5-10 次</li>
+<li><strong>台式料理常見</strong> — 水餃、韭菜盒子、炒蛋、炒蝦仁</li>
+<li>傳統家庭常種,長輩熟悉</li>
+</ul>`},
+      { id: 'obtain', emoji: '🛒', heading: '取得方式', html: `
+<ul>
+<li><strong>種子</strong> — 便宜,撒種簡單</li>
+<li><strong>分株(最常用)</strong> — 朋友家一叢分幾段,或花市買盆裁分株</li>
+<li>挑葉色深綠、叢緊實的</li>
+</ul>`},
+      { id: 'pot-soil', emoji: '🏺', heading: '盆器與土壤', html: `
+<h4 style="color:var(--primary);">盆器</h4>
+<ul>
+<li><strong>長條盆</strong>(韭菜是叢生,長條盆好利用空間)</li>
+<li>深 20 cm 以上</li>
+<li>排水孔必備</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">土壤</h4>
+<ul>
+<li><strong>肥沃排水佳的壤土</strong></li>
+<li>培養土 + 有機肥基肥</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">追肥</h4>
+<ul>
+<li><strong>每次採收後必補氮磷鉀</strong> — 不補會越長越細弱</li>
+<li>有機肥(雞糞、堆肥)或液肥皆可</li>
+</ul>`},
+      { id: 'steps', emoji: '🌳', heading: '種植步驟', html: `
+<ol>
+<li>長條盆填培養土 + 有機肥</li>
+<li>種子撒種(蓋薄土 0.5 cm) 或 分株(一叢 3-5 根,間距 10 cm)</li>
+<li>澆透水</li>
+<li>放半日照以上處</li>
+<li>保持土壤微濕,不能乾透</li>
+</ol>`},
+      { id: 'timing', emoji: '⏳', heading: '等待時間', html: `
+<table>
+<thead><tr><th>階段</th><th>時間</th></tr></thead>
+<tbody>
+<tr><td>種子 → 發芽</td><td>10-14 天</td></tr>
+<tr><td>發芽 → 首次採收</td><td>2-3 個月(種子) / 2-3 週(分株)</td></tr>
+<tr><td>採收週期</td><td>每次剪後 3-4 週可再採</td></tr>
+<tr><td>每年採收次數</td><td>5-10 次</td></tr>
+</tbody>
+</table>`},
+      { id: 'harvest', emoji: '✂️', heading: '採收', html: `
+<ul>
+<li><strong>離地 3-5 cm</strong> 剪割,保留根部會再長</li>
+<li>剪完後 <strong>3-4 週可再採</strong></li>
+<li>採收後<strong>一定要補肥</strong>(不補會越長越細)</li>
+<li>叢太密時(每 2-3 年)可以分株換盆</li>
+</ul>`},
+      { id: 'troubleshoot', emoji: '🛡', heading: '失敗點與除錯', html: `
+<table>
+<thead><tr><th>症狀</th><th>原因</th><th>對策</th></tr></thead>
+<tbody>
+<tr><td>葉變黃、變細</td><td>缺肥(最常見)</td><td>每次採收後補肥</td></tr>
+<tr><td>叢太擁擠</td><td>2-3 年沒分株</td><td>春秋分株換盆</td></tr>
+<tr><td>葉子中空</td><td>可能是韭蔥(不是韭菜)</td><td>確認品種</td></tr>
+<tr><td>開花</td><td>自然循環</td><td>剪花穗促葉生長</td></tr>
+</tbody>
+</table>`},
+      { id: 'dementia', emoji: '🧠', heading: '失智照護應用 Notes', byLevel: {
+        mild: `
+<div class="callout"><h4>📍 輕度:水餃日的食材她自己準備</h4>
+<p style="margin:0;">韭菜跟水餃、韭菜盒子強綁。包水餃是很多台灣長輩一輩子做過的事。</p></div>
+<ul>
+<li>她自己剪、洗、切(如果她還能拿刀)</li>
+<li>以韭菜為中心的家庭 event — 一起包水餃、一起吃</li>
+<li>切韭菜的節奏感、香氣、濕潤觸感都很台式</li>
+</ul>`,
+        moderate: `
+<div class="callout"><h4>📍 中度:你剪她洗她分</h4>
+<p style="margin:0;">避免刀,改讓她做前置。</p></div>
+<ul>
+<li>你剪下一把,交給她洗、分段(用手剝也行)</li>
+<li>包水餃時讓她幫忙拌餡 — 她可能有肌肉記憶</li>
+<li>聞切開的韭菜味 — 熟悉的台式廚房氣味</li>
+</ul>`,
+        severe: `
+<div class="callout"><h4>📍 重度:香氣與記憶</h4>
+<p style="margin:0;">不要求動作。</p></div>
+<ul>
+<li>剪一把放花瓶裡放餐桌,她看、她聞</li>
+<li>煮家裡習慣的料理時,讓氣味瀰漫</li>
+<li>吃水餃時送一顆到嘴邊,熟悉的味道可能觸發反應</li>
+</ul>`,
+      }},
+      { id: 'log', emoji: '📓', heading: '實測紀錄', html: `
+<p style="color:var(--muted);font-size:14px;"><em>由通識整理,Tom 家尚未實測。歡迎試種後 <a href="https://github.com/tm731531/dementia-care" style="color:var(--primary);">PR 補實測</a>。</em></p>`},
+    ],
+  },
+
+  // =========== 青江菜(葉菜)===========
+  {
+    id: 'bok-choy', name: '青江菜', emoji: '🥬', category: 'leafy',
+    meta: {
+      difficulty: '低-中(生長期快)',
+      season: '秋、冬、春(夏天會抽苔)',
+      light: '半日照以上',
+      location: '陽台 / 戶外',
+    },
+    sections: [
+      { id: 'why', emoji: '💡', heading: '為什麼值得種', html: `
+<ul>
+<li><strong>生長期短</strong> — 40-60 天就能採,reward 迴路快</li>
+<li><strong>全年可種</strong> — 除了酷熱夏季,其他時間都適合</li>
+<li><strong>營養豐富</strong> — 維他命 A、C、鈣都多</li>
+<li>菜梗白白脆脆,炒食、煮湯、水煮都好用</li>
+</ul>`},
+      { id: 'obtain', emoji: '🛒', heading: '取得方式', html: `
+<ul>
+<li><strong>種子</strong> — 便宜,一包幾十塊可種很久</li>
+<li><strong>幼苗</strong> — 花市有,但通常種子比較划算</li>
+</ul>`},
+      { id: 'pot-soil', emoji: '🏺', heading: '盆器與土壤', html: `
+<h4 style="color:var(--primary);">盆器</h4>
+<ul>
+<li><strong>長條盆 或 淺盆</strong>(根系淺,不用深盆)</li>
+<li>深 15-20 cm 足夠</li>
+<li>排水孔必備</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">土壤</h4>
+<ul>
+<li><strong>肥沃排水佳的壤土</strong></li>
+<li>培養土 + 有機肥基肥混合</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">追肥</h4>
+<ul>
+<li>播種後 2 週追第一次肥,以<strong>氮肥</strong>為主(葉菜需要氮)</li>
+<li>生長期每 10-14 天補液肥</li>
+</ul>`},
+      { id: 'steps', emoji: '🌳', heading: '種植步驟', html: `
+<ol>
+<li>長條盆填培養土</li>
+<li>撒種(間距 5-8 cm,蓋薄土 0.5 cm)</li>
+<li>澆水保持土壤微濕</li>
+<li>放半日照以上</li>
+<li>發芽後間苗(每叢只留最強的一株)</li>
+</ol>`},
+      { id: 'timing', emoji: '⏳', heading: '等待時間', html: `
+<table>
+<thead><tr><th>階段</th><th>時間</th></tr></thead>
+<tbody>
+<tr><td>種子 → 發芽</td><td>3-5 天</td></tr>
+<tr><td>發芽 → 可採全株</td><td>40-60 天</td></tr>
+<tr><td>也可外葉陸續採</td><td>25-30 天後開始</td></tr>
+</tbody>
+</table>`},
+      { id: 'harvest', emoji: '✂️', heading: '採收', html: `
+<ul>
+<li><strong>全株拔收</strong>(傳統做法,連根拔起)</li>
+<li>或<strong>外葉陸續採</strong>(一片一片,讓心葉繼續長)</li>
+<li>一次種多株錯開播種,可以持續吃幾個月</li>
+</ul>`},
+      { id: 'troubleshoot', emoji: '🛡', heading: '失敗點與除錯', html: `
+<table>
+<thead><tr><th>症狀</th><th>原因</th><th>對策</th></tr></thead>
+<tbody>
+<tr><td>葉子被啃</td><td>菜蟲 / 蚜蟲</td><td>檢查葉背,手抓或水沖</td></tr>
+<tr><td>抽苔開花</td><td>夏天常見(溫度太高)</td><td>採種或剪掉,避開夏天種</td></tr>
+<tr><td>葉子發黃</td><td>缺水 / 缺肥</td><td>土乾才澆;補氮肥</td></tr>
+<tr><td>菜梗變細、葉變小</td><td>間苗不足、太擠</td><td>發芽後一定要拔掉多的幼苗</td></tr>
+</tbody>
+</table>`},
+      { id: 'dementia', emoji: '🧠', heading: '失智照護應用 Notes', byLevel: {
+        mild: `
+<div class="callout"><h4>📍 輕度:熟悉的家常菜</h4>
+<p style="margin:0;">青江菜是台灣家庭非常熟悉的菜,處理起來簡單不複雜。</p></div>
+<ul>
+<li>她自己拔、洗、擇菜</li>
+<li>剝老葉、切根 — 跟地瓜葉同類動作</li>
+<li>自己種自己吃,「這是我種的」的價值感</li>
+</ul>`,
+        moderate: `
+<div class="callout"><h4>📍 中度:你拔她揀</h4>
+<p style="margin:0;">你做刀/火/水的事,她做手的事。</p></div>
+<ul>
+<li>你拔菜、洗淨、切根</li>
+<li>她<strong>分揀、剝老葉、撕菜梗絲</strong> — 這個動作跟剝蒜頭、剝地瓜葉是同類型</li>
+<li>「把爛的挑出來」 — 簡單清晰的判斷動作,失智早中期還能做</li>
+</ul>`,
+        severe: `
+<div class="callout"><h4>📍 重度:視覺與參與</h4>
+<p style="margin:0;">不要求動作。</p></div>
+<ul>
+<li>採一株讓她看那個綠,綠葉白梗的對比強</li>
+<li>煮青江菜湯時讓她聞</li>
+<li>吃的時候切細,熟悉味道在嘴裡</li>
+</ul>`,
+      }},
+      { id: 'log', emoji: '📓', heading: '實測紀錄', html: `
+<p style="color:var(--muted);font-size:14px;"><em>由通識整理,Tom 家尚未實測。歡迎試種後 <a href="https://github.com/tm731531/dementia-care" style="color:var(--primary);">PR 補實測</a>。</em></p>`},
     ],
   },
 ];
