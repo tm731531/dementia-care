@@ -27,10 +27,17 @@
 所有 HTML app 遵守：
 - **單檔**：HTML + CSS + JS 全塞 `index.html`，不拆檔
 - **離線**：所有資源 inline（SVG favicon、base64 圖、不依賴 CDN 就能跑）
-- **零外部依賴**：不進 npm、不進 build step
+- **🔴 零外部 CDN 依賴**（強制）：**禁止**任何 `fonts.googleapis.com` / `cdnjs` / `unpkg` / `jsdelivr` / Google Fonts / Analytics / 外部 script 或 CSS。原因：使用者載入網頁時瀏覽器會從**使用者裝置直接**發請求到 CDN 伺服器,洩漏 IP + User-Agent + 時間給第三方,違反 **COPPA（兒童）/ GDPR-K / 個資法**。Cloudflare 部署擋不住這個（Cloudflare 只快取 HTML,外部字型請求還是瀏覽器從使用者端發）。字型靠系統 fallback (PingFang TC / Microsoft JhengHei),要自訂字型就 base64 inline 或自家域名。
+- **零建置步驟**：不進 npm、不進 build step
 - **繁體中文**：所有文字
 - **大字 + 大按鈕**：觸控友善，最小點擊區 48×48px
 - **SVG data URL emoji favicon**：離線也有 tab icon
+
+### 每次動工必跑的 CDN 檢查
+```bash
+grep -n -E 'https?://[^"]*\.(com|net|org|io|co)/' index.html | grep -v 'github.io\|tomting.com\|data:'
+# 任何輸出 = 違規,必須移除再 push
+```
 
 ## 資料閉環（最重要的一條線）
 ```

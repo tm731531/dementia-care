@@ -30,6 +30,7 @@ const APP = {
 - {{使用者是誰 → 對應的設計約束}}
 - {{離線？外部 API？什麼必須保留/避免}}
 - 所有文字繁體中文（除非有特殊理由）
+- **🔴 零外部 CDN 依賴**:不得用 Google Fonts / CDN / 外部 script。字型靠系統 fallback 或 base64 inline。詳見 `../CLAUDE.md` 共用原則。
 
 ## 開發指引
 - {{單檔 / 多檔規範}}
