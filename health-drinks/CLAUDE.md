@@ -36,20 +36,15 @@
 - `docs/data/drinks.json` 是爬蟲輸出，**目前未被網頁讀取**（歷史檔，可忽略或刪除）。
 - 圖片路徑格式：`images/<name>.jpg`，對應 `docs/images/` 資料夾。
 
-## 已知問題（待修）
+## 歷史問題（已修）
 
-1. **比較矩陣右側空白** — `.compare-outer` 只有 `max-height` 沒有固定 `height`，
-   flex 子元素的 `overflow-y/x: auto` 無法作用，表格被 `overflow: hidden` 裁掉。
-   修法：`.compare-outer` 改用 `height: 480px`。
-
-2. **所有圖片顯示「無圖片」** — `DRINKS` 陣列每筆 `"image": null`，
-   但 `docs/images/` 已有對應圖片。需補回路徑如 `"image": "images/yakult.jpg"`。
-
-3. **CSS 重複定義** — `.cell-best/.cell-good/.cell-warn/.cell-bad` 等定義了兩次
-   （第 228–234 行 與 第 236–243 行），後者覆蓋前者，應刪除重複。
-
-4. **`buildCompareTable` 多餘呼叫** — 第 701 行的 `buildCompareTable(DRINKS)` 多餘，
-   `applyFilters()` 在第 639 行已呼叫一次。
+~~比較矩陣右側空白 / 圖片 null / CSS 重複 / buildCompareTable 多餘呼叫~~ — 均已處理完畢。
+近期補完的事：
+- `compare-outer` 固定 height 生效
+- 所有 `"image"` 欄位補回實際路徑
+- CSS 去重
+- 比較矩陣的左欄 sticky 同步捲動雙向綁定
+- 新產品資料錄入時包含所有微量元素（標籤有什麼填什麼的規範）
 
 ## 核心功能說明
 
