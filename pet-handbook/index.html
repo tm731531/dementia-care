@@ -438,6 +438,59 @@ footer a { color: var(--primary); text-decoration: none; }
 
   <div class="topic-sections">
     <details class="topic-section" open>
+      <summary><span>❤ 失智照護 × 寵物選擇指南</span></summary>
+      <div class="section-body">
+        <div class="callout">
+          <h4>核心觀念:寵物是一種療法</h4>
+          <p style="margin:0;">對失智長輩,寵物的價值不在「完整照顧」,在<strong>陪伴與感官刺激</strong>:觸覺(摸毛)、嗅覺(熟悉氣味)、聽覺(貓叫、鳥啼)、時間感(固定餵食節奏)、情緒調節(撫摸的催產素)。</p>
+        </div>
+
+        <h4 style="color:var(--primary-dark);margin-top:14px;">不同物種在失智照護 context 的適配度</h4>
+        <table>
+          <thead><tr><th>物種</th><th>輕度</th><th>中度</th><th>重度</th><th>關鍵考量</th></tr></thead>
+          <tbody>
+            <tr><td>🐱 貓</td><td>✓</td><td>✓</td><td>△</td><td>相對獨立、不用戶外運動</td></tr>
+            <tr><td>🐶 小型犬</td><td>✓</td><td>△ 需家人協助</td><td>✗ 不建議新養</td><td>每天散步、社交需求強</td></tr>
+            <tr><td>🐶 大型犬</td><td>✓</td><td><strong>✗</strong></td><td>✗</td><td><strong>每天長時間運動,中度體力跟不上</strong></td></tr>
+            <tr><td>🐰 兔</td><td>✓</td><td>△ 需家人協助</td><td>△ 需家人協助</td><td>清理複雜、怕熱、要每日觀察</td></tr>
+            <tr><td>🐦 鳥</td><td>✓</td><td>視種類</td><td>✗</td><td>鳥叫可能刺激睡眠,鸚鵡類需大量互動</td></tr>
+            <tr><td>🐹 倉鼠</td><td>△ 視作息</td><td>✗</td><td>✗</td><td><strong>夜行性,跟失智晚間躁動時間衝突</strong></td></tr>
+            <tr><td>🐠 魚</td><td>✓ 觀賞</td><td>△ 需家人協助</td><td>△ 需家人協助</td><td><strong>換水複雜,忘了魚會死</strong>。觀賞價值高</td></tr>
+            <tr><td>🐢 烏龜</td><td>✓</td><td>△</td><td>△</td><td><strong>壽命 50–100 年,要考慮接班人</strong></td></tr>
+          </tbody>
+        </table>
+
+        <h4 style="color:var(--primary-dark);margin-top:14px;">選擇原則(依失智程度)</h4>
+        <ul>
+          <li><strong>輕度失智</strong> — 以長輩喜好為主,提供陪伴。所有物種都可考慮,但要有備援(家人協助)</li>
+          <li><strong>中度失智</strong> — <strong>選「看得到、能陪伴」的動物,實際照顧由家人負責</strong>。避免需精細流程或高體力的(大型犬、倉鼠、複雜水族)</li>
+          <li><strong>重度失智</strong> — <strong>不建議新養寵物</strong>,現有寵物維持。寵物是陪伴,照顧 100% 由家人全責</li>
+        </ul>
+
+        <div class="callout warn">
+          <h4>⚠️ 新養寵物前的家人討論</h4>
+          <p style="margin:0;">「長輩想養 X」是一回事,「家人是否願意接手照顧」是另一回事。失智進程會走下坡,今天長輩能自己帶狗散步,3 年後可能不行。<strong>決定養之前就要討論接手方案</strong>。</p>
+        </div>
+
+        <h4 style="color:var(--primary-dark);margin-top:14px;">已有寵物、長輩失智的家庭</h4>
+        <ul>
+          <li>盡量<strong>保留原有寵物</strong> — 熟悉的動物對失智長輩是<strong>記憶錨點</strong></li>
+          <li>照顧成本太重(每日散步、複雜照顧)時,<strong>家人先接手,不要送走</strong></li>
+          <li>觀察寵物狀態 — 長輩忘記餵食、忘記水碗 → 家人補位,不是責備</li>
+          <li>寵物過世時,長輩可能<strong>反覆問「牠去哪了?」</strong> — 平靜回答同樣的話,不堅持矯正</li>
+        </ul>
+
+        <h4 style="color:var(--primary-dark);margin-top:14px;">寵物陪伴的具體做法</h4>
+        <ul>
+          <li><strong>每天一個固定的寵物互動時段</strong>(例如早餐後 10 分鐘摸貓)— 儀式感比時長重要</li>
+          <li><strong>讓長輩參與簡單照顧</strong> — 倒飼料、換水、刷毛(不用完成,能做一部分就有意義)</li>
+          <li><strong>寵物陪伴可取代部分用藥</strong> — 有研究顯示失智者跟動物互動時的情緒波動、焦慮都降低。問主治醫師能否列入 non-pharmacological intervention</li>
+          <li><strong>不要強迫</strong> — 有些長輩因過往經驗怕動物,不接受就不接受,別當「療法」硬推</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="topic-section">
       <summary><span>🔤 疫苗代號對照</span></summary>
       <div class="section-body">
         <table>
@@ -617,6 +670,7 @@ const CATEGORIES = [
   { id: 'bird',    label: '鳥',   emoji: '🐦' },
   { id: 'hamster', label: '倉鼠', emoji: '🐹' },
   { id: 'fish',    label: '魚',   emoji: '🐠' },
+  { id: 'turtle',  label: '烏龜', emoji: '🐢' },
 ];
 
 const TOPICS = [
@@ -865,36 +919,19 @@ const TOPICS = [
 <li>但:<strong>只要成分及製程 OK,適度的穀物/碳水也能幫助消化</strong></li>
 </ul>
 <p><strong>結論</strong>:「無穀」不是唯一標準,「Top 5 沒植物」比較重要。</p>`},
-      { emoji: '✅', heading: 'Tom 可接受的品牌', html: `
-<table>
-<thead><tr><th>品牌</th><th>口味</th><th>好處</th><th>缺點</th></tr></thead>
-<tbody>
-<tr><td>狂響</td><td>火雞、魚</td><td>動物蛋白極高</td><td>很貴,商家少</td></tr>
-<tr><td>渴望 Orijen</td><td>雞、六種魚</td><td>平均 OK</td><td>不同口味貓不一定吃</td></tr>
-<tr><td>怪獸部落</td><td>雞</td><td>動物蛋白極高</td><td>極貴</td></tr>
-<tr><td>RAWZ</td><td>魚、雞</td><td>40% 動物蛋白,前七為肉</td><td>國內資訊少</td></tr>
-</tbody>
-</table>`},
-      { emoji: '❌', heading: 'Tom 已放棄的品牌', html: `
-<table>
-<thead><tr><th>品牌</th><th>放棄原因</th></tr></thead>
-<tbody>
-<tr><td>ZIWI</td><td>價格貴、顆粒大</td></tr>
-<tr><td>洛磯山(海陸饗宴)</td><td>第二項植物,蛋白灌水嫌疑</td></tr>
-<tr><td>莫比</td><td>第一肉粉後都植物,蛋白嚴重灌水</td></tr>
-<tr><td>GO 四種肉</td><td>第二項植物,蛋白灌水</td></tr>
-<tr><td>紐頓</td><td>第二項植物,蛋白灌水</td></tr>
-<tr><td>Acana 愛肯拿</td><td>內容都動物為主,但蛋白偏低、價格</td></tr>
-</tbody>
-</table>`},
-      { emoji: '⚠️', heading: '特別不建議:耐吉斯 HRS', html: `
-<div class="callout warn">
-<p style="margin:0;">耐吉斯的製造廠商不透明,沒明確的英文品牌名,不在國外銷售。過去出過幾次嚴重食安問題。<strong>非常不建議</strong>。</p>
-</div>`},
-      { emoji: '📓', heading: '還有評價:希爾思 & 法國皇家', html: `
-<p>Hill's 希爾思、Royal Canin 法國皇家 — 這兩款是獸醫院最常推的品牌。</p>
-<p>網路流傳<strong>「貓吃了會挑嘴,不推薦」</strong>(給過之後貓就只吃這個,不吃別的)。</p>
-<p>但也有人覺得「就是因為好吃貓才會想吃」。各自取捨。</p>`},
+      { emoji: '📝', heading: '挑飼料的自我檢核', html: `
+<p>每次換新品牌,用這個 checklist 過一次:</p>
+<ul>
+<li>☐ 乾物質蛋白 &gt; 40%</li>
+<li>☐ 成分表 Top 5 全是動物肉(沒肉粉、沒植物)</li>
+<li>☐ 第 6 項後植物出現沒關係,但肉粉不能太多</li>
+<li>☐ 沒有馬鈴薯、南瓜、玉米、白米等澱粉類在前 5</li>
+<li>☐ 沒有模糊肉源(「禽類」「肉副產物」這種)</li>
+<li>☐ 顆粒不能花花綠綠(色素)</li>
+<li>☐ 品牌有透明的英文品牌名、有在國外銷售</li>
+<li>☐ 貓確實愛吃(適口性)</li>
+</ul>
+<p>以上全打勾,才考慮長期吃。6 項以下:換。</p>`},
     ],
   },
 
