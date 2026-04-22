@@ -1,5 +1,8 @@
 # Agent Team Configuration — health-drinks
 
+> 繼承母層規則：`../AGENTS.md`（共用 Model Selection、Debug Limit、Verification、Brain refs）。
+> 下面只列 health-drinks 專案特有的內容。
+
 ## Perspective Inventory
 
 | Perspective | Risk (0-3) | Scope (0-3) | Score | Notes |

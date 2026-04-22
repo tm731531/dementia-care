@@ -1,5 +1,8 @@
 # Agent Team Configuration — kids-companion
 
+> 繼承母層規則：`../AGENTS.md`（共用 Model Selection、Debug Limit、Verification、Brain refs）。
+> 下面只列 kids-companion 專案特有的內容。
+
 ## Roles
 
 | Agent | Model | Role | Phase |
