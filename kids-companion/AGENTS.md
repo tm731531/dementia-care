@@ -3,7 +3,26 @@
 > 繼承母層規則：`../AGENTS.md`（共用 Model Selection、Debug Limit、Verification、Brain refs）。
 > 下面只列 kids-companion 專案特有的內容。
 
-## Roles
+## Project-Specific Perspective Inventory
+
+**真實使用者**（見母層 stakeholder 目錄）：
+- 🧒 **小孩 1-6 歲** = 體驗使用者（分 4 年齡層：toddler/small/middle/large）
+- 👨‍👩‍👧 **家長** = 操作 + 陪伴使用者（拖拉最愛卡、調年齡組、看今日紀錄）
+
+| Perspective | Risk | Scope | Score | Notes |
+|--|--|--|--|--|
+| 🧒 小孩 toddler 1-2 歲 | 3 | 3 | 9 | 不識字、手指不準、注意力 < 3 分、只認顏色 / 形狀 / 聲音 |
+| 🧒 小孩 small 3-4 歲 | 3 | 3 | 9 | 開始認字、愛重複、會辨認動物 / 食物，不看長句 |
+| 🧒 小孩 middle 4-5 歲 | 2 | 2 | 4 | 能讀短句、會推理、愛挑戰 |
+| 🧒 小孩 large 5-6 歲 | 2 | 2 | 4 | 能讀段落、懂隱喻、可接受文化背景（古詩） |
+| 👨‍👩‍👧 家長（陪伴者）| 3 | 2 | 6 | 想陪玩但怕 3 歲誤觸；設定要隱藏、最愛 × 不能明顯；時長要管 |
+| PM | 2 | 2 | 4 | 自適應深度哲學是核心 |
+| Tester | 3 | 2 | 6 | 4 年齡層 × 23 活動 = 92 組合要驗，用 Playwright |
+| Implementer (HTML/CSS/JS) | 2 | 3 | 6 | 15000 行單檔，錨點系統是必要 |
+| Architect | 2 | 2 | 4 | 單檔 + 無框架，改動範圍小 |
+| Copywriter | 3 | 2 | 6 | 每個活動 4 層深度內容，句子要符合年齡 |
+
+## Roles（legacy 命名）
 
 | Agent | Model | Role | Phase |
 |-------|-------|------|-------|
@@ -11,7 +30,7 @@
 | implementer | sonnet | 活動實作、CSS 樣式、遊戲邏輯 | 實作 |
 | spec-reviewer | opus | 規格合規審查（對照 design spec） | 審查 |
 | quality-reviewer | sonnet | 程式碼品質審查、回歸測試 | 審查 |
-| user-reviewer | sonnet | 從家長 & 3–6 歲孩子角度驗收 | 審查 |
+| user-reviewer | sonnet | **扮成「小孩 + 家長」做驗收**（不是抽象 User），依實際年齡層切視角 | 審查 |
 
 ## Workflow Override Rules
 

@@ -4,9 +4,16 @@
 
 ## Project-Specific Perspective Inventory
 
+**真實使用者**（見母層 stakeholder 目錄）：
+- 💝 **Tom（照顧者）** = 晚間拍白板 + 驗證 OCR 結果
+- 👷 **居服員** = 白天 LINE 回報事件 + 偶爾轉傳給 bot
+- 🩺 **醫生**（間接受眾）= 最終透過 iDempiere 看月報資料
+
 | Perspective | Risk | Scope | Score | Notes |
 |--|--|--|--|--|
-| User（Tom + 居服員）| 2 | 2 | 4 | 每天 1 次固定操作，流程穩 |
+| 💝 Tom（拍照 + 驗證）| 2 | 2 | 4 | 每晚 1 次固定操作，5 分鐘內完成。confirm 介面要明確 |
+| 👷 居服員（LINE 轉傳）| 2 | 2 | 4 | 格式多變（有時含「Tom 說:」前綴、有時直接文字）。bot 要容錯 |
+| 🩺 醫生（間接受眾）| 3 | 2 | 6 | OCR 錯誤會影響醫生判斷。寧缺勿錯原則 |
 | PM（資料閉環）| 3 | 3 | 9 | 上游中斷 → 整條鏈都斷 |
 | Tester | 3 | 2 | 6 | OCR 準度 + upsert 邏輯必驗 |
 | Implementer (Python) | 2 | 2 | 4 | telegram-bot + gemini + requests |

@@ -5,23 +5,28 @@
 
 ## Perspective Inventory
 
-| Perspective | Risk (0-3) | Scope (0-3) | Score | Notes |
-|-------------|------------|-------------|-------|-------|
-| User | 1 | 1 | 1 | 照護者比較飲品，操作介面需直覺 |
-| PM | 1 | 1 | 1 | 符合 dementia-care 上層目標，資料維護易用 |
-| Tester | 2 | 2 | 4 | 比較矩陣、篩選器、Modal、圖表各自正確性 |
-| Implementer (HTML/CSS/JS) | 2 | 3 | 6 | 單一 HTML 檔但功能複雜，含 CSS layout + JS 互動 |
-| Architect | 1 | 2 | 2 | 資料結構 DRINKS[]、applyFilters 資料流 |
+**真實使用者**（見母層 stakeholder 目錄）：
+- 💊 **藥師**（Tom 的朋友）= 專業視角，會挑剔成分，用來跟客戶推薦或自用
+- 💝 **Tom（照顧者）**= 家用視角，給女兒 / 長輩選配方奶粉或營養補充
+- 🧓 **失智者 / 長輩**（間接受眾）= 有特殊營養需求（糖尿病配方、濃縮蛋白）
 
-**Score ≥ 6** → 專屬 agent：Implementer
-**Score 3-5** → 可合併：Tester（折入 Implementer）
-**Score 1-2** → 折入：User、PM、Architect
+| Perspective | Risk | Scope | Score | Notes |
+|--|--|--|--|--|
+| 💊 藥師（專業使用者）| 3 | 2 | 6 | 微量元素必須齊全，排序要合邏輯，可比對多品牌同類產品 |
+| 💝 Tom（家用使用者）| 2 | 2 | 4 | 用手機/平板看，挑小孩 or 長輩的配方，要快速比較 |
+| 🧓 長輩（間接受眾）| 2 | 1 | 2 | 最終喝的人，營養成分要符合醫療需求（糖尿病、腎病配方）|
+| PM | 1 | 1 | 1 | 符合 dementia-care 上層目標 |
+| Tester | 2 | 2 | 4 | 比較矩陣、篩選器、Modal、圖表各自正確性 |
+| Implementer (HTML/CSS/JS) | 2 | 3 | 6 | 單一 HTML 檔但功能複雜 |
+| Architect | 1 | 2 | 2 | 資料結構 DRINKS[]、applyFilters 資料流 |
+| Data entry（拍標籤 + AI 錄入）| 3 | 2 | 6 | 微量元素不可省、標籤有什麼就填什麼 |
 
 ## Agents
 
-| Agent | Model | Memory | Primary Perspectives | Folded Perspectives | Priority Order |
-|-------|-------|--------|----------------------|---------------------|----------------|
-| implementer | sonnet | 0.6 GB | Impl (HTML/CSS/JS), Tester | User, PM, Architect | Tester > Impl > User > PM > Architect |
+| Agent | Model | Memory | Primary Perspectives | Folded Perspectives | Priority |
+|--|--|--|--|--|--|
+| implementer | sonnet | 0.6 GB | Impl, Tester | Tom, Architect | Tester > Impl > Tom |
+| data-reviewer | opus | 1.0 GB | Data entry, 藥師 | 長輩 | 藥師 > Data > 長輩 |
 
 ## Memory Budget
 
