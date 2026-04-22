@@ -1226,6 +1226,7 @@ function renderTabs() {
 function makePlantCard(plant) {
   const card = document.createElement('div');
   card.className = 'plant-card';
+  card.dataset.plantId = plant.id;
   if (STATE.favorites.includes(plant.id)) card.classList.add('is-fav');
   card.innerHTML = `
     <span class="icon">${plant.emoji}</span>
@@ -1234,6 +1235,14 @@ function makePlantCard(plant) {
   `;
   card.onclick = () => openPlant(plant.id);
   return card;
+}
+
+function updateAllPlantCardsFavState() {
+  document.querySelectorAll('.plant-card').forEach(card => {
+    const pid = card.dataset.plantId;
+    if (STATE.favorites.includes(pid)) card.classList.add('is-fav');
+    else card.classList.remove('is-fav');
+  });
 }
 
 function renderFavorites() {
@@ -1331,6 +1340,8 @@ function toggleFav() {
   else STATE.favorites.push(CURRENT_PLANT_ID);
   saveState();
   updateFavBtn();
+  renderFavorites();              // 同步首頁最愛區
+  updateAllPlantCardsFavState();  // 同步所有 plant card 右上角 ⭐
 }
 
 // =========================================================
