@@ -172,7 +172,15 @@ africa(20) / grassland(20) / home(20) / taiwan(20) / birds(20) / ocean(20) / ins
 新增活動時若忘記加入 `ACTIVITY_LABELS` map，完成後「今日學習紀錄」tag 會顯示 `page-zoo` 而不是「動物園 🦁」。
 **Rule**：新活動要 grep `ACTIVITY_LABELS\|PAGE_ICONS` 等 map name 做 audit。
 
-### 4. 動物 id 跨類別重複（orca、puffin）
+### 4. 寬螢幕 layout 一律置中或滿版,禁止左對齊
+Repo 設計約定:任何主要內容元素(canvas/圖/卡片/按鈕群)在寬螢幕上**要嘛置中要嘛滿版**,**禁止左上角靠左**。
+踩坑:`.draw-canvas` 原本 `width: calc(100% - 32px); max-width: 720px; margin: 0 16px;` — 在 1920px 寬螢幕,canvas 固定 720px 寬卡左邊,右邊留 1200px 空白,視覺超怪。
+**Rule**:
+- 有 max-width 的元素 → 一律 `margin: 0 auto` 置中(不是 `margin: 0 16px`)
+- 父容器用 flex column + `align-items: center` 的話子元素會自動置中,可以不用每個都 auto
+- 寬螢幕常檢查:開 F12 切視窗到 1920px 看 layout 有沒有奇怪靠左
+
+### 5. 動物 id 跨類別重複（orca、puffin）
 orca 原本在 ocean，puffin 原本在 birds。我新加極地類時又放一次，造成搜尋「虎鯨」出現 2 筆結果 + IMG 互相覆蓋。
 **Rule**：新增動物前 grep `id:'xxx'` 確認 id 唯一。
 
