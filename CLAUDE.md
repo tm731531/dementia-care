@@ -96,13 +96,41 @@ git add ... && git commit -m "..." && git push
 - Two-table sticky 對齊 / 雙向捲動同步（health-drinks）
 - `.activity-card .icon` CSS 合約（kids-companion）
 
+## 兩種擴充情境
+
+### 情境 1：為既有專案加新頁面/功能（90% 情況）
+**只改那個子專案**，母層通常不用動。
+- 編輯 `該專案/CLAUDE.md` 加功能說明
+- 寫程式
+- 更新 `該專案/docs/superpowers/plans/current-state.md`「已完成里程碑」
+
+### 情境 2：開一個新子專案（新資料夾）
+**複製模板 + 同步母層索引**：
+```bash
+cp -r _template my-new-project
+cd my-new-project
+# 改 CLAUDE.md / AGENTS.md / README.md 的佔位變數(見 _template/README.md)
+# 在 ../index.html landing 頁加卡片
+# 在 ../docs/superpowers/plans/2026-04-22-monorepo-roadmap.md 加索引
+```
+
+模板位於 `_template/`，複製後用 `{{PROJECT_NAME}}` / `{{EMOJI}}` 等佔位取代。
+
+### 什麼情況該動母層
+- 新增第 7 個子專案 → 更新 monorepo-roadmap 子專案索引
+- 發現跨專案共通踩坑 → 寫進 Brain (`design-principles.md`)
+- 共用技術棧變動（例：所有 app 都換 X）→ 更新母層 CLAUDE.md
+
 ## 檔案結構
 ```
 dementia-care/
   CLAUDE.md                    # 本檔案(monorepo 導覽)
+  AGENTS.md                    # 母層共用 agent 規則
   README.md                    # 給使用者的專案介紹
   index.html                   # Landing page(6 個工具卡片)
   LICENSE
+  _template/                   # 新專案 scaffold 模板
+  docs/superpowers/plans/      # 母層 roadmap
   dementia-companion/          # v1
   dementia-companion-v2/       # v2
   kids-companion/              # 兒童學習
@@ -111,4 +139,5 @@ dementia-care/
   health-drinks/               # 營養飲品比較
 ```
 
-每個子專案都有自己的 `CLAUDE.md` + `README.md`。進子資料夾時以子 CLAUDE 為主，這份只作為 monorepo 總覽。
+每個子專案都有自己的 `CLAUDE.md` + `AGENTS.md` + `docs/superpowers/plans/`。
+進子資料夾時以子層為主，這份母層只作為 monorepo 總覽 + 共用規則來源。
