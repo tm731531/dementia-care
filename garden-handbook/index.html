@@ -4,414 +4,1009 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🌱 家庭可食植物手冊 — 讓整個家忙起來</title>
-<meta name="description" content="家庭可食植物種植手冊。陽台、窗邊、室內盆栽都能種。每個植物附失智照護應用 notes。純前端、離線、免費、無廣告。">
+<meta name="description" content="家庭可食植物種植手冊。陽台、窗邊、室內盆栽都能種。每個植物附失智照護應用 notes + 可存自己的 memo。純前端、離線、免費、無廣告。">
+<link rel="canonical" href="https://tm731531.github.io/dementia-care/garden-handbook/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22%3E%3Ctext%20y=%22.9em%22%20font-size=%2290%22%3E🌱%3C/text%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22%3E%3Ctext%20y=%22.9em%22%20font-size=%2290%22%3E🌱%3C/text%3E%3C/svg%3E">
 <style>
-  :root {
-    --green-dark: #3a6b2e;
-    --green-mid: #4a7c3c;
-    --green-light: #e8f4e4;
-    --green-lighter: #f4faf1;
-    --text: #2a2a2a;
-    --text-soft: #555;
-    --border: #d4d4d4;
-    --warn-bg: #fff4e0;
-    --warn-border: #e5b966;
-  }
-  * { box-sizing: border-box; }
-  html { font-size: 18px; scroll-behavior: smooth; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
-    color: var(--text);
-    background: #fafafa;
-    line-height: 1.75;
-    margin: 0;
-    padding: 0;
-  }
-  .wrapper {
-    max-width: 760px;
-    margin: 0 auto;
-    padding: 20px 24px 60px;
-  }
+:root {
+  --primary: #4a7c3c;
+  --primary-dark: #3a6b2e;
+  --primary-light: #98d8c8;
+  --bg: #f4faf1;
+  --card: #ffffff;
+  --text: #2a2a2a;
+  --muted: #888;
+  --border: #d4d4d4;
+  --warn-bg: #fff4e0;
+  --warn-border: #e5b966;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html { overscroll-behavior: none; }
+body {
+  font-family: 'PingFang TC', 'Microsoft JhengHei', -apple-system, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 18px;
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
 
-  /* Header */
-  header.hero {
-    padding: 48px 24px 32px;
-    text-align: center;
-    background: linear-gradient(180deg, var(--green-lighter), #fafafa);
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 32px;
-  }
-  header.hero h1 {
-    font-size: 2.2rem;
-    margin: 0 0 8px;
-    color: var(--green-dark);
-  }
-  header.hero .subtitle {
-    font-size: 1.1rem;
-    color: var(--text-soft);
-    margin: 0;
-  }
+/* Page system */
+.page { display: none; padding: 16px; min-height: 100vh; max-width: 900px; margin: 0 auto; }
+.page.active { display: block; }
 
-  /* TOC */
-  nav.toc {
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 20px 24px;
-    margin-bottom: 40px;
-  }
-  nav.toc h2 {
-    font-size: 1.1rem;
-    margin: 0 0 12px;
-    color: var(--green-dark);
-  }
-  nav.toc ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  nav.toc li {
-    padding: 4px 0;
-  }
-  nav.toc a {
-    color: var(--green-mid);
-    text-decoration: none;
-    font-weight: 500;
-  }
-  nav.toc a:hover { text-decoration: underline; }
+/* Home header */
+.home-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 8px 8px;
+  margin-bottom: 12px;
+}
+.home-header .title-wrap { display: flex; align-items: center; gap: 10px; }
+.home-header .logo { font-size: 36px; }
+.home-header .title { font-size: 22px; font-weight: 700; color: var(--primary-dark); line-height: 1.15; }
+.home-header .subtitle { font-size: 13px; color: var(--muted); margin-top: 2px; }
+.home-header .header-btn {
+  background: var(--card);
+  border: 1px solid var(--border);
+  width: 44px; height: 44px; border-radius: 50%;
+  font-size: 22px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.home-header .header-btn:active { transform: scale(0.95); }
 
-  /* Section */
-  section {
-    margin-bottom: 48px;
-  }
-  section h2 {
-    font-size: 1.75rem;
-    color: var(--green-dark);
-    border-bottom: 2px solid var(--green-light);
-    padding-bottom: 8px;
-    margin-top: 0;
-    margin-bottom: 20px;
-  }
-  section h3 {
-    font-size: 1.25rem;
-    color: var(--green-dark);
-    margin-top: 32px;
-    margin-bottom: 12px;
-  }
-  p { margin: 0 0 16px; }
+/* Favorites */
+.favorites-section {
+  background: linear-gradient(135deg, #fff8e6 0%, #ffeac8 100%);
+  border-radius: 16px; padding: 12px 14px;
+  margin: 0 0 16px;
+}
+.favorites-label {
+  font-size: 14px; font-weight: 700; color: #a6680e;
+  margin-bottom: 8px; letter-spacing: 0.5px;
+}
+.favorites-zone {
+  display: flex; gap: 10px; overflow-x: auto;
+  scrollbar-width: none;
+}
+.favorites-zone::-webkit-scrollbar { display: none; }
+.favorite-card {
+  flex: 0 0 90px;
+  background: var(--card);
+  border-radius: 14px;
+  padding: 12px 6px;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+.favorite-card .icon { font-size: 32px; display: block; }
+.favorite-card .label { font-size: 13px; font-weight: 600; margin-top: 4px; }
+.favorites-empty-hint {
+  color: var(--muted); font-size: 13px; padding: 6px 2px;
+}
 
-  /* Plant entry */
-  .plant-entry {
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 32px;
-    margin-bottom: 48px;
-  }
-  .plant-entry > h2 {
-    font-size: 2rem;
-    margin-top: 0;
-  }
-  .plant-meta {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 12px;
-    background: var(--green-lighter);
-    padding: 16px;
-    border-radius: 8px;
-    margin-bottom: 24px;
-  }
-  .plant-meta div {
-    font-size: 0.95rem;
-  }
-  .plant-meta strong {
-    display: block;
-    color: var(--green-dark);
-    font-size: 0.85rem;
-    margin-bottom: 2px;
-  }
+/* Tab bar */
+.tab-bar {
+  display: flex;
+  justify-content: space-around;
+  background: var(--card);
+  border-radius: 16px;
+  padding: 6px;
+  margin: 0 0 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.tab-btn {
+  flex: 1;
+  padding: 10px 4px;
+  border: none; background: transparent;
+  border-radius: 12px;
+  font-size: 22px;
+  font-family: inherit; cursor: pointer;
+  transition: all 0.2s;
+}
+.tab-btn .tab-label {
+  display: block; font-size: 12px; font-weight: 600; margin-top: 2px;
+}
+.tab-btn.active { background: var(--primary); color: white; }
+.tab-btn.active .tab-label { color: white; }
 
-  /* Lists */
-  ul, ol { padding-left: 24px; }
-  li { margin: 6px 0; }
+/* Activity grid */
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+.plant-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+@media (min-width: 720px) {
+  .plant-grid { grid-template-columns: repeat(3, 1fr); }
+}
+.plant-card {
+  background: var(--card);
+  border-radius: 18px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+  padding: 20px 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+  position: relative;
+}
+.plant-card:active { transform: scale(0.96); }
+.plant-card .icon { font-size: 44px; display: block; margin-bottom: 6px; }
+.plant-card .label { font-size: 17px; font-weight: 600; }
+.plant-card .difficulty { font-size: 11px; color: var(--muted); margin-top: 4px; display: block; }
+.plant-card.is-fav::after {
+  content: "⭐";
+  position: absolute; top: 8px; right: 10px; font-size: 16px;
+}
+.empty-category {
+  text-align: center; color: var(--muted);
+  padding: 32px 16px; font-size: 15px;
+}
 
-  /* Tables */
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 16px 0;
-    font-size: 0.95rem;
-  }
-  th, td {
-    padding: 10px 12px;
-    text-align: left;
-    border-bottom: 1px solid var(--border);
-    vertical-align: top;
-  }
-  th {
-    background: var(--green-light);
-    color: var(--green-dark);
-    font-weight: 600;
-  }
-  tr:last-child td { border-bottom: none; }
+/* Plant detail page */
+.back-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px;
+}
+.back-btn {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 8px 14px;
+  font-size: 15px; font-family: inherit; cursor: pointer;
+}
+.back-btn:active { transform: scale(0.97); }
+.fav-btn {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 8px 14px;
+  font-size: 15px; font-family: inherit; cursor: pointer;
+}
+.fav-btn.is-fav { background: #fff4d6; border-color: #e5b966; }
 
-  /* Callout boxes */
-  .callout {
-    background: var(--green-lighter);
-    border-left: 4px solid var(--green-mid);
-    padding: 16px 20px;
-    margin: 20px 0;
-    border-radius: 4px;
-  }
-  .callout.warn {
-    background: var(--warn-bg);
-    border-left-color: var(--warn-border);
-  }
-  .callout h4 {
-    margin: 0 0 8px;
-    color: var(--green-dark);
-    font-size: 1rem;
-  }
-  .callout.warn h4 { color: #8a5a10; }
-  .callout p:last-child { margin-bottom: 0; }
+.plant-header {
+  text-align: center; padding: 12px 0 20px;
+}
+.plant-header .big-icon { font-size: 64px; display: block; }
+.plant-header h1 { font-size: 28px; color: var(--primary-dark); margin-top: 6px; }
 
-  /* Footer */
-  footer {
-    border-top: 1px solid var(--border);
-    padding-top: 32px;
-    margin-top: 60px;
-    text-align: center;
-    color: var(--text-soft);
-    font-size: 0.95rem;
-  }
-  footer a {
-    color: var(--green-mid);
-    text-decoration: none;
-  }
-  footer a:hover { text-decoration: underline; }
+.plant-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  background: var(--card);
+  padding: 14px;
+  border-radius: 14px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+}
+.plant-meta div { font-size: 14px; }
+.plant-meta strong {
+  display: block; color: var(--primary-dark);
+  font-size: 11px; font-weight: 700; margin-bottom: 2px; letter-spacing: 0.5px;
+}
 
-  /* Responsive */
-  @media (max-width: 640px) {
-    html { font-size: 16px; }
-    header.hero { padding: 32px 16px 20px; }
-    header.hero h1 { font-size: 1.75rem; }
-    .wrapper { padding: 16px 16px 48px; }
-    .plant-entry { padding: 20px; }
-  }
+/* Sections */
+.plant-sections {
+  background: var(--card);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+  margin-bottom: 24px;
+}
+.plant-section { border-bottom: 1px solid var(--border); }
+.plant-section:last-child { border-bottom: none; }
+.plant-section summary {
+  padding: 16px 18px;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--primary-dark);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.plant-section summary::-webkit-details-marker { display: none; }
+.plant-section summary::after {
+  content: "▾";
+  transition: transform 0.2s;
+  color: var(--muted);
+}
+.plant-section[open] summary::after { transform: rotate(180deg); }
+.plant-section .section-body {
+  padding: 4px 18px 20px;
+  font-size: 16px;
+}
+.plant-section .section-body p { margin-bottom: 12px; }
+.plant-section .section-body ul,
+.plant-section .section-body ol { padding-left: 24px; margin-bottom: 12px; }
+.plant-section .section-body li { margin: 4px 0; }
+.plant-section .section-body table {
+  width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 14px;
+}
+.plant-section .section-body th,
+.plant-section .section-body td {
+  padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: top;
+}
+.plant-section .section-body th { background: #f0f0f0; color: var(--primary-dark); }
 
-  /* Print */
-  @media print {
-    header.hero { background: none; padding: 20px 0; }
-    nav.toc { display: none; }
-    .plant-entry { border: none; padding: 0; page-break-inside: avoid; }
-    body { background: white; }
-    a { color: var(--text); text-decoration: underline; }
-  }
+.callout {
+  background: #f0f8ec;
+  border-left: 4px solid var(--primary);
+  padding: 12px 14px;
+  margin: 12px 0;
+  border-radius: 6px;
+}
+.callout.warn {
+  background: var(--warn-bg);
+  border-left-color: var(--warn-border);
+}
+.callout h4 { font-size: 14px; margin: 0 0 6px; color: var(--primary-dark); }
+.callout.warn h4 { color: #8a5a10; }
+
+/* Memo */
+.memo-section {
+  background: var(--card);
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+  margin-bottom: 24px;
+}
+.memo-section h3 {
+  font-size: 18px; color: var(--primary-dark); margin-bottom: 6px;
+}
+.memo-section .hint {
+  font-size: 13px; color: var(--muted); margin-bottom: 12px;
+}
+.memo-input {
+  width: 100%;
+  min-height: 80px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 1.5;
+  resize: vertical;
+}
+.memo-input:focus { outline: 2px solid var(--primary); border-color: transparent; }
+.memo-btns {
+  display: flex; gap: 10px; margin-top: 10px;
+}
+.btn {
+  background: var(--primary);
+  color: white; border: none;
+  border-radius: 10px;
+  padding: 10px 18px;
+  font-size: 15px; font-family: inherit;
+  cursor: pointer;
+}
+.btn:active { transform: scale(0.97); }
+.btn.secondary { background: #eee; color: var(--text); }
+.btn.danger { background: #d55a3e; }
+
+.memo-history {
+  margin-top: 16px;
+  border-top: 1px dashed var(--border);
+  padding-top: 12px;
+}
+.memo-history h4 {
+  font-size: 14px; color: var(--muted); margin-bottom: 8px;
+}
+.memo-entry {
+  background: var(--bg);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  font-size: 15px;
+  position: relative;
+}
+.memo-entry .memo-date {
+  font-size: 12px; color: var(--muted); margin-bottom: 4px;
+}
+.memo-entry .memo-text { white-space: pre-wrap; }
+.memo-delete {
+  position: absolute; top: 6px; right: 8px;
+  background: none; border: none;
+  font-size: 16px; color: var(--muted);
+  cursor: pointer; padding: 4px 6px;
+}
+.memo-empty {
+  color: var(--muted); font-size: 14px; text-align: center; padding: 8px;
+}
+
+/* Settings page */
+.settings-section {
+  background: var(--card);
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+}
+.settings-section h3 {
+  font-size: 18px; color: var(--primary-dark);
+  margin-bottom: 8px;
+}
+.settings-section p { font-size: 14px; color: var(--muted); margin-bottom: 12px; }
+.settings-btn-row { display: flex; gap: 10px; flex-wrap: wrap; }
+
+/* Footer */
+footer {
+  border-top: 1px solid var(--border);
+  margin-top: 30px;
+  padding: 20px 0;
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+}
+footer a { color: var(--primary); text-decoration: none; }
+
+/* Modal */
+.modal-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  align-items: center; justify-content: center;
+  z-index: 100; padding: 20px;
+}
+.modal-backdrop.show { display: flex; }
+.modal {
+  background: var(--card);
+  border-radius: 14px;
+  padding: 20px;
+  max-width: 400px;
+  width: 100%;
+}
+.modal h3 { font-size: 18px; margin-bottom: 10px; color: var(--primary-dark); }
+.modal p { font-size: 15px; margin-bottom: 14px; line-height: 1.5; }
+.modal .modal-btns { display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
+
+/* Print */
+@media print {
+  .tab-bar, .favorites-section, .back-bar, .fav-btn, .memo-section, .home-header .header-btn { display: none; }
+  .page { display: block !important; }
+  .plant-section { break-inside: avoid; }
+  details[open] summary, details summary { display: block; }
+  .plant-section .section-body { display: block !important; }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  html { font-size: 16px; }
+  .plant-header h1 { font-size: 24px; }
+  .page { padding: 12px; }
+}
 </style>
 </head>
 <body>
 
-<header class="hero">
-  <h1>🌱 家庭可食植物手冊</h1>
-  <p class="subtitle">讓整個家忙起來</p>
-</header>
-
-<div class="wrapper">
-
-<section id="intro">
-  <h2>這是什麼</h2>
-  <p>一本家庭可食植物種植手冊,給在陽台、窗邊、室內小空間想種點東西的人。每個植物一個 entry,告訴你:</p>
-  <ul>
-    <li>🪴 怎麼取得(扦插 / 種子 / 塊莖)</li>
-    <li>📋 種植步驟</li>
-    <li>⏳ 等待多久會有成果</li>
-    <li>☀️ 適合什麼光線、什麼地點</li>
-    <li>🌿 怎麼採、怎麼持續收</li>
-    <li>🐛 會遇到什麼失敗、怎麼除錯</li>
-  </ul>
-
-  <div class="callout">
-    <h4>🧠 這本手冊的特色 — 每個植物附「失智照護應用 Notes」</h4>
-    <p>照顧失智長輩的家庭特別適合種這些植物。每天澆水、採摘、剝老葉這些動作,是失智長輩保留「還有用」感覺的重要 ritual。手冊會告訴你怎麼把種植變成長輩的日常 behavior redirection。</p>
-    <p>詳見 <a href="https://blog.tomting.com/2026/04/22/dementia-care-three-misunderstandings/">失智照顧半年的三個誤會</a> 跟 <a href="https://blog.tomting.com/2026/04/22/dementia-mother-finding-home/">失智長輩為什麼一直到處走</a>。</p>
+<!-- ============= HOME ============= -->
+<div class="page active" id="page-home">
+  <div class="home-header">
+    <div class="title-wrap">
+      <span class="logo">🌱</span>
+      <div>
+        <div class="title">家庭可食植物手冊</div>
+        <div class="subtitle">讓整個家忙起來</div>
+      </div>
+    </div>
+    <button class="header-btn" onclick="navigateTo('page-settings')" title="設定">⚙️</button>
   </div>
 
-  <h3>上位 mission:讓整個家忙起來</h3>
-  <p>這本手冊是 <a href="https://github.com/tm731531/dementia-care">dementia-care repo</a> 的一部分。這個 repo 的 mission 是「<strong>讓整個家忙起來</strong>」—— 用可食植物、結構化記錄、陪伴工具,讓有長輩、小孩的家,每天都有東西在發生、有事要做、有成果可以收。</p>
-  <p>家忙了,人就不會一直躺著。這比任何「治療」都更根本。</p>
-</section>
-
-<nav class="toc" aria-label="目錄">
-  <h2>目錄</h2>
-  <ul>
-    <li>🍃 <a href="#sweet-potato-leaves">地瓜葉</a>(2026-04-22 起草,Tom 家實測中)</li>
-    <li style="color:var(--text-soft);">☘️ 薄荷 — <em>待加</em></li>
-    <li style="color:var(--text-soft);">🌿 九層塔 — <em>待加</em></li>
-    <li style="color:var(--text-soft);">🥬 空心菜 — <em>待加</em></li>
-  </ul>
-</nav>
-
-<section class="plant-entry" id="sweet-potato-leaves">
-  <h2>🍃 地瓜葉</h2>
-
-  <div class="plant-meta">
-    <div><strong>難度</strong>很低(新手友善)</div>
-    <div><strong>季節</strong>春夏最旺(4–9 月)</div>
-    <div><strong>光線</strong>半日照以上</div>
-    <div><strong>地點</strong>陽台 / 窗邊 / 戶外</div>
+  <div class="favorites-section">
+    <div class="favorites-label">⭐ 我的最愛</div>
+    <div class="favorites-zone" id="favorites-zone"></div>
   </div>
 
-  <h3>為什麼新手適合從地瓜葉開始</h3>
-  <ul>
-    <li><strong>幾乎怎麼種都活</strong> — 扦插成功率極高,是最皮厚的可食植物之一</li>
-    <li><strong>長得快</strong> — 夏天 3–5 天就可以採一把</li>
-    <li><strong>一次買,吃整季</strong> — 採收後不斷冒新葉,可以一直吃到秋冬</li>
-    <li><strong>莖葉都可食</strong> — 不像某些菜只能吃葉子,地瓜葉連梗都能炒</li>
-    <li><strong>吃水量大</strong> — 夏天要每天澆,所以<strong>每天都有理由去陽台</strong>(對失智照護特別重要,下面詳說)</li>
-  </ul>
-
-  <h3>取得方式</h3>
-
-  <h4 style="margin-top:16px;color:var(--green-mid);">✅ 推薦:扦插(新手首選)</h4>
-  <ul>
-    <li><strong>網購枝條</strong>:搜「地瓜葉扦插」,一批通常 20 條左右,便宜</li>
-    <li><strong>市場買帶莖的地瓜葉</strong>:買一把回來,吃掉葉子,留下帶節的莖直接拿來插</li>
-    <li>成功率 <strong>80% 以上</strong>。運送損耗高(買來的枝條常看起來半死),但只要有 1 條活就夠</li>
-  </ul>
-
-  <div class="callout warn">
-    <h4>⚠️ 不推薦新手:地瓜塊莖發芽</h4>
-    <p>超市買的地瓜常被噴抑芽劑,可能一直不發芽。要泡水、要溫度、要耐心。本手冊作者 Tom 在 2026 年 2 月試了兩個月,全部失敗,才改用扦插。</p>
-    <p>如果你真的想試塊莖,建議到市場買非連鎖的農家地瓜,成功率高些。但如果目標是「種出可吃的葉子」而不是「挑戰塊莖」,請直接買枝條。</p>
+  <div class="tab-bar" id="tab-bar">
+    <!-- 動態生成 -->
   </div>
 
-  <h3>種植步驟</h3>
-  <ol>
-    <li><strong>選盆</strong> — 直徑 25 公分以上、深 20 公分以上。越大越好(地瓜葉根系會擴散)。盆底一定要有排水孔。</li>
-    <li><strong>準備土</strong> — 一般培養土就可以。講究的人可以先養土(加有機肥,擺幾天讓土活化)。</li>
-    <li><strong>剪枝條</strong> — 每條留 3–4 個節點(節點 = 葉子長出來的位置)。頂端葉子留 2–3 片,下面的葉子剝掉(避免蒸散水分)。</li>
-    <li><strong>插進土</strong> — 下方 2–3 個節點埋進土,露出 1–2 片葉子在外面。</li>
-    <li><strong>第一次澆水澆透</strong> — 從上澆到盆底有水流出。之後保持濕潤(不要積水)。</li>
-    <li><strong>放在半日照以上的地方</strong> — 斜照 OK,全日照更好。第一週如果太曬可以先放散光處,等發根再移到光好的地方。</li>
-  </ol>
-
-  <h3>等待時間</h3>
-  <table>
-    <thead>
-      <tr><th>階段</th><th>時間</th></tr>
-    </thead>
-    <tbody>
-      <tr><td>插下去 → 冒第一片新葉</td><td>1–2 週</td></tr>
-      <tr><td>冒新葉 → 首次可採收</td><td>4–6 週</td></tr>
-      <tr><td>持續採收期</td><td>整個夏天,可採到秋冬降溫</td></tr>
-    </tbody>
-  </table>
-
-  <h3>採收</h3>
-  <ul>
-    <li>採 <strong>頂端 5–10 公分的嫩葉莖</strong></li>
-    <li>留根部與一部分莖 → 會從節點繼續長</li>
-    <li><strong>越採越多</strong> — 定期採收反而刺激生長,放著不採才長得慢</li>
-    <li>建議一週至少採 1–2 次,讓植株持續活躍</li>
-  </ul>
-
-  <h3>失敗點與除錯</h3>
-  <table>
-    <thead>
-      <tr><th>症狀</th><th>可能原因</th><th>對策</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>枝條買來就半死</td>
-        <td>運送損耗(常見,不是你的問題)</td>
-        <td>買 20 條,活 3–5 條就夠。採用「冗餘策略」,別期待 100% 存活</td>
-      </tr>
-      <tr>
-        <td>插下去兩週還沒動靜</td>
-        <td>發根慢、日照不足、或水太多爛根</td>
-        <td>等滿 14 天再判斷;土表乾了才澆;檢查盆底有無排水</td>
-      </tr>
-      <tr>
-        <td>葉子發黃</td>
-        <td>水過多、水過少、或日照不對</td>
-        <td>土表乾才澆;觀察葉子是「軟塌」(缺水)還是「水腫爛」(過多)</td>
-      </tr>
-      <tr>
-        <td>爛根 / 莖底發黑</td>
-        <td>土太濕、盆底無排水、積水</td>
-        <td>換土、檢查排水孔。爛掉的那條剪掉換新</td>
-      </tr>
-      <tr>
-        <td>有蟲(毛毛蟲、蚜蟲)</td>
-        <td>戶外種植常有</td>
-        <td>手抓掉、用水沖。避免農藥(畢竟要吃)</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <h3>🧠 失智照護應用 Notes</h3>
-
-  <p>地瓜葉對失智長輩是**極佳**的 behavior redirection 工具,因為它的特性剛好打中幾個痛點:</p>
-
-  <div class="callout">
-    <h4>為什麼地瓜葉特別適合失智長輩</h4>
-    <ul style="margin:0;">
-      <li><strong>耗水量大</strong> → 每天需要澆水 → 長輩每天有<strong>合理的理由去陽台</strong>(如果她原本就有想往外走的衝動,這會把能量導去陽台)</li>
-      <li><strong>視覺回饋快</strong> → 夏天幾天就有明顯新葉,她看到自己澆的有成果</li>
-      <li><strong>莖葉可剝</strong> → 採回來可以請她剝老葉、去硬梗。這個動作跟「剝蒜頭」是同類型肌肉記憶,有廚房經驗的長輩會自然做</li>
-      <li><strong>讓她感覺自己有用</strong> → 植物<strong>真的需要她</strong>,不是在應付她。這比任何「活動」都更根本</li>
-    </ul>
+  <div id="tab-content-wrapper">
+    <!-- 動態生成 -->
   </div>
 
-  <h4 style="margin-top:24px;">Setup 建議(如果家裡有失智長輩)</h4>
-  <ul>
-    <li><strong>放在長輩居住層的陽台</strong>(讓她隨時看得到、摸得到)</li>
-    <li><strong>水壺事先裝滿放盆旁</strong> —— 不要讓她自己接水(她可能找不到水龍頭)</li>
-    <li><strong>把澆水加進她的日常 SOP</strong> —— 例如早餐後、午睡前,固定時段執行</li>
-    <li><strong>不要讓她看到你先澆</strong> —— 如果她覺得你已經澆過,她就不會動</li>
-    <li><strong>採收後給她處理</strong> —— 剝老葉、去硬梗、分菜裝袋,都是可做的「前置動作」</li>
-  </ul>
-
-  <h4>相關閱讀</h4>
-  <ul>
-    <li><a href="https://blog.tomting.com/2026/04/22/dementia-care-three-misunderstandings/">失智照顧半年的三個誤會</a> — 講這些活動設計背後的三條規則</li>
-    <li><a href="https://blog.tomting.com/2026/04/22/dementia-mother-finding-home/">失智長輩為什麼一直到處走</a> — 講為什麼 behavior redirection 比阻止更有效</li>
-  </ul>
-
-  <h3>Tom 家的實測紀錄</h3>
-
-  <div class="callout">
-    <h4>📝 持續更新</h4>
-    <p><strong>2026-04-22</strong> · Day 7 — 買了 20 條枝條,插 6 樓陽台,第一片新葉冒出。計畫兩週內開 5 樓陽台第二批(先清盆、養土、再買一批枝條)。</p>
-    <p><em>採收實測、媽媽的 ritual 導入紀錄將在接下來幾週陸續補進。</em></p>
-  </div>
-</section>
-
-<section id="contributing">
-  <h2>🤝 怎麼貢獻</h2>
-  <p>這本手冊是 open source,歡迎你 fork 加自己家實測過的植物:</p>
-  <ol>
-    <li>Fork <a href="https://github.com/tm731531/dementia-care">dementia-care repo</a></li>
-    <li>在 <code>garden-handbook/index.html</code> 加一個新的 <code>&lt;section class="plant-entry"&gt;</code></li>
-    <li>參考地瓜葉那個 entry 的結構,但<strong>欄位不強制</strong> —— 你的植物不適合「失敗點表格」就不要放,但「失智照護應用 Notes」是本手冊的特色,盡量補</li>
-    <li>發 PR 過來,標題 <code>feat(garden): 新增 X 植物 entry</code></li>
-  </ol>
-  <p><strong>不收商業連結、不收不可食植物、不收農藥推薦</strong>。主軸是「家庭可食 + 長輩照護友善」。</p>
-</section>
-
-<footer>
-  <p>
-    🌱 家庭可食植物手冊 · 2026 ·
-    <a href="https://github.com/tm731531/dementia-care">GitHub</a> ·
-    <a href="https://blog.tomting.com/">blog</a> ·
-    <a href="../">回到 dementia-care 工具集</a>
-  </p>
-  <p style="font-size:0.85rem;margin-top:12px;">MIT License · 純前端單檔 · 無追蹤 · 離線可用</p>
-</footer>
-
+  <footer>
+    <p>🌱 家庭可食植物手冊 · <a href="https://github.com/tm731531/dementia-care">GitHub</a> · <a href="../">返回工具集</a></p>
+    <p style="margin-top:6px;">純前端 · 離線可用 · 資料存在你自己的裝置</p>
+  </footer>
 </div>
+
+<!-- ============= PLANT DETAIL ============= -->
+<div class="page" id="page-plant">
+  <div class="back-bar">
+    <button class="back-btn" onclick="navigateTo('page-home')">← 返回</button>
+    <button class="fav-btn" id="fav-btn" onclick="toggleFav()">⭐ 加入最愛</button>
+  </div>
+  <div class="plant-header">
+    <span class="big-icon" id="plant-icon"></span>
+    <h1 id="plant-name"></h1>
+  </div>
+  <div class="plant-meta" id="plant-meta"></div>
+  <div class="plant-sections" id="plant-sections"></div>
+  <div class="memo-section">
+    <h3>📝 我的 Memo</h3>
+    <p class="hint">寫你家種這個植物的紀錄。每次按儲存會留時間戳。資料存在你這台裝置,不會上傳到任何地方。</p>
+    <textarea class="memo-input" id="memo-input" placeholder="例如:今天媽媽第一次自己澆水,笑得很開心..."></textarea>
+    <div class="memo-btns">
+      <button class="btn" onclick="saveMemo()">儲存</button>
+      <button class="btn secondary" onclick="clearMemoInput()">清空輸入</button>
+    </div>
+    <div class="memo-history">
+      <h4>歷史紀錄</h4>
+      <div id="memo-history-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============= SETTINGS ============= -->
+<div class="page" id="page-settings">
+  <div class="back-bar">
+    <button class="back-btn" onclick="navigateTo('page-home')">← 返回</button>
+  </div>
+
+  <h1 style="font-size:24px;color:var(--primary-dark);margin-bottom:16px;">⚙️ 設定</h1>
+
+  <div class="settings-section">
+    <h3>📥 匯出備份</h3>
+    <p>下載你目前所有的最愛跟 memo 成一個 JSON 檔,存起來或換裝置時可以匯入還原。</p>
+    <div class="settings-btn-row">
+      <button class="btn" onclick="exportBackup()">下載備份</button>
+    </div>
+  </div>
+
+  <div class="settings-section">
+    <h3>📤 匯入還原</h3>
+    <p>從之前下載的 JSON 檔還原。會先預覽檔裡的內容,再讓你選「合併」或「覆蓋」。</p>
+    <div class="settings-btn-row">
+      <button class="btn" onclick="document.getElementById('import-file').click()">選檔匯入</button>
+      <input type="file" id="import-file" accept="application/json,.json" style="display:none" onchange="handleImportFile(event)">
+    </div>
+  </div>
+
+  <div class="settings-section">
+    <h3>🗑 清除本機資料</h3>
+    <p>把這個裝置上所有最愛跟 memo 刪除。<strong>不可復原</strong>。建議先匯出備份。</p>
+    <div class="settings-btn-row">
+      <button class="btn danger" onclick="clearAllData()">清除全部</button>
+    </div>
+  </div>
+
+  <div class="settings-section">
+    <h3>ℹ️ 關於</h3>
+    <p>家庭可食植物手冊 v0.2 · 2026-04-23</p>
+    <p>隸屬 <a href="https://github.com/tm731531/dementia-care" style="color:var(--primary);">dementia-care repo</a>,「讓整個家忙起來」策略的一部分。</p>
+    <p>純前端 HTML + JavaScript。資料完全存在你的裝置 localStorage,沒有任何伺服器、沒有追蹤、沒有廣告。</p>
+    <p>相關 blog:<a href="https://blog.tomting.com/2026/04/22/dementia-care-three-misunderstandings/" style="color:var(--primary);">失智照顧半年的三個誤會</a> · <a href="https://blog.tomting.com/2026/04/22/dementia-mother-finding-home/" style="color:var(--primary);">失智長輩為什麼一直到處走</a></p>
+  </div>
+</div>
+
+<!-- Modal for import confirmation -->
+<div class="modal-backdrop" id="modal-backdrop">
+  <div class="modal" id="modal-content">
+    <!-- content injected -->
+  </div>
+</div>
+
+<script>
+// =========================================================
+// DATA
+// =========================================================
+
+const CATEGORIES = [
+  { id: 'leafy', label: '葉菜', emoji: '🥬' },
+  { id: 'herb',  label: '香草', emoji: '🌿' },
+  { id: 'fruit', label: '果菜', emoji: '🍅' },
+  { id: 'root',  label: '根莖', emoji: '🍠' },
+];
+
+const PLANTS = [
+  {
+    id: 'sweet-potato-leaves',
+    name: '地瓜葉',
+    emoji: '🍃',
+    category: 'leafy',
+    meta: {
+      difficulty: '很低(新手友善)',
+      season: '春夏最旺(4–9 月)',
+      light: '半日照以上',
+      location: '陽台 / 窗邊 / 戶外',
+    },
+    sections: [
+      {
+        id: 'why',
+        emoji: '💡',
+        heading: '為什麼新手適合從地瓜葉開始',
+        html: `
+<ul>
+<li><strong>幾乎怎麼種都活</strong> — 扦插成功率極高,是最皮厚的可食植物之一</li>
+<li><strong>長得快</strong> — 夏天 3–5 天就可以採一把</li>
+<li><strong>一次買,吃整季</strong> — 採收後不斷冒新葉,可以一直吃到秋冬</li>
+<li><strong>莖葉都可食</strong> — 不像某些菜只能吃葉子,連梗都能炒</li>
+<li><strong>吃水量大</strong> — 夏天要每天澆,所以<strong>每天都有理由去陽台</strong>(對失智照護特別重要,看下面「失智照護應用」)</li>
+</ul>`,
+      },
+      {
+        id: 'obtain',
+        emoji: '🛒',
+        heading: '取得方式',
+        html: `
+<h4 style="color:var(--primary);margin:8px 0 6px;">✅ 推薦:扦插(新手首選)</h4>
+<ul>
+<li><strong>網購枝條</strong>:搜「地瓜葉扦插」,一批通常 20 條左右,便宜</li>
+<li><strong>市場買帶莖的地瓜葉</strong>:買一把回來,吃掉葉子,留下帶節的莖直接拿來插</li>
+<li>成功率 <strong>80% 以上</strong>。運送損耗高,但只要有 1 條活就夠</li>
+</ul>
+
+<div class="callout warn">
+<h4>⚠️ 不推薦新手:地瓜塊莖發芽</h4>
+<p style="margin:0;">超市買的地瓜常被噴抑芽劑,可能一直不發芽。要泡水、要溫度、要耐心(作者 Tom 在 2 月試了兩個月,全部失敗,才改用扦插)。</p>
+</div>`,
+      },
+      {
+        id: 'steps',
+        emoji: '🪴',
+        heading: '種植步驟',
+        html: `
+<ol>
+<li><strong>選盆</strong> — 直徑 25 公分以上、深 20 公分以上。越大越好。盆底一定要有排水孔。</li>
+<li><strong>準備土</strong> — 一般培養土就可以。講究的人可以先養土(加有機肥,擺幾天讓土活化)。</li>
+<li><strong>剪枝條</strong> — 每條留 3–4 個節點(節點 = 葉子長出來的位置)。頂端葉子留 2–3 片,下面剝掉。</li>
+<li><strong>插進土</strong> — 下方 2–3 個節點埋進土,露出 1–2 片葉子。</li>
+<li><strong>第一次澆水澆透</strong> — 從上澆到盆底有水流出。之後保持濕潤(不要積水)。</li>
+<li><strong>放在半日照以上的地方</strong> — 斜照 OK,全日照更好。</li>
+</ol>`,
+      },
+      {
+        id: 'timing',
+        emoji: '⏳',
+        heading: '等待時間',
+        html: `
+<table>
+<thead><tr><th>階段</th><th>時間</th></tr></thead>
+<tbody>
+<tr><td>插下去 → 冒第一片新葉</td><td>1–2 週</td></tr>
+<tr><td>冒新葉 → 首次可採收</td><td>4–6 週</td></tr>
+<tr><td>持續採收期</td><td>整個夏天,可採到秋冬降溫</td></tr>
+</tbody>
+</table>`,
+      },
+      {
+        id: 'harvest',
+        emoji: '✂️',
+        heading: '採收',
+        html: `
+<ul>
+<li>採<strong>頂端 5–10 公分的嫩葉莖</strong></li>
+<li>留根部與一部分莖 → 會從節點繼續長</li>
+<li><strong>越採越多</strong> — 定期採收反而刺激生長,放著不採才長得慢</li>
+<li>建議一週至少採 1–2 次,讓植株持續活躍</li>
+</ul>`,
+      },
+      {
+        id: 'troubleshoot',
+        emoji: '🛡',
+        heading: '失敗點與除錯',
+        html: `
+<table>
+<thead><tr><th>症狀</th><th>可能原因</th><th>對策</th></tr></thead>
+<tbody>
+<tr><td>枝條買來就半死</td><td>運送損耗</td><td>買 20 條,活 3–5 條就夠。採「冗餘策略」</td></tr>
+<tr><td>兩週還沒動靜</td><td>發根慢、日照不足、水太多</td><td>等滿 14 天再判斷;土表乾了才澆</td></tr>
+<tr><td>葉子發黃</td><td>水過多 / 過少 / 日照不對</td><td>土表乾才澆;葉子「軟塌」=缺水,「水腫」=過多</td></tr>
+<tr><td>爛根 / 莖底發黑</td><td>土太濕、盆底無排水</td><td>換土、檢查排水孔。爛的剪掉換新</td></tr>
+<tr><td>有蟲</td><td>戶外種植常見</td><td>手抓掉、用水沖。避免農藥</td></tr>
+</tbody>
+</table>`,
+      },
+      {
+        id: 'dementia',
+        emoji: '🧠',
+        heading: '失智照護應用 Notes',
+        html: `
+<p>地瓜葉對失智長輩是<strong>極佳</strong>的 behavior redirection 工具:</p>
+
+<div class="callout">
+<h4>為什麼特別適合失智長輩</h4>
+<ul style="margin:0;">
+<li><strong>耗水量大</strong> → 每天需要澆水 → 長輩每天有<strong>合理的理由去陽台</strong></li>
+<li><strong>視覺回饋快</strong> → 夏天幾天就有明顯新葉</li>
+<li><strong>莖葉可剝</strong> → 採回來請她剝老葉、去硬梗。跟「剝蒜頭」是同類型肌肉記憶</li>
+<li><strong>讓她感覺自己有用</strong> → 植物真的需要她,不是在應付她</li>
+</ul>
+</div>
+
+<h4 style="margin-top:14px;color:var(--primary-dark);">Setup 建議</h4>
+<ul>
+<li><strong>放在長輩居住層的陽台</strong>(讓她隨時看得到)</li>
+<li><strong>水壺事先裝滿放盆旁</strong> —— 不要讓她自己接水(她可能找不到水龍頭)</li>
+<li><strong>把澆水加進她的日常 SOP</strong> —— 早餐後、午睡前,固定時段</li>
+<li><strong>不要讓她看到你先澆</strong> —— 她會覺得「已經澆過了」就不動</li>
+<li><strong>採收後給她處理</strong> —— 剝老葉、去硬梗、分菜裝袋</li>
+</ul>
+
+<h4 style="margin-top:14px;">相關閱讀</h4>
+<ul>
+<li><a href="https://blog.tomting.com/2026/04/22/dementia-care-three-misunderstandings/" style="color:var(--primary);">失智照顧半年的三個誤會</a></li>
+<li><a href="https://blog.tomting.com/2026/04/22/dementia-mother-finding-home/" style="color:var(--primary);">失智長輩為什麼一直到處走</a></li>
+</ul>`,
+      },
+      {
+        id: 'log',
+        emoji: '📓',
+        heading: 'Tom 家的實測紀錄',
+        html: `
+<div class="callout">
+<p style="margin:0;"><strong>2026-04-22</strong> · Day 7 — 買了 20 條枝條,插 6 樓陽台,第一片新葉冒出。計畫兩週內開 5 樓陽台第二批(先清盆、養土、再買一批枝條)。</p>
+</div>
+<p style="color:var(--muted);font-size:14px;"><em>採收實測、媽媽的 ritual 導入紀錄會在接下來幾週補進。</em></p>`,
+      },
+    ],
+  },
+];
+
+// =========================================================
+// STATE
+// =========================================================
+
+const STATE_KEY = 'gardenHandbookState';
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STATE_KEY);
+    if (!raw) return defaultState();
+    const s = JSON.parse(raw);
+    return {
+      favorites: Array.isArray(s.favorites) ? s.favorites : [],
+      memos: (s.memos && typeof s.memos === 'object') ? s.memos : {},
+    };
+  } catch (e) {
+    console.warn('Failed to load state, using default.', e);
+    return defaultState();
+  }
+}
+function defaultState() {
+  return { favorites: [], memos: {} };
+}
+function saveState() {
+  try {
+    localStorage.setItem(STATE_KEY, JSON.stringify(STATE));
+  } catch (e) {
+    alert('儲存失敗:' + e.message);
+  }
+}
+
+let STATE = loadState();
+let CURRENT_PLANT_ID = null;
+
+// =========================================================
+// NAVIGATION
+// =========================================================
+
+function navigateTo(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById(pageId);
+  if (target) target.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function switchTab(catId, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  const content = document.getElementById('tab-' + catId);
+  if (content) content.classList.add('active');
+}
+
+// =========================================================
+// RENDER HOME
+// =========================================================
+
+function renderHome() {
+  renderFavorites();
+  renderTabs();
+}
+
+function renderTabs() {
+  const tabBar = document.getElementById('tab-bar');
+  const wrapper = document.getElementById('tab-content-wrapper');
+  tabBar.innerHTML = '';
+  wrapper.innerHTML = '';
+
+  CATEGORIES.forEach((cat, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'tab-btn' + (idx === 0 ? ' active' : '');
+    btn.innerHTML = cat.emoji + '<br><span class="tab-label">' + cat.label + '</span>';
+    btn.onclick = () => switchTab(cat.id, btn);
+    tabBar.appendChild(btn);
+
+    const content = document.createElement('div');
+    content.className = 'tab-content' + (idx === 0 ? ' active' : '');
+    content.id = 'tab-' + cat.id;
+
+    const grid = document.createElement('div');
+    grid.className = 'plant-grid';
+
+    const plantsInCat = PLANTS.filter(p => p.category === cat.id);
+    if (plantsInCat.length === 0) {
+      const empty = document.createElement('div');
+      empty.className = 'empty-category';
+      empty.innerHTML = '這個分類還沒有植物。<br>如果你有實測過的,歡迎 <a href="https://github.com/tm731531/dementia-care" style="color:var(--primary);">Fork 加進來</a>。';
+      content.appendChild(empty);
+    } else {
+      plantsInCat.forEach(p => grid.appendChild(makePlantCard(p)));
+      content.appendChild(grid);
+    }
+    wrapper.appendChild(content);
+  });
+}
+
+function makePlantCard(plant) {
+  const card = document.createElement('div');
+  card.className = 'plant-card';
+  if (STATE.favorites.includes(plant.id)) card.classList.add('is-fav');
+  card.innerHTML = `
+    <span class="icon">${plant.emoji}</span>
+    <span class="label">${plant.name}</span>
+    <span class="difficulty">難度 ${plant.meta.difficulty.split('(')[0]}</span>
+  `;
+  card.onclick = () => openPlant(plant.id);
+  return card;
+}
+
+function renderFavorites() {
+  const zone = document.getElementById('favorites-zone');
+  zone.innerHTML = '';
+  if (STATE.favorites.length === 0) {
+    const hint = document.createElement('div');
+    hint.className = 'favorites-empty-hint';
+    hint.textContent = '在植物頁點「⭐ 加入最愛」,它會出現在這裡,方便你每天快速打開。';
+    zone.appendChild(hint);
+    return;
+  }
+  STATE.favorites.forEach(pid => {
+    const plant = PLANTS.find(p => p.id === pid);
+    if (!plant) return;
+    const card = document.createElement('div');
+    card.className = 'favorite-card';
+    card.innerHTML = `<span class="icon">${plant.emoji}</span><span class="label">${plant.name}</span>`;
+    card.onclick = () => openPlant(plant.id);
+    zone.appendChild(card);
+  });
+}
+
+// =========================================================
+// RENDER PLANT DETAIL
+// =========================================================
+
+function openPlant(plantId) {
+  const plant = PLANTS.find(p => p.id === plantId);
+  if (!plant) return;
+  CURRENT_PLANT_ID = plantId;
+
+  document.getElementById('plant-icon').textContent = plant.emoji;
+  document.getElementById('plant-name').textContent = plant.name;
+
+  const meta = document.getElementById('plant-meta');
+  meta.innerHTML = `
+    <div><strong>難度</strong>${plant.meta.difficulty}</div>
+    <div><strong>季節</strong>${plant.meta.season}</div>
+    <div><strong>光線</strong>${plant.meta.light}</div>
+    <div><strong>地點</strong>${plant.meta.location}</div>
+  `;
+
+  const sectionsEl = document.getElementById('plant-sections');
+  sectionsEl.innerHTML = '';
+  plant.sections.forEach((s, idx) => {
+    const details = document.createElement('details');
+    details.className = 'plant-section';
+    if (idx === 0) details.open = true;
+    details.innerHTML = `
+      <summary><span>${s.emoji} ${s.heading}</span></summary>
+      <div class="section-body">${s.html}</div>
+    `;
+    sectionsEl.appendChild(details);
+  });
+
+  updateFavBtn();
+  renderMemoHistory();
+  document.getElementById('memo-input').value = '';
+  navigateTo('page-plant');
+}
+
+function updateFavBtn() {
+  const btn = document.getElementById('fav-btn');
+  if (STATE.favorites.includes(CURRENT_PLANT_ID)) {
+    btn.classList.add('is-fav');
+    btn.textContent = '★ 已是最愛';
+  } else {
+    btn.classList.remove('is-fav');
+    btn.textContent = '⭐ 加入最愛';
+  }
+}
+
+function toggleFav() {
+  if (!CURRENT_PLANT_ID) return;
+  const idx = STATE.favorites.indexOf(CURRENT_PLANT_ID);
+  if (idx >= 0) STATE.favorites.splice(idx, 1);
+  else STATE.favorites.push(CURRENT_PLANT_ID);
+  saveState();
+  updateFavBtn();
+}
+
+// =========================================================
+// MEMO
+// =========================================================
+
+function saveMemo() {
+  const input = document.getElementById('memo-input');
+  const text = input.value.trim();
+  if (!text) {
+    alert('請先寫一些內容再儲存');
+    return;
+  }
+  if (!STATE.memos[CURRENT_PLANT_ID]) STATE.memos[CURRENT_PLANT_ID] = [];
+  STATE.memos[CURRENT_PLANT_ID].unshift({
+    date: nowStamp(),
+    text: text,
+  });
+  saveState();
+  input.value = '';
+  renderMemoHistory();
+}
+
+function clearMemoInput() {
+  document.getElementById('memo-input').value = '';
+}
+
+function deleteMemo(idx) {
+  if (!confirm('確定刪除這筆 memo?')) return;
+  STATE.memos[CURRENT_PLANT_ID].splice(idx, 1);
+  saveState();
+  renderMemoHistory();
+}
+
+function renderMemoHistory() {
+  const wrap = document.getElementById('memo-history-list');
+  wrap.innerHTML = '';
+  const list = STATE.memos[CURRENT_PLANT_ID] || [];
+  if (list.length === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'memo-empty';
+    empty.textContent = '還沒有紀錄。寫下你第一筆觀察吧。';
+    wrap.appendChild(empty);
+    return;
+  }
+  list.forEach((entry, idx) => {
+    const el = document.createElement('div');
+    el.className = 'memo-entry';
+    el.innerHTML = `
+      <div class="memo-date">${entry.date}</div>
+      <div class="memo-text"></div>
+      <button class="memo-delete" title="刪除這筆">✕</button>
+    `;
+    el.querySelector('.memo-text').textContent = entry.text;
+    el.querySelector('.memo-delete').onclick = () => deleteMemo(idx);
+    wrap.appendChild(el);
+  });
+}
+
+function nowStamp() {
+  const d = new Date();
+  const pad = n => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
+// =========================================================
+// EXPORT / IMPORT
+// =========================================================
+
+function exportBackup() {
+  const data = {
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    state: STATE,
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const today = new Date().toISOString().slice(0, 10);
+  a.href = url;
+  a.download = `garden-handbook-backup-${today}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function handleImportFile(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      const s = data.state || data;
+      const favs = Array.isArray(s.favorites) ? s.favorites : [];
+      const memos = (s.memos && typeof s.memos === 'object') ? s.memos : {};
+      const memoCount = Object.values(memos).reduce((n, arr) => n + (Array.isArray(arr) ? arr.length : 0), 0);
+
+      showImportModal(favs, memos, favs.length, memoCount);
+    } catch (err) {
+      alert('匯入失敗:檔案不是有效的 JSON 或格式不對。\n\n' + err.message);
+    }
+    event.target.value = ''; // reset input
+  };
+  reader.readAsText(file);
+}
+
+function showImportModal(favs, memos, favCount, memoCount) {
+  const backdrop = document.getElementById('modal-backdrop');
+  const modal = document.getElementById('modal-content');
+  modal.innerHTML = `
+    <h3>📤 確認匯入</h3>
+    <p>這份備份檔包含:</p>
+    <ul style="font-size:15px;margin:0 0 14px 20px;line-height:1.8;">
+      <li>⭐ 最愛植物:<strong>${favCount}</strong> 個</li>
+      <li>📝 Memo 紀錄:<strong>${memoCount}</strong> 筆</li>
+    </ul>
+    <p>選擇處理方式:</p>
+    <div class="modal-btns">
+      <button class="btn secondary" onclick="closeModal()">取消</button>
+      <button class="btn" onclick="applyImport(${JSON.stringify({favs, memos}).replace(/"/g, '&quot;')}, 'merge')">合併(保留現有)</button>
+      <button class="btn danger" onclick="applyImport(${JSON.stringify({favs, memos}).replace(/"/g, '&quot;')}, 'overwrite')">覆蓋(刪除現有)</button>
+    </div>
+  `;
+  backdrop.classList.add('show');
+}
+
+function applyImport(data, mode) {
+  const favs = data.favs || [];
+  const memos = data.memos || {};
+
+  if (mode === 'overwrite') {
+    STATE = { favorites: [...favs], memos: JSON.parse(JSON.stringify(memos)) };
+  } else {
+    // merge
+    const favSet = new Set([...STATE.favorites, ...favs]);
+    STATE.favorites = Array.from(favSet);
+    Object.keys(memos).forEach(pid => {
+      if (!STATE.memos[pid]) STATE.memos[pid] = [];
+      const existingDates = new Set(STATE.memos[pid].map(m => m.date + '|' + m.text));
+      memos[pid].forEach(m => {
+        const key = m.date + '|' + m.text;
+        if (!existingDates.has(key)) STATE.memos[pid].push(m);
+      });
+      STATE.memos[pid].sort((a, b) => b.date.localeCompare(a.date));
+    });
+  }
+  saveState();
+  closeModal();
+  renderHome();
+  alert('匯入完成!');
+}
+
+function closeModal() {
+  document.getElementById('modal-backdrop').classList.remove('show');
+}
+
+function clearAllData() {
+  if (!confirm('確定清除所有最愛跟 memo?此操作無法復原。')) return;
+  if (!confirm('再確認一次 — 真的要清除全部嗎?')) return;
+  STATE = defaultState();
+  saveState();
+  renderHome();
+  alert('已清除。');
+}
+
+// =========================================================
+// INIT
+// =========================================================
+
+renderHome();
+</script>
 
 </body>
 </html>
