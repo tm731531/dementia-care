@@ -2,7 +2,7 @@
 
 > 跨專案的 roadmap。子專案各自的 `current-roadmap.md` 記自己的細項。
 
-**Goal**: 維持 6 個子專案健康運作，確保「失智照護資料閉環」主線不中斷。
+**Goal**: 維持 7 個子專案健康運作，確保「失智照護資料閉環」主線不中斷。上位 mission 是「**讓整個家忙起來**」 —— 用可食植物、結構化記錄、陪伴工具,讓家裡每天有事在發生。
 
 ---
 
@@ -28,6 +28,7 @@
 - [x] 母子層 AGENTS.md 架構建立（2026-04-22）
 - [x] kids-companion 自適應深度重整（4 年齡層、23 活動、166 隻動物）
 - [x] dementia-companion-v2 首次部署（推薦式首頁 + 陪伴指南）
+- [x] garden-handbook 新增(第 7 個子專案,2026-04-22,第一個 entry:地瓜葉)
 
 ### 🟡 進行中
 - [ ] kids-companion 9 MB 單檔問題 — 接近 GitHub Pages 單檔上限 100MB，但初次載入慢。未來若再加圖片/活動要考慮拆檔或用 image sprite
@@ -82,6 +83,7 @@ Python 服務（bot）目前手動啟，未來可考慮 systemd service。
 - `mom-clinic-companion/docs/superpowers/plans/` — 回診 prep 邏輯 + current
 - `whiteboard-ocr-bot/docs/superpowers/plans/` — OCR prompt + current
 - `health-drinks/docs/superpowers/plans/` — 資料錄入 + 比較矩陣 + current
+- `garden-handbook/docs/superpowers/plans/` — 家庭可食植物手冊 + current
 
 ## Re-review Triggers
 本 roadmap 什麼時候重看：

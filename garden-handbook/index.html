@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌱 家庭可食植物手冊 — 讓整個家忙起來</title>
+<meta name="description" content="家庭可食植物種植手冊。陽台、窗邊、室內盆栽都能種。每個植物附失智照護應用 notes。純前端、離線、免費、無廣告。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22%3E%3Ctext%20y=%22.9em%22%20font-size=%2290%22%3E🌱%3C/text%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22%3E%3Ctext%20y=%22.9em%22%20font-size=%2290%22%3E🌱%3C/text%3E%3C/svg%3E">
+<style>
+  :root {
+    --green-dark: #3a6b2e;
+    --green-mid: #4a7c3c;
+    --green-light: #e8f4e4;
+    --green-lighter: #f4faf1;
+    --text: #2a2a2a;
+    --text-soft: #555;
+    --border: #d4d4d4;
+    --warn-bg: #fff4e0;
+    --warn-border: #e5b966;
+  }
+  * { box-sizing: border-box; }
+  html { font-size: 18px; scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+    color: var(--text);
+    background: #fafafa;
+    line-height: 1.75;
+    margin: 0;
+    padding: 0;
+  }
+  .wrapper {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 20px 24px 60px;
+  }
+
+  /* Header */
+  header.hero {
+    padding: 48px 24px 32px;
+    text-align: center;
+    background: linear-gradient(180deg, var(--green-lighter), #fafafa);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 32px;
+  }
+  header.hero h1 {
+    font-size: 2.2rem;
+    margin: 0 0 8px;
+    color: var(--green-dark);
+  }
+  header.hero .subtitle {
+    font-size: 1.1rem;
+    color: var(--text-soft);
+    margin: 0;
+  }
+
+  /* TOC */
+  nav.toc {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 40px;
+  }
+  nav.toc h2 {
+    font-size: 1.1rem;
+    margin: 0 0 12px;
+    color: var(--green-dark);
+  }
+  nav.toc ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  nav.toc li {
+    padding: 4px 0;
+  }
+  nav.toc a {
+    color: var(--green-mid);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  nav.toc a:hover { text-decoration: underline; }
+
+  /* Section */
+  section {
+    margin-bottom: 48px;
+  }
+  section h2 {
+    font-size: 1.75rem;
+    color: var(--green-dark);
+    border-bottom: 2px solid var(--green-light);
+    padding-bottom: 8px;
+    margin-top: 0;
+    margin-bottom: 20px;
+  }
+  section h3 {
+    font-size: 1.25rem;
+    color: var(--green-dark);
+    margin-top: 32px;
+    margin-bottom: 12px;
+  }
+  p { margin: 0 0 16px; }
+
+  /* Plant entry */
+  .plant-entry {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    margin-bottom: 48px;
+  }
+  .plant-entry > h2 {
+    font-size: 2rem;
+    margin-top: 0;
+  }
+  .plant-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    background: var(--green-lighter);
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+  }
+  .plant-meta div {
+    font-size: 0.95rem;
+  }
+  .plant-meta strong {
+    display: block;
+    color: var(--green-dark);
+    font-size: 0.85rem;
+    margin-bottom: 2px;
+  }
+
+  /* Lists */
+  ul, ol { padding-left: 24px; }
+  li { margin: 6px 0; }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 0.95rem;
+  }
+  th, td {
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  th {
+    background: var(--green-light);
+    color: var(--green-dark);
+    font-weight: 600;
+  }
+  tr:last-child td { border-bottom: none; }
+
+  /* Callout boxes */
+  .callout {
+    background: var(--green-lighter);
+    border-left: 4px solid var(--green-mid);
+    padding: 16px 20px;
+    margin: 20px 0;
+    border-radius: 4px;
+  }
+  .callout.warn {
+    background: var(--warn-bg);
+    border-left-color: var(--warn-border);
+  }
+  .callout h4 {
+    margin: 0 0 8px;
+    color: var(--green-dark);
+    font-size: 1rem;
+  }
+  .callout.warn h4 { color: #8a5a10; }
+  .callout p:last-child { margin-bottom: 0; }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--border);
+    padding-top: 32px;
+    margin-top: 60px;
+    text-align: center;
+    color: var(--text-soft);
+    font-size: 0.95rem;
+  }
+  footer a {
+    color: var(--green-mid);
+    text-decoration: none;
+  }
+  footer a:hover { text-decoration: underline; }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    html { font-size: 16px; }
+    header.hero { padding: 32px 16px 20px; }
+    header.hero h1 { font-size: 1.75rem; }
+    .wrapper { padding: 16px 16px 48px; }
+    .plant-entry { padding: 20px; }
+  }
+
+  /* Print */
+  @media print {
+    header.hero { background: none; padding: 20px 0; }
+    nav.toc { display: none; }
+    .plant-entry { border: none; padding: 0; page-break-inside: avoid; }
+    body { background: white; }
+    a { color: var(--text); text-decoration: underline; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <h1>🌱 家庭可食植物手冊</h1>
+  <p class="subtitle">讓整個家忙起來</p>
+</header>
+
+<div class="wrapper">
+
+<section id="intro">
+  <h2>這是什麼</h2>
+  <p>一本家庭可食植物種植手冊,給在陽台、窗邊、室內小空間想種點東西的人。每個植物一個 entry,告訴你:</p>
+  <ul>
+    <li>🪴 怎麼取得(扦插 / 種子 / 塊莖)</li>
+    <li>📋 種植步驟</li>
+    <li>⏳ 等待多久會有成果</li>
+    <li>☀️ 適合什麼光線、什麼地點</li>
+    <li>🌿 怎麼採、怎麼持續收</li>
+    <li>🐛 會遇到什麼失敗、怎麼除錯</li>
+  </ul>
+
+  <div class="callout">
+    <h4>🧠 這本手冊的特色 — 每個植物附「失智照護應用 Notes」</h4>
+    <p>照顧失智長輩的家庭特別適合種這些植物。每天澆水、採摘、剝老葉這些動作,是失智長輩保留「還有用」感覺的重要 ritual。手冊會告訴你怎麼把種植變成長輩的日常 behavior redirection。</p>
+    <p>詳見 <a href="https://blog.tomting.com/2026/04/22/dementia-care-three-misunderstandings/">失智照顧半年的三個誤會</a> 跟 <a href="https://blog.tomting.com/2026/04/22/dementia-mother-finding-home/">失智長輩為什麼一直到處走</a>。</p>
+  </div>
+
+  <h3>上位 mission:讓整個家忙起來</h3>
+  <p>這本手冊是 <a href="https://github.com/tm731531/dementia-care">dementia-care repo</a> 的一部分。這個 repo 的 mission 是「<strong>讓整個家忙起來</strong>」—— 用可食植物、結構化記錄、陪伴工具,讓有長輩、小孩的家,每天都有東西在發生、有事要做、有成果可以收。</p>
+  <p>家忙了,人就不會一直躺著。這比任何「治療」都更根本。</p>
+</section>
+
+<nav class="toc" aria-label="目錄">
+  <h2>目錄</h2>
+  <ul>
+    <li>🍃 <a href="#sweet-potato-leaves">地瓜葉</a>(2026-04-22 起草,Tom 家實測中)</li>
+    <li style="color:var(--text-soft);">☘️ 薄荷 — <em>待加</em></li>
+    <li style="color:var(--text-soft);">🌿 九層塔 — <em>待加</em></li>
+    <li style="color:var(--text-soft);">🥬 空心菜 — <em>待加</em></li>
+  </ul>
+</nav>
+
+<section class="plant-entry" id="sweet-potato-leaves">
+  <h2>🍃 地瓜葉</h2>
+
+  <div class="plant-meta">
+    <div><strong>難度</strong>很低(新手友善)</div>
+    <div><strong>季節</strong>春夏最旺(4–9 月)</div>
+    <div><strong>光線</strong>半日照以上</div>
+    <div><strong>地點</strong>陽台 / 窗邊 / 戶外</div>
+  </div>
+
+  <h3>為什麼新手適合從地瓜葉開始</h3>
+  <ul>
+    <li><strong>幾乎怎麼種都活</strong> — 扦插成功率極高,是最皮厚的可食植物之一</li>
+    <li><strong>長得快</strong> — 夏天 3–5 天就可以採一把</li>
+    <li><strong>一次買,吃整季</strong> — 採收後不斷冒新葉,可以一直吃到秋冬</li>
+    <li><strong>莖葉都可食</strong> — 不像某些菜只能吃葉子,地瓜葉連梗都能炒</li>
+    <li><strong>吃水量大</strong> — 夏天要每天澆,所以<strong>每天都有理由去陽台</strong>(對失智照護特別重要,下面詳說)</li>
+  </ul>
+
+  <h3>取得方式</h3>
+
+  <h4 style="margin-top:16px;color:var(--green-mid);">✅ 推薦:扦插(新手首選)</h4>
+  <ul>
+    <li><strong>網購枝條</strong>:搜「地瓜葉扦插」,一批通常 20 條左右,便宜</li>
+    <li><strong>市場買帶莖的地瓜葉</strong>:買一把回來,吃掉葉子,留下帶節的莖直接拿來插</li>
+    <li>成功率 <strong>80% 以上</strong>。運送損耗高(買來的枝條常看起來半死),但只要有 1 條活就夠</li>
+  </ul>
+
+  <div class="callout warn">
+    <h4>⚠️ 不推薦新手:地瓜塊莖發芽</h4>
+    <p>超市買的地瓜常被噴抑芽劑,可能一直不發芽。要泡水、要溫度、要耐心。本手冊作者 Tom 在 2026 年 2 月試了兩個月,全部失敗,才改用扦插。</p>
+    <p>如果你真的想試塊莖,建議到市場買非連鎖的農家地瓜,成功率高些。但如果目標是「種出可吃的葉子」而不是「挑戰塊莖」,請直接買枝條。</p>
+  </div>
+
+  <h3>種植步驟</h3>
+  <ol>
+    <li><strong>選盆</strong> — 直徑 25 公分以上、深 20 公分以上。越大越好(地瓜葉根系會擴散)。盆底一定要有排水孔。</li>
+    <li><strong>準備土</strong> — 一般培養土就可以。講究的人可以先養土(加有機肥,擺幾天讓土活化)。</li>
+    <li><strong>剪枝條</strong> — 每條留 3–4 個節點(節點 = 葉子長出來的位置)。頂端葉子留 2–3 片,下面的葉子剝掉(避免蒸散水分)。</li>
+    <li><strong>插進土</strong> — 下方 2–3 個節點埋進土,露出 1–2 片葉子在外面。</li>
+    <li><strong>第一次澆水澆透</strong> — 從上澆到盆底有水流出。之後保持濕潤(不要積水)。</li>
+    <li><strong>放在半日照以上的地方</strong> — 斜照 OK,全日照更好。第一週如果太曬可以先放散光處,等發根再移到光好的地方。</li>
+  </ol>
+
+  <h3>等待時間</h3>
+  <table>
+    <thead>
+      <tr><th>階段</th><th>時間</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>插下去 → 冒第一片新葉</td><td>1–2 週</td></tr>
+      <tr><td>冒新葉 → 首次可採收</td><td>4–6 週</td></tr>
+      <tr><td>持續採收期</td><td>整個夏天,可採到秋冬降溫</td></tr>
+    </tbody>
+  </table>
+
+  <h3>採收</h3>
+  <ul>
+    <li>採 <strong>頂端 5–10 公分的嫩葉莖</strong></li>
+    <li>留根部與一部分莖 → 會從節點繼續長</li>
+    <li><strong>越採越多</strong> — 定期採收反而刺激生長,放著不採才長得慢</li>
+    <li>建議一週至少採 1–2 次,讓植株持續活躍</li>
+  </ul>
+
+  <h3>失敗點與除錯</h3>
+  <table>
+    <thead>
+      <tr><th>症狀</th><th>可能原因</th><th>對策</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>枝條買來就半死</td>
+        <td>運送損耗(常見,不是你的問題)</td>
+        <td>買 20 條,活 3–5 條就夠。採用「冗餘策略」,別期待 100% 存活</td>
+      </tr>
+      <tr>
+        <td>插下去兩週還沒動靜</td>
+        <td>發根慢、日照不足、或水太多爛根</td>
+        <td>等滿 14 天再判斷;土表乾了才澆;檢查盆底有無排水</td>
+      </tr>
+      <tr>
+        <td>葉子發黃</td>
+        <td>水過多、水過少、或日照不對</td>
+        <td>土表乾才澆;觀察葉子是「軟塌」(缺水)還是「水腫爛」(過多)</td>
+      </tr>
+      <tr>
+        <td>爛根 / 莖底發黑</td>
+        <td>土太濕、盆底無排水、積水</td>
+        <td>換土、檢查排水孔。爛掉的那條剪掉換新</td>
+      </tr>
+      <tr>
+        <td>有蟲(毛毛蟲、蚜蟲)</td>
+        <td>戶外種植常有</td>
+        <td>手抓掉、用水沖。避免農藥(畢竟要吃)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>🧠 失智照護應用 Notes</h3>
+
+  <p>地瓜葉對失智長輩是**極佳**的 behavior redirection 工具,因為它的特性剛好打中幾個痛點:</p>
+
+  <div class="callout">
+    <h4>為什麼地瓜葉特別適合失智長輩</h4>
+    <ul style="margin:0;">
+      <li><strong>耗水量大</strong> → 每天需要澆水 → 長輩每天有<strong>合理的理由去陽台</strong>(如果她原本就有想往外走的衝動,這會把能量導去陽台)</li>
+      <li><strong>視覺回饋快</strong> → 夏天幾天就有明顯新葉,她看到自己澆的有成果</li>
+      <li><strong>莖葉可剝</strong> → 採回來可以請她剝老葉、去硬梗。這個動作跟「剝蒜頭」是同類型肌肉記憶,有廚房經驗的長輩會自然做</li>
+      <li><strong>讓她感覺自己有用</strong> → 植物<strong>真的需要她</strong>,不是在應付她。這比任何「活動」都更根本</li>
+    </ul>
+  </div>
+
+  <h4 style="margin-top:24px;">Setup 建議(如果家裡有失智長輩)</h4>
+  <ul>
+    <li><strong>放在長輩居住層的陽台</strong>(讓她隨時看得到、摸得到)</li>
+    <li><strong>水壺事先裝滿放盆旁</strong> —— 不要讓她自己接水(她可能找不到水龍頭)</li>
+    <li><strong>把澆水加進她的日常 SOP</strong> —— 例如早餐後、午睡前,固定時段執行</li>
+    <li><strong>不要讓她看到你先澆</strong> —— 如果她覺得你已經澆過,她就不會動</li>
+    <li><strong>採收後給她處理</strong> —— 剝老葉、去硬梗、分菜裝袋,都是可做的「前置動作」</li>
+  </ul>
+
+  <h4>相關閱讀</h4>
+  <ul>
+    <li><a href="https://blog.tomting.com/2026/04/22/dementia-care-three-misunderstandings/">失智照顧半年的三個誤會</a> — 講這些活動設計背後的三條規則</li>
+    <li><a href="https://blog.tomting.com/2026/04/22/dementia-mother-finding-home/">失智長輩為什麼一直到處走</a> — 講為什麼 behavior redirection 比阻止更有效</li>
+  </ul>
+
+  <h3>Tom 家的實測紀錄</h3>
+
+  <div class="callout">
+    <h4>📝 持續更新</h4>
+    <p><strong>2026-04-22</strong> · Day 7 — 買了 20 條枝條,插 6 樓陽台,第一片新葉冒出。計畫兩週內開 5 樓陽台第二批(先清盆、養土、再買一批枝條)。</p>
+    <p><em>採收實測、媽媽的 ritual 導入紀錄將在接下來幾週陸續補進。</em></p>
+  </div>
+</section>
+
+<section id="contributing">
+  <h2>🤝 怎麼貢獻</h2>
+  <p>這本手冊是 open source,歡迎你 fork 加自己家實測過的植物:</p>
+  <ol>
+    <li>Fork <a href="https://github.com/tm731531/dementia-care">dementia-care repo</a></li>
+    <li>在 <code>garden-handbook/index.html</code> 加一個新的 <code>&lt;section class="plant-entry"&gt;</code></li>
+    <li>參考地瓜葉那個 entry 的結構,但<strong>欄位不強制</strong> —— 你的植物不適合「失敗點表格」就不要放,但「失智照護應用 Notes」是本手冊的特色,盡量補</li>
+    <li>發 PR 過來,標題 <code>feat(garden): 新增 X 植物 entry</code></li>
+  </ol>
+  <p><strong>不收商業連結、不收不可食植物、不收農藥推薦</strong>。主軸是「家庭可食 + 長輩照護友善」。</p>
+</section>
+
+<footer>
+  <p>
+    🌱 家庭可食植物手冊 · 2026 ·
+    <a href="https://github.com/tm731531/dementia-care">GitHub</a> ·
+    <a href="https://blog.tomting.com/">blog</a> ·
+    <a href="../">回到 dementia-care 工具集</a>
+  </p>
+  <p style="font-size:0.85rem;margin-top:12px;">MIT License · 純前端單檔 · 無追蹤 · 離線可用</p>
+</footer>
+
+</div>
+
+</body>
+</html>
