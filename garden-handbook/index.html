@@ -785,7 +785,7 @@ const PLANTS = [
     category: 'leafy',
     meta: {
       difficulty: '很低(新手友善)',
-      season: '春夏最旺(4–9 月)',
+      season: '扦插 4–9 月(冬天會死)',
       light: '半日照以上',
       location: '陽台 / 窗邊 / 戶外',
     },
@@ -804,6 +804,11 @@ const PLANTS = [
       {
         id: 'obtain', emoji: '🛒', heading: '取得方式',
         html: `
+<div class="callout warn" style="margin-bottom:10px;">
+<h4>🗓️ Step 0 · 先看月曆再動手</h4>
+<p style="margin:0;"><strong>現在要是 4–9 月才開始。</strong> 冬天(11 月 – 2 月)扦插<strong>基本全死</strong> — 低於 15°C 地瓜葉停止生長,新枝條沒體力發根就凍死。如果現在是冬天,<strong>等到隔年 4 月清明後</strong>再下手,現在就先備盆土、看蝦皮賣家(冬天很多不賣枝條)。</p>
+</div>
+
 <div class="callout" style="background:#e8f5e9;border-left-color:var(--primary-dark);">
 <h4>📦 推薦的新手包 · 三步照順序來</h4>
 <ol style="margin:6px 0 4px;padding-left:22px;">
@@ -811,7 +816,7 @@ const PLANTS = [
 <li><strong>再下單枝條</strong> — <a href="https://shopee.tw/search?keyword=%E5%9C%B0%E7%93%9C%E8%91%89%20%E6%9E%9D%E6%A2%9D" target="_blank" rel="noopener" style="color:var(--primary-dark);font-weight:bold;">蝦皮搜尋「地瓜葉 枝條」</a>(一批 20 條,NT$80–150,多家包郵)</li>
 <li><strong>到貨當天立刻插</strong> — 剪 3–4 節一段 → 插進預備好的盆 → 澆透 → 放半日照處</li>
 </ol>
-<p style="margin:8px 0 0;font-size:14px;color:var(--muted);">⚠️ <strong>順序不能顛倒</strong>:枝條離開母株後水分流失快,如果到家才開始找盆買土,枝條在袋子裡悶一天就半死。總預算 <strong>NT$300 有找</strong>,不用懂園藝、不用等季節。</p>
+<p style="margin:8px 0 0;font-size:14px;color:var(--muted);">⚠️ <strong>順序不能顛倒</strong>:枝條離開母株後水分流失快,如果到家才開始找盆買土,枝條在袋子裡悶一天就半死。總預算 <strong>NT$300 有找</strong>,不用懂園藝 —— 但<strong>月份要對</strong>(見上面 Step 0)。</p>
 </div>
 
 <h4 style="color:var(--primary);margin:14px 0 6px;">其他取得管道</h4>
@@ -859,6 +864,17 @@ const PLANTS = [
         id: 'timing', emoji: '📋', heading: '完整時程表 · 扦插到採收',
         html: `
 <p><strong>扦插 → 發根 → 施肥 → 採收 → 越冬</strong>,一張表涵蓋整年。<strong>照做就對,不用觀察植物狀態</strong>。</p>
+
+<div class="callout warn">
+<h4>⚠️ 開工前先看月曆:第一次扦插挑對月份,不然全死</h4>
+<p style="margin:0 0 6px;">地瓜葉<strong>喜熱怕冷</strong>,低於 15°C 停止生長,新插枝條<strong>沒體力發根就凍死</strong>:</p>
+<ul style="margin:4px 0 0;padding-left:20px;">
+<li>✅ <strong>最佳:4–9 月</strong>(春末到初秋)—— 一週左右生根,手冊所有時程都以此為準</li>
+<li>🟡 勉強:10 月 / 3 月 —— 邊緣月份,成活率降低</li>
+<li>❌ <strong>別在 11 月 – 2 月扦插</strong> —— 成活率幾乎為零(Tom 第一次冬天種,整批死透)</li>
+</ul>
+<p style="margin:6px 0 0;font-size:14px;">如果現在是冬天想開始,<strong>不要插</strong> —— 先備盆土、觀察春天氣溫穩定後(通常清明 4 月上旬)再下手。蝦皮賣家冬天很多停賣枝條,也是風向球。</p>
+</div>
 
 <table>
 <thead><tr><th>天數</th><th>階段</th><th>植物狀態</th><th>你的動作</th></tr></thead>
@@ -1030,8 +1046,12 @@ const PLANTS = [
       {
         id: 'log', emoji: '📓', heading: '實測紀錄',
         html: `
+<div class="callout warn">
+<p style="margin:0;"><strong>第一次失敗(冬天)</strong> — 冬天試著埋地瓜,整批死透,完全沒發根。成活率 0%。<strong>教訓:4–9 月再下手</strong>。這條已經寫進上面「📋 完整時程表」開頭的警告區,讓之後的人不用重踩。</p>
+</div>
+
 <div class="callout">
-<p style="margin:0 0 8px;"><strong>2026-04-22</strong> · Day 7 — 買了 20 條枝條,插 6 樓陽台,第一片新葉冒出。計畫兩週內開 5 樓陽台第二批。</p>
+<p style="margin:0 0 8px;"><strong>2026-04-22</strong> · Day 7 — 改用扦插,4 月下旬氣溫穩。買了 20 條枝條,插 6 樓陽台,第一片新葉冒出。計畫兩週內開 5 樓陽台第二批。</p>
 <p style="margin:0;"><strong>2026-04-23</strong> · Day 8 — <strong>兩盆全活,扦插成活率 100%</strong>。中間大盆密度佳、葉片向四周放射狀張開;左側紅盆剛整土待插新批。葉緣有輕微泛黃(老葉代謝/氮不足),下週計畫補第一次薄肥。</p>
 </div>
 
