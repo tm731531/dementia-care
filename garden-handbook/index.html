@@ -13161,6 +13161,314 @@ const PLANTS = [
       },
     ],
   },
+
+  // =========== 貓草(葉菜/為貓種) ===========
+  {
+    id: 'cat-grass',
+    name: '貓草',
+    emoji: '🌾',
+    category: 'leafy',
+    fit: {
+      suitableFor: ['beginner', 'small_space', 'indoor', 'kid_friendly', 'low_maintenance'],
+      warnings: [],
+    },
+    meta: {
+      difficulty: '極低(種子撒水就長)',
+      season: '四季皆可種,夏天長最快',
+      light: '半日照 / 明亮散光(全日照亦可)',
+      location: '貓容易搆到的低處(茶几、地板、貓窩旁)',
+      seasons: ['spring', 'summer', 'autumn', 'winter'],
+      bestStartMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    },
+    sections: [
+      {
+        id: 'why', emoji: '💡', heading: '為什麼家裡有貓就該種貓草',
+        html: `
+<ul>
+<li><strong>貓的消化助手</strong> — 貓草幫助貓咪吐出毛球、舒緩腸胃，是室內貓的天然保健品</li>
+<li><strong>最快能採的植物</strong> — 5–7 天就能讓貓吃到，比任何蔬菜都快</li>
+<li><strong>幾乎零失敗</strong> — 種子撒進土裡、澆水、等待；不需要插枝、不需要發根，是真正的「零門檻」</li>
+<li><strong>費用極低</strong> — 種子一包 NT$30–80，可以種十幾批；比買現成貓草盆(NT$80–150)划算得多</li>
+<li><strong>短週期換盆 = 固定儀式</strong> — 每 10–14 天種一批新的，讓家裡始終有生長中的東西，對家庭節奏特別有療癒感</li>
+<li><strong>讓家忙起來</strong> — 貓低頭咬草、長輩幫忙撒種澆水、孩子觀察發芽，一盆草串起了全家的日常互動</li>
+</ul>
+<div class="callout" style="margin-top:10px;">
+<h4>🐱 這是 garden-handbook 唯一不給人吃的 entry</h4>
+<p style="margin:0;">但它完全符合本手冊的上位 mission — <strong>讓整個家忙起來</strong>。貓草種的不是食材，種的是家裡每天有東西在長、有東西需要照顧的儀式感。如果家裡有失智長輩，貓吃草的日常畫面和種草的重複動作，正是 behavior redirection 的具體體現。</p>
+</div>`,
+      },
+      {
+        id: 'obtain', emoji: '🛒', heading: '取得方式',
+        html: `
+<div class="callout warn" style="margin-bottom:10px;">
+<h4>🗓️ Step 0 · 四季都可以，但夏天要注意水分</h4>
+<p style="margin:0;">貓草<strong>全年皆可種</strong>，沒有季節限制。唯一注意：台灣夏天(6–9 月)溫度高，草長得快也老得快，<strong>10–12 天就要換新盆</strong>；冬天長得較慢，可多撐幾天。隨時都能下手，今天決定今天種。</p>
+</div>
+
+<div class="callout" style="background:#e8f5e9;border-left-color:var(--primary-dark);">
+<h4>📦 推薦的新手包 · 三步照順序來</h4>
+<ol style="margin:6px 0 4px;padding-left:22px;">
+<li><strong>先備盆與土(這一步要比種子先到)</strong> — 找家裡任何一個淺盆(深 5 cm 以上即可，甚至舊便當盒鑽排水孔都行)，盆底鋪培養土約 3–4 cm，先澆一次水讓土服貼。一般培養土 NT$50–100 一袋。</li>
+<li><strong>買種子</strong> — <a href="https://shopee.tw/search?keyword=%E8%B2%93%E8%8D%89+%E7%A8%AE%E5%AD%90" target="_blank" rel="noopener" style="color:var(--primary-dark);font-weight:bold;">蝦皮搜尋「貓草 種子」</a>，選小麥草種子(最軟貓最愛)，一包 NT$30–80。</li>
+<li><strong>到貨當天立刻撒種</strong> — 種子均勻撒在土面，輕壓一下讓種子接觸土壤，覆土約 1 cm，澆水至盆底微滲。</li>
+</ol>
+<p style="margin:8px 0 0;font-size:14px;color:var(--muted);">⚠️ <strong>土要先備好</strong>：種子到了沒地方種很尷尬，貓草萌芽快，第一天就要有土可用。總預算 <strong>NT$150 有找</strong>，夠種 3–5 批。</p>
+</div>
+
+<h4 style="color:var(--primary);margin:14px 0 6px;">其他取得管道</h4>
+<table>
+<thead><tr><th>管道</th><th>費用</th><th>適合誰</th></tr></thead>
+<tbody>
+<tr><td>蝦皮 / 露天買種子</td><td>NT$30–80 / 包</td><td>長期種、最划算</td></tr>
+<tr><td>寵物店買現成貓草盆</td><td>NT$80–150 / 盆</td><td>急著用、懶得種的第一次嘗試</td></tr>
+<tr><td>花市 / 園藝店</td><td>NT$60–120 / 包</td><td>可以當天拿到種子</td></tr>
+<tr><td>朋友分種子</td><td>免費</td><td>有種植朋友時最快</td></tr>
+</tbody>
+</table>
+
+<div class="callout warn" style="margin-top:12px;">
+<h4>🐱 品種怎麼選</h4>
+<p style="margin:0 0 6px;">貓草有幾個常見品種，功能相近，差異在葉片口感：</p>
+<ul style="margin:0;padding-left:20px;">
+<li><strong>小麥草</strong> — 最普遍，葉薄軟，大多數貓最愛吃</li>
+<li><strong>燕麥草</strong> — 葉稍粗，有些貓偏好，香氣較重</li>
+<li><strong>大麥草</strong> — 類似小麥草，稍微粗硬一點</li>
+</ul>
+<p style="margin:8px 0 0;font-size:14px;"><strong>第一次種推薦小麥草</strong>；之後可以同時種兩種，觀察你家貓咪的偏好。<br>⚠️ <strong>貓薄荷(Catnip)不是貓草</strong> — 貓薄荷讓貓咪「high」、翻滾，是神經刺激劑；貓草是讓貓咪消化、吐毛球用，兩者功能完全不同，買的時候看清楚名稱。</p>
+</div>`,
+      },
+      {
+        id: 'pot-soil', emoji: '🏺', heading: '盆器與土壤',
+        html: `
+<h4 style="color:var(--primary);">盆器</h4>
+<ul>
+<li><strong>淺盆即可</strong> — 貓草根系不深，深 5–8 cm 就足夠，不需要大深盆</li>
+<li>寬度隨意，<strong>越寬可以撒越多種子，貓吃得更過癮</strong></li>
+<li>盆底<strong>必須有排水孔</strong>，或在底部鋪一層碎石增加排水</li>
+<li><strong>可以重複利用</strong>：舊優格杯、廢棄便當盒、底部鑽孔的馬克杯都行</li>
+<li>建議備 2–3 個盆輪流種，一盆貓在吃，一盆在長，永遠不斷糧</li>
+</ul>
+
+<h4 style="color:var(--primary);margin-top:12px;">土壤</h4>
+<ul>
+<li>一般培養土即可，不需要特殊配方</li>
+<li><strong>排水要好</strong> — 土太濕容易爛根、長黴，草長快但壽命更短</li>
+<li>每批草種完就換新土（舊土可拿去種其他植物，貓草週期短，舊土養分已耗盡）</li>
+<li>不加基肥 — 貓草生命週期只有 10–14 天，不需要施肥</li>
+</ul>
+<div class="callout warn" style="margin-top:10px;">
+<h4>🚫 不要打農藥</h4>
+<p style="margin:0;">貓咪會直接吃草，任何農藥、殺蟲劑、除草劑都可能讓貓中毒。全程只用清水澆灌，有蟲就用手移除或水沖。</p>
+</div>
+<p style="font-size:14px;color:var(--muted);margin-top:10px;"><em>貓草生命週期極短，不需要施肥。施肥 section 保留說明原因。</em></p>`,
+      },
+      {
+        id: 'steps', emoji: '🌳', heading: '種植步驟',
+        html: `
+<ol>
+<li><strong>泡種(可選)</strong> — 播種前一天，種子放入清水中浸泡 8–12 小時，可提升發芽率約 20%。時間緊的話省略也 OK，貓草發芽率本來就高。</li>
+<li><strong>備土</strong> — 盆底鋪培養土 3–5 cm，澆水至土壤濕潤但不積水，靜置 30 分鐘讓土服貼。</li>
+<li><strong>撒種</strong> — 均勻撒在土面，<strong>種子之間留少許間隙</strong>(不要完全重疊)，密度高一點沒關係，貓草本來就叢生。</li>
+<li><strong>輕覆土</strong> — 在種子上方覆蓋約 1 cm 的土，或用手輕壓種子讓它們接觸土面。</li>
+<li><strong>澆水</strong> — 澆透，確保種子和土壤充分接觸，盆底微微滲水即可。</li>
+<li><strong>放置</strong> — 放在明亮散光處，溫度 18–28°C 最理想。發芽前可以蓋上保鮮膜或報紙保濕(每天掀開透氣 10 分鐘)。</li>
+<li><strong>等待</strong> — 2–4 天冒芽，5–7 天長到 5–10 cm，就可以讓貓開吃了。</li>
+</ol>
+
+<div class="callout" style="margin-top:10px;">
+<h4>🐱 怎麼給貓吃</h4>
+<p style="margin:0 0 6px;">直接把整盆放在貓咪容易搆到的地方：</p>
+<ul style="margin:0;padding-left:20px;">
+<li>茶几、地板、貓窩旁都適合</li>
+<li>讓貓自己決定要不要吃，<strong>不需要強迫</strong></li>
+<li>第一次接觸的貓可能聞一聞走掉，放個 2–3 天它自己會回來</li>
+<li>貓咪吃草後可能會嘔吐，這是正常的 — 草幫助排出毛球，不用擔心</li>
+</ul>
+</div>`,
+      },
+      {
+        id: 'timing', emoji: '📋', heading: '完整時程表 · 播種到丟棄換新',
+        html: `
+<p><strong>貓草不是長期植物 — 播種、生長、採收、丟棄，10–14 天一個循環</strong>。下表讓你不用觀察植物，照日子行動就對了。</p>
+
+<div class="callout warn">
+<h4>⚠️ 開工前先知道：貓草的特殊節奏</h4>
+<p style="margin:0 0 6px;">貓草跟本手冊其他植物最大的不同：<strong>它是消耗型、丟棄型的</strong>。不要期待它長很久 — 草老化後葉片變黃、變硬、貓不愛吃，就是換盆的訊號。</p>
+<table style="margin-top:8px;">
+<thead><tr><th></th><th>月份</th><th>節氣</th><th>狀態</th></tr></thead>
+<tbody>
+<tr style="background:#f0f8ec;"><td>✅ 全年皆可</td><td><strong>1–12 月</strong></td><td><strong>全年</strong></td><td>四季皆可播種，室內 18–28°C 最理想</td></tr>
+<tr><td>🟡 稍慢</td><td>12、1、2 月</td><td>大雪(12/7)→ 雨水(2/19)</td><td>冬天發芽略慢(4–6 天)，但仍可成功；週期拉長到 14–18 天</td></tr>
+<tr style="background:#fdf5e6;"><td>⚡ 要注意</td><td><strong>6 – 9 月</strong></td><td><strong>芒種(6/5)→ 白露(9/8)</strong></td><td>夏天高溫草老化快，<strong>10 天就要換新盆</strong>，澆水頻率加倍</td></tr>
+</tbody>
+</table>
+<p style="margin:8px 0 0;font-size:14px;">結論：<strong>什麼時候都可以種，但夏天要種快換快，冬天等久一點。</strong></p>
+</div>
+
+<table>
+<thead><tr><th>天數</th><th>階段</th><th>植物狀態</th><th>你的動作</th></tr></thead>
+<tbody>
+<tr><td><strong>Day 0</strong></td><td>泡種(可選)</td><td>種子浸水</td><td>種子泡清水 8–12 小時(省略也 OK)</td></tr>
+<tr><td><strong>Day 1</strong></td><td>播種</td><td>種子入土</td><td>撒種 → 覆土 1 cm → 澆透 → 放明亮散光處</td></tr>
+<tr><td>Day 2–3</td><td>萌芽期</td><td>白色嫩芽冒頭</td><td>保持土壤濕潤(每天澆一次)；❌ 不施肥</td></tr>
+<tr><td>Day 3–4</td><td>發芽冒頭</td><td>淡黃綠小苗</td><td>移到有光的地方讓苗轉綠</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 5–7 🐱</strong></td><td><strong>可給貓了</strong></td><td>草高 5–10 cm，翠綠</td><td>✅ 整盆移到貓咪容易搆到的低處，讓貓自由咬</td></tr>
+<tr><td>Day 7–10</td><td>生長高峰</td><td>草越長越密</td><td>每天澆水；持續讓貓自由取用</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 10–14 ✂️</strong></td><td><strong>採收高峰期</strong></td><td>草最豐盛，貓最愛</td><td>✅ 讓貓盡情吃；同時<strong>準備下一盆播種</strong></td></tr>
+<tr style="background:#fdf5e6;"><td><strong>Day 14–21 🗑</strong></td><td><strong>老化期，換盆</strong></td><td>草變黃、變硬、貓不愛</td><td>整盆丟棄或拿去堆肥；新盆已播種接手</td></tr>
+</tbody>
+</table>
+
+<div class="callout" style="margin-top:12px;">
+<h4>📱 播種當天就要做的 2 件事</h4>
+<ol style="margin:4px 0 0;padding-left:22px;">
+<li>Google 行事曆設提醒：<strong>今日 + 5 天</strong>「把貓草盆移給貓」、<strong>今日 + 12 天</strong>「播下一批種子」</li>
+<li>準備第二個盆，讓第一批草給貓吃的同時，第二批已經在長</li>
+</ol>
+<p style="margin:6px 0 0;font-size:14px;"><strong>兩盆輪流種，貓咪永不斷糧</strong>。這個節奏一旦建立，就成為家裡的固定儀式。</p>
+</div>
+
+<p style="font-size:14px;color:var(--muted);margin-top:10px;"><em>這個手冊建議維持「兩盆輪流」制：一盆正在給貓吃(Day 5–14)，一盆剛播種(Day 1–4)。每 10 天播一批新的，永遠有新鮮草供應。</em></p>`,
+      },
+      {
+        id: 'fertilizer', emoji: '🌾', heading: '施肥',
+        html: `
+<div class="callout warn">
+<h4>🚫 貓草不需要施肥，也不應該施肥</h4>
+<p style="margin:0 0 6px;">貓草的生命週期只有 <strong>10–14 天</strong>，根本來不及吸收緩釋肥；而液肥濃度稍高就可能傷苗，更重要的是 —— <strong>貓咪會直接吃草，任何化學肥料殘留都有潛在風險</strong>。</p>
+<ul style="margin:0;padding-left:20px;">
+<li>❌ 不施好康多或任何緩釋肥（週期太短、用不到）</li>
+<li>❌ 不施液肥（殘留風險）</li>
+<li>❌ 不施有機肥（味道可能讓貓不愛吃）</li>
+<li>✅ <strong>只用清水澆灌</strong>，土壤本身的養分已足夠供應 10–14 天的生長</li>
+</ul>
+</div>
+
+<h4 style="color:var(--primary);margin-top:14px;">如果想讓草長得更好</h4>
+<ul>
+<li><strong>用好的培養土</strong> — 含有機質的培養土本身有基礎養分，一袋 NT$50–100</li>
+<li><strong>每批換新土</strong> — 不要重複用同一盆土，養分已耗盡且可能有病菌</li>
+<li><strong>確保光線</strong> — 明亮散光比施肥更有效</li>
+<li><strong>控制水分</strong> — 土保持濕潤不積水，草更健康</li>
+</ul>
+
+<p style="font-size:13px;color:var(--muted);margin-top:14px;">通用施肥原則(其他植物適用)看 <a href="#" onclick="event.preventDefault();navigateTo('page-knowledge');return false;" style="color:var(--primary);font-weight:bold;">📚 通用園藝知識 → 🌾 施肥</a>。</p>`,
+      },
+      {
+        id: 'harvest', emoji: '✂️', heading: '採收 / 供貓',
+        html: `
+<h4 style="color:var(--primary);">給貓的方式</h4>
+<ul>
+<li><strong>整盆放低處</strong> — 把盆栽放在茶几、地板或貓窩旁，讓貓自己決定吃不吃</li>
+<li>草長到 <strong>8–15 cm</strong> 時口感最好，貓最愛；太短(< 5 cm)貓咬不到，太長(> 20 cm)變老變硬</li>
+<li><strong>不用剪草給貓</strong> — 貓咪自己會咬，讓它們用本能互動</li>
+<li>同一盆貓可以分多次吃，不用一次全給</li>
+</ul>
+
+<h4 style="color:var(--primary);margin-top:12px;">換盆時機</h4>
+<ul>
+<li>草開始變黃、葉尖枯萎 → 準備換新盆</li>
+<li>貓走過去聞一聞卻不吃 → 草已老化，換盆</li>
+<li>夏天 10–12 天就換；冬天可撐到 14–18 天</li>
+<li>丟棄的草可以拿去堆肥，土壤也可以加入院子的花圃</li>
+</ul>
+
+<div class="callout" style="margin-top:10px;">
+<h4>🔄 兩盆輪流種的節奏</h4>
+<p style="margin:0 0 4px;">讓貓永不斷糧的最簡方式：</p>
+<ul style="margin:0;padding-left:20px;">
+<li><strong>盆 A</strong>：給貓吃(Day 5–14)</li>
+<li><strong>盆 B</strong>：剛播種，正在長(Day 1–4)</li>
+<li>每次盆 A 換掉時，盆 B 就接上，然後立刻播種新的「盆 A」</li>
+</ul>
+<p style="margin:6px 0 0;font-size:14px;">這個輪流系統一旦建立，每週只需要 5 分鐘的動作(撒種 + 澆水)，就能維持貓咪全年的貓草供應。</p>
+</div>`,
+      },
+      {
+        id: 'troubleshoot', emoji: '🛡', heading: '失敗點與除錯',
+        html: `
+<table>
+<thead><tr><th>症狀</th><th>可能原因</th><th>對策</th></tr></thead>
+<tbody>
+<tr><td>種了 5 天沒發芽</td><td>種子品質差 / 土太乾 / 溫度太低</td><td>確認土壤保持濕潤；冬天移到室內溫暖處；種子已過期就換新的</td></tr>
+<tr><td>發芽後苗倒伏</td><td>徒長(光線不足) / 土太濕</td><td>移到更亮的地方；減少澆水頻率</td></tr>
+<tr><td>草長白色毛毛(像黴菌)</td><td>根毛，不是黴菌</td><td>根毛長在種子和莖上，白色纖維狀，正常現象，不用處理</td></tr>
+<tr><td>草長了真的黴菌(綠黑色)</td><td>通風不足 / 太濕 / 太密</td><td>撒種時留空隙；每天掀開保鮮膜透氣；盆底確認排水</td></tr>
+<tr><td>草長到 10 天貓不吃</td><td>草已老化變硬 / 貓不熟悉</td><td>換新盆；第一次給貓吃的，放旁邊幾天它自己會去聞</td></tr>
+<tr><td>貓吃草後嘔吐</td><td>正常反應</td><td>不用擔心 — 貓咪吃草就是為了引發嘔吐反射排出毛球，這是自然本能</td></tr>
+<tr><td>草長不高(停在 3–5 cm)</td><td>冬天低溫 / 日照不足</td><td>移到最亮的窗邊；冬天等久一點，拉長週期到 14–18 天</td></tr>
+<tr><td>種子買了一包種不完</td><td>份量太多</td><td>密封後放冰箱冷藏，可保存 6–12 個月</td></tr>
+</tbody>
+</table>`,
+      },
+      {
+        id: 'dementia', emoji: '🧠', heading: '失智照護應用 Notes',
+        byLevel: {
+          mild: `
+<div class="callout">
+<h4>📍 輕度：她還能照顧貓，種草是貓照護儀式的一部分</h4>
+<p style="margin:0;">輕度失智長輩仍能理解步驟、執行多個動作。「幫貓種草」可以做到最完整 — 從撒種到澆水到看貓吃草，是有頭有尾的完整故事。</p>
+</div>
+<ul>
+<li><strong>把貓草當成長輩「幫貓照顧」的任務</strong>：「媽，貓的草快要老了，幫我種一盆新的好嗎？」 比「你來澆水」更有動力</li>
+<li>撒種動作簡單，長輩可以主導，你在旁邊看就好</li>
+<li>「貓今天吃草了嗎？」成為每天的對話觸發，讓長輩覺得自己知道家裡的狀況</li>
+<li>10–14 天換盆的節奏，提供<strong>規律的時間錨點</strong>：「上次種是上上週，下次又要種了」</li>
+<li><strong>目標</strong>：讓長輩成為貓的主要照顧者之一，維持「我還在照顧這個家」的自我感</li>
+</ul>
+<p>這個階段的價值：<strong>種草不只是種草，是長輩對貓的愛的具體行動</strong>。</p>`,
+          moderate: `
+<div class="callout">
+<h4>📍 中度：引導單一動作，讓她參與儀式</h4>
+<p style="margin:0;">中度長輩執行多步驟會卡住，但單一動作還在。把種草分解成最小單位，每次只請她做一件事。</p>
+</div>
+<ul>
+<li><strong>你備好土和種子，請她「幫貓撒一撒」</strong> — 撒種動作簡單、有目標感、不會失敗</li>
+<li>澆水時<strong>水壺事先裝好放在盆旁</strong>，不要讓她找水龍頭</li>
+<li>把貓草盆放在長輩日常動線顯眼處(客廳矮桌、電視旁)，她走過去就能看到</li>
+<li><strong>貓低頭吃草的畫面</strong>是療癒場景：她不需要做什麼，看著就是陪伴</li>
+<li>「貓在吃草了，你種的喔」— 給她連結種草行為和現在看到的結果</li>
+<li>換盆時請她幫忙端走舊盆，這個動作有終結感(一個任務完成了)</li>
+</ul>
+<p>這個階段的價值：<strong>種草和換盆的節奏，提供中度長輩生活中可預期、可參與的規律事件</strong>。</p>`,
+          severe: `
+<div class="callout">
+<h4>📍 重度：不要求動作，要求存在；貓是她的療癒夥伴</h4>
+<p style="margin:0;">重度長輩主動動作有限，但感官還在。貓草場景的價值從「活動」轉為「感官陪伴和情緒共鳴」。</p>
+</div>
+<ul>
+<li>讓她坐在貓和貓草盆旁邊，<strong>看貓咬草的畫面</strong> — 這個畫面靜謐、有節奏、不需要語言</li>
+<li>把剛澆完水的草湊近讓她聞，<strong>新鮮草和濕土的氣味</strong>是強烈的感官刺激(嗅覺是失智最晚退化的感官之一)</li>
+<li>讓她<strong>摸草</strong>，感受草的觸感；可以問「軟不軟？」不需要正確答案</li>
+<li>貓咪如果走過來蹭她，就讓它蹭 — 貓和貓草盆是天然的引導物</li>
+<li>每天同樣時段、同樣場景重複，<strong>節奏感比「完成任何事」更重要</strong></li>
+</ul>
+<p>這個階段的價值：<strong>她不種草，但她陪著這個「家裡有東西在長、有生命在互動」的氛圍。貓健康快樂，長輩情緒穩定 — 兩者互相支撐</strong>。</p>
+<div class="callout warn" style="margin-top:10px;">
+<h4>🐱 貓也是照護者的情感出口</h4>
+<p style="margin:0;font-size:14px;">失智照護是馬拉松。貓是照護者在疲憊時的情感支撐。<strong>貓草讓貓咪更健康，健康的貓讓照護者有力量繼續</strong>。這不是周邊話題 — 這是照護者自我照顧的一部分。參考 <a href="../../pet-handbook/" style="color:var(--primary);">pet-handbook 貓照護 topics</a> 中關於貓與失智照護環境的內容。</p>
+</div>`,
+        },
+      },
+      {
+        id: 'log', emoji: '📓', heading: '實測紀錄',
+        html: `
+<div class="callout warn">
+<p style="margin:0;"><strong>尚未開始實測</strong> — 本 entry 於 2026-04-23 依照文獻與產品說明撰寫，家裡尚未開始種貓草。將在首批種植後補入實測資料。</p>
+</div>
+
+<h4 style="color:var(--primary);margin-top:14px;">計畫中的實測項目</h4>
+<ul>
+<li>小麥草 vs 燕麥草：家貓偏好哪一種</li>
+<li>泡種 8 小時 vs 不泡種：發芽率和發芽速度差異</li>
+<li>有無保鮮膜覆蓋：發芽率和黴菌發生率比較</li>
+<li>兩盆輪流制建立後的實際操作節奏</li>
+<li>失智長輩參與撒種、澆水的互動紀錄</li>
+</ul>
+<p style="color:var(--muted);font-size:14px;margin-top:10px;"><em>實測開始後，紀錄格式參考地瓜葉 log section，補入日期 + Day 數 + 具體觀察。</em></p>`,
+      },
+    ],
+  },
 ];
 
 // =========================================================
