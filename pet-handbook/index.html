@@ -1209,7 +1209,805 @@ const TOPICS = [
 </ul>`},
     ],
   },
-]
+
+  // =========== 狗 · 養狗基礎 ===========
+  {
+    id: 'dog-basics', name: '養狗基礎', emoji: '🐶', category: 'dog', hint: '6 件事先想清楚',
+    meta: { difficulty: '中高(需每日運動)', lifespan: '小型 13-16 / 中型 10-13 / 大型 8-10 年', key: '運動 + 社會化 + 訓練,三缺一狗會不好帶', disclaimer: '一般建議,實際以獸醫為準' },
+    sections: [
+      { emoji: '💡', heading: '決定養狗之前問自己 3 件事', html: `
+<ol>
+<li><strong>每天能花多少時間陪?</strong> 小型犬最少 30 分鐘 × 2 次,大型犬 1-2 小時戶外</li>
+<li><strong>10-15 年的陪伴撐得住嗎?</strong> 工作變動、搬家、生小孩都要算進去</li>
+<li><strong>每月預算 3000-5000 起?</strong> 飼料、疫苗、獸醫、美容都要錢</li>
+</ol>
+<div class="callout warn"><h4>⚠️ 有一題猶豫就先暫緩</h4>
+<p style="margin:0;">送養率最高的狗,主人往往是當初沒想清楚。對狗、對你都殘忍。</p></div>`},
+      { emoji: '🏠', heading: '環境準備', html: `
+<ul>
+<li><strong>狗窩</strong>:安靜角落、遠離家人動線</li>
+<li><strong>食/水碗</strong>:不鏽鋼最好(防咬、好洗)</li>
+<li><strong>出入口</strong>:門要關緊,陽台加鐵網</li>
+<li><strong>牽繩/胸背帶</strong>:從小戴習慣</li>
+<li><strong>尿布墊</strong>:幼犬訓練期用,位置固定</li>
+<li><strong>耐咬玩具</strong>:橡膠玩具、磨牙骨</li>
+</ul>`},
+      { emoji: '🍽', heading: '飲食與絕對禁忌', html: `
+<h4 style="color:var(--primary);">飼料</h4>
+<ul><li>幼犬/成犬/高齡犬專用配方</li><li>依體型選顆粒大小</li><li>一天 2 餐(幼犬 3-4 餐),固定時間</li></ul>
+<h4 style="color:var(--primary);margin-top:10px;">⚠️ 絕對禁忌</h4>
+<ul>
+<li><strong>巧克力、葡萄/葡萄乾</strong> — 劇毒</li>
+<li>洋蔥、大蒜、韭菜 — 破壞紅血球</li>
+<li><strong>木糖醇</strong>(無糖口香糖)— 低血糖致死</li>
+<li>酪梨、澳洲堅果 — 中毒</li>
+<li>煮熟雞骨 — 穿刺內臟</li>
+<li>咖啡、茶、酒 — 中毒</li>
+</ul>
+<p>誤食 → <strong>立刻送醫,不要自行催吐</strong></p>`},
+      { emoji: '🚶', heading: '運動需求(依體型差異大)', html: `
+<table>
+<thead><tr><th>體型</th><th>每日</th><th>範例</th></tr></thead>
+<tbody>
+<tr><td>小型</td><td>30 分 × 2</td><td>吉娃娃、馬爾濟斯、博美</td></tr>
+<tr><td>中型</td><td>1 小時 × 1-2</td><td>柯基、米格魯、柴犬</td></tr>
+<tr><td>大型</td><td>1-2 小時</td><td>黃金獵犬、拉布拉多、哈士奇</td></tr>
+</tbody>
+</table>
+<div class="callout warn"><h4>⚠️ 運動不足的後果</h4>
+<p style="margin:0;">亂吠、拆家、憂鬱、肥胖、分離焦慮。運動是狗的精神食糧,不是選配。</p></div>`},
+      { emoji: '🎓', heading: '基礎訓練(4 個必訓指令)', html: `
+<ol>
+<li><strong>坐下</strong> — 食物誘導 + 指令 + 獎勵</li>
+<li><strong>等</strong> — 吃飯前、過馬路前</li>
+<li><strong>過來</strong> — 重要的安全指令</li>
+<li><strong>不行 / 放下</strong> — 防止誤食</li>
+</ol>
+<h4 style="color:var(--primary);margin-top:10px;">原則</h4>
+<ul>
+<li><strong>正向訓練</strong>:做對給獎勵,做錯不理會(不打不罵)</li>
+<li><strong>短而頻繁</strong>:每次 5-10 分鐘,一天多次</li>
+<li><strong>一致性</strong>:全家用同一指令</li>
+</ul>`},
+    ],
+  },
+
+  // =========== 狗 · 狗與失智長輩 ===========
+  {
+    id: 'dog-with-dementia', name: '狗與失智長輩', emoji: '❤', category: 'dog', hint: '運動量 × 失智程度要對照',
+    meta: { applies: '家裡已有狗 / 考慮為長輩養', critical: '大型犬 × 中度失智 = 不建議', core: '狗的需求可以是錨點,也可能是壓力' },
+    sections: [
+      { emoji: '💡', heading: '狗與貓的關鍵差別', html: `
+<ul>
+<li><strong>狗會主動索求</strong> — 要散步、陪玩、被 pet。高強度陪伴,<strong>也是高強度需求</strong></li>
+<li><strong>狗有固定生理時鐘</strong> — 一天兩次尿便需要出門</li>
+<li><strong>狗依賴人的情緒</strong> — 主人焦慮牠也焦慮</li>
+<li><strong>狗的訓練可保留</strong> — 十年後還記得「坐下」「等」</li>
+</ul>
+<p><strong>結論:狗是最溫暖的陪伴,也是最需要精力的寵物。</strong></p>`},
+      { emoji: '⚠', heading: '關鍵警告:運動量 × 失智程度', html: `
+<table>
+<thead><tr><th>犬體型</th><th>輕度</th><th>中度</th><th>重度</th></tr></thead>
+<tbody>
+<tr><td>小型犬</td><td>✓ 長輩自己可遛</td><td>△ 家人協助</td><td>家人全責</td></tr>
+<tr><td>中型犬</td><td>✓ 短程</td><td>△ 家人全責</td><td>家人全責</td></tr>
+<tr><td><strong>大型犬</strong></td><td>△ 體力要夠</td><td><strong>✗ 不建議新養</strong></td><td><strong>✗ 需專人遛</strong></td></tr>
+</tbody>
+</table>
+<div class="callout warn"><h4>⚠️ 大型犬的坑</h4>
+<p style="margin:0;">60 歲養的黃金獵犬,70 歲中度失智時狗才 10 歲 — 狗還年輕需要運動,長輩已無力帶出。<strong>養狗前估算 15 年後狀況</strong>。</p></div>`},
+      { emoji: '🌱', heading: '輕度失智:狗是新的作息錨點', html: `
+<p>狗的作息 = 長輩的外骨骼作息:</p>
+<ul>
+<li>早上 6 點狗叫 → 起床餵食、散步 → 自然運動</li>
+<li>定時回家上廁所 → 長輩記得時間</li>
+<li>回家搖尾巴 → 長輩有「我被期待」的存在感</li>
+</ul>
+<h4 style="color:var(--primary-dark);margin-top:10px;">注意</h4>
+<ul>
+<li>牽繩禮儀要教會(不拉扯長輩)</li>
+<li>散步路徑是長輩熟悉的</li>
+<li>項圈刻晶片/姓名/家人電話</li>
+</ul>`},
+      { emoji: '🌿', heading: '中度失智:家人接手運動責任', html: `
+<p>長輩可能忘記散步、忘記回家路、反覆餵食。</p>
+<h4 style="color:var(--primary-dark);">家人該做的</h4>
+<ul>
+<li><strong>接手早晚散步</strong> — 長輩跟著出門,牽繩在家人手上</li>
+<li><strong>狗食放不到的地方</strong> — 防重複餵</li>
+<li>讓長輩做「簡單」事:摸狗、輕刷毛、看狗吃飯</li>
+</ul>
+<div class="callout"><p style="margin:0;">狗用同樣熱情每天歡迎她 — 人類家人會累,狗不會。這是她還被愛的證據。</p></div>`},
+      { emoji: '🍂', heading: '重度失智:狗成為沉默的陪伴', html: `
+<p>這階段狗可能也老了(10+ 歲),兩個老人一起度過。</p>
+<ul>
+<li>讓狗睡在她床邊/腳邊</li>
+<li>家人負責所有照顧</li>
+<li>她可能不認家人,但<strong>看到狗常有反應</strong></li>
+<li>狗能感知她的狀態,會變得更安靜</li>
+</ul>
+<div class="callout warn"><h4>⚠️ 年輕大型犬 + 重度長輩</h4>
+<p style="margin:0;">狗的需求得不到會破壞行為(亂咬、亂吠)。認真考慮送托或安排寄養,不是硬撐。</p></div>`},
+      { emoji: '💔', heading: '離別情境', html: `
+<h4 style="color:var(--primary-dark);">狗過世 — 長輩反覆問</h4>
+<ul>
+<li>平靜重複答案(「牠去天上跑了」)</li>
+<li>不責備她「我說過了」</li>
+<li>考慮不再養新狗,改定期拜訪朋友的狗</li>
+</ul>
+<h4 style="color:var(--primary-dark);margin-top:14px;">長輩過世 — 狗找主人</h4>
+<ul>
+<li>狗會在她房間轉、叫、食慾下降</li>
+<li>一週內通常會調整</li>
+<li>家人多陪,維持規律</li>
+<li>狗的哀悼是真的,不要 rush 牠</li>
+</ul>`},
+    ],
+  },
+
+  // =========== 狗 · 健康與醫療 ===========
+  {
+    id: 'dog-medical', name: '狗的健康與醫療', emoji: '💉', category: 'dog', hint: '疫苗 + 寄生蟲 + 結紮',
+    meta: { budget: '疫苗 1500-3000 / 年', vet: '建議固定獸醫院,病歷連續', disclaimer: '一般建議,實際以獸醫為準' },
+    sections: [
+      { emoji: '📋', heading: '疫苗時程(台灣標準)', html: `
+<table>
+<thead><tr><th>週齡</th><th>疫苗</th></tr></thead>
+<tbody>
+<tr><td>6-8 週</td><td>第 1 劑八合一</td></tr>
+<tr><td>10-12 週</td><td>第 2 劑八合一</td></tr>
+<tr><td>14-16 週</td><td>第 3 劑八合一 + 狂犬病</td></tr>
+<tr><td>每年</td><td>八合一 + 狂犬病追加(終生)</td></tr>
+</tbody>
+</table>
+<h4 style="color:var(--primary);margin-top:10px;">八合一保護</h4>
+<p>犬瘟熱、犬傳染性肝炎、犬副流感、犬小病毒、犬腺病毒、犬舍咳、鉤端螺旋體等</p>`},
+      { emoji: '💊', heading: '寄生蟲預防(每月必做)', html: `
+<h4 style="color:var(--primary);">外寄生蟲</h4>
+<ul>
+<li>跳蚤、壁蝨、疥癬</li>
+<li>滴劑(寵愛、蚤不到)或口服(全能狗、犬新寶)</li>
+<li>每月一次,<strong>全年不停</strong>(台灣氣候無冬)</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">心絲蟲(內寄生蟲)</h4>
+<ul>
+<li>蚊子傳播,感染<strong>致命</strong></li>
+<li>每月口服預防藥</li>
+<li>連續 3 個月沒吃 → 必須先驗血再重啟</li>
+</ul>`},
+      { emoji: '✂️', heading: '結紮時機', html: `
+<ul>
+<li><strong>公狗</strong>:6 個月齡後(性成熟前)</li>
+<li><strong>母狗</strong>:第一次發情後 2-3 個月(6-8 個月齡)</li>
+<li>大型犬可稍晚(骨骼發育完成)</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">好處</h4>
+<ul>
+<li>降低生殖系統癌症風險</li>
+<li>減少公狗爭鬥、標記領地</li>
+<li>避免母狗假懷孕、子宮蓄膿</li>
+</ul>
+<p>費用:3000-8000(依體型)</p>`},
+      { emoji: '⚠', heading: '緊急就醫信號', html: `
+<p>以下狀況<strong>立刻</strong>送急診:</p>
+<ul>
+<li>嘔吐超過 3 次 + 腹瀉</li>
+<li>嘔吐物含血、便黑色焦油狀</li>
+<li>呼吸急促、抽搐、失去意識</li>
+<li>腹部腫脹 + 噁心(胃扭轉,大型犬常見)</li>
+<li>瞳孔一大一小、步態不穩</li>
+<li>誤食巧克力/葡萄/木糖醇/洋蔥</li>
+</ul>
+<div class="callout warn"><h4>⚠️ 24 小時獸醫預備</h4>
+<p style="margin:0;">平時就先查好住家附近的 24 小時動物醫院電話。</p></div>`},
+      { emoji: '🏥', heading: '高齡犬保健(7 歲以上)', html: `
+<ul>
+<li><strong>每年完整健檢</strong>(血檢、尿檢、X 光)</li>
+<li>關節保健(葡萄糖胺、軟骨素)</li>
+<li>飲食改高齡犬配方(低脂、高纖)</li>
+<li>注意體重變化(突然減輕要就醫)</li>
+<li>牙齒清潔(牙周病是銀髮犬殺手)</li>
+</ul>`},
+    ],
+  },
+
+  // =========== 兔 · 養兔基礎 ===========
+  {
+    id: 'rabbit-basics', name: '養兔基礎', emoji: '🐰', category: 'rabbit', hint: '牧草為主 · 怕熱 · 不洗澡',
+    meta: { lifespan: '8-12 年', diet: '85% 牧草 + 10% 蔬菜 + 5% 飼料', warning: '兔比貓狗細緻,細節錯一個就可能致命', disclaimer: '一般建議,實際以獸醫為準' },
+    sections: [
+      { emoji: '💡', heading: '養兔前要知道的 5 件事', html: `
+<ol>
+<li><strong>壽命 8-12 年</strong> — 不是短期寵物</li>
+<li><strong>怕熱</strong> — 28 度以上會中暑,夏天必開冷氣</li>
+<li><strong>腸胃脆弱</strong> — 一頓不吃可能 24 小時內危及性命</li>
+<li><strong>要有專業獸醫</strong> — 兔不能吃狗貓藥,要找兔科</li>
+<li><strong>不適合小小孩獨立照顧</strong> — 抱錯方式會讓兔受傷</li>
+</ol>`},
+      { emoji: '🏠', heading: '籠舍環境', html: `
+<ul>
+<li><strong>籠子</strong>:至少 4 倍兔身長。網底會傷腳,要鋪墊子</li>
+<li><strong>放風空間</strong>:每天 3-4 小時在安全區跳</li>
+<li><strong>溫度</strong>:18-24°C 最舒服,28°C 以上必開冷氣</li>
+<li><strong>濕度</strong>:50-60%,太濕易真菌</li>
+<li><strong>遠離電線</strong>:兔會咬爛一切</li>
+</ul>`},
+      { emoji: '🍽', heading: '飲食 85/10/5 原則', html: `
+<h4 style="color:var(--primary);">85% 牧草(主食)</h4>
+<ul>
+<li>幼兔:苜蓿草(高鈣高蛋白)</li>
+<li>成兔(6 個月後):提摩西草為主</li>
+<li><strong>無限量供應</strong>,吃完就補</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">10% 新鮮蔬菜</h4>
+<ul>
+<li>深綠葉菜(空心菜、羅蔓、地瓜葉)</li>
+<li>每天一把,切小</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">5% 兔飼料</h4>
+<ul>
+<li>每天 1-2 大匙(高纖無色素的)</li>
+<li><strong>不能多</strong>,太多會肥、腸胃問題</li>
+</ul>
+<div class="callout warn"><h4>⚠️ 絕對不能餵</h4>
+<p style="margin:0;">巧克力、洋蔥、酪梨、人類點心、麵包、堅果、生馬鈴薯/番茄葉。</p></div>`},
+      { emoji: '🚽', heading: '便盆訓練', html: `
+<p>兔會自然選一個角落大小便。訓練:</p>
+<ol>
+<li>觀察兔常去哪個角落</li>
+<li>放便盆在那,底部鋪報紙 + 木屑</li>
+<li>兔便便沿便盆邊放幾顆引導</li>
+<li>兔做對給零食(小塊蔬菜)</li>
+</ol>
+<p>一般 1-2 週成功。結紮後效果更好。</p>`},
+      { emoji: '🛁', heading: '清潔(不要洗澡!)', html: `
+<div class="callout warn"><h4>⚠️ 絕對不要幫兔洗澡</h4>
+<p style="margin:0;">兔毛難乾、洗澡易驚嚇休克。兔會自己舔毛清潔。</p></div>
+<h4 style="color:var(--primary);margin-top:10px;">該做的</h4>
+<ul>
+<li>每天輕梳毛(尤其換毛期)</li>
+<li>屁股髒 → 用濕毛巾擦</li>
+<li>指甲長 → 請獸醫剪(或學會自己剪)</li>
+<li>牙齒過長 → 送醫修牙(靠牧草磨)</li>
+</ul>`},
+    ],
+  },
+
+  // =========== 兔 · 兔與失智長輩 ===========
+  {
+    id: 'rabbit-with-dementia', name: '兔與失智長輩', emoji: '❤', category: 'rabbit', hint: '安靜陪伴 · 但照顧細緻',
+    meta: { applies: '家裡已有兔 / 考慮養', caution: '兔脆弱,失智長輩常無法獨立照顧', core: '兔是安靜的觀賞/偶爾撫摸型陪伴' },
+    sections: [
+      { emoji: '💡', heading: '兔的特質', html: `
+<ul>
+<li><strong>安靜</strong> — 幾乎不叫,失智長輩睡眠不受干擾</li>
+<li><strong>柔軟溫暖</strong> — 觸覺療癒強</li>
+<li><strong>怕大聲與突然動作</strong> — 對躁動長輩不友善</li>
+<li><strong>被抱錯會骨折</strong> — 腰脊纖細</li>
+<li><strong>不主動靠近</strong> — 陪伴方式像觀賞魚 + 偶爾撫摸</li>
+</ul>`},
+      { emoji: '🌱', heading: '輕度失智:安靜的家人', html: `
+<ul>
+<li>長輩可以每天餵牧草、換水</li>
+<li>放風時間讓她看兔跳(視覺療癒)</li>
+<li>讓她摸兔(坐著摸,不抱)</li>
+<li>牧草放顯眼位置,補充容易</li>
+</ul>`},
+      { emoji: '🌿', heading: '中度失智:家人全責照顧', html: `
+<p>兔的照顧細節 — 食物量、清潔、溫度 — 中度失智者都無法穩定執行。</p>
+<ul>
+<li><strong>家人全責</strong>:餵食、清籠、檢查排便</li>
+<li>長輩只做「看 + 摸」</li>
+<li>兔放風時留長輩在旁邊(大人看著)</li>
+<li><strong>不要讓她獨自抱兔</strong>(失手會傷兔)</li>
+</ul>`},
+      { emoji: '🍂', heading: '重度失智:視覺陪伴', html: `
+<ul>
+<li>把籠子放在她視線會看到的位置</li>
+<li>放風時讓她看兔跳</li>
+<li>她不需要動手,兔的存在就是陪伴</li>
+</ul>
+<div class="callout"><p style="margin:0;">兔對重度失智長輩像一個柔軟的視覺錨點 —「那毛茸茸的是誰?」這種反覆問就是互動。</p></div>`},
+      { emoji: '⚠', heading: '特別警告', html: `
+<ul>
+<li><strong>兔腸胃停滯致命</strong> — 一頓不吃就要送醫。長輩忘記餵食 → 家人每日檢查</li>
+<li><strong>夏天冷氣不能停</strong> — 跳電要有應急方案</li>
+<li><strong>不適合跟失智長輩獨處</strong> — 長輩可能做出傷兔的動作而不自知</li>
+</ul>`},
+    ],
+  },
+
+  // =========== 兔 · 健康 ===========
+  {
+    id: 'rabbit-medical', name: '兔的健康', emoji: '💉', category: 'rabbit', hint: '兔專科獸醫很重要',
+    meta: { vet: '兔不能看狗貓科,要找兔專科', disclaimer: '一般建議,實際以獸醫為準' },
+    sections: [
+      { emoji: '📋', heading: '疫苗', html: `
+<ul>
+<li><strong>兔病毒性出血症(RHDV)</strong>:致命,強烈建議施打</li>
+<li><strong>兔黏液瘤病</strong>:台灣較少見,可選</li>
+<li>時程:3 個月齡起,每年追加</li>
+</ul>`},
+      { emoji: '⚠', heading: '常見疾病(命關致命)', html: `
+<ul>
+<li><strong>腸胃停滯(GI stasis)</strong>:不吃不大便 → 24 小時內可致命。送急診</li>
+<li><strong>毛球症</strong>:吞毛堵塞。牧草無限供應是預防</li>
+<li><strong>牙齒過長</strong>:下巴變形、流口水。每年獸醫檢查</li>
+<li><strong>尿鈣沉積</strong>:膀胱結石。飲水量夠、幼兔後改提摩西草</li>
+<li><strong>熱衰竭</strong>:夏天 28°C 以上嘴巴張開呼吸 → 立刻降溫送醫</li>
+</ul>`},
+      { emoji: '✂️', heading: '結紮', html: `
+<ul>
+<li>母兔 6 個月齡後:<strong>強烈建議結紮</strong>(子宮癌風險極高,80% 未結紮母兔會得)</li>
+<li>公兔 4-6 個月齡後:降低攻擊性、亂尿</li>
+<li>費用:3000-6000(找兔專科)</li>
+</ul>`},
+      { emoji: '🏥', heading: '緊急信號', html: `
+<p><strong>以下狀況 24 小時內送醫</strong>:</p>
+<ul>
+<li>不吃 / 不大便 / 腹部脹氣</li>
+<li>精神沉鬱、躲角落不動</li>
+<li>斜頭、轉圈(神經問題)</li>
+<li>呼吸急促、嘴巴張開</li>
+<li>流口水(牙齒或熱衰竭)</li>
+<li>便軟 / 拉稀</li>
+</ul>
+<div class="callout warn"><h4>⚠️ 兔的急症視窗超短</h4>
+<p style="margin:0;">狗貓不吃一餐 OK,兔不吃 12 小時就可能死。「等明天看看」在兔上面是最糟的決定。</p></div>`},
+    ],
+  },
+
+  // =========== 鳥 · 養鳥基礎 ===========
+  {
+    id: 'bird-basics', name: '養鳥基礎', emoji: '🐦', category: 'bird', hint: '社交動物 · 聲音需接受',
+    meta: { lifespan: '小型 5-15 年 / 中大型 30-80 年', key: '鳥聰明 + 長壽,決定前要評估', disclaimer: '一般建議,實際以獸醫為準' },
+    sections: [
+      { emoji: '💡', heading: '養鳥前要知道', html: `
+<ol>
+<li><strong>鳥會叫</strong> — 鸚鵡、玄鳳都有穩定叫聲時段,鄰居接受嗎?</li>
+<li><strong>鳥很聰明</strong> — 鸚鵡類 IQ 相當 3-5 歲小孩,需大量互動</li>
+<li><strong>可能超長壽</strong> — 金剛鸚鵡可活 50-80 年,你要想接班</li>
+<li><strong>放飛需防逃</strong> — 門窗、紗網要檢查</li>
+<li><strong>獸醫少</strong> — 鳥專科獸醫很少,先查好地點</li>
+</ol>`},
+      { emoji: '🏠', heading: '鳥籠選擇', html: `
+<ul>
+<li><strong>尺寸</strong>:至少能展翅 + 跳躍 2 次的長度(寬鬆最好)</li>
+<li><strong>橫桿</strong>:方便攀爬,鸚鵡類特別需要</li>
+<li><strong>棲木</strong>:不同粗細(天然樹枝 > 塑膠),磨爪磨喙</li>
+<li><strong>玩具</strong>:啃咬玩具、益智玩具、鏡子</li>
+<li><strong>位置</strong>:家人常在的房間(鳥是社交動物)、避免廚房油煙(毒!)</li>
+</ul>
+<div class="callout warn"><h4>⚠️ 廚房致命</h4>
+<p style="margin:0;">不沾鍋過熱產生的 PTFE 氣體對鳥<strong>秒殺</strong>。鳥籠絕對不能放廚房附近。</p></div>`},
+      { emoji: '🍽', heading: '飲食', html: `
+<h4 style="color:var(--primary);">基本結構</h4>
+<ul>
+<li>50-70% <strong>鳥用營養塊(pellets)</strong>(主食,比種子營養完整)</li>
+<li>20-30% 新鮮蔬菜水果</li>
+<li>10-20% 種子混合(種子是零食,不是主食)</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">⚠️ 絕對禁忌</h4>
+<ul>
+<li><strong>酪梨</strong> — 對鳥劇毒</li>
+<li><strong>巧克力、咖啡、酒</strong></li>
+<li>洋蔥、大蒜</li>
+<li>蘋果籽、櫻桃核(含氰化物)</li>
+<li>鹽、糖、油炸物</li>
+</ul>`},
+      { emoji: '🤝', heading: '社會化與互動', html: `
+<ul>
+<li>鳥是<strong>社交動物</strong>,需要每天互動</li>
+<li>聰明鳥類(鸚鵡、玄鳳)每天至少 2-3 小時放出籠陪伴</li>
+<li>沒有互動 → 拔毛、尖叫、攻擊</li>
+<li>教說話用正向訓練(重複 + 獎勵),不打不罵</li>
+</ul>`},
+      { emoji: '🐤', heading: '常見品種比較', html: `
+<table>
+<thead><tr><th>品種</th><th>體型</th><th>壽命</th><th>說話</th><th>互動需求</th></tr></thead>
+<tbody>
+<tr><td>文鳥</td><td>小</td><td>5-10 年</td><td>不說</td><td>低(觀賞型)</td></tr>
+<tr><td>虎皮鸚鵡</td><td>小</td><td>7-15 年</td><td>可教</td><td>中</td></tr>
+<tr><td>玄鳳鸚鵡</td><td>中</td><td>15-25 年</td><td>少量</td><td>高</td></tr>
+<tr><td>和尚鸚鵡</td><td>中</td><td>20-30 年</td><td>可</td><td>高</td></tr>
+<tr><td>灰鸚、金剛</td><td>大</td><td>30-80 年</td><td>強</td><td>極高</td></tr>
+</tbody>
+</table>`},
+    ],
+  },
+
+  // =========== 鳥 · 鳥與失智長輩 ===========
+  {
+    id: 'bird-with-dementia', name: '鳥與失智長輩', emoji: '❤', category: 'bird', hint: '聲音 × 互動要看程度',
+    meta: { applies: '視品種而定', warning: '聰明鳥類需大量互動,長輩無力時成為負擔', core: '觀賞型鳥(文鳥)適合,互動型需家人全責' },
+    sections: [
+      { emoji: '💡', heading: '鳥對失智長輩的意義', html: `
+<ul>
+<li><strong>聲音陪伴</strong> — 鳥叫是家裡有生命的提醒</li>
+<li><strong>視覺動態</strong> — 跳、飛、啄食都有動感</li>
+<li><strong>不要求肢體接觸</strong> — 長輩只需要看/聽就有療癒</li>
+</ul>
+<p>但要注意:<strong>鸚鵡類可能反而刺激</strong>(尖叫、說話干擾長輩睡眠或觸發混亂)。</p>`},
+      { emoji: '⚠', heading: '品種選擇 × 失智程度', html: `
+<table>
+<thead><tr><th>類型</th><th>輕度</th><th>中度</th><th>重度</th></tr></thead>
+<tbody>
+<tr><td>觀賞鳥(文鳥)</td><td>✓</td><td>✓</td><td>✓</td></tr>
+<tr><td>小鸚鵡(虎皮)</td><td>✓</td><td>△</td><td>△</td></tr>
+<tr><td>中型鸚鵡(玄鳳)</td><td>✓</td><td>△ 家人接手</td><td>✗</td></tr>
+<tr><td>大型鸚鵡(灰鸚)</td><td>△ 評估</td><td><strong>✗ 不建議新養</strong></td><td>✗</td></tr>
+</tbody>
+</table>
+<div class="callout warn"><h4>⚠️ 大型鸚鵡可活 50-80 年</h4>
+<p style="margin:0;">70 歲養金剛鸚鵡 — 牠會活到你女兒接班。<strong>長輩養鸚鵡前一定要有家族接班共識</strong>。</p></div>`},
+      { emoji: '🌱', heading: '輕度失智:觀賞與餵食', html: `
+<ul>
+<li>每天餵食、換水是簡單儀式</li>
+<li>讓長輩看鳥吃、看鳥跳(視覺療癒)</li>
+<li>文鳥類不主動互動,壓力低</li>
+</ul>`},
+      { emoji: '🌿', heading: '中度失智:家人補位', html: `
+<ul>
+<li>清籠、專業照顧家人全責</li>
+<li>長輩只看、只聽</li>
+<li>放鳥出籠時長輩在旁邊(家人看著)</li>
+<li>中大型鸚鵡若聲音大,可能觸發長輩躁動 — 觀察調整</li>
+</ul>`},
+      { emoji: '🍂', heading: '重度失智:聲音是存在證明', html: `
+<ul>
+<li>文鳥類的輕聲啾啾對臥床長輩是溫柔的背景音</li>
+<li>籠子放她視線範圍</li>
+<li>不強求互動,聲音本身就夠</li>
+</ul>`},
+    ],
+  },
+
+  // =========== 鳥 · 健康 ===========
+  {
+    id: 'bird-medical', name: '鳥的健康', emoji: '💉', category: 'bird', hint: '專科獸醫少 · 先查好',
+    meta: { vet: '鳥類專科獸醫,全台 10 家左右', disclaimer: '一般建議,實際以獸醫為準' },
+    sections: [
+      { emoji: '📋', heading: '定期健檢', html: `
+<ul>
+<li>一年一次獸醫健檢(體重、糞便、羽毛狀態)</li>
+<li>買新鳥 2 週內做「新鳥健檢」(排除帶病)</li>
+<li>多隻鳥養一起前,新鳥要檢疫 1 個月</li>
+</ul>`},
+      { emoji: '⚠', heading: '常見病症', html: `
+<ul>
+<li><strong>拔毛症</strong>:壓力、無聊、缺乏互動 → 改善環境 + 增加互動</li>
+<li><strong>嗉囊炎</strong>:嘔吐、食慾下降 → 送醫</li>
+<li><strong>PBFD(喙羽症)</strong>:免疫缺陷,致命</li>
+<li><strong>黴菌感染</strong>:呼吸急促 → 環境太濕</li>
+<li><strong>重金屬中毒</strong>:啃了含鉛/鋅物品 → 籠子選無毒材質</li>
+</ul>`},
+      { emoji: '🏥', heading: '緊急就醫信號', html: `
+<p>鳥的症狀隱藏強,發現時已經嚴重。以下<strong>立刻送醫</strong>:</p>
+<ul>
+<li>蓬毛(羽毛鬆散包住身體)</li>
+<li>食慾下降 / 不進食</li>
+<li>嘔吐、糞便異常</li>
+<li>呼吸困難(尾巴隨呼吸擺動)</li>
+<li>走路不穩、翅膀下垂</li>
+<li>精神沉鬱、躲角落不動</li>
+</ul>`},
+      { emoji: '⚠', heading: '家中隱形殺手', html: `
+<ul>
+<li><strong>不沾鍋過熱</strong> — PTFE 氣體秒殺鳥</li>
+<li>香薰、精油、蚊香</li>
+<li>吸菸、燒香</li>
+<li>空氣清新劑、除臭劑</li>
+<li>廚房油煙</li>
+<li>塑膠容器高溫</li>
+</ul>
+<p>鳥籠所在空間要<strong>空氣乾淨</strong>,任何化學氣味都可能致命。</p>`},
+    ],
+  },
+
+  // =========== 魚 · 養魚基礎 ===========
+  {
+    id: 'fish-basics', name: '養魚基礎', emoji: '🐠', category: 'fish', hint: '先養水 · 再養魚',
+    meta: { lifespan: '金魚 10-20 年 / 鬥魚 2-4 年 / 孔雀魚 1-3 年', key: '90% 的失敗在水質,不是魚', disclaimer: '一般建議,實際以專業水族為準' },
+    sections: [
+      { emoji: '💡', heading: '新手最重要的原則:先養水', html: `
+<div class="callout"><h4>養水 = 建立硝化系統</h4>
+<p style="margin:0;"><strong>新缸不能馬上放魚</strong>。要先空缸運轉 2-4 週讓硝化菌長起來,才能分解魚糞。沒養水直接放魚 = 魚會因氨氮中毒死。</p></div>
+<h4 style="color:var(--primary);margin-top:10px;">養水流程</h4>
+<ol>
+<li>新缸洗淨,裝水(除氯或放 24 小時)</li>
+<li>開過濾器 + 打氣</li>
+<li>2-3 天後加一些硝化菌(水族店有)或用一條便宜魚當「開缸魚」</li>
+<li>2-4 週後測氨、亞硝酸都是 0 → 可以放目標魚</li>
+</ol>`},
+      { emoji: '🏠', heading: '缸的設備', html: `
+<ul>
+<li><strong>水族缸</strong>:越大越好養(小缸水質波動快)。新手至少 30 公升</li>
+<li><strong>過濾器</strong>:必備。依缸大小選上部/側掛/沉水</li>
+<li><strong>打氣幫浦</strong>:提供氧氣</li>
+<li><strong>加熱棒</strong>:熱帶魚必備(控 24-28°C)</li>
+<li><strong>燈</strong>:白天 6-8 小時,給水草光合</li>
+<li><strong>底砂 / 水草</strong>:造景 + 淨水</li>
+<li><strong>除氯劑</strong>:自來水要除氯</li>
+</ul>`},
+      { emoji: '💧', heading: '水質管理(換水原則)', html: `
+<h4 style="color:var(--primary);">換水頻率</h4>
+<ul>
+<li>一週換 1/3 水量(不是全換)</li>
+<li>用虹吸管從底部抽(連同廢物)</li>
+<li>補水要溫度相近 + 除氯</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">檢測指標</h4>
+<ul>
+<li><strong>氨(NH3)</strong>:必須 0</li>
+<li><strong>亞硝酸(NO2)</strong>:必須 0</li>
+<li><strong>硝酸(NO3)</strong>:&lt; 40 ppm</li>
+<li><strong>pH</strong>:依魚種(熱帶魚多 6.5-7.5)</li>
+</ul>
+<p>測試組水族店有,新手強烈建議買一組。</p>`},
+      { emoji: '🍽', heading: '餵食(寧少勿多)', html: `
+<ul>
+<li>每天 1-2 次,每次<strong>魚在 2-3 分鐘內吃完的量</strong></li>
+<li>吃不完的飼料沉底腐壞 → 水質惡化</li>
+<li>禁食一天 OK(甚至建議,減少負擔)</li>
+<li>出差 3-5 天 → 不用餵(家人以為要餵 → 災難)</li>
+</ul>
+<div class="callout warn"><h4>⚠️ 新手最常殺死魚的方式</h4>
+<p style="margin:0;">餵太多。魚會吃一堆,但剩下的飼料讓水質爆炸。記得:<strong>少一點沒關係,多一點會死</strong>。</p></div>`},
+      { emoji: '🐟', heading: '新手友善的魚', html: `
+<ul>
+<li><strong>孔雀魚</strong>:便宜、好繁殖、色彩</li>
+<li><strong>日光燈魚</strong>:和平群游,適合新手</li>
+<li><strong>金魚</strong>:經典,但要大缸(容易污染水)</li>
+<li><strong>鬥魚</strong>:小缸可養(但不能兩條同缸)</li>
+<li><strong>白雲山</strong>:冷水魚,不用加熱</li>
+</ul>
+<p>避開:神仙魚、七彩神仙(難養)、異型(看水質)</p>`},
+    ],
+  },
+
+  // =========== 魚 · 魚缸與失智長輩 ===========
+  {
+    id: 'fish-with-dementia', name: '魚缸與失智長輩', emoji: '❤', category: 'fish', hint: '觀賞療癒 · 但換水不可依賴長輩',
+    meta: { applies: '家中已有水族 / 考慮設置', value: '視覺療癒價值最高的寵物之一', warning: '水質細節家人全責,不能交給失智長輩' },
+    sections: [
+      { emoji: '💡', heading: '魚缸對失智長輩的獨特價值', html: `
+<ul>
+<li><strong>觀賞療癒極強</strong> — 水的流動、魚的游動被證實能降低焦慮、血壓</li>
+<li><strong>沒有體力要求</strong> — 坐著就能看</li>
+<li><strong>不會「搶注意」</strong> — 不像貓狗會要求互動,適合疲憊的長輩</li>
+<li><strong>缸燈可當夜燈</strong> — 對黃昏症候群有安撫效果</li>
+<li><strong>家族療癒</strong> — 大缸放客廳,全家都受益</li>
+</ul>`},
+      { emoji: '⚠', heading: '關鍵注意事項', html: `
+<div class="callout warn"><h4>⚠️ 失智長輩不能負責換水、餵食</h4>
+<p style="margin:0;">水質管理細節多(換水量、溫度、除氯、虹吸),失智後幾乎無法穩定執行。<strong>所有水族管理家人全責</strong>。長輩的角色是「看」。</p></div>
+<h4 style="color:var(--primary-dark);margin-top:10px;">常見失敗點</h4>
+<ul>
+<li>長輩忘記餵 → 家人以為有餵 → 魚餓</li>
+<li>長輩擔心魚餓,一直倒飼料 → 水質爆炸</li>
+<li>長輩自己加水(沒除氯)→ 魚中毒</li>
+</ul>
+<p><strong>解法</strong>:飼料罐鎖起來,家人一天一次固定餵食。</p>`},
+      { emoji: '🌱', heading: '輕度失智:餵食儀式', html: `
+<ul>
+<li>長輩可以做的:固定時段<strong>從家人手中的小盒子</strong>撒飼料</li>
+<li>飼料<strong>先由家人分裝好一餐份</strong>(防過量)</li>
+<li>觀賞時說「你看那條紅的」— 引發對話</li>
+</ul>`},
+      { emoji: '🌿', heading: '中度失智:純觀賞', html: `
+<ul>
+<li>家人全責餵食、換水、維護</li>
+<li>長輩的座位面向缸,每天看</li>
+<li>跟小孩、家人一起看魚 = 家庭 together time</li>
+<li>指著魚說「這是奶奶最喜歡的」— 讓她有情感錨點</li>
+</ul>`},
+      { emoji: '🍂', heading: '重度失智:靜態陪伴', html: `
+<ul>
+<li>把缸放在她能看到的位置(床邊、客廳主要視線)</li>
+<li>魚的移動對視覺有溫和刺激</li>
+<li>燈光晚上微開當夜燈,不會太亮</li>
+<li>水聲(流水/氣泡)是自然白噪音</li>
+</ul>
+<div class="callout"><p style="margin:0;">有些家屬說失智長輩生命末期時,<strong>她不認家人,卻會看魚看很久</strong>。魚的世界簡單,正好對應她的狀態。</p></div>`},
+      { emoji: '📐', heading: '安置建議', html: `
+<ul>
+<li>缸的位置:長輩日常視線最常停留的地方(餐桌對面、沙發前、床尾)</li>
+<li>高度:她的眼睛平視</li>
+<li>避免陽光直曬(會爆藻)</li>
+<li>遠離音響、電視(魚會受震動驚嚇)</li>
+</ul>`},
+    ],
+  },
+
+  // =========== 魚 · 健康與水質 ===========
+  {
+    id: 'fish-medical', name: '魚的健康與水質', emoji: '🩺', category: 'fish', hint: '魚病幾乎都是水質造成',
+    meta: { principle: '好水 = 好魚,99% 的病來自水質', disclaimer: '一般建議,重症請諮詢水族專家' },
+    sections: [
+      { emoji: '💧', heading: '新手最常見的水質問題', html: `
+<table>
+<thead><tr><th>徵兆</th><th>原因</th><th>對策</th></tr></thead>
+<tbody>
+<tr><td>水混濁</td><td>菌類失衡(剛開缸/換太多水)</td><td>別急,繼續過濾幾天</td></tr>
+<tr><td>藻綠</td><td>光太強 / 養分多</td><td>減少光照、增植水草</td></tr>
+<tr><td>魚浮上水面呼吸</td><td>缺氧</td><td>加大打氣、減少魚數</td></tr>
+<tr><td>魚擠角落</td><td>水質不好 / 溫度不對</td><td>檢測水質、加熱棒</td></tr>
+<tr><td>魚鰭爛</td><td>細菌感染 + 水質差</td><td>換水 + 黃藥</td></tr>
+<tr><td>白點病</td><td>水溫波動、寄生蟲</td><td>升溫到 30°C + 治療藥</td></tr>
+</tbody>
+</table>`},
+      { emoji: '🔬', heading: '定期檢測', html: `
+<ul>
+<li><strong>每週測氨、亞硝酸</strong>(剛開缸期間每天測)</li>
+<li>每月測硝酸、pH</li>
+<li>溫度每天看一眼</li>
+</ul>
+<p>測試組水族店有售,5 合 1 試紙或滴劑測試,幾百塊用很久。</p>`},
+      { emoji: '🏥', heading: '魚生病時的處理', html: `
+<ol>
+<li>先換水 1/3,水質改善可解很多問題</li>
+<li>症狀持續 → 隔離病魚到治療缸</li>
+<li>確認疾病(白點、爛鰭、腫瘤等)→ 對應藥物</li>
+<li>治療期間停餵或少餵</li>
+<li>新魚進缸前 1-2 週檢疫</li>
+</ol>`},
+      { emoji: '⚠', heading: '長輩出遊/住院時', html: `
+<p>如果家人也要長時間離開(回診住院、掃墓):</p>
+<ul>
+<li>3-5 天:<strong>不餵也 OK</strong>(成魚禁食 7 天不會死)</li>
+<li>7 天以上:請鄰居/家人一週餵 1-2 次,<strong>預先分裝好飼料</strong>(防他們餵太多)</li>
+<li>缸留自動餵食器也行,但新手不建議</li>
+</ul>
+<div class="callout warn"><p style="margin:0;"><strong>「代餵者」的風險:他們通常餵太多,魚會死於過食或水質爆炸。預分裝飼料是保命。</strong></p></div>`},
+    ],
+  },
+
+  // =========== 烏龜 · 養龜基礎 ===========
+  {
+    id: 'turtle-basics', name: '養龜基礎', emoji: '🐢', category: 'turtle', hint: '決定 = 50-100 年承諾',
+    meta: { lifespan: '水龜 20-40 年 / 陸龜 50-100 年', key: '壽命比養狗養貓長,接班規劃要列入決定', disclaimer: '一般建議,實際依品種 + 獸醫為準' },
+    sections: [
+      { emoji: '⚠', heading: '養龜前必讀:超長壽命的含義', html: `
+<div class="callout warn"><h4>50-100 年的承諾</h4>
+<p style="margin:0;">一隻蘇卡達象龜可以活 80-100 年。<strong>你 30 歲養,牠會活到你 120 歲</strong>。你要指定接班人,列入遺囑,否則下一代要處理你留下的龜。</p></div>
+<h4 style="color:var(--primary-dark);margin-top:10px;">決定前問自己</h4>
+<ol>
+<li>我能照顧牠 50+ 年嗎?</li>
+<li>我的家人願意接班嗎?</li>
+<li>如果我先走,誰負責?</li>
+<li>台灣法規:外來種龜多禁止野放,無法接班 = 遺棄 = 違法</li>
+</ol>`},
+      { emoji: '🐢', heading: '水龜 vs 陸龜:決定後難回頭', html: `
+<table>
+<thead><tr><th></th><th>水龜</th><th>陸龜</th></tr></thead>
+<tbody>
+<tr><td>代表</td><td>巴西龜、麝香龜、斑龜</td><td>蘇卡達、赫曼、紅腿</td></tr>
+<tr><td>壽命</td><td>20-40 年</td><td>50-100 年</td></tr>
+<tr><td>環境</td><td>水缸 + 上岸區</td><td>陸地環境 + 加溫燈 + UVB</td></tr>
+<tr><td>食物</td><td>雜食(飼料、小魚、蔬菜)</td><td>素食(大量葉菜、少水果)</td></tr>
+<tr><td>難度</td><td>中</td><td>中高(溫度管理嚴格)</td></tr>
+</tbody>
+</table>`},
+      { emoji: '🏠', heading: '缸/箱設置', html: `
+<h4 style="color:var(--primary);">水龜</h4>
+<ul>
+<li>水深至少龜殼長的 2 倍</li>
+<li>必有<strong>上岸曬背區</strong>(不會游泳或陸生時會淹死)</li>
+<li>UVB 燈(防軟殼) + 加熱燈(曬背區 32-35°C)</li>
+<li>過濾器(水龜很髒)</li>
+<li>水溫 24-28°C</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">陸龜</h4>
+<ul>
+<li>大空間(越大越好,1 公尺² 起)</li>
+<li><strong>UVB 燈(強 10.0)</strong> — 沒 UVB 會鈣吸收不良、軟殼</li>
+<li>加熱燈:熱區 32°C,冷區 22°C(溫度梯度)</li>
+<li>底材:椰土、樹皮混合</li>
+<li>水盤(小)用來泡澡</li>
+</ul>`},
+      { emoji: '🍽', heading: '飲食(水陸龜差很大)', html: `
+<h4 style="color:var(--primary);">水龜</h4>
+<ul>
+<li>幼龜:高蛋白飼料 + 小魚小蝦</li>
+<li>成龜:龜飼料 + 葉菜(如地瓜葉)+ 偶爾蛋白</li>
+<li>不要只餵龜飼料</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">陸龜</h4>
+<ul>
+<li><strong>95% 葉菜</strong>(蒲公英、羅蔓、地瓜葉)</li>
+<li>5% 水果(偶爾,別多)</li>
+<li><strong>絕不能餵</strong>:肉類、狗糧、麵包、乳製品</li>
+<li>每天補鈣粉(尤其幼龜)</li>
+</ul>`},
+      { emoji: '❄', heading: '冬眠(看品種)', html: `
+<ul>
+<li><strong>溫帶龜</strong>(赫曼、希臘龜):可冬眠,台灣不用特別處理</li>
+<li><strong>熱帶龜</strong>(蘇卡達、紅腿):<strong>絕對不能冬眠</strong>,冬天要保溫到 22°C 以上</li>
+<li>不確定品種 → 請教龜專科獸醫</li>
+</ul>`},
+    ],
+  },
+
+  // =========== 烏龜 · 烏龜與失智長輩 ===========
+  {
+    id: 'turtle-with-dementia', name: '烏龜與失智長輩', emoji: '❤', category: 'turtle', hint: '慢、靜 · 是另一種陪伴',
+    meta: { applies: '家裡已有龜 / 考慮養', unique: '超長壽命超越長輩,接班是前提', core: '龜不會主動靠近,是「旁觀者」型陪伴' },
+    sections: [
+      { emoji: '💡', heading: '龜的陪伴跟貓狗完全不同', html: `
+<ul>
+<li><strong>不會主動靠近</strong> — 跟魚類似,屬於「觀賞型」</li>
+<li><strong>慢</strong> — 動作慢到像沒動,對躁動長輩是奇怪的平靜劑</li>
+<li><strong>安靜</strong> — 幾乎無聲</li>
+<li><strong>吃飯時可能最熱鬧</strong> — 餵食是互動亮點</li>
+<li><strong>不太需要長輩「付出」</strong> — 跟魚相似</li>
+</ul>`},
+      { emoji: '⚠', heading: '決定養之前的接班規劃', html: `
+<div class="callout warn"><h4>⚠️ 這一題不能跳過</h4>
+<p style="margin:0;">長輩 70 歲養一隻陸龜 — 她 85 歲過世時龜可能才 15 歲,還有 70+ 年要活。<strong>誰接班?寫下來</strong>。</p></div>
+<h4 style="color:var(--primary-dark);margin-top:10px;">如果沒接班人</h4>
+<ul>
+<li>考慮養水龜(壽命 20-40 年,相對合理)</li>
+<li>或完全不養,改用魚缸(療癒類似,壽命可控)</li>
+<li>不要「反正到時再說」 — 遺棄爬蟲很殘忍,且違法</li>
+</ul>`},
+      { emoji: '🌱', heading: '輕度失智:龜是寧靜的家人', html: `
+<ul>
+<li>長輩可以餵食(尤其水龜)— 一天 1 次,分量預先由家人控</li>
+<li>看龜曬背、看龜游 — 療癒,不需體力</li>
+<li>幫龜「換水」是儀式感強的工作(如果她還能)</li>
+</ul>`},
+      { emoji: '🌿', heading: '中度失智:家人全責管理', html: `
+<ul>
+<li>龜的環境管理(溫度、UVB 換燈、水質)精密 → 家人全責</li>
+<li>長輩只看、偶爾摸</li>
+<li>餵食可以讓她「丟」(家人先準備好一份量)</li>
+</ul>`},
+      { emoji: '🍂', heading: '重度失智:靜態陪伴', html: `
+<ul>
+<li>缸放在她視線範圍</li>
+<li>不需要互動</li>
+<li>龜的慢 vs 她的慢 — 節奏匹配</li>
+</ul>
+<div class="callout"><p style="margin:0;">有一個角度:龜看著長輩晚年,可能還要再活 30-50 年才走 — <strong>這隻龜見證了她的結束,但牠的生命會延續</strong>。這件事對家族有一種哲學感,有人覺得珍貴,有人覺得沉重。</p></div>`},
+    ],
+  },
+
+  // =========== 烏龜 · 健康 ===========
+  {
+    id: 'turtle-medical', name: '烏龜的健康', emoji: '💉', category: 'turtle', hint: '爬蟲專科獸醫 · 預防 > 治療',
+    meta: { vet: '爬蟲專科獸醫稀少 — 養之前先找好', principles: '溫度 + 濕度 + UVB + 鈣質,四者正確,龜很少生病', disclaimer: '一般建議,重症請諮詢爬蟲專家' },
+    sections: [
+      { emoji: '⚠', heading: '最常見的養龜失敗', html: `
+<ul>
+<li><strong>軟殼 / 隆背</strong>:UVB 不足 + 鈣質不夠</li>
+<li><strong>呼吸道感染</strong>:溫度過低、濕度不對 → 流鼻涕、張口呼吸</li>
+<li><strong>代謝性骨病</strong>:長期缺 UVB / 鈣 → 骨骼變形,不可逆</li>
+<li><strong>眼疾</strong>:水質差 + 缺維他命 A</li>
+<li><strong>腸胃堵塞</strong>:吃了底材或異物</li>
+</ul>
+<div class="callout warn"><h4>⚠️ 99% 的龜病是飼養環境問題</h4>
+<p style="margin:0;">飼養前先把設備裝到位,不要「先養著,問題再調」。</p></div>`},
+      { emoji: '🏥', heading: '緊急就醫信號', html: `
+<ul>
+<li>不吃不動超過 2 週(冬眠期除外)</li>
+<li>流鼻涕、張嘴呼吸</li>
+<li>眼睛腫、閉眼</li>
+<li>殼明顯軟、變形、凹陷</li>
+<li>糞便異常、不排便</li>
+<li>外傷、出血</li>
+</ul>
+<p><strong>先找爬蟲專科</strong> — 一般狗貓獸醫對爬蟲不熟。</p>`},
+      { emoji: '📋', heading: '預防保養', html: `
+<ul>
+<li>UVB 燈<strong>每 6 個月換一次</strong>(即使還亮,波長已衰退)</li>
+<li>飼料每月補鈣粉</li>
+<li>水龜每週換水 + 檢查殼</li>
+<li>陸龜每週泡澡 10-20 分鐘(補水)</li>
+<li>年度健檢(找爬蟲獸醫)</li>
+</ul>`},
+    ],
+  },
+];
 
 // =========================================================
 // STATE
