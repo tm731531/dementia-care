@@ -11187,6 +11187,342 @@ const PLANTS = [
       },
     ],
   },
+
+  // =========== 絲瓜(果菜) ===========
+  {
+    id: 'luffa',
+    name: '絲瓜',
+    emoji: '🥒',
+    category: 'fruit',
+    meta: {
+      difficulty: '中(搭架必備、空間大)',
+      season: '播種 3–6 月(秋冬會凍死)',
+      light: '全日照(最少 6 小時直射)',
+      location: '開放陽台 / 頂樓 / 庭院',
+      seasons: ['spring', 'summer'],
+      bestStartMonths: [3, 4, 5, 6],
+    },
+    sections: [
+      {
+        id: 'why', emoji: '💡', heading: '為什麼值得在陽台種絲瓜',
+        html: `
+<ul>
+<li><strong>一株可採 10–20 條</strong> — 夏天越熱越旺,盛產期 2–3 個月,吃不完送鄰居</li>
+<li><strong>夜晚開白花</strong> — 夏夜陽台的神奇景象,大白花在暗中開放,對失智長輩是強烈的視覺記憶錨點</li>
+<li><strong>每天長一截</strong> — 果實成長速度眼睛看得到,量、拍、記錄都是照護活動</li>
+<li><strong>雙重用途</strong> — 嫩瓜煮湯炒菜,老絲瓜曬乾變絲瓜布,台灣早期家家戶戶洗碗/洗澡都用絲瓜布,喚起記憶</li>
+<li><strong>超台灣味</strong> — 「絲瓜蛤蜊湯」「絲瓜麵線」是台灣家常香氣,煮湯時廚房飄出來,嗅覺觸動記憶的力道比視覺更深</li>
+</ul>`,
+      },
+      {
+        id: 'obtain', emoji: '🛒', heading: '取得方式',
+        html: `
+<div class="callout warn" style="margin-bottom:10px;">
+<h4>🗓️ Step 0 · 先看月曆再動手</h4>
+<p style="margin:0;"><strong>現在要是 3–6 月才開始播種。</strong> 秋冬氣溫低於 15°C,絲瓜停止生長、開花不結果;霜害會直接凍死。如果現在是秋冬,<strong>等到隔年 3 月驚蟄後</strong>再下手,現在就先備架材、盆土、看蝦皮備料。絲瓜生長期長(播種到盛產要 3–4 個月),<strong>越早播越好,最晚別超過 6 月芒種</strong>,否則盛產季就縮短了。</p>
+</div>
+
+<div class="callout" style="background:#e8f5e9;border-left-color:var(--primary-dark);">
+<h4>📦 推薦的新手包 · 三步照順序來</h4>
+<ol style="margin:6px 0 4px;padding-left:22px;">
+<li><strong>先備架材與大盆(這一步要比種子先到)</strong> — 花市買 <strong>30cm 以上深盆或長方盆</strong> + 一般培養土;同時備好 <strong>竹竿或鋁網棚架材料</strong>(高度至少 2 公尺,絲瓜爬架比小黃瓜更需要空間)。總計 NT$300–500。</li>
+<li><strong>再取得種子</strong> — 花市/農會/蝦皮購入「圓絲瓜(菜瓜)種子」或「稜角絲瓜種子」(後者台灣較常見)。也可向有種絲瓜的鄰居或農夫要老絲瓜留的種子 — 免費且在地適應好。一包種子 NT$50–100,種 3–5 粒留 2–3 株即可。</li>
+<li><strong>到貨當天立刻泡種播種</strong> — 種子先泡溫水 4–6 小時,再直播進準備好的盆(或先育苗杯育苗 3–4 週再定植)。</li>
+</ol>
+<p style="margin:8px 0 0;font-size:14px;color:var(--muted);">⚠️ <strong>順序不能顛倒</strong>:架子要在植株長到 30 cm 前就定位,不然藤蔓沒地方攀爬就纏成一團。總預算 <strong>NT$500–800 有找</strong>(含棚架材)。</p>
+</div>
+
+<h4 style="color:var(--primary);margin:14px 0 6px;">其他取得管道</h4>
+<ul>
+<li><strong>花市買穴盤苗</strong>:每年 3–5 月花市會出現絲瓜苗,直接買苗省去育苗步驟,約 NT$30–50/株</li>
+<li><strong>老絲瓜留種</strong>:讓一條瓜老化曬乾,剝開取種子,明年繼續種 — 免費且是台灣傳統農家做法</li>
+<li><strong>鄰居/農夫分苗</strong>:種絲瓜的人常有多餘苗,開口問十之八九會分</li>
+</ul>
+
+<div class="callout warn" style="margin-top:12px;">
+<h4>⚠️ 買種子注意:圓絲瓜 vs 稜角絲瓜</h4>
+<p style="margin:0;">台灣市面有兩種:圓絲瓜(表面光滑,較甜嫩)和稜角絲瓜(有縱稜,煮湯口感佳,也叫「菜瓜」或「澎湃絲瓜」)。兩種都適合陽台,栽培方式相同。初次種建議買稜角絲瓜 — 台灣較常見、種子取得容易。</p>
+</div>`,
+      },
+      {
+        id: 'pot-soil', emoji: '🏺', heading: '盆器與土壤',
+        html: `
+<h4 style="color:var(--primary);">盆器</h4>
+<ul>
+<li>直徑 <strong>30–40 公分以上</strong>、深 <strong>30 公分以上</strong>(根系深,淺盆不夠)</li>
+<li>若用長方形陽台盆槽 <strong>60–80 cm</strong> 更好,可種 2–3 株</li>
+<li>盆底<strong>必須有排水孔</strong> — 絲瓜怕積水,一積水根就爛</li>
+<li>重量考量:大盆裝土很重,先確認陽台承重,或改用輕量塑膠盆</li>
+</ul>
+
+<h4 style="color:var(--primary);margin-top:12px;">棚架(與盆器同等重要)</h4>
+<ul>
+<li><strong>高度 2 公尺以上</strong> — 絲瓜藤蔓可長 5–10 公尺,必須有足夠的攀爬空間</li>
+<li>常見方式:竹竿搭 A 字型架;鋁網或竹網拉在牆面/欄杆上;開放陽台直接讓藤蔓爬欄杆</li>
+<li>架子要 <strong>在種下去前就定位</strong>,不要等藤蔓長出來才插竿 — 那時已經纏成一團</li>
+<li>強風地區棚架要綁牢,夏天颱風絲瓜架很容易倒</li>
+</ul>
+
+<h4 style="color:var(--primary);margin-top:12px;">土壤</h4>
+<ul>
+<li>疏鬆、排水良好的培養土</li>
+<li>可混入少量有機質(堆肥、腐植土)增強保肥力</li>
+<li>絲瓜根系壯,土不夠肥就果實小、數量少</li>
+</ul>
+<p style="font-size:14px;color:var(--muted);margin-top:10px;"><em>施肥細節獨立成下面的「🌾 施肥」section。</em></p>`,
+      },
+      {
+        id: 'steps', emoji: '🌳', heading: '種植步驟',
+        html: `
+<ol>
+<li><strong>架子定位</strong> — 棚架先搭好,確認穩固(見上面「盆器與土壤」)</li>
+<li><strong>泡種</strong> — 種子泡溫水 4–6 小時,讓種皮軟化,發芽率更高</li>
+<li><strong>播種或育苗</strong> — 直接播進大盆(每穴 2–3 粒,後續間苗留 1 株);<strong>或</strong>先用小育苗杯播種,長出 2–4 片本葉(約 3–4 週)再定植到大盆</li>
+<li><strong>覆土 1–2 cm</strong> — 種子不要埋太深,輕壓後澆透水</li>
+<li><strong>放全日照位置</strong> — 絲瓜必須全日照,每天至少 6 小時直射陽光;日照不足是開花少、不結果最大原因</li>
+<li><strong>引蔓上架</strong> — 植株長到 20–30 cm 時,用軟繩或扭帶輕輕引導藤蔓攀上棚架</li>
+<li><strong>側芽管理</strong> — 主蔓長到 1 公尺前可去掉側芽讓主蔓先壯,之後讓側蔓自然展開</li>
+</ol>
+
+<div class="callout">
+<h4>🌸 授粉小技巧:雌花辨認 + 人工授粉</h4>
+<p style="margin:0 0 6px;">絲瓜靠昆蟲授粉,但城市陽台昆蟲少,開花不結果的主因之一就是授粉不足。</p>
+<ul style="margin:0;padding-left:20px;">
+<li><strong>辨認雌雄花</strong>:雄花細梗無子房;雌花梗底部有小小的子房(即未來的果實),形狀像迷你絲瓜</li>
+<li><strong>人工授粉</strong>:早晨 6–9 點花新鮮時,摘一朵雄花,把花瓣剝掉露出花蕊,直接塗抹在雌花柱頭上即可</li>
+<li>每朵雄花可授粉 2–3 朵雌花</li>
+<li>夏天高溫超過 35°C 時花粉活性下降,盡量在早晨涼爽時操作</li>
+</ul>
+</div>`,
+      },
+      {
+        id: 'timing', emoji: '📋', heading: '完整時程表 · 播種到採收',
+        html: `
+<p><strong>播種 → 發芽 → 定植 → 開花 → 授粉 → 採收 → 留種</strong>,一張表涵蓋整季。<strong>照做就對,不用觀察植物狀態</strong>。</p>
+
+<div class="callout warn">
+<h4>⚠️ 開工前先看月曆 / 節氣:挑對時間,不然整季沒瓜</h4>
+<p style="margin:0 0 6px;">絲瓜是<strong>短日照+高溫</strong>植物,太早播長葉不開花,太晚播氣溫降了果實來不及熟。<strong>節氣比月份準</strong>(24 節氣反映溫度和日照),兩套都列:</p>
+<table style="margin-top:8px;">
+<thead><tr><th></th><th>月份</th><th>節氣</th><th>狀態</th></tr></thead>
+<tbody>
+<tr style="background:#f0f8ec;"><td>✅ 最佳</td><td><strong>3 – 5 月</strong></td><td><strong>驚蟄(3/5)→ 小滿(5/21)</strong></td><td>氣溫穩升、日照充足,<strong>最早播最長盛產期</strong></td></tr>
+<tr><td>🟡 勉強</td><td>6 月</td><td>芒種(6/5)前後</td><td>還能播,但盛產期縮短到 1–1.5 個月;播種後的採收旺季遇到秋涼就收尾了</td></tr>
+<tr style="background:#fdecec;"><td>❌ 絕對別</td><td><strong>9 – 2 月</strong></td><td><strong>白露(9/8)→ 雨水(2/19)</strong></td><td>低溫凍死、花粉活性差、結果幾乎零;強行種只是浪費盆土和時間</td></tr>
+</tbody>
+</table>
+<p style="margin:8px 0 0;font-size:14px;">口訣:<strong>「驚蟄播種、芒種前定植完、立秋前大採收」</strong>。如果現在是秋冬,<strong>不要播</strong> —— 先備棚架材,等 3 月驚蟄再動手。</p>
+<p style="margin:6px 0 0;font-size:13px;color:var(--muted);"><em>完整 24 節氣對照看 <a href="#" onclick="event.preventDefault();navigateTo('page-knowledge');return false;" style="color:var(--primary);">📚 通用園藝知識 → 📅 24 節氣</a>。</em></p>
+</div>
+
+<table>
+<thead><tr><th>天數</th><th>階段</th><th>植物狀態</th><th>你的動作</th></tr></thead>
+<tbody>
+<tr><td><strong>Day 1</strong></td><td>播種</td><td>種子入土</td><td>泡種 4–6 小時 → 播入盆 → 覆土 1–2cm → 澆透;棚架已就位</td></tr>
+<tr><td>Day 5–10</td><td>發芽期</td><td>子葉冒出</td><td>保持土微濕;全日照;❌ 不施肥</td></tr>
+<tr><td>Day 10–28</td><td>幼苗期</td><td>本葉 2–4 片</td><td>若直播盆,每穴間苗留最壯 1 株;若育苗杯,3–4 週後定植到大盆</td></tr>
+<tr><td>Day 28–35</td><td>定植(若育苗)</td><td>苗高 15–20cm</td><td>定植到大盆;引蔓上架;澆定植水</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 30 🌾</strong></td><td><strong>第一次施肥</strong></td><td>植株穩住了</td><td>✅ 撒 <strong>18–20 粒</strong> 好康多 1 號(60cm 盆槽)+ 澆水</td></tr>
+<tr><td>Day 30–60</td><td>營養生長期</td><td>藤蔓快速爬架</td><td>引蔓、綁蔓;每天澆水(夏天可能一天兩次);側芽管理</td></tr>
+<tr><td>Day 50–60</td><td>開花期開始</td><td>雄花先開,雌花後來</td><td>觀察雌花出現;早上授粉(人工或等蜜蜂)</td></tr>
+<tr><td>Day 60–70</td><td>結果期</td><td>子房膨大</td><td>成功授粉的雌花子房快速膨大;繼續澆水;避免水肥不穩導致落果</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 70–90 ✂️</strong></td><td><strong>首次採收</strong></td><td>果實達食用大小</td><td>✅ 嫩瓜長到 <strong>20–30cm</strong> 時採收,不要等太老;剪刀剪梗,留約 3cm 梗</td></tr>
+<tr><td>Day 70–150</td><td>持續採收期</td><td>越採越多</td><td>✅ 每 2–3 天巡一次;及時採嫩瓜(老了就留種用);每天澆水</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 120 🌾</strong></td><td><strong>第二次施肥</strong></td><td>盛產期中段</td><td>✅ 再撒 <strong>18–20 粒</strong> 好康多;視情況可追加磷鉀型液肥促果</td></tr>
+<tr><td>盛產末期</td><td>留種準備</td><td>部分果實留老</td><td>選最大最直的一條留在蔓上讓它老化;等藤蔓乾枯後摘下曬乾取種或做絲瓜布</td></tr>
+<tr style="background:#fdf5e6;"><td><strong>9 月後 ❄️</strong></td><td><strong>季末衰退</strong></td><td>葉黃、花少</td><td>氣溫降低自然結束;留一條老瓜做絲瓜布;其餘剪除堆肥;清理棚架備下季</td></tr>
+</tbody>
+</table>
+
+<div class="callout" style="margin-top:12px;">
+<h4>📱 播種當天就要做的 3 件事</h4>
+<ol style="margin:4px 0 0;padding-left:22px;">
+<li>Google 行事曆設 3 個提醒:<strong>今日 + 30 天</strong>「撒 18–20 粒好康多、澆水」;今日 + <strong>55 天</strong>「開始每天早上巡雌花、準備人工授粉」;今日 + <strong>120 天</strong>「再撒好康多」</li>
+<li>便利貼寫播種日期貼盆邊或廚房 — 讓眼睛看得到「這盆是哪天播的」</li>
+<li>棚架檢查:現在用力拉一下,確認夠穩 — 不要等藤蔓爬滿了才發現架子搖</li>
+</ol>
+<p style="margin:6px 0 0;font-size:14px;"><strong>整季的決定當天做完,腦袋騰出來做別的事</strong>。</p>
+</div>
+
+<p style="font-size:14px;color:var(--muted);margin-top:10px;"><em>施肥細節(不同盆大小、哪裡買)、採收技巧,看下方「🌾 施肥」、「✂️ 採收」section。</em></p>`,
+      },
+      {
+        id: 'fertilizer', emoji: '🌾', heading: '施肥',
+        html: `
+<p><strong>本 handbook 預設固體緩釋肥,不推液肥給新手</strong> —— 不用稀釋、不用算濃度、撒一次吃 3 個月、難燒根。絲瓜是大型果菜,需肥量比葉菜多,盆器要夠大、施肥要到量。</p>
+<p style="font-size:14px;color:var(--muted);margin-top:4px;"><em>施肥時機(Day 30 / Day 120)已統整在上面「📋 完整時程表」,這個 section 專講 <strong>用多少 · 用哪款 · 怎麼撒</strong>。</em></p>
+
+<div class="callout">
+<h4>📐 不同盆大小 · 速查(好康多 1 號)</h4>
+<table style="margin-top:6px;">
+<thead><tr><th>盆</th><th>顆數</th></tr></thead>
+<tbody>
+<tr><td>7 吋圓盆(Ø21cm)</td><td><strong>8 粒</strong></td></tr>
+<tr><td>長方盆 50×20cm</td><td><strong>15 粒</strong></td></tr>
+<tr><td><strong>大陽台盆槽 60cm+</strong></td><td><strong>18–20 粒</strong></td></tr>
+<tr><td>地植 / 超大盆槽 80cm+</td><td><strong>25–30 粒</strong></td></tr>
+</tbody>
+</table>
+<p style="margin:8px 0 0;font-size:14px;"><strong>絲瓜盆建議用最大規格</strong>(60cm 以上盆槽)。盆越小,果實越小、越少。<strong>原則</strong>:寧可比這個少,不可比這個多。</p>
+</div>
+
+<h4 style="color:var(--primary);margin-top:14px;">🛒 買哪一款</h4>
+<ul>
+<li><strong>好康多 1 號</strong>(NPK 14-11-13)— 萬用款,果菜葉菜都適用</li>
+<li>350g 小包約 NT$100,一包吃兩盆好幾個月</li>
+<li>全聯園藝區、花市、iGarden 網購都有</li>
+<li>替代品:魔肥、奧綠肥(類似的緩釋顆粒肥都 OK)</li>
+</ul>
+
+<div class="callout warn">
+<h4>📱 記憶外包 — 播種當天就把整季的施肥做完</h4>
+<p style="margin:0 0 6px;">不要依賴記憶、不要依賴觀察植物。播種當天就打開 Google 行事曆設兩個提醒:</p>
+<ul style="margin:0;padding-left:20px;">
+<li>播種日 + 30 天 → 「撒 18–20 粒好康多(澆水)」</li>
+<li>播種日 + 120 天 → 「再撒 18–20 粒」</li>
+</ul>
+<p style="margin:8px 0 0;font-size:14px;"><strong>整季的決定一次做完,腦袋騰出來做別的事</strong>。</p>
+</div>
+
+<details style="margin-top:14px;border:1px solid var(--border);border-radius:8px;padding:10px 14px;">
+<summary style="cursor:pointer;color:var(--primary-dark);font-weight:bold;">⚠️ 出事才看:一眼判斷 3 條</summary>
+<div style="padding:10px 0 0;">
+<p style="font-size:14px;margin-bottom:8px;">照 SOP 做理論上不會出事。真的感覺不對,這 3 條當下一眼分:</p>
+<table>
+<thead><tr><th>看到什麼</th><th>是什麼</th><th>立刻做</th></tr></thead>
+<tbody>
+<tr><td>土表<strong>白色結晶</strong></td><td>過肥 / 鹽積</td><td>停肥,大量清水沖盆 3 次</td></tr>
+<tr><td>葉色<strong>淡黃</strong></td><td>缺肥或缺鐵</td><td>補撒 5 粒好康多 + 澆透</td></tr>
+<tr><td>葉緣<strong>焦黃捲曲</strong></td><td>過肥 / 燒根</td><td>停肥,澆清水沖</td></tr>
+</tbody>
+</table>
+</div>
+</details>
+
+<details style="margin-top:10px;border:1px solid var(--border);border-radius:8px;padding:10px 14px;">
+<summary style="cursor:pointer;color:var(--muted);font-size:14px;">🧪 進階:開花結果期追磷鉀(不建議新手)</summary>
+<div style="padding:10px 0 0;font-size:14px;">
+<p>果實膨大期若想追加促果效果:</p>
+<ul>
+<li><strong>花寶 2 號</strong>(NPK 10-30-20,高磷高鉀)— 開花後每 10–14 天一次</li>
+<li>包裝稀釋比<strong>減半</strong>使用(防燒根)</li>
+<li>早晨施,澆根部不澆葉片</li>
+<li>施完澆一次清水沖殘留</li>
+</ul>
+<p style="margin-top:6px;"><strong>固體肥慢但難出錯;液肥追磷鉀效果快但誤差大</strong>。新手先把固體肥做好再說。</p>
+</div>
+</details>
+
+<p style="font-size:13px;color:var(--muted);margin-top:14px;">通用施肥原則(缺肥 vs 過肥對照、NPK 速查、寧可少不要多)看 <a href="#" onclick="event.preventDefault();navigateTo('page-knowledge');return false;" style="color:var(--primary);font-weight:bold;">📚 通用園藝知識 → 🌾 施肥</a>。</p>`,
+      },
+      {
+        id: 'harvest', emoji: '✂️', heading: '採收 · 嫩瓜與老絲瓜布',
+        html: `
+<h4 style="color:var(--primary);">嫩瓜採收(食用)</h4>
+<ul>
+<li>果實長到 <strong>20–30 cm、表皮仍嫩綠</strong> 時採收,不要等太大(老了纖維多、不好吃)</li>
+<li>用剪刀剪梗,留約 3 cm 的梗在果實上(保鮮用)</li>
+<li><strong>越採越多</strong> — 定期採收讓植株持續結果,不採就停產</li>
+<li>夏天盛產期每 2–3 天就要巡一次,一個忘記採就過老</li>
+<li>冰箱可保存 3–5 天;即採即煮最鮮</li>
+</ul>
+
+<h4 style="color:var(--primary);margin-top:12px;">老絲瓜 → 絲瓜布(留種兼做生活用品)</h4>
+<ul>
+<li>選最大最直的 1–2 條果實,<strong>留在藤蔓上讓它繼續老化</strong>至藤蔓完全乾枯</li>
+<li>摘下後放通風處曬乾 2–4 週</li>
+<li>外皮曬乾後輕敲會自然脫落,露出金黃色纖維骨架 — 這就是絲瓜布</li>
+<li>搖一搖:裡面有種子,倒出來就是下一季的種源</li>
+<li>絲瓜布可洗碗、洗澡、刷蔬果 — 天然無塑膠微粒</li>
+</ul>
+
+<div class="callout">
+<h4>🧽 絲瓜布製作:台灣家庭的傳統記憶</h4>
+<p style="margin:0;">小時候台灣家家戶戶的廚房水槽旁都掛著絲瓜布。從種下種子、到親眼看老絲瓜變成廚房用具 — 這個「完整的循環」是讓失智長輩感受到「從頭做到尾」的儀式感。即使只是坐在旁邊看你做,也是參與。</p>
+</div>`,
+      },
+      {
+        id: 'troubleshoot', emoji: '🛡', heading: '失敗點與除錯',
+        html: `
+<table>
+<thead><tr><th>症狀</th><th>可能原因</th><th>對策</th></tr></thead>
+<tbody>
+<tr><td>種子不發芽</td><td>溫度不夠 / 種子太老 / 埋太深</td><td>確認氣溫 20°C 以上;種子先泡水 4–6 小時;覆土不超過 2cm</td></tr>
+<tr><td>幼苗徒長、細弱</td><td>日照不足</td><td>移到全日照位置;絲瓜不耐陰</td></tr>
+<tr><td>藤蔓不爬架</td><td>架子沒引導</td><td>用軟繩輕綁主蔓引上去;每長 30cm 綁一次</td></tr>
+<tr><td>開花多但不結果</td><td>授粉不足(昆蟲少) / 溫度過高</td><td>早晨 6–9 點人工授粉(用雄花塗雌花柱頭);超過 35°C 花粉失活</td></tr>
+<tr><td>只開雄花、沒有雌花</td><td>植株太年輕 / 氮肥過多</td><td>等主蔓長到 1 公尺後才開始出雌花;減少氮肥比例</td></tr>
+<tr><td>小果實變黃掉落</td><td>授粉失敗 / 水肥不穩</td><td>確認授粉;保持澆水規律;盛夏高溫落果屬正常,繼續種</td></tr>
+<tr><td>葉片有白色粉末</td><td>白粉病(夏季常見)</td><td>通風改善;嚴重時摘除病葉;避免葉片噴水</td></tr>
+<tr><td>葉背有蟲</td><td>蚜蟲、紅蜘蛛</td><td>水沖葉背;手抓;必要時用苦楝油噴霧</td></tr>
+<tr><td>藤蔓爬到鄰居陽台</td><td>生長太旺</td><td>先跟鄰居打聲招呼;必要時摘頂芽控制方向</td></tr>
+</tbody>
+</table>`,
+      },
+      {
+        id: 'dementia', emoji: '🧠', heading: '失智照護應用 Notes',
+        byLevel: {
+          mild: `
+<div class="callout">
+<h4>📍 輕度:主動種植 + 每日任務 + 記憶觸發</h4>
+<p style="margin:0;">她還能理解多步驟指令、走到陽台、執行完整動作。絲瓜的種植活動可以做到<strong>最完整的版本</strong>。</p>
+</div>
+<ul>
+<li><strong>每天早上的任務</strong>:去陽台看絲瓜有沒有長大、要不要澆水。有任務感的「每日散步」</li>
+<li><strong>量果實</strong>:用捲尺量今天的絲瓜幾公分,記在本子或黑板上 — 數字的成就感,每天都有話說</li>
+<li><strong>授粉任務</strong>:早上摘雄花、找雌花授粉 — 有手感、有目標的動作,跟小時候農家經驗呼應</li>
+<li><strong>絲瓜布記憶</strong>:「以前用絲瓜布洗碗」「媽媽/奶奶種的絲瓜」這些對話讓她說自己的故事,不是你說給她聽</li>
+<li><strong>目標</strong>:她能主導整個流程,你只是提醒觸發,不要搶走她的自主感</li>
+</ul>
+<p>這個階段的價值:<strong>「我還是那個能種菜、能養活一家人的人」</strong>。</p>`,
+          moderate: `
+<div class="callout">
+<h4>📍 中度:感官儀式 + 陪做一個動作</h4>
+<p style="margin:0;">多步驟動作會卡住,但單一感官任務還能做。夜開白花和絲瓜的生長視覺是這個階段的核心工具。</p>
+</div>
+<ul>
+<li><strong>夜晚陽台散步</strong>:睡前帶她到陽台看白花。夏夜大白花在黑暗中開放 — 對任何人都是震驚,對她更是難忘的視覺錨點</li>
+<li><strong>澆水任務簡化</strong>:水壺事先裝滿放盆旁;你說「幫我澆一下絲瓜」,她拿壺澆就好;不要讓她找水龍頭</li>
+<li><strong>摸瓜儀式</strong>:把剛採的嫩絲瓜放到她手裡讓她握一下、摸一下 — 涼滑的表皮質感是感官刺激</li>
+<li><strong>一起剝絲瓜布</strong>:曬乾的絲瓜布你剝外皮給她,讓她把纖維剝開、整理 — 動作重複、有成果,像早年農活</li>
+<li><strong>煮絲瓜湯給她看</strong>:廚房香氣飄出來比說話更能打開記憶,「你小時候奶奶都這樣煮」讓香氣和記憶連結</li>
+</ul>
+<p>這個階段的價值:<strong>把「做」的決定外包到物理空間(水壺放好、瓜放好),她只要執行那個動作</strong>。</p>`,
+          severe: `
+<div class="callout">
+<h4>📍 重度:不要求動作,要求存在</h4>
+<p style="margin:0;">自主動作有限,語言溝通困難。絲瓜的價值<strong>從「活動」轉為多層感官陪伴</strong>。</p>
+</div>
+<ul>
+<li><strong>夜晚陽台停留</strong>:帶她坐在陽台,讓她看白花在黑暗中的形狀 — 視覺衝擊是原始的,不需要語言理解</li>
+<li><strong>把嫩絲瓜放她手上</strong>:涼涼滑滑的觸感,讓她握著不要求她說話或做什麼</li>
+<li><strong>澆水聲</strong>:你澆水讓她聽水聲落到土的聲音,有節奏感;坐在旁邊「陪種」就是參與</li>
+<li><strong>煮絲瓜湯的香氣</strong>:把廚房門開著讓香氣飄進來;嗅覺是最深的記憶路徑,可能引出她的表情反應</li>
+<li>絲瓜布的金黃色和纖維質感放她手邊讓她摸 — 不要求她認出是什麼,只要感官觸碰就好</li>
+<li><strong>每天同樣時段、同樣路徑到陽台</strong> — 節奏感比「完成度」重要</li>
+</ul>
+<p>這個階段的價值:<strong>夜晚白花、土的氣味、絲瓜的涼觸 — 這些感官記憶在語言消失後仍然存在</strong>。植物照顧的儀式是最後能維持「人還在這裡」的方式之一。</p>`,
+        },
+      },
+      {
+        id: 'log', emoji: '📓', heading: '實測紀錄',
+        html: `
+<div class="callout warn">
+<p style="margin:0;"><strong>尚未實測</strong> — 絲瓜計畫 2026 年 3–4 月播種。本條目依農業知識庫與台灣在地種植經驗撰寫,所有時程數字(發芽 5–10 天、首採 70–90 天等)已交叉比對多個來源。實測後會更新。</p>
+</div>
+
+<h4 style="color:var(--primary);margin-top:12px;">📅 未來計畫</h4>
+<ul>
+<li>2026 年 3 月驚蟄後播種稜角絲瓜(已備種子)</li>
+<li>記錄:發芽天數、首次雌花出現天數、人工授粉 vs 蜜蜂授粉比較</li>
+<li>夜開白花時段觀察(幾點開、開多久)</li>
+<li>失智照護 ritual 實踐:帶媽媽夜間陽台看花</li>
+<li>老絲瓜布製作流程記錄(首次做)</li>
+</ul>
+<p style="color:var(--muted);font-size:14px;"><em>實測記錄、ritual 導入心得、媽媽的反應,會陸續補進這裡。</em></p>`,
+      },
+    ],
+  },
 ];
 
 // =========================================================
