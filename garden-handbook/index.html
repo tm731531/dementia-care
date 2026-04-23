@@ -11863,6 +11863,368 @@ const PLANTS = [
       },
     ],
   },
+
+  // =========== 蘆薈(香草/藥用) ===========
+  {
+    id: 'aloe',
+    name: '蘆薈',
+    emoji: '🌵',
+    category: 'herb',
+    meta: {
+      difficulty: '極低(忘了澆才活得好)',
+      season: '四季皆可,春秋最穩定',
+      light: '全日照 / 半日照(全日照最佳)',
+      location: '陽台 / 窗邊(外陽台最理想)',
+      seasons: ['spring', 'summer', 'autumn', 'winter'],
+      bestStartMonths: [1,2,3,4,5,6,7,8,9,10,11,12],
+    },
+    suitableFor: ['beginner', 'small_space', 'low_maintenance'],
+    warnings: ['pet_toxic'],
+    sections: [
+      {
+        id: 'why', emoji: '💡', heading: '為什麼蘆薈是家庭急救箱裡的第一盆植物',
+        html: `
+<ul>
+<li><strong>廚房燙傷、長輩破皮,當下切一片就能敷</strong> — 一株蘆薈頂一盒燙傷膏,還是現採現用的</li>
+<li><strong>忘了澆反而活得更好</strong> — 是真的,一週沒澆不會死;澆太多才是最大殺手</li>
+<li><strong>佔地極小</strong> — 5 吋盆可以種好幾年,窗台、流理台旁、門口都放得下</li>
+<li><strong>四季皆可種</strong> — 不用等季節,隨時去花市帶一盆回家就對了</li>
+<li><strong>分株可以送人</strong> — 母株長大後側邊冒子株,分盆送親友,台灣老一輩最熟悉的人情往來</li>
+<li><strong>幾乎不需要施肥</strong> — 一年才撒幾粒緩釋肥,對疲累的照護者友善度 10/10</li>
+</ul>
+<div class="callout warn">
+<h4>⚠️ 只有「真蘆薈」才能藥用</h4>
+<p style="margin:0;">市面上蘆薈品種繁多。<strong>只有 Aloe vera(庫拉索蘆薈 / 真蘆薈)</strong> 的葉肉(透明膠)適合直接外敷皮膚。觀賞用的 <em>Aloe arborescens</em>、木立蘆薈等,葉汁刺激性強,<strong>不建議直接敷傷口</strong>。買盆苗時要確認品種名稱:「Aloe vera」或「庫拉索」才是對的。</p>
+</div>`,
+      },
+      {
+        id: 'obtain', emoji: '🛒', heading: '取得方式',
+        html: `
+<div class="callout warn" style="margin-bottom:10px;">
+<h4>🗓️ Step 0 · 先看月曆再動手</h4>
+<p style="margin:0;"><strong>蘆薈四季都可以起步</strong>,但有兩個要避開的時機:</p>
+<ul style="margin:6px 0 0;padding-left:20px;">
+<li>🟡 <strong>盛夏 7–8 月(大暑前後)</strong>:剛定植的苗根系還沒穩,烈日可能讓葉尖曬傷變褐色。避免買來直接放全日照;先放半遮蔽處適應 1–2 週再移位。</li>
+<li>❌ <strong>寒流期間(< 5°C)</strong>:葉子會凍傷變軟爛。若正逢強寒流,等回暖再定植或放室內緩苗。</li>
+</ul>
+<p style="margin:8px 0 0;"><strong>春(3–5 月)、秋(9–11 月)最穩</strong> — 氣溫溫和,定植成功率最高。</p>
+</div>
+
+<div class="callout" style="background:#e8f5e9;border-left-color:var(--primary-dark);">
+<h4>📦 推薦的新手包 · 三步照順序來</h4>
+<ol style="margin:6px 0 4px;padding-left:22px;">
+<li><strong>先備盆與土(這一步要比植株先到)</strong> — 花市買 <strong>5–7 吋陶盆 / 素燒盆(透氣排水比塑膠盆好)</strong> + <strong>多肉仙人掌專用土</strong>(或培養土 7 : 粗砂/赤玉土 3 混合),合計 NT$100–180。盆底確認有排水孔,鋪一層陶礫或粗石擋土流失。</li>
+<li><strong>買盆苗或請朋友分株</strong> — 花市「Aloe vera / 庫拉索蘆薈」盆苗 NT$50–120;朋友家有種的話直接要子株,根帶土分出來最穩。蝦皮也有賣但盆苗比枝條好存活。</li>
+<li><strong>到家當天立刻定植</strong> — 輕鬆脫盆、不傷根;根若有爛的剪掉晾 1–2 小時讓切口乾燥再種;種好後<strong>先放通風陰涼處 3–5 天</strong>讓根系適應,再移全日照位置。</li>
+</ol>
+<p style="margin:8px 0 0;font-size:14px;color:var(--muted);">⚠️ <strong>順序不能顛倒</strong>:植株離土後要快速定植;如果買回來才找盆,根部在袋子裡悶會受損。總預算 <strong>NT$200–300 有找</strong>。</p>
+</div>
+
+<h4 style="color:var(--primary);margin:14px 0 6px;">其他取得管道</h4>
+<table>
+<thead><tr><th>管道</th><th>說明</th><th>成功率</th></tr></thead>
+<tbody>
+<tr><td><strong>花市盆苗</strong></td><td>確認品種標示「Aloe vera / 庫拉索」,選葉片厚實飽滿的</td><td>90%+</td></tr>
+<tr><td><strong>朋友分株(走莖子株)</strong></td><td>母株旁冒出的側芽,帶根分盆;台灣鄰里互送很常見</td><td>85%+</td></tr>
+<tr><td><strong>蝦皮搜「蘆薈 Aloe vera」</strong></td><td>確認賣家寫品種名稱,避免「觀賞蘆薈」字樣</td><td>75%+</td></tr>
+</tbody>
+</table>
+
+<div class="callout warn" style="margin-top:12px;">
+<h4>⚠️ 對貓狗有毒 — 定植位置要先決定</h4>
+<p style="margin:0;">蘆薈含 <strong>saponin(皂素)和 aloin</strong>,貓狗誤食會嘔吐、腹瀉,嚴重可傷腎。<strong>家有貓狗務必放外陽台、高處層架、或廚房流理台高層</strong>貓搆不到的位置。先決定放哪裡再下單,不要買回來才發現沒地方放。</p>
+</div>`,
+      },
+      {
+        id: 'pot-soil', emoji: '🏺', heading: '盆器與土壤',
+        html: `
+<h4 style="color:var(--primary);">盆器</h4>
+<ul>
+<li><strong>素燒盆 / 陶盆最佳</strong> — 透氣性好,幫助多餘水分散發,蘆薈最大殺手是爛根,透氣盆直接降風險</li>
+<li>塑膠盆也可,但要確保<strong>盆底有排水孔</strong>(不可用無孔裝飾盆直接種)</li>
+<li>大小:<strong>5–7 吋盆</strong>一般成株夠用;買小苗可以先種 3–5 吋,根系滿了再換盆</li>
+<li>盆底放一層陶礫 / 碎石 / 發泡煉石,防土壤堵塞排水孔</li>
+</ul>
+
+<h4 style="color:var(--primary);margin-top:12px;">土壤</h4>
+<ul>
+<li><strong>多肉仙人掌專用土</strong>(花市有售)是最懶的選擇 — 砂質、排水快、不積水</li>
+<li>沒有專用土也可以自配:<strong>培養土 7 份 + 粗砂或赤玉土 3 份</strong>混合</li>
+<li><strong>禁用純腐植土 / 黑土</strong> — 保水性太強,蘆薈根系在長期濕潤的土裡會快速腐爛</li>
+<li>赤玉土(花市有)透氣排水優,是進階選項但不強制</li>
+</ul>
+
+<div class="callout warn">
+<h4>🚨 爛根是蘆薈 #1 死因</h4>
+<p style="margin:0;">爛根=土太濕 + 排水不良。預防優先於治療:選對土、選對盆、澆水前先確認<strong>土表下 3 公分乾燥</strong>再澆。後面「失敗點與除錯」有爛根急救 SOP。</p>
+</div>
+
+<p style="font-size:14px;color:var(--muted);margin-top:10px;"><em>施肥細節獨立成下面的「🌾 施肥」section。</em></p>`,
+      },
+      {
+        id: 'steps', emoji: '🌳', heading: '種植步驟',
+        html: `
+<ol>
+<li><strong>準備盆器</strong> — 盆底先鋪一層陶礫,倒入多肉專用土至 8 分滿,澆水一次讓土服貼</li>
+<li><strong>脫盆 / 分株</strong> — 輕握基部輕搖脫盆,若是子株要帶根分離;檢查根系,爛根(黑軟)剪掉,切口晾 1–2 小時讓傷口乾燥(不要立刻種,避免傷口感染)</li>
+<li><strong>定植</strong> — 放進盆中央,根系舒展;土蓋住根部但不要蓋過葉基;土面離盆口留 1–2 公分空間方便澆水</li>
+<li><strong>第一次澆水</strong> — 定植後澆透到盆底出水。之後<strong>等土全乾再澆</strong></li>
+<li><strong>緩苗 3–5 天</strong> — 放在通風、無直射強光的地方讓根系適應,之後再移至全日照或半日照位置</li>
+</ol>
+
+<div class="callout">
+<h4>🌵 蘆薈澆水口訣:「寧旱勿澇」</h4>
+<p style="margin:0;">手指插入土表下 <strong>3 公分感覺乾了</strong>才澆,澆就澆透。切忌每天少量噴水 — 表面濕但底部積水,最容易爛根。<strong>春秋約 5–7 天一次,夏天 3–5 天,冬天 10–14 天甚至更久</strong>。</p>
+</div>`,
+      },
+      {
+        id: 'timing', emoji: '📋', heading: '完整時程表 · 定植到採葉',
+        html: `
+<p><strong>定植 → 穩根 → 施肥 → 可採葉 → 分株</strong>,一張表涵蓋整年。蘆薈是慢活植物,急不得;照 SOP 等就對了。</p>
+
+<div class="callout warn">
+<h4>⚠️ 開工前先看月曆 / 節氣:挑對時間事半功倍</h4>
+<p style="margin:0 0 6px;">蘆薈四季皆可種,但有兩個時機要注意:</p>
+<table style="margin-top:8px;">
+<thead><tr><th></th><th>月份</th><th>節氣</th><th>狀態</th></tr></thead>
+<tbody>
+<tr style="background:#f0f8ec;"><td>✅ 最佳</td><td><strong>3–5 月、9–11 月</strong></td><td><strong>驚蟄(3/5)→ 立夏(5/5) / 白露(9/8)→ 立冬(11/7)</strong></td><td>氣溫溫和,根系恢復最快,<strong>手冊所有時程以此為準</strong></td></tr>
+<tr><td>🟡 勉強</td><td>6 / 12 / 1 / 2 月</td><td>芒種(6/5) / 大雪(12/7)–雨水(2/19)</td><td>夏初或冬末;可以種但成活率略降,注意遮陽 / 防寒</td></tr>
+<tr style="background:#fdf5e6;"><td>🟡 注意</td><td><strong>7–8 月</strong></td><td><strong>小暑(7/7)→ 立秋(8/7)</strong></td><td>盛夏烈日可能曬傷葉尖;新苗定植後先放半遮蔽 1–2 週</td></tr>
+<tr style="background:#fdecec;"><td>❌ 寒流期間</td><td>不固定</td><td>低於 <strong>5°C</strong> 的寒流日</td><td>葉片凍傷變軟爛;寒流天不定植,盆栽移室內或加不織布保護</td></tr>
+</tbody>
+</table>
+<p style="margin:8px 0 0;font-size:14px;">蘆薈不像地瓜葉那麼怕冬天,但 <strong>5°C 以下就會凍傷</strong>。台灣平地大多數冬天不到這個溫度,只要特別寒流才需要移動盆栽。</p>
+<p style="margin:6px 0 0;font-size:13px;color:var(--muted);"><em>完整 24 節氣對照看 <a href="#" onclick="event.preventDefault();navigateTo('page-knowledge');return false;" style="color:var(--primary);">📚 通用園藝知識 → 📅 24 節氣</a>。</em></p>
+</div>
+
+<table>
+<thead><tr><th>天數</th><th>階段</th><th>植物狀態</th><th>你的動作</th></tr></thead>
+<tbody>
+<tr><td><strong>Day 1</strong></td><td>定植</td><td>種下去</td><td>澆透到盆底出水;放通風陰涼處緩苗;❌ 不施肥</td></tr>
+<tr><td>Day 2–7</td><td>緩苗期</td><td>外觀可能微萎,正常</td><td>不澆水(土還濕),等土表下 3 cm 乾再說;不要日曬</td></tr>
+<tr><td>Day 7–30</td><td>扎根期</td><td>慢慢挺直、葉片飽滿</td><td>土乾才澆(手指測);可移至半日照→全日照位置</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 30 🌾</strong></td><td><strong>第一次施肥</strong></td><td>根系穩了</td><td>✅ 撒 <strong>5 粒</strong> 好康多 1 號(5 吋盆)+ 澆水;❌ 別超量</td></tr>
+<tr><td>Day 30–180</td><td>生長期</td><td>葉片增厚增長</td><td>土乾才澆;全日照;偶爾擦去葉片灰塵</td></tr>
+<tr style="background:#fdf5e6;"><td><strong>夏天 7–8 月 ☀️</strong></td><td><strong>注意曬傷</strong></td><td>葉尖可能變褐</td><td>遮 30–50% 日照,或移離最烈日光;不需停水</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 120 🌾</strong></td><td><strong>第二次施肥</strong></td><td>持續生長</td><td>✅ 再撒 5 粒(5 吋盆)</td></tr>
+<tr style="background:#fdf5e6;"><td><strong>寒流期 ❄️</strong></td><td><strong>防凍警戒</strong></td><td>葉可能軟爛</td><td>❌ 停肥;減水到 14 天以上一次;氣溫 < 5°C 移室內或蓋不織布</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Month 6–24 ✂️</strong></td><td><strong>可開始採葉</strong></td><td>葉長 20 cm+(最好 30 cm)</td><td>✅ 每次切 1–2 片最外層老葉;一年內新苗不採,讓它先長大</td></tr>
+<tr><td><strong>Year 2+ 🌱</strong></td><td>成株 · 分株</td><td>母株旁冒子株</td><td>子株根長 3–5 cm 後可分盆;換一個大一號的盆讓母株繼續長</td></tr>
+</tbody>
+</table>
+
+<div class="callout" style="margin-top:12px;">
+<h4>📱 定植當天就要做的 2 件事</h4>
+<ol style="margin:4px 0 0;padding-left:22px;">
+<li>Google 行事曆設 2 個提醒:<strong>今日 + 30 天</strong>、<strong>今日 + 120 天</strong>,內容寫「撒 5 粒好康多、澆水」</li>
+<li>便利貼寫今日日期貼盆邊 —— 讓眼睛看得到「這盆是哪天定植的」,追蹤月數不用靠記憶</li>
+</ol>
+<p style="margin:6px 0 0;font-size:14px;"><strong>兩年等待期的焦慮,靠外部提醒化解,不靠腦袋記</strong>。</p>
+</div>
+
+<p style="font-size:14px;color:var(--muted);margin-top:10px;"><em>施肥細節(不同盆大小、哪裡買)看下方「🌾 施肥」;採葉技巧看「✂️ 採收與使用」section。</em></p>`,
+      },
+      {
+        id: 'fertilizer', emoji: '🌾', heading: '施肥',
+        html: `
+<p><strong>蘆薈施肥需求極低</strong> — 原生地是乾旱貧瘠的土地,不需要富含營養的土壤。施太多肥反而讓葉片瘦長、組織脆弱,嚴重的過肥會燒根。</p>
+<p style="font-size:14px;color:var(--muted);margin-top:4px;"><em>施肥時機(Day 30 / Day 120 / 冬眠)已在「📋 完整時程表」統整。這個 section 專講 <strong>用多少 · 用哪款 · 怎麼撒</strong>。</em></p>
+
+<div class="callout">
+<h4>📐 不同盆大小 · 速查(好康多 1 號)</h4>
+<table style="margin-top:6px;">
+<thead><tr><th>盆</th><th>顆數</th></tr></thead>
+<tbody>
+<tr><td>3 吋圓盆(Ø9cm)</td><td><strong>3 粒</strong></td></tr>
+<tr><td>5 吋圓盆(Ø15cm)</td><td><strong>5 粒</strong></td></tr>
+<tr><td>7 吋圓盆(Ø21cm)</td><td><strong>8 粒</strong></td></tr>
+<tr><td>長方盆 50×20cm</td><td><strong>10 粒(蘆薈比葉菜少)</strong></td></tr>
+</tbody>
+</table>
+<p style="margin:8px 0 0;font-size:14px;"><strong>原則</strong>:蘆薈寧可缺肥不可過肥。比這個量<strong>少 20–30%</strong> 更安全。</p>
+</div>
+
+<h4 style="color:var(--primary);margin-top:14px;">🛒 買哪一款</h4>
+<ul>
+<li><strong>好康多 1 號</strong>(NPK 14-11-13)— 通用緩釋肥,葉菜/多肉都適用</li>
+<li>350g 小包約 NT$100,一包一株蘆薈可以用幾年</li>
+<li>全聯園藝區、花市、iGarden 網購都有</li>
+<li>替代品:奧綠肥、魔肥(類似緩釋顆粒肥 OK)</li>
+</ul>
+
+<div class="callout warn">
+<h4>📱 記憶外包 — 一次設好兩年的施肥提醒</h4>
+<p style="margin:0 0 6px;">蘆薈施肥一年只要 2–3 次,但間隔長到容易忘。定植當天打開 Google 行事曆設提醒:</p>
+<ul style="margin:0;padding-left:20px;">
+<li>定植日 + 30 天 → 「撒 5 粒好康多(澆水)」</li>
+<li>定植日 + 120 天 → 「再撒 5 粒」</li>
+<li>冬天 11 月 → 「停肥到明年 3 月」</li>
+</ul>
+<p style="margin:8px 0 0;font-size:14px;"><strong>兩年的決定一次做完。照護者的腦力預算留給人,不留給植物。</strong></p>
+</div>
+
+<details style="margin-top:14px;border:1px solid var(--border);border-radius:8px;padding:10px 14px;">
+<summary style="cursor:pointer;color:var(--primary-dark);font-weight:bold;">⚠️ 出事才看:過肥 vs 缺肥一眼判斷</summary>
+<div style="padding:10px 0 0;">
+<table>
+<thead><tr><th>看到什麼</th><th>是什麼</th><th>立刻做</th></tr></thead>
+<tbody>
+<tr><td>葉片細長、水感弱</td><td>過肥(氮太多)</td><td>停肥 3 個月,大量清水沖盆</td></tr>
+<tr><td>土表<strong>白色結晶</strong></td><td>鹽積 / 過肥</td><td>停肥,清水沖盆 3 次</td></tr>
+<tr><td>葉色<strong>淡黃、不飽滿</strong></td><td>缺肥(或日照不足)</td><td>先確認日照夠;缺肥再補 3–5 粒</td></tr>
+</tbody>
+</table>
+</div>
+</details>
+
+<details style="margin-top:10px;border:1px solid var(--border);border-radius:8px;padding:10px 14px;">
+<summary style="cursor:pointer;color:var(--muted);font-size:14px;">🧪 進階:想用液肥的路線(不建議新手)</summary>
+<div style="padding:10px 0 0;font-size:14px;">
+<p>蘆薈對液肥非常敏感,建議濃度減半再減半:</p>
+<ul>
+<li><strong>花寶 1 號</strong>(NPK 20-20-20),稀釋比照包裝再<strong>稀釋 4 倍</strong>(超淡才安全)</li>
+<li>每 30 天一次,澆根部不澆葉心</li>
+<li>施完立刻澆一次清水沖殘留</li>
+<li>有機派:蚯蚓肥少量混土表面</li>
+</ul>
+<p style="margin-top:6px;"><strong>液肥效果快但蘆薈燒根風險高;固體緩釋肥慢但難出錯</strong>。強烈建議固體。</p>
+</div>
+</details>
+
+<p style="font-size:13px;color:var(--muted);margin-top:14px;">通用施肥原則(缺肥 vs 過肥對照、NPK 速查、寧可少不要多)看 <a href="#" onclick="event.preventDefault();navigateTo('page-knowledge');return false;" style="color:var(--primary);font-weight:bold;">📚 通用園藝知識 → 🌾 施肥</a>。</p>`,
+      },
+      {
+        id: 'harvest', emoji: '✂️', heading: '採收與使用',
+        html: `
+<h4 style="color:var(--primary);">何時可以採</h4>
+<ul>
+<li>定植後<strong>至少 6 個月穩根</strong>,最好等到 <strong>2 年成株</strong>,葉長 30 cm+ 才開始採</li>
+<li>新苗頭一年不採 — 根系還在建立,採葉會削弱生長</li>
+<li>葉長 <strong>20 cm 以上、葉片厚實飽滿</strong>才是採收的形態指標</li>
+</ul>
+
+<h4 style="color:var(--primary);margin-top:12px;">怎麼採</h4>
+<ul>
+<li>每次只採 <strong>1–2 片最外層(最老)的葉</strong>,由外往內採</li>
+<li>用乾淨剪刀或刀從葉基部斜切,保留葉基;不要撕拔</li>
+<li><strong>不可過採</strong> — 一株蘆薈同時保留至少 12–16 片葉,才能維持光合作用</li>
+<li>採下後冷藏可保鮮 1–2 週;現採現用最佳</li>
+</ul>
+
+<h4 style="color:var(--primary);margin-top:12px;">使用方法(外用)</h4>
+<ol>
+<li>剪下葉片後<strong>靜置 1–2 分鐘</strong>,讓靠近葉基的<strong>黃色 aloin 汁液流出</strong>(這個是刺激物,不要接觸傷口)</li>
+<li>沿邊緣刺剪掉,縱切開葉片,取<strong>透明凝膠狀葉肉</strong></li>
+<li>直接敷在燙傷、曬傷、輕度割傷、蚊蟲叮咬部位;不需稀釋</li>
+<li>敷後自然乾即可,可蓋紗布固定</li>
+</ol>
+
+<div class="callout warn">
+<h4>⚠️ 使用注意事項</h4>
+<ul style="margin:0;padding-left:20px;">
+<li><strong>只外用</strong> — 家種蘆薈直接食用可能引起腹瀉(aloin 是瀉劑);市售蘆薈飲品有經過處理脫苦才安全</li>
+<li><strong>深度傷口不適用</strong> — 燙傷超過 2 度(起水泡)或割傷深,要就醫,蘆薈只適合表淺輕傷</li>
+<li><strong>過敏測試</strong> — 第一次使用先在手腕內側敷少量,觀察 30 分鐘無反應再用於臉部</li>
+<li><strong>黃色 aloin 一定要讓它流掉</strong>,不要急著馬上敷</li>
+</ul>
+</div>`,
+      },
+      {
+        id: 'troubleshoot', emoji: '🛡', heading: '失敗點與除錯',
+        html: `
+<table>
+<thead><tr><th>症狀</th><th>可能原因</th><th>對策</th></tr></thead>
+<tbody>
+<tr><td>葉片軟爛、拉起來根系黑褐色</td><td><strong>爛根</strong>(過澆水 + 排水差)</td><td>立刻脫盆;黑爛根剪掉;根部晾乾 1–2 天;換砂質土重種;之後拉長澆水間隔</td></tr>
+<tr><td>葉尖、葉緣變褐色</td><td>曬傷(盛夏烈日) / 過肥 / 水不足</td><td>夏天移半遮蔽;確認是否過肥(停肥沖盆);試著澆水後觀察</td></tr>
+<tr><td>葉片縐縮、變薄</td><td>缺水(少見但會發生)</td><td>澆一次透水;蘆薈可以缺水自我保護但不能長期忽略</td></tr>
+<tr><td>葉片細長水嫩但軟趴趴</td><td>日照不足 / 過肥</td><td>移至更強光位置;過肥則停肥沖盆</td></tr>
+<tr><td>葉片橘紅或白化</td><td>日照過強 / 溫差大</td><td>遮 30% 日照;是植物自我保護反應,不一定有害</td></tr>
+<tr><td>葉基出現白粉</td><td>粉介殼蟲</td><td>棉棒沾酒精擦除;嚴重整株用稀釋洗碗精水噴</td></tr>
+<tr><td>凍傷(葉片變透明糊狀)</td><td>溫度 < 5°C</td><td>移室內;受凍葉剪掉,讓植株從存活葉恢復;氣溫回暖前別澆水</td></tr>
+<tr><td>種了一年但葉還是小</td><td>正常,蘆薈就是慢活</td><td>確認光照充足;等待;2 年才到成株,急不得</td></tr>
+</tbody>
+</table>
+
+<div class="callout warn" style="margin-top:12px;">
+<h4>🚑 爛根急救 SOP</h4>
+<ol style="margin:0;padding-left:20px;">
+<li>整株脫盆,清水輕沖根系看清狀況</li>
+<li>黑色、軟爛、異味的根全部剪掉,留白色或米白色健康根</li>
+<li>切口塗少量木炭粉或肉桂粉(天然抗菌)</li>
+<li>放通風陰涼處<strong>晾 1–2 天</strong>讓切口乾燥</li>
+<li>換新砂質土 + 乾淨盆重種</li>
+<li><strong>2 週內不澆水</strong>,讓根系重建</li>
+<li>之後改用手指測土法,乾了才澆</li>
+</ol>
+<p style="margin:8px 0 0;font-size:14px;">爛根搶救成功率約 70%,關鍵是越早發現越好。定期檢查葉片是否依然飽滿有彈性是最簡單的監控。</p>
+</div>`,
+      },
+      {
+        id: 'dementia', emoji: '🧠', heading: '失智照護應用 Notes',
+        byLevel: {
+          mild: `
+<div class="callout">
+<h4>📍 輕度:她的家庭急救知識 + 送人情感</h4>
+<p style="margin:0;">輕度階段她還記得蘆薈的用法 — 台灣許多長輩從小就知道「燙傷切一片敷」。這是連接<strong>她的記憶庫</strong>最有效的一株植物。</p>
+</div>
+<ul>
+<li><strong>讓她教你</strong>怎麼用蘆薈敷傷口 — 角色反轉,她是專家,你是學徒</li>
+<li>廚房旁擺一盆,她燙傷 / 破皮可以自己去切一片 — 維持她「我能自己處理」的自主感</li>
+<li>子株長出來時讓她決定送給誰 — 人情往來的主動權讓她感覺還參與社交</li>
+<li>一起分株、換盆:這個動作多步驟但節奏慢、低風險,她能完成整個流程</li>
+<li><strong>目標</strong>:用這株植物串連她的舊知識與當下的有用感</li>
+</ul>
+<p>這個階段的價值:<strong>「我知道怎麼用」比「我能做」更珍貴 — 維持她的知識自尊</strong>。</p>`,
+          moderate: `
+<div class="callout">
+<h4>📍 中度:澆水 ritual + 觸摸感官</h4>
+<p style="margin:0;">她可能已經不記得蘆薈的急救用法,但能執行單一動作:澆水、擦葉、轉盆。蘆薈的質感很特別,適合做感官互動。</p>
+</div>
+<ul>
+<li><strong>澆水 ritual</strong>:盆旁邊放好水壺,每週固定一天說「幫我澆一下蘆薈」— 單一指令,她能完成</li>
+<li><strong>擦葉</strong>:給她一塊濕布說「幫它擦一下灰塵」— 溫柔、低風險、有成果感</li>
+<li>讓她摸葉片 — 表面微粗的蠟質感、葉肉彈性、葉邊小刺,觸覺刺激豐富</li>
+<li><strong>不要讓她看到你先澆</strong>,她會覺得「澆過了就不動」</li>
+<li>蘆薈幾乎不會因為一次多澆水或少澆水就出問題,<strong>失誤寬容度高</strong>,適合中度陪伴</li>
+</ul>
+<p>這個階段的價值:<strong>節奏與觸感 — 蘆薈的照顧儀式幫助建立每週的時間感</strong>。</p>`,
+          severe: `
+<div class="callout">
+<h4>📍 重度:感官存在 · 不要求動作</h4>
+<p style="margin:0;">她的自主動作有限,但蘆薈<strong>特殊的視覺與觸覺</strong>仍能到達她。</p>
+</div>
+<ul>
+<li>帶她坐在蘆薈旁邊,把一片葉輕放到她手上讓她握住 — 厚實、涼涼的葉肉感覺獨特</li>
+<li>切開一小片讓她看透明凝膠 — 視覺刺激,不要求她說話或認識它</li>
+<li>把凝膠輕敷在她手背上 — 涼涼的觸感,安撫作用</li>
+<li>你澆水時讓她在旁邊,重複說「這是蘆薈,燙傷可以用」— 不期待她記住,讓語言與感官共存</li>
+<li>每次互動保持<strong>相同的節奏、相同的說法</strong>,儀式感比內容重要</li>
+</ul>
+<p>這個階段的價值:<strong>蘆薈的涼感與透明膠質是很少植物能提供的感官體驗 — 從知識到觸覺,依然是真實的接觸</strong>。</p>`,
+        },
+      },
+      {
+        id: 'log', emoji: '📓', heading: '實測紀錄',
+        html: `
+<div class="callout warn">
+<p style="margin:0;"><strong>尚未實測</strong> — 蘆薈 entry 為 2026-04-23 根據資料研究寫就,Tom 家目前尚未開始種植蘆薈盆栽。實測紀錄待補。</p>
+</div>
+
+<h4 style="color:var(--primary);margin-top:14px;">📋 未來計畫</h4>
+<ul>
+<li>花市採購 Aloe vera 盆苗一盆,放廚房流理台旁(貓夠不到的高處)</li>
+<li>記錄定植日、根系狀況、第一次施肥反應</li>
+<li>等第一次廚房燙傷發生時實測急救效果並記錄</li>
+<li>母株冒子株後分株送給鄰居 — 記錄分株時間與成活率</li>
+<li>補充:失智長輩觸摸互動反應的質性記錄</li>
+</ul>
+
+<p style="color:var(--muted);font-size:14px;"><em>有實測後會回來補圖文記錄。</em></p>`,
+      },
+    ],
+  },
 ];
 
 // =========================================================
