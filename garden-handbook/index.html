@@ -76,6 +76,20 @@ body {
 .level-banner .value.severe { color: var(--level-severe); }
 .level-banner a { color: var(--primary); text-decoration: none; font-size: 13px; }
 
+.planning-banner {
+  background: #fff8dc;
+  border: 1px solid #f4b400;
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.planning-banner a { color: var(--primary-dark); text-decoration: none; font-size: 13px; white-space: nowrap; margin-left: 8px; }
+
 .favorites-section {
   background: linear-gradient(135deg, #fff8e6 0%, #ffeac8 100%);
   border-radius: 16px; padding: 12px 14px;
@@ -459,6 +473,13 @@ footer a { color: var(--primary); text-decoration: none; }
     <a href="#" onclick="navigateTo('page-settings');return false;">切換 →</a>
   </div>
 
+  <div class="planning-banner" id="planning-banner" style="display:none;">
+    <div>
+      <span>🎯 <strong>規劃模式</strong>:顯示 <span id="planning-months"></span> 月能下手 + ⭐ 最愛的植物</span>
+    </div>
+    <a href="#" onclick="event.preventDefault();togglePlanningMode(false);return false;">關閉 →</a>
+  </div>
+
   <div class="favorites-section">
     <div class="favorites-label">⭐ 我的最愛</div>
     <div class="favorites-zone" id="favorites-zone"></div>
@@ -771,6 +792,18 @@ footer a { color: var(--primary); text-decoration: none; }
   </div>
 
   <div class="settings-section">
+    <h3>🎯 規劃模式</h3>
+    <p>開啟後,首頁只會顯示「現在到接下來 3 個月內」可以下手種的植物 + 你的最愛。適合<strong>已經在種或準備下手的時候用</strong>。</p>
+    <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:16px;">
+      <input type="checkbox" id="planning-toggle" onchange="togglePlanningMode(this.checked)" style="width:20px;height:20px;cursor:pointer;">
+      <span>只看現在能種的(含我的最愛)</span>
+    </label>
+    <p style="margin-top:10px;font-size:12px;color:var(--muted);line-height:1.6;">
+      關閉 = 看全部植物(預設,適合探索/規劃明年)。月份過了某植物進入休眠/起手期就會自動隱藏/重新出現,不用你記。
+    </p>
+  </div>
+
+  <div class="settings-section">
     <h3>📥 匯出備份</h3>
     <p>下載你目前所有的最愛、memo 跟級數設定成一個 JSON 檔,存起來或換裝置時可以匯入還原。</p>
     <div class="settings-btn-row">
@@ -836,6 +869,8 @@ const PLANTS = [
       season: '扦插 4–9 月(冬天會死)',
       light: '半日照以上',
       location: '陽台 / 窗邊 / 戶外',
+      seasons: ['spring', 'summer'],
+      bestStartMonths: [4, 5, 6, 7, 8, 9],
     },
     sections: [
       {
@@ -1184,6 +1219,8 @@ const PLANTS = [
       season: '四季皆可',
       light: '半日照 / 明亮散光 / 低光也活',
       location: '室內任何角落',
+      seasons: ['all'],
+      bestStartMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
     },
     sections: [
       {
@@ -1509,6 +1546,8 @@ const PLANTS = [
       season: '四季皆可(夏天最旺)',
       light: '散光 / 低光也活(忌強光直曬)',
       location: '室內明亮處 / 辦公桌 / 餐桌',
+      seasons: ['all'],
+      bestStartMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
     },
     sections: [
       {
@@ -1815,6 +1854,8 @@ const PLANTS = [
       season: '春播秋採 / 秋播春採(台灣避夏天)',
       light: '全日照(每天 6 小時以上,果實才會結)',
       location: '陽台戶外 / 頂樓',
+      seasons: ['spring', 'autumn'],
+      bestStartMonths: [2, 3, 4, 8, 9, 10],
     },
     sections: [
       {
@@ -2161,6 +2202,8 @@ const PLANTS = [
       season: '秋植(10–11 月種苗 → 12 月 – 隔年 4 月結果)',
       light: '全日照(果實才甜)',
       location: '陽台 / 頂樓(冬天日照好)',
+      seasons: ['autumn', 'winter'],
+      bestStartMonths: [9, 10, 11],
     },
     sections: [
       {
@@ -2477,6 +2520,8 @@ const PLANTS = [
       season: '春、夏、秋(冬天枯萎休眠)',
       light: '全日照(香氣才濃)',
       location: '陽台 / 戶外',
+      seasons: ['spring', 'summer', 'autumn'],
+      bestStartMonths: [3, 4, 5, 6, 7, 8, 9, 10],
     },
     sections: [
       {
@@ -2798,6 +2843,8 @@ const PLANTS = [
       season: '四季皆可,春秋最旺',
       light: '半日照 / 全日照',
       location: '陽台 / 戶外',
+      seasons: ['spring', 'autumn'],
+      bestStartMonths: [3, 4, 9, 10],
     },
     sections: [
       {
@@ -3123,6 +3170,8 @@ const PLANTS = [
       season: '秋、冬、春(夏天抽苔)',
       light: '半日照以上',
       location: '陽台 / 戶外',
+      seasons: ['autumn', 'winter', 'spring'],
+      bestStartMonths: [9, 10, 11, 12, 1, 2, 3],
     },
     sections: [
       {
@@ -3437,6 +3486,8 @@ const PLANTS = [
       season: '播種 10–2 月(清明後太熱休眠)',
       light: '半日照 / 明亮散光',
       location: '陽台 / 窗邊 / 戶外',
+      seasons: ['autumn', 'winter'],
+      bestStartMonths: [10, 11, 12, 1, 2],
     },
     sections: [
       {
@@ -3689,6 +3740,8 @@ const PLANTS = [
       season: '播種 10–2 月(夏天不發芽)',
       light: '半日照 / 全日照',
       location: '陽台 / 窗邊 / 戶外',
+      seasons: ['autumn', 'winter'],
+      bestStartMonths: [10, 11, 12, 1, 2],
     },
     sections: [
       {
@@ -3954,6 +4007,8 @@ const PLANTS = [
       season: '播種 10–1 月(平地);2–9 月僅高山適合',
       light: '半日照 / 全日照',
       location: '陽台 / 窗邊 / 戶外',
+      seasons: ['autumn', 'winter'],
+      bestStartMonths: [10, 11, 12, 1],
     },
     sections: [
       {
@@ -4224,6 +4279,8 @@ const PLANTS = [
       season: '四季皆可(春夏最旺)',
       light: '半日照 / 明亮散光(避免中午烈日)',
       location: '陽台 / 窗邊 / 戶外 / 廚房',
+      seasons: ['all'],
+      bestStartMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
     },
     sections: [
       {
@@ -4565,6 +4622,8 @@ const PLANTS = [
       season: '3–10 月(春播夏秋盛產)',
       light: '全日照(果實才會結)',
       location: '陽台戶外 / 頂樓 / 全日照窗邊',
+      seasons: ['spring', 'autumn'],
+      bestStartMonths: [3, 4, 8, 9],
     },
     sections: [
       {
@@ -4904,6 +4963,8 @@ const PLANTS = [
       season: '四季皆可,春秋最穩',
       light: '半日照 / 明亮散光 / 全日照皆可(品種差異)',
       location: '窗邊 / 陽台 / 辦公桌',
+      seasons: ['all'],
+      bestStartMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
     },
     sections: [
       {
@@ -5290,6 +5351,8 @@ const PLANTS = [
       season: '春分後(3/20)種塊 → 11–12 月採塊',
       light: '半日照 / 明亮散光',
       location: '陽台 / 戶外 / 室內明亮處',
+      seasons: ['spring'],
+      bestStartMonths: [3, 4],
     },
     sections: [
       {
@@ -5613,6 +5676,8 @@ const PLANTS = [
       season: '花期 9–11 月(寒露–立冬)',
       light: '半日照 / 全日照',
       location: '陽台 / 院子 / 頂樓',
+      seasons: ['spring', 'autumn'],
+      bestStartMonths: [3, 4, 9, 10],
     },
     sections: [
       {
@@ -5919,6 +5984,2954 @@ const PLANTS = [
       },
     ],
   },
+
+  // =========== 紫蘇(香草) ===========
+  {
+    id: 'shiso',
+    name: '紫蘇',
+    emoji: '🌿',
+    category: 'herb',
+    meta: {
+      difficulty: '低(播種新手友善)',
+      season: '播種 3–8 月,夏天盛產,秋末留種',
+      light: '半日照 / 全日照',
+      location: '陽台 / 窗邊 / 戶外',
+      seasons: ['spring', 'summer'],
+      bestStartMonths: [3, 4, 5, 6, 7, 8],
+    },
+    sections: [
+      {
+        id: 'why', emoji: '💡', heading: '為什麼值得種紫蘇',
+        html: `
+<ul>
+<li><strong>一種兩用</strong> — 紫葉(日式)和綠葉(韓式)口味不同,兩種都可食,選一種種,或兩種都買種子各一盆</li>
+<li><strong>廚房全才</strong> — 醃梅子、包烤肉、剁碎拌豆腐、揉碎泡茶,一盆就把日式 + 韓式 + 台式料理都覆蓋了</li>
+<li><strong>香氣極強</strong> — 手揉一片葉,整個陽台都是香的;比薄荷更厚重、更有層次,嗅覺刺激性強</li>
+<li><strong>每天都有理由互動</strong> — 夏天每 5–7 天採一次嫩葉,有人要吃就有人要去陽台,進而帶動澆水 ritual</li>
+<li><strong>秋末自動留種</strong> — 抽苔開花後種子自然落土,隔年春天往往自己長出來,不需重新買種</li>
+<li><strong>播種比扦插更穩</strong> — 直播土面,7–14 天發芽,不需枝條取得,任何季節只要月份對就能下手</li>
+</ul>`,
+      },
+      {
+        id: 'obtain', emoji: '🛒', heading: '取得方式',
+        html: `
+<div class="callout warn" style="margin-bottom:10px;">
+<h4>🗓️ Step 0 · 先看月曆再動手</h4>
+<p style="margin:0;"><strong>播種必須在 3–8 月。</strong> 發芽適溫 18–23°C,冬天(立冬 11/7 起)低溫紫蘇會凍死,新苗更是撐不住。如果現在是冬天,<strong>不要播種</strong> — 先備盆土、把種子買好放冰箱冷藏保存,等隔年 3 月驚蟄(3/5)前後再下手。4–5 月清明穀雨之間是台灣播種黃金期,溫度穩、發芽整齊。</p>
+</div>
+
+<div class="callout" style="background:#e8f5e9;border-left-color:var(--primary-dark);">
+<h4>📦 推薦的新手包 · 三步照順序來</h4>
+<ol style="margin:6px 0 4px;padding-left:22px;">
+<li><strong>先備盆與土(要比種子先到)</strong> — 花市買 <strong>20–25cm 圓盆或長方盆 + 疏鬆培養土</strong>(合計 NT$150–200);土填 8 分滿、先澆透讓土服貼,表面整平。</li>
+<li><strong>買種子</strong> — 蝦皮搜尋「<a href="https://shopee.tw/search?keyword=%E7%B4%AB%E8%98%87+%E7%A8%AE%E5%AD%90" target="_blank" rel="noopener" style="color:var(--primary-dark);font-weight:bold;">紫蘇 種子</a>」(1 包 NT$30–80,通常有幾百粒夠種整季);或花市直接買種子包,確認包裝有「紫葉紫蘇」或「青紫蘇/綠紫蘇」標示。</li>
+<li><strong>到手當天立刻撒種</strong> — 種子<strong>不覆土</strong>(光照有助發芽),直接撒土面、用手輕壓讓種子接觸土壤 → 輕噴水保持濕潤 → 放半日照以上的地方</li>
+</ol>
+<p style="margin:8px 0 0;font-size:14px;color:var(--muted);">⚠️ <strong>順序不能顛倒</strong>:種子到手後若盆土還沒備好,就先用濕紙巾包起來放冰箱冷藏(可撐 2–3 天)。總預算 <strong>NT$250 有找</strong>。</p>
+</div>
+
+<h4 style="color:var(--primary);margin:14px 0 6px;">其他取得管道</h4>
+<table>
+<thead><tr><th>管道</th><th>費用</th><th>優點</th><th>備註</th></tr></thead>
+<tbody>
+<tr><td>蝦皮種子包</td><td>NT$30–80</td><td>量多,一包種好幾盆</td><td>確認非過期種子</td></tr>
+<tr><td>花市種子包</td><td>NT$50–100</td><td>現場挑選,店員可問</td><td>農民市集也常有</td></tr>
+<tr><td>花市小苗</td><td>NT$40–80/盆</td><td>已發芽,入門最快</td><td>春季(4–5 月)花市常見</td></tr>
+<tr><td>朋友分株</td><td>免費</td><td>種過的人秋末有很多種子</td><td>秋末抽苔後可要種子</td></tr>
+</tbody>
+</table>
+
+<div class="callout warn" style="margin-top:12px;">
+<h4>🔴 紫葉 vs 綠葉,選哪個?</h4>
+<p style="margin:0 0 4px;"><strong>紫葉(日式紫蘇)</strong> — 顏色鮮豔、香氣更濃,醃梅子用這種,顏色也是失智感官刺激的亮點。</p>
+<p style="margin:0;"><strong>綠葉(青紫蘇/荏胡麻)</strong> — 口味較溫和,韓式料理包烤肉用這種,炒菜更百搭。</p>
+<p style="margin:4px 0 0;font-size:14px;color:var(--muted);"><em>第一次種推薦<strong>紫葉</strong> — 視覺效果好,照護應用更豐富(見「🧠 失智照護 Notes」)。</em></p>
+</div>`,
+      },
+      {
+        id: 'pot-soil', emoji: '🏺', heading: '盆器與土壤',
+        html: `
+<h4 style="color:var(--primary);">盆器</h4>
+<ul>
+<li>直徑 <strong>20 公分以上</strong>圓盆,或 40cm 以上長方盆</li>
+<li>紫蘇植株長大後直徑可達 50–70cm、高 60–90cm,盆子夠大才不會限制生長</li>
+<li>盆底<strong>必須有排水孔</strong> — 紫蘇喜水但怕積水,積水容易根腐</li>
+<li>多株密植時用大長方盆(植株間距 25–30cm)</li>
+</ul>
+
+<h4 style="color:var(--primary);margin-top:12px;">土壤</h4>
+<ul>
+<li>一般培養土即可,<strong>疏鬆排水良好</strong>是關鍵</li>
+<li>可混入 20% 珍珠石或粗砂,避免夏天澆水頻繁後板結</li>
+<li>紫蘇在弱酸性土壤(pH 5.5–6.5)生長最旺 — 一般培養土通常在這範圍,不需特別調整</li>
+<li>播種前把土壤澆透,表面整平 — 種子撒下去才能均勻貼合土面</li>
+</ul>
+<p style="font-size:14px;color:var(--muted);margin-top:10px;"><em>施肥細節獨立成下面的「🌾 施肥」section。</em></p>`,
+      },
+      {
+        id: 'steps', emoji: '🌳', heading: '種植步驟',
+        html: `
+<ol>
+<li><strong>選盆</strong> — 見上面「盆器與土壤」,土填 8 分滿、澆透整平</li>
+<li><strong>撒種子</strong> — 種子<strong>不覆土</strong>;薄薄一層撒土面,種子之間留 2–3cm 間距(太密之後要疏苗)</li>
+<li><strong>輕壓接觸</strong> — 用手掌輕輕壓讓種子與土壤接觸(不要深埋),幫助吸水發芽</li>
+<li><strong>噴水保濕</strong> — 用噴霧罐輕噴,讓土面保持微濕;❌ 不要大水沖(種子會被沖走)</li>
+<li><strong>放半日照以上位置</strong> — 陽台半日照 OK,全日照更好;❌ 室內光線不足發芽差</li>
+</ol>
+
+<div class="callout" style="margin-top:10px;">
+<h4>🌱 發芽期管理要點</h4>
+<ul style="margin:4px 0 0;padding-left:20px;">
+<li>每天早晚各噴一次水,保持表土微濕(不可讓表土乾掉,發芽期最脆弱)</li>
+<li>7–14 天出苗;若超過 14 天沒動靜,可能是種子太舊或溫度太低</li>
+<li>出苗後等幼苗長出 2–3 對本葉才疏苗(拔掉最弱的,每穴留 1 株),間距保持 20–25cm</li>
+</ul>
+</div>`,
+      },
+      {
+        id: 'timing', emoji: '📋', heading: '完整時程表 · 播種到採收',
+        html: `
+<p><strong>播種 → 發芽 → 施肥 → 採收 → 留種</strong>,一張表涵蓋整季。<strong>照做就對,不用猜植物狀態</strong>。</p>
+
+<div class="callout warn">
+<h4>⚠️ 開工前先看月曆 / 節氣:月份對,種什麼都贏</h4>
+<p style="margin:0 0 6px;">紫蘇<strong>喜溫暖、怕霜凍</strong>,發芽適溫 18–23°C,冬天播種幾乎不發芽甚至爛種。兩套都列:</p>
+<table style="margin-top:8px;">
+<thead><tr><th></th><th>月份</th><th>節氣</th><th>狀態</th></tr></thead>
+<tbody>
+<tr style="background:#f0f8ec;"><td>✅ 最佳</td><td><strong>4 – 5 月</strong></td><td><strong>清明(4/4)→ 小滿(5/21)</strong></td><td>溫度穩、發芽整齊,<strong>手冊所有時程以此為準</strong></td></tr>
+<tr><td>🟡 勉強</td><td>3 月 / 6–8 月</td><td>驚蟄(3/5) / 夏至(6/21)–立秋(8/7)</td><td>3 月偏冷發芽慢;夏天酷熱發芽不整齊但能種</td></tr>
+<tr style="background:#fdecec;"><td>❌ 絕對別播</td><td><strong>11 – 2 月</strong></td><td><strong>立冬(11/7)→ 雨水(2/19)</strong></td><td>溫度太低,種子爛在土裡</td></tr>
+</tbody>
+</table>
+<p style="margin:8px 0 0;font-size:14px;">俗話:<strong>「清明播紫蘇,立秋前夏天盛產」</strong>。如果現在是冬天,<strong>不要播種</strong> — 種子先放冰箱冷藏,等 3 月驚蟄後再下手。</p>
+<p style="margin:6px 0 0;font-size:13px;color:var(--muted);"><em>完整 24 節氣對照看 <a href="#" onclick="event.preventDefault();navigateTo('page-knowledge');return false;" style="color:var(--primary);">📚 通用園藝知識 → 📅 24 節氣</a>。</em></p>
+</div>
+
+<table>
+<thead><tr><th>天數</th><th>階段</th><th>植物狀態</th><th>你的動作</th></tr></thead>
+<tbody>
+<tr><td><strong>Day 1</strong></td><td>播種</td><td>種子撒土面</td><td>輕壓、噴水;❌ 不施肥</td></tr>
+<tr><td>Day 2–14</td><td>發芽期</td><td>種子膨脹、破殼冒芽</td><td>每天早晚噴水保濕表土;❌ 不施肥 — 嫩苗怕燒</td></tr>
+<tr><td>Day 7–14</td><td>出苗</td><td>子葉展開,1–2cm 高</td><td>繼續輕噴水,讓光照充足</td></tr>
+<tr><td>Day 14–30</td><td>幼苗期</td><td>長出 2–3 對本葉</td><td>疏苗(間距 20–25cm);改浸盆澆水或底部澆水</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 30 🌾</strong></td><td><strong>第一次施肥</strong></td><td>植株穩住,本葉 3–4 對</td><td>✅ 撒 <strong>5–8 粒</strong> 好康多 1 號(20cm 盆)+ 澆水</td></tr>
+<tr><td>Day 30–42</td><td>快速生長</td><td>葉片變大、香氣明顯</td><td>土面乾才澆;夏天可能每天澆</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 40–50 ✂️</strong></td><td><strong>首次可採葉</strong></td><td>葉片 8–10cm、株高 20cm+</td><td>✅ 採頂端嫩葉 2–4 片,保留 4–5 對葉,讓植株繼續長</td></tr>
+<tr><td>Day 50–120</td><td>盛產期(夏天)</td><td>每 5–7 天新葉冒出</td><td>✅ 每 5–7 天採一次嫩葉;見花苞就掐掉(讓葉片繼續旺)</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 120 🌾</strong></td><td><strong>第二次施肥</strong></td><td>採量開始下降</td><td>✅ 再撒 5–8 粒好康多 + 澆水</td></tr>
+<tr><td>Day 120+</td><td>秋末轉向留種</td><td>開始抽苔、開穗狀花</td><td>✅ <strong>轉為留種模式</strong>:停止採葉,讓花序結種子</td></tr>
+<tr style="background:#fdf5e6;"><td><strong>9–10 月 🌸</strong></td><td><strong>抽苔開花</strong></td><td>穗狀花序,紫紅色小花</td><td>❌ 停肥;等種莢變褐色才剪穗採種</td></tr>
+<tr><td>10–11 月 🌰</td><td>留種採種</td><td>種莢轉褐/黑</td><td>✅ 剪下花穗、倒置紙袋內乾燥 1 週,抖出種子 → 冰箱冷藏,等隔年 3 月</td></tr>
+<tr style="background:#fdf5e6;"><td><strong>11 月 – 2 月 ❄️</strong></td><td><strong>植株枯死</strong></td><td>葉片枯黃、植株老化</td><td>❌ 停肥;可清除殘株,盆土留著(可能有落種,隔年自己長)</td></tr>
+<tr><td>隔年 3–4 月 🌱</td><td>重新播種</td><td>新一輪開始</td><td>用冷藏的種子重新播;若去年落種,可能盆土自然冒苗</td></tr>
+</tbody>
+</table>
+
+<div class="callout" style="margin-top:12px;">
+<h4>📱 播種當天就要做的 3 件事</h4>
+<ol style="margin:4px 0 0;padding-left:22px;">
+<li>Google 行事曆設提醒:<strong>今日 + 30 天</strong>「撒 5–8 粒好康多、澆水」</li>
+<li>Google 行事曆設提醒:<strong>今日 + 120 天</strong>「轉留種模式,停採葉」</li>
+<li>便利貼寫播種日貼盆邊 — 讓眼睛看得到「這盆是哪天種的」</li>
+</ol>
+<p style="margin:6px 0 0;font-size:14px;"><strong>整季的決定當天做完,腦袋騰出來做別的事</strong>。</p>
+</div>
+
+<p style="font-size:14px;color:var(--muted);margin-top:10px;"><em>施肥細節(不同盆大小、哪裡買)看下方「🌾 施肥」section;採收技巧看「✂️ 採收」section。</em></p>`,
+      },
+      {
+        id: 'fertilizer', emoji: '🌾', heading: '施肥',
+        html: `
+<p><strong>本 handbook 預設固體緩釋肥,不推液肥給新手</strong> — 不用稀釋、不用算濃度、撒一次吃 3 個月、難燒根。</p>
+<p style="font-size:14px;color:var(--muted);margin-top:4px;"><em>施肥時機(Day 30 / Day 120)已統整在上面「📋 完整時程表」,這個 section 專講 <strong>用多少 · 用哪款 · 怎麼撒</strong>。</em></p>
+
+<div class="callout">
+<h4>📐 不同盆大小 · 速查(好康多 1 號)</h4>
+<table style="margin-top:6px;">
+<thead><tr><th>盆</th><th>顆數</th></tr></thead>
+<tbody>
+<tr><td>3 吋圓盆(Ø9cm)</td><td><strong>3 粒</strong></td></tr>
+<tr><td>5 吋圓盆(Ø15cm)</td><td><strong>5 粒</strong></td></tr>
+<tr><td>7 吋圓盆(Ø21cm)</td><td><strong>8 粒</strong></td></tr>
+<tr><td><strong>長方盆 50×20cm</strong></td><td><strong>15 粒</strong></td></tr>
+<tr><td>大陽台盆槽 60cm+</td><td><strong>18–20 粒</strong></td></tr>
+</tbody>
+</table>
+<p style="margin:8px 0 0;font-size:14px;"><strong>原則</strong>:寧可比這個少,不可比這個多(<a href="https://blog.igarden.com.tw/2013/01/hicontrol-fertilizer.html" target="_blank" rel="noopener" style="color:var(--primary);">iGarden 園藝文摘官方指南</a>)。</p>
+</div>
+
+<h4 style="color:var(--primary);margin-top:14px;">🛒 買哪一款</h4>
+<ul>
+<li><strong>好康多 1 號</strong>(NPK 14-11-13)— 萬用款,葉菜/香草/觀葉都適用</li>
+<li>350g 小包約 NT$100,一包吃兩盆好幾年</li>
+<li>全聯園藝區、花市、iGarden 網購都有</li>
+<li>替代品:魔肥、奧綠肥(類似的緩釋顆粒肥都 OK)</li>
+</ul>
+
+<div class="callout warn">
+<h4>📱 記憶外包 — 播種當天把整季施肥做完</h4>
+<p style="margin:0 0 6px;">不要依賴記憶、不要依賴觀察植物。播種當天就打開 Google 行事曆設提醒:</p>
+<ul style="margin:0;padding-left:20px;">
+<li>播種日 + 30 天 → 「撒 5–8 粒好康多(澆水)」</li>
+<li>播種日 + 120 天 → 「再撒一次,或轉留種模式停施肥」</li>
+</ul>
+<p style="margin:8px 0 0;font-size:14px;"><strong>整季決定一次做完</strong>。這是照護者 handbook 的核心哲學 — 決定外包到行事曆/便利貼,不是記在腦裡。</p>
+</div>
+
+<details style="margin-top:14px;border:1px solid var(--border);border-radius:8px;padding:10px 14px;">
+<summary style="cursor:pointer;color:var(--primary-dark);font-weight:bold;">⚠️ 出事才看:一眼判斷 3 條(日常不用觀察)</summary>
+<div style="padding:10px 0 0;">
+<p style="font-size:14px;margin-bottom:8px;">照 SOP 做,理論上不會出事。如果感覺不對,這 3 條當下一眼就能分:</p>
+<table>
+<thead><tr><th>看到什麼</th><th>是什麼</th><th>立刻做</th></tr></thead>
+<tbody>
+<tr><td>土表<strong>白色結晶</strong></td><td>過肥 / 鹽積</td><td>停肥,大量清水沖盆 3 次</td></tr>
+<tr><td>整株葉色<strong>淡綠</strong>(該是深紫/深綠)</td><td>缺肥或光線不足</td><td>先移到更亮的地方;再評估補肥</td></tr>
+<tr><td>葉緣<strong>焦黃捲曲</strong></td><td>過肥 / 燒根 / 太陽過強</td><td>停肥,移到半日照;澆清水沖</td></tr>
+</tbody>
+</table>
+</div>
+</details>
+
+<details style="margin-top:10px;border:1px solid var(--border);border-radius:8px;padding:10px 14px;">
+<summary style="cursor:pointer;color:var(--muted);font-size:14px;">🧪 進階:想用液肥的路線(不建議新手)</summary>
+<div style="padding:10px 0 0;font-size:14px;">
+<p>如果家裡已經有液肥、或想追求更猛的葉色:</p>
+<ul>
+<li><strong>花寶 1 號</strong>(NPK 20-20-20),包裝稀釋比<strong>再減半</strong>(防燒)</li>
+<li>每 10–14 天一次,澆根部不澆葉面</li>
+<li>早晚施,不在中午大太陽下施</li>
+<li>施完澆一次清水沖殘留</li>
+</ul>
+<p style="margin-top:6px;"><strong>液肥效果快但誤差大;固體肥慢但難出錯</strong>。handbook 主推固體。</p>
+</div>
+</details>
+
+<p style="font-size:13px;color:var(--muted);margin-top:14px;">通用施肥原則(缺肥 vs 過肥對照、NPK 速查)看 <a href="#" onclick="event.preventDefault();navigateTo('page-knowledge');return false;" style="color:var(--primary);font-weight:bold;">📚 通用園藝知識 → 🌾 施肥</a>。</p>`,
+      },
+      {
+        id: 'harvest', emoji: '✂️', heading: '採收與料理',
+        html: `
+<h4 style="color:var(--primary);">採收方式</h4>
+<ul>
+<li>採<strong>頂端嫩葉 2–4 片</strong>,保留下方 4–5 對葉讓植株繼續長</li>
+<li>每次採後 5–7 天又長出新嫩葉 — 盛夏時幾乎無限採</li>
+<li><strong>見花苞就掐掉</strong>:一旦開花葉片會變小、香氣下降。不打算留種的話,把花序掐掉讓植株繼續產葉</li>
+<li>採後放陰涼處、或泡冷水保鮮,1–2 天內用完風味最佳</li>
+</ul>
+
+<h4 style="color:var(--primary);margin-top:14px;">台灣家庭常見用途</h4>
+<table>
+<thead><tr><th>用途</th><th>說明</th></tr></thead>
+<tbody>
+<tr><td><strong>醃紫蘇梅</strong></td><td>每年 5–6 月青梅季,紫葉紫蘇醃梅子,梅子轉紅後香氣濃郁;台灣信義鄉、南投農家的傳統做法</td></tr>
+<tr><td><strong>包烤肉/生魚片</strong></td><td>整片葉當包菜(韓燒用法),或剪絲撒生魚片上去腥增香</td></tr>
+<tr><td><strong>紫蘇飲料</strong></td><td>葉片加薑、糖、檸檬汁煮成夏日消暑飲;或直接泡冷水成香草水</td></tr>
+<tr><td><strong>拌豆腐 / 涼拌</strong></td><td>切碎拌涼豆腐,淋醬油麻油,夏天快速料理</td></tr>
+<tr><td><strong>醬漬紫蘇</strong></td><td>葉片醬油浸漬 1–2 天,拌飯下粥都好吃(日式腌菜做法)</td></tr>
+</tbody>
+</table>
+
+<div class="callout" style="margin-top:12px;">
+<h4>🌰 秋末留種 SOP</h4>
+<ol style="margin:4px 0 0;padding-left:22px;">
+<li>抽苔後<strong>停止採葉</strong>,讓花序長完、結種莢</li>
+<li>種莢從綠轉褐色、變硬時就可以剪(別等太久,熟透種子會自己落土)</li>
+<li>剪下整條花穗,倒扣放進紙袋,室溫乾燥 7–10 天</li>
+<li>輕搓花穗讓種子落袋,挑掉雜質 → 放進小夾鏈袋標上日期 → 冰箱冷藏(可保存 1 年)</li>
+</ol>
+</div>`,
+      },
+      {
+        id: 'troubleshoot', emoji: '🛡', heading: '失敗點與除錯',
+        html: `
+<table>
+<thead><tr><th>症狀</th><th>可能原因</th><th>對策</th></tr></thead>
+<tbody>
+<tr><td>播種 14 天沒出苗</td><td>種子過舊 / 溫度太低 / 表土乾掉</td><td>確認月份對(3–8 月);重播新種子;每天噴水保濕表土</td></tr>
+<tr><td>幼苗徒長(細長倒伏)</td><td>光線不足</td><td>移到更亮的地方;避免室內窗旁光線太弱</td></tr>
+<tr><td>葉片顏色褪淡、不夠紫</td><td>光線不足或缺肥</td><td>移到全日照;確認已在 Day 30 施肥</td></tr>
+<tr><td>葉片有蟲洞</td><td>葉蟬 / 夜蛾幼蟲</td><td>早晚翻葉背手抓;嚴重時皂液噴霧(食用葉記得採前洗淨)</td></tr>
+<tr><td>植株突然開花葉變小</td><td>日照變短(秋季)觸發開花</td><td>自然現象;決定採種就讓它開,不採種就掐花苞讓葉繼續長</td></tr>
+<tr><td>澆水後葉片萎軟</td><td>積水爛根</td><td>檢查盆底排水孔是否堵塞;換排水好的土</td></tr>
+<tr><td>夏天葉緣焦邊</td><td>中午烈日直曬</td><td>移到半日照位置或加遮陽(上午曬、下午遮)</td></tr>
+</tbody>
+</table>`,
+      },
+      {
+        id: 'dementia', emoji: '🧠', heading: '失智照護應用 Notes',
+        byLevel: {
+          mild: `
+<div class="callout">
+<h4>📍 輕度:讓她主導醃梅子這件事</h4>
+<p style="margin:0;">她還能理解指令、執行多步驟動作。紫蘇最特別的價值:醃梅子是台灣家庭女主人的記憶,讓她主導這件事能喚起「我還是那個會做醃梅的人」的自我感。</p>
+</div>
+<ul>
+<li><strong>每年 5–6 月青梅季,讓她決定</strong> — 「今年要不要醃梅子?」這個問題會自動帶出記憶和主導感</li>
+<li>採葉動作她能完全獨立完成:你只需要說「幫我去採幾片紫蘇」</li>
+<li>剪葉、疊葉、加鹽搓揉(去汁)這些動作跟她以前做料理的動作同類型,容易上手</li>
+<li><strong>盆栽放廚房窗邊或陽台入口</strong>:每天進出都看得到,自然形成 check 植物的習慣</li>
+<li>讓她決定「今天採幾片」,不要替她做決定</li>
+</ul>
+<p>這個階段的價值:<strong>紫蘇的香氣和醃梅的記憶,是「我還是那個媽媽」的身份確認</strong>。</p>`,
+          moderate: `
+<div class="callout">
+<h4>📍 中度:香氣先行,動作跟上</h4>
+<p style="margin:0;">她的多步驟能力下降,但嗅覺和情感記憶通常比語言記憶更耐久。紫蘇特殊的香氣 — 紫蘇醛的濃郁薄荷感 — 往往能喚起情緒記憶,即使她說不出「這是什麼」。</p>
+</div>
+<ul>
+<li><strong>先讓她聞</strong>:採一片葉在她面前揉碎,讓香氣擴散 — 不要急著說「這是紫蘇」,讓她自己反應</li>
+<li>如果她說「這個味道...」就跟上:「對,以前你都用這個醃梅子」— 不用糾正記憶,跟著走就好</li>
+<li>採葉動作簡化成<strong>單一指令</strong>:「幫我摘一片」而不是「去採幾片回來放碗裡」</li>
+<li><strong>紫色葉片視覺刺激</strong>:顏色比一般綠色植物更搶眼,即使她不記得植物名稱也會注意到</li>
+<li>盆栽放在她日常動線顯眼處,讓視覺自然觸發接近動作</li>
+</ul>
+<p>這個階段的價值:<strong>香氣記憶比語言記憶更耐久,紫蘇的氣味是喚起「以前的她」最有效的鑰匙之一</strong>。</p>`,
+          severe: `
+<div class="callout">
+<h4>📍 重度:感官在,動作不強求</h4>
+<p style="margin:0;">語言溝通困難,自主動作受限。但嗅覺、觸覺、視覺的感官刺激仍然有效,甚至是這個階段最可靠的溝通管道。</p>
+</div>
+<ul>
+<li>帶她坐在盆旁,<strong>摘一片葉放她手心</strong>,讓她握著 — 不要求她做任何事,就這樣</li>
+<li>你揉碎葉片湊近讓她聞 — 觀察臉部表情變化;有時候她說不出話但表情會變柔和</li>
+<li><strong>紫色葉片</strong>:和一般綠色植物不同,顏色對比強,視覺上有吸引力,眼神會跟著轉過去</li>
+<li>每天同一時段、同一位置的 ritual — 節奏感和空間固定比「她能做什麼動作」更重要</li>
+<li>如果她還能握住葉子就讓她握;如果她會把葉子放嘴裡就全程陪同(紫蘇可食,但監督安全)</li>
+</ul>
+<p>這個階段的價值:<strong>她不需要「做」,她需要那個熟悉的香氣和顏色在旁邊。紫蘇的氣味比任何語言都更能讓她感到安心</strong>。</p>`,
+        },
+      },
+      {
+        id: 'log', emoji: '📓', heading: '實測紀錄',
+        html: `
+<div class="callout warn">
+<p style="margin:0;"><strong>尚未實測</strong> — entry 建立於 2026-04-23,預計 4 月下旬播種。</p>
+</div>
+
+<p style="margin-top:12px;">計畫:</p>
+<ul>
+<li><strong>2026 年 4 月底</strong> — 購入紫葉紫蘇種子,在 6 樓陽台播種,與地瓜葉盆栽並列</li>
+<li><strong>發芽後</strong> — 記錄發芽天數、幼苗顏色(紫化程度)、疏苗後存活率</li>
+<li><strong>6–7 月</strong> — 測試醬漬紫蘇葉(醬油浸漬)食用體驗,記錄香氣對家人反應</li>
+<li><strong>2026 年青梅季</strong> — 嘗試用自種紫蘇醃梅子,記錄媽媽的反應與互動</li>
+</ul>
+<p style="color:var(--muted);font-size:14px;margin-top:8px;"><em>實測結果會補進這個 section。</em></p>`,
+      },
+    ],
+  },
+
+  // =========== 香菜(香草) ===========
+  {
+    id: 'cilantro',
+    name: '香菜',
+    emoji: '🌿',
+    category: 'herb',
+    meta: {
+      difficulty: '中(催芽有訣竅)',
+      season: '秋冬播種 10–2 月(高溫會抽苔變苦)',
+      light: '半日照(忌夏日烈陽)',
+      location: '陽台 / 窗邊 / 戶外(秋冬)',
+      seasons: ['autumn', 'winter'],
+      bestStartMonths: [10, 11, 12, 1, 2],
+    },
+    sections: [
+      {
+        id: 'why', emoji: '💡', heading: '為什麼值得在家種香菜',
+        html: `
+<ul>
+<li><strong>台灣家常必備香草</strong> — 湯麵、煎餃、滷肉飯、薑母鴨都要它;超市一把 NT$15–25,但自採永遠比買的鮮</li>
+<li><strong>嗅覺記憶最強的植物之一</strong> — 香菜腺體的香氣極具穿透力,是對失智長輩嗅覺刺激效果最好的廚用香草之一</li>
+<li><strong>盆子不用大</strong> — 一個 20cm 圓盆或 2 尺長方盆就夠一家人採 2–3 輪,窗邊就能種</li>
+<li><strong>採收週期短</strong> — 播種後 40–50 天首採,秋冬持續採 2–3 輪不斷</li>
+<li><strong>動作豐富</strong> — 搓種子催芽、播種、疏苗、採葉、洗葉,每個動作都可以讓長輩參與</li>
+<li><strong>一次播一批,整個冬季吃</strong> — 不像夏季菜兩週就結束,秋冬氣候穩,採收期拉長</li>
+</ul>`,
+      },
+      {
+        id: 'obtain', emoji: '🛒', heading: '取得方式',
+        html: `
+<div class="callout warn" style="margin-bottom:10px;">
+<h4>🗓️ Step 0 · 先看月曆再動手</h4>
+<p style="margin:0;"><strong>播種視窗:10 月 – 隔年 2 月(寒露到雨水)</strong>。香菜性喜冷涼,最適生長溫度 15–22°C。春天播種看起來發芽了,但一到 4–5 月氣溫回升就會<strong>迅速抽苔開花,葉子變苦變少</strong>。夏天(6–9 月)幾乎沒辦法種 — 30°C 以上發芽率低、苗細弱、隨時抽苔。<strong>現在如果是 3 月以後,等到寒露(10 月上旬)再下手</strong>,等待期間先備好盆土和種子。</p>
+</div>
+
+<div class="callout" style="background:#e8f5e9;border-left-color:var(--primary-dark);">
+<h4>📦 推薦的新手包 · 三步照順序來</h4>
+<ol style="margin:6px 0 4px;padding-left:22px;">
+<li><strong>先備盆與土(這一步要比種子先到)</strong> — 花市或網購 <strong>20–25cm 圓盆或 2 尺長方盆 + 一般蔬菜培養土</strong>(合計 NT$150–200);土填 8 分滿、澆透、讓土面稍乾再播種。</li>
+<li><strong>買香菜種子(芫荽種子)</strong> — 蝦皮搜尋「<a href="https://shopee.tw/search?keyword=%E8%8A%AB%E8%8D%BD+%E7%A8%AE%E5%AD%90" target="_blank" rel="noopener" style="color:var(--primary-dark);font-weight:bold;">芫荽 種子</a>」或花市、農會超市、種苗行(一包 NT$30–60,可播 2–3 盆)</li>
+<li><strong>播種前一天催芽</strong> — 種子浸水 24 小時 + 手指搓破硬殼(見下方步驟)→ 隔天濾乾再播;不催芽的話發芽率和速度都差很多</li>
+</ol>
+<p style="margin:8px 0 0;font-size:14px;color:var(--muted);">⚠️ <strong>月份要對</strong>:種子很便宜,但播錯季節白等一個月然後失敗。總預算 <strong>NT$250 有找</strong>。</p>
+</div>
+
+<h4 style="color:var(--primary);margin:14px 0 6px;">其他取得管道</h4>
+<table>
+<thead><tr><th>管道</th><th>費用</th><th>優點</th><th>備註</th></tr></thead>
+<tbody>
+<tr><td>蝦皮/露天網購種子</td><td>NT$30–60</td><td>品種選擇多、量夠</td><td>搜尋「芫荽種子」或「香菜種子」</td></tr>
+<tr><td>花市種苗行</td><td>NT$30–50</td><td>可現場問店家品種建議</td><td>秋冬才有新批種子</td></tr>
+<tr><td>農會超市 / 種苗農藥行</td><td>NT$25–50</td><td>台灣品種,適應本地氣候</td><td>產區彰化、雲林常有在地包</td></tr>
+<tr><td>超市買整把香菜</td><td>NT$15–25</td><td>吃菜順便留種子</td><td>成熟種子才能播;台灣超市賣的常未熟,發芽率低</td></tr>
+</tbody>
+</table>
+
+<div class="callout warn" style="margin-top:12px;">
+<h4>⚠️ 超市香菜留種子:成功率低</h4>
+<p style="margin:0;">超市買來的香菜束通常是嫩株,種子未熟。能播的要帶有褐色成熟種球(雙懸果),綠色嫩果發芽率極低。想自己留種,等自家盆栽開花結果後採熟透的再用。</p>
+</div>`,
+      },
+      {
+        id: 'pot-soil', emoji: '🏺', heading: '盆器與土壤',
+        html: `
+<h4 style="color:var(--primary);">盆器</h4>
+<ul>
+<li>深度 <strong>15 公分以上</strong>即可(香菜根系不深)</li>
+<li>寬度:圓盆 <strong>20–25cm</strong> 或 <strong>2 尺長方盆(約 60×20cm)</strong></li>
+<li>盆底<strong>必須有排水孔</strong>;香菜怕積水,積水 3 天就爛根</li>
+<li>可播較密,疏苗留間距 5–8cm/株</li>
+</ul>
+
+<h4 style="color:var(--primary);margin-top:12px;">土壤</h4>
+<ul>
+<li><strong>一般蔬菜培養土即可</strong>(帶有機質,排水適中)</li>
+<li>不需要特別鬆、也不需要重黏土;一般花市培養土不加改良直接用</li>
+<li>如果土偏黏,可混入少量粗砂或珍珠石讓排水更好</li>
+<li>播種前把土面耙平、壓稍實,撒種子比較均勻</li>
+</ul>
+<p style="font-size:14px;color:var(--muted);margin-top:10px;"><em>施肥細節獨立成下面的「🌾 施肥」section。</em></p>`,
+      },
+      {
+        id: 'steps', emoji: '🌳', heading: '種植步驟',
+        html: `
+<div class="callout" style="background:#e8f5e9;border-left-color:var(--primary-dark);margin-bottom:12px;">
+<h4>🔑 香菜最關鍵的一步:催芽</h4>
+<p style="margin:0 0 6px;">香菜種子學名叫「雙懸果」— 外殼是一個硬殼裡包兩粒種子。這個硬殼<strong>不搓破,兩粒都很難發芽</strong>;就算發芽也慢(2–3 週起跳)。催芽有兩個動作缺一不可:</p>
+<ol style="margin:4px 0 0;padding-left:22px;">
+<li><strong>浸水 24 小時</strong> — 讓硬殼充分吸水軟化</li>
+<li><strong>搓破或輕壓裂硬殼</strong> — 手指搓、掌心輕壓、或兩個碗底對夾輕搓;不用搓到粉碎,有裂縫就好</li>
+</ol>
+<p style="margin:8px 0 0;font-size:14px;">催芽後發芽時間縮短到 <strong>7–10 天</strong>(未催芽要 14–21 天,且許多根本不發)。這一步是香菜成敗的分水嶺。</p>
+</div>
+
+<ol>
+<li><strong>前一天催芽</strong> — 種子放碗裡加清水浸 24 小時;撈出後用手指搓、讓外殼有裂縫;濾乾備用</li>
+<li><strong>準備盆土</strong> — 土填 8 分滿、表面耙平稍壓實</li>
+<li><strong>撒播種子</strong> — 均勻撒在土面,盡量不要堆疊;每顆間距大約 2–3 公分</li>
+<li><strong>覆土 0.5–1 公分</strong> — 不要蓋太深(超過 1.5cm 發芽率下降)</li>
+<li><strong>輕澆水</strong> — 用細孔澆花壺輕澆,避免種子被沖走;澆到土面濕透、盆底剛好有水出為止</li>
+<li><strong>放在半日照、通風處</strong> — 避免全天強日照;氣溫 15–22°C 最理想</li>
+<li><strong>保濕等芽</strong> — 發芽前每天確認土面是否乾燥,稍乾就噴霧補水;7–10 天見芽</li>
+<li><strong>疏苗</strong> — 苗長到 5cm 高後,疏苗留間距 5–8cm/株,拔掉的小苗可直接吃(撒在湯上)</li>
+</ol>`,
+      },
+      {
+        id: 'timing', emoji: '📋', heading: '完整時程表 · 播種到採收',
+        html: `
+<p><strong>播種 → 催芽 → 發芽 → 施肥 → 採收 → 抽苔警報</strong>,一張表涵蓋整個秋冬季。<strong>照做就對,不用觀察植物狀態</strong>。</p>
+
+<div class="callout warn">
+<h4>⚠️ 開工前先看月曆 / 節氣:挑對時間,不然種了白種</h4>
+<p style="margin:0 0 6px;">香菜<strong>喜冷涼怕高溫</strong>,超過 25°C 生長遲緩、超過 30°C 迅速抽苔,葉子變苦、不能吃。<strong>節氣比月份準</strong>,兩套都列:</p>
+<table style="margin-top:8px;">
+<thead><tr><th></th><th>月份</th><th>節氣</th><th>狀態</th></tr></thead>
+<tbody>
+<tr style="background:#f0f8ec;"><td>✅ 最佳</td><td><strong>10 – 2 月</strong></td><td><strong>寒露(10/8)→ 雨水(2/19)</strong></td><td>氣溫穩 15–22°C,<strong>手冊所有時程以此為準</strong></td></tr>
+<tr><td>🟡 勉強</td><td>9 月 / 3 月</td><td>白露(9/8) / 驚蟄(3/5)</td><td>邊緣期;9 月午間仍熱,3 月開始升溫,採收期短</td></tr>
+<tr style="background:#fdecec;"><td>❌ 絕對別播</td><td><strong>4 – 8 月</strong></td><td><strong>清明(4/4)→ 處暑(8/23)</strong></td><td>高溫抽苔;就算發芽,採不到幾次就開花變苦</td></tr>
+</tbody>
+</table>
+<p style="margin:8px 0 0;font-size:14px;">俗話:<strong>「寒露播,冬至吃,雨水前採完」</strong>。如果現在是春夏,<strong>不要播</strong> — 先備盆土和種子,等寒露(10 月上旬)再下手。</p>
+<p style="margin:6px 0 0;font-size:13px;color:var(--muted);"><em>完整 24 節氣對照看 <a href="#" onclick="event.preventDefault();navigateTo('page-knowledge');return false;" style="color:var(--primary);">📚 通用園藝知識 → 📅 24 節氣</a>。</em></p>
+</div>
+
+<table>
+<thead><tr><th>天數</th><th>階段</th><th>植物狀態</th><th>你的動作</th></tr></thead>
+<tbody>
+<tr><td><strong>Day 0(前一天)</strong></td><td>催芽準備</td><td>種子浸水</td><td>種子泡水 24 小時 + 搓破硬殼;❌ 不要跳過這步</td></tr>
+<tr><td><strong>Day 1</strong></td><td>播種</td><td>種子入土</td><td>均勻撒播 → 覆土 0.5–1cm → 細孔澆透;❌ 不施肥</td></tr>
+<tr><td>Day 2–7</td><td>等芽</td><td>土面安靜</td><td>每天確認土面濕度,稍乾就噴霧;不要挖開看</td></tr>
+<tr><td>Day 7–10</td><td>發芽</td><td>子葉出土,白色弓形小芽</td><td>繼續保濕;見芽後可移到稍有日照的位置</td></tr>
+<tr><td>Day 10–20</td><td>幼苗期</td><td>子葉展開,第一片真葉出現</td><td>苗長到 3cm 可開始疏苗;疏下的苗可吃</td></tr>
+<tr><td>Day 15–25</td><td>疏苗</td><td>苗 5cm 高,葉片擠在一起</td><td>疏苗留間距 5–8cm/株;拔掉小苗可撒湯</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 30 🌾</strong></td><td><strong>第一次施肥</strong></td><td>苗穩住,葉片層次感出現</td><td>✅ 撒 <strong>5 粒</strong> 好康多 1 號(20cm 圓盆)+ 澆水</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 40–50 ✂️</strong><br><em style="font-weight:normal;font-size:12px;">(第 6–7 週)</em></td><td><strong>首次採收</strong></td><td>株高 20cm+,葉片茂密</td><td>✅ 從外側剪取嫩葉,留中心生長點讓它再發;或整株割到距土面 3cm 留樁</td></tr>
+<tr><td>Day 50–80</td><td>第二、三輪採收</td><td>越採越旺(冬季氣溫穩)</td><td>✅ 每 2–3 週可再採一輪</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 60 🌾</strong></td><td><strong>第二次施肥</strong></td><td>採後恢復生長中</td><td>✅ 再撒 <strong>5 粒</strong> 好康多</td></tr>
+<tr style="background:#fdf5e6;"><td><strong>3 月後 ⚠️</strong></td><td><strong>抽苔警報期</strong></td><td>出現細長花莖、葉片變小</td><td>立刻大量採收;抽苔後葉子變苦不好吃,但花可留觀賞</td></tr>
+<tr><td>3–4 月</td><td>開花結種</td><td>白色小花、後結種球</td><td>可留種球待熟(褐色)採下,秋天再用</td></tr>
+</tbody>
+</table>
+
+<div class="callout" style="margin-top:12px;">
+<h4>📱 播種當天就要做的 3 件事</h4>
+<ol style="margin:4px 0 0;padding-left:22px;">
+<li>Google 行事曆設提醒:<strong>今日 + 30 天</strong>「撒 5 粒好康多」、<strong>今日 + 60 天</strong>「再撒 5 粒」</li>
+<li>便利貼寫播種日期貼盆邊 — 讓眼睛看得到「這盆種多久了」</li>
+<li>明年 9 月設一個提醒「買香菜種子、備盆土,寒露播」— 讓秋冬每年都有得吃</li>
+</ol>
+<p style="margin:6px 0 0;font-size:14px;"><strong>一季的決定當天做完,腦袋騰出來陪家人。</strong></p>
+</div>
+
+<p style="font-size:14px;color:var(--muted);margin-top:10px;"><em>施肥細節、採收技巧,看下方「🌾 施肥」、「✂️ 採收」section。</em></p>`,
+      },
+      {
+        id: 'fertilizer', emoji: '🌾', heading: '施肥',
+        html: `
+<p><strong>本 handbook 預設固體緩釋肥,不推液肥給新手</strong> — 不用稀釋、不用算濃度、撒一次吃 3 個月、難燒根。</p>
+<p style="font-size:14px;color:var(--muted);margin-top:4px;"><em>施肥時機(Day 30 / Day 60)已統整在上面「📋 完整時程表」,這個 section 專講 <strong>用多少 · 用哪款 · 怎麼撒</strong>。</em></p>
+
+<div class="callout">
+<h4>📐 不同盆大小 · 速查(好康多 1 號)</h4>
+<table style="margin-top:6px;">
+<thead><tr><th>盆</th><th>顆數</th></tr></thead>
+<tbody>
+<tr><td>3 吋圓盆(Ø9cm)</td><td><strong>3 粒</strong></td></tr>
+<tr><td>5 吋圓盆(Ø15cm)</td><td><strong>5 粒</strong></td></tr>
+<tr><td>7 吋圓盆(Ø21cm)</td><td><strong>8 粒</strong></td></tr>
+<tr><td><strong>2 尺長方盆(60×20cm)</strong></td><td><strong>15 粒</strong></td></tr>
+</tbody>
+</table>
+<p style="margin:8px 0 0;font-size:14px;"><strong>原則</strong>:寧可比這個少,不可比這個多(<a href="https://blog.igarden.com.tw/2013/01/hicontrol-fertilizer.html" target="_blank" rel="noopener" style="color:var(--primary);">iGarden 園藝文摘官方指南</a>)。香菜是一年生短期蔬菜,不用大肥 — 夠用就好。</p>
+</div>
+
+<h4 style="color:var(--primary);margin-top:14px;">🛒 買哪一款</h4>
+<ul>
+<li><strong>好康多 1 號</strong>(NPK 14-11-13) — 萬用款,葉菜 / 香草都適用</li>
+<li>350g 小包約 NT$100,一包可用好幾季</li>
+<li>全聯園藝區、花市、iGarden 網購都有</li>
+<li>替代品:魔肥、奧綠肥(類似緩釋顆粒都 OK)</li>
+</ul>
+
+<div class="callout warn">
+<h4>📱 記憶外包 — 播種當天把整季施肥做完</h4>
+<p style="margin:0 0 6px;">不要依賴記憶,也不要等到「感覺植物缺肥」才施。播種當天打開行事曆設兩個提醒:</p>
+<ul style="margin:0;padding-left:20px;">
+<li>播種日 + 30 天 → 「撒 5 粒好康多(20cm 圓盆)、澆水」</li>
+<li>播種日 + 60 天 → 「再撒 5 粒」</li>
+</ul>
+<p style="margin:8px 0 0;font-size:14px;">整季決定一次做完。這是照護者 handbook 的核心哲學 — 決定外包到行事曆 / 便利貼 / 物理空間,不是記在腦裡。</p>
+</div>
+
+<details style="margin-top:14px;border:1px solid var(--border);border-radius:8px;padding:10px 14px;">
+<summary style="cursor:pointer;color:var(--primary-dark);font-weight:bold;">⚠️ 出事才看:一眼判斷 3 條(日常不用觀察)</summary>
+<div style="padding:10px 0 0;">
+<p style="font-size:14px;margin-bottom:8px;">照 SOP 做,理論上不會出事。感覺不對時這 3 條一眼分:</p>
+<table>
+<thead><tr><th>看到什麼</th><th>是什麼</th><th>立刻做</th></tr></thead>
+<tbody>
+<tr><td>土表<strong>白色結晶</strong></td><td>過肥 / 鹽積</td><td>停肥,大量清水沖盆 3 次</td></tr>
+<tr><td>整株葉色<strong>淡黃</strong></td><td>缺肥 / 缺光</td><td>確認日照;缺肥再撒 3 粒</td></tr>
+<tr><td>葉緣<strong>焦黃捲曲</strong></td><td>過肥 / 燒根</td><td>停肥,澆清水沖</td></tr>
+</tbody>
+</table>
+</div>
+</details>
+
+<details style="margin-top:10px;border:1px solid var(--border);border-radius:8px;padding:10px 14px;">
+<summary style="cursor:pointer;color:var(--muted);font-size:14px;">🧪 進階:想用液肥的路線(不建議新手)</summary>
+<div style="padding:10px 0 0;font-size:14px;">
+<p>如果家裡已有液肥、或想追求更茂密生長:</p>
+<ul>
+<li><strong>花寶 1 號</strong>(NPK 20-20-20),包裝稀釋比<strong>再減半</strong>(防燒)</li>
+<li>每 10–14 天一次,澆根部不澆葉面</li>
+<li>早晚施,不在中午施</li>
+<li>施完澆一次清水沖殘留</li>
+</ul>
+<p style="margin-top:6px;"><strong>液肥效果快但誤差大;固體肥慢但難出錯</strong>。handbook 主推固體。</p>
+</div>
+</details>
+
+<p style="font-size:13px;color:var(--muted);margin-top:14px;">通用施肥原則(缺肥 vs 過肥對照、NPK 速查)看 <a href="#" onclick="event.preventDefault();navigateTo('page-knowledge');return false;" style="color:var(--primary);font-weight:bold;">📚 通用園藝知識 → 🌾 施肥</a>。</p>`,
+      },
+      {
+        id: 'harvest', emoji: '✂️', heading: '採收',
+        html: `
+<h4 style="color:var(--primary);">採收方法(兩種,擇一)</h4>
+<ul>
+<li><strong>外側摘葉法</strong>(適合想持續採):從外圍較老葉片開始採,留中心嫩芽繼續生長 — 可以持續採 2–3 輪</li>
+<li><strong>割樁法</strong>(適合一次大量):整株剪到距土面 3–5 cm,留根樁 — 會從根部再發新芽;採量大,適合烹飪用量多的時候</li>
+</ul>
+
+<h4 style="color:var(--primary);margin-top:12px;">採收節奏</h4>
+<ul>
+<li><strong>首採時機</strong>:株高達 20 cm+ 且葉片茂密(約播種後 40–50 天)</li>
+<li>秋冬氣溫穩,每 2–3 週可採一輪,總共 2–3 輪</li>
+<li><strong>不要等到抽苔才採</strong>:一旦看到細長花莖,立刻大量採收,抽苔後葉片迅速變苦</li>
+</ul>
+
+<h4 style="color:var(--primary);margin-top:12px;">採後保鮮</h4>
+<ul>
+<li>洗淨、甩乾水分、用廚房紙巾包好放冷藏 → 可保 5–7 天</li>
+<li>或採後直接加進湯、麵;香氣最強的是剛採下那幾分鐘</li>
+</ul>
+
+<div class="callout">
+<h4>🌸 抽苔後怎麼辦</h4>
+<p style="margin:0 0 6px;">抽苔是香菜的自然生命周期,不是種失敗。</p>
+<ul style="margin:0;padding-left:20px;">
+<li>花莖冒出 → 立刻大量採葉(最後一次大收穫)</li>
+<li>白色小花:可觀賞 1–2 週,也可放任開花吸引蜜蜂</li>
+<li>花謝後結種球 → 待外皮轉褐色(完全熟)再採下 → 陰乾保存 → 秋天(10 月)拿出來催芽再播</li>
+<li>這個循環:一次買種子,理論上可以自己留種不用再買</li>
+</ul>
+</div>`,
+      },
+      {
+        id: 'troubleshoot', emoji: '🛡', heading: '失敗點與除錯',
+        html: `
+<table>
+<thead><tr><th>症狀</th><th>可能原因</th><th>對策</th></tr></thead>
+<tbody>
+<tr><td>播了兩週沒發芽</td><td>沒催芽 / 硬殼未搓破 / 土太乾</td><td>沒催芽的重播一批;同時檢查土面保濕情況</td></tr>
+<tr><td>發芽率極低(不到 3 成)</td><td>種子太老 / 夏季過熱</td><td>買新批種子;確認播種月份在 10–2 月</td></tr>
+<tr><td>幼苗細長倒伏</td><td>光線不足</td><td>移到更明亮的位置;疏苗讓每株有空間</td></tr>
+<tr><td>葉片黃化、軟塌</td><td>積水 / 爛根</td><td>檢查排水孔是否堵塞;減少澆水頻率</td></tr>
+<tr><td>播種後 1 個月就抽苔</td><td>播種月份錯了(春夏播)</td><td>抽苔不可逆;立刻採收,等 10 月重播</td></tr>
+<tr><td>葉片薄、顏色淡黃</td><td>缺肥 / 日照不足</td><td>確認施肥 Day 30 有做;移至光線較好位置</td></tr>
+<tr><td>有葉片被蟲啃</td><td>蚜蟲、薊馬</td><td>用水強力沖葉背;香菜是要吃的,不推農藥</td></tr>
+<tr><td>整盆忽然萎蔫</td><td>缺水 / 爛根 / 根粉介殼蟲</td><td>先澆水 — 若 1 小時後恢復=缺水;仍萎蔫=查根部</td></tr>
+</tbody>
+</table>`,
+      },
+      {
+        id: 'dementia', emoji: '🧠', heading: '失智照護應用 Notes',
+        byLevel: {
+          mild: `
+<div class="callout">
+<h4>📍 輕度:她還能主導,你提醒觸發</h4>
+<p style="margin:0;">她還能理解多步驟指令、走到窗邊盆栽、執行完整動作序列。香菜的催芽步驟是本手冊少數可以<strong>讓長輩主導完成</strong>的儀式感動作。</p>
+</div>
+<ul>
+<li><strong>催芽搓種子</strong>:把種子和小碗遞給她,說「幫我把這個泡水」— 這個動作跟她以前洗菜、備料的動作連結</li>
+<li>隔天你在旁邊,她搓種子 — 這個觸覺動作很適合手部靈活度尚在的輕度階段</li>
+<li>播種時她可以自己撒種、自己覆土、自己澆水 — 完整的「做了一件事」的成就感</li>
+<li>疏苗時拔出的小苗讓她拿去廚房洗、加進今晚的湯 — <strong>「我種的、我採的、我放進去的」</strong>整個鏈結</li>
+<li><strong>目標</strong>:最小化你的介入,讓她的自主性成為照護本身</li>
+</ul>
+<p>這個階段的價值:<strong>香菜的氣味是幾十年廚房記憶的觸發器</strong>。搓種子那一刻的香氣,可能帶出她自己種菜、煮飯的記憶。</p>`,
+          moderate: `
+<div class="callout">
+<h4>📍 中度:香氣是最好的引路人</h4>
+<p style="margin:0;">她的多步驟動作開始卡頓,但<strong>香菜腺體的氣味極強</strong> — 即使不記得「香菜是什麼」,那個熟悉的廚房氣味仍能引起情緒反應和動作意願。</p>
+</div>
+<ul>
+<li><strong>摘葉時先讓她聞</strong>:你摘一片葉子揉一下放到她手邊,說「聞聞看」— 不要求她說出名字</li>
+<li>言語指令<strong>單一動作</strong>:「幫我洗一下這個」、「把這個放進去」,不說「先洗、再切、再放」</li>
+<li><strong>洗葉動作</strong>:把剛採的香菜放在她手邊的水盆,「幫我沖一下」— 這個反覆沖洗的動作很適合中度</li>
+<li>把洗好的香菜放在她面前的碗,不需要要求她做下一步 — 她參與了這個儀式就夠了</li>
+<li><strong>盆栽位置固定</strong>,放在她日常動線顯眼處;窗邊的綠色和氣味是被動感知,不需要她主動記得</li>
+</ul>
+<p>這個階段的價值:<strong>把「廚房氣味」帶進她的每天,讓嗅覺記憶做語言做不到的事</strong>。</p>`,
+          severe: `
+<div class="callout">
+<h4>📍 重度:不要求動作,要求存在</h4>
+<p style="margin:0;">語言和主動動作有限。香菜的價值在這個階段<strong>從「活動」轉為「感官陪伴」</strong>。嗅覺是人類最後退化的感知之一 — 重度失智者通常仍能對氣味有反應。</p>
+</div>
+<ul>
+<li>帶她坐在盆栽旁邊,你摘葉子給她聞;不要求她做任何事</li>
+<li>把一枝採下的香菜放在她手裡讓她握著 — 觸覺 + 嗅覺同時</li>
+<li>揉碎一片葉子放在她手背上輕輕塗抹 — 氣味直接接觸皮膚</li>
+<li>把香菜加進她今天的湯或麵,讓熟悉的味道在餐桌上出現</li>
+<li><strong>每天同樣時段、同樣動作</strong> — 節奏感比「完成度」更重要;她不需要知道這是香菜</li>
+</ul>
+<p>這個階段的價值:<strong>氣味可以在沒有語言、沒有記憶的情況下,喚起一種說不清楚的安心感</strong>。這是香菜在本手冊所有植物裡嗅覺刺激最強的一個 — 重度階段尤其珍貴。</p>`,
+        },
+      },
+      {
+        id: 'log', emoji: '📓', heading: '實測紀錄',
+        html: `
+<div class="callout warn">
+<p style="margin:0;"><strong>尚未實測</strong> — 香菜 entry 於 2026-04-23 起草。計畫於 2026 年 10 月寒露前後開始第一次播種實測。</p>
+</div>
+
+<h4 style="color:var(--primary);margin-top:12px;">預計實測計畫</h4>
+<ul>
+<li><strong>2026-10 月(寒露)</strong> — 買芫荽種子、催芽實驗:比較「未催芽 vs 浸水 24h + 搓殼」發芽率差異,記錄天數和發芽率</li>
+<li><strong>2026-11 月</strong> — 首採記錄、疏苗小苗入湯</li>
+<li><strong>2026-12 月 – 2027-02 月</strong> — 採收輪次、與長輩的催芽互動記錄</li>
+<li><strong>2027-03 月</strong> — 抽苔時機觀察、留種流程記錄</li>
+</ul>
+<p style="color:var(--muted);font-size:14px;"><em>實測紀錄、照片會陸續補進。有種過的人歡迎提供經驗。</em></p>`,
+      },
+    ],
+  },
+
+  // =========== 迷迭香(香草) ===========
+  {
+    id: 'rosemary',
+    name: '迷迭香',
+    emoji: '🌿',
+    category: 'herb',
+    meta: {
+      difficulty: '低(耐旱、幾乎不死)',
+      season: '四季皆可(秋天扦插最易發根)',
+      light: '全日照',
+      location: '陽台 / 窗台 / 戶外',
+      seasons: ['all'],
+      bestStartMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    },
+    sections: [
+      {
+        id: 'why', emoji: '💡', heading: '為什麼迷迭香值得種',
+        html: `
+<ul>
+<li><strong>種了幾乎不用管</strong> — 耐旱、耐貧土,忘記澆水也不容易死,是香草裡最好養的一種</li>
+<li><strong>多年生,種一次享用 10 年</strong> — 不用每年重種,植株越大越茂盛</li>
+<li><strong>香氣療癒</strong> — 隨手搓一下葉子,松木清香瞬間釋放;嗅覺刺激對記憶力和情緒有幫助</li>
+<li><strong>廚房直接用</strong> — 烤雞、烤馬鈴薯、橄欖油浸漬、迷迭香茶,隨採隨用</li>
+<li><strong>外觀美、不突兀</strong> — 灰藍小花、針形葉,放陽台窗邊像一盆景觀植物,不像「菜」</li>
+<li><strong>對照地瓜葉,幾乎反向</strong> — 地瓜葉每天要澆水;迷迭香叫你<strong>少澆水</strong>,對照顧者負擔更低</li>
+</ul>`,
+      },
+      {
+        id: 'obtain', emoji: '🛒', heading: '取得方式',
+        html: `
+<div class="callout warn" style="margin-bottom:10px;">
+<h4>🗓️ Step 0 · 先看月曆再動手</h4>
+<p style="margin:0;"><strong>四季都可以開始,但秋天(9–11 月)扦插最穩。</strong> 盛夏(7–8 月)悶熱潮濕,扦插容易腐爛;梅雨季(5–6 月)連日高濕也要注意通風。春秋最輕鬆,如果現在是盛夏,買苗成活率比扦插高,直接定植更快。</p>
+</div>
+
+<div class="callout" style="background:#e8f5e9;border-left-color:var(--primary-dark);">
+<h4>📦 推薦的新手包 · 三步照順序來</h4>
+<ol style="margin:6px 0 4px;padding-left:22px;">
+<li><strong>先備盆與土(這一步要比苗先到)</strong> — 花市買 <strong>5–7 吋透氣盆(素燒陶盆或塑膠盆帶排水孔)</strong> + <strong>疏水培養土</strong>(或培養土混珍珠石 3:1),合計 NT$150–250,填好土、定位放好。</li>
+<li><strong>再取得苗或枝條</strong> — 家附近花市、傳統市場常見盆苗 NT$50–120;<a href="https://shopee.tw/search?keyword=%E8%BF%B7%E8%BF%AD%E9%A6%99+%E6%8F%92%E6%9E%9D" target="_blank" rel="noopener" style="color:var(--primary-dark);font-weight:bold;">蝦皮搜尋「迷迭香 插枝」</a>也有現成扦插條。</li>
+<li><strong>到貨/購苗當天立刻定植或插穗</strong> — 盆苗直接脫盆種入;扦插條修剪後插進土,澆透一次。</li>
+</ol>
+<p style="margin:8px 0 0;font-size:14px;color:var(--muted);">⚠️ <strong>順序不能顛倒</strong>:土如果還沒準備好,苗放著乾等一天就乾掉。總預算 <strong>NT$250 有找</strong>。盆苗比扦插快 4–6 週採收,新手優先選盆苗。</p>
+</div>
+
+<h4 style="color:var(--primary);margin:14px 0 6px;">其他取得管道</h4>
+<table>
+<thead><tr><th>來源</th><th>難度</th><th>費用</th><th>備註</th></tr></thead>
+<tbody>
+<tr><td>花市盆苗</td><td>最低</td><td>NT$60–120</td><td>買到就能種,最推薦</td></tr>
+<tr><td>蝦皮購苗</td><td>低</td><td>NT$50–100+運費</td><td>選有根的苗,避免只寄插枝</td></tr>
+<tr><td>朋友家分枝</td><td>低</td><td>免費</td><td>種開後一株能剪數十條,很好分享</td></tr>
+<tr><td>自行水耕扦插</td><td>中</td><td>NT$0(已有材料)</td><td>插入水中發根約 2–3 週,發根後再移土</td></tr>
+</tbody>
+</table>
+
+<div class="callout warn" style="margin-top:12px;">
+<h4>⚠️ 不推薦新手:種子播種</h4>
+<p style="margin:0;">迷迭香種子發芽率低(30–50%)、生長極慢,從種子到成株需 6 個月以上。扦插或盆苗快上 3–4 倍,沒有特別理由不走種子路線。</p>
+</div>`,
+      },
+      {
+        id: 'pot-soil', emoji: '🏺', heading: '盆器與土壤',
+        html: `
+<h4 style="color:var(--primary);">盆器</h4>
+<ul>
+<li>直徑 <strong>15–20 公分(5–7 吋)</strong>以上;多年生後可換 8–10 吋大盆</li>
+<li><strong>素燒陶盆最佳</strong> — 透氣排水,根不容易悶濕爛掉;塑膠盆也 OK,但要確保排水孔夠大</li>
+<li><strong>排水孔是命</strong> — 沒有排水孔或積水托盤長期積水,迷迭香根系三天就爛</li>
+</ul>
+
+<h4 style="color:var(--primary);margin-top:12px;">土壤</h4>
+<ul>
+<li><strong>排水優先於肥力</strong> — 迷迭香原產地中海,天然就是砂礫山坡,喜歡「窮土」反而不喜歡過肥</li>
+<li>推薦配方:一般培養土 + 珍珠石 = <strong>7:3</strong>(讓澆水後快速乾燥)</li>
+<li>或直接買「多肉仙人掌專用土」也完全適合</li>
+<li>禁止用黏土/黑泥土單獨種植 — 保水太強,根部長期潮濕會爛</li>
+</ul>
+<p style="font-size:14px;color:var(--muted);margin-top:10px;"><em>施肥細節獨立成下面的「🌾 施肥」section。</em></p>`,
+      },
+      {
+        id: 'steps', emoji: '🌳', heading: '種植步驟',
+        html: `
+<h4 style="color:var(--primary);">路線 A · 盆苗定植(推薦)</h4>
+<ol>
+<li><strong>準備盆土</strong> — 見上方「盆器與土壤」,土填 8 分滿</li>
+<li><strong>脫盆</strong> — 輕拍盆側讓土鬆,捏住莖基部倒扣,完整帶出根球</li>
+<li><strong>植入新盆</strong> — 根球置中,填補四周土,覆土到根球頂端即可(不要埋莖)</li>
+<li><strong>第一次澆透</strong> — 澆到盆底出水;之後等土表<strong>完全乾燥</strong>再澆下一次</li>
+<li><strong>放全日照位置</strong> — 每日至少 4 小時直射陽光;日照越多長越旺</li>
+</ol>
+
+<div class="callout" style="margin-top:10px;">
+<h4>💧 澆水判斷法</h4>
+<p style="margin:0;">用免洗筷插進土 3 公分深,拔出<strong>完全乾燥才澆</strong>。感覺到土濕就不用澆。迷迭香<strong>寧乾勿濕</strong> — 一次缺水可以救,長期積水必死。</p>
+</div>
+
+<h4 style="color:var(--primary);margin-top:14px;">路線 B · 扦插(有現成枝條時用)</h4>
+<ol>
+<li>剪<strong>10–15 公分健壯嫩枝</strong>,斜剪增加接觸面積</li>
+<li>摘除下方 1/3 的葉子,裸露莖節</li>
+<li>(選做)切口沾<strong>發根粉</strong>,可提高發根率</li>
+<li>插入<strong>乾燥砂質土</strong>或珍珠石,深度約 3–5 公分</li>
+<li>澆水一次,之後土表稍乾才澆;放半日照 2–3 週等發根</li>
+<li>輕拉有阻力 = 發根成功,可移到全日照</li>
+</ol>`,
+      },
+      {
+        id: 'timing', emoji: '📋', heading: '完整時程表 · 扦插到採收',
+        html: `
+<p><strong>定植/扦插 → 發根穩固 → 施肥 → 首次採枝 → 多年採收</strong>,照這個節奏走。<strong>照做就對,不用每天觀察</strong>。</p>
+
+<div class="callout warn">
+<h4>⚠️ 開工前先看月曆 / 節氣:挑對季節更輕鬆</h4>
+<p style="margin:0 0 6px;">迷迭香四季可種,但<strong>高溫悶濕</strong>時期扦插容易腐爛,需特別注意通風。節氣對應台灣中低海拔:</p>
+<table style="margin-top:8px;">
+<thead><tr><th></th><th>月份</th><th>節氣</th><th>狀態</th></tr></thead>
+<tbody>
+<tr style="background:#f0f8ec;"><td>✅ 最佳</td><td><strong>9 – 11 月 / 3 – 5 月</strong></td><td><strong>白露(9/8)→ 立冬(11/7) / 驚蟄(3/5)→ 立夏(5/5)</strong></td><td>氣候涼爽通風,扦插發根最穩,<strong>手冊所有時程以此為準</strong></td></tr>
+<tr><td>🟡 勉強</td><td>12 – 2 月 / 6 月</td><td>大雪(12/7)→ 雨水(2/19) / 芒種(6/5)</td><td>冬天生長慢但存活沒問題;初夏溫度還好,梅雨注意通風</td></tr>
+<tr style="background:#fdf5e6;"><td>🟡 悶濕梅雨</td><td><strong>6 – 7 月</strong></td><td><strong>夏至(6/21)前後</strong></td><td>高濕悶熱,扦插易腐;建議買盆苗定植而非扦插</td></tr>
+<tr><td>⚠️ 盛夏注意</td><td><strong>7 – 8 月</strong></td><td><strong>小暑(7/7)→ 立秋(8/7)</strong></td><td>35°C+ 高溫;已定植植株撐得住,扦插風險高 — 優先選買苗</td></tr>
+</tbody>
+</table>
+<p style="margin:8px 0 0;font-size:14px;">迷迭香不像地瓜葉有「冬天全死」硬底線;四季都能活,但<strong>秋植最省力</strong>。颱風前把盆移室內,大雨後確認排水,就沒什麼好擔心的。</p>
+<p style="margin:6px 0 0;font-size:13px;color:var(--muted);"><em>完整 24 節氣對照看 <a href="#" onclick="event.preventDefault();navigateTo('page-knowledge');return false;" style="color:var(--primary);">📚 通用園藝知識 → 📅 24 節氣</a>。</em></p>
+</div>
+
+<table>
+<thead><tr><th>天數</th><th>階段</th><th>植物狀態</th><th>你的動作</th></tr></thead>
+<tbody>
+<tr><td><strong>Day 1</strong></td><td>定植/扦插</td><td>剛進新盆</td><td>澆透一次;放全日照;❌ 不施肥</td></tr>
+<tr><td>Day 2–21</td><td>發根期(扦插)</td><td>外觀無明顯變化</td><td>土<strong>完全乾</strong>才澆(5–7 天一次);❌ 不施肥;不移位</td></tr>
+<tr><td>Day 7–14</td><td>盆苗穩固期</td><td>有新葉冒出</td><td>維持澆水節奏;確認排水正常</td></tr>
+<tr><td>Day 21–30</td><td>扦插發根確認</td><td>輕拉有阻力</td><td>確認發根 → 移到全日照;繼續乾了才澆</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 30 🌾</strong></td><td><strong>第一次施肥</strong></td><td>植株穩固</td><td>✅ 撒 <strong>5 粒</strong> 好康多 1 號(5 吋盆)+ 澆水</td></tr>
+<tr><td>Day 30–90</td><td>穩定生長期</td><td>枝條變密、變長</td><td>全日照;土乾才澆;風大或天熱觀察葉色</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 60–90 ✂️</strong></td><td><strong>首次可採枝</strong></td><td>新梢 10 cm+</td><td>✅ 剪頂端 <strong>5–10 cm</strong> 嫩枝,保留下方 2/3 植株讓它再發</td></tr>
+<tr><td>Day 90+</td><td>持續採收期</td><td>越剪越旺</td><td>✅ 每月修剪 1–2 次;繼續乾了才澆</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 120 🌾</strong></td><td><strong>第二次施肥</strong></td><td>採量穩定</td><td>✅ 再撒 5 粒好康多</td></tr>
+<tr style="background:#fdf5e6;"><td><strong>冬季 12 – 2 月 ❄️</strong></td><td><strong>生長放緩</strong></td><td>葉色深,長慢</td><td>❌ 停肥;澆水拉長間隔(7–14 天一次視土乾程度)</td></tr>
+<tr style="background:#fdf5e6;"><td><strong>盛夏 7 – 8 月 ☀️</strong></td><td><strong>熱熱但撐得住</strong></td><td>若悶熱注意</td><td>⚠️ 確保通風,避免積水;可移至稍遮陰處(非必要)</td></tr>
+<tr><td>每年春季 🌱</td><td>換盆/更新修剪</td><td>老莖木質化</td><td>每 2–3 年換大一號盆 + 強剪促新梢;繼續下一輪</td></tr>
+</tbody>
+</table>
+
+<div class="callout" style="margin-top:12px;">
+<h4>📱 定植當天就要做的 2 件事</h4>
+<ol style="margin:4px 0 0;padding-left:22px;">
+<li>Google 行事曆設 2 個提醒:<strong>今日 + 30 天</strong>、<strong>今日 + 120 天</strong>,內容寫「撒 5 粒好康多(澆水)」</li>
+<li>便利貼寫今日日期貼盆邊 —— 讓眼睛看得到「這盆是哪天種的」</li>
+</ol>
+<p style="margin:6px 0 0;font-size:14px;"><strong>多年生植物的施肥計畫當天決定好,之後不用再想</strong>。</p>
+</div>
+
+<p style="font-size:14px;color:var(--muted);margin-top:10px;"><em>施肥細節(盆大小/哪裡買)、採收技巧,看下方「🌾 施肥」、「✂️ 採收」section。</em></p>`,
+      },
+      {
+        id: 'fertilizer', emoji: '🌾', heading: '施肥',
+        html: `
+<p><strong>迷迭香耐貧土 — 施肥要「少量」而非「多量」</strong>。過肥反而讓葉子香氣變淡、植株徒長脆弱。固體緩釋肥最適合,不用稀釋、難燒根、撒一次吃 3 個月。</p>
+<p style="font-size:14px;color:var(--muted);margin-top:4px;"><em>施肥時機(Day 30 / Day 120 / 冬眠)已統整在上面「📋 完整時程表」,這個 section 專講 <strong>用多少 · 用哪款 · 怎麼撒</strong>。</em></p>
+
+<div class="callout">
+<h4>📐 不同盆大小 · 速查(好康多 1 號)</h4>
+<table style="margin-top:6px;">
+<thead><tr><th>盆</th><th>顆數</th></tr></thead>
+<tbody>
+<tr><td>3 吋圓盆(Ø9cm)</td><td><strong>3 粒</strong></td></tr>
+<tr><td>5 吋圓盆(Ø15cm)</td><td><strong>5 粒</strong></td></tr>
+<tr><td>7 吋圓盆(Ø21cm)</td><td><strong>8 粒</strong></td></tr>
+<tr><td>長方盆 50×20cm</td><td><strong>15 粒</strong></td></tr>
+</tbody>
+</table>
+<p style="margin:8px 0 0;font-size:14px;"><strong>迷迭香特別注意</strong>:用量寧可比上表再減 1–2 粒。肥多葉子香氣變淡,少一點香氣更集中。</p>
+</div>
+
+<h4 style="color:var(--primary);margin-top:14px;">🛒 買哪一款</h4>
+<ul>
+<li><strong>好康多 1 號</strong>(NPK 14-11-13)— 萬用緩釋款,香草適用</li>
+<li>350g 小包約 NT$100,一包用幾年</li>
+<li>全聯園藝區、花市、iGarden 網購都有</li>
+</ul>
+
+<div class="callout warn">
+<h4>📱 記憶外包 — 定植當天就把兩年的施肥做完</h4>
+<p style="margin:0 0 6px;">打開 Google 行事曆設提醒,之後不用再想:</p>
+<ul style="margin:0;padding-left:20px;">
+<li>定植日 + 30 天 → 「撒 5 粒好康多(澆水)」</li>
+<li>定植日 + 120 天 → 「再撒 5 粒」</li>
+<li>每年春天(3 月)→ 「迷迭香換盆/修剪/施肥」</li>
+</ul>
+<p style="margin:8px 0 0;font-size:14px;">多年生植物,決定外包到行事曆,腦袋留給照護。</p>
+</div>
+
+<details style="margin-top:14px;border:1px solid var(--border);border-radius:8px;padding:10px 14px;">
+<summary style="cursor:pointer;color:var(--primary-dark);font-weight:bold;">⚠️ 出事才看:一眼判斷 3 條</summary>
+<div style="padding:10px 0 0;">
+<table>
+<thead><tr><th>看到什麼</th><th>是什麼</th><th>立刻做</th></tr></thead>
+<tbody>
+<tr><td>土表<strong>白色結晶</strong></td><td>過肥 / 鹽積</td><td>停肥,大量清水沖盆 3 次</td></tr>
+<tr><td>葉色<strong>淡綠發黃</strong></td><td>缺肥(少見)</td><td>補 3 粒好康多</td></tr>
+<tr><td>葉緣<strong>焦黃</strong></td><td>過肥 / 燒根</td><td>停肥,澆清水沖</td></tr>
+</tbody>
+</table>
+</div>
+</details>
+
+<details style="margin-top:10px;border:1px solid var(--border);border-radius:8px;padding:10px 14px;">
+<summary style="cursor:pointer;color:var(--muted);font-size:14px;">🧪 進階:想用液肥的路線(不建議新手)</summary>
+<div style="padding:10px 0 0;font-size:14px;">
+<ul>
+<li><strong>花寶 1 號</strong>(NPK 20-20-20),稀釋比<strong>再減半</strong>(迷迭香怕濃肥)</li>
+<li>每 14–21 天一次,不在悶熱夏天施</li>
+<li>施完澆一次清水沖殘留</li>
+</ul>
+<p style="margin-top:6px;"><strong>固體肥撒一次吃 3 個月,液肥每兩週操作一次 — 多年生的迷迭香強烈推薦固體。</strong></p>
+</div>
+</details>
+
+<p style="font-size:13px;color:var(--muted);margin-top:14px;">通用施肥原則看 <a href="#" onclick="event.preventDefault();navigateTo('page-knowledge');return false;" style="color:var(--primary);font-weight:bold;">📚 通用園藝知識 → 🌾 施肥</a>。</p>`,
+      },
+      {
+        id: 'harvest', emoji: '✂️', heading: '採收',
+        html: `
+<h4 style="color:var(--primary);">採收時機</h4>
+<ul>
+<li>定植後 <strong>2–3 個月</strong>,新梢長到 10 公分以上就可以剪</li>
+<li>每次採 <strong>頂端 5–10 公分嫩枝</strong>,保留下方至少 2/3 讓植株再發</li>
+<li>開花前採收香氣最濃;若讓它開花,採後要強剪一次促新梢</li>
+</ul>
+
+<h4 style="color:var(--primary);margin-top:12px;">怎麼用</h4>
+<table>
+<thead><tr><th>料理</th><th>用法</th></tr></thead>
+<tbody>
+<tr><td>烤雞/烤肉</td><td>新鮮枝條塞進雞腔,或連枝烤盤鋪底</td></tr>
+<tr><td>烤馬鈴薯 / 根莖類</td><td>橄欖油 + 迷迭香葉 + 鹽,拌勻後烤</td></tr>
+<tr><td>迷迭香橄欖油</td><td>新鮮枝條泡橄欖油 2 週,飄香可口</td></tr>
+<tr><td>迷迭香茶</td><td>新鮮或乾燥葉 2–3 枝 + 熱水,燜 5 分鐘</td></tr>
+<tr><td>麵包/佛卡夏</td><td>葉子揉入麵團或撒表面烘烤</td></tr>
+</tbody>
+</table>
+
+<div class="callout" style="margin-top:10px;">
+<h4>🌿 採後保存</h4>
+<p style="margin:0;">新鮮枝條插入半杯清水,室溫可放 1 週;用廚房紙巾包起放冰箱可撐 2 週。要長期保存就<strong>晾乾或烤箱低溫(50°C)烘乾</strong>,裝密封罐放陰涼處,香氣持續 6 個月以上。</p>
+</div>`,
+      },
+      {
+        id: 'troubleshoot', emoji: '🛡', heading: '失敗點與除錯',
+        html: `
+<table>
+<thead><tr><th>症狀</th><th>可能原因</th><th>對策</th></tr></thead>
+<tbody>
+<tr><td><strong>莖基部變黑軟爛</strong></td><td>過度澆水、積水、排水差 — 迷迭香最常見死因</td><td>立刻停止澆水;剪除腐爛部分;換疏水土;確認盆底排水孔暢通</td></tr>
+<tr><td><strong>扦插 3 週沒發根</strong></td><td>土太濕、日照不足、溫度過低</td><td>確認土乾才澆;移至更亮位置;秋冬扦插耐心等 4–6 週</td></tr>
+<tr><td><strong>葉子枯黃脫落</strong></td><td>① 過濕爛根 ② 過乾缺水 ③ 盛夏高溫悶熱</td><td>① 停澆+換土 ② 補水 ③ 移至通風半遮陰處</td></tr>
+<tr><td><strong>葉色淡、徒長</strong></td><td>日照不足</td><td>移到更亮的位置;迷迭香全日照才最旺</td></tr>
+<tr><td><strong>葉片有白粉</strong></td><td>白粉病(悶濕環境)</td><td>加強通風;剪除受害枝;避免葉片噴水</td></tr>
+<tr><td><strong>有紅蜘蛛/介殼蟲</strong></td><td>乾燥環境、通風差</td><td>清水高壓沖葉背;嚴重時用稀釋苦楝油噴灑</td></tr>
+<tr><td><strong>香氣變淡</strong></td><td>施肥過多 / 日照不足</td><td>減少施肥、移到更亮位置</td></tr>
+</tbody>
+</table>
+
+<div class="callout warn" style="margin-top:12px;">
+<h4>🚨 迷迭香致命弱點:爛根</h4>
+<p style="margin:0;">迷迭香幾乎不會缺水死,<strong>但積水會在 3–5 天內爛根</strong>。台灣夏天間歇大雨 + 悶熱最危險。戶外要確認盆底不積水;若用花盆托盤,每次澆水後 30 分鐘倒掉托盤積水。</p>
+</div>`,
+      },
+      {
+        id: 'dementia', emoji: '🧠', heading: '失智照護應用 Notes',
+        byLevel: {
+          mild: `
+<div class="callout">
+<h4>📍 輕度:嗅覺記憶連結,讓她說故事</h4>
+<p style="margin:0;">迷迭香強烈的松木香氣和地中海料理氣味,容易勾起食物、旅行、廚房的遠期記憶 — 失智初期這些記憶往往比近期記憶還保存得好。</p>
+</div>
+<ul>
+<li>每天澆水(3–5 天一次,頻率低)或修剪時讓她<strong>搓幾片葉子,問她「這個味道讓你想到什麼?」</strong></li>
+<li>採收時讓她<strong>主導「今天要用來做什麼菜」</strong> — 維持她還是廚房決策者的身分感</li>
+<li>一起做迷迭香茶或迷迭香橄欖油浸漬 — 多步驟活動,她可以自主完成,你在旁陪伴</li>
+<li>把迷迭香盆放在廚房窗台 — 進廚房就能看到、摸到、聞到,嗅覺提醒自然發生</li>
+<li><strong>目標</strong>:嗅覺刺激觸發遠期記憶對話,每次澆水都是一段小聊天的起點</li>
+</ul>
+<p>這個階段的價值:<strong>一株迷迭香讓她每隔幾天就有一個「做了點什麼」的感受</strong>,維持廚房主人翁感。</p>`,
+          moderate: `
+<div class="callout">
+<h4>📍 中度:動作簡化為「搓葉子聞香」</h4>
+<p style="margin:0;">多步驟指令已難以跟上,但搓葉聞香這個動作只要一步,而且嗅覺路徑直達邊緣系統 — 即使語言理解退化,氣味情緒仍有效。</p>
+</div>
+<ul>
+<li><strong>把迷迭香盆放在她日常動線顯眼處</strong> — 她路過自然伸手摸,不需要你提醒</li>
+<li>引導動作只需說<strong>「聞一下,好香」</strong>然後你先示範搓一下葉子遞給她聞 — 不要說多步驟指令</li>
+<li>你在澆水時讓她坐旁邊,把剛剪下的一小枝放到她手上 — 讓她握著、聞著</li>
+<li><strong>迷迭香茶降階版</strong>:你泡好端給她,讓她用雙手捧著杯子聞香氣 — 只要「聞」這個動作即可</li>
+<li>注意:這個階段不追求「她記住植物叫什麼」,追求<strong>「每次接觸後情緒是平靜的」</strong></li>
+</ul>
+<p>這個階段的價值:<strong>嗅覺是最後退化的感官之一;迷迭香的強烈香氣讓她每次都有「這個我認識」的熟悉感</strong>。</p>`,
+          severe: `
+<div class="callout">
+<h4>📍 重度:不要求認識,要求感受到香氣</h4>
+<p style="margin:0;">語言和動作理解已高度退化,但嗅覺仍有反應 — 迷迭香香氣可能讓她微笑、停下來、轉頭,這就足夠了。</p>
+</div>
+<ul>
+<li>每天或每隔幾天,<strong>你摘一小枝搓幾下,湊近她鼻子 5–10 秒</strong> — 觀察她的表情變化</li>
+<li>把盆栽靠近她常坐的位置;自然風吹過偶爾帶香氣,不需要特定動作</li>
+<li>採下幾枝枝條放在她手上,讓她<strong>握著</strong> — 觸覺 + 嗅覺雙重刺激</li>
+<li>不要求她說話、不要求她認識「迷迭香」這個詞 — 目標是<strong>3 秒的表情反應</strong></li>
+<li>配合迷迭香茶的溫熱蒸氣,讓她靠近聞香氣 — 熱蒸氣擴散力更強</li>
+</ul>
+<p>這個階段的價值:<strong>她不需要知道這是什麼植物,她只需要聞到這個香氣然後有一點點平靜</strong>。迷迭香的芳香療法背景讓這個應用有根基 — 地中海香草氣味在失智照護中是有文獻記錄的嗅覺刺激工具。</p>`,
+        },
+      },
+      {
+        id: 'log', emoji: '📓', heading: '實測紀錄',
+        html: `
+<div class="callout warn">
+<p style="margin:0;"><strong>尚未實測</strong> — 迷迭香盆苗尚未購入。根據文獻和社群資料整理的種植資訊,實際種植後會補入觀察紀錄。</p>
+</div>
+
+<h4 style="color:var(--primary);margin-top:14px;">預計計畫</h4>
+<ul>
+<li>秋季(9–10 月)花市買盆苗,定植 5 吋陶盆</li>
+<li>記錄定植日、第一次採枝日、香氣評價</li>
+<li>測試迷迭香茶和迷迭香橄欖油製作 → 媽媽反應紀錄</li>
+<li>觀察嗅覺刺激在失智照護中的實際效果,與手冊記載比對</li>
+</ul>
+
+<p style="color:var(--muted);font-size:14px;"><em>實測後會補入照片、成活率、失智照護應用的觀察。</em></p>`,
+      },
+    ],
+  },
+
+  // =========== 紅蘿蔔(根莖) ===========
+  {
+    id: 'carrot',
+    name: '紅蘿蔔',
+    emoji: '🥕',
+    category: 'root',
+    meta: {
+      difficulty: '中(需深盆、長等待,但播種簡單)',
+      season: '秋冬播種(9–1 月)',
+      light: '全日照',
+      location: '陽台 / 頂樓(深盆必備)',
+      seasons: ['autumn', 'winter'],
+      bestStartMonths: [9, 10, 11, 12, 1],
+    },
+    sections: [
+      {
+        id: 'why', emoji: '💡', heading: '為什麼值得種紅蘿蔔',
+        html: `
+<ul>
+<li><strong>「尋寶」時刻是紅蘿蔔獨有的</strong> — 拔起前完全不知道長多大、長幾條,出土那一秒是純驚喜,失智長輩最愛這種「打開才知道」</li>
+<li><strong>橘色根部強視覺刺激</strong> — 橘色在綠葉中極度顯眼,辨識不費力,適合視力退化的長輩</li>
+<li><strong>台灣冬天越冬才最甜</strong> — 低溫讓澱粉轉化成糖,12–1 月拔起來生吃就甜,不用加工就有成就感</li>
+<li><strong>播種動作簡單</strong> — 直接把種子灑在土上,不用育苗、不用換盆,減少操作複雜度</li>
+<li><strong>葉子本身可食</strong> — 嫩葉可炒可湯,等根長好的期間就有中間收穫</li>
+<li><strong>熟悉的廚房食材</strong> — 紅蘿蔔湯是台灣家家戶戶的記憶,拔起來「自己種的拿去煮湯」的情感連結強</li>
+</ul>`,
+      },
+      {
+        id: 'obtain', emoji: '🛒', heading: '取得方式',
+        html: `
+<div class="callout warn" style="margin-bottom:10px;">
+<h4>🗓️ Step 0 · 先看月曆再動手</h4>
+<p style="margin:0;"><strong>只有 9–1 月(白露–大寒)才下手。</strong> 夏天(4–8 月)氣溫過高,根部無法膨大,只長葉不長根,播了等於白種。如果現在是春夏,<strong>先備好深盆與鬆土,等 9 月白露後再播種</strong>。蝦皮上夏天也找不到品質好的紅蘿蔔種子(農家不補貨),這也是風向球。</p>
+</div>
+
+<div class="callout" style="background:#e8f5e9;border-left-color:var(--primary-dark);">
+<h4>📦 推薦的新手包 · 三步照順序來</h4>
+<ol style="margin:6px 0 4px;padding-left:22px;">
+<li><strong>先備盆與土(這一步要比種子先到)</strong> — 買 <strong>深度 30 cm 以上的深盆</strong>(圓盆直徑 25 cm+ 或長方盆 50×20 cm 深度要夠)+ <strong>蔬菜培養土或細培養土</strong>,揀掉明顯石頭或大塊硬土(石頭是讓根歪斜分叉的主因),土填至 8 分滿,預先澆透備用。合計 NT$200–350。</li>
+<li><strong>再買種子</strong> — 蝦皮搜尋「紅蘿蔔種子 五寸人參」或「紅蘿蔔 種子 台灣」,9–11 月農業節期間常有促銷,一包 50–100 粒 NT$50–100,花市也有</li>
+<li><strong>備齊當天立刻播種</strong> — 土面輕劃淺溝(深約 0.5 cm)→ 均勻灑種子(每 2–3 cm 一粒)→ 薄薄蓋一層細土 → 用噴霧瓶噴濕(不用大量澆水,避免種子被沖跑)→ 放全日照陽台</li>
+</ol>
+<p style="margin:8px 0 0;font-size:14px;color:var(--muted);">⚠️ <strong>順序不能顛倒</strong>:種子很輕,土沒備好就播,一澆水就全部被沖到角落堆一起。總預算 <strong>NT$350–450 有找</strong>,關鍵是<strong>深盆 + 鬆土 + 月份對</strong>。</p>
+</div>
+
+<h4 style="color:var(--primary);margin:14px 0 6px;">其他取得管道</h4>
+<table>
+<thead><tr><th>來源</th><th>時機</th><th>說明</th></tr></thead>
+<tbody>
+<tr><td><strong>蝦皮網購種子</strong>(主流)</td><td>9–11 月補貨季</td><td>搜尋「五寸人參 種子」或「紅蘿蔔 種子」,挑口碑店家</td></tr>
+<tr><td><strong>花市 / 農資行</strong></td><td>9–12 月</td><td>現場可看到包裝、問店家適種季節,新手友善</td></tr>
+<tr><td><strong>種苗公司購種</strong></td><td>全年(秋季前下單)</td><td>台農種苗、農友種苗(agriharvest.com.tw)等,量大品種全</td></tr>
+</tbody>
+</table>
+
+<div class="callout warn" style="margin-top:12px;">
+<h4>⚠️ 新手陷阱:盆深不夠</h4>
+<p style="margin:0;">很多人用淺盆(深度 10–15 cm)種紅蘿蔔,結果根長到底部被迫橫向彎曲,形狀扭曲又短小。<strong>深度至少 30 cm</strong>,根才有空間向下生長。寧可買大盆貴一點,不要等 80 天拔起來才後悔。</p>
+</div>`,
+      },
+      {
+        id: 'pot-soil', emoji: '🏺', heading: '盆器與土壤',
+        html: `
+<h4 style="color:var(--primary);">盆器 — 深度是關鍵</h4>
+<ul>
+<li><strong>深度 30 cm 以上</strong>(絕對最低標準 — 根要向下生長,淺了就歪)</li>
+<li>直徑或寬度 20 cm 以上(疏苗後每株間距 10 cm,一盆放 4–6 株)</li>
+<li>長方盆 50×20 cm、深 30 cm 是性價比最好的選擇</li>
+<li>盆底<strong>必須有排水孔</strong>,冬季也可能積水爛根</li>
+<li>材質不拘,陶盆排水佳但重,塑膠盆輕便,二者都 OK</li>
+</ul>
+
+<h4 style="color:var(--primary);margin-top:12px;">土壤 — 鬆軟無石才能長直</h4>
+<ul>
+<li><strong>細培養土或蔬菜專用培養土</strong>優先(顆粒細,根容易穿透)</li>
+<li>填土前<strong>手動揀出石頭、土塊</strong>(1 公分以上的都要撿),這是唯一最重要的步驟</li>
+<li>可混入少量細砂或珍珠石增加透氣排水(比例約 7:3)</li>
+<li>不要用重黏土(根穿不進去,容易分叉)</li>
+<li>不要用未腐熟有機肥直接混土(讓根分叉長怪形)</li>
+</ul>
+<p style="font-size:14px;color:var(--muted);margin-top:10px;"><em>施肥細節獨立成下面的「🌾 施肥」section。</em></p>`,
+      },
+      {
+        id: 'steps', emoji: '🌳', heading: '種植步驟',
+        html: `
+<ol>
+<li><strong>備深盆、鬆土、撿石頭</strong> — 見上面「盆器與土壤」,這步沒做好後面都沒用</li>
+<li><strong>土面整平、稍微壓實</strong> — 用手掌輕拍平,不要留空洞(種子會掉進去埋太深)</li>
+<li><strong>劃淺溝播種</strong> — 食指深度 0.5 cm 劃出播種溝,每 2–3 cm 放 1 粒種子;或直接均勻灑在土面</li>
+<li><strong>薄蓋細土</strong> — 覆蓋約 0.3–0.5 cm 細土,輕壓讓種子跟土接觸</li>
+<li><strong>噴霧瓶噴濕</strong> — 第一次澆水用噴霧,不要用澆水壺直接沖(種子輕,一沖就堆一起)</li>
+<li><strong>保持土表濕潤</strong> — 發芽前每天噴 1–2 次,土表看到乾就補水</li>
+<li><strong>放全日照位置</strong> — 日照越充足根越甜越直</li>
+</ol>
+
+<div class="callout" style="margin-top:12px;">
+<h4>💡 疏苗是最重要的技巧(新手最容易跳過)</h4>
+<p style="margin:0 0 6px;">紅蘿蔔必須疏苗兩次,否則根擠在一起全部長不大:</p>
+<ul style="margin:0;padding-left:20px;">
+<li><strong>第一次疏苗(Day 10–14)</strong>:發芽後留下壯苗,每 3 cm 留 1 株,弱小或擁擠的直接拔掉</li>
+<li><strong>第二次疏苗(Day 25–30)</strong>:本葉長出後,每 10 cm 留 1 株,這才是最終間距</li>
+</ul>
+<p style="margin:8px 0 0;font-size:14px;">拔掉的嫩苗不要丟,根雖小但葉嫩,可以加入沙拉或炒蛋,讓疏苗這個「捨棄」的動作變成小收穫。</p>
+</div>`,
+      },
+      {
+        id: 'timing', emoji: '📋', heading: '完整時程表 · 播種到拔收',
+        html: `
+<p><strong>播種 → 發芽 → 疏苗 × 2 → 施肥 → 採收</strong>,一張表涵蓋整個生長週期。<strong>紅蘿蔔要耐心等,80–100 天才看到成果</strong>。</p>
+
+<div class="callout warn">
+<h4>⚠️ 開工前先看月曆 / 節氣:夏天種等於浪費</h4>
+<p style="margin:0 0 6px;">紅蘿蔔<strong>喜涼不喜熱</strong>,需要低溫才能讓根部充分膨大、轉化糖分。夏天高溫只長葉片,地下根不會發育。<strong>節氣比月份準</strong>:</p>
+<table style="margin-top:8px;">
+<thead><tr><th></th><th>月份</th><th>節氣</th><th>狀態</th></tr></thead>
+<tbody>
+<tr style="background:#f0f8ec;"><td>✅ 最佳</td><td><strong>10 – 12 月</strong></td><td><strong>寒露(10/8)→ 大雪(12/7)</strong></td><td>低溫適合根部發育,台灣冬季紅蘿蔔最甜,<strong>手冊時程以此為準</strong></td></tr>
+<tr><td>🟡 勉強</td><td>9 月 / 1 月</td><td>白露(9/8) / 小寒(1/6)</td><td>9 月氣溫稍高但可試;1 月下旬後低溫有限,生長期拉長</td></tr>
+<tr style="background:#fdecec;"><td>❌ 絕對別種</td><td><strong>4 – 8 月</strong></td><td><strong>清明(4/4)→ 立秋(8/7)</strong></td><td>根部無法膨大,只長葉片,80 天後拔出來只有細根鬚</td></tr>
+</tbody>
+</table>
+<p style="margin:8px 0 0;font-size:14px;">台語俗諺:<strong>「冬天的蘿蔔最甜,夏天的蘿蔔最空」</strong>。如果現在是夏天,<strong>不要播</strong> —— 先備深盆鬆土,等白露(9 月上旬)再下手。</p>
+<p style="margin:6px 0 0;font-size:13px;color:var(--muted);"><em>完整 24 節氣對照看 <a href="#" onclick="event.preventDefault();navigateTo('page-knowledge');return false;" style="color:var(--primary);">📚 通用園藝知識 → 📅 24 節氣</a>。</em></p>
+</div>
+
+<table>
+<thead><tr><th>天數</th><th>階段</th><th>植物狀態</th><th>你的動作</th></tr></thead>
+<tbody>
+<tr><td><strong>Day 1</strong></td><td>播種</td><td>種子入土</td><td>噴霧瓶噴濕;❌ 不施肥;放全日照</td></tr>
+<tr><td>Day 1–9</td><td>等待發芽</td><td>土面沒變化</td><td>每天噴水保持土表濕潤,不要乾掉(種子沒水無法萌發)</td></tr>
+<tr><td>Day 10–14</td><td>發芽 🌱</td><td>細嫩子葉冒出</td><td>繼續保濕;開始觀察哪些壯哪些弱</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 10–14 ✂️</strong><br><em style="font-weight:normal;font-size:12px;">第一次疏苗</em></td><td><strong>疏苗 ①</strong></td><td>子葉展開</td><td>✅ 每 3 cm 留 1 株,拔掉弱苗;拔出嫩苗可加沙拉</td></tr>
+<tr><td>Day 15–25</td><td>本葉展開</td><td>真葉羽狀葉出現</td><td>改用澆水壺細流澆,根部扎穩可以正常澆水了</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 25–30 ✂️</strong><br><em style="font-weight:normal;font-size:12px;">第二次疏苗</em></td><td><strong>疏苗 ②</strong></td><td>3–5 片本葉</td><td>✅ 每 10 cm 留 1 株(最終間距),拔掉的幼嫩根可食用</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 30 🌾</strong></td><td><strong>第一次施肥</strong></td><td>植株 5–8 公分高</td><td>✅ 撒 <strong>好康多 1 號</strong>(用量見「施肥」section)+ 澆水</td></tr>
+<tr><td>Day 30–79</td><td>根部發育期</td><td>葉量穩定增長,根在地下擴大</td><td>土乾才澆;冬天 3–5 天一次;不要過度澆水(根會爛)</td></tr>
+<tr style="background:#fdf5e6;"><td><strong>Day 60 🌾</strong></td><td><strong>第二次施肥</strong></td><td>葉量旺盛,根部膨大中</td><td>✅ 再撒一次好康多,幫助根部甜度累積</td></tr>
+<tr style="background:#fdf5e6;"><td><strong>冬季 ❄️</strong><br><em style="font-weight:normal;font-size:12px;">12 月 – 1 月</em></td><td><strong>越冬甜度累積</strong></td><td>葉子成長變慢,地下根越來越甜</td><td>✅ 不用施肥,澆水減量;低溫正在幫你把澱粉轉糖</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 80–100 ✂️</strong></td><td><strong>首次可拔收</strong></td><td>根莖基部微微露出土面</td><td>✅ 抓住根莖基部慢慢往上拔,力道均勻不要斷;出土那秒是尋寶時刻!</td></tr>
+<tr><td>Day 100+</td><td>持續採收期</td><td>剩餘植株繼續生長</td><td>✅ 陸續拔收;同盆的大小不均勻,先拔露出較多的</td></tr>
+</tbody>
+</table>
+
+<div class="callout" style="margin-top:12px;">
+<h4>📱 播種當天就要做的 3 件事</h4>
+<ol style="margin:4px 0 0;padding-left:22px;">
+<li>Google 行事曆設提醒:<strong>今日 + 12 天</strong>(第一次疏苗)、<strong>今日 + 28 天</strong>(第二次疏苗 + 施肥)、<strong>今日 + 60 天</strong>(第二次施肥)、<strong>今日 + 85 天</strong>(試拔日)</li>
+<li>便利貼寫播種日期貼在盆邊 —— 讓眼睛看得到「這盆是哪天種的」</li>
+<li>便利貼另一張寫「<strong>不要提早拔!等 80 天後才試</strong>」—— 防止焦急提前拔(最常見失敗原因)</li>
+</ol>
+<p style="margin:6px 0 0;font-size:14px;"><strong>三個月的決定當天做完,腦袋騰出來做別的事</strong>。</p>
+</div>
+
+<p style="font-size:14px;color:var(--muted);margin-top:10px;"><em>施肥細節(不同盆大小、哪裡買)看下方「🌾 施肥」section。</em></p>`,
+      },
+      {
+        id: 'fertilizer', emoji: '🌾', heading: '施肥',
+        html: `
+<p><strong>本 handbook 預設固體緩釋肥,不推液肥給新手</strong> —— 不用稀釋、不用算濃度、撒一次吃 3 個月、難燒根。</p>
+<p style="font-size:14px;color:var(--muted);margin-top:4px;"><em>施肥時機(Day 30 / Day 60 / 冬眠)已統整在上面「📋 完整時程表」,這個 section 專講<strong>用多少 · 用哪款 · 怎麼撒</strong>。</em></p>
+
+<div class="callout">
+<h4>📐 不同盆大小 · 速查(好康多 1 號)</h4>
+<table style="margin-top:6px;">
+<thead><tr><th>盆</th><th>顆數</th><th>備註</th></tr></thead>
+<tbody>
+<tr><td>3 吋圓盆(Ø9cm)</td><td><strong>3 粒</strong></td><td>太小不建議種紅蘿蔔(根深)</td></tr>
+<tr><td>7 吋圓盆(Ø21cm)</td><td><strong>8 粒</strong></td><td>勉強夠深(需 30cm 深盆型)</td></tr>
+<tr><td><strong>長方盆 50×20cm 深 30cm</strong></td><td><strong>15 粒</strong></td><td>紅蘿蔔最推薦規格</td></tr>
+<tr><td>大陽台深盆 60cm+</td><td><strong>18–20 粒</strong></td><td>多株同時種,採收期長</td></tr>
+</tbody>
+</table>
+<p style="margin:8px 0 0;font-size:14px;"><strong>原則</strong>:寧可少不可多;根莖類植物對肥料很敏感,過肥容易讓根部分叉或形狀怪異。</p>
+</div>
+
+<h4 style="color:var(--primary);margin-top:14px;">🛒 買哪一款</h4>
+<ul>
+<li><strong>好康多 1 號</strong>(NPK 14-11-13)— 萬用款,適合根莖類蔬菜</li>
+<li>350g 小包約 NT$100,一包可用多年</li>
+<li>全聯園藝區、花市、iGarden 網購都有</li>
+<li>替代品:魔肥、奧綠肥(類似緩釋顆粒肥都 OK)</li>
+</ul>
+
+<div class="callout warn">
+<h4>⚠️ 根莖類施肥特別注意</h4>
+<ul style="margin:4px 0 0;padding-left:20px;">
+<li><strong>不要在播種時就施肥</strong> — 新根遇到高濃度肥會燒傷,等到 Day 30 植株站穩再施</li>
+<li><strong>氮肥不能過多</strong> — 氮過多讓葉子瘋長、根部反而細小,好康多 1 號 NPK 比例已均衡</li>
+<li><strong>未腐熟有機肥絕對不能用</strong> — 雞糞、廚餘直接混土,根部接觸後必然分叉或腐爛</li>
+</ul>
+</div>
+
+<div class="callout warn">
+<h4>📱 記憶外包 — 播種當天就把施肥排程做完</h4>
+<p style="margin:0 0 6px;">打開 Google 行事曆設兩個提醒:</p>
+<ul style="margin:0;padding-left:20px;">
+<li>播種日 + 30 天 → 「撒好康多(用量看便利貼)+ 澆水」</li>
+<li>播種日 + 60 天 → 「再撒一次好康多」</li>
+</ul>
+<p style="margin:8px 0 0;font-size:14px;"><strong>三個月的決定一次做完,腦袋騰出來做別的事</strong>。</p>
+</div>
+
+<details style="margin-top:14px;border:1px solid var(--border);border-radius:8px;padding:10px 14px;">
+<summary style="cursor:pointer;color:var(--primary-dark);font-weight:bold;">⚠️ 出事才看:一眼判斷施肥問題</summary>
+<div style="padding:10px 0 0;">
+<table>
+<thead><tr><th>看到什麼</th><th>是什麼</th><th>立刻做</th></tr></thead>
+<tbody>
+<tr><td>土表<strong>白色結晶</strong></td><td>過肥 / 鹽積</td><td>停肥,大量清水沖盆 3 次</td></tr>
+<tr><td>葉色<strong>淡黃</strong>(該是深綠)</td><td>缺肥或缺水</td><td>先補水確認不是缺水,再考慮補 3–5 粒</td></tr>
+<tr><td>根部拔起<strong>分叉/歪斜</strong></td><td>土太硬/石頭/過肥</td><td>下次播種前更仔細揀石頭、鬆土</td></tr>
+</tbody>
+</table>
+</div>
+</details>
+
+<details style="margin-top:10px;border:1px solid var(--border);border-radius:8px;padding:10px 14px;">
+<summary style="cursor:pointer;color:var(--muted);font-size:14px;">🧪 進階:想用液肥的路線(不建議新手)</summary>
+<div style="padding:10px 0 0;font-size:14px;">
+<p>如果家裡已有液肥:</p>
+<ul>
+<li><strong>花寶 2 號</strong>(高磷高鉀,NPK 10-30-20)—— 磷鉀有助根部發育,比全面型更適合根莖類</li>
+<li>包裝稀釋比<strong>再減半</strong>(根莖類比葉菜更敏感)</li>
+<li>每 14 天一次,Day 30 後才開始</li>
+<li>施完澆一次清水沖殘留</li>
+</ul>
+<p style="margin-top:6px;"><strong>液肥效果快但誤差大;固體肥慢但難出錯</strong>。handbook 主推固體。</p>
+</div>
+</details>
+
+<p style="font-size:13px;color:var(--muted);margin-top:14px;">通用施肥原則看 <a href="#" onclick="event.preventDefault();navigateTo('page-knowledge');return false;" style="color:var(--primary);font-weight:bold;">📚 通用園藝知識 → 🌾 施肥</a>。</p>`,
+      },
+      {
+        id: 'harvest', emoji: '✂️', heading: '採收',
+        html: `
+<h4 style="color:var(--primary);">判斷何時可以拔</h4>
+<ul>
+<li><strong>根莖基部微微露出土面</strong> — 這是最可靠的信號,橘色頂端從土裡探出頭</li>
+<li>播種後 <strong>80–100 天</strong>可以試拔第一批</li>
+<li>葉片略微倒伏、葉色轉深綠也是熟成信號</li>
+<li>不確定的話先拔一株確認大小,不影響其他株</li>
+</ul>
+
+<h4 style="color:var(--primary);margin-top:12px;">拔收動作</h4>
+<ul>
+<li>一手壓住盆土邊緣(防止盆整個翻),另一手<strong>抓住葉基部</strong>(不是葉片)</li>
+<li><strong>緩慢垂直向上拔</strong>,不要旋轉,根部直的才不會斷</li>
+<li>如果很緊,先用筷子在旁邊挖鬆土再拔</li>
+<li><strong>出土那一秒是尋寶時刻</strong> —— 讓長輩自己拔,不要幫他拔</li>
+</ul>
+
+<div class="callout" style="margin-top:12px;">
+<h4>🥕 採收後可做的簡單事</h4>
+<ul style="margin:4px 0 0;padding-left:20px;">
+<li><strong>生吃測甜度</strong> — 冬天越冬後的紅蘿蔔切一小片直接吃,比超市的甜</li>
+<li><strong>葉子別丟</strong> — 嫩葉可以炒蛋或加湯,是第二收穫</li>
+<li><strong>削皮切塊</strong> — 熟悉的廚房動作,適合讓長輩一起做(簡單重複的動作)</li>
+<li><strong>加進當天晚餐</strong> — 自己種的拿去煮湯,成就感立即完整</li>
+</ul>
+</div>`,
+      },
+      {
+        id: 'troubleshoot', emoji: '🛡', heading: '失敗點與除錯',
+        html: `
+<table>
+<thead><tr><th>症狀</th><th>可能原因</th><th>對策</th></tr></thead>
+<tbody>
+<tr><td>10–14 天還沒發芽</td><td>土太乾 / 播種太深 / 季節不對</td><td>確認土表每天保濕;種子不要埋超過 0.5 cm;夏天種必然不發芽</td></tr>
+<tr><td>拔出來根細如鉛筆</td><td>疏苗沒做 / 盆太淺 / 夏天種</td><td>下次做兩次疏苗;換深盆;確認月份(秋冬才種)</td></tr>
+<tr><td>根部分叉 / 歪斜</td><td>土裡有石頭或硬塊 / 過肥</td><td>播種前更仔細鬆土揀石;肥料減量</td></tr>
+<tr><td>根部頂端發青(綠色)</td><td>頂端露出土面、陽光直射</td><td>露出時往根基周圍補土覆蓋(培土)</td></tr>
+<tr><td>葉子倒塌萎軟</td><td>缺水或爛根</td><td>先試澆水觀察;若澆水後不恢復可能爛根(改善排水)</td></tr>
+<tr><td>葉色淡黃</td><td>缺氮 / 缺水 / 日照不足</td><td>先確認日照與澆水;若足夠則補 3–5 粒好康多</td></tr>
+<tr><td>有小蟲(蚜蟲/紅蜘蛛)</td><td>秋冬陽台也會有</td><td>強水沖洗葉面、手抓;避免農藥(準備食用)</td></tr>
+<tr><td>80 天拔起來只有根鬚</td><td>夏天播種 / 盆太淺</td><td>根本上:確認 9–1 月才播種;深盆 30 cm+</td></tr>
+</tbody>
+</table>`,
+      },
+      {
+        id: 'dementia', emoji: '🧠', heading: '失智照護應用 Notes',
+        byLevel: {
+          mild: `
+<div class="callout">
+<h4>📍 輕度:她能主導整個種植節奏</h4>
+<p style="margin:0;">她還能理解多步驟流程、記得今天要去看看盆、感受到等待的意義。紅蘿蔔的「長等待 + 拔收驚喜」節奏最適合這個階段使用。</p>
+</div>
+<ul>
+<li><strong>讓她決定播種密度</strong> — 「這樣放幾顆妳覺得夠了?」讓她有主導感</li>
+<li>每天「去看一下有沒有發芽」是她自己可以主導的 ritual,水壺和盆固定擺在動線上</li>
+<li>疏苗時她能自己拔,你提示「這棵太近要拔掉,給旁邊那棵空間長大」就夠</li>
+<li>施肥時她能自己數顆粒、自己撒,<strong>這個動作的精細度剛好匹配輕度認知能力</strong></li>
+<li><strong>目標</strong>:讓她感受完整的農作節奏 — 種、等、照顧、收穫,不跳過任何一步</li>
+</ul>
+<p>這個階段的價值:<strong>「我還在種東西、還在照顧生命」的自我感是最好的認知刺激</strong>。</p>`,
+          moderate: `
+<div class="callout">
+<h4>📍 中度:拆解到單一動作,每次一個</h4>
+<p style="margin:0;">她能執行你引導的單一動作,但記不得「今天要做什麼」,不會自己主動去陽台。你的角色是把每個步驟「準備好,放在她手邊」。</p>
+</div>
+<ul>
+<li><strong>噴霧瓶事先裝好水放在盆旁</strong> — 不要讓她找水龍頭,那個路徑太長</li>
+<li>每天的言語指引只說一個動作:「幫我噴一下土,怕乾了」,不說「去陽台噴水然後確認葉子」</li>
+<li>疏苗時<strong>你先標出要拔哪株(例:插一根牙籤在旁邊)</strong>,請她拔掉標記的那棵</li>
+<li>採收日帶她到陽台,把手放在根基:「抓這裡,慢慢往上拔」—— 出土那秒讓她自己完成,<strong>不要提前幫她拔</strong></li>
+<li>拔出來的紅蘿蔔放在她手上,讓她握著感受重量和涼意,不急著拿走</li>
+</ul>
+<p>這個階段的價值:<strong>採收的驚喜感在中度仍然完整存在</strong> —— 認知退化不影響情緒記憶,那一秒「哇」的感覺她還能體驗。</p>`,
+          severe: `
+<div class="callout">
+<h4>📍 重度:不要求動作,要求感官接觸</h4>
+<p style="margin:0;">她的自主動作有限,指令理解困難。紅蘿蔔的價值從「活動」變成<strong>感官刺激 + 情緒連結</strong>。</p>
+</div>
+<ul>
+<li>帶她坐在盆旁邊,<strong>你播種或澆水,她在旁邊看</strong>,不要求她動作</li>
+<li>把嫩葉放到她手上,讓她感受羽狀葉的觸感(有點毛、有點涼);把葉子湊近讓她聞土味</li>
+<li>採收時你拔起來後,<strong>把橘色的根放在她手上</strong> — 橘色鮮豔、表面光滑涼沉,是強感官刺激</li>
+<li>削皮的聲音、切塊的聲音、「今天煮湯用我們種的蘿蔔」的話語 —— 這些聲音和語境可能觸動深層記憶</li>
+<li>每次同樣的路線、同樣的時段,<strong>節奏感比「完成任何事」更重要</strong></li>
+</ul>
+<p>這個階段的價值:<strong>她不需要「種」紅蘿蔔,她需要「在」那個種紅蘿蔔的場景裡</strong>。橘色的根、土的氣味、熟悉的「晚餐要用的蘿蔔」—— 這些比動作更能到達深處。</p>`,
+        },
+      },
+      {
+        id: 'log', emoji: '📓', heading: '實測紀錄',
+        html: `
+<div class="callout warn">
+<p style="margin:0;"><strong>尚未實測</strong> — 紅蘿蔔預計 2026 年 9–10 月(白露後)開始第一批播種實測。屆時會記錄:播種密度、盆土配方、疏苗時機、拔收尺寸與甜度,以及失智長輩在採收時的反應。</p>
+</div>
+
+<p style="color:var(--muted);font-size:14px;margin-top:10px;"><em>未來計畫:</em></p>
+<ul style="color:var(--muted);font-size:14px;">
+<li>2026-09 白露後:第一批播種,長方盆 50×20 cm 深 30 cm,寒露(10 月)補播第二批</li>
+<li>比較不同品種:五寸人參 vs 短型水果蘿蔔(給長輩當零食用)</li>
+<li>記錄媽媽參與疏苗和採收時的互動情況</li>
+<li>測試冬至前後甜度差異(低溫越冬理論)</li>
+</ul>`,
+      },
+    ],
+  },
+
+  // =========== 白蘿蔔(根莖) ===========
+  {
+    id: 'daikon',
+    name: '白蘿蔔',
+    emoji: '🥬',
+    category: 'root',
+    meta: {
+      difficulty: '低-中(根莖需深盆,疏苗要確實)',
+      season: '播種 9–1 月(秋冬最甜)',
+      light: '全日照',
+      location: '南向陽台 / 戶外全日照',
+      seasons: ['autumn', 'winter'],
+      bestStartMonths: [9, 10, 11, 12, 1],
+    },
+    sections: [
+      {
+        id: 'why', emoji: '💡', heading: '為什麼值得在陽台種白蘿蔔',
+        html: `
+<ul>
+<li><strong>葉 + 根都可食</strong> — 蘿蔔葉醃雪裡紅、炒蛋;根做蘿蔔湯、蘿蔔糕、蘿蔔乾,一株兩吃</li>
+<li><strong>「連根拔起」的儀式感無可取代</strong> — 採收那一刻把藏在土裡兩個月的成果一次挖出,會真的嚇到</li>
+<li><strong>台灣年節記憶</strong> — 蘿蔔湯、蘿蔔糕是多數長輩童年的家常味,種出來等於召喚一段記憶</li>
+<li><strong>深盆 25 cm 即可</strong> — 比紅蘿蔔淺,一般花市深盆就夠,不需要特殊設備</li>
+<li><strong>冬蘿蔔最甜</strong> — 秋冬晝夜溫差大,澱粉轉糖,市售蘿蔔品質不如自種冬收的</li>
+<li><strong>疏苗的菜苗可以即時吃</strong> — 疏苗拔下的嫩苗可以當芽菜拌沙拉,不浪費</li>
+</ul>`,
+      },
+      {
+        id: 'obtain', emoji: '🛒', heading: '取得方式',
+        html: `
+<div class="callout warn" style="margin-bottom:10px;">
+<h4>🗓️ Step 0 · 先看月曆再動手</h4>
+<p style="margin:0;"><strong>現在要是 9–1 月才開始。</strong> 白蘿蔔是<strong>涼季作物</strong>,超過 25°C 容易抽苔(開花)、根部長不大。夏天(5–8 月)播種幾乎必失敗 — 根還沒膨大就先抽苔、質地變硬發苦。如果現在是春夏,<strong>等到白露(9/8)後再下手</strong>,現在就先備盆土、找種子來源。</p>
+</div>
+
+<div class="callout" style="background:#e8f5e9;border-left-color:var(--primary-dark);">
+<h4>📦 推薦的新手包 · 三步照順序來</h4>
+<ol style="margin:6px 0 4px;padding-left:22px;">
+<li><strong>先備盆與土(這一步要比種子先到)</strong> — 花市買 <strong>直徑 30 cm、深 30 cm 以上的深圓盆</strong>或 <strong>50×30cm 長方深盆</strong>,一般培養土混少量珍珠石(約 2:1),合計 NT$200–300。土填 8 分滿、澆一次水讓土服貼定位。</li>
+<li><strong>再買種子</strong> — <strong>花市或蝦皮搜尋「白蘿蔔 種子」</strong>(選「夏進白蘿蔔」或「日本白玉蘿蔔」等短根品種,NT$50–80/包,一包夠種 2–3 盆)</li>
+<li><strong>備齊當天立刻播種</strong> — 每穴點播 2–3 粒種子,深度約 1–1.5 cm(種子直徑的 3 倍),穴距 15–20 cm;澆透;放全日照處</li>
+</ol>
+<p style="margin:8px 0 0;font-size:14px;color:var(--muted);">⚠️ <strong>順序不能顛倒</strong>:白蘿蔔<strong>不耐移植</strong>,必須直接播種在最終的盆裡,不可先育苗再移植(根會彎曲或死)。總預算 <strong>NT$350 有找</strong>,但<strong>季節要對</strong>(見上面 Step 0)。</p>
+</div>
+
+<h4 style="color:var(--primary);margin:14px 0 6px;">其他取得管道</h4>
+<ul>
+<li><strong>花市種子攤</strong>:9–10 月會出現當季蘿蔔種子,可以現場問品種適不適合盆栽</li>
+<li><strong>農會超市 / 種苗行</strong>:台南、彰化等農業縣市的農會賣場常有本土品種種子</li>
+</ul>
+<p style="margin:8px 0 0;">⚠️ <strong>不推薦直接用超市蘿蔔再生</strong>:超市蘿蔔是採收後才販售,頭部插水雖然會發葉但無法再長出新的根,只能欣賞葉子,無法收成蘿蔔。</p>`,
+      },
+      {
+        id: 'pot-soil', emoji: '🏺', heading: '盆器與土壤',
+        html: `
+<h4 style="color:var(--primary);">盆器</h4>
+<ul>
+<li><strong>深度至少 25–30 公分</strong>(根部需要往下生長空間,太淺蘿蔔會「頭大身短」或彎曲)</li>
+<li>直徑 <strong>30 cm 圓盆</strong>可種 1 株;長方盆 <strong>50×30 cm</strong> 可種 2–3 株(株距 15 cm)</li>
+<li>盆底<strong>必須有排水孔</strong>(蘿蔔怕積水,根部浸水會腐爛)</li>
+<li>選<strong>深色塑膠盆</strong>比陶盆省重量,陽台承重比較不緊張</li>
+</ul>
+
+<h4 style="color:var(--primary);margin-top:12px;">土壤</h4>
+<ul>
+<li><strong>疏鬆、排水良好</strong>最重要 — 蘿蔔是根莖,土太硬或太黏會讓根歪曲</li>
+<li>推薦:培養土 2 份 + 珍珠石 1 份混合</li>
+<li>避免使用未完全腐熟的有機肥直接接觸種子(會燒芽)</li>
+<li>填土時不要壓實,讓根有鬆軟的環境往下鑽</li>
+</ul>
+<p style="font-size:14px;color:var(--muted);margin-top:10px;"><em>施肥細節獨立成下面的「🌾 施肥」section。</em></p>`,
+      },
+      {
+        id: 'steps', emoji: '🌳', heading: '種植步驟',
+        html: `
+<ol>
+<li><strong>確認盆深</strong> — 至少 25 cm,不夠就換盆,不要將就</li>
+<li><strong>填土</strong> — 培養土混珍珠石,填到盆沿下 3–4 cm,澆水讓土下沉定位後再補平</li>
+<li><strong>點播種子</strong> — 每穴 2–3 粒,穴距 15–20 cm,深度約 1–1.5 cm,輕輕蓋土不壓實</li>
+<li><strong>第一次澆水</strong> — 澆到盆底滲水,之後土表 1–2 cm 乾了再澆</li>
+<li><strong>放在全日照處</strong> — 南向陽台最佳;日照不足根部不會膨大</li>
+</ol>
+
+<div class="callout warn">
+<h4>✂️ 疏苗兩次 — 這步不做蘿蔔長不大</h4>
+<p style="margin:0 0 6px;">每穴播多粒種子,必須透過疏苗讓最後只剩 1 株。擠在一起的蘿蔔根部互相競爭,全部都長不好。</p>
+<ol style="margin:0;padding-left:22px;">
+<li><strong>第一次疏苗(子葉展開,約 Day 7–10)</strong>:每穴留 2 株,拔掉最弱的</li>
+<li><strong>第二次疏苗(本葉 3 枚,約 Day 18–25)</strong>:每穴只留 1 株,留最強壯的</li>
+</ol>
+<p style="margin:8px 0 0;font-size:14px;">拔下的嫩苗不要丟 — 洗淨可以當芽菜拌沙拉,帶點辛辣味,很好吃。</p>
+</div>`,
+      },
+      {
+        id: 'timing', emoji: '📋', heading: '完整時程表 · 播種到採收',
+        html: `
+<p><strong>播種 → 發芽 → 疏苗 → 施肥 → 根部膨大 → 採收</strong>,一張表涵蓋整季。<strong>照做就對</strong>。</p>
+
+<div class="callout warn">
+<h4>⚠️ 開工前先看月曆 / 節氣:挑對時間,不然只長葉不長根</h4>
+<p style="margin:0 0 6px;">白蘿蔔<strong>喜涼怕熱</strong>,超過 25°C 就抽苔開花,根部停止膨大。<strong>節氣比月份準</strong>:</p>
+<table style="margin-top:8px;">
+<thead><tr><th></th><th>月份</th><th>節氣</th><th>狀態</th></tr></thead>
+<tbody>
+<tr style="background:#f0f8ec;"><td>✅ 最佳</td><td><strong>10 – 12 月</strong></td><td><strong>寒露(10/8)→ 冬至(12/22)</strong></td><td>涼爽穩定、蘿蔔最甜,<strong>手冊所有時程以此為準</strong></td></tr>
+<tr><td>🟡 勉強</td><td>9 月 / 1 月</td><td>白露(9/8) / 小寒(1/6)</td><td>邊緣期:9 月還偏熱需遮陽;1 月氣溫夠但採收前後接春回暖</td></tr>
+<tr style="background:#fdecec;"><td>❌ 絕對別播</td><td><strong>5 – 8 月</strong></td><td><strong>立夏(5/5)→ 立秋(8/7)</strong></td><td>高溫必抽苔,根部不膨大,徒勞無功</td></tr>
+</tbody>
+</table>
+<p style="margin:8px 0 0;font-size:14px;">俗語:<strong>「白露種蘿蔔、寒露種白菜」</strong>。如果現在是夏天,<strong>不要播</strong> —— 先備盆土等白露(9 月上旬)再下手。</p>
+<p style="margin:6px 0 0;font-size:13px;color:var(--muted);"><em>完整 24 節氣對照看 <a href="#" onclick="event.preventDefault();navigateTo('page-knowledge');return false;" style="color:var(--primary);">📚 通用園藝知識 → 📅 24 節氣</a>。</em></p>
+</div>
+
+<table>
+<thead><tr><th>天數</th><th>階段</th><th>植物狀態</th><th>你的動作</th></tr></thead>
+<tbody>
+<tr><td><strong>Day 1</strong></td><td>播種</td><td>種子入土</td><td>澆透到盆底出水;❌ 不施肥</td></tr>
+<tr><td>Day 2–7</td><td>發芽期</td><td>尚未出土</td><td>土表乾了才澆;保持全日照;❌ 不施肥</td></tr>
+<tr><td><strong>Day 5–7 🌱</strong></td><td>發芽</td><td>子葉頂出土面</td><td>繼續澆水,確認每穴至少 1 株發芽</td></tr>
+<tr><td><strong>Day 7–10 ✂️</strong></td><td><strong>第一次疏苗</strong></td><td>子葉完全展開</td><td>✅ 每穴留 2 株,拔最弱的;嫩苗洗淨當芽菜吃</td></tr>
+<tr><td>Day 10–25</td><td>本葉生長</td><td>真葉一片片展開</td><td>澆水;觀察葉色</td></tr>
+<tr><td><strong>Day 18–25 ✂️</strong></td><td><strong>第二次疏苗</strong></td><td>本葉 3 枚</td><td>✅ 每穴只留 1 株,留最粗壯的;拔下的也可吃</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 30 🌾</strong></td><td><strong>第一次施肥</strong></td><td>植株穩住,葉叢展開</td><td>✅ 撒 <strong>8–10 粒</strong> 好康多 1 號(7 吋圓盆)或 <strong>15 粒</strong>(長方盆)+ 澆水</td></tr>
+<tr><td>Day 30–60</td><td>根部膨大期</td><td>葉叢擴大;根頂漸漸露出土面</td><td>土表乾才澆;不要翻土查根(會傷)</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 60–90 ✂️</strong><br><em style="font-weight:normal;font-size:12px;">(第 2–3 個月)</em></td><td><strong>首次可採收</strong></td><td>根頂露出土面 3–5 cm;葉叢直徑 30 cm+</td><td>✅ 抓住葉基垂直<strong>連根拔起</strong>;冬蘿蔔可等到 80–90 天更甜</td></tr>
+<tr><td>採收後</td><td>採收完成</td><td>一次全拔,不會再長</td><td>蘿蔔葉立刻處理(見採收 section);空盆可補播下一批</td></tr>
+<tr style="background:#fdf5e6;"><td><strong>2 – 4 月 ☀️</strong></td><td><strong>春暖停播</strong></td><td>—</td><td>❌ 停播;等秋天白露再開始新一輪</td></tr>
+</tbody>
+</table>
+
+<div class="callout" style="margin-top:12px;">
+<h4>📱 播種當天就要做的 3 件事</h4>
+<ol style="margin:4px 0 0;padding-left:22px;">
+<li>Google 行事曆設提醒:<strong>今日 + 8 天</strong>「第一次疏苗、留 2 株」</li>
+<li>Google 行事曆設提醒:<strong>今日 + 22 天</strong>「第二次疏苗、留 1 株」</li>
+<li>Google 行事曆設提醒:<strong>今日 + 30 天</strong>「撒好康多施肥」</li>
+</ol>
+<p style="margin:6px 0 0;font-size:14px;"><strong>疏苗時機錯過就補不回來</strong> —— 當天設好提醒,不靠記憶。</p>
+</div>
+
+<p style="font-size:14px;color:var(--muted);margin-top:10px;"><em>施肥細節(盆大小、哪裡買)、採收技巧,看下方「🌾 施肥」、「✂️ 採收」section。</em></p>`,
+      },
+      {
+        id: 'fertilizer', emoji: '🌾', heading: '施肥',
+        html: `
+<p><strong>本 handbook 預設固體緩釋肥,不推液肥給新手</strong> —— 不用稀釋、不用算濃度、撒一次吃 3 個月、難燒根。</p>
+<p style="font-size:14px;color:var(--muted);margin-top:4px;"><em>施肥時機(Day 30)已統整在上面「📋 完整時程表」。這個 section 專講 <strong>用多少 · 用哪款 · 怎麼撒</strong>。</em></p>
+
+<div class="callout">
+<h4>📐 不同盆大小 · 速查(好康多 1 號)</h4>
+<table style="margin-top:6px;">
+<thead><tr><th>盆</th><th>顆數</th></tr></thead>
+<tbody>
+<tr><td>7 吋圓盆(Ø21cm)· 種 1 株</td><td><strong>8 粒</strong></td></tr>
+<tr><td>9 吋圓盆(Ø27cm)· 種 1 株</td><td><strong>10 粒</strong></td></tr>
+<tr><td><strong>長方盆 50×30cm</strong> · 種 2–3 株</td><td><strong>15 粒</strong></td></tr>
+</tbody>
+</table>
+<p style="margin:8px 0 0;font-size:14px;"><strong>原則</strong>:寧可比這個少,不可比這個多。白蘿蔔過肥會促進葉生長而非根膨大。</p>
+</div>
+
+<h4 style="color:var(--primary);margin-top:14px;">🛒 買哪一款</h4>
+<ul>
+<li><strong>好康多 1 號</strong>(NPK 14-11-13)— 萬用款,根莖葉菜都適用</li>
+<li>350g 小包約 NT$100,一包用好幾季</li>
+<li>全聯園藝區、花市、iGarden 網購都有</li>
+<li>替代品:魔肥、奧綠肥(類似緩釋顆粒肥都 OK)</li>
+</ul>
+
+<div class="callout warn">
+<h4>⚠️ 白蘿蔔施肥的特殊注意</h4>
+<ul style="margin:4px 0 0;padding-left:20px;">
+<li><strong>疏苗後才施第一次肥</strong>(Day 30):疏苗前施肥是在浪費;苗太多根本不會長大</li>
+<li><strong>不要追第二次肥</strong>:白蘿蔔生長期約 60–90 天,一次緩釋肥夠了;追肥反而讓葉子狂長、根不膨大</li>
+<li><strong>氮肥不要過多</strong>:好康多均衡肥 OK;純氮肥(如尿素)會讓葉瘋長但根又小又苦</li>
+</ul>
+</div>
+
+<details style="margin-top:14px;border:1px solid var(--border);border-radius:8px;padding:10px 14px;">
+<summary style="cursor:pointer;color:var(--primary-dark);font-weight:bold;">⚠️ 出事才看:一眼判斷 3 條(日常不用觀察)</summary>
+<div style="padding:10px 0 0;">
+<table>
+<thead><tr><th>看到什麼</th><th>是什麼</th><th>立刻做</th></tr></thead>
+<tbody>
+<tr><td>葉叢<strong>暗綠肥厚</strong>,但根頂不見</td><td>氮過多 / 追肥過早</td><td>停肥,大量清水沖盆 2 次</td></tr>
+<tr><td>葉色<strong>淡黃</strong>(該是深綠)</td><td>缺肥 / 日照不足</td><td>確認日照;再撒 3–5 粒</td></tr>
+<tr><td>葉緣<strong>焦褐捲曲</strong></td><td>過肥 / 燒根</td><td>停肥,澆清水沖</td></tr>
+</tbody>
+</table>
+</div>
+</details>
+
+<details style="margin-top:10px;border:1px solid var(--border);border-radius:8px;padding:10px 14px;">
+<summary style="cursor:pointer;color:var(--muted);font-size:14px;">🧪 進階:想用液肥的路線(不建議新手)</summary>
+<div style="padding:10px 0 0;font-size:14px;">
+<p>如果家裡已有液肥,可在疏苗後第一次施肥時補一次稀薄液肥促根:</p>
+<ul>
+<li><strong>花寶 2 號</strong>(高磷款,促根膨大),稀釋比依包裝<strong>再加倍稀釋</strong></li>
+<li>每 2 週施一次,只在根部膨大期(Day 30–60)使用</li>
+<li>施完澆一次清水沖殘留</li>
+</ul>
+<p style="margin-top:6px;"><strong>液肥效果快但誤差大;固體肥慢但難出錯</strong>。handbook 主推固體。</p>
+</div>
+</details>
+
+<p style="font-size:13px;color:var(--muted);margin-top:14px;">通用施肥原則(缺肥 vs 過肥對照、NPK 速查)看 <a href="#" onclick="event.preventDefault();navigateTo('page-knowledge');return false;" style="color:var(--primary);font-weight:bold;">📚 通用園藝知識 → 🌾 施肥</a>。</p>`,
+      },
+      {
+        id: 'harvest', emoji: '✂️', heading: '採收',
+        html: `
+<h4 style="color:var(--primary);">根部採收</h4>
+<ul>
+<li><strong>判斷時機</strong>:根頂露出土面 3–5 cm、葉叢茂密直挺,約播種後 60–90 天。冬天多等兩週更甜</li>
+<li><strong>採收方法</strong>:抓住葉基部,<strong>垂直往上連根拔起</strong>(不要左右搖晃,會斷根)</li>
+<li>拔出後立刻用剪刀<strong>在距根頂 3–5 cm 處剪斷葉子</strong>,延長根部保存期限</li>
+<li>一盆只有 1–3 株,一次採完,不會再長新根</li>
+</ul>
+
+<h4 style="color:var(--primary);margin-top:14px;">蘿蔔葉的處理 — 別丟!兩種家常吃法</h4>
+<div class="callout" style="background:#e8f5e9;border-left-color:var(--primary-dark);">
+<h4>🥬 蘿蔔葉兩用</h4>
+<ul style="margin:4px 0 0;padding-left:20px;">
+<li><strong>當天炒蛋</strong>:嫩葉洗淨切段,加蒜炒蛋,口感類似菠菜,帶微辛。採收當天最鮮</li>
+<li><strong>曬蘿蔔葉乾(雪裡紅)</strong>:葉子洗淨切碎,撒鹽搓揉(每斤葉 10g 鹽),晾半天出水後擰乾,放冰箱 2–3 天發酵成雪裡紅。可炒蛋、包餃子、加豆腐乾炒</li>
+</ul>
+</div>
+
+<h4 style="color:var(--primary);margin-top:14px;">根部保存與料理</h4>
+<ul>
+<li><strong>冰箱冷藏</strong>:帶皮不切,廚房紙巾包裹放蔬菜盒,可放 1–2 週</li>
+<li><strong>蘿蔔湯</strong>:台式家常首選。切塊加排骨或小魚乾慢燉,湯頭清甜</li>
+<li><strong>蘿蔔乾(菜脯)</strong>:切條鹽漬出水後陰乾 7–10 天。台灣年節必備,菜脯蛋、菜脯雞湯都靠它</li>
+<li><strong>醃蘿蔔</strong>:切片,鹽 + 糖 + 醋醃隔夜即可吃,脆爽下飯</li>
+</ul>`,
+      },
+      {
+        id: 'troubleshoot', emoji: '🛡', heading: '失敗點與除錯',
+        html: `
+<table>
+<thead><tr><th>症狀</th><th>可能原因</th><th>對策</th></tr></thead>
+<tbody>
+<tr><td>種子不發芽</td><td>覆土太深 / 土太乾 / 種子過期</td><td>深度不超過 1.5 cm;發芽前保持土面濕潤;買新種子</td></tr>
+<tr><td>只長葉不長根</td><td>播種時機太熱 / 日照不足 / 氮肥過多</td><td>確認季節對(9–1 月);移到全日照處;停肥</td></tr>
+<tr><td>蘿蔔根彎曲或分叉</td><td>土太硬太黏 / 石頭障礙物 / 未確實疏苗</td><td>種前把土打鬆混珍珠石;確認每穴只剩 1 株</td></tr>
+<tr><td>根部中空(切開是空心)</td><td>採收太晚 / 生長期缺水</td><td>第 70–80 天就要採,不要拖到 100 天以上;生長期水分穩定</td></tr>
+<tr><td>提前抽苔開花</td><td>春天回暖後才播 / 突然冷熱劇變</td><td>嚴格在白露–小寒(9–1 月)播;抽苔後根已老化不好吃,只能採蘿蔔嬰享用</td></tr>
+<tr><td>葉叢被蟲啃洞</td><td>蚜蟲 / 小菜蛾 / 夜盜蟲</td><td>早晨手抓或水沖;嚴重時套防蟲網。蘿蔔葉本來就多蟲,採收前再處理一次葉子即可</td></tr>
+<tr><td>根頂發綠變苦</td><td>根頂長期露出土面照到陽光</td><td>發現根頂露出時用土稍微蓋一下(不是必須,但可防苦)</td></tr>
+</tbody>
+</table>`,
+      },
+      {
+        id: 'dementia', emoji: '🧠', heading: '失智照護應用 Notes',
+        byLevel: {
+          mild: `
+<div class="callout">
+<h4>📍 輕度:用蘿蔔召喚記憶,讓她主導廚房</h4>
+<p style="margin:0;">她記得蘿蔔湯、菜脯蛋是什麼。種蘿蔔可以喚起整個家常記憶脈絡 —— 「從前都是這樣種的」「阿嬤會做菜脯蛋」。</p>
+</div>
+<ul>
+<li>每天早上帶她去陽台看一下盆,問「葉子有沒有更大?」—— 觀察生長是低認知負擔的成就感</li>
+<li>疏苗時讓她來拔:「這株太擠了,幫我拔掉這株」。單一指令、動作清楚</li>
+<li>採收當天讓她<strong>自己連根拔起</strong> —— 這個動作的驚喜感是你無法複製的。讓她拔、讓她嚇一跳、讓她說「哇這個好大」</li>
+<li>採收後一起洗蘿蔔、切蘿蔔 —— 觸覺(涼硬的根)+ 熟悉的廚房動作,雙重刺激</li>
+<li><strong>目標</strong>:讓她覺得「我還是那個會做菜的人」,不是被照顧的人</li>
+</ul>
+<p>這個階段的價值:<strong>蘿蔔是有形的成果,不是抽象的「活動」。她能看到、摸到、吃到 —— 這三點是許多認知活動辦不到的</strong>。</p>`,
+          moderate: `
+<div class="callout">
+<h4>📍 中度:化繁為簡,留下「她還能做的那個動作」</h4>
+<p style="margin:0;">她無法記得「上週種的蘿蔔」,但<strong>當下看到蘿蔔葉,她的肌肉記憶還在</strong>。照護者的工作是把對的東西放在她面前。</p>
+</div>
+<ul>
+<li><strong>把盆放在她日常動線的視線高度</strong>(不要放角落):她走過就會看到、伸手就會摸到葉子</li>
+<li>澆水由你準備好水壺、放在盆旁邊,她看到水壺自然會澆 —— 不需要說話指令</li>
+<li>採收時<strong>你先鬆土,她來拔</strong>:拔出來的瞬間表情是值得保留的記憶</li>
+<li>蘿蔔葉讓她來<strong>摘洗老葉</strong>:重複性動作,她的手知道怎麼做</li>
+<li>切蘿蔔如果她還能做 → 大塊不要求形狀;如果不行 → 你切好放她面前讓她<strong>擺入鍋</strong></li>
+<li><strong>語言觸發用食物名稱</strong>:「蘿蔔湯」「菜脯蛋」比「我們來照顧植物」更能喚起回應</li>
+</ul>
+<p>這個階段的價值:<strong>不要期待她「記得種蘿蔔這件事」;期待她「在拔蘿蔔那一秒是快樂的」</strong>。那一秒就夠了。</p>`,
+          severe: `
+<div class="callout">
+<h4>📍 重度:不要求動作,讓蘿蔔陪著她</h4>
+<p style="margin:0;">主動動作已非重點。蘿蔔對重度失智者的價值在於<strong>感官層次</strong> —— 冰涼的重量感、泥土的氣味、白色的光澤。</p>
+</div>
+<ul>
+<li>採收後把剛拔的蘿蔔放到她手心讓她握著 —— 涼的、重的、滑滑的觸感,比任何玩具都真實</li>
+<li>用手引導她摸蘿蔔葉(柔軟、微粗糙)和根部(光滑、涼感):觸覺刺激</li>
+<li>蘿蔔湯煮好端到她面前,讓蒸氣和香氣過來 —— 嗅覺記憶是失智最後消失的感官</li>
+<li>不問她「好不好吃」「記不記得」——<strong>只說「蘿蔔湯,你以前最喜歡喝」,然後陪著她</strong></li>
+<li>蘿蔔白色的視覺特別清楚:放在木製托盤上,讓她看得到</li>
+</ul>
+<p>這個階段的價值:<strong>她不需要「參與種植」。她需要「蘿蔔這個東西出現在她的世界裡」</strong>。那個形狀、那個重量、那個氣味 —— 可能帶出你永遠不會知道的那段記憶。</p>`,
+        },
+      },
+      {
+        id: 'log', emoji: '📓', heading: '實測紀錄',
+        html: `
+<div class="callout warn">
+<p style="margin:0;"><strong>尚未實測</strong> — 白蘿蔔 entry 於 2026-04 撰寫。預計 2026-09(白露後)開始第一輪播種實測。</p>
+</div>
+
+<p style="color:var(--muted);font-size:14px;margin-top:10px;"><em>計畫記錄項目:</em></p>
+<ul style="color:var(--muted);font-size:14px;">
+<li>品種選擇(夏進白 vs 日本白玉):哪個適合 30 cm 深盆?</li>
+<li>兩次疏苗實際照片</li>
+<li>根頂露出土面的時間點</li>
+<li>採收重量 vs 市售蘿蔔比較</li>
+<li>蘿蔔葉做雪裡紅的實測(醃漬幾天最好吃?)</li>
+<li>失智照護 ritual 導入:拔蘿蔔儀式的反應紀錄</li>
+</ul>
+<p style="font-size:14px;color:var(--muted);margin-top:8px;"><em>實測紀錄與採收照片會在 2026 秋冬補進。</em></p>`,
+      },
+    ],
+  },
+
+  // =========== 洋蔥(根莖) ===========
+  {
+    id: 'onion',
+    name: '洋蔥',
+    emoji: '🧅',
+    category: 'root',
+    meta: {
+      difficulty: '低–中(等待期長,照顧簡單)',
+      season: '秋冬定植 10–1 月,春天長葉,5–6 月採球莖',
+      light: '全日照',
+      location: '陽台 / 戶外 / 頂樓',
+      seasons: ['autumn', 'winter'],
+      bestStartMonths: [10, 11, 12, 1],
+    },
+    sections: [
+      {
+        id: 'why', emoji: '💡', heading: '為什麼值得在家種洋蔥',
+        html: `
+<ul>
+<li><strong>廚房裡最常用的香氣基底</strong> — 炒菜、洋蔥湯、漢堡、滷肉幾乎都要它;從陽台直接採,比超市的新鮮一倍</li>
+<li><strong>兩種玩法自己選</strong> — 長葉(像青蔥替代品,4–6 週可採)vs 等球莖(5–6 個月,採整顆洋蔥),同一棵植物,收益完全不同</li>
+<li><strong>廢物利用起步</strong> — 廚房切洋蔥剩下的「發芽底部」直接插土,幾乎免費。長出來的葉子立刻可以炒菜</li>
+<li><strong>嗅覺刺激強烈</strong> — 洋蔥味是失智照護最有效的感官錨點之一;切洋蔥、聞味道本身就是一個 ritual</li>
+<li><strong>台灣常見品種</strong> — 黃洋蔥(香甜)、紫洋蔥(偏辛)、白洋蔥,花市和農會 10–11 月都有苗</li>
+<li><strong>照顧省力</strong> — 根扎下去之後基本不用管,偶爾澆水就好。等待期長但期間幾乎不費心</li>
+</ul>`,
+      },
+      {
+        id: 'obtain', emoji: '🛒', heading: '取得方式',
+        html: `
+<div class="callout warn" style="margin-bottom:10px;">
+<h4>🗓️ Step 0 · 先看月曆再動手</h4>
+<p style="margin:0;"><strong>現在要是 10 月–1 月才開始定植。</strong> 洋蔥是<strong>短日照作物</strong>:春夏日照長,它只長葉不結球;秋冬短日照,才會向下結球莖。春夏(2–9 月)定植結果是:長出一把細葉、始終不結球、最後倒伏死亡。如果現在是春天,<strong>先備盆土、等到 10 月寒露前後再下手</strong>。</p>
+</div>
+
+<div class="callout" style="background:#e8f5e9;border-left-color:var(--primary-dark);">
+<h4>📦 推薦的新手包 · 三步照順序來</h4>
+<ol style="margin:6px 0 4px;padding-left:22px;">
+<li><strong>先備盆與土(這一步要比苗先到)</strong> — 花市買 <strong>深度 30 公分以上的深盆</strong>(或直徑 30cm+ 圓盆)+ 蔬菜培養土,合計 NT$150–250;土填 8 分滿、澆一次水讓土服貼</li>
+<li><strong>10–11 月去花市或農會買「洋蔥苗」</strong> — 一束 10–20 株約 NT$50–100,挑根白莖硬的;大型花市(建國假日花市、台中公園花市)及各地農會 10 月中旬起開始有貨</li>
+<li><strong>買到當天立刻定植</strong> — 每株間距 10–15 公分,球根微微露出土面,澆透水,放全日照處</li>
+</ol>
+<p style="margin:8px 0 0;font-size:14px;color:var(--muted);">⚠️ <strong>順序不能顛倒</strong>:洋蔥苗根系嬌嫩,離土後數小時內就要定植;先到苗才備土,等土期間苗在袋裡悶死。總預算 <strong>NT$300–400 有找</strong>。</p>
+</div>
+
+<h4 style="color:var(--primary);margin:14px 0 6px;">其他取得管道</h4>
+<table>
+<thead><tr><th>管道</th><th>成本</th><th>適合情境</th><th>備註</th></tr></thead>
+<tbody>
+<tr><td><strong>廚房洋蔥發芽底部</strong></td><td>免費</td><td>想先體驗、不急著等球莖</td><td>切下底部留根 1 cm + 1 cm 球根插土;只長葉(青蔥替代),不會再結大球</td></tr>
+<tr><td><strong>花市/農會買苗</strong></td><td>NT$50–100/束</td><td>新手首選,10–11 月限定</td><td>成活率高,有老師傅可問種法</td></tr>
+<tr><td><strong>種子播種</strong></td><td>NT$50–100/包</td><td>玩過苗、想嘗試從頭</td><td>發芽需 7–14 天,育苗 4–6 週才能定植,適合中階</td></tr>
+<tr><td><strong>蝦皮買苗</strong></td><td>NT$80–200</td><td>附近沒花市</td><td>10–11 月搜尋「洋蔥苗 定植」;到貨立刻種</td></tr>
+</tbody>
+</table>
+
+<div class="callout warn" style="margin-top:12px;">
+<h4>⚠️ 廚房洋蔥發芽底部的正確期待</h4>
+<p style="margin:0;">切下帶根底部插土會長出<strong>洋蔥葉</strong>(可當青蔥用),但<strong>不會再長成大球莖</strong>。它能量已經在那顆洋蔥裡消耗殆盡。想要球莖,買苗或播種才是正途。發芽底部適合「先享受採葉的成就感」,不適合「等待採整顆洋蔥」。</p>
+</div>`,
+      },
+      {
+        id: 'pot-soil', emoji: '🏺', heading: '盆器與土壤',
+        html: `
+<h4 style="color:var(--primary);">盆器</h4>
+<ul>
+<li><strong>深度最少 30 公分</strong> — 球莖要往下長,淺盆會讓球被頂出土面、曬裂;這是洋蔥最常失敗的硬體原因</li>
+<li>寬度 30 公分以上,可以種 4–6 株(每株間距 10–15 公分)</li>
+<li>盆底<strong>必須有排水孔</strong> — 洋蔥根怕積水,尤其梅雨季(5–6 月正好採收期)容易爛根</li>
+<li>長方盆(60×30×30 cm)最省空間,可種 8–10 株一排</li>
+</ul>
+
+<h4 style="color:var(--primary);margin-top:12px;">土壤</h4>
+<ul>
+<li><strong>蔬菜專用培養土</strong>最方便,或一般培養土 + 少量有機質</li>
+<li>排水要好:可以混 10–20% 珍珠石或粗沙避免積水</li>
+<li>洋蔥喜微鹼(pH 6.0–7.0),一般培養土都在這範圍,不用特別調</li>
+<li><strong>定植前把土翻鬆、打碎大土塊</strong> — 球莖在密實土裡長不開</li>
+</ul>
+<p style="font-size:14px;color:var(--muted);margin-top:10px;"><em>施肥細節獨立成下面的「🌾 施肥」section。</em></p>`,
+      },
+      {
+        id: 'steps', emoji: '🌳', heading: '種植步驟',
+        html: `
+<ol>
+<li><strong>備盆</strong> — 深盆裝土 8 分滿、打碎土塊、先澆一次水讓土定型</li>
+<li><strong>定植洋蔥苗</strong> — 每株間距 10–15 公分,用手指鑽一個洞,把球根尖端朝上插進去,深度讓球根頂部與土面齊平或微微露出 0.5 公分;埋太深球莖悶爛,太淺根系不穩</li>
+<li><strong>澆透第一次水</strong> — 澆到盆底有水流出;往後土面 3 公分乾再澆</li>
+<li><strong>放全日照處</strong> — 陽台南面或頂樓;一天至少 6 小時直射日照。日照不足葉細軟、球不成形</li>
+<li><strong>插標籤記日期</strong> — 洋蔥從定植到採收要 5–6 個月,沒標籤很容易忘記是哪天種的</li>
+</ol>
+
+<div class="callout" style="background:#e8f5e9;border-left-color:var(--primary-dark);margin-top:10px;">
+<h4>🔑 最關鍵的一個動作:球根露出土面</h4>
+<p style="margin:0;">洋蔥球莖在土裡要有空間向外膨脹。球根頂部<strong>齊土面或微微露出 0.5 公分</strong>是正確深度。很多人習慣「種深一點比較穩」,結果洋蔥被土悶住長不大。等球莖開始膨脹時(約 2–3 個月後),可以輕輕扒開周圍土讓球莖「出頭」。</p>
+</div>`,
+      },
+      {
+        id: 'timing', emoji: '📋', heading: '完整時程表 · 定植到採球莖',
+        html: `
+<p><strong>定植 → 發根 → 長葉 → 結球 → 採收</strong>,洋蔥是全程最長的家庭可食植物之一(5–6 個月)。好處是期間幾乎不用管。<strong>照做就對。</strong></p>
+
+<div class="callout warn">
+<h4>⚠️ 開工前先看月曆 / 節氣:挑對時間,不然只長葉不結球</h4>
+<p style="margin:0 0 6px;">洋蔥是<strong>短日照結球作物</strong>:日照時數縮短(秋冬)時,把能量轉入地下結球;日照延長(春夏)時,只長地上葉。在台灣,秋冬定植 → 春天開始抽葉 → 初夏結球採收,是唯一可行的時程。<strong>節氣比月份準</strong>(溫度和日照雙重影響):</p>
+<table style="margin-top:8px;">
+<thead><tr><th></th><th>月份</th><th>節氣</th><th>狀態</th></tr></thead>
+<tbody>
+<tr style="background:#f0f8ec;"><td>✅ 最佳</td><td><strong>10 – 12 月</strong></td><td><strong>寒露(10/8)→ 大雪(12/7)</strong></td><td>涼爽短日照,根系扎穩,<strong>手冊所有時程以此為準</strong></td></tr>
+<tr><td>🟡 勉強</td><td>1 月</td><td>小寒(1/6) / 大寒(1/20)</td><td>仍可定植但已接近邊緣;球莖發育時間縮短</td></tr>
+<tr style="background:#fdecec;"><td>❌ 絕對別種</td><td><strong>2 – 9 月</strong></td><td><strong>雨水(2/19)→ 白露(9/8)</strong></td><td>日照長 → 只長葉不結球;梅雨季爛根;夏天高溫直接枯死</td></tr>
+</tbody>
+</table>
+<p style="margin:8px 0 0;font-size:14px;">俗話:<strong>「寒露定植、端午採收」</strong>。如果現在是春夏,<strong>不要種</strong> —— 先備好盆土,等到 10 月寒露後再下手。</p>
+<p style="margin:6px 0 0;font-size:13px;color:var(--muted);"><em>完整 24 節氣對照看 <a href="#" onclick="event.preventDefault();navigateTo('page-knowledge');return false;" style="color:var(--primary);">📚 通用園藝知識 → 📅 24 節氣</a>。</em></p>
+</div>
+
+<table>
+<thead><tr><th>天數 / 時間</th><th>階段</th><th>植物狀態</th><th>你的動作</th></tr></thead>
+<tbody>
+<tr><td><strong>Day 1</strong></td><td>定植</td><td>苗插進土</td><td>澆透到盆底出水;❌ 不施肥</td></tr>
+<tr><td>Day 2–14</td><td>發根期</td><td>外觀沒變化,根在往下扎</td><td>土面 3 公分乾才澆;❌ 不施肥 — 新根怕燒</td></tr>
+<tr><td>Day 14–30</td><td>葉片直立</td><td>葉片從軟趴趴變直立,確認發根</td><td>繼續澆水;可以開始觀察葉色</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 30 🌾</strong></td><td><strong>第一次施肥</strong></td><td>植物穩住了</td><td>✅ 撒 <strong>8 粒</strong> 好康多 1 號(7 吋圓盆)+ 澆水</td></tr>
+<tr><td>Day 30–90</td><td>葉片生長期</td><td>地上葉片持續增加、變粗</td><td>保持全日照;每 3–5 天澆一次;可採嫩葉當青蔥替代</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 90 🌾</strong></td><td><strong>第二次施肥</strong></td><td>葉片約 4–6 片,準備轉結球</td><td>✅ 再撒 <strong>8 粒</strong> 好康多;此後停氮、改鉀肥(促球膨脹)</td></tr>
+<tr><td>Day 90–150</td><td>結球期</td><td>球莖開始膨脹,可見球根頂出土</td><td>輕輕扒開球周圍土讓球曬到太陽;減少澆水(乾爽讓球皮硬實)</td></tr>
+<tr style="background:#fdf5e6;"><td><strong>梅雨季 🌧️</strong><br><em style="font-size:12px;">(5–6 月)</em></td><td><strong>排水警戒</strong></td><td>球莖膨大中</td><td>⚠️ 確認盆底排水暢通;連續大雨把盆墊高讓水流出;爛根立刻剪除換土</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 150–180 ✂️</strong><br><em style="font-size:12px;">(5–6 月)</em></td><td><strong>採收球莖</strong></td><td>地上葉片倒伏(自然垂下 2/3)= 採收訊號</td><td>✅ 整株連根拔起;曬 1–2 天讓外皮風乾;放陰涼通風處可存 2–3 個月</td></tr>
+</tbody>
+</table>
+
+<div class="callout" style="margin-top:12px;">
+<h4>📱 定植當天就要做的 3 件事</h4>
+<ol style="margin:4px 0 0;padding-left:22px;">
+<li>插標籤寫<strong>今日日期</strong>貼盆邊</li>
+<li>Google 行事曆設 2 個提醒:<strong>今日 + 30 天</strong>(第一次施肥)、<strong>今日 + 90 天</strong>(第二次施肥)</li>
+<li>行事曆再設<strong>今日 + 150 天</strong>,內容「觀察葉片有無倒伏 → 準備採收」</li>
+</ol>
+<p style="margin:6px 0 0;font-size:14px;"><strong>5–6 個月的決定當天做完,腦袋騰出來做別的事</strong>。</p>
+</div>
+
+<p style="font-size:14px;color:var(--muted);margin-top:10px;"><em>施肥細節(不同盆大小、哪裡買)看下方「🌾 施肥」section。採葉 vs 等球莖的選擇看「✂️ 採收」section。</em></p>`,
+      },
+      {
+        id: 'fertilizer', emoji: '🌾', heading: '施肥',
+        html: `
+<p><strong>本 handbook 預設固體緩釋肥</strong> — 不用稀釋、不用算濃度、撒一次吃 3 個月、難燒根。洋蔥施肥有兩個重點:早期促葉,結球期促球不促葉。</p>
+<p style="font-size:14px;color:var(--muted);margin-top:4px;"><em>施肥時機(Day 30 / Day 90)已統整在上面「📋 完整時程表」,這個 section 專講 <strong>用多少 · 用哪款 · 怎麼撒</strong>。</em></p>
+
+<div class="callout">
+<h4>📐 不同盆大小 · 速查(好康多 1 號)</h4>
+<table style="margin-top:6px;">
+<thead><tr><th>盆</th><th>顆數</th></tr></thead>
+<tbody>
+<tr><td>3 吋圓盆(Ø9cm)</td><td><strong>3 粒</strong></td></tr>
+<tr><td>5 吋圓盆(Ø15cm)</td><td><strong>5 粒</strong></td></tr>
+<tr><td>7 吋圓盆(Ø21cm)</td><td><strong>8 粒</strong></td></tr>
+<tr><td><strong>長方盆 50×20cm</strong></td><td><strong>15 粒</strong></td></tr>
+<tr><td>大陽台盆槽 60cm+</td><td><strong>18–20 粒</strong></td></tr>
+</tbody>
+</table>
+<p style="margin:8px 0 0;font-size:14px;"><strong>原則</strong>:寧可比這個少,不可比這個多。</p>
+</div>
+
+<div class="callout warn" style="margin-top:14px;">
+<h4>⚠️ 結球期(Day 90 後)停氮改鉀</h4>
+<p style="margin:0 0 6px;">好康多 1 號(NPK 14-11-13)是全效肥,Day 30 第一次用很好。但 Day 90 之後球莖開始膨脹,<strong>氮(N)太多會讓地上葉繼續猛長,把能量留在葉片而不是球莖</strong>,結果葉多球小。</p>
+<p style="margin:0;">Day 90 第二次施肥可以改用:<strong>草木灰(高鉀)</strong>撒土面 1–2 匙,或買<strong>磷鉀肥(NPK 0-5-8 類)</strong>。如果家裡只有好康多,Day 90 那次<strong>用量減半</strong>(減少氮的供應),也算可接受的折衷。</p>
+</div>
+
+<h4 style="color:var(--primary);margin-top:14px;">🛒 買哪一款</h4>
+<ul>
+<li><strong>好康多 1 號</strong>(NPK 14-11-13)— Day 30 首選,350g 約 NT$100</li>
+<li><strong>草木灰</strong> — 台灣花市或農資店有售,天然高鉀,Day 90 結球期加一次</li>
+<li>全聯園藝區、花市、iGarden 網購都有好康多</li>
+</ul>
+
+<div class="callout warn" style="margin-top:10px;">
+<h4>📱 記憶外包 — 定植當天就把施肥日排好</h4>
+<p style="margin:0;">不要依賴記憶。定植當天 Google 行事曆設:Day 30「撒好康多 8 粒」、Day 90「撒鉀肥 + 好康多減半」。洋蔥等待期 5 個月,行事曆提醒比植物狀態可靠。</p>
+</div>
+
+<details style="margin-top:14px;border:1px solid var(--border);border-radius:8px;padding:10px 14px;">
+<summary style="cursor:pointer;color:var(--primary-dark);font-weight:bold;">⚠️ 出事才看:一眼判斷 3 條</summary>
+<div style="padding:10px 0 0;">
+<table>
+<thead><tr><th>看到什麼</th><th>是什麼</th><th>立刻做</th></tr></thead>
+<tbody>
+<tr><td>土表<strong>白色結晶</strong></td><td>過肥 / 鹽積</td><td>停肥,大量清水沖盆 3 次</td></tr>
+<tr><td>葉色<strong>淡黃(該是深綠)</strong></td><td>缺肥 / 缺氮</td><td>補撒 3–4 粒好康多</td></tr>
+<tr><td>葉緣<strong>焦黃捲曲</strong></td><td>過肥 / 燒根</td><td>停肥,澆清水沖</td></tr>
+</tbody>
+</table>
+</div>
+</details>
+
+<details style="margin-top:10px;border:1px solid var(--border);border-radius:8px;padding:10px 14px;">
+<summary style="cursor:pointer;color:var(--muted);font-size:14px;">🧪 進階:想用液肥的路線(不建議新手)</summary>
+<div style="padding:10px 0 0;font-size:14px;">
+<p>如果家裡已經有液肥:</p>
+<ul>
+<li><strong>生長期(Day 30–90)</strong>:花寶 1 號(NPK 20-20-20),包裝稀釋比<strong>再減半</strong>,每 10–14 天一次澆根</li>
+<li><strong>結球期(Day 90 後)</strong>:換花寶 2 號(高鉀)或停用液肥改草木灰</li>
+<li>施完澆一次清水沖殘留</li>
+</ul>
+<p style="margin-top:6px;"><strong>液肥效果快但誤差大;固體肥慢但難出錯</strong>。handbook 主推固體。</p>
+</div>
+</details>
+
+<p style="font-size:13px;color:var(--muted);margin-top:14px;">通用施肥原則看 <a href="#" onclick="event.preventDefault();navigateTo('page-knowledge');return false;" style="color:var(--primary);font-weight:bold;">📚 通用園藝知識 → 🌾 施肥</a>。</p>`,
+      },
+      {
+        id: 'harvest', emoji: '✂️', heading: '採收',
+        html: `
+<h4 style="color:var(--primary);">玩法一:採葉(青蔥替代品,隨時可採)</h4>
+<ul>
+<li>定植 4–6 週後,葉片長到 20 公分以上即可開始採</li>
+<li>用剪刀從<strong>距土面 5 公分處</strong>剪下,留下基部讓它繼續長</li>
+<li>洋蔥葉比青蔥香氣更濃,切碎炒蛋、撒湯都好用</li>
+<li>採葉<strong>不影響最終採球</strong>,只要根還在、球莖還在發育,可以同時享受兩者</li>
+<li>⚠️ 結球期(Day 90 後)採葉要節制 — 地上葉越多,光合作用越強,球才長得大。留 3–4 片葉不採,讓它繼續工作</li>
+</ul>
+
+<h4 style="color:var(--primary);margin-top:14px;">玩法二:採球莖(等 5–6 個月)</h4>
+<ul>
+<li><strong>採收訊號</strong>:地上葉片<strong>自然倒伏、垂下超過 2/3</strong> — 不要人為把葉子折倒;等它自己倒才是真的成熟</li>
+<li>倒伏後<strong>再等 1–2 週</strong>讓球皮乾硬再採,不要急</li>
+<li>採收方法:雙手輕握球莖連根往上拔;鬆土再拔,不要硬拉傷球皮</li>
+<li>採後放在<strong>通風遮陰處曬 1–2 天</strong>,讓外層薄皮完全風乾</li>
+<li>存放:陰涼通風處可放 2–3 個月;放冰箱反而縮短保存(低溫讓澱粉糊化)</li>
+</ul>
+
+<div class="callout warn">
+<h4>⚠️ 常見提早採收的錯誤</h4>
+<p style="margin:0;">看到球根頂出土就以為可以採 — <strong>不行</strong>。球莖頂出是正常現象(讓球曬太陽幫助外皮硬化),但要等地上葉倒伏才是真的成熟。提早採收的洋蔥球小、外皮薄、不耐放。</p>
+</div>`,
+      },
+      {
+        id: 'troubleshoot', emoji: '🛡', heading: '失敗點與除錯',
+        html: `
+<table>
+<thead><tr><th>症狀</th><th>可能原因</th><th>對策</th></tr></thead>
+<tbody>
+<tr><td>定植後葉片一直軟趴趴</td><td>根系還沒扎穩(正常,2 週內)/ 積水爛根</td><td>等 2 週觀察;若土濕透檢查排水孔是否堵塞</td></tr>
+<tr><td>只長葉、始終不結球</td><td>春夏種(日照太長)/ 品種問題</td><td>最常見失敗!確認定植時間是 10–1 月;下次改秋冬種</td></tr>
+<tr><td>球小(核桃大)就倒伏</td><td>太晚定植(1 月後)/ 施肥不足</td><td>當作「迷你洋蔥」採收;下次提早到 10–11 月定植</td></tr>
+<tr><td>球根爛掉</td><td>積水 / 排水孔堵塞 / 梅雨季未防水</td><td>扒開土看根;腐爛部分剪掉,換新培養土;墊高盆底排水</td></tr>
+<tr><td>葉尖焦黑</td><td>日照過強燒葉 / 過肥</td><td>輕微日燒不影響球莖;確認施肥量是否超過速查表</td></tr>
+<tr><td>抽出花苞(抽薹)</td><td>冬天太冷 + 苗太小時低溫感應 / 種太早</td><td>花苞立刻剪掉讓能量回球;下次買大苗、10–11 月定植</td></tr>
+<tr><td>地上葉倒伏但球很小</td><td>正常的小球 / 提早倒伏(病)</td><td>若外觀正常就採收曬乾;外皮若發黑有異味是病,丟棄</td></tr>
+</tbody>
+</table>
+
+<div class="callout warn" style="margin-top:10px;">
+<h4>⚠️ 抽薹(開花)是大警訊</h4>
+<p style="margin:0;">洋蔥一旦抽薹(從中心長出直挺的花梗),球莖幾乎停止膨脹,能量全轉到開花結籽。<strong>發現花苞立刻剪掉</strong>(從花梗基部整枝剪除),可以搶回部分球莖發育。原因通常是「苗太小遇到低溫春化」或「定植時間不對」。台灣秋冬種的洋蔥比較少這個問題;用種子自育的較常見。</p>
+</div>`,
+      },
+      {
+        id: 'dementia', emoji: '🧠', heading: '失智照護應用 Notes',
+        byLevel: {
+          mild: `
+<div class="callout">
+<h4>📍 輕度:強烈氣味做感官錨點,廚房連動</h4>
+<p style="margin:0;">輕度失智者嗅覺記憶保留較好,熟悉的廚房氣味常能觸發長期記憶。洋蔥的氣味幾乎人人有童年記憶。</p>
+</div>
+<ul>
+<li>讓她參與<strong>切洋蔥</strong>的動作(監督安全情況下):切洋蔥流眼淚的感受是具體的身體記憶,常能讓失智者說出「以前我都幫家裡切洋蔥」這種自發性回憶</li>
+<li><strong>每天請她去看一下洋蔥長多高了</strong> — 葉片生長緩慢但可觀察,給她一個可以主導的小報告任務</li>
+<li>採下洋蔥葉當天就用在晚餐 — 「這是我種的」的感覺在輕度階段最強,請她告訴其他家人今天的菜用了她種的蔥</li>
+<li>洋蔥苗定植時請她一起種:用手指鑽洞、插苗的觸覺動作簡單、重複、有結構,完全在她能力範圍內</li>
+<li><strong>目標</strong>:維持「我還是那個在廚房有貢獻的人」的自我感</li>
+</ul>`,
+          moderate: `
+<div class="callout">
+<h4>📍 中度:嗅覺刺激 + 單步動作</h4>
+<p style="margin:0;">中度失智者多步驟執行有困難,但嗅覺和觸覺感知往往比認知表現好。洋蔥強烈的氣味是很有效的感官介入工具。</p>
+</div>
+<ul>
+<li><strong>聞洋蔥葉</strong>:你採下一片洋蔥葉,用手搓出氣味,放到她鼻子前 — 不需要她做任何事,只要感受。這個感官刺激常能帶出情緒反應和喃喃自語式的記憶碎片</li>
+<li>澆水動作<strong>事先準備好</strong>:小水壺裝滿放在洋蔥盆旁,帶她過去、給她水壺,一句話:「幫我澆一下」。不要要求多步驟</li>
+<li>指令<strong>一次一個動作</strong>:不說「去澆水然後看看葉子有沒有長」,只說「幫我澆一下」</li>
+<li>如果採了洋蔥葉要炒菜,讓她<strong>坐在廚房旁邊聞炒洋蔥的香氣</strong> — 不需要她操作;廚房香氣本身就是感官連結</li>
+</ul>
+<p>這個階段的價值:<strong>用她最熟悉的廚房香氣,維繫她與「家」「食物」的情感連結</strong>。</p>`,
+          severe: `
+<div class="callout">
+<h4>📍 重度:不要求動作,用氣味帶她回來</h4>
+<p style="margin:0;">重度失智者語言和動作退化,但嗅覺往往是所有感官中退化最慢的一個。洋蔥的氣味在這個階段反而有特殊價值。</p>
+</div>
+<ul>
+<li><strong>搓葉聞香</strong>:採一片洋蔥葉搓出氣味,放在她手邊或輕觸她的手背 — 觀察她的表情是否有反應,哪怕只是皺眉或微笑</li>
+<li>炒洋蔥時把她推進廚房旁邊:鍋裡的洋蔥香是強烈的廚房記憶觸發器,對重度失智者也常有效</li>
+<li>把採下的球莖放在她手上讓她握著:圓形、光滑、有重量的感觸是安撫性的感官輸入</li>
+<li>每天重複同樣路徑(去陽台看洋蔥),<strong>節奏感比「完成度」重要</strong></li>
+</ul>
+<p>這個階段的價值:<strong>嗅覺是通往情感記憶最後一條路。洋蔥不需要語言就能召喚廚房、家、溫暖。</strong></p>`,
+        },
+      },
+      {
+        id: 'log', emoji: '📓', heading: '實測紀錄',
+        html: `
+<div class="callout warn">
+<p style="margin:0;"><strong>尚未實測</strong> — 2026 年 10 月寒露前後計畫首批定植。屆時會記錄:</p>
+<ul style="margin:8px 0 0;padding-left:20px;">
+<li>花市洋蔥苗品種與價格</li>
+<li>發根天數 / 第一片新葉時間</li>
+<li>抽薹有無發生(台灣秋冬種洋蔥理論上機率低)</li>
+<li>5–6 月採收球莖實際大小</li>
+<li>媽媽對洋蔥氣味的反應紀錄</li>
+</ul>
+</div>
+
+<p style="color:var(--muted);font-size:14px;margin-top:10px;"><em>若你先試種了 — 歡迎把紀錄補進來。第一批實測者的資料最珍貴。</em></p>`,
+      },
+    ],
+  },
+
+  // =========== 小黃瓜(果菜) ===========
+  {
+    id: 'cucumber',
+    name: '小黃瓜',
+    emoji: '🥒',
+    category: 'fruit',
+    meta: {
+      difficulty: '中(要搭架、授粉)',
+      season: '播種 3–6 月(秋冬不適合)',
+      light: '全日照',
+      location: '陽台 / 戶外(需架支撐)',
+      seasons: ['spring', 'summer'],
+      bestStartMonths: [3, 4, 5, 6],
+    },
+    sections: [
+      {
+        id: 'why', emoji: '💡', heading: '為什麼值得種小黃瓜',
+        html: `
+<ul>
+<li><strong>看得見成果</strong> — 果實一天比一天大,每天量長度都不同,視覺上非常有成就感</li>
+<li><strong>多產</strong> — 一株健康的小黃瓜可以採 10–20 條,一個夏天吃不完</li>
+<li><strong>從花到瓜只要 7–10 天</strong> — 比等長葉的植物更快有收穫,維持動力</li>
+<li><strong>攀藤視覺變化豐富</strong> — 每天爬高一點、纏住架子一段,比盆栽更有「生命感」</li>
+<li><strong>品種多</strong> — 一般小黃瓜、水果小黃瓜(更甜更脆)、刺瓜(外皮有刺,口感清爽),新手從水果小黃瓜入門最成功率高</li>
+<li><strong>採完馬上可以吃</strong> — 拍黃瓜、涼拌,從採到上桌 10 分鐘,自種的成就感很真實</li>
+</ul>`,
+      },
+      {
+        id: 'obtain', emoji: '🛒', heading: '取得方式',
+        html: `
+<div class="callout warn" style="margin-bottom:10px;">
+<h4>🗓️ Step 0 · 先看月曆再動手</h4>
+<p style="margin:0 0 6px;"><strong>現在要是 3–6 月才播種。</strong> 台灣平地小黃瓜是春夏果菜,高溫才長得好,最佳播種窗口是<strong>驚蟄(3/5)到夏至(6/21)</strong>前後。秋冬(9 月以後)氣溫下降,小黃瓜成長停滯、開花少、果實畸形,不推薦新手在這個時段嘗試。</p>
+<table style="margin-top:8px;">
+<thead><tr><th></th><th>月份</th><th>節氣</th><th>狀態</th></tr></thead>
+<tbody>
+<tr style="background:#f0f8ec;"><td>✅ 最佳</td><td><strong>3 – 5 月</strong></td><td><strong>驚蟄(3/5)→ 立夏(5/5)</strong></td><td>氣溫穩升、日照充足、病蟲壓力低,<strong>強烈推薦</strong></td></tr>
+<tr><td>🟡 勉強</td><td>6 月</td><td>芒種(6/5)前後</td><td>仍可種,但梅雨+夏初高溫需注意白粉病;勤排水</td></tr>
+<tr style="background:#fdecec;"><td>❌ 絕對別播</td><td><strong>9 – 2 月</strong></td><td><strong>白露(9/8)→ 雨水(2/19)</strong></td><td>低溫日短,開花少、果實畸形、植株弱,成功率極低</td></tr>
+</tbody>
+</table>
+<p style="margin:8px 0 0;font-size:14px;">如果現在是秋冬,<strong>先備盆土、網路找好種子來源,等隔年 3 月清明前後再下手</strong>。</p>
+</div>
+
+<div class="callout" style="background:#e8f5e9;border-left-color:var(--primary-dark);">
+<h4>📦 推薦的新手包 · 三步照順序來</h4>
+<ol style="margin:6px 0 4px;padding-left:22px;">
+<li><strong>先備盆、土、支架(這些要比種子先到)</strong> — 直徑 30 cm 以上深盆 + 培養土 + 珍珠石(1:4 混)+ 1.5–2 公尺竹竿或 Ω 形爬藤架。花市或蝦皮搜尋「爬藤架 陽台」,合計約 NT$300–400。</li>
+<li><strong>再買種子或小苗</strong> — 蝦皮搜尋「水果小黃瓜種子」(NT$50–80,一包約 15–20 粒);或春天直接買花市穴盤苗(約 NT$30–50 一株,省發芽等待)。</li>
+<li><strong>到貨當天立刻播種/定植</strong> — 種子直播入盆(見種植步驟),或穴盤苗帶土移入大盆,澆透水後放全日照處。</li>
+</ol>
+<p style="margin:8px 0 0;font-size:14px;color:var(--muted);">⚠️ <strong>順序不能顛倒</strong>:小苗根系細嫩,等你找到盆才種會傷根。總預算 <strong>NT$400–500 有找</strong>,含架子一季可採 10–20 條瓜。</p>
+</div>
+
+<h4 style="color:var(--primary);margin:14px 0 6px;">其他取得管道</h4>
+<ul>
+<li><strong>花市穴盤苗</strong>(3–5 月春季最多):省去發芽等待,看得見苗才買,成功率最高</li>
+<li><strong>蝦皮 / 博客來農業館</strong>:品種選擇多,可挑「水果小黃瓜」或「刺瓜」等特色品種</li>
+<li><strong>超市黃瓜留種</strong>:台灣超市小黃瓜多為 F1 雜交,留種第二代性狀會分離,<strong>不推薦新手</strong></li>
+</ul>`,
+      },
+      {
+        id: 'pot-soil', emoji: '🏺', heading: '盆器與土壤',
+        html: `
+<h4 style="color:var(--primary);">盆器</h4>
+<ul>
+<li>直徑 <strong>30 公分以上</strong>、深 30 公分以上(根系深、肥需求大)</li>
+<li>一株一大盆;或長方形陽台槽 60×25 cm 種 2 株,株距 30 cm</li>
+<li>盆底<strong>必須有排水孔</strong>,小黃瓜怕積水爛根</li>
+<li>材質不拘,夏天深色盆會吸熱,偏好淺色或白色</li>
+</ul>
+
+<h4 style="color:var(--primary);margin-top:12px;">土壤</h4>
+<ul>
+<li><strong>透氣排水最重要</strong> — 培養土加 20% 珍珠石混勻,避免夏天暴雨積水</li>
+<li>加一把椰纖(椰殼纖維)可增加保水又不悶根,有機質充足小黃瓜長更快</li>
+<li>定植前可先拌入適量有機基肥(雞糞堆肥顆粒),讓養分緩慢釋放</li>
+</ul>
+
+<h4 style="color:var(--primary);margin-top:12px;">支架(必備,其他植物不需要)</h4>
+<ul>
+<li>小黃瓜是攀藤植物,藤蔓可爬 1.5–2 公尺,<strong>不搭架就倒伏、通風差、易生病</strong></li>
+<li>推薦:竹竿 + 綁紮帶(最便宜)、Ω 形爬藤架(穩定好看)、A 字型竹架</li>
+<li>架子定植當天就要插進盆,不要等到植株倒了才補</li>
+</ul>
+<p style="font-size:14px;color:var(--muted);margin-top:10px;"><em>施肥細節獨立成下面的「🌾 施肥」section。</em></p>`,
+      },
+      {
+        id: 'steps', emoji: '🌳', heading: '種植步驟',
+        html: `
+<ol>
+<li><strong>備盆備架</strong> — 盆底放一層礫石或發泡煉石幫助排水,填土 8 分滿,插好支架</li>
+<li><strong>播種(種子路線)</strong> — 每盆挖 1–2 個小洞,深約 1 公分,每洞放 1–2 粒種子,覆土輕拍,澆透水;出苗後留最強的 1 株,其餘剪掉(不要拔,傷根)</li>
+<li><strong>或定植(買苗路線)</strong> — 穴盤苗帶土整株移入大盆中央,填土壓緊根部,澆透水</li>
+<li><strong>放全日照處</strong> — 每天至少 6 小時直射陽光;日照不足會只長葉不開花</li>
+<li><strong>引藤上架</strong> — 藤蔓每長 15–20 公分就用軟綁帶輕輕引導上架,不要讓它垂下</li>
+</ol>
+
+<div class="callout" style="background:#e8f5e9;border-left-color:var(--primary-dark);margin-top:10px;">
+<h4>🌸 授粉要點(小黃瓜最常失敗的環節)</h4>
+<p style="margin:0 0 6px;">小黃瓜同株開<strong>雌花</strong>和<strong>雄花</strong>兩種,沒有昆蟲幫忙,果實不會長大。陽台種植通常缺蜜蜂,<strong>要人工授粉</strong>:</p>
+<ul style="margin:4px 0;padding-left:20px;">
+<li><strong>雌花辨識</strong>:花朵底部有一顆小小的「迷你瓜」(子房),開花時間約早上 6–10 點</li>
+<li><strong>雄花辨識</strong>:花朵底部是細梗,沒有小瓜</li>
+<li><strong>授粉方法</strong>:摘下雄花,把中心花粉輕碰雌花中心 2–3 下。或用小畫筆輕刷雄花再刷雌花</li>
+<li><strong>最佳時段</strong>:早晨花剛開時授粉,中午以後花萎縮效果差</li>
+<li><strong>失敗徵兆</strong>:未授粉的雌花底部小瓜會在 2–3 天後黃化掉落</li>
+</ul>
+<p style="margin:6px 0 0;font-size:14px;"><strong>每天早晨 5 分鐘看一次花,是採到瓜的關鍵。</strong></p>
+</div>`,
+      },
+      {
+        id: 'timing', emoji: '📋', heading: '完整時程表 · 播種到盛產',
+        html: `
+<p><strong>播種 → 發芽 → 定植 → 開花 → 首採 → 盛產</strong>,一張表涵蓋整季。<strong>照做就對,不用每天觀察猜狀態</strong>。</p>
+
+<div class="callout warn">
+<h4>⚠️ 開工前先看月曆 / 節氣:時間錯了,什麼都白費</h4>
+<p style="margin:0 0 6px;">小黃瓜需要<strong>溫暖 + 長日照</strong>才能正常開花結果。低溫或日照不足只長藤葉、不開花。</p>
+<table style="margin-top:8px;">
+<thead><tr><th></th><th>月份</th><th>節氣</th><th>狀態</th></tr></thead>
+<tbody>
+<tr style="background:#f0f8ec;"><td>✅ 最佳</td><td><strong>3 – 5 月</strong></td><td><strong>驚蟄(3/5)→ 立夏(5/5)</strong></td><td>氣溫穩升,開花結果效率最高,<strong>手冊所有時程以此為準</strong></td></tr>
+<tr><td>🟡 勉強</td><td>6 月</td><td>芒種(6/5)前後</td><td>梅雨期需加強通風防白粉病,可採但壓力略高</td></tr>
+<tr style="background:#fdecec;"><td>❌ 絕對別播</td><td><strong>9 – 2 月</strong></td><td><strong>白露(9/8)→ 雨水(2/19)</strong></td><td>日短溫低,花少果畸形,白白浪費一季</td></tr>
+</tbody>
+</table>
+<p style="margin:8px 0 0;font-size:14px;color:var(--muted);"><em>完整 24 節氣對照看 <a href="#" onclick="event.preventDefault();navigateTo('page-knowledge');return false;" style="color:var(--primary);">📚 通用園藝知識 → 📅 24 節氣</a>。</em></p>
+</div>
+
+<table>
+<thead><tr><th>天數</th><th>階段</th><th>植物狀態</th><th>你的動作</th></tr></thead>
+<tbody>
+<tr><td><strong>Day 1</strong></td><td>播種 / 定植</td><td>種子或小苗入盆</td><td>澆透到盆底出水;插好支架;❌ 不施肥</td></tr>
+<tr><td>Day 2–10</td><td>發芽期(種子路線)</td><td>子葉頂出土</td><td>保持土面微濕,不要積水;買苗者跳到 Day 21</td></tr>
+<tr><td>Day 7–14</td><td>幼苗期</td><td>2 片子葉展開</td><td>全日照;❌ 不施肥(根系嫩,易燒)</td></tr>
+<tr><td>Day 14–21</td><td>真葉展開</td><td>第 1–2 片真葉出現</td><td>繼續日照;若有側枝開始輕輕引藤上架</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 30 🌾</strong></td><td><strong>第一次施肥</strong></td><td>植株 20–30 cm 高</td><td>✅ 撒 <strong>10 粒</strong> 好康多 1 號(Ø30cm 盆)+ 澆水</td></tr>
+<tr><td>Day 30–45</td><td>快速生長期</td><td>每天爬高 5–10 cm</td><td>每天引藤;每 1–2 天澆一次(土乾就澆)</td></tr>
+<tr><td>Day 40–50</td><td>開花期</td><td>雄花先開,雌花隨後</td><td>✅ <strong>每天早上 6–10 點人工授粉</strong>(見種植步驟)</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 60–70 ✂️</strong></td><td><strong>首次採收</strong></td><td>瓜長到 15–20 cm</td><td>✅ 剪刀剪(不要扭轉),留梗 1 cm;越採越旺</td></tr>
+<tr><td>Day 70–120</td><td>盛產期</td><td>每 2–3 天可採一條</td><td>✅ 每天早上授粉;每 2 天澆水;定期採收刺激長新果</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 90 🌾</strong></td><td><strong>第二次施肥</strong></td><td>採量開始下降</td><td>✅ 再撒 <strong>10 粒</strong> 好康多;追液肥可補花寶 1 號一次</td></tr>
+<tr style="background:#fdf5e6;"><td><strong>Day 120+ ⚠️</strong></td><td>植株老化</td><td>葉黃、藤木質化、產量驟降</td><td>準備拔除;留下未採的大瓜曬乾留種(非 F1 品種)</td></tr>
+</tbody>
+</table>
+
+<div class="callout" style="margin-top:12px;">
+<h4>📱 播種當天就要做的 3 件事</h4>
+<ol style="margin:4px 0 0;padding-left:22px;">
+<li>Google 行事曆設 2 個施肥提醒:<strong>今日 + 30 天</strong>、<strong>今日 + 90 天</strong>,內容寫「撒 10 粒好康多、澆水」</li>
+<li>便利貼寫今日日期 + 品種名,貼盆邊 —— 讓眼睛看得到「這盆什麼時候種的」</li>
+<li>手機設<strong>每天早上 7 點</strong>的重複提醒「去看黃瓜花開了嗎?授粉!」— 授粉只有早晨那個窗口</li>
+</ol>
+<p style="margin:6px 0 0;font-size:14px;"><strong>授粉每天要做,其他的都是偶爾做。把每天的任務外包到鬧鐘</strong>。</p>
+</div>
+
+<p style="font-size:14px;color:var(--muted);margin-top:10px;"><em>施肥細節(不同盆大小、哪裡買)、採收技巧,看下方「🌾 施肥」、「✂️ 採收」section。</em></p>`,
+      },
+      {
+        id: 'fertilizer', emoji: '🌾', heading: '施肥',
+        html: `
+<p><strong>小黃瓜是重肥果菜</strong>,比地瓜葉需要更多養分,尤其開花結果期間消耗很快。本 handbook 仍預設固體緩釋肥為主,開花後可選擇性加液肥追肥。</p>
+<p style="font-size:14px;color:var(--muted);margin-top:4px;"><em>施肥時機(Day 30 / Day 90)已統整在上面「📋 完整時程表」,這個 section 專講 <strong>用多少 · 用哪款 · 怎麼撒</strong>。</em></p>
+
+<div class="callout">
+<h4>📐 不同盆大小 · 速查(好康多 1 號)</h4>
+<table style="margin-top:6px;">
+<thead><tr><th>盆</th><th>顆數</th></tr></thead>
+<tbody>
+<tr><td>3 吋圓盆(Ø9cm)</td><td><strong>3 粒</strong></td></tr>
+<tr><td>5 吋圓盆(Ø15cm)</td><td><strong>5 粒</strong></td></tr>
+<tr><td>7 吋圓盆(Ø21cm)</td><td><strong>8 粒</strong></td></tr>
+<tr><td><strong>圓盆 Ø30cm(推薦最小盆)</strong></td><td><strong>10 粒</strong></td></tr>
+<tr><td>長方盆 60×25cm</td><td><strong>18–20 粒</strong></td></tr>
+</tbody>
+</table>
+<p style="margin:8px 0 0;font-size:14px;"><strong>原則</strong>:寧可比這個少,不可比這個多。小黃瓜重肥但燒根也快。</p>
+</div>
+
+<h4 style="color:var(--primary);margin-top:14px;">🛒 買哪一款</h4>
+<ul>
+<li><strong>好康多 1 號</strong>(NPK 14-11-13)— 基礎施肥用,果菜適用</li>
+<li><strong>好康多 2 號</strong>(高磷配方)— 有些園藝師開花結果期換用,促進座果</li>
+<li>350g 小包約 NT$100,全聯園藝區、花市都有</li>
+</ul>
+
+<div class="callout warn">
+<h4>📱 授粉提醒外包給手機,施肥提醒外包給行事曆</h4>
+<p style="margin:0 0 6px;">播種當天就打開 Google 行事曆設兩個提醒:</p>
+<ul style="margin:0;padding-left:20px;">
+<li>播種日 + 30 天 → 「撒 10 粒好康多(澆水)」</li>
+<li>播種日 + 90 天 → 「再撒 10 粒好康多」</li>
+</ul>
+<p style="margin:8px 0 0;font-size:14px;"><strong>這一季的施肥決定當天就做完。腦袋騰出來去關注更重要的事</strong>(例如每天早上授粉才是關鍵)。</p>
+</div>
+
+<details style="margin-top:14px;border:1px solid var(--border);border-radius:8px;padding:10px 14px;">
+<summary style="cursor:pointer;color:var(--primary-dark);font-weight:bold;">⚠️ 出事才看:一眼判斷 3 條(日常不用觀察)</summary>
+<div style="padding:10px 0 0;">
+<table>
+<thead><tr><th>看到什麼</th><th>是什麼</th><th>立刻做</th></tr></thead>
+<tbody>
+<tr><td>土表<strong>白色結晶</strong></td><td>過肥 / 鹽積</td><td>停肥,大量清水沖盆 3 次</td></tr>
+<tr><td>整株葉色<strong>淡黃</strong>(老葉先黃)</td><td>缺氮</td><td>再撒 5 粒或補一次液肥</td></tr>
+<tr><td>葉緣<strong>焦黃捲曲</strong></td><td>過肥 / 燒根</td><td>停肥,澆清水沖</td></tr>
+</tbody>
+</table>
+</div>
+</details>
+
+<details style="margin-top:10px;border:1px solid var(--border);border-radius:8px;padding:10px 14px;">
+<summary style="cursor:pointer;color:var(--muted);font-size:14px;">🧪 進階:開花結果期追液肥(有意願才做)</summary>
+<div style="padding:10px 0 0;font-size:14px;">
+<p>開花到盛產期(Day 40–90)消耗養分快,固體肥速度慢,若想衝產量可追液肥:</p>
+<ul>
+<li><strong>花寶 1 號</strong>(NPK 20-20-20),包裝稀釋比再減半</li>
+<li>每 7–10 天一次,澆根部不澆葉子</li>
+<li>早晚施,避免中午大太陽</li>
+<li>施完再澆一次清水沖殘留</li>
+</ul>
+<p style="margin-top:6px;"><strong>液肥效果快但誤差大;固體肥慢但難出錯</strong>。新手堅持固體就好。</p>
+</div>
+</details>
+
+<p style="font-size:13px;color:var(--muted);margin-top:14px;">通用施肥原則(缺肥 vs 過肥對照、NPK 速查)看 <a href="#" onclick="event.preventDefault();navigateTo('page-knowledge');return false;" style="color:var(--primary);font-weight:bold;">📚 通用園藝知識 → 🌾 施肥</a>。</p>`,
+      },
+      {
+        id: 'harvest', emoji: '✂️', heading: '採收',
+        html: `
+<ul>
+<li>果實長到 <strong>15–20 公分</strong>(水果小黃瓜 12–15 cm)即可採收;過晚採瓜皮變硬、味苦、種子老化</li>
+<li>用剪刀在果梗處<strong>剪斷</strong>,留梗 1 cm;不要扭轉(會傷藤蔓接點)</li>
+<li><strong>越採越旺</strong> — 一條瓜留太久會讓植株耗盡養分停止生新花</li>
+<li>盛產期每 2–3 天巡一次,錯過會變老瓜</li>
+<li>採完的瓜室溫可放 2–3 天,冰箱保鮮袋可放 1 週</li>
+</ul>
+
+<div class="callout">
+<h4>🥒 採收後怎麼吃(快速上桌)</h4>
+<ul style="margin:4px 0 0;padding-left:20px;">
+<li><strong>拍黃瓜</strong>:用刀背拍裂 → 鹽醃 10 分鐘 → 瀝水 → 拌蒜末 + 香油 + 醋,5 分鐘完成</li>
+<li><strong>涼拌黃瓜</strong>:切薄片 → 鹽醃 → 加糖醋蒜</li>
+<li><strong>生吃</strong>:水果小黃瓜直接洗淨吃,甜脆不輸水果</li>
+</ul>
+<p style="margin:6px 0 0;font-size:14px;">從陽台採回來到端上桌 10 分鐘,<strong>這就是自種最真實的成就感</strong>。</p>
+</div>`,
+      },
+      {
+        id: 'troubleshoot', emoji: '🛡', heading: '失敗點與除錯',
+        html: `
+<table>
+<thead><tr><th>症狀</th><th>可能原因</th><th>對策</th></tr></thead>
+<tbody>
+<tr><td>播種 10 天後沒發芽</td><td>土太冷 / 種子太老 / 覆土太深</td><td>確認氣溫 >18°C;種子覆土 1 cm 不要超過 2 cm;換新種子</td></tr>
+<tr><td>只長葉不開花</td><td>日照不足 / 氮肥過多</td><td>移到每天 6 小時以上直射光處;停止施肥觀察</td></tr>
+<tr><td>雌花底部小瓜黃化掉落</td><td>未授粉或授粉失敗</td><td>每天早上 6–10 點人工授粉;確認雄花已開(有花粉)</td></tr>
+<tr><td>瓜長到一半停止生長</td><td>水分不足 / 養分不夠 / 授粉不完全</td><td>增加澆水頻率;補施肥;確保授粉充足</td></tr>
+<tr><td>瓜形彎曲或畸形</td><td>授粉不均匀 / 溫度過高 / 缺水</td><td>授粉要刷滿雌花花柱;高溫期早晨澆水降溫</td></tr>
+<tr><td>葉片白色粉末(白粉病)</td><td>通風不良 + 濕氣重(梅雨期最常見)</td><td>修剪過密葉片;改善通風;噴小蘇打水(1g/500ml)或稀釋牛奶</td></tr>
+<tr><td>葉片有小洞或蟲咬痕</td><td>夜蛾幼蟲 / 蚜蟲 / 葉蟎</td><td>夜間手電筒找蟲手抓;蚜蟲用水強力沖洗;避免農藥(要吃的)</td></tr>
+<tr><td>莖基部腐爛(猝倒病)</td><td>土太濕 + 真菌感染</td><td>改善排水;感染部位剪除;嚴重整株拔除換土</td></tr>
+</tbody>
+</table>`,
+      },
+      {
+        id: 'dementia', emoji: '🧠', heading: '失智照護應用 Notes',
+        byLevel: {
+          mild: `
+<div class="callout">
+<h4>📍 輕度:每天量瓜,建立儀式感</h4>
+<p style="margin:0;">她還能理解指令、走到陽台、記得昨天做了什麼。小黃瓜的每日生長變化讓照護活動有了<strong>可量測的成果</strong>。</p>
+</div>
+<ul>
+<li><strong>每天早上量瓜長度,記到小本子</strong> — 可用尺量,也可以用手比。她主導,你只提醒時間</li>
+<li>授粉動作她可以自己來(用小畫筆刷花粉),動作細膩、有目的感</li>
+<li>採收時讓她判斷「這條夠大了嗎?」— 保留決策自主性</li>
+<li>採回來的瓜讓她準備拍黃瓜 — 用刀背拍、鹽醃、拌調味,整個流程她都能做</li>
+<li><strong>目標</strong>:每天有一件「有成果可以看」的事。量瓜記錄本就是她的成就感來源</li>
+</ul>
+<p>這個階段的價值:<strong>維持她「我還是有在貢獻這個家」的感覺</strong>。</p>`,
+          moderate: `
+<div class="callout">
+<h4>📍 中度:單一動作、感官參與</h4>
+<p style="margin:0;">她的多步驟能力下降,但單一動作和感官刺激仍然有效。小黃瓜提供豐富的視覺和觸覺刺激。</p>
+</div>
+<ul>
+<li><strong>你引導去陽台,請她看今天有沒有新的花</strong> — 簡單任務一次一步</li>
+<li>看到雌花開,你準備好畫筆遞給她 — 她做刷花這個動作</li>
+<li>瓜長大了摘下來放到她手上,讓她握著感受涼重感 — 觸覺刺激強</li>
+<li>廚房備料時讓她拿刀背「拍」黃瓜 — 動作有力道、有聲音、有參與感</li>
+<li><strong>不要讓她做決策(採不採?夠大嗎?)</strong>,把判斷部分由你先做好,給她執行</li>
+</ul>
+<p>這個階段的價值:<strong>她不需要「懂」種植,她需要「參與」這個每天發生的儀式</strong>。</p>`,
+          severe: `
+<div class="callout">
+<h4>📍 重度:存在、感官、陪伴</h4>
+<p style="margin:0;">動作和理解都有限,但感官和情緒仍然有反應。把她帶到藤架旁邊,讓她在那個空間裡就是目的。</p>
+</div>
+<ul>
+<li>帶她坐在藤架旁邊,你澆水、她看,不要求她做什麼</li>
+<li>把剛採的瓜放到她手上 — 涼涼的重量感、黃瓜皮的清香,這些感官刺激直達</li>
+<li>攀藤架的立體視覺(綠葉 + 黃花 + 懸掛的瓜)比一盆平鋪的葉菜更能吸引目光</li>
+<li>讓她聞剛採的黃瓜 — 清香氣味對嗅覺記憶有獨特的觸發效果</li>
+<li>每天重複同樣時段去陽台看瓜,<strong>節奏感比「完成」更重要</strong></li>
+</ul>
+<p>這個階段的價值:<strong>她不需要「種」,她需要「在這個有生命的空間裡」。黃瓜的味道、重量、顏色 — 比任何話語都更直接到達她</strong>。</p>`,
+        },
+      },
+      {
+        id: 'log', emoji: '📓', heading: '實測紀錄',
+        html: `
+<div class="callout warn">
+<p style="margin:0;"><strong>尚未實測</strong> — 這個 entry 是 2026-04-23 依照既有知識和農業資料整理,Tom 家還沒有實際種過小黃瓜。計畫 2026 年春(4–5 月)在 6 樓陽台試種水果小黃瓜品種一盆,結果會補記在這裡。</p>
+</div>
+
+<p style="color:var(--muted);font-size:14px;"><em>授粉成功率、盛產量、白粉病實際狀況、失智照護 ritual 導入紀錄,等實測後補進。</em></p>`,
+      },
+    ],
+  },
+
+  // =========== 向日葵(花卉) ===========
+  {
+    id: 'sunflower',
+    name: '向日葵',
+    emoji: '🌻',
+    category: 'flower',
+    meta: {
+      difficulty: '極低(種子撒下就活)',
+      season: '播種 3–6 月(秋冬光照不足,不適合)',
+      light: '全日照(每天 6 小時以上)',
+      location: '陽台 / 戶外盆 / 庭院',
+      seasons: ['spring', 'summer'],
+      bestStartMonths: [3, 4, 5, 6],
+    },
+    sections: [
+      {
+        id: 'why', emoji: '💡', heading: '為什麼向日葵是家庭種植的最佳入門花卉',
+        html: `
+<ul>
+<li><strong>種子撒下去幾乎不會死</strong> — 發芽率極高,播種到發芽只要 5–10 天,是所有花卉裡面進場門檻最低的</li>
+<li><strong>花真的會跟著太陽轉</strong> — 向日性(heliotropism)發生在幼苗期,每天早上朝東傍晚朝西,是活生生的自然課</li>
+<li><strong>從種子到大花有 90 天的共同目標</strong> — 每天都能看到生長變化,給照顧者和長輩一個「明天繼續期待」的理由</li>
+<li><strong>矮性品種完全適合陽台盆植</strong> — 「玩具熊」「迷你笑臉」等品種 40–80 cm,盆植不需要地栽空間</li>
+<li><strong>花謝可以採葵花子</strong> — 從播種到採種一個完整生命週期,長輩親眼見證</li>
+<li><strong>跨代互動神器</strong> — 小孩和長輩可以一起種,花大顏色鮮,拍照就有成就感</li>
+</ul>`,
+      },
+      {
+        id: 'obtain', emoji: '🛒', heading: '取得方式',
+        html: `
+<div class="callout warn" style="margin-bottom:10px;">
+<h4>🗓️ Step 0 · 先看月曆再動手</h4>
+<p style="margin:0;"><strong>現在要是 3–6 月才播種。</strong> 秋冬(9 月後)日照時間不夠,向日葵需要每天 6 小時以上全日照,光照不足就徒長、不開花。如果現在是秋冬,<strong>等到隔年 3 月驚蟄後</strong>再下手;現在就先備好盆土,把品種選好。</p>
+</div>
+
+<div class="callout" style="background:#e8f5e9;border-left-color:var(--primary-dark);">
+<h4>📦 推薦的新手包 · 三步照順序來</h4>
+<ol style="margin:6px 0 4px;padding-left:22px;">
+<li><strong>先備盆與土(這一步要比種子先到)</strong> — 家附近花市買 <strong>直徑 30 cm 以上塑膠盆 + 一般培養土</strong>(合計 NT$150–200),盆要有排水孔,土填 8 分滿、先澆一次水讓土服貼。</li>
+<li><strong>再買種子</strong> — <a href="https://shopee.tw/search?keyword=%E5%90%91%E6%97%A5%E8%91%B5+%E7%9F%AE%E6%80%A7+%E7%A8%AE%E5%AD%90" target="_blank" rel="noopener" style="color:var(--primary-dark);font-weight:bold;">蝦皮搜尋「向日葵 矮性 種子」</a>,或花市直接買一包。NT$30–80 一包(約 15–30 粒),多家包郵。</li>
+<li><strong>到貨當天立刻播</strong> — 種子直接戳進土 1–2 公分深 → 澆透 → 放全日照陽台</li>
+</ol>
+<p style="margin:8px 0 0;font-size:14px;color:var(--muted);">⚠️ <strong>品種選矮性、盆植型</strong>(見下面品種說明),不要買高性種(2 m+),陽台放不了。總預算 <strong>NT$250 有找</strong>。</p>
+</div>
+
+<h4 style="color:var(--primary);margin:14px 0 8px;">品種選擇 — 陽台種必看</h4>
+<table>
+<thead><tr><th>類型</th><th>株高</th><th>適合場地</th><th>推薦品種</th></tr></thead>
+<tbody>
+<tr style="background:#f0f8ec;"><td><strong>矮性盆植種</strong> ✅ 新手首選</td><td>40–80 cm</td><td>陽台盆栽</td><td>「玩具熊」「迷你笑臉」「中矮性向日葵」</td></tr>
+<tr><td>切花用中性種 🟡</td><td>1–1.5 m</td><td>大型陽台 / 庭院</td><td>「向日葵切花品種」</td></tr>
+<tr style="background:#fdecec;"><td>高性種 ❌ 陽台不適合</td><td>2 m+</td><td>地栽庭院</td><td>傳統觀賞大型種</td></tr>
+</tbody>
+</table>
+
+<h4 style="color:var(--primary);margin:14px 0 6px;">其他取得管道</h4>
+<ul>
+<li><strong>全聯、農改場展售</strong>:清明前後常有種子包,現場可問品種株高</li>
+<li><strong>朋友分籽</strong>:去年種過、花謝留種的人很多,開口要幾粒就好</li>
+<li><strong>自留種</strong>:花謝後讓花盤乾在植株上,剝開就是下一代的籽,免費</li>
+</ul>`,
+      },
+      {
+        id: 'pot-soil', emoji: '🏺', heading: '盆器與土壤',
+        html: `
+<h4 style="color:var(--primary);">盆器</h4>
+<ul>
+<li>矮性種:直徑 <strong>25–30 公分</strong>、深 25 公分以上(根系垂直向下)</li>
+<li>中高性種:直徑 <strong>35 公分以上</strong>或深盆,否則頭重腳輕易倒</li>
+<li>盆底<strong>必須有排水孔</strong> — 積水是向日葵最常見的死因</li>
+<li>建議<strong>重一點的陶盆或水泥盆</strong>:向日葵長大會頭重,颱風天塑膠輕盆容易翻倒</li>
+</ul>
+
+<h4 style="color:var(--primary);margin-top:12px;">土壤</h4>
+<ul>
+<li>一般培養土即可,或混入 20–30% 珍珠石改善排水</li>
+<li>向日葵<strong>耐貧瘠但不耐積水</strong> — 寧可土差一點,不要積水</li>
+<li>pH 6.0–7.5 都可,台灣一般培養土直接用沒問題</li>
+</ul>
+<p style="font-size:14px;color:var(--muted);margin-top:10px;"><em>施肥細節獨立成下面的「🌾 施肥」section。</em></p>`,
+      },
+      {
+        id: 'steps', emoji: '🌳', heading: '種植步驟',
+        html: `
+<ol>
+<li><strong>選盆定位</strong> — 找到陽台或窗邊每天至少 6 小時照得到太陽的位置,先把盆放到位,後面不要再搬(向日葵定植後不喜歡移動)</li>
+<li><strong>填土</strong> — 培養土填至盆緣下 3 公分,用手輕壓讓土密實一點</li>
+<li><strong>播種</strong> — 每個盆播 3–5 粒,種子尖端朝下或隨機都可,戳進土約 1–2 公分深,種子間距 10 公分以上</li>
+<li><strong>第一次澆水澆透</strong> — 澆到盆底有水流出,之後保持土面微濕到發芽</li>
+<li><strong>等發芽(5–10 天)</strong> — 放全日照處;發芽前土面不要乾透</li>
+<li><strong>疏苗(Day 14 左右)</strong> — 每盆留 1–2 株最壯的,其餘剪掉(不要拔,拔傷根)</li>
+</ol>
+
+<div class="callout warn">
+<h4>⚠️ 向日葵不喜歡移盆</h4>
+<p style="margin:0;">根系主根深而脆,定植後移動容易傷根、導致生長停滯。一開始就找好位置、選好盆,<strong>播下去就是它的家</strong>。</p>
+</div>`,
+      },
+      {
+        id: 'timing', emoji: '📋', heading: '完整時程表 · 播種到採種',
+        html: `
+<p><strong>播種 → 發芽 → 生長 → 開花 → 採種</strong>,一張表涵蓋整個生命週期。<strong>照做就對</strong>。</p>
+
+<div class="callout warn">
+<h4>⚠️ 開工前先看月曆 / 節氣:光照不對,花開不了</h4>
+<p style="margin:0 0 6px;">向日葵<strong>需要全日照</strong>,秋冬日照不夠就徒長、不開花,浪費整季。<strong>節氣比月份準</strong>(台灣農業推廣標準),兩套都列:</p>
+<table style="margin-top:8px;">
+<thead><tr><th></th><th>月份</th><th>節氣</th><th>狀態</th></tr></thead>
+<tbody>
+<tr style="background:#f0f8ec;"><td>✅ 最佳</td><td><strong>3 – 6 月</strong></td><td><strong>驚蟄(3/5)→ 夏至(6/21)</strong></td><td>日照長、氣溫升,生長旺盛,<strong>手冊所有時程以此為準</strong></td></tr>
+<tr><td>🟡 勉強</td><td>2 / 7 / 8 月</td><td>雨水(2/19) / 小暑(7/7) / 大暑(7/22)</td><td>2 月偏冷、7–8 月酷暑可能熱傷,成功率降低</td></tr>
+<tr style="background:#fdecec;"><td>❌ 絕對別播</td><td><strong>9 – 1 月</strong></td><td><strong>白露(9/8)→ 大寒(1/20)</strong></td><td>日照不足,植株徒長無力、開花率極低</td></tr>
+</tbody>
+</table>
+<p style="margin:8px 0 0;font-size:14px;">口訣:<strong>「清明撒籽,仲夏看花」</strong>。如果現在是秋冬,<strong>不要播</strong> —— 先備盆土、選好品種,等驚蟄(3 月上旬)再下手。</p>
+<p style="margin:6px 0 0;font-size:13px;color:var(--muted);"><em>完整 24 節氣對照看 <a href="#" onclick="event.preventDefault();navigateTo('page-knowledge');return false;" style="color:var(--primary);">📚 通用園藝知識 → 📅 24 節氣</a>。</em></p>
+</div>
+
+<table>
+<thead><tr><th>天數</th><th>階段</th><th>植物狀態</th><th>你的動作</th></tr></thead>
+<tbody>
+<tr><td><strong>Day 1</strong></td><td>播種</td><td>種子在土裡</td><td>澆透到盆底出水;放全日照位置</td></tr>
+<tr><td>Day 2–9</td><td>發芽期</td><td>土面可能看到芽裂開</td><td>保持土面微濕,每天澆少量;❌ 不施肥</td></tr>
+<tr><td><strong>Day 5–10 🌱</strong></td><td>出芽</td><td>子葉破土而出</td><td>繼續澆水,太密就準備疏苗</td></tr>
+<tr><td>Day 10–14</td><td>疏苗</td><td>本葉開始出現</td><td>✅ 每盆留 1–2 株最壯的,其餘剪掉</td></tr>
+<tr><td>Day 14–29</td><td>幼苗快速生長</td><td>每天都在高</td><td>澆水;等滿 30 天再施肥</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 30 🌾</strong></td><td><strong>第一次施肥</strong></td><td>植株穩住,有 4–6 片本葉</td><td>✅ 撒 <strong>8–10 粒</strong>好康多 1 號(30cm 盆)+ 澆水</td></tr>
+<tr><td>Day 30–59</td><td>莖葉旺長</td><td>每天 1–2 cm 長高</td><td>若植株頭重可用竹竿支撐</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 60–90 🌻</strong></td><td><strong>花苞 → 開花</strong></td><td>頂端花苞出現,漸漸展開</td><td>✅ 欣賞!觀察花隨太陽轉向(幼苗向日性最明顯)</td></tr>
+<tr><td>Day 60–90+</td><td>花期</td><td>滿開 2–3 週</td><td>日常澆水;不需要施肥</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 90–120 🌰</strong></td><td><strong>花謝 → 結籽</strong></td><td>花瓣凋落,花盤飽滿</td><td>✅ 讓花盤留在植株上自然乾燥,30 天後可採種</td></tr>
+<tr style="background:#fdf5e6;"><td><strong>Day 120–150 🌰</strong></td><td><strong>採種</strong></td><td>花盤乾燥、種子變硬</td><td>✅ 剝下種子乾燥保存;想炒來吃就洗淨、炒熟加鹽</td></tr>
+<tr style="background:#fdf5e6;"><td><strong>秋冬 ❄️</strong></td><td><strong>不適合新輪</strong></td><td>日照不足</td><td>❌ 不播種;把種子保存好,等隔年 3 月再下一輪</td></tr>
+</tbody>
+</table>
+
+<div class="callout" style="margin-top:12px;">
+<h4>📱 播種當天就要做的 3 件事</h4>
+<ol style="margin:4px 0 0;padding-left:22px;">
+<li>Google 行事曆設提醒:<strong>今日 + 30 天</strong>,內容「向日葵施肥 — 撒 8–10 粒好康多」</li>
+<li>Google 行事曆設提醒:<strong>今日 + 60 天</strong>,內容「花苞期開始 — 準備拍照」</li>
+<li>便利貼寫播種日期貼在盆邊或廚房冰箱 — 讓眼睛看得到「這盆是哪天種的」</li>
+</ol>
+<p style="margin:6px 0 0;font-size:14px;"><strong>90 天的決定當天做完,腦袋騰出來陪長輩</strong>。</p>
+</div>
+
+<p style="font-size:14px;color:var(--muted);margin-top:10px;"><em>施肥細節(不同盆大小、哪裡買)看下方「🌾 施肥」section。</em></p>`,
+      },
+      {
+        id: 'fertilizer', emoji: '🌾', heading: '施肥',
+        html: `
+<p><strong>本 handbook 預設固體緩釋肥,不推液肥給新手</strong> — 撒一次吃 3 個月、不用稀釋、難燒根。向日葵施肥需求<strong>中等</strong>,磷鉀比氮更重要(促花,不要只長葉)。</p>
+<p style="font-size:14px;color:var(--muted);margin-top:4px;"><em>施肥時機(Day 30)已統整在上面「📋 完整時程表」,這個 section 專講<strong>用多少 · 用哪款 · 怎麼撒</strong>。</em></p>
+
+<div class="callout">
+<h4>📐 不同盆大小 · 速查(好康多 1 號)</h4>
+<table style="margin-top:6px;">
+<thead><tr><th>盆</th><th>顆數</th></tr></thead>
+<tbody>
+<tr><td>3 吋圓盆(Ø9 cm)</td><td><strong>3 粒</strong></td></tr>
+<tr><td>5 吋圓盆(Ø15 cm)</td><td><strong>5 粒</strong></td></tr>
+<tr><td>7 吋圓盆(Ø21 cm)</td><td><strong>8 粒</strong></td></tr>
+<tr><td><strong>30 cm 圓盆(矮性向日葵標準盆)</strong></td><td><strong>9–10 粒</strong></td></tr>
+<tr><td>35 cm+ 大盆</td><td><strong>12–15 粒</strong></td></tr>
+</tbody>
+</table>
+<p style="margin:8px 0 0;font-size:14px;"><strong>原則</strong>:寧可比這個少,不可比這個多。</p>
+</div>
+
+<h4 style="color:var(--primary);margin-top:14px;">🛒 買哪一款</h4>
+<ul>
+<li><strong>好康多 1 號</strong>(NPK 14-11-13)— 萬用款,開花植物也適用</li>
+<li>想更促花可選 NPK 含磷(P)較高的款式,但好康多 1 號已夠用</li>
+<li>350g 小包約 NT$100,全聯園藝區、花市、蝦皮都有</li>
+<li>替代品:魔肥、奧綠肥(類似緩釋顆粒)</li>
+</ul>
+
+<div class="callout warn">
+<h4>⚠️ 開花期停肥,不要再加</h4>
+<p style="margin:0;">花苞出現後(Day 60 左右)就不要再施肥。這時候過多氮肥反而讓植株猛長葉子、花盤縮小。<strong>開花後:只澆水,不施肥</strong>。</p>
+</div>
+
+<details style="margin-top:14px;border:1px solid var(--border);border-radius:8px;padding:10px 14px;">
+<summary style="cursor:pointer;color:var(--primary-dark);font-weight:bold;">⚠️ 出事才看:一眼判斷 3 條</summary>
+<div style="padding:10px 0 0;">
+<table>
+<thead><tr><th>看到什麼</th><th>是什麼</th><th>立刻做</th></tr></thead>
+<tbody>
+<tr><td>葉色<strong>淡黃</strong>(該是深綠)</td><td>缺肥/缺光</td><td>確認日照夠;缺肥就補 3–5 粒</td></tr>
+<tr><td>葉緣<strong>焦黃捲曲</strong></td><td>過肥/燒根</td><td>停肥,大量清水沖盆 3 次</td></tr>
+<tr><td>植株<strong>徒長細弱</strong>(節間拉長)</td><td>光照不足</td><td>移到更曬的位置,這是光問題不是肥問題</td></tr>
+</tbody>
+</table>
+</div>
+</details>
+
+<details style="margin-top:10px;border:1px solid var(--border);border-radius:8px;padding:10px 14px;">
+<summary style="cursor:pointer;color:var(--muted);font-size:14px;">🧪 進階:想用液肥的路線(不建議新手)</summary>
+<div style="padding:10px 0 0;font-size:14px;">
+<ul>
+<li><strong>花寶 2 號</strong>(NPK 10-30-20,高磷促花款),包裝稀釋比<strong>再減半</strong></li>
+<li>每 10–14 天一次,在花苞出現前使用,出花後停</li>
+<li>澆根部不澆葉心,早晨施用</li>
+</ul>
+<p style="margin-top:6px;"><strong>液肥效果快但誤差大;固體肥慢但難出錯</strong>。新手從固體肥開始。</p>
+</div>
+</details>
+
+<p style="font-size:13px;color:var(--muted);margin-top:14px;">通用施肥原則看 <a href="#" onclick="event.preventDefault();navigateTo('page-knowledge');return false;" style="color:var(--primary);font-weight:bold;">📚 通用園藝知識 → 🌾 施肥</a>。</p>`,
+      },
+      {
+        id: 'harvest', emoji: '✂️', heading: '採收與採種',
+        html: `
+<h4 style="color:var(--primary);">賞花</h4>
+<ul>
+<li>花期約 2–3 週,每天欣賞就是最好的「採收」</li>
+<li>可以剪一支插花瓶:用乾淨剪刀斜剪莖,立刻插入水,放室內陰涼處可賞 5–7 天</li>
+<li>矮性種通常會從側枝繼續冒花苞,一棵可以開 3–5 朵不等</li>
+</ul>
+
+<h4 style="color:var(--primary);margin-top:14px;">採種(葵花子)</h4>
+<ul>
+<li>花謝後<strong>不要剪掉花盤</strong>,讓它留在植株上自然乾燥(約 30 天)</li>
+<li>花盤背面變黃、種子用手指可以輕鬆剝落,就是採種時機</li>
+<li>剝下的種子鋪開在報紙或托盤上,室內通風處再晾 3–5 天</li>
+<li><strong>明年播種用</strong>:放紙袋密封,寫好品種和日期,放冰箱保鮮層保存</li>
+<li><strong>炒來吃</strong>:洗淨後加鹽水煮 5 分鐘,撈起瀝乾,烤箱 150°C 烤 20 分鐘,或鍋炒到殼略焦</li>
+</ul>
+
+<div class="callout">
+<h4>🌱 自留種是最好的教育</h4>
+<p style="margin:0;">讓長輩親手把種子收進袋子、貼上標籤、放進冰箱 —— <strong>這個動作就是「我讓它繼續活下去」的具象化</strong>。明年春天拿出來再播,是跨越一整年的連結。</p>
+</div>`,
+      },
+      {
+        id: 'troubleshoot', emoji: '🛡', heading: '失敗點與除錯',
+        html: `
+<table>
+<thead><tr><th>症狀</th><th>可能原因</th><th>對策</th></tr></thead>
+<tbody>
+<tr><td>種下去 10 天沒發芽</td><td>種子太舊/土太濕/太深</td><td>檢查種子是否壞掉(泡水看沉不沉);重播,深度只要 1–2 cm</td></tr>
+<tr><td>苗又高又細、容易倒</td><td>光照不足(徒長)</td><td>立刻搬到更曬的地方;補竹竿支撐。這不是肥的問題</td></tr>
+<tr><td>葉片發黃、有褐斑</td><td>過澆/真菌/積水</td><td>停澆 3–5 天讓土乾;若爛根就換盆換土</td></tr>
+<tr><td>植株長到很大但不開花</td><td>日照不足 / 秋冬播種</td><td>確認日照≥6 小時;秋冬種無解,等明年春天重播</td></tr>
+<tr><td>花盤有蟲咬洞</td><td>蝽象、椿象、金龜子</td><td>手抓、水沖;開花後避免農藥</td></tr>
+<tr><td>顛風後植株倒了</td><td>盆輕/主根淺</td><td>補支架;換重盆。颱風前先移到牆邊遮風</td></tr>
+<tr><td>側枝不開花</td><td>正常現象</td><td>矮性品種側枝花朵比主莖小,是正常的</td></tr>
+</tbody>
+</table>`,
+      },
+      {
+        id: 'dementia', emoji: '🧠', heading: '失智照護應用 Notes',
+        byLevel: {
+          mild: `
+<div class="callout">
+<h4>📍 輕度:90 天共同目標 + 向日性觀察</h4>
+<p style="margin:0;">她還能理解「今天的花轉到哪個方向了?」這種問題,能自己走到陽台觀察,能說出感覺。向日葵的向日性是每天都有的話題觸發點。</p>
+</div>
+<ul>
+<li><strong>每天早晨一起去陽台看花朝哪個方向</strong> — 「今天還是朝東」這句話就夠了</li>
+<li>讓她負責澆水:水壺位置固定,你只說「該澆花了」</li>
+<li>採種時她能自己剝種子、放袋子、貼標籤 — 整個動作序列她都可以完成</li>
+<li><strong>播種那天拍照</strong>:記錄「我們一起種下的這粒種子」,是 90 天後看到大花的對照</li>
+<li>目標:讓她感覺<strong>「這盆花是我種的」</strong>,不是「孩子幫我種的」</li>
+</ul>
+<p>這個階段的價值:<strong>她還是那個有能力照顧生命的人</strong>。向日葵是最直觀的「我種的東西活了」的成就感。</p>`,
+          moderate: `
+<div class="callout">
+<h4>📍 中度:大花視覺錨點 + 每天固定儀式</h4>
+<p style="margin:0;">認知能力下降後,鮮豔的大花是最強的注意力錨點。向日葵開花時那朵大黃花幾乎不可能被忽視 — 這是刻意設計的環境介入。</p>
+</div>
+<ul>
+<li>把盆放在<strong>她每天必經的動線上</strong>(客廳窗邊,不是 6 樓陽台),讓花自己吸引她的目光</li>
+<li>澆水改成:你把水壺裝好放在盆旁邊,只說一句「幫我澆一下」</li>
+<li>言語指令<strong>單一動作一次</strong>,不要說「先去陽台再澆再回來」</li>
+<li>花期時<strong>每天同樣時間帶她去看花</strong> — 節奏感比每次看到不同的事重要</li>
+<li>可以讓她做的:用手指輕觸花盤、感受花瓣的觸感、聞花的氣味</li>
+</ul>
+<p>這個階段的價值:<strong>大花是記憶錨點</strong>。「那朵黃色的大花」比任何語言描述都更容易被記住。照顧者說「去看花」,她知道是哪朵。</p>`,
+          severe: `
+<div class="callout">
+<h4>📍 重度:感官存在,不要求動作</h4>
+<p style="margin:0;">不要求她「做什麼」。向日葵在這個階段的價值是<strong>感官刺激和情緒調節</strong> — 鮮豔的黃色、花盤的觸感、葵花子的氣味。</p>
+</div>
+<ul>
+<li>帶她坐在花旁邊,你說「你看,這朵開了」 — 不要求回應</li>
+<li>讓她<strong>用手輕觸花盤</strong>(花盤表面粗糙有質感,觸覺刺激強)</li>
+<li>採種時把葵花子放在她手掌上讓她握著 — 重量感和溫度都有意義</li>
+<li>如果她有剝殼的動作記憶,可以給她帶殼葵花子讓她剝着玩(監督下)</li>
+<li>每天<strong>同樣路徑、同樣時間</strong>,不在乎「完成度」,在乎「節奏和陪伴」</li>
+</ul>
+<p>這個階段的價值:<strong>她不需要「做」,她需要「在」</strong>。那朵大黃花、那粒種子的重量、葵花子的香氣 — 這些感官印記比認知更持久。90 天的共同目標,即使她記不住過程,那朵花開了的那一刻,她感受得到。</p>`,
+        },
+      },
+      {
+        id: 'log', emoji: '📓', heading: '實測紀錄',
+        html: `
+<div class="callout warn">
+<p style="margin:0;"><strong>尚未實測</strong> — 向日葵 entry 建立於 2026-04-23,計畫 3 月驚蟄後第一批播種。</p>
+</div>
+
+<h4 style="color:var(--primary);margin-top:14px;">未來計畫</h4>
+<ul>
+<li><strong>2027-03</strong>:第一批播種實測 — 「玩具熊」矮性種,30 cm 陽台盆,記錄發芽天數 / 花期 / 向日性是否明顯</li>
+<li>失智照護 ritual 導入紀錄:長輩是否能辨認同一朵花 / 有沒有主動去觸碰</li>
+<li>採種後保存方式和隔年播種存活率</li>
+</ul>
+<p style="color:var(--muted);font-size:14px;margin-top:8px;"><em>實測後紀錄會補進這裡。有種過的可以跟我說實際天數,讓 SOP 更準確。</em></p>`,
+      },
+    ],
+  },
+
+  // =========== 茉莉花(花卉) ===========
+  {
+    id: 'jasmine',
+    name: '茉莉花',
+    emoji: '🌸',
+    category: 'flower',
+    meta: {
+      difficulty: '低(耐熱皮實)',
+      season: '定植 3–4 月 / 盛花 5–9 月 / 多年生',
+      light: '全日照 / 半日照',
+      location: '陽台 / 窗邊(有日照)',
+      seasons: ['spring', 'summer'],
+      bestStartMonths: [3, 4, 5, 6, 7],
+    },
+    sections: [
+      {
+        id: 'why', emoji: '💡', heading: '為什麼適合家庭種茉莉花',
+        html: `
+<ul>
+<li><strong>香氣最強的家庭花卉之一</strong> — 夏夜開花,整個陽台都是香味,不需要靠近才聞得到</li>
+<li><strong>多年生,一株種好可以連續開 5 年以上</strong> — 不像葉菜年年重種,買一次就有了</li>
+<li><strong>開花期長達 5 個月(5–9 月)</strong> — 每天都有新花,每天都有事做</li>
+<li><strong>採花有儀式感</strong> — 每晚或清晨新花開放,固定時間採花是很好的日常錨點</li>
+<li><strong>香氣做茉莉花茶、泡水、裝飾</strong> — 採下來的花立刻有用處,不只是觀賞</li>
+<li><strong>失智照護核心應用</strong> — 茉莉花香對長輩有強烈嗅覺記憶(夏夜、童年、家鄉),即使嗅覺退化也常能感應</li>
+</ul>`,
+      },
+      {
+        id: 'obtain', emoji: '🛒', heading: '取得方式',
+        html: `
+<div class="callout warn" style="margin-bottom:10px;">
+<h4>🗓️ Step 0 · 先看月曆再動手</h4>
+<p style="margin:0;"><strong>現在要是 3–7 月(春夏)才最適合買苗定植。</strong> 秋天(9–10 月)可以買苗但當年不會開幾朵;冬天寒流期(12 月 – 2 月)盡量別定植 — 新苗抗寒力弱,容易葉黃脫落甚至死苗。如果現在是冬天,<strong>等到隔年 3 月驚蟄後</strong>再下手,現在可以先備盆土、認識品種。</p>
+</div>
+
+<div class="callout" style="background:#e8f5e9;border-left-color:var(--primary-dark);">
+<h4>📦 推薦的新手包 · 三步照順序來</h4>
+<ol style="margin:6px 0 4px;padding-left:22px;">
+<li><strong>先備盆與土(這一步要比苗先到)</strong> — 花市買 <strong>6–8 吋深盆(直徑 18–25cm)+ 排水良好的培養土</strong>,土裡混 10–20% 珍珠石幫助排水(合計 NT$150–250)。盆土填 8 分滿,澆一次水讓土服貼。</li>
+<li><strong>再買苗</strong> — 花市、農會、蝦皮搜尋「茉莉花 盆栽苗」(NT$80–150 一盆),選葉片深綠有光澤、沒有黃葉爛根的。單瓣茉莉花香比雙瓣略清淡但更耐種;雙瓣(洋茉莉)花大香濃但稍難)。</li>
+<li><strong>到貨當天立刻定植</strong> — 從原盆輕輕脫出,不要過度鬆土(保留原根球),移入新盆,填土壓實,澆透到盆底出水,放半日照以上處適應 1 週。</li>
+</ol>
+<p style="margin:8px 0 0;font-size:14px;color:var(--muted);">⚠️ <strong>順序不能顛倒</strong>:苗到家了才找盆,根球在袋子裡悶幾小時就受傷。總預算 <strong>NT$350 有找</strong>,一次種好連開好幾年。</p>
+</div>
+
+<h4 style="color:var(--primary);margin:14px 0 6px;">其他取得管道</h4>
+<table>
+<thead><tr><th>來源</th><th>優點</th><th>注意</th></tr></thead>
+<tbody>
+<tr><td><strong>花市盆栽苗</strong></td><td>現場看健康狀況,搬回家最穩</td><td>避開已開花過度的促銷苗(開了太久容易枯)</td></tr>
+<tr><td><strong>蝦皮 / 農會</strong></td><td>品種選擇多,可以訂到單瓣 / 雙瓣 / 泰國茉莉</td><td>到貨後立刻開箱透氣,當天定植</td></tr>
+<tr><td><strong>扦插繁殖</strong></td><td>有朋友種的話免費</td><td>取當年生半木質化枝條(非全嫩、非全老),見「✂️ 採收」section</td></tr>
+</tbody>
+</table>`,
+      },
+      {
+        id: 'pot-soil', emoji: '🏺', heading: '盆器與土壤',
+        html: `
+<h4 style="color:var(--primary);">盆器</h4>
+<ul>
+<li>直徑 <strong>18–25 公分(6–8 吋)</strong>,深 20 公分以上</li>
+<li>茉莉花根系喜歡「溫暖 + 透氣」— 陶盆 / 赤陶盆比塑膠盆透氣,但夏天乾得快要多澆,新手用塑膠盆也 OK</li>
+<li>盆底<strong>必須有排水孔</strong> — 積水爛根是茉莉花最常見的死法</li>
+<li>多年生植株 2–3 年後根系塞滿就換大一號</li>
+</ul>
+
+<h4 style="color:var(--primary);margin-top:12px;">土壤</h4>
+<ul>
+<li>一般培養土 + 10–20% 珍珠石(或粗河砂)— 混合後排水加分</li>
+<li>偏酸性(pH 6–7)最佳;台灣一般培養土多在此範圍不需調整</li>
+<li>不建議用純黑土(保水過強,夏天悶熱容易爛根)</li>
+<li>2–3 年換盆時可以補新土 + 有機堆肥(見施肥 section)</li>
+</ul>
+<p style="font-size:14px;color:var(--muted);margin-top:10px;"><em>施肥細節獨立成下面的「🌾 施肥」section。</em></p>`,
+      },
+      {
+        id: 'steps', emoji: '🌳', heading: '種植步驟',
+        html: `
+<ol>
+<li><strong>選盆備土</strong> — 見上面「盆器與土壤」。土填 8 分滿,先澆一次水服貼。</li>
+<li><strong>脫盆定植</strong> — 苗輕輕從原盆脫出,保留根球不要搖散。放進新盆中央,根部與土面齊平(不要埋太深)。</li>
+<li><strong>填土壓實</strong> — 四周填土,用手指輕壓讓土跟根系接觸,避免空洞。</li>
+<li><strong>第一次澆水澆透</strong> — 澆到盆底有水流出,讓根系與新土充分接觸。</li>
+<li><strong>放半遮陰處適應 7 天</strong> — 定植後第一週避開正午強烈直射(新苗脫水壓力大),1 週後移到全日照 / 半日照正常位置。</li>
+<li><strong>春末到夏天看花開</strong> — 定植後 3–4 週發根穩定,春末開始現蕾,5 月後盛花期。</li>
+</ol>
+
+<div class="callout">
+<h4>✂️ 冬季修剪是關鍵一步</h4>
+<p style="margin:0 0 6px;">茉莉花的花長在<strong>當年新枝</strong>的頂端 — 冬天(11 月 – 2 月,落葉或葉疏時)進行一次重剪,剪掉當年開過花的老枝 1/3–1/2,能促使春天長出更多新枝,新枝越多花越多。<strong>不修剪的茉莉花兩三年後越開越少</strong>,很多人不知道這個原因。</p>
+<p style="margin:0;font-size:14px;color:var(--muted);">修剪細節在「✂️ 採收與修剪」section。</p>
+</div>`,
+      },
+      {
+        id: 'timing', emoji: '📋', heading: '完整時程表 · 定植到盛花',
+        html: `
+<p><strong>定植 → 發根 → 施肥 → 開花 → 冬剪 → 隔年更旺</strong>,多年生植株的一年節奏。</p>
+
+<div class="callout warn">
+<h4>⚠️ 開工前先看月曆 / 節氣:茉莉花喜熱,季節對了才香</h4>
+<p style="margin:0 0 6px;">茉莉花<strong>喜高溫(25–35°C 是最香的溫度)</strong>,低於 10°C 停止生長,5°C 以下葉片傷害。<strong>節氣比月份準</strong>:</p>
+<table style="margin-top:8px;">
+<thead><tr><th></th><th>月份</th><th>節氣</th><th>狀態</th></tr></thead>
+<tbody>
+<tr style="background:#f0f8ec;"><td>✅ 最佳定植</td><td><strong>3–5 月</strong></td><td><strong>驚蟄(3/5)→ 小滿(5/21)</strong></td><td>氣溫回暖、日照充足,<strong>最推薦下手時機</strong></td></tr>
+<tr><td>🟡 勉強</td><td>6–7 月 / 9–10 月</td><td>芒種(6/5) / 白露(9/8)–寒露(10/8)</td><td>夏天移植要遮陰適應;秋天當年花期剩不多</td></tr>
+<tr style="background:#fdecec;"><td>❌ 寒流來襲</td><td><strong>12 月 – 2 月</strong></td><td><strong>大雪(12/7)→ 雨水(2/19)</strong></td><td>新苗抗寒力弱、容易凍傷葉落;既有老株冬眠不是種苗時機</td></tr>
+</tbody>
+</table>
+<p style="margin:8px 0 0;font-size:14px;"><strong>既有老株</strong>冬天只要不凍死就好,明年春天自然萌新芽。台灣平地只有強寒流才需要移進室內,一般年份陽台越冬沒問題。</p>
+<p style="margin:6px 0 0;font-size:13px;color:var(--muted);"><em>完整 24 節氣對照看 <a href="#" onclick="event.preventDefault();navigateTo('page-knowledge');return false;" style="color:var(--primary);">📚 通用園藝知識 → 📅 24 節氣</a>。</em></p>
+</div>
+
+<table>
+<thead><tr><th>時間</th><th>階段</th><th>植物狀態</th><th>你的動作</th></tr></thead>
+<tbody>
+<tr><td><strong>Day 1</strong></td><td>定植</td><td>移入新盆</td><td>澆透、半遮陰適應;❌ 不施肥</td></tr>
+<tr><td>Day 2–7</td><td>緩苗</td><td>可能短暫葉軟(正常)</td><td>保持土濕不積水;❌ 不施肥</td></tr>
+<tr><td>Day 7–30</td><td>發根期</td><td>葉片恢復挺立,冒新葉</td><td>移全日照;每 1–2 天視土乾澆水</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 30 🌾</strong></td><td><strong>第一次施肥</strong></td><td>根系穩定</td><td>✅ 撒好康多 1 號(按盆大小,見施肥 section)</td></tr>
+<tr><td>Day 30–60</td><td>春末萌蕾</td><td>枝條增多,出現花苞</td><td>充足日照;每天澆水(晴天);繼續觀察花苞</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>5–9 月 🌸</strong></td><td><strong>盛花期</strong></td><td>每天新花開放(夜晚–清晨最盛)</td><td>✅ 每晚或清晨採新開的花;每週澆水 3–5 次(熱天每天)</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 120 🌾</strong></td><td><strong>第二次施肥</strong></td><td>花量高峰後</td><td>✅ 再撒一次好康多支撐後半段花期</td></tr>
+<tr><td>10–11 月</td><td>花期漸收</td><td>氣溫降,開花減少</td><td>減少澆水頻率(3–5 天一次);停施肥</td></tr>
+<tr style="background:#fdf5e6;"><td><strong>11 月 – 2 月 ❄️</strong></td><td><strong>冬季休眠 + 修剪</strong></td><td>葉疏或部分落葉</td><td>✅ 冬季重剪(剪掉老枝 1/3–1/2);❌ 停肥;澆水 5–7 天一次</td></tr>
+<tr><td>隔年 3 月 🌱</td><td>新一輪萌發</td><td>冒新芽新枝</td><td>恢復正常澆水;Day 30 施肥循環重啟</td></tr>
+</tbody>
+</table>
+
+<div class="callout" style="margin-top:12px;">
+<h4>📱 定植當天就要做的 3 件事</h4>
+<ol style="margin:4px 0 0;padding-left:22px;">
+<li>Google 行事曆設提醒:<strong>今日 + 30 天</strong>「撒好康多(第一次施肥)」</li>
+<li>Google 行事曆設提醒:<strong>今日 + 120 天</strong>「撒好康多(第二次施肥)」</li>
+<li>Google 行事曆設提醒:<strong>11 月</strong>「茉莉花冬季修剪」— 不寫就會忘,沒剪明年花少一半</li>
+</ol>
+<p style="margin:6px 0 0;font-size:14px;"><strong>多年生的決定當天設好,以後只是「做」,不是「想」。</strong></p>
+</div>
+
+<p style="font-size:14px;color:var(--muted);margin-top:10px;"><em>施肥用量、採花技巧、冬季修剪細節各見下方專屬 section。</em></p>`,
+      },
+      {
+        id: 'fertilizer', emoji: '🌾', heading: '施肥',
+        html: `
+<p><strong>本 handbook 預設固體緩釋肥</strong> — 不用稀釋、不用算濃度、撒一次吃 3 個月、難燒根。茉莉花是開花植物,<strong>花期(5–9 月)對磷鉀需求高</strong>;好康多 1 號的 NPK 14-11-13 已能支撐一般家庭盆栽花量。</p>
+<p style="font-size:14px;color:var(--muted);margin-top:4px;"><em>施肥時機(Day 30 / Day 120 / 冬眠停肥)已整合在「📋 完整時程表」,這裡講 <strong>用多少 · 用哪款 · 怎麼撒</strong>。</em></p>
+
+<div class="callout">
+<h4>📐 不同盆大小 · 速查(好康多 1 號)</h4>
+<table style="margin-top:6px;">
+<thead><tr><th>盆</th><th>顆數</th></tr></thead>
+<tbody>
+<tr><td>3 吋圓盆(Ø9cm)</td><td><strong>3 粒</strong></td></tr>
+<tr><td>5 吋圓盆(Ø15cm)</td><td><strong>5 粒</strong></td></tr>
+<tr><td>6–7 吋圓盆(Ø18–21cm)</td><td><strong>6–8 粒</strong></td></tr>
+<tr><td>8 吋圓盆(Ø25cm)</td><td><strong>10 粒</strong></td></tr>
+<tr><td>長方盆 50×20cm</td><td><strong>15 粒</strong></td></tr>
+</tbody>
+</table>
+<p style="margin:8px 0 0;font-size:14px;"><strong>原則</strong>:寧可少不多。茉莉花比葉菜更怕過肥(花苞焦、葉邊燒)。</p>
+</div>
+
+<h4 style="color:var(--primary);margin-top:14px;">🛒 買哪一款</h4>
+<ul>
+<li><strong>好康多 1 號</strong>(NPK 14-11-13)— 萬用緩釋肥,葉菜 / 觀葉 / 開花植物皆適用</li>
+<li><strong>想更多花</strong>:換或補「好康多開花型」(磷鉀比例更高),花寶 2 號液肥每兩週一次也行(見下面進階)</li>
+<li>全聯園藝區、花市、iGarden 網購都有;350g NT$100,一包用好幾年</li>
+</ul>
+
+<div class="callout warn">
+<h4>📱 記憶外包 — 定植當天就把兩次施肥設好</h4>
+<p style="margin:0;">打開行事曆:定植日 + 30 天 / + 120 天 → 各設一個提醒「撒 X 粒好康多、澆水」。<strong>腦袋騰出來感受花香,不是記農事行程。</strong></p>
+</div>
+
+<details style="margin-top:14px;border:1px solid var(--border);border-radius:8px;padding:10px 14px;">
+<summary style="cursor:pointer;color:var(--primary-dark);font-weight:bold;">⚠️ 出事才看:一眼判斷施肥 3 條</summary>
+<div style="padding:10px 0 0;">
+<table>
+<thead><tr><th>看到什麼</th><th>是什麼</th><th>立刻做</th></tr></thead>
+<tbody>
+<tr><td>土表<strong>白色結晶</strong></td><td>過肥 / 鹽積</td><td>停肥,大量清水沖盆 3 次</td></tr>
+<tr><td>葉片整體<strong>淡黃</strong>(該深綠)</td><td>缺肥 / 缺鐵</td><td>補撒 3–5 粒;或換酸性土</td></tr>
+<tr><td>葉緣<strong>焦黃捲曲</strong></td><td>過肥 / 燒根</td><td>停肥,澆清水沖,換盆或換土</td></tr>
+<tr><td>花苞<strong>沒開就落</strong></td><td>水分不穩(乾濕劇烈波動)</td><td>固定澆水頻率;夏天高溫每天澆</td></tr>
+</tbody>
+</table>
+</div>
+</details>
+
+<details style="margin-top:10px;border:1px solid var(--border);border-radius:8px;padding:10px 14px;">
+<summary style="cursor:pointer;color:var(--muted);font-size:14px;">🧪 進階:想追求更多花的液肥路線</summary>
+<div style="padding:10px 0 0;font-size:14px;">
+<p>茉莉花花期長,追肥有效果,有興趣可以試:</p>
+<ul>
+<li><strong>花寶 2 號</strong>(NPK 10-30-20,高磷鉀),稀釋比依包裝再減半,每 10–14 天一次</li>
+<li>施液肥時機:早晨或傍晚,不在中午高溫施(加速揮發、燒根)</li>
+<li>施完隔天澆一次清水沖殘留</li>
+<li>有機派:骨粉(磷來源)+ 草木灰(鉀來源)各少量撒土面</li>
+</ul>
+<p style="margin-top:6px;"><strong>固體肥慢但穩;液肥快但誤差大。新手先把固體肥做對再追肥。</strong></p>
+</div>
+</details>
+
+<p style="font-size:13px;color:var(--muted);margin-top:14px;">通用施肥原則(缺肥 vs 過肥對照、NPK 速查)看 <a href="#" onclick="event.preventDefault();navigateTo('page-knowledge');return false;" style="color:var(--primary);font-weight:bold;">📚 通用園藝知識 → 🌾 施肥</a>。</p>`,
+      },
+      {
+        id: 'harvest', emoji: '✂️', heading: '採花與冬季修剪',
+        html: `
+<h4 style="color:var(--primary);">採花:每晚新花,每晚採</h4>
+<ul>
+<li>茉莉花<strong>花苞在晚上開放</strong>(傍晚 18–22 時最盛),清晨也能採還沒謝的花</li>
+<li>採<strong>剛開或半開的花苞</strong> — 最香、保存最久;完全開、花心露出的香氣已過了一半</li>
+<li>用手輕輕摘下花朵,或用剪刀連小段花梗剪;不要扯傷枝條</li>
+<li>採下的花放淺碟子、泡水碗、或直接散放:香氣會持續 6–12 小時</li>
+<li><strong>摘花不傷植株</strong> — 花謝後不採也沒關係,只是消耗養分</li>
+</ul>
+
+<h4 style="color:var(--primary);margin-top:14px;">採花用途</h4>
+<table>
+<thead><tr><th>用法</th><th>做法</th><th>適合對象</th></tr></thead>
+<tbody>
+<tr><td>🍵 茉莉花茶(快速版)</td><td>新鮮花放進已泡好的綠茶碗裡靜置 5 分鐘,撈出花,喝茶</td><td>長輩 / 全家</td></tr>
+<tr><td>💧 茉莉花水</td><td>花放入水瓶,冷藏 4 小時,淡香甜水(不加糖)</td><td>長輩 / 照顧者</td></tr>
+<tr><td>🛁 香氛</td><td>花放小碟子擺床頭、浴室、客廳;散發香氣 4–8 小時</td><td>重度失智者(嗅覺刺激)</td></tr>
+<tr><td>📿 裝飾 / 儀式</td><td>花插頭髮、夾書、泡澡水、壓花</td><td>輕中度(參與感)</td></tr>
+</tbody>
+</table>
+
+<h4 style="color:var(--primary);margin-top:14px;">冬季修剪:多年生茉莉花的關鍵一刀</h4>
+<div class="callout warn">
+<h4>🗓️ 時機:11 月 – 2 月(立冬後 / 落葉或葉疏時)</h4>
+<p style="margin:0 0 6px;">茉莉花<strong>花開在當年新枝頂端</strong>。若不修剪,每年枝條越長越老,花越開越少,最後只有頂端零星幾朵。</p>
+<ul style="margin:0;padding-left:20px;">
+<li>剪掉當年開過花的枝條 <strong>1/3–1/2</strong>(留 2–3 個飽滿芽點在枝條上)</li>
+<li>枯枝、交叉枝、向內長的枝優先剪掉</li>
+<li>剪完像個禿頭是正常的 — 春天新芽會長出來</li>
+<li>剪下來的嫩枝可以扦插繁殖(半木質化 10cm 段,插入濕土)</li>
+</ul>
+</div>
+
+<h4 style="color:var(--primary);margin-top:14px;">扦插繁殖(有剪多餘枝條時)</h4>
+<ul>
+<li>選<strong>當年生半木質化枝條</strong>(彎折有點硬、不是全嫩綠也不是全木質)— 春末到夏天都可以取</li>
+<li>剪 10–12cm 一段,留頂端 2–3 片葉,下端斜剪</li>
+<li>插入濕潤培養土 3–4cm,放半日照處;3–4 週發根</li>
+<li>春夏扦插成功率 70–80%;秋天降至 40–50%</li>
+</ul>`,
+      },
+      {
+        id: 'troubleshoot', emoji: '🛡', heading: '失敗點與除錯',
+        html: `
+<table>
+<thead><tr><th>症狀</th><th>可能原因</th><th>對策</th></tr></thead>
+<tbody>
+<tr><td>定植後葉子持續軟塌</td><td>缺水 / 根系受傷</td><td>確認澆水夠透;剛定植頭 7 天半遮陰保護</td></tr>
+<tr><td>葉片大量黃落</td><td>土太濕爛根 / 寒流 / 移位應激</td><td>停止澆水讓土乾;寒流期移進室內走廊</td></tr>
+<tr><td>有花苞但不開,或開一半就落</td><td>水分劇烈波動(乾了很久再大澆)</td><td>固定澆水頻率,夏天不讓土完全乾透</td></tr>
+<tr><td>不開花(一朵都沒有)</td><td>日照不足 / 未修剪老枝 / 冬天買苗花期未到</td><td>移到全日照;冬天執行修剪;等到 5 月後</td></tr>
+<tr><td>香氣變淡</td><td>氣溫不夠高 / 肥料不足</td><td>確認溫度在 25°C 以上;補施肥;等盛夏</td></tr>
+<tr><td>葉片有白色粉末</td><td>白粉病(空氣流通不良)</td><td>移到通風處;噴無農殘小蘇打水(1g/L)</td></tr>
+<tr><td>葉片背面有小蟲 / 蟎</td><td>葉蟎 / 介殼蟲(高溫乾燥好發)</td><td>強水柱沖葉背;嚴重用葵無露噴霧</td></tr>
+<tr><td>兩三年後花越開越少</td><td>沒有冬季修剪,老枝積累</td><td>立刻執行一次重剪(剪 1/3–1/2);等春天萌新枝</td></tr>
+</tbody>
+</table>`,
+      },
+      {
+        id: 'dementia', emoji: '🧠', heading: '失智照護應用 Notes',
+        byLevel: {
+          mild: `
+<div class="callout">
+<h4>📍 輕度:嗅覺記憶觸發 + 儀式主導</h4>
+<p style="margin:0;">她還能主導多步驟動作。茉莉花的儀式可以做到最完整 — 澆水、看花苞、每晚採花、拿進廚房泡茉莉花茶或茉莉水,全鏈條都能做。</p>
+</div>
+<ul>
+<li><strong>嗅覺記憶觸發</strong>:請她聞花的時候,自然問「這個香味讓你想到什麼?」— 茉莉花香常能觸發夏夜、外婆院子、廟會、年輕時愛喝茉莉花茶等記憶</li>
+<li><strong>每晚採花是固定錨點</strong>:傍晚 18 時固定去陽台採花,時間感 + 目的感都很強;比「去陽台散步」更有意義</li>
+<li><strong>讓她主導分花用途</strong>:「今天的花要泡茶還是放床頭?」— 小決策維持自主感</li>
+<li><strong>茉莉花茶一起泡</strong>:採花 → 泡茶 → 一起喝,完整的社交儀式,不只是照護任務</li>
+<li><strong>目標</strong>:她還是那個「家裡種茉莉花的人」,照顧者是配角</li>
+</ul>
+<p>這個階段的價值:<strong>香氣記憶比視覺記憶衰退慢</strong>,茉莉花是少數能持續觸發長期記憶的家庭植物。</p>`,
+          moderate: `
+<div class="callout">
+<h4>📍 中度:簡化動作 + 香氣引路</h4>
+<p style="margin:0;">她能執行單一動作,但多步驟的「去陽台 → 認出花苞 → 採下來 → 拿回廚房」需要拆解引導。</p>
+</div>
+<ul>
+<li><strong>香氣引路</strong>:傍晚帶她去陽台,讓她先聞花香再說話 — 嗅覺直接連結邊緣系統,有時比言語更能讓她當下「到位」</li>
+<li><strong>預先準備小碗放旁邊</strong>:你已經採好幾朵放碗裡,讓她拿著聞;她不需要完成採花動作</li>
+<li><strong>一句指令一個動作</strong>:「把這朵花放到碗裡」而不是「幫我採花拿進去泡茶」</li>
+<li><strong>水已經裝好放桌上</strong>:請她把花放進水杯,不需要她找水、找杯(失敗點)</li>
+<li><strong>香氣不要問記憶</strong>:不要說「這是什麼花?你還記得嗎?」— 記憶失敗會讓她沮喪;說「香不香?」就夠</li>
+</ul>
+<p>這個階段的價值:<strong>香氣是語言以外的溝通頻道</strong>。即使話說不清楚,她對茉莉花香的反應(微笑、深呼吸、放鬆)是真實的情緒回應。</p>`,
+          severe: `
+<div class="callout">
+<h4>📍 重度:不求動作,香氣就是照護</h4>
+<p style="margin:0;">她的自主動作有限、語言溝通困難。茉莉花在重度階段的價值<strong>從「活動」變成「感官陪伴」</strong>。</p>
+</div>
+<ul>
+<li><strong>採幾朵花放她手上</strong>:讓她握著,不要求她做任何事;花的溫度和質感本身就是觸覺刺激</li>
+<li><strong>放花在枕頭旁邊</strong>:入睡前幾朵茉莉花放床頭小碟;香氣持續 6–8 小時,可以伴她整晚</li>
+<li><strong>做茉莉水讓她喝</strong>:花泡冷水 4 小時,淡淡的甜香水;比一般水更能讓她願意喝</li>
+<li><strong>你澆花她在旁邊</strong>:帶她坐在茉莉花盆旁,你澆水、她在旁邊,不要求互動;存在就夠</li>
+<li><strong>固定香氣建立安全感</strong>:每天同一時間同一地點聞茉莉花,重複的感官刺激對重度失智者有穩定作用</li>
+</ul>
+<p>這個階段的價值:<strong>嗅覺是最後退化的感官之一</strong>。即使她忘記了你的名字、忘記了自己的房間、甚至忘記了白天剛發生的事,茉莉花的香氣還是能讓她當下感到「這裡是安全的,是家的味道」。</p>`,
+        },
+      },
+      {
+        id: 'log', emoji: '📓', heading: '實測紀錄',
+        html: `
+<div class="callout warn">
+<p style="margin:0;"><strong>尚未實測。</strong> 計畫 2026 年 4–5 月購入茉莉花苗定植(春夏最佳時機),觀察發根 / 開花時程、冬季修剪效果、以及失智照護儀式導入。</p>
+</div>
+
+<p style="margin-top:10px;"><strong>預計追蹤的問題:</strong></p>
+<ul>
+<li>單瓣 vs 雙瓣茉莉花香氣強度比較(家中日常使用哪種更適合)</li>
+<li>長輩對茉莉花香的反應 — 有無觸發明確的回憶或情緒</li>
+<li>每晚採花儀式能否穩定導入(長輩自發去陽台的頻率)</li>
+<li>茉莉花水接受度(能否取代部分日常喝水)</li>
+<li>冬季修剪後隔年花量對比</li>
+</ul>
+
+<p style="color:var(--muted);font-size:14px;margin-top:10px;"><em>實測紀錄、照片、ritual 導入進展會陸續補進。</em></p>`,
+      },
+    ],
+  },
 ];
 
 // =========================================================
@@ -5928,7 +8941,7 @@ const PLANTS = [
 const STATE_KEY = 'gardenHandbookState';
 
 function defaultState() {
-  return { favorites: [], memos: {}, careLevel: 'mild' };
+  return { favorites: [], memos: {}, careLevel: 'mild', planningMode: false };
 }
 
 function loadState() {
@@ -5940,11 +8953,33 @@ function loadState() {
       favorites: Array.isArray(s.favorites) ? s.favorites : [],
       memos: (s.memos && typeof s.memos === 'object') ? s.memos : {},
       careLevel: ['mild','moderate','severe'].includes(s.careLevel) ? s.careLevel : 'mild',
+      planningMode: s.planningMode === true,
     };
   } catch (e) {
     console.warn('Failed to load state, using default.', e);
     return defaultState();
   }
+}
+
+// =========================================================
+// PLANNING MODE — filter plants by "can I start this in next 3 months?"
+// =========================================================
+function planningWindowMonths() {
+  // current month + next 2 = 3-month window (1-indexed, wraps 12→1)
+  const now = new Date();
+  const m = now.getMonth() + 1; // 1-12
+  return [m, (m % 12) + 1, ((m + 1) % 12) + 1];
+}
+function isStartableNow(plant) {
+  const window = planningWindowMonths();
+  const bsm = plant.meta && plant.meta.bestStartMonths;
+  if (!Array.isArray(bsm)) return true; // no data = always show
+  return bsm.some(m => window.includes(m));
+}
+function shouldShowInPlanning(plant) {
+  if (!STATE.planningMode) return true;
+  if (STATE.favorites.includes(plant.id)) return true; // favorites always visible
+  return isStartableNow(plant);
 }
 function saveState() {
   try {
@@ -5966,7 +9001,10 @@ function navigateTo(pageId) {
   const target = document.getElementById(pageId);
   if (target) target.classList.add('active');
   window.scrollTo(0, 0);
-  if (pageId === 'page-settings') renderLevelButtons();
+  if (pageId === 'page-settings') {
+    renderLevelButtons();
+    renderPlanningToggle();
+  }
 }
 
 function switchTab(catId, btn) {
@@ -6009,6 +9047,32 @@ function updateLevelBanner() {
   value.className = 'value ' + STATE.careLevel;
 }
 
+function togglePlanningMode(enabled) {
+  STATE.planningMode = !!enabled;
+  saveState();
+  updatePlanningBanner();
+  renderPlanningToggle();
+  renderTabs(); // re-filter plant cards
+  renderFavorites(); // favorites zone also re-renders (no filter but style may change)
+}
+
+function updatePlanningBanner() {
+  const banner = document.getElementById('planning-banner');
+  if (!banner) return;
+  if (!STATE.planningMode) {
+    banner.style.display = 'none';
+    return;
+  }
+  banner.style.display = 'flex';
+  const window = planningWindowMonths();
+  document.getElementById('planning-months').textContent = window.join('/');
+}
+
+function renderPlanningToggle() {
+  const el = document.getElementById('planning-toggle');
+  if (el) el.checked = !!STATE.planningMode;
+}
+
 // =========================================================
 // RENDER HOME
 // =========================================================
@@ -6017,6 +9081,7 @@ function renderHome() {
   renderFavorites();
   renderTabs();
   updateLevelBanner();
+  updatePlanningBanner();
 }
 
 function renderTabs() {
@@ -6039,11 +9104,15 @@ function renderTabs() {
     const grid = document.createElement('div');
     grid.className = 'plant-grid';
 
-    const plantsInCat = PLANTS.filter(p => p.category === cat.id);
+    const plantsInCat = PLANTS.filter(p => p.category === cat.id && shouldShowInPlanning(p));
     if (plantsInCat.length === 0) {
       const empty = document.createElement('div');
       empty.className = 'empty-category';
-      empty.innerHTML = '這個分類還沒有植物。<br>如果你有實測過的,歡迎 <a href="https://github.com/tm731531/dementia-care" style="color:var(--primary);">Fork 加進來</a>。';
+      if (STATE.planningMode) {
+        empty.innerHTML = '🎯 規劃模式下這個分類沒有「現在可下手」的植物。<br><a href="#" onclick="event.preventDefault();togglePlanningMode(false);return false;" style="color:var(--primary);">關閉規劃模式看全部</a>';
+      } else {
+        empty.innerHTML = '這個分類還沒有植物。<br>如果你有實測過的,歡迎 <a href="https://github.com/tm731531/dementia-care" style="color:var(--primary);">Fork 加進來</a>。';
+      }
       content.appendChild(empty);
     } else {
       plantsInCat.forEach(p => grid.appendChild(makePlantCard(p)));
