@@ -595,6 +595,53 @@ footer a { color: var(--primary); text-decoration: none; }
     </details>
 
     <details class="plant-section">
+      <summary><span class="summary-text">📅 24 節氣:比月曆更準的種植指南</span></summary>
+      <div class="section-body">
+        <p><strong>為什麼不看月份要看節氣?</strong>月份是陽曆(地球繞太陽的天數),真正決定植物的是<strong>溫度和日照</strong> —— 這兩者跟節氣完全吻合。24 節氣是農民把一年分成 24 份,每份對應一個穩定氣候狀態,兩千多年的經驗沉澱。本手冊所有時程以此為底。</p>
+
+        <div class="callout" style="margin-top:12px;">
+          <h4>📌 只記 3 個就夠</h4>
+          <ul style="margin:4px 0 0;padding-left:20px;">
+            <li>🌱 <strong>清明(4/4 前後)</strong> — 大部分葉菜、扦插的<strong>起點</strong>,氣溫穩定回升</li>
+            <li>🍂 <strong>立秋(8/7 前後)</strong> — 夏季作物的<strong>警戒線</strong>,過了要準備收尾</li>
+            <li>❄️ <strong>立冬(11/7 前後)</strong> — 多數喜熱作物<strong>停工</strong>,不動手</li>
+          </ul>
+          <p style="margin:6px 0 0;font-size:15px;"><strong>「清明開工,立冬停工」</strong> —— 8 個字記住整年大方向。</p>
+        </div>
+
+        <h4 style="color:var(--primary);margin-top:14px;">完整 24 節氣對照(台灣中低海拔)</h4>
+        <table>
+          <thead><tr><th>節氣</th><th>日期</th><th>植物狀態</th></tr></thead>
+          <tbody>
+            <tr><td>立春</td><td>2/4</td><td>寒流仍在,不動手</td></tr>
+            <tr><td>雨水</td><td>2/19</td><td>解凍中,氣溫不穩</td></tr>
+            <tr><td>驚蟄</td><td>3/5</td><td>昆蟲出動,還太早</td></tr>
+            <tr><td>春分</td><td>3/20</td><td>晝夜等長,邊緣期</td></tr>
+            <tr style="background:#f0f8ec;"><td>🌱 <strong>清明</strong></td><td><strong>4/4</strong></td><td><strong>多數作物開工最穩的起點</strong></td></tr>
+            <tr><td>穀雨</td><td>4/20</td><td>雨水充足,葉菜生長旺</td></tr>
+            <tr><td>立夏</td><td>5/5</td><td>夏季開始,溫度急升</td></tr>
+            <tr><td>小滿</td><td>5/21</td><td>葉菜盛期,可首次採</td></tr>
+            <tr><td>芒種</td><td>6/5</td><td>夏作物定型期</td></tr>
+            <tr><td>夏至</td><td>6/21</td><td>最長日、最熱起點</td></tr>
+            <tr><td>小暑 / 大暑</td><td>7/7 / 7/22</td><td>最熱,要加強遮陰和澆水</td></tr>
+            <tr style="background:#f0f8ec;"><td>🍂 <strong>立秋</strong></td><td><strong>8/7</strong></td><td><strong>名雖立秋,還很熱 — 夏作警戒線</strong></td></tr>
+            <tr><td>處暑</td><td>8/23</td><td>暑氣退,早晚涼</td></tr>
+            <tr><td>白露</td><td>9/8</td><td>晝夜溫差出現,葉菜轉收尾</td></tr>
+            <tr><td>秋分</td><td>9/23</td><td>葉菜生長減速</td></tr>
+            <tr><td>寒露</td><td>10/8</td><td>溫度明顯降,喜熱作物停</td></tr>
+            <tr><td>霜降</td><td>10/23</td><td>北部可能見霜,低海拔還 OK</td></tr>
+            <tr style="background:#fdf5e6;"><td>❄️ <strong>立冬</strong></td><td><strong>11/7</strong></td><td><strong>休眠期開始,不扦插喜熱作物</strong></td></tr>
+            <tr><td>小雪 / 大雪</td><td>11/22 / 12/7</td><td>最冷前奏,只維持澆水</td></tr>
+            <tr><td>冬至</td><td>12/22</td><td>最短日</td></tr>
+            <tr><td>小寒 / 大寒</td><td>1/6 / 1/20</td><td>年度低點</td></tr>
+          </tbody>
+        </table>
+
+        <p style="font-size:14px;color:var(--muted);margin-top:10px;"><em>每個植物自己的節氣細節(例如地瓜葉「清明到立秋」最旺、菠菜相反是「立冬到清明」)看該植物頁。台灣南北氣候差異大,本表以中低海拔為準;高山地區請各自 +/- 一個節氣。</em></p>
+      </div>
+    </details>
+
+    <details class="plant-section">
       <summary><span class="summary-text">🌾 施肥:SOP 化、固體肥優先、記憶外包</span></summary>
       <div class="section-body">
         <h4 style="color:var(--primary);">為什麼盆栽一定要施肥</h4>
@@ -866,14 +913,18 @@ const PLANTS = [
 <p><strong>扦插 → 發根 → 施肥 → 採收 → 越冬</strong>,一張表涵蓋整年。<strong>照做就對,不用觀察植物狀態</strong>。</p>
 
 <div class="callout warn">
-<h4>⚠️ 開工前先看月曆:第一次扦插挑對月份,不然全死</h4>
-<p style="margin:0 0 6px;">地瓜葉<strong>喜熱怕冷</strong>,低於 15°C 停止生長,新插枝條<strong>沒體力發根就凍死</strong>:</p>
-<ul style="margin:4px 0 0;padding-left:20px;">
-<li>✅ <strong>最佳:4–9 月</strong>(春末到初秋)—— 一週左右生根,手冊所有時程都以此為準</li>
-<li>🟡 勉強:10 月 / 3 月 —— 邊緣月份,成活率降低</li>
-<li>❌ <strong>別在 11 月 – 2 月扦插</strong> —— 成活率幾乎為零(Tom 第一次冬天種,整批死透)</li>
-</ul>
-<p style="margin:6px 0 0;font-size:14px;">如果現在是冬天想開始,<strong>不要插</strong> —— 先備盆土、觀察春天氣溫穩定後(通常清明 4 月上旬)再下手。蝦皮賣家冬天很多停賣枝條,也是風向球。</p>
+<h4>⚠️ 開工前先看月曆 / 節氣:挑對時間,不然全死</h4>
+<p style="margin:0 0 6px;">地瓜葉<strong>喜熱怕冷</strong>,低於 15°C 停止生長,新插枝條<strong>沒體力發根就凍死</strong>。<strong>節氣比月份準</strong>(24 節氣反映溫度和日照,月份只是數字),兩套都列:</p>
+<table style="margin-top:8px;">
+<thead><tr><th></th><th>月份</th><th>節氣</th><th>狀態</th></tr></thead>
+<tbody>
+<tr style="background:#f0f8ec;"><td>✅ 最佳</td><td><strong>4 – 8 月</strong></td><td><strong>清明(4/4)→ 立秋(8/7)</strong></td><td>氣溫穩、生長旺,<strong>手冊所有時程以此為準</strong></td></tr>
+<tr><td>🟡 勉強</td><td>3 / 9 / 10 月</td><td>春分(3/20) / 白露(9/8) / 寒露(10/8)</td><td>邊緣期,成活率降低</td></tr>
+<tr style="background:#fdecec;"><td>❌ 絕對別插</td><td><strong>11 – 2 月</strong></td><td><strong>立冬(11/7)→ 雨水(2/19)</strong></td><td>成活率接近零(Tom 第一次冬天種,整批死透)</td></tr>
+</tbody>
+</table>
+<p style="margin:8px 0 0;font-size:14px;">俗話:<strong>「清明插、立秋前還能採」</strong>。如果現在是冬天,<strong>不要插</strong> —— 先備盆土,等清明(4 月上旬)再下手。蝦皮賣家冬天很多停賣枝條,也是風向球。</p>
+<p style="margin:6px 0 0;font-size:13px;color:var(--muted);"><em>完整 24 節氣對照看 <a href="#" onclick="event.preventDefault();navigateTo('page-knowledge');return false;" style="color:var(--primary);">📚 通用園藝知識 → 📅 24 節氣</a>。</em></p>
 </div>
 
 <table>
