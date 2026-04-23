@@ -20,7 +20,18 @@
 | writer | sonnet | 0.6 GB | 照護者、小孩、植物專家 | P1 |
 | reviewer | sonnet | 0.6 GB | 失智長輩、領域專家 | P2 |
 
-總計 1.2 GB。單人專案,通常 Tom 自己寫,agent 只在大幅擴充(例如一次加 5 個植物)時啟動。
+總計 1.2 GB。單人專案,通常 Tom 自己寫。
+
+### 平行 subagent 模式(驗證過,2026-04-23)
+
+大量擴充(一次加 5+ 個 plants)時:
+- 寫一份 SPEC.md 給所有 subagent 共讀
+- 派 N 個 `general-purpose` agent(sonnet, 各 ~0.6GB)平行寫
+- 每個 agent 寫到 `/tmp/plant-entries/new-<id>.js`
+- Python 腳本批次整合
+
+本輪實測:單日擴充 17 個 plants,比逐個寫省 ~80% 時間。
+memory footprint:9 agents × 0.6GB = 5.4GB,16GB 機器無壓力。
 
 ## Project-Specific Rules
 

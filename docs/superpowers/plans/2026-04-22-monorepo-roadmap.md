@@ -30,6 +30,7 @@
 - [x] dementia-companion-v2 首次部署（推薦式首頁 + 陪伴指南）
 - [x] garden-handbook 新增(第 7 個子專案,2026-04-22,第一個 entry:地瓜葉)
 - [x] pet-handbook 新增(第 8 個子專案,2026-04-23,貓 6 個 topics + 物種分類架構可擴充)
+- [x] garden-handbook v1 大擴充(2026-04-23,25 plants + 6 類別 + 規劃模式 + 🛒 購物籃 + 🎯 5W1H 總覽,平行 subagent 模式驗證)
 
 ### 🟡 進行中
 - [ ] kids-companion 9 MB 單檔問題 — 接近 GitHub Pages 單檔上限 100MB，但初次載入慢。未來若再加圖片/活動要考慮拆檔或用 image sprite
