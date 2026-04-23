@@ -51,7 +51,7 @@ https://tm731531.github.io/dementia-care/pet-handbook/
 
 ## 手冊特色
 
-- **Tom 自己整理的實戰筆記** — 不是網路抄來的,是真的養貓累積的經驗
+- **照顧者累積的實戰筆記** — 不是網路抄來的,是真的養貓累積的經驗
 - **按物種→主題**,第一層選物種,第二層挑議題
 - **可存自己的 memo** — 每個 topic 可寫你家寵物的紀錄(localStorage)
 - **匯出備份** — JSON 備份隨時可還原
@@ -64,7 +64,7 @@ Storage key: `petHandbookState`
 
 ## 資料來源
 
-Tom 的 HackMD 筆記,累積多年的實戰經驗:
+作者的 HackMD 筆記,累積多年的實戰經驗:
 - [訓貓](https://hackmd.io/@2GrxaqznSJKLrhmXwCaeug/By9hkAg4s)
 - [飼料](https://hackmd.io/@2GrxaqznSJKLrhmXwCaeug/H1NWv0lVi)
 - [我家的貓](https://hackmd.io/@2GrxaqznSJKLrhmXwCaeug/ryCmhpJNj)
