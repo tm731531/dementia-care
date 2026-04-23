@@ -2007,6 +2007,1197 @@ const TOPICS = [
 </ul>`},
     ],
   },
+
+  // =========== 狗 · 飼料挑選 ===========
+  {
+    id: 'dog-food', name: '狗的飼料挑選', emoji: '🍲', category: 'dog', hint: '濕食 vs 乾食 + 成分判讀',
+    meta: { options: '乾糧 / 濕食 / 生食 / 自煮', key: '狗比貓需要更多水份,濕食/自煮比純乾糧好', disclaimer: '一般建議,實際以獸醫為準' },
+    sections: [
+      { emoji: '💡', heading: '狗食四大類比較', html: `
+<table>
+<thead><tr><th>類型</th><th>好處</th><th>缺點</th></tr></thead>
+<tbody>
+<tr><td>乾糧</td><td>便宜、方便、好保存</td><td>含水低(10%)、加工多</td></tr>
+<tr><td>濕食罐頭</td><td>含水 75%、適口性好</td><td>貴、開罐後要冰</td></tr>
+<tr><td>生食(BARF)</td><td>原型食物、最接近自然</td><td>細菌風險、自製難平衡</td></tr>
+<tr><td>自煮鮮食</td><td>食材看得到、可客製</td><td>費時、易營養失衡</td></tr>
+</tbody>
+</table>
+<p><strong>建議</strong>:新手從乾糧 + 部分濕食混餵開始,有餘力再進階。</p>`},
+      { emoji: '🔍', heading: '看成分的原則', html: `
+<ol>
+<li><strong>Top 5 看有無整肉</strong>(雞肉、牛肉、魚肉)優於肉粉</li>
+<li><strong>避開含糊標示</strong>:「肉類副產物」「禽類」這種來源不明</li>
+<li>碳水化合物別過高(狗不需要大量穀物)</li>
+<li>避免人工色素、BHA/BHT 防腐劑</li>
+<li>對照包裝上的 <strong>AAFCO 認證</strong>(完整營養標示)</li>
+</ol>`},
+      { emoji: '🐣', heading: '依年齡選', html: `
+<ul>
+<li><strong>幼犬(0-1 歲)</strong>:高蛋白高脂(25-30%),幫助發育</li>
+<li><strong>成犬(1-7 歲)</strong>:均衡配方</li>
+<li><strong>高齡犬(7 歲以上,大型犬 5 歲)</strong>:低脂、高纖、關節保健成分</li>
+<li><strong>大型犬幼年</strong>:專用配方(鈣磷比嚴格),避免骨骼發育過快</li>
+</ul>`},
+      { emoji: '🐕', heading: '依體型選', html: `
+<ul>
+<li><strong>小型犬</strong>:顆粒小、熱量密度高(胃小但消耗快)</li>
+<li><strong>中型犬</strong>:一般配方</li>
+<li><strong>大型犬</strong>:顆粒大、鈣磷比例嚴控、關節成分</li>
+<li>體重管理型(肥胖):低脂高纖</li>
+</ul>`},
+      { emoji: '⚠', heading: '常見錯誤', html: `
+<ul>
+<li><strong>只吃乾糧不喝水</strong> → 慢性脫水,腎臟負擔。加濕食或溼拌飼料</li>
+<li><strong>突然換牌子</strong> → 腹瀉。換糧要 7-10 天漸進</li>
+<li><strong>人類食物當主食</strong> → 油鹽糖過量 + 缺營養</li>
+<li><strong>迷信無穀高蛋白</strong> → 不是所有狗都適合,有研究連結 DCM 心臟病</li>
+<li><strong>餵過量</strong> → 肥胖是狗最大健康殺手,縮短壽命</li>
+</ul>`},
+    ],
+  },
+
+  // =========== 狗 · 訓練進階 ===========
+  {
+    id: 'dog-training-advanced', name: '狗的訓練進階', emoji: '🎓', category: 'dog', hint: '牽繩 · 定點 · 社會化',
+    meta: { window: '社會化黃金期 3-14 週齡', principle: '正向訓練:獎勵對的,忽略錯的', disclaimer: '一般建議,複雜問題找專業訓犬師' },
+    sections: [
+      { emoji: '🐕‍🦺', heading: '牽繩訓練(不拉繩走)', html: `
+<ol>
+<li>家中先練:狗在你身邊,每 2-3 步給零食</li>
+<li>狗往前拉 → <strong>停下不動</strong>,等牠回頭或放鬆 → 給零食 → 繼續</li>
+<li>每次散步前一小段用零食引導</li>
+<li>禁止<strong>拉後扯回來</strong>(會學到拉繩 = 刺激)</li>
+<li>使用胸背帶比項圈安全</li>
+</ol>
+<p>一般 2-4 週有明顯改善,但大狗/固執狗可能需要幾個月。</p>`},
+      { emoji: '🚽', heading: '定點大小便', html: `
+<ol>
+<li>固定尿布墊位置(不移)</li>
+<li>飯後 / 睡醒 / 喝水後 10-20 分鐘<strong>主動帶牠去</strong>尿布墊</li>
+<li>在墊上排泄 → 立刻給零食 + 大聲讚美</li>
+<li>沒成功 → 不罵不處罰,直接清理</li>
+<li>錯地方排泄 → <strong>沉默清掉</strong>(罵會讓狗躲起來大便)</li>
+</ol>
+<p>幼犬 6-12 週是最佳訓練期,完整訓練可能 1-3 個月。</p>`},
+      { emoji: '👥', heading: '社會化(3-14 週齡黃金期)', html: `
+<div class="callout"><h4>錯過就補不回來</h4>
+<p style="margin:0;">幼犬 3-14 週是社會化關鍵期。這段時間接觸的人、環境、聲音,長大不會害怕。錯過後怕生、亂咬的機率大增。</p></div>
+<p>要讓幼犬接觸:</p>
+<ul>
+<li>不同年齡的人(小孩、老人)</li>
+<li>各種聲音(車、吸塵器、雷雨)</li>
+<li>其他狗(先確認都打完疫苗)</li>
+<li>不同地面(草地、磁磚、石頭、樓梯)</li>
+<li>抱、摸腳、摸耳、摸嘴(讓獸醫檢查用)</li>
+</ul>`},
+      { emoji: '🗣', heading: '常見行為問題對策', html: `
+<table>
+<thead><tr><th>問題</th><th>可能原因</th><th>對策</th></tr></thead>
+<tbody>
+<tr><td>亂吠</td><td>無聊、焦慮、警戒</td><td>增加運動 + 豐富化玩具,找觸發點</td></tr>
+<tr><td>拆家</td><td>分離焦慮、無聊</td><td>出門前多運動、留耐咬玩具、漸進式獨處訓練</td></tr>
+<tr><td>咬人</td><td>幼犬玩咬 or 防衛</td><td>玩咬:被咬就收手不玩 5 分鐘。防衛咬:找專業訓練師</td></tr>
+<tr><td>搶食物</td><td>資源焦慮</td><td>練習「等」+ 餵食時給一部分 → 離開 → 補更多</td></tr>
+<tr><td>撲人</td><td>興奮、要求注意</td><td>撲 = 你轉身無視。四隻腳著地 = 給關注</td></tr>
+</tbody>
+</table>`},
+    ],
+  },
+
+  // =========== 狗 · 氣候照護 ===========
+  {
+    id: 'dog-climate', name: '狗的氣候照護', emoji: '🌤', category: 'dog', hint: '台灣氣候:熱濕颱',
+    meta: { climate: '亞熱帶高濕 + 颱風', key: '夏天中暑 > 冬天冷,台灣關鍵是夏天', disclaimer: '一般建議,實際以獸醫為準' },
+    sections: [
+      { emoji: '☀', heading: '夏天中暑預防(最關鍵)', html: `
+<div class="callout warn"><h4>⚠️ 中暑 = 30 分鐘致命</h4>
+<p style="margin:0;">狗不會流汗,只能靠舌頭散熱。在台灣夏天,<strong>車內或曬太陽 5-10 分鐘就可以中暑</strong>。</p></div>
+<h4 style="color:var(--primary);margin-top:10px;">預防</h4>
+<ul>
+<li>散步<strong>早上 7 點前 / 傍晚 6 點後</strong>,避開 10-17 點</li>
+<li>柏油路 65°C 可燙傷腳掌(手背貼 5 秒無法忍受 = 太燙)</li>
+<li>永遠備水</li>
+<li>冷氣房 > 風扇(狗不能用風扇散熱)</li>
+<li>絕對不可留狗在車內(即使開窗、陰影下)</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">中暑徵兆</h4>
+<ul>
+<li>大喘、吐舌頭長、流口水</li>
+<li>步態不穩、倒地</li>
+<li>嘔吐、腹瀉</li>
+<li>牙齦發紅或發紫</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">急救(送醫路上做)</h4>
+<ul>
+<li>立刻移到陰涼處</li>
+<li>用常溫水(不是冰水)浸濕全身</li>
+<li>對著吹風(風扇/冷氣)</li>
+<li>小口給水,能喝就喝</li>
+<li><strong>直送動物醫院</strong></li>
+</ul>`},
+      { emoji: '❄', heading: '冬天保暖(台灣不嚴重)', html: `
+<ul>
+<li>台灣冬天 10°C 以下,小型犬、短毛犬、老犬、幼犬需加衣</li>
+<li>大型長毛犬(哈士奇、柴犬)<strong>穿衣反而熱</strong></li>
+<li>睡墊墊厚一點,遠離冷地板</li>
+<li>陽台/院子養的狗要有擋風屋</li>
+</ul>`},
+      { emoji: '🌧', heading: '雨天與颱風', html: `
+<ul>
+<li>雨天一定要散步 → 披雨衣,回家吹乾(尤其腳底趾縫,易皮膚病)</li>
+<li>雷雨怕狗 → 關窗、開電視掩蓋聲音、陪牠、可加 Adaptil 費洛蒙</li>
+<li>颱風前:備乾糧、水、尿布墊(狗可能不敢出門)</li>
+<li>颱風期間:待安全內室、不看外面(減少焦慮刺激)</li>
+</ul>`},
+      { emoji: '💧', heading: '潮濕季節皮膚保養', html: `
+<ul>
+<li>回家擦乾腳掌、肚子(潮濕易黴菌)</li>
+<li>耳朵定期檢查(垂耳犬特別容易耳炎)</li>
+<li>床墊每週曬/換洗</li>
+<li>發現紅疹、抓癢、異味 → 皮膚科獸醫</li>
+</ul>`},
+    ],
+  },
+
+  // =========== 狗 · 多狗與跨物種 ===========
+  {
+    id: 'dog-multi', name: '多狗與狗貓混養', emoji: '👥', category: 'dog', hint: '介紹 SOP + 資源分配',
+    meta: { scenario: '第二隻狗 / 已有貓家裡要加狗', key: '資源不夠 = 衝突', disclaimer: '一般建議,嚴重衝突找專業' },
+    sections: [
+      { emoji: '💡', heading: '加第二隻前的評估', html: `
+<ol>
+<li><strong>原本的狗穩定嗎?</strong> — 有分離焦慮、攻擊性的先解決,再加</li>
+<li><strong>空間夠嗎?</strong> — 兩狗要有各自休息區</li>
+<li><strong>經濟</strong> — 雙倍飼料、雙倍醫療</li>
+<li><strong>時間</strong> — 初期要分開遛、分別訓練</li>
+</ol>`},
+      { emoji: '🚪', heading: '第二隻狗的介紹 SOP', html: `
+<ol>
+<li><strong>中性地點首次見面</strong>(公園),兩隻都牽繩,從遠到近</li>
+<li>看彼此 → 放鬆 → 給零食;緊張 → 拉開</li>
+<li>回家:先讓新狗在一個獨立空間,舊狗嗅門縫</li>
+<li>第 2-3 天:短時間同處,都有人牽繩</li>
+<li>第 1-2 週:放開時間拉長,仍要監督</li>
+<li>第 1 個月:資源(飯、玩具、睡墊)<strong>分開放</strong>,避免爭搶</li>
+</ol>`},
+      { emoji: '🐈', heading: '狗貓混養 SOP', html: `
+<p>關鍵:<strong>貓要有「狗上不去」的高處避難區</strong>。</p>
+<ol>
+<li>階段 1:完全隔開(各自房間),門縫氣味交換 1 週</li>
+<li>階段 2:狗牽繩,貓放風,讓貓主動接近</li>
+<li>階段 3:狗<strong>學會「不要追貓」</strong>指令 + 獎勵</li>
+<li>階段 4:監督同處,貓有高處可逃</li>
+<li>階段 5:可以短時間無人監督(但貓高處要永遠可達)</li>
+</ol>
+<div class="callout warn"><h4>⚠️ 獵犬類特別小心</h4>
+<p style="margin:0;">米格魯、雪納瑞、西高地等獵犬有獵物驅力,看到小動物會衝。這類犬種跟貓混養要特別謹慎或不建議。</p></div>`},
+      { emoji: '🍖', heading: '資源分配(避免爭搶)', html: `
+<ul>
+<li><strong>兩個飯碗,不同角落</strong>,同時開飯</li>
+<li><strong>兩個水碗</strong></li>
+<li><strong>玩具充足</strong>(兩隻的加碼買)</li>
+<li>零食/骨頭 → 分開角落</li>
+<li>你給關注時,<strong>兩隻都要摸</strong>(不能厚此薄彼)</li>
+<li>爭搶信號(僵住、低吼、咬嘴角)→ 立刻平靜分開,不大叫</li>
+</ul>`},
+    ],
+  },
+
+  // =========== 兔 · 飲食進階 ===========
+  {
+    id: 'rabbit-food', name: '兔的飲食進階', emoji: '🥬', category: 'rabbit', hint: '牧草選擇 + 蔬菜清單',
+    meta: { ratio: '85% 牧草 · 10% 蔬菜 · 5% 飼料', water: '無限量供應', disclaimer: '一般建議,實際以兔專科獸醫為準' },
+    sections: [
+      { emoji: '🌾', heading: '牧草品種與選擇', html: `
+<table>
+<thead><tr><th>品種</th><th>適合</th><th>特性</th></tr></thead>
+<tbody>
+<tr><td>苜蓿草</td><td>幼兔、孕兔</td><td>高鈣高蛋白,成兔會胖</td></tr>
+<tr><td>提摩西草</td><td>成兔(主食)</td><td>低鈣、高纖,黃金選擇</td></tr>
+<tr><td>果園草</td><td>牙齒敏感的兔</td><td>較軟,適口性好</td></tr>
+<tr><td>百慕達草</td><td>成兔補充</td><td>細軟,混餵用</td></tr>
+<tr><td>燕麥草</td><td>偶爾換口味</td><td>兔通常很愛,但不能當主食</td></tr>
+</tbody>
+</table>
+<p>挑牧草:<strong>綠、香、乾、無粉塵</strong>,顏色枯黃或有霉味的扔掉。</p>`},
+      { emoji: '✅', heading: '安全蔬菜清單', html: `
+<h4 style="color:var(--primary);">每天可餵</h4>
+<ul>
+<li>羅蔓萵苣、綠葉萵苣(不要結球萵苣 — 含水太多)</li>
+<li>芝麻葉、小白菜</li>
+<li>地瓜葉、A 菜心</li>
+<li>羽衣甘藍、青江菜</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">每週少量</h4>
+<ul>
+<li>紅蘿蔔葉(葉比根好)、芹菜</li>
+<li>九層塔、薄荷、香菜</li>
+<li>青椒(少)</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">水果(零食,每週 1-2 次一小塊)</h4>
+<ul>
+<li>蘋果(去籽)、藍莓、草莓</li>
+<li>水蜜桃、梨(去籽)</li>
+</ul>`},
+      { emoji: '❌', heading: '絕對不能餵的食物', html: `
+<ul>
+<li><strong>巧克力、咖啡、茶</strong>(興奮劑 + 毒)</li>
+<li><strong>洋蔥、大蒜、韭菜</strong>(破壞紅血球)</li>
+<li>酪梨(毒)</li>
+<li>生豆類(含毒素)</li>
+<li>玉米、麵包、米飯(澱粉過多)</li>
+<li>乳製品(兔消化不了)</li>
+<li>萵苣類:結球萵苣、嫩葉萵苣(含鎮定劑成分)</li>
+<li>菠菜(過多草酸)</li>
+<li>竹筍、馬鈴薯</li>
+<li>人類零食、糖果</li>
+</ul>`},
+      { emoji: '💧', heading: '飲水與鈣質管理', html: `
+<h4 style="color:var(--primary);">水</h4>
+<ul>
+<li><strong>無限量</strong> — 兔不喝水比餓更危險</li>
+<li>水碗(大)比水瓶好 — 更自然飲水姿勢</li>
+<li>每天換新水</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">鈣質平衡(兔的獨特問題)</h4>
+<ul>
+<li>兔會吸收<strong>所有</strong>吃進的鈣,過多會結石</li>
+<li>幼兔需要(苜蓿草)</li>
+<li>成兔<strong>減少高鈣食物</strong>(苜蓿、羽衣甘藍、綠花椰)</li>
+<li>尿液紅橘色 → 正常(植物色素);尿中結晶 → 獸醫</li>
+</ul>`},
+    ],
+  },
+
+  // =========== 兔 · 環境溫控 ===========
+  {
+    id: 'rabbit-climate', name: '兔的環境溫控', emoji: '🌡', category: 'rabbit', hint: '28°C 是紅線 · 冷氣必備',
+    meta: { ideal: '18-24°C,濕度 50-60%', danger: '28°C 以上中暑風險高', disclaimer: '一般建議,實際以獸醫為準' },
+    sections: [
+      { emoji: '☀', heading: '夏天降溫(台灣養兔關鍵)', html: `
+<div class="callout warn"><h4>⚠️ 兔子不能忍受熱</h4>
+<p style="margin:0;">兔沒有汗腺,靠耳朵散熱。台灣夏天 <strong>28°C 以上就可能中暑</strong>,且兔中暑死亡率高。</p></div>
+<h4 style="color:var(--primary);margin-top:10px;">必備降溫</h4>
+<ul>
+<li><strong>冷氣 24°C 全天</strong>(最保險,電費認了)</li>
+<li>冰鎮鋁板 / 瓷磚讓兔趴</li>
+<li>冷凍保冷袋用毛巾包放籠邊(不可直接接觸)</li>
+<li>風扇<strong>不能直吹兔</strong>,繞著吹</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">中暑徵兆</h4>
+<ul>
+<li>張嘴喘氣(兔是鼻呼吸,張嘴 = 警報)</li>
+<li>耳朵發紅、燙</li>
+<li>無力、流口水、不動</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">急救</h4>
+<ul>
+<li>用濕毛巾輕擦耳背(<strong>不要泡水</strong>,會休克)</li>
+<li>立刻送醫</li>
+</ul>`},
+      { emoji: '❄', heading: '冬天保暖', html: `
+<ul>
+<li>兔比狗貓耐冷,<strong>10°C 以上通常沒問題</strong></li>
+<li>低於 10°C:籠子遠離冷窗,加保暖燈或毯</li>
+<li>放風時地板冷 → 鋪毯子</li>
+<li>幼兔、老兔、病兔需額外保暖</li>
+</ul>`},
+      { emoji: '💧', heading: '濕度控制', html: `
+<ul>
+<li>理想濕度 50-60%</li>
+<li>太濕(台灣梅雨季)→ 真菌、呼吸道問題;除濕機</li>
+<li>太乾(冷氣房)→ 皮膚乾、眼睛刺激;加水盆或加濕器</li>
+</ul>`},
+      { emoji: '🌬', heading: '通風原則', html: `
+<ul>
+<li>籠子不能密閉,但不能直吹風</li>
+<li>兔籠<strong>不要放地板</strong>(潮濕、冷、通風差)</li>
+<li>墊高 20-30 cm,遠離牆</li>
+<li>有進出空氣流動,但無穿堂風</li>
+</ul>`},
+    ],
+  },
+
+  // =========== 兔 · 行為問題 ===========
+  {
+    id: 'rabbit-behavior', name: '兔的行為問題', emoji: '⚠', category: 'rabbit', hint: '咬 · 拔毛 · 亂尿 · 攻擊',
+    meta: { truth: '兔的行為問題通常有原因,不是壞脾氣', disclaimer: '一般建議,嚴重問題找兔科獸醫' },
+    sections: [
+      { emoji: '🦷', heading: '咬人的原因與對策', html: `
+<h4 style="color:var(--primary);">常見原因</h4>
+<ul>
+<li><strong>性成熟未結紮</strong>(最大主因)</li>
+<li>領域感:被伸手進籠 → 防衛</li>
+<li>身體不舒服 → 自我保護</li>
+<li>玩耍失控</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">對策</h4>
+<ul>
+<li><strong>結紮</strong>(4-6 個月齡後)— 80% 的咬人問題消失</li>
+<li>不從上方伸手進籠 → 從側面或讓兔主動出籠</li>
+<li>被咬輕聲「痛!」→ 停止互動 30 秒</li>
+<li>持續嚴重 → 獸醫檢查身體</li>
+</ul>`},
+      { emoji: '🧶', heading: '拔毛的原因', html: `
+<ul>
+<li><strong>假懷孕</strong>(未結紮母兔):拔自己胸毛鋪窩 → 結紮</li>
+<li><strong>無聊</strong>:玩具不夠 → 增加啃咬玩具</li>
+<li><strong>壓力</strong>:換環境、家人少 → 調整</li>
+<li><strong>寄生蟲 / 皮膚病</strong>:獸醫確診</li>
+<li><strong>換毛期</strong>(春秋):正常,每天梳毛幫忙</li>
+</ul>`},
+      { emoji: '💦', heading: '亂尿 / 噴尿', html: `
+<ul>
+<li><strong>未結紮</strong>(最主因):性成熟標記領地 → 結紮</li>
+<li>便盆不夠大或位置不對:換大盆</li>
+<li>便盆太久沒清:兔挑食的嗅覺</li>
+<li>壓力 / 新成員:漸進適應</li>
+<li>泌尿道問題:獸醫檢查(血尿、頻尿)</li>
+</ul>`},
+      { emoji: '🙈', heading: '攻擊與領域性', html: `
+<ul>
+<li><strong>咬籠門</strong>:要求放出來 / 要求食物 → 設定互動時間</li>
+<li><strong>跺腳</strong>:警告(害怕 / 生氣)→ 了解觸發</li>
+<li><strong>噴尿標記</strong>:未結紮 → 結紮</li>
+<li><strong>繞圈叫 / 蹭下巴</strong>:求偶行為(未結紮)</li>
+</ul>
+<div class="callout"><h4>結紮是兔行為問題的萬靈丹</h4>
+<p style="margin:0;">80% 的兔行為問題源自性荷爾蒙。結紮後 1-3 個月大部分會消失。加上母兔子宮癌風險極高,結紮是必做,不是可選。</p></div>`},
+      { emoji: '😶', heading: '躲藏與不親人', html: `
+<p>兔是獵物動物,<strong>本能就是躲</strong>。親人需要時間(可能幾個月)。</p>
+<ul>
+<li>不從上方抓(天敵角度)</li>
+<li>坐地上讓兔主動來</li>
+<li>用手餵零食(羅蔓、蘋果塊)</li>
+<li>不強抱 — 被強抱過的兔長期怕人</li>
+<li>環境要有躲藏處,躲才有安全感</li>
+</ul>`},
+    ],
+  },
+
+  // =========== 兔 · 結紮與多兔相處 ===========
+  {
+    id: 'rabbit-multi', name: '結紮與多兔相處', emoji: '✂', category: 'rabbit', hint: '結紮必做 + 多兔需 bond',
+    meta: { neuterTime: '公兔 4-6 個月 · 母兔 6 個月', reality: '沒 bond 過的兩兔放一起 = 血戰', disclaimer: '一般建議,多兔 bond 找兔專家' },
+    sections: [
+      { emoji: '✂', heading: '為什麼一定要結紮', html: `
+<h4 style="color:var(--primary);">母兔(必做)</h4>
+<ul>
+<li><strong>子宮癌風險 80%</strong>(未結紮 3-5 歲後)</li>
+<li>假懷孕、乳腺疾病</li>
+<li>結紮後性情穩定</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">公兔(強烈建議)</h4>
+<ul>
+<li>減少攻擊、領域性</li>
+<li>減少標記噴尿</li>
+<li>睪丸腫瘤風險降低</li>
+</ul>
+<p><strong>時機</strong>:性成熟後(公兔 4-6 個月,母兔 6 個月),老兔(6 歲以上)手術風險增,要評估。</p>`},
+      { emoji: '🏥', heading: '結紮前後照顧', html: `
+<h4 style="color:var(--primary);">手術前</h4>
+<ul>
+<li><strong>兔不需要空腹</strong>(跟貓狗不同)</li>
+<li>帶平常吃的飼料/草到醫院</li>
+<li>選<strong>兔專科獸醫</strong>(一般獸醫麻醉風險高)</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">手術後</h4>
+<ul>
+<li>當天觀察有無排便(不吃不大便 → 緊急)</li>
+<li>24 小時內開始吃 = 正常</li>
+<li>限制跳躍 5-7 天(公兔)、7-10 天(母兔)</li>
+<li>傷口每天檢查</li>
+<li>止痛藥依獸醫指示</li>
+</ul>`},
+      { emoji: '👯', heading: '多兔介紹 SOP', html: `
+<div class="callout warn"><h4>⚠️ 絕對不能直接放一起</h4>
+<p style="margin:0;">兔領域性強,陌生兔放一起通常打架甚至咬死。要一步步 bonding。</p></div>
+<h4 style="color:var(--primary);margin-top:10px;">流程(總需 2-8 週)</h4>
+<ol>
+<li><strong>雙方都結紮完,等 4-6 週荷爾蒙退</strong></li>
+<li><strong>氣味交換</strong>:交換毛巾、擦臉</li>
+<li><strong>隔籠並排</strong>:相鄰但不能觸碰,觀察反應</li>
+<li><strong>中立區會面</strong>:浴室、陽台(兩方都不熟)短暫 5-10 分鐘</li>
+<li>漸進拉長時間,直到可以一起吃飯</li>
+<li><strong>合籠</strong>:兩隻看起來冷靜、不追打,才移到共同大籠</li>
+</ol>
+<h4 style="color:var(--primary);margin-top:10px;">失敗信號</h4>
+<p>追咬、拔毛、噴尿攻擊 → 退回上一步。嚴重衝突 → 放棄合籠,永久分養。</p>`},
+      { emoji: '💑', heading: '公母配對建議', html: `
+<ul>
+<li><strong>公 + 母(都結紮後)</strong>:最容易 bond 成功</li>
+<li><strong>母 + 母</strong>:難度高(母兔領域性強)</li>
+<li><strong>公 + 公</strong>:除非從小一起長大,否則不建議</li>
+<li>年齡相近 or 一大一小(避免成對同齡爭大)</li>
+</ul>`},
+    ],
+  },
+
+  // =========== 鳥 · 飲食進階 ===========
+  {
+    id: 'bird-food', name: '鳥的飲食進階', emoji: '🥗', category: 'bird', hint: 'Pellets 主 · 種子零食',
+    meta: { ratio: '50-70% pellets · 20-30% 蔬果 · 10-20% 種子', myth: '「鳥就是吃種子」是錯的', disclaimer: '一般建議,實際以鳥類獸醫為準' },
+    sections: [
+      { emoji: '🌾', heading: '為什麼不能只吃種子', html: `
+<div class="callout warn"><h4>⚠️ 種子飲食是鳥早死的主因之一</h4>
+<p style="margin:0;">種子高脂低營養,長期只吃會肥胖、肝病、維他命 A 缺乏、痛風。<strong>pellets(鳥專用營養塊)才是主食</strong>,種子是零食。</p></div>`},
+      { emoji: '🥫', heading: 'Pellets 選擇', html: `
+<ul>
+<li>挑<strong>無人工色素</strong>(彩色鳥糧有疑慮)</li>
+<li>選<strong>適合品種</strong>(小鸚鵡、中型鸚鵡、大型鸚鵡配方不同)</li>
+<li>常見品牌:Harrison's、Zupreem、Roudybush</li>
+<li>換糧要漸進(從種子轉 pellets 可能要幾週)</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">怎麼讓鳥接受 pellets</h4>
+<ol>
+<li>種子中混 10% pellets,每週增加 10%</li>
+<li>飢餓法(禁食 2-4 小時後先給 pellets)</li>
+<li>跟鳥一起吃(假裝你在吃)</li>
+<li>有耐心,可能要 1-3 個月</li>
+</ol>`},
+      { emoji: '🥬', heading: '安全蔬果清單', html: `
+<h4 style="color:var(--primary);">推薦每天給</h4>
+<ul>
+<li>深綠葉菜(羽衣甘藍、菠菜少量、芝麻葉)</li>
+<li>紅椒、青椒</li>
+<li>紅蘿蔔(切細)</li>
+<li>地瓜(熟)、南瓜(熟)</li>
+<li>花椰菜、青花椰</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">水果(零食,每日 10-20%)</h4>
+<ul>
+<li>蘋果(去籽)、葡萄(一兩顆)、藍莓</li>
+<li>芒果、木瓜、哈密瓜</li>
+<li>柳橙、奇異果</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">絕對禁忌</h4>
+<ul>
+<li><strong>酪梨</strong>(劇毒)</li>
+<li>巧克力、咖啡、酒</li>
+<li>洋蔥、大蒜</li>
+<li>蘋果籽、櫻桃核、桃核(含氰化物)</li>
+<li>鹽、糖、油炸</li>
+</ul>`},
+      { emoji: '💊', heading: '補鈣與補碘', html: `
+<ul>
+<li><strong>墨魚骨</strong>:掛籠內,鳥自己啃補鈣</li>
+<li><strong>礦物塊</strong>:補微量元素</li>
+<li><strong>碘</strong>(虎皮鸚鵡易缺碘,甲狀腺問題):食鹽很少量 / 碘塊</li>
+<li>母鳥產蛋期特別需要鈣</li>
+</ul>`},
+      { emoji: '💧', heading: '飲水', html: `
+<ul>
+<li><strong>每日換新水</strong>(鳥會把食物、糞便沾到水)</li>
+<li>過濾水或煮沸放涼</li>
+<li>飲水器 + 水碗雙放(有些鳥只用其中一種)</li>
+<li>夏天增加新鮮蔬菜補充水分</li>
+</ul>`},
+    ],
+  },
+
+  // =========== 鳥 · 放飛訓練 ===========
+  {
+    id: 'bird-flying', name: '放飛訓練與防逃', emoji: '🕊', category: 'bird', hint: '第一次放飛前的檢查清單',
+    meta: { prerequisite: '鳥會召回 + 家中防逃完備', risk: '飛出窗戶 99% 找不回,務必確認前置', disclaimer: '一般建議,複雜訓練找鳥類行為顧問' },
+    sections: [
+      { emoji: '🏠', heading: '家中防逃檢查清單', html: `
+<p>放飛前每一項確認:</p>
+<ul>
+<li>☐ 所有門關</li>
+<li>☐ 所有窗關(或紗窗鎖死)</li>
+<li>☐ 電扇關(撞斷翅膀)</li>
+<li>☐ 其他寵物(貓狗)隔離</li>
+<li>☐ 有明火(瓦斯爐、蠟燭、油鍋)熄滅</li>
+<li>☐ 馬桶蓋關</li>
+<li>☐ 水槽、大口容器清空</li>
+<li>☐ 鏡子貼窗(防撞,鳥看不見玻璃)</li>
+<li>☐ 有毒植物移開</li>
+</ul>`},
+      { emoji: '👋', heading: '召回訓練(放飛前必練)', html: `
+<ol>
+<li>先在籠內練:手指伸近 → 說「上手」+ 零食</li>
+<li>鳥願意上手 → 出籠試,站在肩上或指定位置</li>
+<li>短距離召回:你走遠 1 米,叫鳥名 + 拍手 → 鳥飛來 → 零食</li>
+<li>距離慢慢拉長</li>
+<li><strong>一定要穩定成功 10 次以上再考慮長時間放飛</strong></li>
+</ol>`},
+      { emoji: '🛑', heading: '第一次放飛的步驟', html: `
+<ol>
+<li>先確認環境安全(上面清單)</li>
+<li>籠門打開,讓鳥自己決定什麼時候出來</li>
+<li><strong>不要強抓鳥放飛</strong>(會受創)</li>
+<li>鳥飛出 → 觀察,不追</li>
+<li>鳥累了會找落腳處 → 慢慢接近讓牠上手</li>
+<li>首次 15-30 分鐘,之後增加</li>
+</ol>`},
+      { emoji: '📢', heading: '如果鳥飛走(急救)', html: `
+<div class="callout warn"><h4>⚠️ 時間是關鍵</h4>
+<p style="margin:0;">失蹤 24 小時內找到機率高,之後驟降。<strong>立刻行動</strong>。</p></div>
+<ol>
+<li>保持冷靜,注意聽鳥叫</li>
+<li>抬頭找(鳥會飛高)</li>
+<li>拿牠熟悉的人(主人)聲音呼叫</li>
+<li>用牠愛吃的食物當誘餌</li>
+<li>鄰居大聲求助(特別是大樓)</li>
+<li>發佈社群:FB 社團「尋鳥啟事」「寵物鳥社團」+ 照片 + 地點</li>
+<li>貼海報在社區、派出所</li>
+<li>聯絡當地動物收容所</li>
+<li>天黑前找到最好(鳥夜視差)</li>
+</ol>`},
+      { emoji: '✂', heading: '剪飛羽 yes or no', html: `
+<p>老派作法:剪飛羽防飛走。但近年<strong>主流觀點是不剪</strong>:</p>
+<ul>
+<li>剪飛羽鳥會沒安全感(摔落)</li>
+<li>影響自然行為</li>
+<li>不如加強環境安全 + 召回訓練</li>
+</ul>
+<p>若真的要剪,請專業鳥類獸醫操作(剪錯會傷血管)。</p>`},
+    ],
+  },
+
+  // =========== 鳥 · 鳥舍清潔 ===========
+  {
+    id: 'bird-cleaning', name: '鳥舍清潔維護', emoji: '🧹', category: 'bird', hint: '每日 / 每週 / 每月',
+    meta: { rule: '鳥的呼吸系統敏感,清潔勿用刺激化學品', disclaimer: '一般建議' },
+    sections: [
+      { emoji: '📅', heading: '每日清潔', html: `
+<ul>
+<li>換水(早上)</li>
+<li>清食盤(剩食、殼)</li>
+<li>換底紙(或抽換托盤)</li>
+<li>觀察糞便(顏色、形狀有無異常)</li>
+<li>補充食物</li>
+</ul>`},
+      { emoji: '📆', heading: '每週清潔', html: `
+<ul>
+<li>整個籠子刷洗(食物碎屑、糞便乾結)</li>
+<li>棲木換位置、刷洗</li>
+<li>玩具換、清洗</li>
+<li>食盤、水盆徹底洗刷</li>
+<li>底盤深度清潔</li>
+</ul>
+<p>用<strong>溫水 + 無香料洗碗精</strong>,徹底沖洗晾乾。</p>`},
+      { emoji: '🧼', heading: '每月深度清潔', html: `
+<ul>
+<li>籠子拆開洗(縫隙、角落)</li>
+<li>棲木換新(咬得太爛或發霉)</li>
+<li>玩具汰換一部分</li>
+<li>檢查鐵籠有無生鏽(鏽會造成金屬中毒)</li>
+</ul>`},
+      { emoji: '⚠', heading: '清潔劑禁忌', html: `
+<ul>
+<li><strong>絕對不用</strong>:漂白水、含氨清潔劑、消毒水</li>
+<li>清潔時<strong>把鳥移到遠處</strong>(通風好的房間)</li>
+<li>清完徹底沖水、晾乾,確認無氣味再讓鳥回籠</li>
+<li>不要同時用殺蟲劑(鳥對殺蟲劑敏感)</li>
+</ul>`},
+      { emoji: '🪶', heading: '換羽期特別照顧', html: `
+<p>每年 1-2 次換羽(春秋),持續幾週:</p>
+<ul>
+<li>羽毛掉落量增加(正常)</li>
+<li>鳥情緒可能不穩、容易累</li>
+<li>食量可能下降或增加</li>
+<li>補充:高蛋白食物(煮熟蛋黃、豆腐少量)</li>
+<li>補鈣補維他命</li>
+<li>減少洗澡頻率(羽毛脆弱)</li>
+</ul>`},
+    ],
+  },
+
+  // =========== 鳥 · 行為問題 ===========
+  {
+    id: 'bird-behavior', name: '鳥的行為問題', emoji: '⚠', category: 'bird', hint: '拔毛 · 尖叫 · 咬人',
+    meta: { truth: '鳥的行為問題反映環境或心理狀況', disclaimer: '複雜問題找鳥類行為顧問' },
+    sections: [
+      { emoji: '🪶', heading: '拔毛症', html: `
+<p>最常見也最難解的問題。可能原因:</p>
+<ul>
+<li><strong>無聊 / 缺乏刺激</strong>(最常見)</li>
+<li>壓力(換環境、主人變少陪)</li>
+<li>過度互動或過度拒絕</li>
+<li>性荷爾蒙(春天特別)</li>
+<li>疾病:皮膚病、PBFD、營養失衡</li>
+<li>室內空氣:濕度太低、香菸煙霧</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">對策</h4>
+<ul>
+<li>先獸醫確認無疾病</li>
+<li>增加玩具、啃咬素材(天然木、紙球)</li>
+<li>增加互動時間</li>
+<li>固定作息(太多變動會壓力)</li>
+<li>伊莉莎白項圈是最後手段(不解決根本)</li>
+</ul>`},
+      { emoji: '📢', heading: '尖叫', html: `
+<p>鸚鵡類尤其嚴重。原因:</p>
+<ul>
+<li>引起注意(最常見)</li>
+<li>早晚本能鳴叫(正常,約 15-30 分鐘)</li>
+<li>恐懼 / 警告</li>
+<li>求偶季節</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">對策</h4>
+<ul>
+<li><strong>尖叫時「不要回應」</strong>(連罵都是注意 → 加強行為)</li>
+<li>安靜時立刻給零食 + 關注(強化好行為)</li>
+<li>日常就給充分互動(不飢渴)</li>
+<li>聲音大時用布蓋籠 5-10 分鐘(溫和休息)</li>
+<li>絕對不處罰或大聲罵 → 會讓鳥更焦慮</li>
+</ul>`},
+      { emoji: '🦷', heading: '咬人', html: `
+<ul>
+<li><strong>性成熟期</strong>(尤其 1-2 歲)最常見</li>
+<li>防衛(籠內領域)</li>
+<li>要求不被理會 → 挫折</li>
+<li>荷爾蒙波動</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">對策</h4>
+<ul>
+<li>讀鳥的身體語言:羽毛膨起、瞳孔放大 = 警告</li>
+<li>被咬:<strong>慢慢放回籠,不大叫</strong>(叫 = 獎勵)</li>
+<li>不摸牠不喜歡的部位(背、尾巴)</li>
+<li>性成熟期適當降溫(減少性刺激食物、按摩)</li>
+</ul>`},
+      { emoji: '💔', heading: '性成熟的挑戰', html: `
+<p>鸚鵡類 2-4 歲進入性成熟,會:</p>
+<ul>
+<li>對主人或物品產生性執著</li>
+<li>咬人、尖叫增加</li>
+<li>拔毛鋪窩(母鳥)</li>
+<li>嘔吐餵食(公鳥對主人)</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">減輕</h4>
+<ul>
+<li>避免撫摸背、翅膀下、尾巴(性刺激)</li>
+<li>減少高脂食物</li>
+<li>移除「巢穴」環境(暗箱、布窩)</li>
+<li>調節日照(12 小時以下,模擬冬季減少繁殖衝動)</li>
+</ul>`},
+    ],
+  },
+
+  // =========== 魚 · 水族設備 ===========
+  {
+    id: 'fish-equipment', name: '水族設備選擇', emoji: '💡', category: 'fish', hint: '缸 · 過濾 · 加熱 · 燈',
+    meta: { principle: '寧大勿小,寧強勿弱', disclaimer: '一般建議,實際以水族專業為準' },
+    sections: [
+      { emoji: '📦', heading: '缸的選擇', html: `
+<h4 style="color:var(--primary);">尺寸</h4>
+<ul>
+<li><strong>越大越穩定</strong>(水量大,水質波動慢)</li>
+<li>新手最小 30-40 公升(小鬥魚可 10 L 但難度高)</li>
+<li>不要買 3 公升小碗(幾乎必死)</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">材質</h4>
+<ul>
+<li><strong>玻璃</strong>:硬度高、不易刮、最透明。重、易碎</li>
+<li><strong>壓克力</strong>:輕、不易碎、可塑型。易刮、久了黃</li>
+<li>新手建議玻璃</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">形狀</h4>
+<ul>
+<li>長方形最穩定(好維護、魚游空間足)</li>
+<li>圓形、高窄型難維護,氧氣交換差</li>
+</ul>`},
+      { emoji: '🌀', heading: '過濾器', html: `
+<ul>
+<li><strong>上部過濾器</strong>:新手最推,力強好保養,佔空間少</li>
+<li><strong>側掛過濾器</strong>:小缸用,便宜</li>
+<li><strong>沉水過濾器</strong>:造景缸用,隱藏度高</li>
+<li><strong>外置圓桶</strong>:進階,水草造景用,貴</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">選擇原則</h4>
+<ul>
+<li>流量:<strong>缸容量的 3-5 倍/小時</strong></li>
+<li>裝濾材:陶瓷環 + 生化棉 + 活性碳</li>
+<li>生化棉<strong>不能常洗</strong>(硝化菌住這)- 一兩個月輕洗一次用缸水</li>
+</ul>`},
+      { emoji: '🔥', heading: '加熱棒', html: `
+<ul>
+<li>熱帶魚必備(台灣冬天低於 20°C 熱帶魚會凍傷)</li>
+<li><strong>瓦數</strong>:50-100 W/30 L、150-200 W/60 L</li>
+<li>有溫控功能的(能設定溫度)更安全</li>
+<li>用防爆玻璃管或金屬外殼(防破裂)</li>
+<li>溫度設 24-26°C(熱帶魚通用)</li>
+</ul>
+<div class="callout warn"><h4>⚠️ 加熱棒不能露出水面</h4>
+<p style="margin:0;">露出會過熱爆裂,甚至引發火災。確認位置再通電。</p></div>`},
+      { emoji: '💡', heading: '燈與 CO2', html: `
+<h4 style="color:var(--primary);">燈</h4>
+<ul>
+<li>LED 最省電、壽命長</li>
+<li>每天開 6-8 小時(定時器)</li>
+<li>光太強 → 長藻;光不足 → 水草長不好</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">CO2 系統(進階水草缸)</h4>
+<ul>
+<li>只有<strong>重度水草缸</strong>才需要</li>
+<li>新手不用,一般水草用廢二氧化碳夠了</li>
+<li>有魚時 CO2 濃度要控(過高會悶死魚)</li>
+</ul>`},
+      { emoji: '💧', heading: '水質調整用品', html: `
+<ul>
+<li><strong>除氯劑</strong>:自來水必備</li>
+<li><strong>硝化菌</strong>:開缸期加速</li>
+<li><strong>測試組</strong>(5 合 1 試紙或滴劑):氨、亞硝酸、硝酸、pH</li>
+<li><strong>黑水(榄仁葉/欖仁水)</strong>:弱酸水,鬥魚、神仙喜歡</li>
+<li>pH 調整劑:慢慢調,不要急(突變會死魚)</li>
+</ul>`},
+    ],
+  },
+
+  // =========== 魚 · 水草造景 ===========
+  {
+    id: 'fish-aquascape', name: '水草造景基礎', emoji: '🌿', category: 'fish', hint: '低光水草先練',
+    meta: { beginner: '挑「低光無 CO2 也活」的水草', disclaimer: '一般建議' },
+    sections: [
+      { emoji: '💡', heading: '新手水草推薦', html: `
+<p>以下水草都是<strong>低光 + 無 CO2 也能活</strong>:</p>
+<ul>
+<li><strong>水蘊草</strong>:超便宜,長得快,新手殺不死</li>
+<li><strong>莫絲</strong>(Moss):附著在沉木/石頭上,造景用</li>
+<li><strong>小榕</strong>(Anubias):堅韌,不能埋進底砂(根要露)</li>
+<li><strong>鐵皇冠</strong>(Microsorum):附木頭,不需要肥</li>
+<li><strong>水蘭</strong>:像草皮感,長得慢但漂亮</li>
+<li><strong>小圓葉</strong>:前景草,初學者 OK</li>
+</ul>
+<p>進階:紅蝴蝶、日本珍珠、雪花葉 — 需要 CO2、光強。</p>`},
+      { emoji: '🪨', heading: '底床與底砂', html: `
+<h4 style="color:var(--primary);">選擇</h4>
+<ul>
+<li><strong>水草泥</strong>:含養分,水草最愛,但會釋放氨(先養水 2 週)</li>
+<li><strong>黑土 / 化妝砂</strong>:好看,需另加基肥</li>
+<li><strong>黑金沙 / 青龍石</strong>:造景用,不含養分</li>
+<li><strong>一般砂</strong>:便宜,水草長不好</li>
+</ul>
+<p>厚度:前景 3-4 cm,後景 5-8 cm(後高前低視覺好)</p>`},
+      { emoji: '🎨', heading: '造景原則', html: `
+<ol>
+<li><strong>三角構圖</strong>或<strong>凹型構圖</strong>(視覺舒服)</li>
+<li><strong>前景矮、後景高</strong>(創造景深)</li>
+<li>石頭、沉木、水草<strong>數量奇數</strong>(3、5、7)</li>
+<li>留出魚游空間(中央不要全滿)</li>
+<li>先擺石/木,再種水草</li>
+</ol>`},
+      { emoji: '🌱', heading: '施肥與修剪', html: `
+<h4 style="color:var(--primary);">肥</h4>
+<ul>
+<li>水草泥一般不用液肥(頭 3 個月)</li>
+<li>長期後逐步加液肥:氮、磷、鉀、微量元素</li>
+<li>寧少勿多(養分過多 → 爆藻)</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">修剪</h4>
+<ul>
+<li>長太高或亂 → 修剪頂端,保留下部</li>
+<li>黃葉 / 爛葉 → 剪掉(避免敗壞水質)</li>
+<li>前景草定期剪齊</li>
+</ul>`},
+      { emoji: '🦠', heading: '對抗藻類', html: `
+<ul>
+<li><strong>黑毛藻</strong>:光太強、CO2 不足。換水、修剪感染葉</li>
+<li><strong>綠水</strong>:浮游藻爆發。UV 殺菌燈 1-2 天解決</li>
+<li><strong>褐藻</strong>:新缸常見,矽藻自然會退</li>
+<li>預防:<strong>養除藻生物</strong>(黑殼蝦、大和藻蝦、小精靈、大帆)</li>
+<li>光照不要超過 8 小時</li>
+</ul>`},
+    ],
+  },
+
+  // =========== 魚 · 混養相容性 ===========
+  {
+    id: 'fish-compatibility', name: '魚的混養相容性', emoji: '🐟', category: 'fish', hint: '溫度 + 個性 + 水層',
+    meta: { principle: '不是有水就能同住', disclaimer: '一般建議' },
+    sections: [
+      { emoji: '🌡', heading: '第一條件:溫度相同', html: `
+<h4 style="color:var(--primary);">熱帶魚(24-28°C)</h4>
+<p>孔雀魚、日光燈、鼠魚、神仙魚、七彩、鬥魚</p>
+<h4 style="color:var(--primary);margin-top:10px;">冷水魚(18-24°C)</h4>
+<p>金魚、白雲山、蝦虎</p>
+<div class="callout warn"><p style="margin:0;"><strong>冷水魚 + 熱帶魚 = 不能混</strong>。金魚不能跟孔雀魚同缸,溫度需求不同。</p></div>`},
+      { emoji: '⚔', heading: '個性分類', html: `
+<table>
+<thead><tr><th>類型</th><th>代表</th><th>混養建議</th></tr></thead>
+<tbody>
+<tr><td>溫和群魚</td><td>日光燈、孔雀、斑馬</td><td>同類或其他溫和魚</td></tr>
+<tr><td>半兇</td><td>鉛筆魚、三線波魚</td><td>同大小溫和魚可</td></tr>
+<tr><td>兇</td><td>鬥魚、神仙、七彩</td><td>同種單獨 or 特殊搭配</td></tr>
+<tr><td>領域性強</td><td>慈鯛、短鯛</td><td>大空間 + 少同類</td></tr>
+<tr><td>底棲</td><td>鼠魚、異型</td><td>可跟中上層魚混</td></tr>
+</tbody>
+</table>`},
+      { emoji: '🔀', heading: '水層分布原則', html: `
+<p>讓魚<strong>各佔水層</strong>,空間利用最大:</p>
+<ul>
+<li><strong>上層</strong>:孔雀、斑馬、燕子</li>
+<li><strong>中層</strong>:日光燈、彩虹、神仙</li>
+<li><strong>底層</strong>:鼠魚、老鼠、異型</li>
+</ul>
+<p>三層各一種,互不干擾。</p>`},
+      { emoji: '❌', heading: '經典不合組合', html: `
+<ul>
+<li><strong>鬥魚 + 孔雀魚</strong>:鬥魚會咬孔雀的長鰭</li>
+<li><strong>金魚 + 任何熱帶魚</strong>:溫度不合</li>
+<li><strong>神仙 + 小魚</strong>:神仙長大會吃小魚</li>
+<li><strong>鬥魚公 + 鬥魚公</strong>:血戰致死</li>
+<li><strong>南美慈鯛 + 溫和小魚</strong>:慈鯛攻擊</li>
+<li><strong>青苔鼠 + 神仙</strong>:青苔鼠長大會咬神仙</li>
+</ul>`},
+      { emoji: '✅', heading: '新手友善搭配範例', html: `
+<p><strong>方案 1:和平社區缸(60 L)</strong></p>
+<ul>
+<li>孔雀魚 10 尾(上層)</li>
+<li>日光燈 15 尾(中層)</li>
+<li>鼠魚 5 尾(底層)</li>
+<li>大和藻蝦 10 尾(除藻)</li>
+</ul>
+<p><strong>方案 2:鬥魚獨秀缸(20 L)</strong></p>
+<ul>
+<li>鬥魚公 1 尾(中心)</li>
+<li>黑殼蝦 10 尾(清除剩食)</li>
+<li>蘋果螺 3 顆(除藻)</li>
+</ul>`},
+    ],
+  },
+
+  // =========== 魚 · 繁殖與仔魚 ===========
+  {
+    id: 'fish-breeding', name: '魚的繁殖與仔魚', emoji: '👶', category: 'fish', hint: '繁殖信號 + 仔魚隔離',
+    meta: { reality: '卵胎生魚(孔雀)很容易繁殖,卵生難度高', disclaimer: '一般建議' },
+    sections: [
+      { emoji: '💡', heading: '常見繁殖類型', html: `
+<table>
+<thead><tr><th>類型</th><th>特徵</th><th>範例</th></tr></thead>
+<tbody>
+<tr><td>卵胎生</td><td>直接生小魚</td><td>孔雀、滿魚、茉莉</td></tr>
+<tr><td>卵生散性</td><td>隨意產卵</td><td>斑馬、日光燈</td></tr>
+<tr><td>卵生護幼</td><td>產卵在固定處,守護</td><td>神仙、七彩、慈鯛</td></tr>
+<tr><td>口孵</td><td>含卵在口中</td><td>部分慈鯛</td></tr>
+<tr><td>泡巢</td><td>做泡沫築巢</td><td>鬥魚</td></tr>
+</tbody>
+</table>`},
+      { emoji: '👀', heading: '懷孕/發情的信號', html: `
+<h4 style="color:var(--primary);">孔雀魚(卵胎生)</h4>
+<ul>
+<li>母魚腹部明顯膨大 + 黑點(胎兒眼睛)</li>
+<li>追逐行為(公追母)</li>
+<li>30-35 天一胎,一次 10-50 隻</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">卵生魚</h4>
+<ul>
+<li>色彩變鮮豔</li>
+<li>追逐、繞圈、顫抖</li>
+<li>清潔產卵表面(石頭、葉子)</li>
+</ul>`},
+      { emoji: '🛡', heading: '仔魚保護(卵胎生)', html: `
+<div class="callout warn"><h4>⚠️ 仔魚會被父母吃</h4>
+<p style="margin:0;">孔雀、滿魚等卵胎生的<strong>父母會吃自己的小魚</strong>。要隔離。</p></div>
+<h4 style="color:var(--primary);margin-top:10px;">選項</h4>
+<ol>
+<li><strong>產箱</strong>:母魚放入,生完馬上移走母魚,仔魚留產箱</li>
+<li><strong>另起一缸</strong>:把懷孕母魚移到小缸,生完再移回</li>
+<li><strong>密植水草</strong>:仔魚躲水草中,無保護</li>
+</ol>`},
+      { emoji: '🍽', heading: '仔魚飼料', html: `
+<ul>
+<li><strong>出生後 24 小時</strong>:靠卵黃囊,不用餵</li>
+<li><strong>24 小時後</strong>:豐年蝦無節幼蟲(最營養)、磨碎的飼料、蛋黃水</li>
+<li>一天餵 4-6 次,少量多餐</li>
+<li>仔魚缸水質管理要仔細(不耐髒)</li>
+</ul>`},
+      { emoji: '🛑', heading: '不想繁殖的控制', html: `
+<p>卵胎生魚(孔雀)很容易爆大量。如果不想:</p>
+<ul>
+<li><strong>全公或全母養</strong>(性別分開)</li>
+<li>仔魚不隔離 → 自然被成魚吃</li>
+<li>不在水草中躲藏 → 生存率低</li>
+<li>不餵仔魚專用食</li>
+<li>送人或捐給水族館(不可野放 — 違法)</li>
+</ul>
+<div class="callout warn"><h4>⚠️ 絕不可野放</h4>
+<p style="margin:0;">外來種野放破壞生態,違反法規。寧願讓自然淘汰,也不要放生河川。</p></div>`},
+    ],
+  },
+
+  // =========== 龜 · UVB 與加熱燈具 ===========
+  {
+    id: 'turtle-lighting', name: 'UVB 與加熱燈具', emoji: '🔦', category: 'turtle', hint: '缺 UVB = 軟殼變形',
+    meta: { critical: 'UVB 不是選配,是生死問題', disclaimer: '一般建議,實際以爬蟲獸醫為準' },
+    sections: [
+      { emoji: '💡', heading: '為什麼 UVB 這麼重要', html: `
+<div class="callout warn"><h4>⚠️ 沒 UVB = 代謝性骨病</h4>
+<p style="margin:0;">UVB 是烏龜合成維他命 D3 的關鍵,D3 才能讓鈣吸收進骨頭。沒 UVB → 鈣吸不到 → 骨骼變軟、殼變形、隆背 → <strong>不可逆</strong>。</p></div>
+<h4 style="color:var(--primary);margin-top:10px;">野生龜</h4>
+<p>每天曬太陽幾小時,自然獲得 UVB。</p>
+<h4 style="color:var(--primary);margin-top:10px;">室內龜</h4>
+<p>玻璃過濾掉 UVB,室內陽光<strong>無效</strong>。必須 UVB 燈。</p>`},
+      { emoji: '🔦', heading: 'UVB 燈種類與選擇', html: `
+<ul>
+<li><strong>T8/T5 管燈</strong>(水平安裝,長管)— ZooMed Reptisun 10.0、Arcadia T5</li>
+<li><strong>螺旋式 UVB 燈</strong>(節能燈泡型)— 輻射範圍小,品質參差</li>
+<li><strong>水銀燈</strong>(PowerSun)— 同時提供熱 + UVB,但易壞</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">強度選擇</h4>
+<ul>
+<li>水龜:<strong>5.0 UVB</strong></li>
+<li>陸龜(熱帶):<strong>10.0 UVB</strong></li>
+<li>沙漠龜(蘇卡達):<strong>10.0-12.0 UVB</strong></li>
+</ul>
+<div class="callout warn"><h4>⚠️ 燈管 6 個月換一次</h4>
+<p style="margin:0;">即使還亮,UVB 波長 6 個月後衰退到無效。用手機 APP(Solarmeter)可以測,但方便做法就是每 6 個月換。</p></div>`},
+      { emoji: '🔥', heading: '加熱燈功率', html: `
+<h4 style="color:var(--primary);">水龜</h4>
+<ul>
+<li>曬背區 32-35°C(熱點)</li>
+<li>水溫 24-28°C(加熱棒維持)</li>
+<li>燈泡:50-100 W(看箱大小),陶瓷燈夜間可用</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">陸龜</h4>
+<ul>
+<li>熱點:32-40°C(看品種)</li>
+<li>冷區:22-26°C</li>
+<li>燈泡:75-150 W</li>
+<li>溫度梯度重要:龜自己選冷熱</li>
+</ul>`},
+      { emoji: '📐', heading: '燈具安裝位置', html: `
+<ul>
+<li>UVB 燈距離龜:<strong>20-30 cm</strong>(太近燙傷,太遠無效)</li>
+<li>加熱燈距離:40-50 cm(從上方照)</li>
+<li>用金屬防護罩(防龜爬上來燙傷)</li>
+<li>定時器:日 10-12 小時,夜關</li>
+<li>別放在角落(需要整體溫度梯度)</li>
+</ul>`},
+      { emoji: '⚠', heading: '常見燈具錯誤', html: `
+<ul>
+<li><strong>用一般日光燈充當 UVB</strong> — 沒有 UVB 波長</li>
+<li><strong>燈隔著玻璃</strong> — UVB 被過濾</li>
+<li><strong>燈沒換</strong> — 6 個月後無效,龜慢慢軟殼</li>
+<li><strong>強度不夠</strong>(2.5/5.0 給陸龜)— UVB 不足</li>
+<li><strong>距離不對</strong> — 太遠(50 cm 以上)無效</li>
+<li><strong>24 小時開燈</strong> — 龜要睡覺,開黑夜</li>
+</ul>`},
+    ],
+  },
+
+  // =========== 龜 · 飲食詳解 ===========
+  {
+    id: 'turtle-food', name: '烏龜飲食詳解', emoji: '🥗', category: 'turtle', hint: '水龜雜食 · 陸龜素食',
+    meta: { key: '水龜陸龜飲食幾乎相反,分清楚', disclaimer: '一般建議,實際以品種 + 獸醫為準' },
+    sections: [
+      { emoji: '🐢', heading: '水龜食譜(雜食)', html: `
+<h4 style="color:var(--primary);">幼龜(高蛋白)</h4>
+<ul>
+<li>70% 龜飼料(巴西龜/麝香龜專用)</li>
+<li>20% 動物性:小魚、小蝦、泥鰍、紅蟲</li>
+<li>10% 蔬菜:地瓜葉、羅蔓、水蘊草</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">成龜(增加植物比例)</h4>
+<ul>
+<li>50% 龜飼料</li>
+<li>20% 動物性(一週 2-3 次)</li>
+<li>30% 植物:葉菜、少量水果</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">餵食頻率</h4>
+<ul>
+<li>幼龜:每天 1 次</li>
+<li>成龜:2-3 天一次</li>
+<li>量:龜頭大小的量(不能過多)</li>
+</ul>`},
+      { emoji: '🌿', heading: '陸龜食譜(素食)', html: `
+<h4 style="color:var(--primary);">95% 葉菜</h4>
+<ul>
+<li>蒲公英、羅蔓、地瓜葉、小白菜</li>
+<li>桑葉(蘇卡達最愛)</li>
+<li>乾苜蓿草、提摩西草(每天供應)</li>
+<li>仙人掌(地中海龜類最愛)</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">5% 水果(偶爾)</h4>
+<ul>
+<li>蘋果、草莓、西瓜</li>
+<li>每週 1-2 次少量(糖分高,多給會軟便)</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">餵食頻率</h4>
+<ul>
+<li>幼龜:每天供應葉菜(吃不完隔天清)</li>
+<li>成龜:一天或兩天一次</li>
+</ul>`},
+      { emoji: '💊', heading: '補鈣與維他命', html: `
+<ul>
+<li><strong>鈣粉</strong>:每 2-3 餐撒食物上(幼龜每餐)</li>
+<li><strong>D3 補充</strong>:如果 UVB 充足不需要,沒 UVB 必補</li>
+<li><strong>綜合維他命</strong>:每週 1 次</li>
+<li><strong>墨魚骨</strong>:陸龜可自己啃</li>
+</ul>
+<div class="callout warn"><h4>⚠️ 鈣磷比</h4>
+<p style="margin:0;">理想鈣磷比 2:1。菠菜、生菜、豆類磷高鈣低,不能當主食。</p></div>`},
+      { emoji: '❌', heading: '絕對禁忌', html: `
+<h4 style="color:var(--primary);">所有龜</h4>
+<ul>
+<li>人類食物(麵包、義大利麵、油炸)</li>
+<li>乳製品</li>
+<li>巧克力、咖啡</li>
+<li>酪梨、洋蔥、大蒜</li>
+<li>煮熟的肉(水龜也不建議)</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">陸龜額外禁忌</h4>
+<ul>
+<li>狗貓飼料 / 龜類以外飼料</li>
+<li>肉、蛋</li>
+<li>高糖水果(香蕉、葡萄過量)</li>
+<li>豆類、玉米</li>
+</ul>`},
+      { emoji: '💧', heading: '飲水(陸龜也要)', html: `
+<ul>
+<li>陸龜每天要泡澡 10-20 分鐘(補水 + 排便)</li>
+<li>淺水到龜殼 1/3 高</li>
+<li>常溫水</li>
+<li>水龜從水中喝,水要乾淨</li>
+</ul>`},
+    ],
+  },
+
+  // =========== 龜 · 冬眠管理 ===========
+  {
+    id: 'turtle-hibernation', name: '烏龜冬眠管理', emoji: '❄', category: 'turtle', hint: '熱帶龜絕對不冬眠',
+    meta: { critical: '冬眠錯誤 = 死亡', disclaimer: '一般建議,第一次冬眠一定要諮詢獸醫' },
+    sections: [
+      { emoji: '💡', heading: '哪些龜能冬眠,哪些不能', html: `
+<table>
+<thead><tr><th>品種</th><th>冬眠?</th></tr></thead>
+<tbody>
+<tr><td>赫曼、希臘、四趾陸龜</td><td>✓ 溫帶龜,需要冬眠</td></tr>
+<tr><td>巴西龜、斑龜</td><td>△ 可以,但台灣冬天不夠冷,多數不需</td></tr>
+<tr><td><strong>蘇卡達陸龜</strong></td><td>✗ <strong>絕不冬眠</strong>(熱帶龜)</td></tr>
+<tr><td><strong>紅腿陸龜</strong></td><td>✗ <strong>絕不冬眠</strong></td></tr>
+<tr><td><strong>豹龜</strong></td><td>✗ <strong>絕不冬眠</strong></td></tr>
+<tr><td><strong>緬甸陸龜</strong></td><td>✗ <strong>絕不冬眠</strong></td></tr>
+</tbody>
+</table>
+<div class="callout warn"><h4>⚠️ 熱帶龜冬眠 = 死亡</h4>
+<p style="margin:0;">環境降到 15°C 以下,熱帶龜會停止代謝但<strong>肝臟、腎臟損傷</strong>,甚至死亡。冬天一定要保溫 22°C 以上。</p></div>`},
+      { emoji: '🩺', heading: '冬眠前的健康檢查', html: `
+<p>冬眠 2 個月前:</p>
+<ul>
+<li>✓ 獸醫健檢(寄生蟲、感染)</li>
+<li>✓ 體重正常(偏瘦的龜不能冬眠)</li>
+<li>✓ 無呼吸道症狀</li>
+<li>✓ 能正常吃、大便</li>
+</ul>
+<p>有任何疑問 → <strong>不冬眠</strong>,保溫過冬。</p>`},
+      { emoji: '📉', heading: '冬眠準備流程', html: `
+<ol>
+<li><strong>6-8 週前</strong>:飲食豐富,累積脂肪</li>
+<li><strong>4 週前</strong>:減少飼料量</li>
+<li><strong>2 週前</strong>:<strong>完全停食</strong>(讓腸胃清空)</li>
+<li><strong>1 週前</strong>:溫水泡澡(排清)</li>
+<li><strong>冬眠前</strong>:溫度降到 8-12°C</li>
+</ol>
+<div class="callout warn"><h4>⚠️ 腸胃沒清空就冬眠</h4>
+<p style="margin:0;">食物在腸胃中腐敗,釋放毒素,龜會中毒死亡。絕對要完全停食 2 週以上。</p></div>`},
+      { emoji: '📦', heading: '冬眠環境', html: `
+<ul>
+<li>溫度:<strong>5-10°C</strong>(冰箱蔬果室可以)</li>
+<li>濕度:50-70%</li>
+<li>底材:略濕的報紙、落葉、泥土</li>
+<li>容器:通風良好的箱子</li>
+<li>每 2 週檢查一次(不要驚擾)</li>
+<li>體重減少 > 10% → 提前結束</li>
+</ul>`},
+      { emoji: '🌸', heading: '甦醒(春天)', html: `
+<ol>
+<li>氣溫回升 15°C 以上,開始甦醒</li>
+<li>溫度慢慢升到 20°C 以上</li>
+<li>溫水泡澡 20-30 分鐘(補水)</li>
+<li>2-3 天內開始供食</li>
+<li>前幾週少量漸進</li>
+<li>觀察有無異常(精神不好、不吃 → 獸醫)</li>
+</ol>`},
+      { emoji: '⚠', heading: '冬眠風險與替代', html: `
+<div class="callout warn"><h4>冬眠有風險,新手建議不要冬眠</h4>
+<p style="margin:0;">首次冬眠失敗率高。新手建議<strong>溫控過冬</strong>(保持 22°C 以上,持續活動),這樣龜不會變大變快,但安全。</p></div>`},
+    ],
+  },
+
+  // =========== 龜 · 造景與底材 ===========
+  {
+    id: 'turtle-setup', name: '烏龜造景與底材', emoji: '🏞', category: 'turtle', hint: '底材選對 · 龜不吃進去',
+    meta: { principle: '先功能後美觀,底材安全優先', disclaimer: '一般建議' },
+    sections: [
+      { emoji: '🐢', heading: '水龜缸造景', html: `
+<h4 style="color:var(--primary);">必備</h4>
+<ul>
+<li><strong>曬背區</strong>(上岸區):水面上的平台,完全乾,有熱燈照</li>
+<li><strong>水深</strong>:至少龜殼長度的 2 倍(能游)</li>
+<li><strong>水位</strong>:距缸頂 10 cm 以上(防跳出)</li>
+<li><strong>過濾器</strong>:水龜排泄量大,必強力過濾</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">加分裝飾</h4>
+<ul>
+<li>沉木(挑不會爛的)</li>
+<li>水草(真的或假的)</li>
+<li>光滑石頭(大於龜頭,不會吞)</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">底材選項</h4>
+<ul>
+<li><strong>裸缸</strong>(最好維護):什麼都不鋪</li>
+<li><strong>大顆鵝卵石</strong>(大於龜頭):防誤食</li>
+<li><strong>砂</strong>:龜會吞,不建議</li>
+</ul>`},
+      { emoji: '🏜', heading: '陸龜箱造景', html: `
+<h4 style="color:var(--primary);">必備</h4>
+<ul>
+<li>熱點區(加熱燈照下)</li>
+<li>冷區(另一邊)</li>
+<li>UVB 燈照射區</li>
+<li>躲藏處(空龜殼、倒扣花盆)</li>
+<li>淺水盆(泡澡用)</li>
+<li>食盤(平淺)</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">底材選擇</h4>
+<table>
+<thead><tr><th>底材</th><th>好壞</th></tr></thead>
+<tbody>
+<tr><td>椰土</td><td>✓ 保濕、好挖,幼龜愛</td></tr>
+<tr><td>樹皮(爬蟲用)</td><td>✓ 熱帶龜適用,保濕</td></tr>
+<tr><td>苔蘚</td><td>✓ 幼龜,保濕佳</td></tr>
+<tr><td>白砂</td><td>✗ 會被吃,腸阻塞</td></tr>
+<tr><td>松木屑</td><td>✗ 松油對龜有害</td></tr>
+<tr><td>貓砂</td><td>✗ 絕對不能</td></tr>
+</tbody>
+</table>`},
+      { emoji: '⚠', heading: '底材吞食風險', html: `
+<div class="callout warn"><h4>⚠️ 誤食底材 = 腸胃堵塞</h4>
+<p style="margin:0;">龜會跟食物一起吃下小砂、碎木屑。<strong>腸胃堵塞無法自行排出,必須手術</strong>。</p></div>
+<h4 style="color:var(--primary);margin-top:10px;">預防</h4>
+<ul>
+<li>餵食時<strong>用食盤</strong>(不直接丟底材上)</li>
+<li>底材顆粒<strong>大於龜嘴</strong>或選泥土類(可消化)</li>
+<li>觀察糞便 — 大量底材混在糞便中 → 換底材</li>
+</ul>`},
+      { emoji: '🌱', heading: '造景裝飾禁忌', html: `
+<ul>
+<li>尖銳石頭 / 斷裂沉木(刮殼)</li>
+<li>人工仿真植物如果龜會咬(塑化劑)</li>
+<li>有毒植物:黃金葛、常春藤、水仙、杜鵑</li>
+<li>強磁石(有些造景用磁鐵,吞下去危險)</li>
+<li>電線(龜會咬)</li>
+</ul>`},
+      { emoji: '🧼', heading: '清潔頻率', html: `
+<h4 style="color:var(--primary);">水龜</h4>
+<ul>
+<li>每天撈糞便</li>
+<li>每週換水 30%</li>
+<li>每月大清潔</li>
+<li>濾材 2 個月輕洗一次</li>
+</ul>
+<h4 style="color:var(--primary);margin-top:10px;">陸龜</h4>
+<ul>
+<li>每天清糞便</li>
+<li>每週換水盆水</li>
+<li>每月翻新部分底材</li>
+<li>每 3-6 個月整個換底材</li>
+</ul>`},
+    ],
+  },
 ];
 
 // =========================================================
