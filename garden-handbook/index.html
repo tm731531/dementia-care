@@ -9747,21 +9747,40 @@ function renderCart() {
   });
   html += '</div>';
 
-  // Tools
+  // Tools — basic set (always) + plant-specific (if any)
+  html += '<div class="cart-section">';
+  html += '<h3>🔧 基本工具組(建議都有一套)</h3>';
+  html += '<ul style="padding-left:22px;line-height:1.9;">';
+  html += '<li><strong>小鏟子</strong>(挖土、填土、移植)— NT$50–100</li>';
+  html += '<li><strong>小耙子 / 釘耙</strong>(<u>壓肥料進土</u>、鬆土、混土)— NT$50–100</li>';
+  html += '<li><strong>澆水壺</strong>(精準澆水,失智長輩更需要固定位置)— NT$100–200</li>';
+  html += '<li><strong>園藝手套</strong>(防土髒、防刺、防過敏)— NT$30–80</li>';
+  html += '<li><strong>剪刀</strong>(採收、修剪、扦插)— NT$50–150</li>';
+  html += '<li><strong>免洗筷</strong>(判斷土濕度,免費)— 家裡就有</li>';
+  html += '</ul>';
+  html += '<p style="font-size:13px;color:var(--muted);margin-top:6px;"><em>一套 NT$280–630,花市/五金行/蝦皮都有。用好幾年不用重買,真的沒錢可以少買某一項但不建議。</em></p>';
+  html += '</div>';
+
   if (data.tools.length > 0) {
     html += '<div class="cart-section">';
-    html += '<h3>🔧 可選工具(家裡可能有)</h3>';
+    html += '<h3>🔧 這批植物額外用到的工具</h3>';
     html += '<ul style="padding-left:22px;">';
     data.tools.forEach(t => {
       html += `<li>${t}</li>`;
     });
-    html += '</ul></div>';
+    html += '</ul>';
+    html += '<p style="font-size:13px;color:var(--muted);margin-top:6px;"><em>這些不是每種植物都用,但這批你要種的有用到。</em></p>';
+    html += '</div>';
   }
 
-  // Budget
+  // Budget — include basic tool set (one-time purchase, separate line)
+  const toolsBudgetMin = 280, toolsBudgetMax = 630;
   html += `<div class="cart-budget">
-    🎯 總預算:<strong>NT$${data.totalMin} – ${data.totalMax}</strong>
-    <div style="font-size:13px;color:var(--muted);margin-top:4px;">實際價格看各店/季節,培養土、肥料可多盆共用</div>
+    🎯 本次種植材料預算:<strong>NT$${data.totalMin} – ${data.totalMax}</strong>
+    <div style="font-size:13px;color:var(--muted);margin-top:4px;">培養土、肥料多盆共用,實際更省</div>
+    <div style="border-top:1px dashed #e5b966;margin:10px -16px 8px;padding-top:8px;"></div>
+    🔧 第一次種 + 基本工具組:<strong>NT$${data.totalMin + toolsBudgetMin} – ${data.totalMax + toolsBudgetMax}</strong>
+    <div style="font-size:13px;color:var(--muted);margin-top:4px;">工具一次買,用好幾年</div>
   </div>`;
 
   // Export / actions
@@ -9793,15 +9812,25 @@ function exportCartText() {
     text += '\n';
   });
 
+  text += '【🔧 基本工具組(建議都有一套)】\n';
+  text += '  • 小鏟子(挖土填土)— NT$50-100\n';
+  text += '  • 小耙子/釘耙(壓肥鬆土)— NT$50-100\n';
+  text += '  • 澆水壺 — NT$100-200\n';
+  text += '  • 園藝手套 — NT$30-80\n';
+  text += '  • 剪刀 — NT$50-150\n';
+  text += '  • 免洗筷(土濕檢測,家裡有)\n';
+  text += '  一套 NT$280-630,用好幾年\n\n';
+
   if (data.tools.length > 0) {
-    text += '【🔧 可選工具】\n';
+    text += '【🔧 這批植物額外用到】\n';
     data.tools.forEach(t => text += `  • ${t}\n`);
     text += '\n';
   }
 
   text += '═══════════════════\n';
-  text += `🎯 總預算:NT$${data.totalMin} – ${data.totalMax}\n`;
-  text += '(培養土、肥料可多盆共用,實際會更省)\n';
+  text += `🎯 材料預算:NT$${data.totalMin} – ${data.totalMax}\n`;
+  text += `🔧 含基本工具組(第一次種):NT$${data.totalMin + 280} – ${data.totalMax + 630}\n`;
+  text += '(培養土、肥料多盆共用,工具一次買用好幾年)\n';
 
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(text).then(() => {
