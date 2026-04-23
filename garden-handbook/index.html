@@ -12225,6 +12225,349 @@ const PLANTS = [
       },
     ],
   },
+
+  // =========== 艾草(香草/民俗藥用) ===========
+  {
+    id: 'mugwort',
+    name: '艾草',
+    emoji: '🌿',
+    category: 'herb',
+    meta: {
+      difficulty: '低(皮實、多年生)',
+      season: '春夏秋可扦插/定植(春最穩),冬天地上部休眠',
+      light: '全日照 / 半日照',
+      location: '陽台 / 戶外 / 窗邊(建議獨立盆)',
+      seasons: ['spring', 'summer', 'autumn'],
+      bestStartMonths: [3, 4, 5, 6, 7, 8, 9],
+    },
+    sections: [
+      {
+        id: 'why', emoji: '💡', heading: '為什麼艾草值得在家種',
+        html: `
+<ul>
+<li><strong>台灣傳統家庭的活歷史</strong> — 端午掛門口、泡腳驅寒、老人家幾乎都有艾草記憶;揉一片葉子,那個藥草香就是記憶的鑰匙</li>
+<li><strong>多年生,種一次活多年</strong> — 不像地瓜葉冬天全軍覆沒;艾草冬天地上部凋零、根不死,春天從根重發,不用每年重種</li>
+<li><strong>極皮厚,幾乎怎麼種都活</strong> — 花市苗、朋友分的走莖子株、山邊挖回來的野生株,成活率都高</li>
+<li><strong>嗅覺療癒神器</strong> — 艾草香氣對台灣長輩是強記憶線索(端午、祖母泡腳的場景);輕輕揉葉,療癒從鼻子開始</li>
+<li><strong>端午節節日儀式感</strong> — 自己種的艾草在端午前剪下,跟菖蒲一起掛門口;輕度長輩可以主導這件事</li>
+<li><strong>低維護</strong> — 不像薄荷需要頻繁摘心;艾草長起來就是長起來,偶爾澆水施肥,多數時候不用理它</li>
+</ul>
+<div class="callout warn">
+<h4>⚠️ 注意:對貓有毒 + 蔓延性強</h4>
+<p style="margin:0;">艾草(Artemisia 屬)含 <strong>thujone</strong>,對貓肝臟有害;家有貓的話<strong>必須放貓搆不到的地方</strong>(高層陽台、有門阻隔的窗台)。走莖四散,建議<strong>獨立盆種</strong>,不要跟其他植物同盆。</p>
+</div>`,
+      },
+      {
+        id: 'obtain', emoji: '🛒', heading: '取得方式',
+        html: `
+<div class="callout warn" style="margin-bottom:10px;">
+<h4>🗓️ Step 0 · 先看月曆再動手</h4>
+<p style="margin:0;"><strong>扦插/定植最佳時機:3–9 月(驚蟄到寒露)</strong>。艾草耐熱耐旱,但冬天(立冬後,11 月起)地上部進入休眠,新插枝條沒體力發根。<strong>春天(3–4 月)最穩</strong>;夏天酷熱時剛扦插的新苗要遮陰一週。如果現在是冬天,等到驚蟄(3/5)後再動手 — 先備盆土。</p>
+</div>
+
+<div class="callout" style="background:#e8f5e9;border-left-color:var(--primary-dark);">
+<h4>📦 推薦的新手包 · 三步照順序來</h4>
+<ol style="margin:6px 0 4px;padding-left:22px;">
+<li><strong>先備盆與土(這一步要比苗先到)</strong> — 花市買 <strong>20–25cm 圓盆 + 一般培養土</strong>(合計 NT$100–150);土填 8 分滿、澆透讓土服貼。</li>
+<li><strong>取得苗</strong> — 花市直接買小苗(NT$30–60,端午節前夕市場大量出現)最方便。或問朋友有沒有走莖子株,連根帶土移植成功率最高。</li>
+<li><strong>到苗當天立刻定植</strong> — 小心脫盆、不傷根,放進預備好的盆,土填穩,澆透,放半日照到全日照處,前一週避免正午烈日直曬。</li>
+</ol>
+<p style="margin:8px 0 0;font-size:14px;color:var(--muted);">⚠️ <strong>順序不能顛倒</strong>:苗到家才開始找盆買土,根系在空氣裡多放一天就多一份壓力。總預算 <strong>NT$200 有找</strong>。</p>
+</div>
+
+<h4 style="color:var(--primary);margin:14px 0 6px;">其他取得管道</h4>
+<table>
+<thead><tr><th>管道</th><th>費用</th><th>優點</th><th>備註</th></tr></thead>
+<tbody>
+<tr><td>花市小苗</td><td>NT$30–60</td><td>最穩,已有根系</td><td>端午節前(4–5 月)攤位最多</td></tr>
+<tr><td>朋友分走莖子株</td><td>免費</td><td>連根帶土移植,成活率最高</td><td>艾草種開後走莖子株多到送不完</td></tr>
+<tr><td>山邊/野外移植</td><td>免費</td><td>台灣野生艾草很多</td><td>挖時多帶根系+原土,連根一起移</td></tr>
+<tr><td>蝦皮枝條/小苗</td><td>NT$50–100</td><td>宅配到府</td><td>到貨當天立刻定植,別讓它等</td></tr>
+</tbody>
+</table>`,
+      },
+      {
+        id: 'pot-soil', emoji: '🏺', heading: '盆器與土壤',
+        html: `
+<h4 style="color:var(--primary);">盆器</h4>
+<ul>
+<li>直徑 <strong>20–25 公分以上</strong>、深 20 公分以上 — 艾草根系走莖旺,需要空間</li>
+<li><strong>必須獨立盆</strong> — 走莖會擠死鄰居,不可與其他植物共盆</li>
+<li>盆底<strong>必須有排水孔</strong>(艾草耐旱,最怕積水爛根)</li>
+<li>材質不限;陶盆、塑膠盆皆可 — 排水比材質更重要</li>
+</ul>
+
+<h4 style="color:var(--primary);margin-top:12px;">土壤</h4>
+<ul>
+<li>一般培養土即可 — 艾草對土壤要求不高</li>
+<li>若土質偏黏重,混入 20–30% 珍珠石或粗砂改善排水</li>
+<li>pH 弱酸到中性(6.0–7.0),一般培養土都在這範圍</li>
+<li>不推純黑土:密實容易積水,artesia 根系不喜歡</li>
+</ul>
+
+<div class="callout warn">
+<h4>⚠️ 走莖控制</h4>
+<p style="margin:0;">艾草的走莖(地下橫走根)會從排水孔爬出去蔓延。放在陽台盆架上比較好管控;若地植(院子)建議用盆子埋在土裡限制範圍。</p>
+</div>
+
+<p style="font-size:14px;color:var(--muted);margin-top:10px;"><em>施肥細節獨立成下面的「🌾 施肥」section。</em></p>`,
+      },
+      {
+        id: 'steps', emoji: '🌳', heading: '種植步驟',
+        html: `
+<h4 style="color:var(--primary);">方法 A:定植花市小苗(最推薦新手)</h4>
+<ol>
+<li><strong>備盆</strong> — 見上面「盆器與土壤」,土填 8 分滿澆透</li>
+<li><strong>脫盆</strong> — 輕壓側邊讓土鬆動,倒出苗,不傷根</li>
+<li><strong>放入新盆</strong> — 苗放中間,根系舒展,填土到根頸高度,輕壓固定</li>
+<li><strong>澆透水</strong> — 澆到盆底有水流出;確認土沒有氣穴</li>
+<li><strong>放半日照處緩苗一週</strong> — 前 7 天避免正午強烈直射,讓根系重新適應</li>
+<li><strong>一週後移至全日照或半日照</strong> — 日照越充足,葉片越厚、香氣越濃</li>
+</ol>
+
+<h4 style="color:var(--primary);margin-top:14px;">方法 B:扦插(朋友給枝條時用)</h4>
+<ol>
+<li><strong>選健壯枝條</strong> — 帶 3–4 個節點、長 10–15 公分;剝掉底部葉子,只留頂端 2–3 片</li>
+<li><strong>斜切底部</strong> — 45° 斜切增加發根面積</li>
+<li><strong>插進濕土</strong> — 下方 2–3 節點埋進土,露出頂端</li>
+<li><strong>澆透水</strong> — 澆完放半日照處;土乾才再澆(發根期怕爛)</li>
+<li><strong>2–3 週後發根</strong> — 看到新葉冒出代表根系已穩</li>
+</ol>
+
+<div class="callout">
+<h4>💡 走莖子株最容易:連根帶土直接移植</h4>
+<p style="margin:0;">朋友的艾草盆周邊常長出走莖子株(小苗冒出土)。用小鏟子連根帶原土挖出,移到新盆,成活率比純扦插更高 — 根系已完整,不需要等發根期。</p>
+</div>`,
+      },
+      {
+        id: 'timing', emoji: '📋', heading: '完整時程表 · 定植到採收',
+        html: `
+<p><strong>定植 → 緩苗 → 施肥 → 採收 → 冬季休眠 → 春天重發</strong>,一張表涵蓋多年生完整循環。<strong>照做就對。</strong></p>
+
+<div class="callout warn">
+<h4>⚠️ 開工前先看月曆 / 節氣:挑對時間,事半功倍</h4>
+<p style="margin:0 0 6px;">艾草耐熱耐旱,比地瓜葉好養,但扦插發根<strong>仍需要溫暖的氣溫</strong>。<strong>節氣比月份準</strong>:</p>
+<table style="margin-top:8px;">
+<thead><tr><th></th><th>月份</th><th>節氣</th><th>狀態</th></tr></thead>
+<tbody>
+<tr style="background:#f0f8ec;"><td>✅ 最佳</td><td><strong>3–5 月(春)</strong></td><td><strong>驚蟄(3/5)→ 立夏(5/5)</strong></td><td>氣溫回暖、生長旺,發根最快,<strong>全年最穩的下手時機</strong></td></tr>
+<tr><td>✅ 次佳</td><td><strong>6–9 月(夏秋)</strong></td><td><strong>芒種(6/5)→ 寒露(10/8)</strong></td><td>生長旺盛;剛扦插的苗夏天要遮陰一週防曬傷</td></tr>
+<tr><td>🟡 勉強</td><td>10 月</td><td>寒露(10/8)→ 立冬(11/7)</td><td>邊緣期,扦插發根慢;定植花市苗比扦插更保險</td></tr>
+<tr style="background:#fdf5e6;"><td>❌ 避免扦插</td><td><strong>11 – 2 月</strong></td><td><strong>立冬(11/7)→ 雨水(2/19)</strong></td><td>地上部休眠,新枝條沒體力發根;但既有植株根系存活</td></tr>
+</tbody>
+</table>
+<p style="margin:8px 0 0;font-size:14px;"><strong>艾草冬天不會死</strong> — 地上部凋零是正常現象,根系還活著。春天驚蟄前後從根部重發新芽,不用重新種。</p>
+<p style="margin:6px 0 0;font-size:13px;color:var(--muted);"><em>完整 24 節氣對照看 <a href="#" onclick="event.preventDefault();navigateTo('page-knowledge');return false;" style="color:var(--primary);">📚 通用園藝知識 → 📅 24 節氣</a>。</em></p>
+</div>
+
+<table>
+<thead><tr><th>天數 / 時期</th><th>階段</th><th>植物狀態</th><th>你的動作</th></tr></thead>
+<tbody>
+<tr><td><strong>Day 1</strong></td><td>定植 / 扦插</td><td>苗放進新盆</td><td>澆透到盆底出水;放半日照緩苗;❌ 不施肥</td></tr>
+<tr><td>Day 2–7</td><td>緩苗期</td><td>葉片可能輕微軟垂</td><td>土表乾才澆;避免正午直射;❌ 不施肥</td></tr>
+<tr><td>Day 7–14</td><td>恢復生長</td><td>葉片轉挺,新芽冒出</td><td>移至全日照 / 半日照;正常澆水</td></tr>
+<tr><td>Day 14–29</td><td>莖節增生</td><td>植株往上長</td><td>繼續澆水;等 Day 30 施第一次肥</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 30 🌾</strong></td><td><strong>第一次施肥</strong></td><td>植株站穩,根系已建立</td><td>✅ 撒 <strong>5–8 粒</strong> 好康多 1 號(視盆大小)+ 澆水</td></tr>
+<tr><td>Day 30–60</td><td>生長加速</td><td>莖高增加、葉量增多</td><td>正常澆水;5–7 天觀察一次即可</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 60–90 ✂️</strong><br><em style="font-weight:normal;font-size:12px;">(約株高 40 cm)</em></td><td><strong>首次可採收</strong></td><td>株高達 40 cm+,莖葉豐滿</td><td>✅ 從頂端往下數第 3–4 節剪,每枝留底部 3–4 節讓它再發</td></tr>
+<tr><td>Day 90+</td><td>持續採收期</td><td>越採越旺,走莖開始蔓延</td><td>✅ 每月採 1–2 次;走莖子株可以分盆或贈人</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 120 🌾</strong></td><td><strong>第二次施肥</strong></td><td>生長稍緩</td><td>✅ 再撒 5–8 粒好康多;澆水</td></tr>
+<tr><td><strong>5–6 月 🎋</strong></td><td><strong>端午採收</strong></td><td>葉片最肥厚、香氣最濃</td><td>✅ 採整枝(帶葉莖段)掛門口 + 曬乾備用泡腳</td></tr>
+<tr style="background:#fdf5e6;"><td><strong>11 月 – 2 月 ❄️</strong></td><td><strong>冬季休眠</strong></td><td>地上部凋零或停止生長</td><td>❌ 停肥;澆水減量(7–10 天一次);老莖可剪至接近地面</td></tr>
+<tr><td>隔年 3 月 🌱</td><td>春天重發</td><td>從根部冒出新芽</td><td>從 Day 30 施肥循環重新開始;此後每年自然循環</td></tr>
+</tbody>
+</table>
+
+<div class="callout" style="margin-top:12px;">
+<h4>📱 定植當天就要做的 2 件事</h4>
+<ol style="margin:4px 0 0;padding-left:22px;">
+<li>Google 行事曆設 2 個提醒:<strong>今日 + 30 天</strong>、<strong>今日 + 120 天</strong>,內容寫「撒 5–8 粒好康多(艾草)、澆水」</li>
+<li>便利貼寫今日日期貼盆邊 —— 讓眼睛看得到「這盆是哪天種的」</li>
+</ol>
+<p style="margin:6px 0 0;font-size:14px;"><strong>半年的決定當天做完,腦袋騰出來做別的事</strong>。</p>
+</div>
+
+<p style="font-size:14px;color:var(--muted);margin-top:10px;"><em>施肥細節(不同盆大小、哪裡買)、採收技巧,看下方「🌾 施肥」、「✂️ 採收」section。</em></p>`,
+      },
+      {
+        id: 'fertilizer', emoji: '🌾', heading: '施肥',
+        html: `
+<p><strong>本 handbook 預設固體緩釋肥,不推液肥給新手</strong> —— 不用稀釋、不用算濃度、撒一次吃 3 個月、難燒根。</p>
+<p style="font-size:14px;color:var(--muted);margin-top:4px;"><em>施肥時機(Day 30 / Day 120 / 冬眠)已統整在上面「📋 完整時程表」,這個 section 專講 <strong>用多少 · 用哪款 · 怎麼撒</strong>。</em></p>
+
+<div class="callout">
+<h4>📐 不同盆大小 · 速查(好康多 1 號)</h4>
+<table style="margin-top:6px;">
+<thead><tr><th>盆</th><th>顆數</th></tr></thead>
+<tbody>
+<tr><td>3 吋圓盆(Ø9cm)</td><td><strong>3 粒</strong></td></tr>
+<tr><td>5 吋圓盆(Ø15cm)</td><td><strong>5 粒</strong></td></tr>
+<tr><td>7 吋圓盆(Ø21cm)</td><td><strong>8 粒</strong></td></tr>
+<tr><td><strong>長方盆 50×20cm</strong></td><td><strong>15 粒</strong></td></tr>
+<tr><td>大陽台盆槽 60cm+</td><td><strong>18–20 粒</strong></td></tr>
+</tbody>
+</table>
+<p style="margin:8px 0 0;font-size:14px;">艾草常種 <strong>7 吋盆(Ø21cm)= 8 粒</strong>。<strong>原則</strong>:寧可比這個少,不可比這個多。</p>
+</div>
+
+<h4 style="color:var(--primary);margin-top:14px;">🛒 買哪一款</h4>
+<ul>
+<li><strong>好康多 1 號</strong>(NPK 14-11-13)— 萬用款,香草/葉菜/觀葉都適用</li>
+<li>350g 小包約 NT$100,一包吃兩盆好幾年</li>
+<li>全聯園藝區、花市、iGarden 網購都有</li>
+<li>替代品:魔肥、奧綠肥(類似緩釋顆粒肥都 OK)</li>
+</ul>
+
+<div class="callout warn">
+<h4>📱 記憶外包 — 定植當天就把半年的施肥做完</h4>
+<p style="margin:0 0 6px;">不要依賴記憶、不要依賴觀察植物。定植當天就打開 Google 行事曆設兩個提醒:</p>
+<ul style="margin:0;padding-left:20px;">
+<li>定植日 + 30 天 → 「撒 5–8 粒好康多(艾草)、澆水」</li>
+<li>定植日 + 120 天 → 「再撒 5–8 粒」</li>
+</ul>
+<p style="margin:8px 0 0;font-size:14px;"><strong>半年的決定一次做完,腦袋騰出來做別的事</strong>。這是照護者 handbook 的核心哲學。</p>
+</div>
+
+<details style="margin-top:14px;border:1px solid var(--border);border-radius:8px;padding:10px 14px;">
+<summary style="cursor:pointer;color:var(--primary-dark);font-weight:bold;">⚠️ 出事才看:一眼判斷 3 條(日常不用觀察)</summary>
+<div style="padding:10px 0 0;">
+<p style="font-size:14px;margin-bottom:8px;">照 SOP 做,理論上不會出事。如果真的感覺不對:</p>
+<table>
+<thead><tr><th>看到什麼</th><th>是什麼</th><th>立刻做</th></tr></thead>
+<tbody>
+<tr><td>土表<strong>白色結晶</strong></td><td>過肥 / 鹽積</td><td>停肥,大量清水沖盆 3 次</td></tr>
+<tr><td>整株葉色<strong>淡黃綠</strong>(該是深灰綠)</td><td>缺肥</td><td>再撒 3 粒</td></tr>
+<tr><td>葉緣<strong>焦黃捲曲</strong></td><td>過肥 / 燒根</td><td>停肥,澆清水沖</td></tr>
+</tbody>
+</table>
+</div>
+</details>
+
+<details style="margin-top:10px;border:1px solid var(--border);border-radius:8px;padding:10px 14px;">
+<summary style="cursor:pointer;color:var(--muted);font-size:14px;">🧪 進階:想用液肥的路線(不建議新手)</summary>
+<div style="padding:10px 0 0;font-size:14px;">
+<p>如果家裡已經有液肥、或想追求更旺的生長:</p>
+<ul>
+<li><strong>花寶 1 號</strong>(NPK 20-20-20),包裝稀釋比<strong>再減半</strong>(防燒)</li>
+<li>每 10–14 天一次,澆根部不澆葉心</li>
+<li>早晚施,不在中午大太陽下施</li>
+<li>施完澆一次清水沖殘留</li>
+</ul>
+<p style="margin-top:6px;"><strong>液肥效果快但誤差大;固體肥慢但難出錯</strong>。handbook 主推固體。</p>
+</div>
+</details>
+
+<p style="font-size:13px;color:var(--muted);margin-top:14px;">通用施肥原則(缺肥 vs 過肥對照、NPK 速查、寧可少不要多)看 <a href="#" onclick="event.preventDefault();navigateTo('page-knowledge');return false;" style="color:var(--primary);font-weight:bold;">📚 通用園藝知識 → 🌾 施肥</a>。</p>`,
+      },
+      {
+        id: 'harvest', emoji: '✂️', heading: '採收與用途',
+        html: `
+<h4 style="color:var(--primary);">採收時機與方式</h4>
+<ul>
+<li>株高達 <strong>40 公分以上</strong>再開始採 — 讓植株先長夠壯</li>
+<li>採<strong>頂端往下數第 3–4 節處剪</strong>,每枝留底部 3–4 節;從節點繼續長側芽</li>
+<li><strong>越採越旺</strong> — 定期剪頂促進分枝爆量</li>
+<li><strong>端午節(5–6 月)</strong>傳統採葉最當季 — 此時葉片最肥厚、香氣最濃;整枝連葉帶莖剪下</li>
+<li>採完的艾草可<strong>鮮用或陰乾備用</strong></li>
+</ul>
+
+<h4 style="color:var(--primary);margin-top:14px;">採下來的艾草怎麼用</h4>
+<ul>
+<li><strong>端午掛門口</strong> — 新鮮艾草 + 菖蒲一起掛門框兩側,台灣傳統驅邪習俗,香氣一週內仍在</li>
+<li><strong>泡腳</strong> — 一把新鮮或乾燥艾草葉放入水中煮 15–20 分鐘,水色轉金黃,加至泡腳盆中;冬天驅寒暖身,老人家最喜歡</li>
+<li><strong>曬乾備用</strong> — 陰乾(避免直曬失去香氣),乾燥後存放罐中;冬天取出泡腳或薰房間</li>
+<li><strong>艾草香囊</strong> — 乾燥艾葉塞入小布袋,放抽屜或枕頭旁;香氣持續數週</li>
+</ul>
+
+<div class="callout warn">
+<h4>⚠️ 艾灸:留給中醫師操作</h4>
+<p style="margin:0;">艾絨點燃灸穴位是中醫傳統,<strong>不建議家用自行操作</strong> — 燃燒的艾草煙霧在密閉室內會讓貓肝臟受損(即使貓不直接接觸)。若家有貓,<strong>室內禁燃艾</strong>,泡腳、掛門口沒問題。</p>
+</div>`,
+      },
+      {
+        id: 'troubleshoot', emoji: '🛡', heading: '失敗點與除錯',
+        html: `
+<table>
+<thead><tr><th>症狀</th><th>可能原因</th><th>對策</th></tr></thead>
+<tbody>
+<tr><td>定植後葉片軟垂</td><td>緩苗正常現象</td><td>別急;前 7 天避免正午直射,澆透一次等它回神</td></tr>
+<tr><td>扦插兩週沒新芽</td><td>氣溫太低 / 土太濕</td><td>確認是 3–9 月之間;土插要「土乾才澆」</td></tr>
+<tr><td>葉片發黃軟塌</td><td>缺水</td><td>立刻澆透;確認盆底排水孔暢通</td></tr>
+<tr><td>莖底爛掉、有臭味</td><td>積水爛根</td><td>換土換盆;剪掉爛莖,保留健康根段重新插</td></tr>
+<tr><td>莖細長、葉距大</td><td>日照不足(徒長)</td><td>移至全日照或更明亮的陽台</td></tr>
+<tr><td>葉面有白色粉末</td><td>白粉病(悶熱通風差)</td><td>剪掉病葉;移到通風好的地方;避免葉面噴水</td></tr>
+<tr><td>冬天地上部全枯</td><td>正常休眠</td><td>不要丟!根還活著。等驚蟄(3/5)前後從根部重發</td></tr>
+<tr><td>盆子被走莖撐裂 / 竄出排水孔</td><td>走莖蔓延本性</td><td>獨立盆;每年春天分株修剪走莖;走莖子株可分送朋友</td></tr>
+<tr><td>貓咪接觸後嘔吐/精神差</td><td>thujone 中毒</td><td>立刻帶去獸醫!艾草對貓有毒,必須隔離放置</td></tr>
+</tbody>
+</table>`,
+      },
+      {
+        id: 'dementia', emoji: '🧠', heading: '失智照護應用 Notes',
+        byLevel: {
+          mild: `
+<div class="callout">
+<h4>📍 輕度:節日儀式 + 嗅覺記憶觸發</h4>
+<p style="margin:0;">輕度失智者還能理解指令、執行多步驟動作。艾草是建立<strong>節日儀式感</strong>的絕佳工具 — 端午剪艾草、掛門口這件事,很多長輩一輩子都做,幾乎是肌肉記憶。</p>
+</div>
+<ul>
+<li><strong>端午節前讓她主導</strong>:「今年端午的艾草你來剪」— 她能自己剪、自己搭配菖蒲、自己掛門口,不需要你示範</li>
+<li>採葉時讓她揉葉感受香氣 — 艾草香對台灣長輩是「祖母」「童年端午」的氣味記憶,常能觸發鮮活的情節回憶</li>
+<li><strong>泡腳 ritual</strong>:讓她主導整個流程 — 摘艾草、煮水、泡腳。多步驟、有成果、有身體感覺,最完整的自主活動</li>
+<li>走莖子株分盆後可讓她拿去分送給鄰居或朋友 — 「我種的艾草」讓她有驕傲感</li>
+<li><strong>目標</strong>:讓「端午艾草」成為每年固定的自主儀式,不是你幫她做,是她在做你支持</li>
+</ul>
+<p>這個階段的價值:<strong>艾草的儀式感讓她「還是那個照顧家的人」</strong> — 端午掛艾草、替家人泡腳,都是照顧者的角色,而不是被照顧者。</p>`,
+          moderate: `
+<div class="callout">
+<h4>📍 中度:泡腳儀式 + 嗅覺療法</h4>
+<p style="margin:0;">中度失智者能執行單一動作,但多步驟會卡住。艾草的核心應用轉為<strong>泡腳儀式</strong>和<strong>嗅覺刺激</strong>。</p>
+</div>
+<ul>
+<li><strong>泡腳你來準備,她來享受</strong>:你煮好艾草水,水溫測好,扶她坐穩,說「泡腳了,暖暖腳」— 她不需要做任何準備,只需要享受</li>
+<li>泡腳時把一枝新鮮艾草葉放她手上讓她握 — 手部觸覺 + 眼前的綠葉 + 水的溫熱 + 艾草香氣,四重感官同時在線</li>
+<li><strong>採葉動作讓她參與一步</strong>:盆放在她坐著就能摸到的地方,說「幫我摘幾片」— 單一動作她能做</li>
+<li>語言指令<strong>一次一個動作</strong>:「聞一下這個」「幫我摘這裡」,不要說「你去剪艾草然後泡腳」</li>
+<li>每週固定時段進行 — 節奏感對中度失智比「完成度」更重要</li>
+</ul>
+<p>這個階段的價值:<strong>泡腳是最好的身體接觸照護</strong> — 水溫、按摩、香氣三合一,讓照護者與被照護者都有溫暖的相處時刻。</p>`,
+          severe: `
+<div class="callout">
+<h4>📍 重度:感官陪伴,不要求動作</h4>
+<p style="margin:0;">重度失智者自主動作極有限,艾草的價值<strong>從「活動」完全轉為「感官療法」</strong>。艾草香氣是台灣傳統記憶最深的藥草氣味之一。</p>
+</div>
+<ul>
+<li><strong>摘一片新鮮艾葉放到她手上讓她握</strong> — 葉面的絨毛觸感細緻,她不需要做什麼,只是握著</li>
+<li><strong>在她面前揉碎一片葉子</strong>,靠近她鼻前讓她聞 — 艾草香氣濃郁持久,即使重度失智也可能觸發表情反應或肢體放鬆</li>
+<li><strong>泡腳水加艾草</strong>:你幫她泡腳,艾草香 + 水溫的雙重感官刺激,有時能讓緊張的肢體鬆弛</li>
+<li>不要在室內燃燒艾草(艾灸煙霧會傷害家中的貓)— 新鮮葉或泡腳水的香氣已經足夠</li>
+<li>每天固定時段進行(例如:午後休息前揉一片葉子讓她聞)—— <strong>節奏感比「完成度」重要</strong></li>
+</ul>
+<p>這個階段的價值:<strong>艾草的藥草香氣是台灣長輩記憶最深的氣味之一</strong> — 端午、祖母、泡腳、童年。即使語言和認知退化,氣味記憶常是最後消失的;揉一片葉子,可能喚起你以為她早已忘記的一切。</p>`,
+        },
+      },
+      {
+        id: 'log', emoji: '📓', heading: '實測紀錄',
+        html: `
+<div class="callout warn">
+<p style="margin:0;"><strong>尚未實測</strong> — 艾草 entry 於 2026-04-23 建立。計畫:2026 年端午節前(5 月)取花市小苗定植,記錄緩苗時間、端午採收情況、泡腳 ritual 導入。</p>
+</div>
+
+<div class="callout">
+<p style="margin:0 0 6px;"><strong>未來計畫</strong></p>
+<ul style="margin:0;padding-left:20px;">
+<li>記錄花市小苗 vs 走莖子株定植成活率對比</li>
+<li>記錄端午節採收情況:葉量、掛門口後香氣持續時間</li>
+<li>記錄泡腳 ritual:艾草水水色轉變時間、長輩的感官反應</li>
+<li>記錄冬季休眠與春天重發時間(多年生循環第一年)</li>
+<li>記錄走莖子株蔓延速度,分盆時間點</li>
+</ul>
+</div>
+
+<p style="color:var(--muted);font-size:14px;"><em>實測紀錄、端午節儀式照片、失智照護 ritual 觀察會陸續補進。</em></p>`,
+      },
+    ],
+  },
 ];
 
 // =========================================================
