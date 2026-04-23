@@ -184,13 +184,94 @@ body {
   display: flex; align-items: center; justify-content: space-between;
   margin-bottom: 16px;
 }
-.back-btn, .fav-btn {
+.back-btn, .fav-btn, .cart-btn {
   background: var(--card); border: 1px solid var(--border);
   border-radius: 12px; padding: 8px 14px;
   font-size: 15px; font-family: inherit; cursor: pointer;
 }
-.back-btn:active, .fav-btn:active { transform: scale(0.97); }
+.back-btn:active, .fav-btn:active, .cart-btn:active { transform: scale(0.97); }
 .fav-btn.is-fav { background: #fff4d6; border-color: #e5b966; }
+.cart-btn.in-cart { background: #e8f5e9; border-color: var(--primary); color: var(--primary-dark); }
+
+.cart-count {
+  display: inline-block;
+  min-width: 18px; height: 18px;
+  padding: 0 5px;
+  background: var(--primary);
+  color: white;
+  border-radius: 9px;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 18px;
+  text-align: center;
+  margin-left: -6px;
+  margin-top: -18px;
+  position: relative;
+  top: -8px;
+}
+.cart-count:empty { display: none; }
+
+.cart-section {
+  background: var(--card);
+  border-radius: 14px;
+  padding: 16px 18px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+  margin-bottom: 14px;
+}
+.cart-section h3 {
+  font-size: 17px; color: var(--primary-dark);
+  margin: 0 0 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.cart-plant-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--border);
+}
+.cart-plant-row:last-child { border-bottom: none; }
+.cart-plant-row .plant-info { display:flex; align-items:center; gap:8px; font-size:15px; }
+.cart-plant-row .plant-info .emoji { font-size: 22px; }
+.cart-plant-row .remove-btn {
+  background: none; border: 1px solid #d99;
+  color: #c44; padding: 4px 10px;
+  border-radius: 14px; font-size: 12px;
+  cursor: pointer;
+}
+.cart-source-group h4 {
+  font-size: 15px;
+  color: var(--primary);
+  margin: 12px 0 6px;
+}
+.cart-source-group ul {
+  padding-left: 22px;
+  margin: 4px 0;
+}
+.cart-source-group li { font-size: 14px; margin: 3px 0; line-height: 1.6; }
+.cart-budget {
+  background: #fffde7;
+  border: 1px solid #f4b400;
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin: 16px 0;
+  font-size: 16px;
+  text-align: center;
+}
+.cart-budget strong { font-size: 20px; color: var(--primary-dark); }
+.cart-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--muted);
+  line-height: 1.8;
+}
+.cart-export-btns {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+.cart-export-btns .btn { flex: 1; }
 
 .plant-header {
   text-align: center; padding: 12px 0 20px;
@@ -460,6 +541,7 @@ footer a { color: var(--primary); text-decoration: none; }
       </div>
     </div>
     <div class="btns">
+      <button class="header-btn" onclick="navigateTo('page-cart')" title="購物清單" id="header-cart-btn">🛒<span class="cart-count" id="cart-count"></span></button>
       <button class="header-btn" onclick="navigateTo('page-knowledge')" title="通用園藝知識">📚</button>
       <button class="header-btn" onclick="navigateTo('page-settings')" title="設定">⚙️</button>
     </div>
@@ -499,6 +581,7 @@ footer a { color: var(--primary); text-decoration: none; }
   <div class="back-bar">
     <button class="back-btn" onclick="navigateTo('page-home')">← 返回</button>
     <button class="fav-btn" id="fav-btn" onclick="toggleFav()">⭐ 加入最愛</button>
+    <button class="cart-btn" id="cart-btn" onclick="toggleCart()">🛒 加入購物籃</button>
   </div>
   <div class="plant-header">
     <span class="big-icon" id="plant-icon"></span>
@@ -768,6 +851,21 @@ footer a { color: var(--primary); text-decoration: none; }
   </div>
 </div>
 
+<!-- ============= CART / SHOPPING LIST ============= -->
+<div class="page" id="page-cart">
+  <div class="back-bar">
+    <button class="back-btn" onclick="navigateTo('page-home')">← 返回</button>
+  </div>
+  <div class="plant-header">
+    <span class="big-icon">🛒</span>
+    <h1>購物清單</h1>
+  </div>
+  <p style="text-align:center;color:var(--muted);font-size:14px;margin-bottom:20px;">
+    把你想種的植物加進來,這裡會自動合併成<strong>一趟菜市場/花市可以搞定</strong>的採購清單。
+  </p>
+  <div id="cart-content"></div>
+</div>
+
 <!-- ============= SETTINGS ============= -->
 <div class="page" id="page-settings">
   <div class="back-bar">
@@ -871,6 +969,13 @@ const PLANTS = [
       location: '陽台 / 窗邊 / 戶外',
       seasons: ['spring', 'summer'],
       bestStartMonths: [4, 5, 6, 7, 8, 9],
+      shoppingList: {
+        propagation: { name: '地瓜葉枝條', qty: '20 條', source: '蝦皮', priceMin: 80, priceMax: 150 },
+        containers: [{ spec: '25cm+ 圓盆 或 50cm 長方盆', qty: 1, priceMin: 100, priceMax: 150 }],
+        soil: { volumeL: 5, type: '一般培養土', priceMin: 50, priceMax: 100 },
+        fertilizer: { product: '好康多 1 號 350g', shared: true, priceMin: 100, priceMax: 150 },
+        tools: ['剪刀'],
+      },
     },
     sections: [
       {
@@ -1221,6 +1326,13 @@ const PLANTS = [
       location: '室內任何角落',
       seasons: ['all'],
       bestStartMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      shoppingList: {
+        propagation: { name: '虎尾蘭盆苗(或朋友分株)', qty: '1 株', source: '花市', priceMin: 100, priceMax: 300 },
+        containers: [{ spec: '15-20cm 淺盆(排水孔必備)', qty: 1, priceMin: 80, priceMax: 150 }],
+        soil: { volumeL: 3, type: '排水好的砂質土 或 多肉土', priceMin: 80, priceMax: 150 },
+        fertilizer: { product: '好康多 1 號 350g', shared: true, priceMin: 100, priceMax: 150 },
+        tools: [],
+      },
     },
     sections: [
       {
@@ -1548,6 +1660,13 @@ const PLANTS = [
       location: '室內明亮處 / 辦公桌 / 餐桌',
       seasons: ['all'],
       bestStartMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      shoppingList: {
+        propagation: { name: '黃金葛枝條(水插) 或 盆苗', qty: '1-3 段', source: '花市', priceMin: 50, priceMax: 150, freeFromKitchen: '朋友家分枝條免費' },
+        containers: [{ spec: '玻璃瓶(水耕) 或 15cm 小盆(土耕)', qty: 1, priceMin: 30, priceMax: 100 }],
+        soil: { volumeL: 2, type: '培養土(若土耕)', priceMin: 50, priceMax: 100 },
+        fertilizer: { product: '好康多 1 號 350g', shared: true, priceMin: 100, priceMax: 150 },
+        tools: ['剪刀'],
+      },
     },
     sections: [
       {
@@ -1856,6 +1975,13 @@ const PLANTS = [
       location: '陽台戶外 / 頂樓',
       seasons: ['spring', 'autumn'],
       bestStartMonths: [2, 3, 4, 8, 9, 10],
+      shoppingList: {
+        propagation: { name: '小番茄盆苗(新手首選)', qty: '1-2 株', source: '花市', priceMin: 30, priceMax: 80 },
+        containers: [{ spec: '深盆 30cm+(根系深)', qty: 1, priceMin: 150, priceMax: 250 }],
+        soil: { volumeL: 10, type: '一般培養土', priceMin: 100, priceMax: 150 },
+        fertilizer: { product: '好康多 1 號 + 花寶 2 號(開花期高磷)', shared: true, priceMin: 200, priceMax: 300 },
+        tools: ['竹枝/支架(搭架)', '剪刀', '毛刷或電動牙刷(授粉)'],
+      },
     },
     sections: [
       {
@@ -2204,6 +2330,13 @@ const PLANTS = [
       location: '陽台 / 頂樓(冬天日照好)',
       seasons: ['autumn', 'winter'],
       bestStartMonths: [9, 10, 11],
+      shoppingList: {
+        propagation: { name: '草莓子苗(挑帶花芽的)', qty: '2-3 株', source: '花市', priceMin: 50, priceMax: 120 },
+        containers: [{ spec: '長條盆 或 吊盆', qty: 1, priceMin: 150, priceMax: 300 }],
+        soil: { volumeL: 10, type: '一般培養土', priceMin: 100, priceMax: 150 },
+        fertilizer: { product: '好康多 1 號 + 花寶 2 號(開花/結果期)', shared: true, priceMin: 200, priceMax: 300 },
+        tools: ['毛刷(人工授粉)', '剪刀'],
+      },
     },
     sections: [
       {
@@ -2522,6 +2655,13 @@ const PLANTS = [
       location: '陽台 / 戶外',
       seasons: ['spring', 'summer', 'autumn'],
       bestStartMonths: [3, 4, 5, 6, 7, 8, 9, 10],
+      shoppingList: {
+        propagation: { name: '九層塔(市場一把留莖扦插)', qty: '1 把', source: '市場', priceMin: 20, priceMax: 30 },
+        containers: [{ spec: '20cm 圓盆', qty: 1, priceMin: 80, priceMax: 150 }],
+        soil: { volumeL: 3, type: '一般培養土', priceMin: 50, priceMax: 100 },
+        fertilizer: { product: '好康多 1 號 350g', shared: true, priceMin: 100, priceMax: 150 },
+        tools: ['剪刀'],
+      },
     },
     sections: [
       {
@@ -2845,6 +2985,13 @@ const PLANTS = [
       location: '陽台 / 戶外',
       seasons: ['spring', 'autumn'],
       bestStartMonths: [3, 4, 9, 10],
+      shoppingList: {
+        propagation: { name: '韭菜分株苗 或 種子', qty: '1 叢 或 1 包', source: '花市', priceMin: 30, priceMax: 100 },
+        containers: [{ spec: '長條盆 50cm', qty: 1, priceMin: 150, priceMax: 250 }],
+        soil: { volumeL: 5, type: '一般培養土', priceMin: 50, priceMax: 100 },
+        fertilizer: { product: '好康多 1 號 350g', shared: true, priceMin: 100, priceMax: 150 },
+        tools: ['剪刀'],
+      },
     },
     sections: [
       {
@@ -3172,6 +3319,13 @@ const PLANTS = [
       location: '陽台 / 戶外',
       seasons: ['autumn', 'winter', 'spring'],
       bestStartMonths: [9, 10, 11, 12, 1, 2, 3],
+      shoppingList: {
+        propagation: { name: '青江菜種子', qty: '1 包', source: '花市', priceMin: 30, priceMax: 50 },
+        containers: [{ spec: '長條盆 50cm 或 淺盆', qty: 1, priceMin: 150, priceMax: 250 }],
+        soil: { volumeL: 5, type: '一般培養土', priceMin: 50, priceMax: 100 },
+        fertilizer: { product: '好康多 1 號 350g', shared: true, priceMin: 100, priceMax: 150 },
+        tools: [],
+      },
     },
     sections: [
       {
@@ -3488,6 +3642,13 @@ const PLANTS = [
       location: '陽台 / 窗邊 / 戶外',
       seasons: ['autumn', 'winter'],
       bestStartMonths: [10, 11, 12, 1, 2],
+      shoppingList: {
+        propagation: { name: '蒜瓣(廚房剝好的,非冷凍)', qty: '10-15 瓣', source: '家裡', priceMin: 0, priceMax: 0, freeFromKitchen: '廚房就有,0 採購' },
+        containers: [{ spec: '15-20cm 深盆', qty: 1, priceMin: 80, priceMax: 150 }],
+        soil: { volumeL: 3, type: '一般培養土', priceMin: 50, priceMax: 100 },
+        fertilizer: { product: '好康多 1 號 350g(週期短可省略)', shared: true, priceMin: 100, priceMax: 150 },
+        tools: [],
+      },
     },
     sections: [
       {
@@ -3742,6 +3903,13 @@ const PLANTS = [
       location: '陽台 / 窗邊 / 戶外',
       seasons: ['autumn', 'winter'],
       bestStartMonths: [10, 11, 12, 1, 2],
+      shoppingList: {
+        propagation: { name: '茼蒿種子(當年採收)', qty: '1 包', source: '花市', priceMin: 30, priceMax: 50 },
+        containers: [{ spec: '長條盆 50cm', qty: 1, priceMin: 150, priceMax: 250 }],
+        soil: { volumeL: 5, type: '一般培養土', priceMin: 50, priceMax: 100 },
+        fertilizer: { product: '好康多 1 號 350g', shared: true, priceMin: 100, priceMax: 150 },
+        tools: [],
+      },
     },
     sections: [
       {
@@ -4009,6 +4177,13 @@ const PLANTS = [
       location: '陽台 / 窗邊 / 戶外',
       seasons: ['autumn', 'winter'],
       bestStartMonths: [10, 11, 12, 1],
+      shoppingList: {
+        propagation: { name: '乾豌豆(廚房 或 五穀雜糧行,非烘焙)', qty: '1 把', source: '市場', priceMin: 20, priceMax: 50, freeFromKitchen: '廚房乾豌豆可直接用' },
+        containers: [{ spec: '淺盆 15-20cm 或 長條盆', qty: 1, priceMin: 80, priceMax: 200 }],
+        soil: { volumeL: 3, type: '一般培養土', priceMin: 50, priceMax: 100 },
+        fertilizer: { product: '好康多 1 號 350g(週期短可省)', shared: true, priceMin: 100, priceMax: 150 },
+        tools: [],
+      },
     },
     sections: [
       {
@@ -4281,6 +4456,13 @@ const PLANTS = [
       location: '陽台 / 窗邊 / 戶外 / 廚房',
       seasons: ['all'],
       bestStartMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      shoppingList: {
+        propagation: { name: '薄荷(市場一把水插 或 花市盆苗)', qty: '1 把/1 盆', source: '市場', priceMin: 20, priceMax: 100 },
+        containers: [{ spec: '15-20cm 盆(獨立種防蔓延)', qty: 1, priceMin: 80, priceMax: 150 }],
+        soil: { volumeL: 3, type: '一般培養土', priceMin: 50, priceMax: 100 },
+        fertilizer: { product: '好康多 1 號 350g', shared: true, priceMin: 100, priceMax: 150 },
+        tools: ['剪刀'],
+      },
     },
     sections: [
       {
@@ -4624,6 +4806,13 @@ const PLANTS = [
       location: '陽台戶外 / 頂樓 / 全日照窗邊',
       seasons: ['spring', 'autumn'],
       bestStartMonths: [3, 4, 8, 9],
+      shoppingList: {
+        propagation: { name: '辣椒盆苗(朝天椒新手首選)', qty: '1-2 株', source: '花市', priceMin: 50, priceMax: 100 },
+        containers: [{ spec: '深盆 25cm+', qty: 1, priceMin: 100, priceMax: 150 }],
+        soil: { volumeL: 8, type: '一般培養土', priceMin: 80, priceMax: 120 },
+        fertilizer: { product: '好康多 1 號 + 花寶 2 號(開花期)', shared: true, priceMin: 200, priceMax: 300 },
+        tools: [],
+      },
     },
     sections: [
       {
@@ -4965,6 +5154,13 @@ const PLANTS = [
       location: '窗邊 / 陽台 / 辦公桌',
       seasons: ['all'],
       bestStartMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      shoppingList: {
+        propagation: { name: '多肉盆苗(或朋友分葉片)', qty: '1-3 盆', source: '花市', priceMin: 50, priceMax: 200, freeFromKitchen: '朋友分葉片免費' },
+        containers: [{ spec: '多肉專用盆(排水佳,可淺)', qty: 1, priceMin: 80, priceMax: 200 }],
+        soil: { volumeL: 2, type: '多肉專用砂質土(混赤玉/粗砂)', priceMin: 100, priceMax: 200 },
+        fertilizer: { product: '好康多 1 號 350g(少量)', shared: true, priceMin: 100, priceMax: 150 },
+        tools: [],
+      },
     },
     sections: [
       {
@@ -5353,6 +5549,13 @@ const PLANTS = [
       location: '陽台 / 戶外 / 室內明亮處',
       seasons: ['spring'],
       bestStartMonths: [3, 4],
+      shoppingList: {
+        propagation: { name: '老薑塊(廚房剩薑,有芽眼的,非冷凍)', qty: '2-3 塊', source: '家裡', priceMin: 0, priceMax: 50, freeFromKitchen: '廚房剩薑 0 成本' },
+        containers: [{ spec: '深盆 30cm+(塊莖向下長)', qty: 1, priceMin: 150, priceMax: 250 }],
+        soil: { volumeL: 8, type: '鬆軟培養土(混腐葉土)', priceMin: 100, priceMax: 150 },
+        fertilizer: { product: '好康多 1 號 350g', shared: true, priceMin: 100, priceMax: 150 },
+        tools: [],
+      },
     },
     sections: [
       {
@@ -5678,6 +5881,13 @@ const PLANTS = [
       location: '陽台 / 院子 / 頂樓',
       seasons: ['spring', 'autumn'],
       bestStartMonths: [3, 4, 9, 10],
+      shoppingList: {
+        propagation: { name: '桂花盆苗(有花苞更好)', qty: '1 株', source: '花市', priceMin: 200, priceMax: 500 },
+        containers: [{ spec: '中大型盆 30cm+', qty: 1, priceMin: 200, priceMax: 400 }],
+        soil: { volumeL: 8, type: '微酸性培養土', priceMin: 100, priceMax: 200 },
+        fertilizer: { product: '好康多 1 號 + 花寶 2 號(花前 8-9 月)', shared: true, priceMin: 200, priceMax: 300 },
+        tools: ['剪刀(春修剪)'],
+      },
     },
     sections: [
       {
@@ -5998,6 +6208,13 @@ const PLANTS = [
       location: '陽台 / 窗邊 / 戶外',
       seasons: ['spring', 'summer'],
       bestStartMonths: [3, 4, 5, 6, 7, 8],
+      shoppingList: {
+        propagation: { name: '紫蘇種子(紫葉品種)', qty: '1 包', source: '花市', priceMin: 30, priceMax: 50 },
+        containers: [{ spec: '20cm 盆 或 長條盆', qty: 1, priceMin: 100, priceMax: 200 }],
+        soil: { volumeL: 4, type: '一般培養土', priceMin: 50, priceMax: 100 },
+        fertilizer: { product: '好康多 1 號 350g', shared: true, priceMin: 100, priceMax: 150 },
+        tools: [],
+      },
     },
     sections: [
       {
@@ -6335,6 +6552,13 @@ const PLANTS = [
       location: '陽台 / 窗邊 / 戶外(秋冬)',
       seasons: ['autumn', 'winter'],
       bestStartMonths: [10, 11, 12, 1, 2],
+      shoppingList: {
+        propagation: { name: '香菜種子(要搓破硬殼催芽)', qty: '1 包', source: '花市', priceMin: 30, priceMax: 50 },
+        containers: [{ spec: '長條盆 50cm', qty: 1, priceMin: 150, priceMax: 250 }],
+        soil: { volumeL: 5, type: '一般培養土', priceMin: 50, priceMax: 100 },
+        fertilizer: { product: '好康多 1 號 350g', shared: true, priceMin: 100, priceMax: 150 },
+        tools: [],
+      },
     },
     sections: [
       {
@@ -6672,6 +6896,13 @@ const PLANTS = [
       location: '陽台 / 窗台 / 戶外',
       seasons: ['all'],
       bestStartMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      shoppingList: {
+        propagation: { name: '迷迭香盆苗 或 市場枝條扦插', qty: '1 株/1 把', source: '花市', priceMin: 80, priceMax: 200 },
+        containers: [{ spec: '20cm 深盆(排水佳)', qty: 1, priceMin: 100, priceMax: 200 }],
+        soil: { volumeL: 3, type: '一般培養土 + 粗砂/珍珠石', priceMin: 80, priceMax: 150 },
+        fertilizer: { product: '好康多 1 號 350g(少量)', shared: true, priceMin: 100, priceMax: 150 },
+        tools: ['剪刀'],
+      },
     },
     sections: [
       {
@@ -7007,6 +7238,13 @@ const PLANTS = [
       location: '陽台 / 頂樓(深盆必備)',
       seasons: ['autumn', 'winter'],
       bestStartMonths: [9, 10, 11, 12, 1],
+      shoppingList: {
+        propagation: { name: '紅蘿蔔種子', qty: '1 包', source: '花市', priceMin: 30, priceMax: 50 },
+        containers: [{ spec: '深盆 30cm+(根向下)', qty: 1, priceMin: 150, priceMax: 300 }],
+        soil: { volumeL: 10, type: '鬆軟培養土(石頭要少避免分叉)', priceMin: 100, priceMax: 200 },
+        fertilizer: { product: '好康多 1 號(少氮)', shared: true, priceMin: 100, priceMax: 150 },
+        tools: [],
+      },
     },
     sections: [
       {
@@ -7347,6 +7585,13 @@ const PLANTS = [
       location: '南向陽台 / 戶外全日照',
       seasons: ['autumn', 'winter'],
       bestStartMonths: [9, 10, 11, 12, 1],
+      shoppingList: {
+        propagation: { name: '白蘿蔔種子', qty: '1 包', source: '花市', priceMin: 30, priceMax: 50 },
+        containers: [{ spec: '深盆 25cm+ 或 深長條盆', qty: 1, priceMin: 150, priceMax: 300 }],
+        soil: { volumeL: 8, type: '鬆軟培養土', priceMin: 100, priceMax: 150 },
+        fertilizer: { product: '好康多 1 號 350g', shared: true, priceMin: 100, priceMax: 150 },
+        tools: [],
+      },
     },
     sections: [
       {
@@ -7664,6 +7909,13 @@ const PLANTS = [
       location: '陽台 / 戶外 / 頂樓',
       seasons: ['autumn', 'winter'],
       bestStartMonths: [10, 11, 12, 1],
+      shoppingList: {
+        propagation: { name: '洋蔥苗(或廚房洋蔥底部免費)', qty: '5-10 苗', source: '花市', priceMin: 30, priceMax: 80, freeFromKitchen: '廚房洋蔥底部切下 1cm 發根' },
+        containers: [{ spec: '深盆 30cm+', qty: 1, priceMin: 150, priceMax: 250 }],
+        soil: { volumeL: 8, type: '一般培養土', priceMin: 100, priceMax: 150 },
+        fertilizer: { product: '好康多 1 號 + 花寶 2 號(結球期)', shared: true, priceMin: 200, priceMax: 300 },
+        tools: [],
+      },
     },
     sections: [
       {
@@ -7983,6 +8235,13 @@ const PLANTS = [
       location: '陽台 / 戶外(需架支撐)',
       seasons: ['spring', 'summer'],
       bestStartMonths: [3, 4, 5, 6],
+      shoppingList: {
+        propagation: { name: '小黃瓜種子 或 盆苗', qty: '1 包/1-2 株', source: '花市', priceMin: 30, priceMax: 100 },
+        containers: [{ spec: '深盆 30cm+', qty: 1, priceMin: 150, priceMax: 250 }],
+        soil: { volumeL: 10, type: '一般培養土', priceMin: 100, priceMax: 150 },
+        fertilizer: { product: '好康多 1 號 + 花寶 2 號(開花期)', shared: true, priceMin: 200, priceMax: 300 },
+        tools: ['竹枝/支架(爬藤必備,1.5-2 公尺)', '剪刀'],
+      },
     },
     sections: [
       {
@@ -8304,6 +8563,13 @@ const PLANTS = [
       location: '陽台 / 戶外盆 / 庭院',
       seasons: ['spring', 'summer'],
       bestStartMonths: [3, 4, 5, 6],
+      shoppingList: {
+        propagation: { name: '向日葵種子(矮性品種 40-80cm)', qty: '1 包', source: '花市', priceMin: 30, priceMax: 50 },
+        containers: [{ spec: '25-30cm 盆', qty: 1, priceMin: 150, priceMax: 250 }],
+        soil: { volumeL: 8, type: '一般培養土', priceMin: 100, priceMax: 150 },
+        fertilizer: { product: '好康多 1 號 350g', shared: true, priceMin: 100, priceMax: 150 },
+        tools: [],
+      },
     },
     sections: [
       {
@@ -8616,6 +8882,13 @@ const PLANTS = [
       location: '陽台 / 窗邊(有日照)',
       seasons: ['spring', 'summer'],
       bestStartMonths: [3, 4, 5, 6, 7],
+      shoppingList: {
+        propagation: { name: '茉莉花盆苗', qty: '1 株', source: '花市', priceMin: 200, priceMax: 400 },
+        containers: [{ spec: '中大型盆 25-30cm', qty: 1, priceMin: 200, priceMax: 400 }],
+        soil: { volumeL: 8, type: '一般培養土', priceMin: 100, priceMax: 150 },
+        fertilizer: { product: '好康多 1 號 + 花寶 2 號(花前)', shared: true, priceMin: 200, priceMax: 300 },
+        tools: ['剪刀(冬修剪)'],
+      },
     },
     sections: [
       {
@@ -8941,7 +9214,7 @@ const PLANTS = [
 const STATE_KEY = 'gardenHandbookState';
 
 function defaultState() {
-  return { favorites: [], memos: {}, careLevel: 'mild', planningMode: false };
+  return { favorites: [], memos: {}, careLevel: 'mild', planningMode: false, cart: [] };
 }
 
 function loadState() {
@@ -8954,6 +9227,7 @@ function loadState() {
       memos: (s.memos && typeof s.memos === 'object') ? s.memos : {},
       careLevel: ['mild','moderate','severe'].includes(s.careLevel) ? s.careLevel : 'mild',
       planningMode: s.planningMode === true,
+      cart: Array.isArray(s.cart) ? s.cart : [],
     };
   } catch (e) {
     console.warn('Failed to load state, using default.', e);
@@ -9005,6 +9279,7 @@ function navigateTo(pageId) {
     renderLevelButtons();
     renderPlanningToggle();
   }
+  if (pageId === 'page-cart') renderCart();
 }
 
 function switchTab(catId, btn) {
@@ -9082,6 +9357,7 @@ function renderHome() {
   renderTabs();
   updateLevelBanner();
   updatePlanningBanner();
+  updateCartCount();
 }
 
 function renderTabs() {
@@ -9187,6 +9463,7 @@ function openPlant(plantId) {
 
   renderPlantSections(plant);
   updateFavBtn();
+  updateCartBtn();
   renderMemoHistory();
   document.getElementById('memo-input').value = '';
   navigateTo('page-plant');
@@ -9241,6 +9518,316 @@ function toggleFav() {
   updateFavBtn();
   renderFavorites();              // 同步首頁最愛區
   updateAllPlantCardsFavState();  // 同步所有 plant card 右上角 ⭐
+}
+
+// =========================================================
+// CART
+// =========================================================
+
+function toggleCart() {
+  if (!CURRENT_PLANT_ID) return;
+  const idx = STATE.cart.indexOf(CURRENT_PLANT_ID);
+  if (idx >= 0) STATE.cart.splice(idx, 1);
+  else STATE.cart.push(CURRENT_PLANT_ID);
+  saveState();
+  updateCartBtn();
+  updateCartCount();
+}
+
+function updateCartBtn() {
+  const btn = document.getElementById('cart-btn');
+  if (!btn) return;
+  const inCart = STATE.cart.includes(CURRENT_PLANT_ID);
+  btn.textContent = inCart ? '🛒 已在購物籃' : '🛒 加入購物籃';
+  btn.classList.toggle('in-cart', inCart);
+}
+
+function updateCartCount() {
+  const badge = document.getElementById('cart-count');
+  if (!badge) return;
+  const n = STATE.cart.length;
+  badge.textContent = n > 0 ? String(n) : '';
+}
+
+function removeFromCart(plantId) {
+  const idx = STATE.cart.indexOf(plantId);
+  if (idx >= 0) STATE.cart.splice(idx, 1);
+  saveState();
+  updateCartCount();
+  renderCart();
+}
+
+function clearCart() {
+  if (!confirm('確定清空整個購物籃?')) return;
+  STATE.cart = [];
+  saveState();
+  updateCartCount();
+  renderCart();
+}
+
+// --- AGGREGATION LOGIC ---
+
+function aggregateCart() {
+  const plants = STATE.cart.map(id => PLANTS.find(p => p.id === id)).filter(Boolean);
+  if (plants.length === 0) return null;
+
+  // Group items by source
+  const bySource = {};  // source -> [items]
+  let totalMin = 0, totalMax = 0;
+
+  // Propagation materials (each plant has own)
+  plants.forEach(p => {
+    const sl = p.meta && p.meta.shoppingList;
+    if (!sl || !sl.propagation) return;
+    const src = sl.propagation.source || '其他';
+    if (!bySource[src]) bySource[src] = [];
+    bySource[src].push({
+      plantName: p.name,
+      plantEmoji: p.emoji,
+      category: 'propagation',
+      text: `${sl.propagation.name} — ${sl.propagation.qty}` + (sl.propagation.freeFromKitchen ? ` ✨ ${sl.propagation.freeFromKitchen}` : ''),
+      priceMin: sl.propagation.priceMin || 0,
+      priceMax: sl.propagation.priceMax || 0,
+    });
+    totalMin += sl.propagation.priceMin || 0;
+    totalMax += sl.propagation.priceMax || 0;
+  });
+
+  // Containers — aggregate: group by similar spec, count
+  const containersList = [];
+  let containersMin = 0, containersMax = 0;
+  plants.forEach(p => {
+    const sl = p.meta && p.meta.shoppingList;
+    if (!sl || !Array.isArray(sl.containers)) return;
+    sl.containers.forEach(c => {
+      containersList.push({
+        plantName: p.name,
+        plantEmoji: p.emoji,
+        spec: c.spec,
+        qty: c.qty || 1,
+        priceMin: c.priceMin || 0,
+        priceMax: c.priceMax || 0,
+      });
+      containersMin += c.priceMin || 0;
+      containersMax += c.priceMax || 0;
+    });
+  });
+  if (containersList.length > 0) {
+    if (!bySource['花市']) bySource['花市'] = [];
+    containersList.forEach(c => {
+      bySource['花市'].push({
+        plantName: c.plantName,
+        plantEmoji: c.plantEmoji,
+        category: 'container',
+        text: `${c.spec}(${c.qty} 個)`,
+        priceMin: c.priceMin,
+        priceMax: c.priceMax,
+      });
+    });
+    totalMin += containersMin;
+    totalMax += containersMax;
+  }
+
+  // Soil — aggregate total volume
+  let totalSoilL = 0, soilMin = 0, soilMax = 0;
+  const soilDetails = [];
+  plants.forEach(p => {
+    const sl = p.meta && p.meta.shoppingList;
+    if (!sl || !sl.soil) return;
+    totalSoilL += sl.soil.volumeL || 0;
+    soilMin += sl.soil.priceMin || 0;
+    soilMax += sl.soil.priceMax || 0;
+    soilDetails.push({ name: p.name, emoji: p.emoji, volume: sl.soil.volumeL, type: sl.soil.type });
+  });
+  if (totalSoilL > 0) {
+    if (!bySource['花市']) bySource['花市'] = [];
+    // Round up to convenient 5L/10L bag sizes
+    const bagSize = totalSoilL <= 5 ? 5 : totalSoilL <= 10 ? 10 : 20;
+    bySource['花市'].push({
+      category: 'soil',
+      text: `一般培養土 約 ${totalSoilL}L(建議買 ${bagSize}L 包更划算)`,
+      subtext: '多盆可共用,買 1 包分到各盆',
+      priceMin: soilMin, priceMax: soilMax,
+      details: soilDetails,
+    });
+    totalMin += soilMin;
+    totalMax += soilMax;
+  }
+
+  // Fertilizer — shared across all plants = buy 1 bag
+  const fertilizerProducts = new Set();
+  let fertMin = 0, fertMax = 0;
+  plants.forEach(p => {
+    const sl = p.meta && p.meta.shoppingList;
+    if (!sl || !sl.fertilizer) return;
+    fertilizerProducts.add(sl.fertilizer.product);
+  });
+  if (fertilizerProducts.size > 0) {
+    if (!bySource['全聯'] && !bySource['花市']) bySource['全聯'] = [];
+    const target = bySource['全聯'] || bySource['花市'];
+    // Fertilizer usually ~NT$100-300/bag depending on type
+    const estMin = 100; const estMax = 300;
+    target.push({
+      category: 'fertilizer',
+      text: `${Array.from(fertilizerProducts).join(' + ')}(全家共用 1-2 包)`,
+      priceMin: estMin, priceMax: estMax,
+    });
+    totalMin += estMin;
+    totalMax += estMax;
+  }
+
+  // Tools — dedup
+  const allTools = new Set();
+  plants.forEach(p => {
+    const sl = p.meta && p.meta.shoppingList;
+    if (!sl || !Array.isArray(sl.tools)) return;
+    sl.tools.forEach(t => allTools.add(t));
+  });
+
+  return { plants, bySource, totalMin, totalMax, tools: Array.from(allTools), totalSoilL };
+}
+
+function sourceEmoji(src) {
+  const map = { '蝦皮': '📦', '花市': '🌷', '家裡': '🏠', '全聯': '🏪', '市場': '🥬', '農會': '🌾', '其他': '📍' };
+  return map[src] || '📍';
+}
+
+function renderCart() {
+  const wrap = document.getElementById('cart-content');
+  if (!wrap) return;
+  const data = aggregateCart();
+
+  if (!data) {
+    wrap.innerHTML = `
+      <div class="cart-empty">
+        <p style="font-size:48px;margin-bottom:8px;">🛒</p>
+        <p><strong>購物籃是空的</strong></p>
+        <p>在 plant 詳情頁點「🛒 加入購物籃」,<br>
+        這裡會自動合併成一張採購清單。</p>
+      </div>
+    `;
+    return;
+  }
+
+  let html = '';
+
+  // Plants in cart
+  html += '<div class="cart-section">';
+  html += '<h3>📋 想種的植物(' + data.plants.length + '種)</h3>';
+  data.plants.forEach(p => {
+    html += `<div class="cart-plant-row">
+      <span class="plant-info"><span class="emoji">${p.emoji}</span><span>${p.name}</span></span>
+      <button class="remove-btn" onclick="removeFromCart('${p.id}')">移除</button>
+    </div>`;
+  });
+  html += '</div>';
+
+  // Source groups
+  const sourceOrder = ['家裡', '蝦皮', '花市', '全聯', '市場', '農會', '其他'];
+  html += '<div class="cart-section">';
+  html += '<h3>🗺️ 採購路線(依來源分組)</h3>';
+  sourceOrder.forEach(src => {
+    const items = data.bySource[src];
+    if (!items || items.length === 0) return;
+    html += `<div class="cart-source-group">`;
+    html += `<h4>${sourceEmoji(src)} ${src}</h4>`;
+    html += '<ul>';
+    items.forEach(item => {
+      let priceStr = '';
+      if (item.priceMin || item.priceMax) {
+        priceStr = ` <span style="color:var(--muted);">(NT$${item.priceMin}–${item.priceMax})</span>`;
+      }
+      let plantLabel = '';
+      if (item.plantEmoji) plantLabel = `<strong>${item.plantEmoji}${item.plantName}</strong>:`;
+      html += `<li>${plantLabel}${item.text}${priceStr}`;
+      if (item.subtext) html += ` <br><em style="color:var(--muted);font-size:13px;">${item.subtext}</em>`;
+      html += '</li>';
+    });
+    html += '</ul></div>';
+  });
+  html += '</div>';
+
+  // Tools
+  if (data.tools.length > 0) {
+    html += '<div class="cart-section">';
+    html += '<h3>🔧 可選工具(家裡可能有)</h3>';
+    html += '<ul style="padding-left:22px;">';
+    data.tools.forEach(t => {
+      html += `<li>${t}</li>`;
+    });
+    html += '</ul></div>';
+  }
+
+  // Budget
+  html += `<div class="cart-budget">
+    🎯 總預算:<strong>NT$${data.totalMin} – ${data.totalMax}</strong>
+    <div style="font-size:13px;color:var(--muted);margin-top:4px;">實際價格看各店/季節,培養土、肥料可多盆共用</div>
+  </div>`;
+
+  // Export / actions
+  html += `<div class="cart-export-btns">
+    <button class="btn" onclick="exportCartText()">📋 複製純文字清單</button>
+    <button class="btn secondary" onclick="clearCart()">🗑 清空購物籃</button>
+  </div>`;
+
+  wrap.innerHTML = html;
+}
+
+function exportCartText() {
+  const data = aggregateCart();
+  if (!data) { alert('購物籃是空的'); return; }
+  let text = '🛒 家庭園藝購物清單\n';
+  text += '═══════════════════\n\n';
+  text += `想種:${data.plants.map(p => p.emoji + p.name).join(' · ')}\n\n`;
+
+  const sourceOrder = ['家裡', '蝦皮', '花市', '全聯', '市場', '農會', '其他'];
+  sourceOrder.forEach(src => {
+    const items = data.bySource[src];
+    if (!items || items.length === 0) return;
+    text += `【${sourceEmoji(src)} ${src}】\n`;
+    items.forEach(item => {
+      const price = (item.priceMin || item.priceMax) ? ` (NT$${item.priceMin}–${item.priceMax})` : '';
+      const plantLabel = item.plantName ? `[${item.plantName}] ` : '';
+      text += `  • ${plantLabel}${item.text}${price}\n`;
+    });
+    text += '\n';
+  });
+
+  if (data.tools.length > 0) {
+    text += '【🔧 可選工具】\n';
+    data.tools.forEach(t => text += `  • ${t}\n`);
+    text += '\n';
+  }
+
+  text += '═══════════════════\n';
+  text += `🎯 總預算:NT$${data.totalMin} – ${data.totalMax}\n`;
+  text += '(培養土、肥料可多盆共用,實際會更省)\n';
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(() => {
+      alert('已複製到剪貼簿。可以貼到 LINE 給自己/家人,或記事本列印。');
+    }).catch(() => {
+      fallbackCopy(text);
+    });
+  } else {
+    fallbackCopy(text);
+  }
+}
+
+function fallbackCopy(text) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.top = '-9999px';
+  document.body.appendChild(ta);
+  ta.select();
+  try {
+    document.execCommand('copy');
+    alert('已複製到剪貼簿');
+  } catch (e) {
+    alert('複製失敗,請手動選取:\n\n' + text);
+  }
+  document.body.removeChild(ta);
 }
 
 // =========================================================
