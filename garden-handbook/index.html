@@ -12568,6 +12568,337 @@ const PLANTS = [
       },
     ],
   },
+
+  // =========== 鐵線蕨(觀葉/寵物安全) ===========
+  {
+    id: 'maidenhair-fern',
+    name: '鐵線蕨',
+    emoji: '🌿',
+    category: 'foliage',
+    suitableFor: ['small_space', 'indoor', 'kid_friendly'],
+    warnings: [],
+    meta: {
+      difficulty: '中(怕乾、怕強光,但不會死只是葉萎)',
+      season: '四季皆可(春秋換盆/分株最穩)',
+      light: '明亮散光 / 半陰(絕對不能全日照)',
+      location: '室內 — 客廳窗邊、餐桌旁、浴室',
+      seasons: ['spring', 'summer', 'autumn', 'winter'],
+      bestStartMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    },
+    sections: [
+      {
+        id: 'why', emoji: '💡', heading: '為什麼鐵線蕨是家有寵物的首選觀葉植物',
+        html: `
+<ul>
+<li><strong>對貓狗完全無毒</strong> — ASPCA 確認安全。家裡三盆觀葉(虎尾蘭/黃金葛/多肉)全部對貓有毒,鐵線蕨是目前 handbook 第一棵「放哪都不怕貓」的選項。</li>
+<li><strong>黑色細莖(鐵線)+ 小扇形葉</strong> — 外型極雅致,跟一般粗壯葉菜完全不同氣質;客廳、餐桌、浴室各有它的位置</li>
+<li><strong>台灣老家客廳傳統植物</strong> — 長輩看到會認得:「這是小時候家裡那種」;熟悉感對失智長輩是真實的情感觸發點</li>
+<li><strong>高濕度環境的剋星</strong> — 浴室、廚房這類植物都怕的地方,鐵線蕨反而愛;可以解決家裡沒有「適合放在浴室的植物」的問題</li>
+<li><strong>噴霧互動</strong> — 每隔幾天噴水霧是它最重要的照顧動作,單一步驟,不需要任何工具或判斷,適合失智長輩主導</li>
+<li><strong>養得好可以活多年越來越茂盛</strong> — 不是一次性消耗植物,長期陪伴家庭</li>
+</ul>`,
+      },
+      {
+        id: 'obtain', emoji: '🛒', heading: '取得方式',
+        html: `
+<div class="callout warn" style="margin-bottom:10px;">
+<h4>🗓️ Step 0 · 四季皆可,但要避開這些陷阱</h4>
+<p style="margin:0 0 6px;">鐵線蕨全年都可以買回家,但<strong>買到後的定位直接決定存活率</strong>。先看這張表再決定放哪:</p>
+<table style="margin-top:8px;">
+<thead><tr><th></th><th>月份</th><th>節氣</th><th>狀態</th></tr></thead>
+<tbody>
+<tr style="background:#f0f8ec;"><td>✅ 最佳買入</td><td><strong>3 – 5 月 / 9 – 10 月</strong></td><td><strong>驚蟄(3/5)→ 立夏(5/5) / 白露(9/8)→ 霜降(10/23)</strong></td><td>春秋氣溫穩,適應期短,買回來最好適應</td></tr>
+<tr><td>🟡 勉強</td><td>6 – 8 月</td><td>小滿(5/21)→ 立秋(8/7)</td><td>夏季高溫高濕其實鐵線蕨喜歡,但台灣室內冷氣太強,買回來注意遠離出風口</td></tr>
+<tr style="background:#fdf5e6;"><td>⚠️ 冬季注意</td><td><strong>11 – 2 月</strong></td><td><strong>立冬(11/7)→ 雨水(2/19)</strong></td><td>冷氣直吹或暖氣乾燥都會讓葉脆黃;放離出風口最遠的窗邊,旁邊放一杯水加濕</td></tr>
+</tbody>
+</table>
+<p style="margin:8px 0 0;font-size:14px;">⚠️ <strong>無論何時買:絕對不要放陽台直曬</strong> — 全日照會在一天內把葉子烤焦,沒有緩衝。這是鐵線蕨唯一的「秒死陷阱」。</p>
+</div>
+
+<div class="callout" style="background:#e8f5e9;border-left-color:var(--primary-dark);">
+<h4>📦 推薦的新手包 · 三步照順序來</h4>
+<ol style="margin:6px 0 4px;padding-left:22px;">
+<li><strong>先決定定位(這步最重要,比買植物先做)</strong> — 找一個<strong>室內有散光的位置</strong>:客廳離窗 1–2 公尺、浴室有窗或燈、餐桌旁不被冷氣直吹的角落。定位好了才去買。</li>
+<li><strong>買一盆健康盆苗</strong> — 花市 NT$150–300(跟攤主說要「鐵線蕨」或「Adiantum」);蝦皮搜「鐵線蕨 盆苗」也有宅配。挑葉子翠綠、莖黑亮、沒有大量枯黃葉的株。</li>
+<li><strong>到手當天立刻定位,不要再移</strong> — 鐵線蕨對環境改變很敏感,搬來搬去會掉葉;買回來就放在你選好的位置,澆一次水,旁邊放噴霧瓶</li>
+</ol>
+<p style="margin:8px 0 0;font-size:14px;color:var(--muted);">⚠️ <strong>順序不能顛倒</strong>:先定好位再買,不然買回來找不到合適地方、擺來擺去,比日照不足更傷。總預算 <strong>NT$300 有找</strong>,最大成本是找到一個「不會曬到直射光」的室內角落。</p>
+</div>
+
+<h4 style="color:var(--primary);margin:14px 0 6px;">其他取得管道</h4>
+<table>
+<thead><tr><th>管道</th><th>費用</th><th>優缺點</th></tr></thead>
+<tbody>
+<tr><td><strong>花市現挑</strong></td><td>NT$150–300</td><td>可直接看株狀態,挑葉量多的;台北建國、高雄自由都有</td></tr>
+<tr><td><strong>蝦皮「鐵線蕨 盆苗」</strong></td><td>NT$100–250</td><td>品種多(扇葉/細葉/大葉);運送輕損常見但賣家通常補寄</td></tr>
+<tr><td><strong>朋友家分株</strong></td><td>免費</td><td>最穩 — 種開後可以分盆,跟有種的朋友要一叢最保險</td></tr>
+<tr><td><strong>IKEA / 大賣場</strong></td><td>NT$199–299</td><td>偶爾有,品種通常只有一兩種;現場確認葉子狀態再買</td></tr>
+</tbody>
+</table>`,
+      },
+      {
+        id: 'pot-soil', emoji: '🏺', heading: '盆器與土壤',
+        html: `
+<h4 style="color:var(--primary);">盆器</h4>
+<ul>
+<li><strong>4–6 吋陶盆或瓷盆</strong> — 鐵線蕨根系不深,不需要深盆;陶盆透氣性好,但要注意陶盆本身吸水,夏天蒸散快,要更勤噴霧</li>
+<li>盆底<strong>必須有排水孔</strong> — 積水會爛根</li>
+<li>如果放浴室:可以考慮帶托盤的款式,方便底部吸水法(把水倒托盤讓土從底部吸上來,適合怕澆水過多的人)</li>
+<li>塑膠盆保水性更好,對鐵線蕨也適合 — 不會像陶盆一樣失水太快</li>
+</ul>
+
+<h4 style="color:var(--primary);margin-top:12px;">土壤</h4>
+<ul>
+<li><strong>富含有機質、保水但排水的土</strong> — 泥炭土:珍珠石 = 7:3 是台灣常用比例</li>
+<li>一般培養土也可以,但<strong>純黑土太黏積水容易爛根</strong>;混入 20–30% 珍珠石</li>
+<li>換盆時可以加一些蚯蚓糞或緩釋有機肥打底</li>
+<li>不要用仙人掌土 — 排水太快,鐵線蕨需要保持微濕</li>
+</ul>
+
+<div class="callout warn" style="margin-top:10px;">
+<h4>💧 鐵線蕨最怕「乾透」</h4>
+<p style="margin:0;">虎尾蘭是「寧可乾」,但鐵線蕨剛好相反 — 土壤不能完全乾透。要<strong>保持微濕而不積水</strong>。保水性好的土壤(泥炭土為主)在這裡是優點,不是缺點。</p>
+</div>
+
+<p style="font-size:14px;color:var(--muted);margin-top:10px;"><em>施肥細節獨立成下面的「🌾 施肥」section。</em></p>`,
+      },
+      {
+        id: 'steps', emoji: '🌳', heading: '種植步驟',
+        html: `
+<ol>
+<li><strong>先定位</strong> — 確認放置地點:室內明亮散光(窗邊 1–2 公尺)、不被冷氣或電風扇直吹</li>
+<li><strong>準備盆與土</strong> — 泥炭土混 20–30% 珍珠石,填盆 8 分滿,先澆一次讓土濕透服貼</li>
+<li><strong>移植盆苗</strong> — 從原盆取出時盡量保留根球(不要把根球整個抖散);放進新盆,根系周圍補土,輕壓讓土服貼</li>
+<li><strong>澆定根水</strong> — 澆到盆底滴水;第一週保持土壤微濕,讓根適應新土</li>
+<li><strong>放定位不要再移</strong> — 鐵線蕨適應期 2–3 週,這段期間可能掉幾片舊葉,屬正常;之後會長出新葉</li>
+</ol>
+
+<div class="callout" style="margin-top:10px;">
+<h4>💡 分株苗的適應期</h4>
+<p style="margin:0;">如果是從朋友那裡帶回來的分株苗,適應期通常 2–3 週。這段時間葉片可能萎蔫下垂 — <strong>先噴霧不要猛澆</strong>:連土澆水可能反而積水;噴葉面讓葉片先恢復,再正常澆水。</p>
+</div>`,
+      },
+      {
+        id: 'timing', emoji: '📋', heading: '照顧節奏表 · 鐵線蕨全年維護',
+        html: `
+<p><strong>鐵線蕨沒有採收週期,照顧重點是「維持濕度、避開直曬、定期小動作」。</strong>下面這張表把全年該做的事說完。</p>
+
+<div class="callout warn">
+<h4>⚠️ 開始養之前先確認三件事</h4>
+<table style="margin-top:8px;">
+<thead><tr><th></th><th>檢查點</th><th>狀態</th></tr></thead>
+<tbody>
+<tr style="background:#f0f8ec;"><td>✅ 放對位置</td><td><strong>室內明亮散光</strong> — 窗邊 1–2 公尺,或浴室有光的角落</td><td>這個對了,其他都好辦</td></tr>
+<tr><td>🟡 濕度管理</td><td><strong>空氣濕度 50% 以上</strong> — 浴室天然達標;客廳放噴霧瓶補</td><td>葉緣焦 = 濕度不夠</td></tr>
+<tr style="background:#fdecec;"><td>❌ 絕對不要</td><td><strong>放陽台直曬 / 冷氣出風口正下方</strong></td><td>葉子一天內焦掉或脆黃</td></tr>
+</tbody>
+</table>
+</div>
+
+<table>
+<thead><tr><th>頻率</th><th>動作</th><th>夏季(4–10 月)</th><th>冬季(11–3 月)</th><th>備注</th></tr></thead>
+<tbody>
+<tr><td><strong>每 2–3 天</strong></td><td>噴霧</td><td>每 2 天</td><td>每 3 天(暖氣開時增加頻率)</td><td>噴葉面 + 土表;不要噴到葉心積水</td></tr>
+<tr><td><strong>每 5–7 天</strong></td><td>澆水</td><td>土表微乾即澆</td><td>每 7–10 天</td><td>保持微濕不積水;底部吸水法也可</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>每 4–6 週 🌾</strong></td><td><strong>施肥(稀薄液肥)</strong></td><td>每月一次(春夏旺季)</td><td>❌ 停肥</td><td>好康多用量見下方施肥 section</td></tr>
+<tr><td><strong>每月</strong></td><td>摘除枯葉</td><td>整年</td><td>整年</td><td>枯黃葉從基部剪掉,讓新葉長出來</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>每 1–2 年 🏺</strong></td><td><strong>換盆</strong></td><td>春天(3–5 月)最佳</td><td>避免冬天換盆</td><td>根從底部排水孔長出來時換大一號</td></tr>
+<tr><td><strong>春秋</strong></td><td>分株繁殖</td><td>4–5 月</td><td>9–10 月</td><td>根叢長大可以分盆;見「繁殖」section</td></tr>
+<tr style="background:#fdf5e6;"><td><strong>冬季 ❄️ 11–3 月</strong></td><td>減少干預</td><td>–</td><td>停肥;噴霧維持;暖氣房加濕</td><td>生長慢是正常,不是生病</td></tr>
+</tbody>
+</table>
+
+<div class="callout" style="margin-top:12px;">
+<h4>📱 種下當天就要做的 2 件事</h4>
+<ol style="margin:4px 0 0;padding-left:22px;">
+<li>在盆旁邊放一瓶<strong>噴霧瓶裝水</strong> — 物理提醒:看到就噴,不需要記在腦袋裡</li>
+<li>Google 行事曆設 1 個提醒:<strong>今日 + 30 天</strong>,內容「鐵線蕨換大盆了嗎?撒好康多(3–5 粒)」</li>
+</ol>
+<p style="margin:6px 0 0;font-size:14px;"><strong>噴霧瓶放在看得到的地方是關鍵 — 不依賴記憶,依賴空間提醒。</strong></p>
+</div>
+
+<p style="font-size:13px;color:var(--muted);margin-top:10px;"><em>完整 24 節氣對照看 <a href="#" onclick="event.preventDefault();navigateTo('page-knowledge');return false;" style="color:var(--primary);">📚 通用園藝知識 → 📅 24 節氣</a>。</em></p>`,
+      },
+      {
+        id: 'fertilizer', emoji: '🌾', heading: '施肥',
+        html: `
+<p><strong>鐵線蕨不是重肥植物,少量多次比一次大量好</strong> — 過肥反而燒根,導致葉緣焦黃。固體緩釋肥或稀薄液肥都可以。</p>
+<p style="font-size:14px;color:var(--muted);margin-top:4px;"><em>施肥時機(春夏施 / 冬天停)已統整在上面「📋 照顧節奏表」,這個 section 專講 <strong>用多少・用哪款・怎麼施</strong>。</em></p>
+
+<div class="callout">
+<h4>📐 好康多 1 號 · 不同盆大小速查</h4>
+<table style="margin-top:6px;">
+<thead><tr><th>盆</th><th>顆數</th><th>備注</th></tr></thead>
+<tbody>
+<tr><td>3 吋圓盆(Ø9cm)</td><td><strong>2–3 粒</strong></td><td>鐵線蕨比葉菜需肥量少,取偏低值</td></tr>
+<tr><td>4 吋圓盆(Ø12cm)</td><td><strong>3–4 粒</strong></td><td></td></tr>
+<tr><td>5 吋圓盆(Ø15cm)</td><td><strong>4–5 粒</strong></td><td></td></tr>
+<tr><td>6 吋圓盆(Ø18cm)</td><td><strong>5–6 粒</strong></td><td></td></tr>
+</tbody>
+</table>
+<p style="margin:8px 0 0;font-size:14px;"><strong>原則</strong>:寧可少不可多。觀葉植物的肥料用量是葉菜的一半,超量比不足更危險。</p>
+</div>
+
+<h4 style="color:var(--primary);margin-top:14px;">🛒 買哪一款 / 施肥時機</h4>
+<ul>
+<li><strong>好康多 1 號</strong>(NPK 14-11-13)— 萬用款,觀葉適用</li>
+<li>每 3 個月撒一次(春夏各一次,秋天視生長狀況);11 月後停肥</li>
+<li>撒在盆土邊緣,不要碰觸莖基部;撒完澆一次水讓肥料開始釋放</li>
+<li>350g 小包 NT$100 左右,一包夠用幾年</li>
+</ul>
+
+<div class="callout warn">
+<h4>📱 記憶外包 — 種下當天就把施肥安排好</h4>
+<p style="margin:0 0 6px;">不要靠「感覺植物需要肥了」來判斷。種下當天打開 Google 行事曆:</p>
+<ul style="margin:0;padding-left:20px;">
+<li>種下日 + 30 天 → 「鐵線蕨第一次施肥(好康多 3–5 粒)」</li>
+<li>種下日 + 120 天 → 「再撒一次(如果是冬天就跳到明年春天)」</li>
+</ul>
+<p style="margin:8px 0 0;font-size:14px;"><strong>決定外包到行事曆,不依賴記憶</strong> — 這是照護者 handbook 的核心哲學。</p>
+</div>
+
+<details style="margin-top:14px;border:1px solid var(--border);border-radius:8px;padding:10px 14px;">
+<summary style="cursor:pointer;color:var(--primary-dark);font-weight:bold;">⚠️ 出事才看:施肥出狀況一眼判斷</summary>
+<div style="padding:10px 0 0;">
+<table>
+<thead><tr><th>看到什麼</th><th>是什麼</th><th>立刻做</th></tr></thead>
+<tbody>
+<tr><td>土表<strong>白色結晶</strong></td><td>過肥 / 鹽積</td><td>停肥,大量清水沖盆 3 次</td></tr>
+<tr><td>葉緣<strong>焦黃</strong>(整批新葉)</td><td>過肥或濕度不足</td><td>停肥先;噴霧補濕;兩週後看有沒有改善</td></tr>
+<tr><td>葉色<strong>整體淡綠</strong>、長得慢</td><td>缺肥(但春夏正常)</td><td>春夏補一次薄肥;冬天不動</td></tr>
+</tbody>
+</table>
+</div>
+</details>
+
+<details style="margin-top:10px;border:1px solid var(--border);border-radius:8px;padding:10px 14px;">
+<summary style="cursor:pointer;color:var(--muted);font-size:14px;">🧪 進階:液肥路線(比固體肥更適合鐵線蕨的選擇)</summary>
+<div style="padding:10px 0 0;font-size:14px;">
+<p>鐵線蕨根系細、敏感,稀薄液肥其實比固體緩釋肥更溫和。如果你願意多一個步驟:</p>
+<ul>
+<li><strong>花寶 2 號</strong>或觀葉液肥,稀釋比<strong>照包裝再減半</strong>(防燒根)</li>
+<li>春夏每 3–4 週澆一次,冬天停</li>
+<li>澆水的時候順便加入液肥,不用額外跑一趟</li>
+</ul>
+<p style="margin-top:6px;"><strong>固體緩釋肥簡單不出錯;液肥更溫和但需要稀釋習慣</strong>。新手建議固體肥起步,穩定後再嘗試液肥。</p>
+</div>
+</details>
+
+<p style="font-size:13px;color:var(--muted);margin-top:14px;">通用施肥原則(缺肥 vs 過肥對照、NPK 速查、寧可少不要多)看 <a href="#" onclick="event.preventDefault();navigateTo('page-knowledge');return false;" style="color:var(--primary);font-weight:bold;">📚 通用園藝知識 → 🌾 施肥</a>。</p>`,
+      },
+      {
+        id: 'propagation', emoji: '🌱', heading: '繁殖與分株',
+        html: `
+<p>鐵線蕨最常見的繁殖方式是<strong>分株</strong> — 根叢長大後從中間分開,種兩盆。孢子繁殖可行但複雜,新手直接分株就好。</p>
+
+<h4 style="color:var(--primary);">分株步驟(推薦 ✅)</h4>
+<ol>
+<li><strong>時機</strong> — 春天(3–5 月)或秋天(9–10 月)換盆時順便分株;植株直徑超過 20cm 或根明顯長滿盆時</li>
+<li><strong>脫盆</strong> — 前一天多澆水讓土鬆軟,隔天輕輕脫盆,完整保留根球</li>
+<li><strong>分株</strong> — 用手或乾淨剪刀把根叢分成 2–3 份,每份保留足夠根系和葉叢;不要硬扯,讓根自然分離</li>
+<li><strong>分別種進新盆</strong> — 保濕土壤填盆;澆定根水;放散光處 2–3 週適應</li>
+<li><strong>適應期可能掉葉</strong> — 正常現象,之後會長新葉;這段時間加強噴霧</li>
+</ol>
+
+<div class="callout warn" style="margin-top:10px;">
+<h4>⏰ 避開的時機</h4>
+<p style="margin:0;">冬天(11–2 月)不建議分株,根系在休眠期,受傷後恢復慢。夏季(7–8 月)大熱天也要小心,分株後脫水快,要特別勤噴霧。</p>
+</div>
+
+<h4 style="color:var(--primary);margin-top:14px;">孢子繁殖(進階、慢)</h4>
+<ul>
+<li>葉背成熟時會有孢子囊群(褐色圓點),颳下來撒在濕潤泥炭土上</li>
+<li>覆蓋保鮮膜保濕,放散光處</li>
+<li>發芽需要 2–3 個月,整個過程 6 個月以上才能得到可移植的小苗</li>
+<li>適合想深入玩蕨類的人;多數人直接買苗或分株就夠了</li>
+</ul>
+
+<div class="callout" style="margin-top:10px;">
+<h4>🎁 分株苗是很好的送人植物</h4>
+<p style="margin:0;">鐵線蕨分株後很容易多出幾盆 — 對貓狗有寵物的朋友來說這是完美的伴手禮。附上一張小便條:「散光室內,每 2–3 天噴霧,對貓安全」就夠了。</p>
+</div>`,
+      },
+      {
+        id: 'troubleshoot', emoji: '🛡', heading: '失敗點與除錯',
+        html: `
+<table>
+<thead><tr><th>症狀</th><th>可能原因</th><th>對策</th></tr></thead>
+<tbody>
+<tr><td><strong>葉緣焦黃</strong>(一整圈邊緣乾枯)</td><td>空氣濕度不足(最常見)/ 冷氣直吹</td><td>增加噴霧頻率(每天);移離冷氣出風口;放一杯水在旁邊加濕</td></tr>
+<tr><td><strong>葉子一天內整批焦掉</strong></td><td>放到直射光 / 陽台曬到</td><td>立刻移回室內散光處;剪掉焦葉等長新葉;下次<strong>不要再放陽台</strong></td></tr>
+<tr><td><strong>整株葉片捲縮、下垂</strong></td><td>缺水(土乾透了)</td><td>立刻澆透;噴霧葉面;恢復需要 1–3 天;土不能再讓它乾透</td></tr>
+<tr><td><strong>莖變軟、根部發黑</strong></td><td>積水爛根</td><td>脫盆檢查根系;剪掉黑根;換土;澆水改為底部吸水法</td></tr>
+<tr><td><strong>新葉長出來就枯黃</strong></td><td>光線不足 / 施肥過量</td><td>移到更亮的散光處;停肥 2 個月觀察</td></tr>
+<tr><td><strong>葉片上有白色棉絮狀</strong></td><td>介殼蟲</td><td>棉花棒沾酒精點蟲體;隔離其他植物;嚴重的話稀釋肥皂水噴葉面</td></tr>
+<tr><td><strong>分株後大量落葉</strong></td><td>正常適應期反應</td><td>加強噴霧保濕,不要猛澆;2–3 週後應開始長新葉</td></tr>
+<tr><td><strong>葉子細碎脆斷</strong></td><td>葉片觸碰受損(正常)</td><td>鐵線蕨的小葉脆弱,手觸碰會斷 — 這不影響整株健康,是正常特性;擺在貓不常打翻的地方</td></tr>
+</tbody>
+</table>`,
+      },
+      {
+        id: 'dementia', emoji: '🧠', heading: '失智照護應用 Notes',
+        byLevel: {
+          mild: `
+<div class="callout">
+<h4>📍 輕度:「我認得這個」的情感觸發</h4>
+<p style="margin:0;">她還能理解植物是什麼,還有自主參與的能力。鐵線蕨的關鍵不是它的照顧動作,而是<strong>它的熟悉感</strong>。</p>
+</div>
+<ul>
+<li><strong>讓她說出記憶</strong> — 「媽媽,這個你認識嗎?」她可能說「我們小時候家裡也有這個」;這個記憶觸發比任何問答遊戲都真實</li>
+<li><strong>噴霧是她的任務</strong> — 拿一瓶噴霧放在植物旁邊,跟她說「這個要每天噴水,你幫我噴好嗎?」;單步驟、有工具提醒、不需要記憶</li>
+<li>帶她觀察黑色細莖 — 「你看這個莖像不像鐵絲?所以叫鐵線蕨」;具象的名字對輕度長輩有認知刺激效果</li>
+<li>讓她摸葉子的質感 — 小扇形葉片薄脆、細葉密集;觸覺刺激清楚、溫和</li>
+</ul>
+<p>這個階段的價值:<strong>「這是我認得的植物」的感受,維持她對家的記憶連結</strong>。</p>`,
+          moderate: `
+<div class="callout">
+<h4>📍 中度:噴霧是最理想的單步驟 ritual</h4>
+<p style="margin:0;">她難以主導多步驟任務,但噴霧是她<strong>可以從頭到尾自己完成的一件事</strong>。</p>
+</div>
+<ul>
+<li><strong>噴霧瓶放在植物正旁邊</strong> — 不要放在別的地方讓她去找;工具跟任務在同一個位置,減少「找不到」的挫折</li>
+<li>你只需要觸發:「媽媽,幫鐵線蕨噴水了嗎?」 — 她能做,因為工具在眼前</li>
+<li><strong>不要讓她看到你先噴</strong> — 她會覺得「噴過了就不動」;讓她的動作有意義</li>
+<li>噴完讓她摸葉面的濕潤感 — 感官回饋告訴她「我做完了」;這個閉環對中度失智很重要</li>
+<li>貓咬或拍打植物時不需要緊張:對貓安全,只是葉片斷幾片,不影響她和植物的互動</li>
+</ul>
+<p>這個階段的價值:<strong>她能主導一件完整的事 — 從拿起噴瓶到放下,每天一次的小成就</strong>。</p>`,
+          severe: `
+<div class="callout">
+<h4>📍 重度:細葉和輕觸是感官陪伴</h4>
+<p style="margin:0;">她的自主動作有限。鐵線蕨在這個階段的意義是<strong>感官質地</strong> — 細小的葉、輕脆的觸感、淡淡的植物氣息。</p>
+</div>
+<ul>
+<li>把她的手引到葉面 — 輕輕讓她的指尖觸摸小扇形葉;葉片薄、有輕微涼意,和虎尾蘭的硬挺完全不同</li>
+<li>帶她坐在植物旁邊,你噴霧給她看 — 霧氣飄散的視覺和輕微水霧的觸感,是很溫和的感官刺激</li>
+<li><strong>「輕輕的」是一個 ritual</strong> — 告訴她「這個葉子很脆,要輕輕的」;慢動作的指令有時候能讓躁動的長輩慢下來</li>
+<li>如果家裡的貓坐在植物旁邊 — 貓、植物、長輩的三個生命同框,不需要任何語言</li>
+<li>每天固定時間段帶她到這個角落,不需要她做任何事 — 節奏感本身是陪伴</li>
+</ul>
+<p>這個階段的價值:<strong>細葉輕觸的感官質地,是語言消失之後仍然存在的溝通方式</strong>。</p>`,
+        },
+      },
+      {
+        id: 'log', emoji: '📓', heading: '實測紀錄',
+        html: `
+<div class="callout warn">
+<p style="margin:0;"><strong>尚未實測(2026-04-23)</strong> — 鐵線蕨是規劃中的 entry。Tom 家目前觀葉三盆(虎尾蘭/黃金葛/多肉)都對貓有毒,添購鐵線蕨是下一步。以下是預計實測計畫。</p>
+</div>
+
+<h4 style="color:var(--primary);margin-top:12px;">計畫</h4>
+<ul>
+<li>從建國花市買一盆鐵線蕨盆苗(4–5 吋),放客廳貓常出沒的窗邊</li>
+<li>觀察:噴霧 ritual 有沒有被失智長輩自然接受</li>
+<li>觀察:家裡的貓咬或碰觸植物的反應(確認無毒的實際狀況)</li>
+<li>第一次施肥:種下 30 天後好康多 3–4 粒</li>
+<li>冬天 11 月起停肥,觀察越冬狀態;是否需要加濕器</li>
+<li>隔年春天嘗試分株,觀察適應期的葉片反應</li>
+</ul>
+
+<p style="color:var(--muted);font-size:14px;margin-top:10px;"><em>實測開始後,日期、觀察、照護 ritual 效果會補進這裡。如果你有鐵線蕨的種植經驗(特別是失智照護環境),歡迎分享。</em></p>`,
+      },
+    ],
+  },
 ];
 
 // =========================================================
