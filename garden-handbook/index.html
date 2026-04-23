@@ -856,35 +856,44 @@ const PLANTS = [
 </ol>`,
       },
       {
-        id: 'timing', emoji: '⏳', heading: '等待時間',
+        id: 'timing', emoji: '📋', heading: '完整時程表 · 扦插到採收',
         html: `
+<p><strong>扦插 → 發根 → 施肥 → 採收 → 越冬</strong>,一張表涵蓋整年。<strong>照做就對,不用觀察植物狀態</strong>。</p>
+
 <table>
-<thead><tr><th>階段</th><th>時間</th></tr></thead>
+<thead><tr><th>天數</th><th>階段</th><th>植物狀態</th><th>你的動作</th></tr></thead>
 <tbody>
-<tr><td>插下去 → 冒第一片新葉</td><td>1–2 週</td></tr>
-<tr><td>冒新葉 → 首次可採收</td><td>4–6 週</td></tr>
-<tr><td>持續採收期</td><td>整個夏天,可採到秋冬降溫</td></tr>
+<tr><td><strong>Day 1</strong></td><td>扦插</td><td>插下去</td><td>澆透到盆底出水;❌ 不施肥</td></tr>
+<tr><td>Day 2–14</td><td>發根期</td><td>外觀沒變化(根在長)</td><td>土乾才澆(免洗筷法);❌ 不施 — 新根怕燒</td></tr>
+<tr><td>Day 7–14</td><td>新葉冒出</td><td>第一片新葉出現</td><td>繼續澆水</td></tr>
+<tr><td>Day 15–29</td><td>葉量增加</td><td>2–3 片新葉</td><td>土乾才澆</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 30 🌾</strong></td><td><strong>第一次施肥</strong></td><td>植物穩住了</td><td>✅ 撒 <strong>15 粒</strong> 好康多 1 號(50×20cm 長方盆)+ 澆水</td></tr>
+<tr><td>Day 30–42</td><td>生長暴增</td><td>藤蔓變長、葉密</td><td>夏天可能每天澆</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 42–56 ✂️</strong><br><em style="font-weight:normal;font-size:12px;">(第 6–8 週)</em></td><td><strong>首次可採收</strong></td><td>葉量夠、莖結實</td><td>✅ 採頂端 <strong>5–10 cm</strong> 嫩葉莖,每枝留 3–4 節讓它再發</td></tr>
+<tr><td>Day 56–120</td><td>持續採收期</td><td>越採越旺</td><td>✅ 一週採 1–2 次;夏天每天澆水</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 120 🌾</strong></td><td><strong>第二次施肥</strong></td><td>採量開始下降</td><td>✅ 再撒 <strong>15 粒</strong> 好康多</td></tr>
+<tr><td>Day 120+</td><td>第二輪採收期</td><td>恢復猛長</td><td>✅ 照常採收、澆水</td></tr>
+<tr style="background:#fdf5e6;"><td><strong>11 月 – 3 月 ❄️</strong></td><td><strong>冬季休眠</strong></td><td>葉變小、長得慢</td><td>❌ 停肥;澆水減量(3–5 天一次)</td></tr>
+<tr><td>隔年 4 月 🌱</td><td>新一輪開始</td><td>重發新芽</td><td>從 Day 30 施肥循環重新開始</td></tr>
 </tbody>
-</table>`,
+</table>
+
+<div class="callout" style="margin-top:12px;">
+<h4>📱 扦插當天就要做的 2 件事</h4>
+<ol style="margin:4px 0 0;padding-left:22px;">
+<li>Google 行事曆設 2 個提醒:<strong>今日 + 30 天</strong>、<strong>今日 + 120 天</strong>,內容寫「撒 15 粒好康多、澆水」</li>
+<li>便利貼寫今日日期貼盆邊或廚房 —— 讓眼睛看得到「這盆是哪天種的」</li>
+</ol>
+<p style="margin:6px 0 0;font-size:14px;"><strong>半年的決定當天做完,腦袋騰出來做別的事</strong>。</p>
+</div>
+
+<p style="font-size:14px;color:var(--muted);margin-top:10px;"><em>施肥細節(不同盆大小、哪裡買)、採收技巧,看下方「🌾 施肥」、「✂️ 採收」section。</em></p>`,
       },
       {
         id: 'fertilizer', emoji: '🌾', heading: '施肥',
         html: `
-<p><strong>本 handbook 預設固體緩釋肥,不推液肥給新手</strong> —— 不用稀釋、不用算濃度、撒一次吃 3 個月、難燒根。你只要照下表時程操作,<strong>不用觀察植物狀態</strong>。</p>
-
-<h4 style="color:var(--primary);margin-top:14px;">📅 Day 1 起的完整 SOP</h4>
-<table>
-<thead><tr><th>天數</th><th>做什麼</th><th>肥</th></tr></thead>
-<tbody>
-<tr><td>Day 1</td><td>扦插、澆透到盆底出水</td><td>❌ 不施</td></tr>
-<tr><td>Day 2–29</td><td>土乾才澆(免洗筷檢測)</td><td>❌ 不施 — 新根怕燒</td></tr>
-<tr><td><strong>Day 30</strong></td><td><strong>第一次施肥</strong></td><td>✅ 好康多 1 號 <strong>15 粒</strong>(50cm 長方盆),撒完澆一次水</td></tr>
-<tr><td>Day 31–119</td><td>正常照顧</td><td>— 顆粒包膜緩釋中 —</td></tr>
-<tr><td><strong>Day 120</strong></td><td>第二次施肥</td><td>✅ 再撒 15 粒</td></tr>
-<tr><td>11 月 – 3 月</td><td>冬季休眠</td><td>❌ 停肥</td></tr>
-</tbody>
-</table>
-<p style="font-size:14px;color:var(--muted);margin-top:6px;"><em>為什麼 Day 30?扦插後新根需要 3–4 週才穩定,太早施會燒根。</em></p>
+<p><strong>本 handbook 預設固體緩釋肥,不推液肥給新手</strong> —— 不用稀釋、不用算濃度、撒一次吃 3 個月、難燒根。</p>
+<p style="font-size:14px;color:var(--muted);margin-top:4px;"><em>施肥時機(Day 30 / Day 120 / 冬眠)已經統整在上面「📋 完整時程表」,這個 section 專講 <strong>用多少 · 用哪款 · 怎麼撒</strong>。</em></p>
 
 <div class="callout">
 <h4>📐 不同盆大小 · 速查(好康多 1 號)</h4>
