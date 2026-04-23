@@ -779,106 +779,97 @@ const TOPICS = [
     ],
   },
 
-  // =========== 多貓介紹 SOP(訓練)===========
+  // =========== 貓與失智長輩(貓類核心)===========
   {
-    id: 'multi-cat-intro',
-    name: '多貓介紹 SOP',
-    emoji: '👥',
+    id: 'cat-with-dementia',
+    name: '貓與失智長輩',
+    emoji: '❤',
     category: 'cat',
-    hint: '15 步驟流程',
+    hint: '陪伴的重量,跨 3 級失智',
     meta: {
-      timeScale: '最少 6-8 週',
-      difficulty: '高(絕對不能偷懶)',
-      who: '家裡已有貓 + 新貓',
-      philosophy: '要把雙方當陌生貓訓練',
+      applies: '家裡已有貓 / 考慮為長輩養貓',
+      when: '從輕度到重度,全程',
+      core: '貓不需要被指導,她會自己靠近',
     },
     sections: [
-      { emoji: '💡', heading: '為什麼要做這麼多步驟', html: `
-<p>貓是領域性動物,看到陌生同類第一反應是威脅。如果你想「反正貓會慢慢習慣」直接放一起,很高機率兩隻會打、哈氣、躲藏、大小便失禁,甚至其中一隻永遠不出來。</p>
-<p>這個 15 步驟 SOP 的核心:<strong>讓雙方在每一步都有「正向連結」,而不是被迫互相面對</strong>。</p>
-<p>即使家裡曾經有感情的兩隻貓,隔離過後也要<strong>當成陌生貓重新訓練</strong>。不要以為會念舊情 — 貓幾乎不會。</p>`},
-      { emoji: '🚪', heading: '隔離的 3 個重點', html: `
-<ol>
-<li><strong>衝突雙方妥善隔離,完全不見面</strong>
+      { emoji: '💡', heading: '為什麼貓對失智特別有意義', html: `
 <ul>
-<li>足以長期生活的條件(不是廁所、籠子、陽台)</li>
-<li>最低限度:一間布置過、適合貓生活的房間</li>
+<li><strong>不需要外出</strong> — 長輩體力跟不上戶外時,貓依然可以在家陪伴</li>
+<li><strong>溝通低門檻</strong> — 摸、叫名、放罐頭都 work,不需要語言清晰</li>
+<li><strong>身體接觸療癒</strong> — 呼嚕聲 20-140 Hz,有研究顯示能降血壓、緩解焦慮</li>
+<li><strong>安靜陪伴</strong> — 不吵不鬧,長時間在她腳邊睡覺都可以</li>
+<li><strong>獨立但主動靠近</strong> — 長輩不會覺得「被逼著照顧」,但她能感受到「這隻貓選了我」</li>
 </ul>
-</li>
-<li><strong>調整雙方身心健康,提高抗壓性</strong>
-<ul>
-<li>健康度夠,才能承受短時間壓力不徹底翻臉</li>
-</ul>
-</li>
-<li><strong>雙方都恢復正常身心才算隔離結束</strong>
-<ul>
-<li>不再注意對方、不再威嚇,才能進入下一階段</li>
-</ul>
-</li>
-</ol>`},
-      { emoji: '📋', heading: '階段 1:完全隔離(2-4 週)', html: `
-<ul>
-<li>一定做到<strong>看不到</strong>彼此</li>
-<li>盡量做到聽不到、聞不到</li>
-<li>任一貓有注意/威嚇對方的行為,繼續隔離</li>
-<li>雙方都<strong>恢復正常作息、情緒、行為</strong>,才進下一步</li>
-</ul>`},
-      { emoji: '📋', heading: '階段 2:氣味交換(1-2 週)', html: `
-<ol>
-<li>用布輕輕摩擦 A 貓臉頰取費洛蒙氣味(或用 A 貓常睡的衣服/布)</li>
-<li>拿沾有 A 氣味的布給 B 貓聞,聞 1-2 秒收起,3 秒內給 B 零食</li>
-<li>跟 A 做同樣訓練</li>
-<li>每天每隻 1-3 回合,每回合 1-5 次</li>
-</ol>
-<div class="callout warn">
-<h4>⚠️ 退回信號</h4>
-<p style="margin:0;">一聞到就哈氣、低鳴、豎毛 → 退回上一步。聞到後放鬆或磨蹭 → 進下一步。</p>
-</div>`},
-      { emoji: '📋', heading: '階段 3:移除視覺阻隔 I-V', html: `
-<p>推薦用<strong>紗門或安全柵欄</strong>,打開一般門但紗門保持關閉。每步 3-7 天:</p>
-<table>
-<thead><tr><th>步</th><th>時間</th><th>距離</th><th>做法</th></tr></thead>
-<tbody>
-<tr><td>I</td><td>短(10-30 秒)</td><td>長(3-5 公尺)</td><td>雙方看到就給零食</td></tr>
-<tr><td>II</td><td>中(30 秒-2 分)</td><td>長</td><td>同上拉長時間</td></tr>
-<tr><td>III</td><td>中</td><td>中(1-2 公尺)</td><td>引導貓靠近紗門</td></tr>
-<tr><td>IV</td><td>中</td><td>短(隔紗門)</td><td>只隔紗門</td></tr>
-<tr><td>V</td><td>長(幾分-幾十分)</td><td>短</td><td>一起吃飯、兩人分別陪玩</td></tr>
-</tbody>
-</table>
-<p>若雙方看到就想打架 → 退回上一步。</p>`},
-      { emoji: '📋', heading: '階段 4:移除物理阻隔 I-V', html: `
-<p>紗門有安全扣,每步 3-7 天:</p>
-<table>
-<thead><tr><th>步</th><th>時間</th><th>紗門角度</th><th>做法</th></tr></thead>
-<tbody>
-<tr><td>I</td><td>短(10-30 秒)</td><td>小(貓不能通過)</td><td>打開同時雙方獎勵</td></tr>
-<tr><td>II</td><td>中(30 秒-2 分)</td><td>小</td><td>同上拉長時間</td></tr>
-<tr><td>III</td><td>中</td><td>中(約 20 cm)</td><td>雙方可快速關的程度</td></tr>
-<tr><td>IV</td><td>中</td><td>大(45 度)</td><td>人卡門口阻擋</td></tr>
-<tr><td>V</td><td>長</td><td>大</td><td>分別給零食、放飯、玩逗貓棒</td></tr>
-</tbody>
-</table>`},
-      { emoji: '📋', heading: '階段 5:實際相處 I-III', html: `
-<table>
-<thead><tr><th>步</th><th>時間</th><th>做法</th></tr></thead>
-<tbody>
-<tr><td>I</td><td>每天一個時段</td><td>前面做得確實,雙方對彼此中立到正向。<strong>人要在旁邊顧</strong></td></tr>
-<tr><td>II</td><td>人在的時候放一起</td><td>拉長到偶爾獎勵。有一方開始緊張,慢慢再隔開(不要粗暴抓)</td></tr>
-<tr><td>III</td><td>全時段開放</td><td>不再哈氣威嚇,相敬如賓就成功了</td></tr>
-</tbody>
-</table>
 <div class="callout">
-<h4>不追求感情好</h4>
-<p style="margin:0;">貓之間沒感情好沒關係,<strong>相敬如賓、保持冷淡和平</strong>就是成功。強求感情反而造成壓力。</p>
-</div>
-<h4 style="color:var(--primary-dark);margin-top:10px;">和平相處的獎勵</h4>
+<p style="margin:0;">關鍵差別:<strong>貓不是被照顧的對象,貓是選擇她的家人</strong>。這個「被選擇」的感覺,是失智長輩稀缺的自尊資源。</p>
+</div>`},
+      { emoji: '🌱', heading: '輕度失智:貓是新的日常錨點', html: `
+<p>長輩還能自理,貓的照顧流程(餵食、鏟砂、換水)大多還能獨立完成。重點是<strong>讓貓成為她日常的 anchor point</strong>。</p>
 <ul>
-<li>一公尺內沒緊張或衝突,雙方都給獎勵</li>
-<li><strong>零食要分開給</strong>,不能給同一處(會造成衝突)</li>
+<li><strong>固定時段餵食</strong> — 早晚兩餐,時間不變。她記得「要餵貓」這個動作本身是記憶訓練</li>
+<li><strong>貓食放在她看得到的地方</strong> — 不是藏在高處櫃子</li>
+<li><strong>餵食時間寫在飼料袋/盒上</strong> — 視覺提醒</li>
+<li>鼓勵她自己跟貓互動 —「妞妞來~」這種叫法重複越多次越深</li>
+</ul>
+<h4 style="color:var(--primary-dark);margin-top:14px;">這階段的價值</h4>
+<p>貓給她一個「我還有人需要我」的固定事件。比任何記憶訓練 app 都真實。</p>`},
+      { emoji: '🌿', heading: '中度失智:貓成為情緒穩定劑', html: `
+<p>長輩可能開始記不清貓的名字、叫錯、以為是以前養過的其他貓。但<strong>「這是我的貓」這個感受還在</strong>。</p>
+<ul>
+<li><strong>照顧流程要家人補位</strong> — 餵食、鏟砂改由家人主導,長輩只負責摸跟陪</li>
+<li><strong>躁動、焦慮發作時的急救</strong> — 把貓抱到她腿上,呼嚕聲 10-15 分鐘常能平靜下來。這是比 PRN(按需用藥)更溫柔的介入</li>
+<li><strong>貓會明顯選擇性親近長輩</strong> — 牠感受得到她的變化,會更常主動靠近。這是動物的溫柔,不是意外</li>
+<li><strong>她可能叫錯名字</strong> —「小黑」明明是過去的貓,她叫現在這隻「小黑」。<strong>不要糾正</strong>,順著她</li>
+</ul>
+<div class="callout warn">
+<h4>⚠️ 重複餵食問題</h4>
+<p style="margin:0;">她忘記餵過,一小時後又餵一次 — 貓會吃到吐。對策:<strong>把飼料鎖起來</strong>,改用定時餵食器,或每餐預先分裝好一份留在外面(吃完就沒)。</p>
+</div>`},
+      { emoji: '🍂', heading: '重度失智:貓是最後一個能被理解的存在', html: `
+<p>這階段語言溝通可能幾乎失效。但貓不需要語言 —— <strong>他靠近、呼嚕、蹭</strong>,這些她還感受得到。</p>
+<ul>
+<li><strong>不要求任何照顧</strong> — 所有流程家人全責</li>
+<li><strong>讓貓在她房間/床邊</strong> — 貓會自己找她,不用你安排</li>
+<li><strong>感官陪伴</strong> — 拿起她的手放在貓毛上,讓她感受觸感;讓貓呼嚕的聲音在她耳邊</li>
+<li>她可能不認識你,但<strong>她看到貓時眼神會變</strong> — 記錄那些瞬間,它們比你想的珍貴</li>
+</ul>
+<div class="callout">
+<p style="margin:0;">這階段的貓,是<strong>家人還沒放棄她</strong>的證據 —— 對她、對家人都是。</p>
+</div>`},
+      { emoji: '🔄', heading: '雙向退化:她退化,貓也會老', html: `
+<p>被忽略的一個事實:<strong>失智長輩養的貓,通常跟她一起老</strong>。十幾年的相處,貓到中後期也 10+ 歲,有自己的健康問題。</p>
+<ul>
+<li>貓的老年疾病(腎臟、甲狀腺、關節)會在長輩失智中後期浮現</li>
+<li>獸醫回診、餵藥、特殊飲食 — 這些長輩已經做不到,家人要接手</li>
+<li><strong>貓的健康惡化,家人要決定醫療介入的程度</strong>,長輩無法參與決策</li>
+<li>如果貓必須安樂,<strong>長輩可能因為看不到貓而焦慮反覆問</strong> — 這個要提前想好怎麼回應</li>
+</ul>`},
+      { emoji: '💔', heading: '離別情境的處理', html: `
+<h4 style="color:var(--primary-dark);">貓過世了,長輩反覆問「牠去哪了?」</h4>
+<ul>
+<li><strong>平靜重複同一個答案</strong>(例如「牠先回家了」「牠在外面玩」)</li>
+<li><strong>不堅持矯正她的記憶</strong> — 她每次問都像第一次,你要像第一次那樣溫柔回答</li>
+<li>有些家庭選擇<strong>領養另一隻同花色</strong>繼續「那隻貓」的角色。這不是欺騙,是對失智長輩的仁慈</li>
+</ul>
+
+<h4 style="color:var(--primary-dark);margin-top:14px;">家人決定不再養</h4>
+<p>避免再度離別的痛苦,這是合理選擇。替代方案:</p>
+<ul>
+<li>讓朋友定期帶寵物來拜訪(寵物療癒訪問)</li>
+<li>長輩觀看貓咪影片(YouTube 有超多)</li>
+<li>擺貓的舊照片、貓毯</li>
+</ul>
+
+<h4 style="color:var(--primary-dark);margin-top:14px;">長輩過世,貓失去主人</h4>
+<ul>
+<li>貓可能有一段適應期(食慾下降、躲起來) — 正常</li>
+<li>讓牠在熟悉環境多待一陣子,不要立刻移動</li>
+<li>家人接手日常作息,保持規律</li>
+<li>貓會慢慢調整,但牠會記得。尊重那個記得</li>
 </ul>`},
     ],
   },
+
 
   // =========== 飼料挑選原則(飲食)===========
   {
@@ -1117,7 +1108,108 @@ const TOPICS = [
 </table>`},
     ],
   },
-];
+
+  // =========== 多貓介紹 SOP(訓練 / 進階)===========
+  {
+    id: 'multi-cat-intro',
+    name: '多貓介紹 SOP',
+    emoji: '👥',
+    category: 'cat',
+    hint: '15 步驟流程',
+    meta: {
+      timeScale: '最少 6-8 週',
+      difficulty: '高(絕對不能偷懶)',
+      who: '家裡已有貓 + 新貓',
+      philosophy: '要把雙方當陌生貓訓練',
+    },
+    sections: [
+      { emoji: '💡', heading: '為什麼要做這麼多步驟', html: `
+<p>貓是領域性動物,看到陌生同類第一反應是威脅。如果你想「反正貓會慢慢習慣」直接放一起,很高機率兩隻會打、哈氣、躲藏、大小便失禁,甚至其中一隻永遠不出來。</p>
+<p>這個 15 步驟 SOP 的核心:<strong>讓雙方在每一步都有「正向連結」,而不是被迫互相面對</strong>。</p>
+<p>即使家裡曾經有感情的兩隻貓,隔離過後也要<strong>當成陌生貓重新訓練</strong>。不要以為會念舊情 — 貓幾乎不會。</p>`},
+      { emoji: '🚪', heading: '隔離的 3 個重點', html: `
+<ol>
+<li><strong>衝突雙方妥善隔離,完全不見面</strong>
+<ul>
+<li>足以長期生活的條件(不是廁所、籠子、陽台)</li>
+<li>最低限度:一間布置過、適合貓生活的房間</li>
+</ul>
+</li>
+<li><strong>調整雙方身心健康,提高抗壓性</strong>
+<ul>
+<li>健康度夠,才能承受短時間壓力不徹底翻臉</li>
+</ul>
+</li>
+<li><strong>雙方都恢復正常身心才算隔離結束</strong>
+<ul>
+<li>不再注意對方、不再威嚇,才能進入下一階段</li>
+</ul>
+</li>
+</ol>`},
+      { emoji: '📋', heading: '階段 1:完全隔離(2-4 週)', html: `
+<ul>
+<li>一定做到<strong>看不到</strong>彼此</li>
+<li>盡量做到聽不到、聞不到</li>
+<li>任一貓有注意/威嚇對方的行為,繼續隔離</li>
+<li>雙方都<strong>恢復正常作息、情緒、行為</strong>,才進下一步</li>
+</ul>`},
+      { emoji: '📋', heading: '階段 2:氣味交換(1-2 週)', html: `
+<ol>
+<li>用布輕輕摩擦 A 貓臉頰取費洛蒙氣味(或用 A 貓常睡的衣服/布)</li>
+<li>拿沾有 A 氣味的布給 B 貓聞,聞 1-2 秒收起,3 秒內給 B 零食</li>
+<li>跟 A 做同樣訓練</li>
+<li>每天每隻 1-3 回合,每回合 1-5 次</li>
+</ol>
+<div class="callout warn">
+<h4>⚠️ 退回信號</h4>
+<p style="margin:0;">一聞到就哈氣、低鳴、豎毛 → 退回上一步。聞到後放鬆或磨蹭 → 進下一步。</p>
+</div>`},
+      { emoji: '📋', heading: '階段 3:移除視覺阻隔 I-V', html: `
+<p>推薦用<strong>紗門或安全柵欄</strong>,打開一般門但紗門保持關閉。每步 3-7 天:</p>
+<table>
+<thead><tr><th>步</th><th>時間</th><th>距離</th><th>做法</th></tr></thead>
+<tbody>
+<tr><td>I</td><td>短(10-30 秒)</td><td>長(3-5 公尺)</td><td>雙方看到就給零食</td></tr>
+<tr><td>II</td><td>中(30 秒-2 分)</td><td>長</td><td>同上拉長時間</td></tr>
+<tr><td>III</td><td>中</td><td>中(1-2 公尺)</td><td>引導貓靠近紗門</td></tr>
+<tr><td>IV</td><td>中</td><td>短(隔紗門)</td><td>只隔紗門</td></tr>
+<tr><td>V</td><td>長(幾分-幾十分)</td><td>短</td><td>一起吃飯、兩人分別陪玩</td></tr>
+</tbody>
+</table>
+<p>若雙方看到就想打架 → 退回上一步。</p>`},
+      { emoji: '📋', heading: '階段 4:移除物理阻隔 I-V', html: `
+<p>紗門有安全扣,每步 3-7 天:</p>
+<table>
+<thead><tr><th>步</th><th>時間</th><th>紗門角度</th><th>做法</th></tr></thead>
+<tbody>
+<tr><td>I</td><td>短(10-30 秒)</td><td>小(貓不能通過)</td><td>打開同時雙方獎勵</td></tr>
+<tr><td>II</td><td>中(30 秒-2 分)</td><td>小</td><td>同上拉長時間</td></tr>
+<tr><td>III</td><td>中</td><td>中(約 20 cm)</td><td>雙方可快速關的程度</td></tr>
+<tr><td>IV</td><td>中</td><td>大(45 度)</td><td>人卡門口阻擋</td></tr>
+<tr><td>V</td><td>長</td><td>大</td><td>分別給零食、放飯、玩逗貓棒</td></tr>
+</tbody>
+</table>`},
+      { emoji: '📋', heading: '階段 5:實際相處 I-III', html: `
+<table>
+<thead><tr><th>步</th><th>時間</th><th>做法</th></tr></thead>
+<tbody>
+<tr><td>I</td><td>每天一個時段</td><td>前面做得確實,雙方對彼此中立到正向。<strong>人要在旁邊顧</strong></td></tr>
+<tr><td>II</td><td>人在的時候放一起</td><td>拉長到偶爾獎勵。有一方開始緊張,慢慢再隔開(不要粗暴抓)</td></tr>
+<tr><td>III</td><td>全時段開放</td><td>不再哈氣威嚇,相敬如賓就成功了</td></tr>
+</tbody>
+</table>
+<div class="callout">
+<h4>不追求感情好</h4>
+<p style="margin:0;">貓之間沒感情好沒關係,<strong>相敬如賓、保持冷淡和平</strong>就是成功。強求感情反而造成壓力。</p>
+</div>
+<h4 style="color:var(--primary-dark);margin-top:10px;">和平相處的獎勵</h4>
+<ul>
+<li>一公尺內沒緊張或衝突,雙方都給獎勵</li>
+<li><strong>零食要分開給</strong>,不能給同一處(會造成衝突)</li>
+</ul>`},
+    ],
+  },
+]
 
 // =========================================================
 // STATE
