@@ -1,0 +1,39 @@
+# Dementia Care Tools
+
+> 一位軟體工程師為照顧失智媽媽 + 2023 年出生女兒而打造的 8 個免費家用工具。純前端、單一 HTML 檔為主、零伺服器、零廣告、零追蹤、完全離線可用。
+
+上位 mission:**「讓整個家忙起來」** — 用工具、植物、寵物、結構化紀錄,讓家裡每天有事在發生、有生命陪伴。
+
+## 失智照護生態系(主線 · 4 個工具組成資料閉環)
+
+- [陪伴小幫手 v1](https://tm731531.github.io/dementia-care/dementia-companion/): 15 個遊戲(13 認知訓練 + 2 舒緩工具 + 常駐每日問候)。8 級難度滑桿依長輩認知程度自動選 10 個顯示。語音輔助依難度調整。
+- [陪伴小幫手 v2](https://tm731531.github.io/dementia-care/dementia-companion-v2/): v1 同款 15 遊戲,首頁改成推薦式(「今天一起做這個好嗎?」)。附 45 條可直接對失智長輩說的陪伴指南(15 遊戲 × 3 時機:進入/答對/完成)+ 今日摘要一鍵貼 LINE 家族群。跟 v1 並存不取代。
+- [白板 OCR 紀錄 Bot](https://tm731531.github.io/dementia-care/whiteboard-ocr-bot/): Python + Telegram + Gemini 3 Flash Preview。照護員每天填的 12 項白板磁鐵 → Gemini 辨識「磁鐵在第幾格」(box-index 策略避開手寫 OCR)→ 自動寫入 iDempiere Z_momSystem 表。human-as-verifier 設計:寧缺勿錯。
+- [就診小幫手](https://tm731531.github.io/dementia-care/mom-clinic-companion/): 帶失智長輩回診前的手機 prep 工具。從 iDempiere 紀錄自動算 4 層偵測:(1) 趨勢變差(用最近兩次回診當窗口邊界)、(2) 跨欄位同日組合(如拒食+坐立不安)、(3) 連續異常 streak、(4) 長期問題 chronic baseline。13 類症狀 regex 分群含排除詞(避免「打招呼」被抓成「打人」)。診間 Web Speech API 錄音即時轉字。
+
+## 家用支線(呼應主線 mission)
+
+- [家庭園藝手冊](https://tm731531.github.io/dementia-care/garden-handbook/): **25 種植物 × 6 類別**(葉菜/香草/果菜/根莖/觀葉/花卉),每個 plant 有統一 10-section 結構(why/obtain/pot-soil/steps/timing/fertilizer/harvest/troubleshoot/dementia byLevel/log)。核心功能:🎯 5W1H 5 秒總覽、🎯 規劃模式(只看現在 + 未來 2 個月能下手)、🛒 購物籃合併匯出、📅 24 節氣雙軌警告、🌾 好康多 1 號「盆邊每 10cm=3 粒」速查、🧠 失智照護 byLevel 三級。
+- [寵物手冊](https://tm731531.github.io/dementia-care/pet-handbook/): 家中寵物生活手冊。目前貓有 6 個 topics(親訓新貓 4 階段 SOP、多貓介紹 15 步驟、飼料挑選 5 步驟、貓草種植、疫苗接種時程、冬天保暖)來自多年養貓 HackMD 筆記。通用頁核心是「失智照護 × 寵物選擇指南 matrix」(適配度輕/中/重度)。其他物種(狗/兔/鳥/魚/烏龜)架構已建,內容待擴充。
+- [小朋友學習樂園](https://tm731531.github.io/dementia-care/kids-companion/): 2-6 歲幼兒學習平台。**5 個分類 tab**(📚 語言 / 🎨 創作 / 🧠 思維 / 📖 故事 / 🔍 探索),25+ 活動,探索類含 120 種動物圖鑑 + 110 種天然食材。**4 年齡層**(幼幼 2-3/小 3-4/中 4-5/大 5-6)自動調整選項數、語音輔助、字體大小。遊戲化:集星星、貼紙書、連續天數、神秘寶箱、搖一搖。隱私設計極保守,不連 CDN / Google Fonts。
+- [健康飲品成分分析](https://tm731531.github.io/dementia-care/health-drinks/docs/): 21+ 款市售健康飲品成分並排比較。涵蓋醫療營養品(亞培安素、葡勝納、倍速益、補體素)+ 嬰幼兒配方奶粉 + 高蛋白補充品 + 植物奶。各品牌蛋白質/熱量/鈉/鈣/微量元素統一格式、單位、排序,貨架前 3 秒看出差異。資料流程:**親自拍包裝 → AI 擷取 → 手填 drinks.js**(不是爬蟲)。
+
+## 技術特色(所有工具共用)
+
+- **純前端單檔** HTML 為主,雙擊就能開,不用 npm、不用 build、不用伺服器
+- **零追蹤、零廣告**,進度存瀏覽器 localStorage,不送資料到外部分析服務
+- **語音用瀏覽器內建** Web Speech API,不依賴雲端 TTS
+- **離線優先**,即使需要 API 的 mom-clinic-companion 也會 cache 最後同步版本給診間弱網使用
+- **Python 後端只在真的需要時才用**:whiteboard-ocr-bot 走 Telegram + Gemini API
+- **Emoji 相容性**:plant/animal emoji 只用 Unicode ≤ 10.0(2017 前),確保舊平板/舊手機也能顯示
+- **零外部 CDN 依賴**,字型走系統 fallback
+
+## 作者
+
+Tom Ting — [blog.tomting.com](https://blog.tomting.com/) · 一位為了照顧失智媽媽 + 2023 年出生女兒而做這些工具的軟體工程師。
+
+## Repo
+
+- GitHub: https://github.com/tm731531/dementia-care
+- Sitemap: https://tm731531.github.io/dementia-care/sitemap.xml
+- Open Source · MIT License

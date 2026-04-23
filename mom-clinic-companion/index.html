@@ -6,7 +6,35 @@
   <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22%3E%3Ctext%20y=%22.9em%22%20font-size=%2290%22%3E🩺%3C/text%3E%3C/svg%3E">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#0066CC">
-  <title>就診小幫手 — 媽媽回診陪伴工具</title>
+  <title>就診小幫手 — 失智長輩回診前的手機 prep 工具｜趨勢偵測 + 症狀分類 + 診間錄音</title>
+  <meta name="description" content="失智照護者帶長輩回診前的手機 prep 工具。從 iDempiere 紀錄自動算趨勢變差(用最近兩次回診當窗口邊界,不是寫死「近 14 天」)、跨欄位同日組合(如睡差+隔天精神差)、連續異常 streak、長期問題偵測、13 類症狀 regex 關鍵字分類、問題清單、診間 Web Speech 錄音轉字。純 JS 規則引擎,離線 OK。">
+  <meta name="keywords" content="失智照護,回診,神經科,iDempiere,REST API,趨勢偵測,症狀分類,診間錄音,Web Speech API,規則引擎,GitHub Pages,CORS,台灣,繁體中文">
+  <meta name="author" content="Tom Ting">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://tm731531.github.io/dementia-care/mom-clinic-companion/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="就診小幫手 — 回診前的手機 prep 工具">
+  <meta property="og:description" content="自動抓趨勢異常、症狀關鍵字、產出「今天要問醫生的 3 件事」。13 類 regex 分群 + 跨欄位組合 + 診間錄音。">
+  <meta property="og:url" content="https://tm731531.github.io/dementia-care/mom-clinic-companion/">
+  <meta property="og:locale" content="zh_TW">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="就診小幫手 — 回診 prep 工具">
+  <meta name="twitter:description" content="失智長輩回診前打開手機就看到今天要問醫生的事。">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "就診小幫手",
+    "alternateName": "Mom Clinic Companion",
+    "description": "帶失智長輩回診前的手機 prep 工具。從 iDempiere 的每日紀錄自動算趨勢異常、跨欄位組合、連續異常 streak、長期問題、13 類症狀 regex 分群,產出「今天要問醫生的 3 件事」。搭配 whiteboard-ocr-bot 組成完整失智照護資料閉環。",
+    "applicationCategory": "HealthApplication",
+    "operatingSystem": "Any (Web Browser)",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "TWD" },
+    "inLanguage": "zh-TW",
+    "isAccessibleForFree": true,
+    "creator": { "@type": "Person", "name": "Tom Ting", "url": "https://blog.tomting.com/" }
+  }
+  </script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     :root {
