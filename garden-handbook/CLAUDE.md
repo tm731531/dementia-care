@@ -52,7 +52,23 @@
 - 發佈前跑 grep:`grep -n -E 'https?://[^"]*\.(com|net|org|io)' index.html | grep -v 'tomting\|github\|data:'` → 應該沒輸出
 
 ## 踩過的坑
-目前沒有。遇到坑 → 修完寫這裡 + 同步到相關 Brain file。
+
+### Emoji 相容性 — Unicode 14.0+ 會顯示豆腐框(□)
+2026-04-23 踩到:薑 entry 用了 🫚(Unicode 14.0, 2021 才加),Chrome/Firefox/Edge 部分系統字型沒支援,渲染成空方框 □。使用者一眼看到首頁就是「怪怪的圖片」。
+
+**原則:plant emoji 只用 Unicode 10.0 以下(2017 前)**
+- ✅ 安全:🍃 🌳 🍅 🍓 🌿 🌱 🥬 🌵 🌸 🍋 🍊 🫑(11.0)🥒
+- ⚠️ 邊緣(13.0):🪴(盆栽)— 新系統 OK,舊系統可能 fallback
+- ❌ 避免(14.0+):🫚(薑)🫛(豆莢)🪹(空巢)🪺(有蛋巢)
+
+**發佈新 plant entry 前檢查**:
+```bash
+# 從手冊 grep 所有 plant emoji
+grep -E "^    emoji: '" index.html
+```
+然後用 https://emojipedia.org 查版本,或直接在**你最舊的裝置**(媽媽的平板、朋友的舊手機)開一次手冊確認。
+
+**修法**:替換成 Unicode 6.0 等級的通用 emoji。薑現在用 🌱。
 
 ## Domain Brain
 從 `~/.claude/projects/-home-tom/memory/brain/` 選:
