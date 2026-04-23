@@ -11523,6 +11523,346 @@ const PLANTS = [
       },
     ],
   },
+
+  // =========== 四季豆(果菜) ===========
+  {
+    id: 'green-beans',
+    name: '四季豆',
+    emoji: '🌱',
+    category: 'fruit',
+    meta: {
+      difficulty: '低–中(要搭架但好種)',
+      season: '春播 3–4 月 / 秋播 9–10 月(夏天落花,冬天停長)',
+      light: '全日照',
+      location: '陽台 / 戶外 / 大盆窗邊',
+      seasons: ['spring', 'autumn'],
+      bestStartMonths: [3, 4, 9, 10],
+    },
+    suitableFor: ['kid_friendly'],
+    warnings: ['needs_deep_pot'],
+    sections: [
+      {
+        id: 'why', emoji: '💡', heading: '為什麼值得種四季豆',
+        html: `
+<ul>
+<li><strong>名符其實的多產</strong> — 盛產期一株可採 20+ 條豆莢,每 2–3 天就有收穫,reward 迴路緊湊</li>
+<li><strong>攀藤有視覺進展</strong> — 一天長幾公分,放一把尺就能量,是最直觀的「生命力時間軸」</li>
+<li><strong>對貓完全無毒</strong> — 全株(豆莢、葉、莖)對貓安全,有毛孩的家放心種</li>
+<li><strong>開淡雅小花</strong> — 紫白相間,不搶眼卻溫柔;失智照護環境刻意選低刺激視覺</li>
+<li><strong>採豆莢動作親切</strong> — 手剝或剪刀,適合長輩和兒童一起參與</li>
+<li><strong>直接進廚房</strong> — 嫩豆莢炒蛋、蒜炒、涼拌,從陽台到桌上路徑最短</li>
+</ul>`,
+      },
+      {
+        id: 'obtain', emoji: '🛒', heading: '取得方式',
+        html: `
+<div class="callout warn" style="margin-bottom:10px;">
+<h4>🗓️ Step 0 · 先看月曆再動手</h4>
+<p style="margin:0;"><strong>只有 3–4 月(春播)或 9–10 月(秋播)才能開始。</strong> 5–8 月開花期氣溫超過 25°C 會<strong>大量落花不結果</strong>,等到秋天種的也只採到一批就入冬。11 月以後低於 10°C,幼苗停止生長。如果現在不在窗口,<strong>先備盆土、研究架子做法,等到對的月份再下種子</strong>。</p>
+</div>
+
+<div class="callout" style="background:#e8f5e9;border-left-color:var(--primary-dark);">
+<h4>📦 推薦的新手包 · 三步照順序來</h4>
+<ol style="margin:6px 0 4px;padding-left:22px;">
+<li><strong>先備盆與土(這一步要比種子先到)</strong> — 需要<strong>深 25cm+ 的盆</strong>(四季豆根系深,淺盆撐不住架子也容易倒);一般蔬菜培養土或在地培養土加珍珠石(6:4)。合計 NT$200–300。</li>
+<li><strong>備搭架材料</strong> — 竹枝(120–150cm)或麻繩網,四季豆是纏繞型藤蔓,<strong>不搭架就倒伏,豆莢貼地爛掉</strong>。花市竹枝一捆 NT$50,蝦皮搜「番茄架 麻繩網」也 OK。</li>
+<li><strong>再下單種子</strong> — <a href="https://shopee.tw/search?keyword=%E5%9B%9B%E5%AD%A3%E8%B1%86+%E7%A8%AE%E5%AD%90" target="_blank" rel="noopener" style="color:var(--primary-dark);font-weight:bold;">蝦皮搜尋「四季豆 種子」</a>(一包 30–50 粒,NT$50–100,多家包郵)。到貨當天直播入盆,<strong>不要先催芽再移苗</strong>。</li>
+</ol>
+<p style="margin:8px 0 0;font-size:14px;color:var(--muted);">⚠️ <strong>順序不能顛倒</strong>:四季豆<strong>根系不耐擾動</strong>,移植成功率極低。盆和架子要在種子播下去之前就定位好。總預算 <strong>NT$400 有找</strong>。</p>
+</div>
+
+<h4 style="color:var(--primary);margin:14px 0 6px;">其他取得管道</h4>
+<ul>
+<li><strong>花市/超商展售種子包</strong>:春秋兩季花市多有蔬菜種子包,現場選品種(矮性 vs 蔓性)</li>
+<li><strong>農業改良場育苗站</strong>:部分縣市春秋有蔬菜苗免費或低價發放,直接買苗省發芽等待期</li>
+<li><strong>朋友家留種</strong>:成熟豆莢留到乾掉取種子,自留種下一季繼續種</li>
+</ul>
+
+<div class="callout warn" style="margin-top:12px;">
+<h4>⚠️ 矮性 vs 蔓性:買種子前確認</h4>
+<p style="margin:0;">四季豆有<strong>矮性(叢生型)</strong>和<strong>蔓性(纏繞型)</strong>兩種。矮性不用架(60–80cm 高),蔓性要架(爬 1.5–2 公尺)。本手冊預設<strong>蔓性</strong>(台灣市面常見款);如果買到矮性,跳過「搭架」步驟。種子包上多會標示。</p>
+</div>`,
+      },
+      {
+        id: 'pot-soil', emoji: '🏺', heading: '盆器與土壤',
+        html: `
+<h4 style="color:var(--primary);">盆器</h4>
+<ul>
+<li>直徑 <strong>30 公分以上</strong>、深 <strong>25 公分以上</strong>(根系深 + 要站穩竹枝)</li>
+<li>長方盆(60×25×25cm)最理想 — 可種 3–4 株,竹枝插兩側搭成 A 型架</li>
+<li>盆底<strong>必須有排水孔</strong>(四季豆怕積水)</li>
+<li>⚠️ 淺盆(深 < 20cm)插竹枝會倒,採收時整盆傾覆</li>
+</ul>
+
+<h4 style="color:var(--primary);margin-top:12px;">土壤</h4>
+<ul>
+<li>蔬菜培養土或一般培養土加珍珠石(6:4)— 透氣排水最重要</li>
+<li>四季豆是豆科植物,<strong>根部有根瘤菌固氮</strong>,氮肥需求比葉菜少</li>
+<li>種前可加腐熟有機肥打底(雞糞發酵肥或市售蔬菜有機肥 1–2 把)</li>
+<li>土填 8 分滿,留 2–3cm 緩衝空間澆水不溢土</li>
+</ul>
+<p style="font-size:14px;color:var(--muted);margin-top:10px;"><em>施肥細節獨立成下面的「🌾 施肥」section。</em></p>`,
+      },
+      {
+        id: 'steps', emoji: '🌳', heading: '種植步驟',
+        html: `
+<ol>
+<li><strong>盆定位</strong> — 先把盆搬到最終位置(全日照陽台),再填土,種好後盆很重移動麻煩</li>
+<li><strong>插竹枝搭架</strong> — 播種<strong>前</strong>就把架子搭好。竹枝斜插兩側、頂端交叉紮緊做成 A 型;或沿盆邊插 4 根做方形架,頂端拉麻繩橫向連結。架高 120–150cm。</li>
+<li><strong>直播種子</strong> — 每穴 2–3 粒種子,深度約 2cm;每穴間距 15–20cm;播完覆土輕壓。<strong>不泡水、不催芽</strong>(根系怕擾動,直播比育苗移植成功率高得多)</li>
+<li><strong>第一次澆水澆透</strong> — 澆到盆底有水流出;之後保持土表微潮但不積水</li>
+<li><strong>等發芽(5–10 天)</strong> — 期間維持土表微潮即可;溫度 20–25°C 發芽最快</li>
+<li><strong>疏苗</strong> — 真葉出來後每穴留 1–2 株(剪掉弱苗,不要拔,拔會傷留下的根)</li>
+<li><strong>引藤上架</strong> — 苗高 15–20cm 時輕輕把藤蔓引向竹枝,之後自己纏繞攀爬</li>
+</ol>
+
+<div class="callout" style="margin-top:12px;background:#e8f5e9;border-left-color:var(--primary-dark);">
+<h4>🪝 搭架的時機比你想像的早</h4>
+<p style="margin:0;">很多人等藤蔓倒伏才搭架,但這時藤蔓已經半扭傷。<strong>架子要在播種前就搭好</strong>,讓種子在「架子下面」發芽,苗自然就往架子方向長。後補的架子會傷根、傷莖。</p>
+</div>`,
+      },
+      {
+        id: 'timing', emoji: '📋', heading: '完整時程表 · 播種到採收',
+        html: `
+<p><strong>播種 → 發芽 → 開花 → 首採 → 盛產 → 結束</strong>,一張表涵蓋整個生長週期。<strong>照做就對,不用觀察植物狀態</strong>。</p>
+
+<div class="callout warn">
+<h4>⚠️ 開工前先看月曆 / 節氣:四季豆的致命弱點是高溫落花</h4>
+<p style="margin:0 0 6px;">四季豆<strong>開花期氣溫超過 25°C 就大量落花,幾乎不結果</strong>。夏天種到開花期剛好是最熱的時候 — 這不是照顧失敗,是物候決定。<strong>節氣比月份準</strong>:</p>
+<table style="margin-top:8px;">
+<thead><tr><th></th><th>月份</th><th>節氣</th><th>狀態</th></tr></thead>
+<tbody>
+<tr style="background:#f0f8ec;"><td>✅ 最佳(春播)</td><td><strong>3–4 月</strong></td><td><strong>驚蟄(3/5)→ 清明(4/4)</strong></td><td>播種,開花期落在 4–5 月低溫期,結果好</td></tr>
+<tr style="background:#f0f8ec;"><td>✅ 最佳(秋播)</td><td><strong>9–10 月</strong></td><td><strong>白露(9/8)→ 寒露(10/8)</strong></td><td>播種,開花期落在 10–11 月,溫度降,結果好</td></tr>
+<tr><td>🟡 勉強</td><td>5 月上旬 / 10 月下旬</td><td>立夏(5/5)前後 / 霜降(10/23)前後</td><td>邊緣期,結果率降低,賭一下</td></tr>
+<tr style="background:#fdecec;"><td>❌ 絕對別播</td><td><strong>5 月中 – 8 月</strong></td><td><strong>小滿(5/21)→ 立秋(8/7)</strong></td><td>開花期高溫 > 25°C,<strong>落花不結果</strong>,白種</td></tr>
+<tr style="background:#fdecec;"><td>❌ 絕對別播</td><td><strong>11 月 – 2 月</strong></td><td><strong>立冬(11/7)→ 雨水(2/19)</strong></td><td>低於 10°C 幼苗停長,播了也不動</td></tr>
+</tbody>
+</table>
+<p style="margin:8px 0 0;font-size:14px;">口訣:<strong>「驚蟄播、端午前採;白露播、立冬前採」</strong>。如果現在在夏天或冬天,<strong>不要播</strong> — 先備盆土架子,等到對的節氣。</p>
+<p style="margin:6px 0 0;font-size:13px;color:var(--muted);"><em>完整 24 節氣對照看 <a href="#" onclick="event.preventDefault();navigateTo('page-knowledge');return false;" style="color:var(--primary);">📚 通用園藝知識 → 📅 24 節氣</a>。</em></p>
+</div>
+
+<table>
+<thead><tr><th>天數</th><th>階段</th><th>植物狀態</th><th>你的動作</th></tr></thead>
+<tbody>
+<tr><td><strong>Day 1</strong></td><td>播種</td><td>種子入土</td><td>澆透到盆底出水;架子已就位;❌ 不施肥</td></tr>
+<tr><td>Day 2–9</td><td>等發芽</td><td>土面沒動靜</td><td>保持土表微潮(2 天澆一次);不要翻土檢查</td></tr>
+<tr><td><strong>Day 5–10 🌱</strong></td><td>發芽</td><td>子葉拱出土</td><td>繼續澆水;別踩到幼苗</td></tr>
+<tr><td>Day 10–20</td><td>真葉期</td><td>第一對真葉展開</td><td>疏苗(留強去弱);開始引藤上架</td></tr>
+<tr><td>Day 20–35</td><td>快速生長</td><td>藤蔓往上爬</td><td>每天確認藤蔓有在纏架,鬆開橫躺的枝條輕引導</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 30 🌾</strong></td><td><strong>第一次施肥</strong></td><td>植物穩健</td><td>✅ 撒 <strong>好康多 1 號</strong>(用量見施肥 section)+ 澆水</td></tr>
+<tr><td>Day 35–45</td><td>現花蕾</td><td>小花苞出現</td><td>❌ 停施高氮肥;保持穩定澆水(缺水會落花)</td></tr>
+<tr><td><strong>Day 35–50 🌸</strong></td><td><strong>開花</strong></td><td>紫白小花盛開</td><td>欣賞。溫度 < 25°C 自然授粉結果;❌ 不噴藥</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 50–60 ✂️</strong></td><td><strong>首次採收</strong></td><td>豆莢飽滿嫩綠</td><td>✅ 用剪刀或手剝,採 <strong>嫩豆莢</strong>(7–10cm,摸起來飽實);不要等到豆粒鼓出</td></tr>
+<tr><td>Day 60–90</td><td>盛產期</td><td>每 2–3 天有新豆莢</td><td>✅ 持續採收;越採越多;每週澆 3–4 次</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 90 🌾</strong></td><td><strong>第二次施肥</strong></td><td>採量開始下降</td><td>✅ 再撒一次好康多,延長盛產</td></tr>
+<tr><td>Day 90–120</td><td>第二輪盛產</td><td>新豆莢繼續出</td><td>✅ 持續採收</td></tr>
+<tr style="background:#fdf5e6;"><td><strong>秋播植株 11 月後 ❄️</strong></td><td><strong>衰老期</strong></td><td>葉黃、莖木質化</td><td>拔除整株堆肥;留幾根乾豆莢取種子下一季再種</td></tr>
+<tr style="background:#fdf5e6;"><td><strong>春播植株 6 月後 ☀️</strong></td><td><strong>高溫退場</strong></td><td>落花、新豆莢減少</td><td>可拔除換種耐熱蔬菜;或留架等 9 月再補播秋季批</td></tr>
+</tbody>
+</table>
+
+<div class="callout" style="margin-top:12px;">
+<h4>📱 播種當天就要做的 3 件事</h4>
+<ol style="margin:4px 0 0;padding-left:22px;">
+<li>Google 行事曆設提醒:<strong>今日 + 30 天</strong>「撒好康多、澆水」、<strong>今日 + 90 天</strong>「再撒好康多」</li>
+<li>便利貼寫播種日期貼盆邊 — 讓眼睛看得到「這盆是幾月種的」</li>
+<li>記下是春播還是秋播 — 春播植株 6 月後退場、秋播 11 月後退場,心裡有底</li>
+</ol>
+<p style="margin:6px 0 0;font-size:14px;"><strong>半年的決定當天做完,腦袋騰出來做別的事</strong>。</p>
+</div>
+
+<p style="font-size:14px;color:var(--muted);margin-top:10px;"><em>施肥細節看下方「🌾 施肥」、採收技巧看「✂️ 採收」section。</em></p>`,
+      },
+      {
+        id: 'fertilizer', emoji: '🌾', heading: '施肥',
+        html: `
+<p><strong>本 handbook 預設固體緩釋肥,不推液肥給新手</strong> — 撒一次吃 3 個月,難燒根,照顧者記憶負擔最小。</p>
+<p style="font-size:14px;color:var(--muted);margin-top:4px;"><em>施肥時機(Day 30 / Day 90)已經統整在上面「📋 完整時程表」,這個 section 專講 <strong>用多少 · 用哪款 · 怎麼撒</strong>。</em></p>
+
+<div class="callout warn" style="margin-bottom:12px;">
+<h4>⚠️ 四季豆施肥特別注意:開花期停高氮</h4>
+<p style="margin:0;">四季豆是豆科植物,根部根瘤菌可以自行固氮。<strong>現花苞到結果期(Day 35–60)不要施高氮肥</strong>,氮過多會長葉不開花。Day 30 施肥後如果植株長勢很旺但遲遲不開花,先停肥 1–2 週再觀察。</p>
+</div>
+
+<div class="callout">
+<h4>📐 不同盆大小 · 速查(好康多 1 號)</h4>
+<table style="margin-top:6px;">
+<thead><tr><th>盆</th><th>顆數</th></tr></thead>
+<tbody>
+<tr><td>3 吋圓盆(Ø9cm)</td><td><strong>3 粒</strong></td></tr>
+<tr><td>5 吋圓盆(Ø15cm)</td><td><strong>5 粒</strong></td></tr>
+<tr><td>7 吋圓盆(Ø21cm)</td><td><strong>8 粒</strong></td></tr>
+<tr><td><strong>長方盆 50×20cm</strong></td><td><strong>15 粒</strong></td></tr>
+<tr><td>大陽台盆槽 60cm+</td><td><strong>18–20 粒</strong></td></tr>
+</tbody>
+</table>
+<p style="margin:8px 0 0;font-size:14px;"><strong>原則</strong>:寧可比這個少,不可比這個多。過肥比缺肥更難救。</p>
+</div>
+
+<h4 style="color:var(--primary);margin-top:14px;">🛒 買哪一款</h4>
+<ul>
+<li><strong>好康多 1 號</strong>(NPK 14-11-13)— 萬用款,果菜/葉菜都適用</li>
+<li>350g 小包約 NT$100,一包吃好幾盆整季</li>
+<li>全聯園藝區、花市、iGarden 網購都有</li>
+<li>替代品:魔肥、奧綠肥(類似緩釋顆粒肥都 OK)</li>
+</ul>
+
+<div class="callout warn">
+<h4>📱 記憶外包 — 播種當天就把整季施肥設定完</h4>
+<p style="margin:0 0 6px;">不要依賴記憶、不要依賴觀察植物。播種當天就打開 Google 行事曆設兩個提醒:</p>
+<ul style="margin:0;padding-left:20px;">
+<li>播種日 + 30 天 → 「撒好康多(量見盆大小表格)、澆水」</li>
+<li>播種日 + 90 天 → 「再撒一次好康多」</li>
+</ul>
+<p style="margin:8px 0 0;font-size:14px;"><strong>半年的決定一次做完</strong>。這是照護者 handbook 的核心哲學 — 決定外包到行事曆/便利貼/物理空間,不是記在腦裡。</p>
+</div>
+
+<details style="margin-top:14px;border:1px solid var(--border);border-radius:8px;padding:10px 14px;">
+<summary style="cursor:pointer;color:var(--primary-dark);font-weight:bold;">⚠️ 出事才看:一眼判斷 3 條(日常不用觀察)</summary>
+<div style="padding:10px 0 0;">
+<table>
+<thead><tr><th>看到什麼</th><th>是什麼</th><th>立刻做</th></tr></thead>
+<tbody>
+<tr><td>土表<strong>白色結晶</strong></td><td>過肥/鹽積</td><td>停肥,大量清水沖盆 3 次</td></tr>
+<tr><td>整株葉色<strong>淡綠</strong>(該是深綠)</td><td>缺肥</td><td>再撒 5 粒</td></tr>
+<tr><td>葉緣<strong>焦黃捲曲</strong></td><td>過肥/燒根</td><td>停肥,澆清水沖</td></tr>
+<tr><td>花一直開卻<strong>不結果</strong></td><td>高溫落花 or 高氮</td><td>確認氣溫 < 25°C;停施氮肥 1–2 週</td></tr>
+</tbody>
+</table>
+</div>
+</details>
+
+<details style="margin-top:10px;border:1px solid var(--border);border-radius:8px;padding:10px 14px;">
+<summary style="cursor:pointer;color:var(--muted);font-size:14px;">🧪 進階:想用液肥的路線(不建議新手)</summary>
+<div style="padding:10px 0 0;font-size:14px;">
+<ul>
+<li><strong>花寶 2 號</strong>(NPK 10-30-20,高磷高鉀)— 開花結果期適用,增加開花量</li>
+<li>每 10–14 天一次,包裝稀釋比<strong>再減半</strong>(防燒根)</li>
+<li>澆根部,不澆葉面;中午大太陽不施</li>
+<li>施完澆一次清水沖殘留</li>
+</ul>
+<p style="margin-top:6px;"><strong>液肥效果快但誤差大;固體肥慢但難出錯</strong>。handbook 主推固體。</p>
+</div>
+</details>
+
+<p style="font-size:13px;color:var(--muted);margin-top:14px;">通用施肥原則(缺肥 vs 過肥對照、NPK 速查)看 <a href="#" onclick="event.preventDefault();navigateTo('page-knowledge');return false;" style="color:var(--primary);font-weight:bold;">📚 通用園藝知識 → 🌾 施肥</a>。</p>`,
+      },
+      {
+        id: 'harvest', emoji: '✂️', heading: '採收',
+        html: `
+<h4 style="color:var(--primary);">什麼時候採</h4>
+<ul>
+<li>豆莢長到 <strong>7–12cm</strong>、摸起來飽實但還沒鼓出豆粒形狀時採最嫩</li>
+<li>開花後 <strong>7–10 天</strong>就可以採一批</li>
+<li>不要等到豆粒鼓出後才採 — 豆莢變硬、纖維多,口感差</li>
+<li>盛產期<strong>每 2–3 天巡一次</strong>,沒採的老豆莢會讓植株停止長新莢</li>
+</ul>
+
+<h4 style="color:var(--primary);margin-top:12px;">怎麼採</h4>
+<ul>
+<li><strong>剪刀剪蒂頭</strong>(乾淨,不傷莖)或用手往側邊輕折(熟練後很快)</li>
+<li>採完放涼水盆浸一下,脆度更好</li>
+<li>一次採一批,裝碗或袋,直接進廚房</li>
+</ul>
+
+<h4 style="color:var(--primary);margin-top:12px;">常見料理</h4>
+<ul>
+<li><strong>蒜炒四季豆</strong> — 大火快炒 2 分鐘,鹽巴調味</li>
+<li><strong>四季豆炒蛋</strong> — 蛋液加入後小火,軟嫩版家常菜</li>
+<li><strong>涼拌四季豆</strong> — 汆燙 3 分鐘、過冷水、淋芝麻醬或蒜頭醬油</li>
+<li>台灣料理書多有現成食譜,不用背</li>
+</ul>
+
+<div class="callout" style="margin-top:12px;background:#e8f5e9;border-left-color:var(--primary-dark);">
+<h4>🔄 採了才有下一批 — 這是四季豆最重要的採收原則</h4>
+<p style="margin:0;">四季豆越採越多。<strong>老豆莢留在植株上會發送「任務完成」訊號,讓植株停止長新莢</strong>。盛產期一定要勤採,不用心疼。採下來吃不完可以冷藏 3–5 天或汆燙冷凍。</p>
+</div>`,
+      },
+      {
+        id: 'troubleshoot', emoji: '🛡', heading: '失敗點與除錯',
+        html: `
+<table>
+<thead><tr><th>症狀</th><th>可能原因</th><th>對策</th></tr></thead>
+<tbody>
+<tr><td>播種 10 天沒發芽</td><td>土太乾 / 溫度太低 / 種子太舊</td><td>確認土表微潮;氣溫 < 15°C 先等暖;換新種子再試</td></tr>
+<tr><td>幼苗倒伏、莖基部腐爛</td><td>立枯病(土壤水分過多)</td><td>改善排水;剪掉病株;換土再補播</td></tr>
+<tr><td>一直開花但不結果</td><td>高溫 > 25°C 落花</td><td>等天氣涼(秋播)或等秋天;這個問題無法人工解決</td></tr>
+<tr><td>開花後豆莢很少</td><td>授粉不良 / 蟲害吃花</td><td>手動授粉(棉棒沾花粉點雌花);驅蟲</td></tr>
+<tr><td>葉片有黃色或白色斑點</td><td>葉蟎 / 薊馬</td><td>清水沖葉背;嚴重時噴苦楝油(食品級安全)</td></tr>
+<tr><td>葉面有細白粉末</td><td>白粉病(濕悶環境)</td><td>改善通風;移到更通風處;摘除病葉</td></tr>
+<tr><td>豆莢被啃出缺口</td><td>豆莢螟(蛾的幼蟲鑽入)</td><td>早採嫩莢;開花期套網袋或用有機防蟲網</td></tr>
+<tr><td>搭架後植株還是倒</td><td>盆太淺 / 風太大</td><td>換深盆;架子底部加重石;架子固定到牆或欄杆</td></tr>
+<tr><td>移苗後一直萎靡不振</td><td>根系擾動傷害</td><td>四季豆根系不耐擾動,<strong>下一批直播</strong>,不要移苗</td></tr>
+</tbody>
+</table>`,
+      },
+      {
+        id: 'dementia', emoji: '🧠', heading: '失智照護應用 Notes',
+        byLevel: {
+          mild: `
+<div class="callout">
+<h4>📍 輕度:讓她主導量測和採收</h4>
+<p style="margin:0;">她還能理解多步驟動作。四季豆提供了<strong>視覺進展、每日量測、採收成就感</strong>三個層次的意義。</p>
+</div>
+<ul>
+<li><strong>每天量藤蔓高度</strong> — 在架子貼一條標尺(便利貼標高度);讓她記錄今天長到哪裡,明天再比</li>
+<li>開花時帶她去看:「這朵花一週後就變豆莢了」— 有明確的因果時間感</li>
+<li>採收時她能自己剪、自己裝碗,帶進廚房說「這是我種的」</li>
+<li><strong>讓她決定今天要採哪幾條</strong>(選擇感、主導感維持認知自主)</li>
+<li>目標:維持「我是這個家的農夫」的身份感,不只是被照顧者</li>
+</ul>
+<p>這個階段的價值:<strong>從種到吃的完整迴路,讓她感受到自己對家有貢獻</strong>。</p>`,
+          moderate: `
+<div class="callout">
+<h4>📍 中度:每次只做一個動作,成果帶回廚房</h4>
+<p style="margin:0;">她能執行單一動作,但多步驟會卡住。四季豆的高頻採收是最適合中度階段的 ritual — <strong>每 2–3 天就有具體的「任務」</strong>。</p>
+</div>
+<ul>
+<li><strong>澆水工具事先備好放盆旁邊</strong> — 不要讓她找水龍頭</li>
+<li>言語指令<strong>單一動作一次</strong>:「幫我把這條豆莢剪下來」,不要說「去採幾條豆莢回來」</li>
+<li>採收時<strong>你指著豆莢問「這條夠大嗎?」</strong> — 讓她決定,而不是你決定</li>
+<li>採回來放在廚房流理台,請她<strong>折斷頭尾</strong>(備菜動作,手部精細動作維持)</li>
+<li>攀藤的視覺進展<strong>不需要語言理解</strong> — 即使她說不出「長了幾公分」,她能感受到</li>
+</ul>
+<p>這個階段的價值:<strong>高頻小收穫維持 reward 迴路緊湊感,不用等待一週才有一次成就</strong>。</p>`,
+          severe: `
+<div class="callout">
+<h4>📍 重度:不要求動作,要求存在和感官接觸</h4>
+<p style="margin:0;">她的自主動作有限。四季豆的價值從「活動」轉為<strong>「感官陪伴」和「共享儀式」</strong>。</p>
+</div>
+<ul>
+<li>帶她坐在盆旁邊,你澆給她看 — 水聲、土的氣味</li>
+<li>把剛採下的嫩豆莢放到她手上:涼的、光滑的、微微彎曲 — <strong>觸覺刺激不需要語言</strong></li>
+<li>讓她聞豆莢的清草味(嗅覺通路在失智晚期保存較久)</li>
+<li>你折斷頭尾備菜時她在旁邊 — 折斷聲音很清脆,是感官刺激</li>
+<li>每天同樣時段、同樣路徑帶她到盆旁邊 — <strong>節奏感比完成度重要</strong></li>
+</ul>
+<p>這個階段的價值:<strong>她不需要「做」,她需要「在場」這個充滿生命氣息的地方</strong>。嫩豆莢的綠、涼涼的觸感、草木氣味 — 這些感官記憶比語言記憶晚消逝。</p>`,
+        },
+      },
+      {
+        id: 'log', emoji: '📓', heading: '實測紀錄',
+        html: `
+<div class="callout warn">
+<p style="margin:0;"><strong>尚未實測</strong> — 四季豆 entry 建立於 2026-04-23,第一批計畫春播(4 月下旬)。這個 section 會在播種後持續補紀錄:發芽天數、開花時間、首採日、盛產量、失敗點。</p>
+</div>
+
+<div class="callout">
+<p style="margin:0;"><strong>未來計畫</strong></p>
+<ul style="margin:6px 0 0;padding-left:20px;">
+<li>春播(2026 年 4 月下旬)— 記錄發芽天數、搭架效果、首次採收</li>
+<li>測試矮性 vs 蔓性兩款的盆栽適合度</li>
+<li>記錄失智照護應用:長輩參與採收的頻率和反應</li>
+<li>秋播(2026 年 9 月)— 比較春秋兩季的生長差異</li>
+</ul>
+</div>
+
+<p style="color:var(--muted);font-size:14px;"><em>採收實測、失智照護 ritual 導入紀錄會陸續補進。</em></p>`,
+      },
+    ],
+  },
 ];
 
 // =========================================================
