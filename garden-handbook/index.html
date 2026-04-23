@@ -12899,6 +12899,268 @@ const PLANTS = [
       },
     ],
   },
+
+  // =========== 芽菜 Kit(葉菜/水耕極速) ===========
+  {
+    id: 'sprouts',
+    name: '芽菜 Kit(苜蓿/綠豆/花生)',
+    emoji: '🌱',
+    category: 'leafy',
+    meta: {
+      difficulty: '極低(零門檻)',
+      season: '全年皆可(室內水耕，不看季節)',
+      light: '不需要光(避光更好)',
+      location: '廚房流理台 / 水槽旁 / 櫥櫃裡',
+      seasons: ['spring', 'summer', 'autumn', 'winter'],
+      bestStartMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    },
+    suitableFor: ['beginner', 'small_space', 'indoor', 'kid_friendly', 'low_maintenance'],
+    warnings: [],
+    sections: [
+      {
+        id: 'why', emoji: '💡', heading: '為什麼芽菜是最快有成果的可食植物',
+        html: `
+<ul>
+<li><strong>4–7 天就能吃</strong> — 比地瓜葉(6 週)、小番茄(3 個月)都快得多。種下去馬上有成果,挫折感趨近於零</li>
+<li><strong>0 門檻、0 土</strong> — 廚房塑膠籃、紗布、玻璃罐就能做。不用買盆、不用買土、不用陽台</li>
+<li><strong>不需要陽光</strong> — 避光反而長得更白嫩。租屋族、北向房間、沒有窗台都能種</li>
+<li><strong>一週循環，常有新鮮感</strong> — 4–7 天一批，每週都有採收儀式，reward loop 密度遠勝其他蔬菜</li>
+<li><strong>廚房直連</strong> — 採收到下鍋 30 秒。苜蓿芽直接夾三明治；綠豆芽丟豆腐湯；花生芽涼拌</li>
+<li><strong>對失智照護特別有效</strong> — 每天沖水 2–3 次是固定 ritual，視覺變化快（一天一個樣），最快的正向反饋迴路</li>
+</ul>`,
+      },
+      {
+        id: 'obtain', emoji: '🛒', heading: '取得方式',
+        html: `
+<div class="callout warn" style="margin-bottom:10px;">
+<h4>🗓️ Step 0 · 確認一件事再動手</h4>
+<p style="margin:0;"><strong>芽菜全年都能種，沒有季節限制</strong> — 室內水耕，不依賴氣溫和日照。唯一要確認的是：<strong>種子來源要可靠</strong>。超市賣的食用豆仁可能有農藥殘留或被熱處理過，發芽率低甚至完全不發。請用下面推薦管道。</p>
+</div>
+
+<div class="callout" style="background:#e8f5e9;border-left-color:var(--primary-dark);">
+<h4>📦 推薦的新手包 · 三步照順序來</h4>
+<ol style="margin:6px 0 4px;padding-left:22px;">
+<li><strong>先準備容器(這一步今天就能做)</strong> — 廚房的塑膠漏水籃或竹篩(底部有孔)，鋪一層棉布或紗布，或直接買 NT$150–300 的專用發芽盒(PChome 搜尋「發芽盒」)</li>
+<li><strong>再買種子</strong> — <strong>蝦皮搜尋「苜蓿芽種子」/ 「綠豆芽種子」/ 「花生芽種子」</strong>，認明「食用/芽菜專用」標示，一包約 NT$80–150，可種 10–20 批</li>
+<li><strong>到貨當天泡水開始</strong> — 種子洗一洗，放碗裡泡水 12–24 小時，浮起來的豆挑掉，沉底的才下容器</li>
+</ol>
+<p style="margin:8px 0 0;font-size:14px;color:var(--muted);">⚠️ <strong>順序不能顛倒</strong>：容器沒準備好，種子到了找不到地方放，急著用碗代替又不好瀝水，第一批就很容易悶爛。總預算 <strong>NT$300 有找</strong>，而且種子一包用半年。</p>
+</div>
+
+<h4 style="color:var(--primary);margin:14px 0 6px;">三種芽菜對照一眼看</h4>
+<table style="margin-top:6px;">
+<thead><tr><th>芽菜</th><th>泡水時間</th><th>採收天數</th><th>主要用途</th><th>備註</th></tr></thead>
+<tbody>
+<tr><td><strong>苜蓿芽</strong></td><td>12 小時</td><td>5–7 天</td><td>三明治、沙拉(生吃)</td><td>最細嫩，需避光</td></tr>
+<tr><td><strong>綠豆芽</strong></td><td>12–24 小時</td><td>4–5 天</td><td>炒菜、豆腐湯</td><td>最常見，最好種</td></tr>
+<tr><td><strong>花生芽</strong></td><td>24 小時</td><td>6–7 天</td><td>炒、涼拌、燙熟吃</td><td>稍慢但白胖好看</td></tr>
+</tbody>
+</table>
+
+<div class="callout warn" style="margin-top:12px;">
+<h4>⚠️ 不推薦：用超市豆仁直接發芽</h4>
+<p style="margin:0;">超市食用豆仁（綠豆、黃豆）可能被熱處理過（延長保存），發芽率通常低於 20%。買不發芽的豆子泡三天等不到芽，還以為自己操作錯了。請認明「芽菜種子」或「發芽用」標示。</p>
+</div>`,
+      },
+      {
+        id: 'pot-soil', emoji: '🏺', heading: '容器與工具(無需土壤)',
+        html: `
+<h4 style="color:var(--primary);">基本款(廚房現有物品)</h4>
+<ul>
+<li><strong>漏水容器</strong> — 有細孔的塑膠漏水籃、竹篩、或紗布套在碗口(橡皮筋固定)</li>
+<li><strong>底盆</strong> — 普通碗或盤子，接瀝出的水</li>
+<li><strong>棉布或廚房紙巾</strong> — 舖容器底部幫助保濕</li>
+</ul>
+
+<h4 style="color:var(--primary);margin-top:12px;">進階款(NT$150–300 一次投資)</h4>
+<ul>
+<li><strong>專用發芽盒</strong>(三層疊式)— 蝦皮 / PChome 搜尋「發芽盒」/ 「芽苗盒」。三層可以同時種三批(錯開 2 天一批，天天有採收)</li>
+<li><strong>玻璃罐 + 紗網蓋</strong> — 適合苜蓿芽，斜放瀝水</li>
+</ul>
+
+<h4 style="color:var(--primary);margin-top:12px;">不需要的東西</h4>
+<ul>
+<li>❌ 土壤(純水耕，整個過程不用土)</li>
+<li>❌ 盆器(用廚房現有容器就好)</li>
+<li>❌ 陽台/窗台(廚房流理台就是最好的位置)</li>
+<li>❌ 施肥(種子本身的養分夠 4–7 天使用，不需要外部肥料)</li>
+</ul>
+<p style="font-size:14px;color:var(--muted);margin-top:10px;"><em>芽菜不需要施肥 section，這是手冊裡唯一的例外植物。</em></p>`,
+      },
+      {
+        id: 'steps', emoji: '🌳', heading: '種植步驟',
+        html: `
+<ol>
+<li><strong>挑豆</strong> — 種子放碗裡，倒水，用手攪一攪：<strong>浮豆全部挑掉</strong>（浮起來 = 壞豆 = 不會發芽，留著會爛一整批），沉底的才留</li>
+<li><strong>泡水 12–24 小時</strong> — 依豆種(見上表)泡夠時間，讓豆子吸飽水，表皮脹起來</li>
+<li><strong>瀝乾、放容器</strong> — 把泡好的豆倒進漏水容器，均勻鋪開，不要堆太厚(否則中間悶爛)</li>
+<li><strong>覆蓋避光</strong> — 上面蓋一層濕棉布或倒扣碗蓋。苜蓿芽放暗處或廚房吊櫃裡更好，綠豆芽放流理台陰暗處即可</li>
+<li><strong>每天沖水 2–3 次</strong> — 早中晚各沖一次清水，讓芽保持濕潤又不積水。沖完倒扣瀝乾，不讓豆子泡在水裡(泡水會爛)</li>
+</ol>
+
+<div class="callout" style="margin-top:10px;">
+<h4>💡 關鍵技巧：沖完倒扣瀝乾</h4>
+<p style="margin:0;">每次沖水後，容器要<strong>倒扣斜放</strong>或讓水自然流出。豆子不能泡在積水裡，那是悶爛發酸的主因。「沖水 → 瀝乾 → 蓋回去」這個三步驟，每天三次，是整個 SOP 的核心。</p>
+</div>`,
+      },
+      {
+        id: 'timing', emoji: '📋', heading: '完整時程表 · 泡豆到採收',
+        html: `
+<p><strong>泡豆 → 發芽 → 採收</strong>，全程 4–7 天。這是手冊裡最短的一張時程表。</p>
+
+<div class="callout warn">
+<h4>⚠️ 芽菜不看季節，但要看這三個條件</h4>
+<p style="margin:0 0 6px;">室內水耕，一年到頭都能種。唯一影響成功率的不是月份，而是這三個：</p>
+<table style="margin-top:8px;">
+<thead><tr><th></th><th>條件</th><th>狀態</th></tr></thead>
+<tbody>
+<tr style="background:#f0f8ec;"><td>✅ 最佳</td><td><strong>室溫 20–30°C / 廚房流理台 / 避光</strong></td><td>綠豆芽 4–5 天可採，苜蓿芽 5–7 天</td></tr>
+<tr><td>🟡 勉強</td><td>室溫 15–20°C（冬天開暖氣的室內）</td><td>發芽速度慢 1–2 天，但最終成功</td></tr>
+<tr style="background:#fdecec;"><td>❌ 避開</td><td><strong>室溫 &gt;35°C（沒空調的夏天廚房）</strong></td><td>悶熱 + 高溫加速腐爛，整批在 2 天內發臭</td></tr>
+</tbody>
+</table>
+<p style="margin:8px 0 0;font-size:14px;">夏天廚房沒空調？開電扇讓空氣流通，或移到有空調的客廳桌上。<strong>芽菜的敵人是「悶」，不是「冷」</strong>。</p>
+</div>
+
+<table>
+<thead><tr><th>天數</th><th>階段</th><th>豆子狀態</th><th>你的動作</th></tr></thead>
+<tbody>
+<tr><td><strong>Day 1 早</strong></td><td>挑豆 + 泡水</td><td>乾豆</td><td>挑浮豆 → 泡水 12–24 小時</td></tr>
+<tr><td><strong>Day 2 早</strong></td><td>入容器</td><td>豆子脹大，表皮開始裂</td><td>瀝乾 → 放漏水容器 → 蓋布避光</td></tr>
+<tr><td>Day 2–3</td><td>每天沖水</td><td>芽尖開始冒出(1–3mm)</td><td>早中晚各沖水一次，沖完倒扣瀝乾</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 4–5 ✂️</strong><br><em style="font-weight:normal;font-size:12px;">(綠豆芽)</em></td><td><strong>綠豆芽可採</strong></td><td>芽長 3–5 公分，白嫩筆直</td><td>✅ 整批取出，清水沖一遍，直接下鍋或冰箱保存（2–3 天）</td></tr>
+<tr style="background:#f0f8ec;"><td><strong>Day 5–7 ✂️</strong><br><em style="font-weight:normal;font-size:12px;">(苜蓿芽/花生芽)</em></td><td><strong>苜蓿芽 / 花生芽可採</strong></td><td>苜蓿芽細長 4–6 公分；花生芽粗壯白胖</td><td>✅ 同上。苜蓿芽可最後一天短暫見光讓葉片轉淺綠（選做）</td></tr>
+<tr><td>採收後</td><td>立即下一批</td><td>容器清洗乾淨</td><td>重複 Day 1 流程；三批錯開種可天天採</td></tr>
+</tbody>
+</table>
+
+<div class="callout" style="margin-top:12px;">
+<h4>📱 第一次種當天就要做的 2 件事</h4>
+<ol style="margin:4px 0 0;padding-left:22px;">
+<li>手機設每天三次鬧鐘：<strong>早上 / 中午 / 晚上「沖芽菜水」</strong>(連續 7 天)</li>
+<li>廚房便利貼寫：<strong>泡豆日期 + 預計採收日</strong>（貼流理台旁邊，讓眼睛看得到）</li>
+</ol>
+<p style="margin:6px 0 0;font-size:14px;"><strong>三個鬧鐘換一把新鮮芽菜，這是手冊裡投報率最高的一種植物。</strong></p>
+</div>
+
+<p style="font-size:14px;color:var(--muted);margin-top:10px;"><em>芽菜不需要施肥，直接跳到「✂️ 採收」。</em></p>`,
+      },
+      {
+        id: 'fertilizer', emoji: '🌾', heading: '施肥(芽菜不需要施肥)',
+        html: `
+<div class="callout" style="background:#f0f8f0;">
+<h4>🌱 芽菜是手冊裡唯一不需要施肥的植物</h4>
+<p style="margin:0;">種子本身儲存了讓幼芽生長的全部養分。整個 4–7 天週期只需要<strong>水</strong>，不需要任何肥料。如果加了肥反而可能促進雜菌繁殖，加速腐爛。</p>
+<p style="margin:8px 0 0;font-size:14px;"><strong>一旦芽長到 3–7 公分就採收，不要讓它長太大</strong> — 超過採收期繼續留著，養分耗盡之後風味變苦、容易倒伏爛掉。</p>
+</div>
+
+<p style="font-size:13px;color:var(--muted);margin-top:14px;">通用施肥原則看 <a href="#" onclick="event.preventDefault();navigateTo('page-knowledge');return false;" style="color:var(--primary);font-weight:bold;">📚 通用園藝知識 → 🌾 施肥</a>（其他需要施肥的植物適用）。</p>`,
+      },
+      {
+        id: 'harvest', emoji: '✂️', heading: '採收',
+        html: `
+<ul>
+<li><strong>採收時機</strong> — 芽長到 3–7 公分，鬚根冒出但還白嫩的時候就採。過了這個時間點，味道開始變苦、口感變硬</li>
+<li><strong>採法</strong> — 整批一起取出，不分次採。清水沖 2–3 遍，讓豆殼浮起來撈掉（洗不乾淨也沒關係，豆殼可以吃）</li>
+<li><strong>保存</strong> — 沖乾淨的芽菜裝袋冷藏，<strong>2–3 天吃完</strong>。超過 3 天口感明顯下滑，也容易長雜菌</li>
+</ul>
+
+<h4 style="color:var(--primary);margin-top:12px;">三種芽菜的吃法</h4>
+<ul>
+<li><strong>苜蓿芽</strong> — 生吃為主：夾三明治、拌沙拉、放豆腐上淋醬油。不建議煮熟（口感全消）</li>
+<li><strong>綠豆芽</strong> — 炒菜、豆腐味噌湯、燙豆芽淋麻油蒜末。大火快炒 30 秒，不要炒太久</li>
+<li><strong>花生芽</strong> — 燙熟涼拌（麻油、薑絲）、炒蔬菜、加入炒飯。比生吃更安全（花生較難生吃）</li>
+</ul>
+
+<div class="callout warn" style="margin-top:12px;">
+<h4>⚠️ 採收到保存的食品安全</h4>
+<p style="margin:0;">芽菜在潮濕環境生長，<strong>沙門氏菌是全球芽菜最常見的食品安全風險</strong>（尤其苜蓿芽生吃）。台灣家庭自種的風險比商業規模低很多，但出現以下情況<strong>整批丟掉，不要猶豫</strong>：</p>
+<ul style="margin:6px 0 0;padding-left:20px;">
+<li>聞到酸臭味（正常芽菜幾乎無味，有酸味就是在腐敗）</li>
+<li>看到黑點或白色絨毛（黴菌）</li>
+<li>豆子表面黏滑</li>
+</ul>
+<p style="margin:6px 0 0;font-size:14px;">預防：<strong>每天沖水 2–3 次（最重要）、容器每批之間洗乾淨、不要種太厚</strong>。</p>
+</div>`,
+      },
+      {
+        id: 'troubleshoot', emoji: '🛡', heading: '失敗點與除錯',
+        html: `
+<table>
+<thead><tr><th>症狀</th><th>可能原因</th><th>對策</th></tr></thead>
+<tbody>
+<tr><td>3 天沒發芽，豆子只是脹大</td><td>種子被熱處理過 / 農藥殘留（超市食用豆）</td><td>換用「芽菜專用種子」。超市豆仁不適合發芽</td></tr>
+<tr><td>發芽率不到一半</td><td>浮豆沒挑乾淨 / 泡水時間不夠</td><td>下次更仔細挑浮豆；綠豆芽泡足 24 小時</td></tr>
+<tr><td>豆子發臭、黏滑</td><td>積水悶爛（最常見失敗原因）</td><td>每次沖水後確實倒扣瀝乾；整批丟掉重來</td></tr>
+<tr><td>長了白色絨毛</td><td>長根毛 or 長黴菌</td><td>根毛正常（看起來像毛茸茸的鬚），黴菌有黑/綠色斑點並且有霉味 → 丟掉重來</td></tr>
+<tr><td>芽很細弱，倒下來</td><td>種太厚 / 豆子疊在一起</td><td>下次量減半，均勻鋪開，每層不超過 1 公分厚</td></tr>
+<tr><td>芽變綠變苦</td><td>見到陽光太多</td><td>蓋回去，放暗處。綠化只影響口感，還是能吃</td></tr>
+<tr><td>採收後冰箱放兩天就爛</td><td>沒有確實瀝乾就裝袋</td><td>採收後用廚房紙巾吸乾水分再裝袋，可延長到 3 天</td></tr>
+</tbody>
+</table>`,
+      },
+      {
+        id: 'dementia', emoji: '🧠', heading: '失智照護應用 Notes',
+        byLevel: {
+          mild: `
+<div class="callout">
+<h4>📍 輕度：最快 reward 迴路，用來建立種植信心</h4>
+<p style="margin:0;">她還能理解步驟、記得「今天要沖芽菜水」這件事。芽菜的 4–7 天週期是建立「自己種得活東西」信心的最快路徑，比地瓜葉快五倍。</p>
+</div>
+<ul>
+<li>讓她主導<strong>挑浮豆</strong>這個步驟 — 判斷很簡單（浮起來的扔掉），但有真實成果感：「我挑的豆才會發芽」</li>
+<li>手機鬧鐘設「沖芽菜」三次，讓她自己去廚房沖 — 你只需要口頭觸發一次，她能完成剩下的</li>
+<li>採收那天一起做：她洗芽菜、你炒菜，<strong>從種植到上桌全程看得到</strong></li>
+<li>週期短，可以連種三批錯開 — 每天都有事做，不必等</li>
+</ul>
+<p>這個階段的價值：<strong>「我種的東西今天上桌了」這句話，比任何認知遊戲都珍貴。</strong></p>`,
+          moderate: `
+<div class="callout">
+<h4>📍 中度：固定的沖水 ritual，每天三次的節奏錨點</h4>
+<p style="margin:0;">多步驟記憶困難了，但「去廚房沖水」這個單一動作她還能做。芽菜的優勢是：把一天分割成三個「去廚房做一件事」的錨點。</p>
+</div>
+<ul>
+<li><strong>容器就放在水槽旁邊，不要移動</strong> — 固定位置讓她不需要找，看到水槽就想到芽菜</li>
+<li>鬧鐘設好、手機放定位（她的慣用桌上），鬧鐘響了她自己去沖</li>
+<li>每天沖水時你可以在旁邊：<strong>「聞聞看，今天長多少了」</strong> — 嗅覺刺激 + 視覺驚喜（豆子一天一個樣）</li>
+<li>採收時你剪下來、放她面前：讓她負責<strong>清洗芽菜</strong>（放水盆裡撈，簡單動作）</li>
+<li>不要讓她負責「幾天後才採收」的時間判斷，那個決定由你來</li>
+</ul>
+<p>這個階段的價值：<strong>三個鬧鐘 = 三個「她還在參與家裡的事」的時刻</strong>。比要她記住一件複雜的事更有效。</p>`,
+          severe: `
+<div class="callout">
+<h4>📍 重度：視覺驚喜 + 觸覺 + 洗芽菜的水聲</h4>
+<p style="margin:0;">她的主動動作有限，但<strong>芽菜的視覺變化速度是所有植物裡最快的</strong> — 每天拿給她看：「今天長這樣了。」這一句話，比任何解說都有效。</p>
+</div>
+<ul>
+<li>每天沖水時讓她坐在旁邊，你拿著容器讓她<strong>看芽菜被水沖到的樣子</strong> — 水聲、清涼感、白嫩的芽</li>
+<li>把一把芽菜放到她手上讓她握著 — <strong>細軟的觸感</strong>是感官刺激</li>
+<li>採收那天：你沖洗芽菜，讓她坐旁邊<strong>看水流過芽菜</strong>，不要求她做任何事</li>
+<li>晚餐時：「這個是她今天一起照顧的芽菜」— 給家人說，讓她聽到，<strong>存在感比動作更重要</strong></li>
+</ul>
+<p>這個階段的價值：<strong>變化快是最大的優勢</strong> — 每天都有新的「看，長了」，不需要她記得昨天是什麼樣子，當下就有驚喜。這是重度失智照護裡最珍貴的互動素材。</p>`,
+        },
+      },
+      {
+        id: 'log', emoji: '📓', heading: '實測紀錄',
+        html: `
+<div class="callout warn">
+<p style="margin:0;"><strong>尚未實測</strong> — 芽菜 entry 建於 2026-04-23，Tom 計畫在地瓜葉 Day 14（發根確認後）開始第一批綠豆芽。</p>
+</div>
+
+<div class="callout">
+<p style="margin:0;"><strong>預計計畫</strong></p>
+<ul style="margin:6px 0 0;padding-left:20px;">
+<li>第一批：綠豆芽（最好種的），確認 SOP 正確</li>
+<li>第二批：苜蓿芽，確認避光效果</li>
+<li>第三批：與失智照護 ritual 結合（讓媽媽負責每天沖水），記錄互動品質</li>
+</ul>
+</div>
+
+<p style="color:var(--muted);font-size:14px;"><em>實測結果、ritual 導入紀錄、食品安全實際狀況會在種完後補進這裡。</em></p>`,
+      },
+    ],
+  },
 ];
 
 // =========================================================
