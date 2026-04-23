@@ -295,6 +295,55 @@ body {
   font-size: 11px; font-weight: 700; margin-bottom: 2px; letter-spacing: 0.5px;
 }
 
+.plant-overview {
+  background: #f0f8ec;
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  border: 1px solid #c9e4b6;
+}
+.plant-overview h3 {
+  font-size: 16px;
+  color: var(--primary-dark);
+  margin: 0 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.plant-overview .ov-row {
+  display: flex;
+  gap: 10px;
+  padding: 5px 0;
+  font-size: 14px;
+  line-height: 1.6;
+  border-bottom: 1px dashed #d4e8c2;
+}
+.plant-overview .ov-row:last-child { border-bottom: none; }
+.plant-overview .ov-row .ov-label {
+  flex: 0 0 56px;
+  color: var(--primary-dark);
+  font-weight: 700;
+}
+.plant-overview .ov-row .ov-text { flex: 1; }
+.plant-overview .fit-tags {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #c9e4b6;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.fit-tag {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+.fit-tag.good { background: #e1f5e1; color: #2d6a3f; border: 1px solid #a8d8a8; }
+.fit-tag.warn { background: #fff3cd; color: #8a5a10; border: 1px solid #f4d48a; }
+
 .plant-sections {
   background: var(--card);
   border-radius: 14px;
@@ -588,6 +637,7 @@ footer a { color: var(--primary); text-decoration: none; }
     <h1 id="plant-name"></h1>
   </div>
   <div class="plant-meta" id="plant-meta"></div>
+  <div class="plant-overview" id="plant-overview"></div>
   <div class="plant-sections" id="plant-sections"></div>
   <div class="memo-section">
     <h3>📝 我的 Memo</h3>
@@ -976,6 +1026,7 @@ const PLANTS = [
         fertilizer: { product: '好康多 1 號 350g', shared: true, priceMin: 100, priceMax: 150 },
         tools: ['剪刀'],
       },
+      fit: { suitableFor: ['beginner', 'kid_friendly', 'low_maintenance'], warnings: [] },
     },
     sections: [
       {
@@ -1333,6 +1384,7 @@ const PLANTS = [
         fertilizer: { product: '好康多 1 號 350g', shared: true, priceMin: 100, priceMax: 150 },
         tools: [],
       },
+      fit: { suitableFor: ['beginner', 'small_space', 'indoor', 'low_maintenance'], warnings: ['pet_toxic'] },
     },
     sections: [
       {
@@ -1667,6 +1719,7 @@ const PLANTS = [
         fertilizer: { product: '好康多 1 號 350g', shared: true, priceMin: 100, priceMax: 150 },
         tools: ['剪刀'],
       },
+      fit: { suitableFor: ['beginner', 'small_space', 'indoor', 'low_maintenance'], warnings: ['pet_toxic'] },
     },
     sections: [
       {
@@ -1982,6 +2035,7 @@ const PLANTS = [
         fertilizer: { product: '好康多 1 號 + 花寶 2 號(開花期高磷)', shared: true, priceMin: 200, priceMax: 300 },
         tools: ['竹枝/支架(搭架)', '剪刀', '毛刷或電動牙刷(授粉)'],
       },
+      fit: { suitableFor: ['kid_friendly'], warnings: ['advanced', 'needs_deep_pot'] },
     },
     sections: [
       {
@@ -2337,6 +2391,7 @@ const PLANTS = [
         fertilizer: { product: '好康多 1 號 + 花寶 2 號(開花/結果期)', shared: true, priceMin: 200, priceMax: 300 },
         tools: ['毛刷(人工授粉)', '剪刀'],
       },
+      fit: { suitableFor: ['kid_friendly'], warnings: ['advanced'] },
     },
     sections: [
       {
@@ -2662,6 +2717,7 @@ const PLANTS = [
         fertilizer: { product: '好康多 1 號 350g', shared: true, priceMin: 100, priceMax: 150 },
         tools: ['剪刀'],
       },
+      fit: { suitableFor: ['beginner', 'kid_friendly'], warnings: [] },
     },
     sections: [
       {
@@ -2992,6 +3048,7 @@ const PLANTS = [
         fertilizer: { product: '好康多 1 號 350g', shared: true, priceMin: 100, priceMax: 150 },
         tools: ['剪刀'],
       },
+      fit: { suitableFor: ['beginner', 'low_maintenance'], warnings: ['pet_toxic'] },
     },
     sections: [
       {
@@ -3326,6 +3383,7 @@ const PLANTS = [
         fertilizer: { product: '好康多 1 號 350g', shared: true, priceMin: 100, priceMax: 150 },
         tools: [],
       },
+      fit: { suitableFor: ['beginner', 'kid_friendly'], warnings: [] },
     },
     sections: [
       {
@@ -3649,6 +3707,7 @@ const PLANTS = [
         fertilizer: { product: '好康多 1 號 350g(週期短可省略)', shared: true, priceMin: 100, priceMax: 150 },
         tools: [],
       },
+      fit: { suitableFor: ['beginner', 'low_maintenance'], warnings: ['pet_toxic'] },
     },
     sections: [
       {
@@ -3910,6 +3969,7 @@ const PLANTS = [
         fertilizer: { product: '好康多 1 號 350g', shared: true, priceMin: 100, priceMax: 150 },
         tools: [],
       },
+      fit: { suitableFor: ['beginner', 'kid_friendly'], warnings: [] },
     },
     sections: [
       {
@@ -4184,6 +4244,7 @@ const PLANTS = [
         fertilizer: { product: '好康多 1 號 350g(週期短可省)', shared: true, priceMin: 100, priceMax: 150 },
         tools: [],
       },
+      fit: { suitableFor: ['beginner', 'kid_friendly', 'low_maintenance'], warnings: [] },
     },
     sections: [
       {
@@ -4463,6 +4524,7 @@ const PLANTS = [
         fertilizer: { product: '好康多 1 號 350g', shared: true, priceMin: 100, priceMax: 150 },
         tools: ['剪刀'],
       },
+      fit: { suitableFor: ['beginner', 'small_space', 'indoor', 'kid_friendly'], warnings: [] },
     },
     sections: [
       {
@@ -4813,6 +4875,7 @@ const PLANTS = [
         fertilizer: { product: '好康多 1 號 + 花寶 2 號(開花期)', shared: true, priceMin: 200, priceMax: 300 },
         tools: [],
       },
+      fit: { suitableFor: ['beginner'], warnings: ['kid_caution'] },
     },
     sections: [
       {
@@ -5161,6 +5224,7 @@ const PLANTS = [
         fertilizer: { product: '好康多 1 號 350g(少量)', shared: true, priceMin: 100, priceMax: 150 },
         tools: [],
       },
+      fit: { suitableFor: ['beginner', 'small_space', 'indoor', 'low_maintenance'], warnings: [] },
     },
     sections: [
       {
@@ -5556,6 +5620,7 @@ const PLANTS = [
         fertilizer: { product: '好康多 1 號 350g', shared: true, priceMin: 100, priceMax: 150 },
         tools: [],
       },
+      fit: { suitableFor: ['beginner'], warnings: ['needs_deep_pot'] },
     },
     sections: [
       {
@@ -5888,6 +5953,7 @@ const PLANTS = [
         fertilizer: { product: '好康多 1 號 + 花寶 2 號(花前 8-9 月)', shared: true, priceMin: 200, priceMax: 300 },
         tools: ['剪刀(春修剪)'],
       },
+      fit: { suitableFor: [], warnings: ['strong_scent', 'pollen'] },
     },
     sections: [
       {
@@ -6215,6 +6281,7 @@ const PLANTS = [
         fertilizer: { product: '好康多 1 號 350g', shared: true, priceMin: 100, priceMax: 150 },
         tools: [],
       },
+      fit: { suitableFor: ['beginner', 'kid_friendly'], warnings: [] },
     },
     sections: [
       {
@@ -6559,6 +6626,7 @@ const PLANTS = [
         fertilizer: { product: '好康多 1 號 350g', shared: true, priceMin: 100, priceMax: 150 },
         tools: [],
       },
+      fit: { suitableFor: ['beginner'], warnings: [] },
     },
     sections: [
       {
@@ -6903,6 +6971,7 @@ const PLANTS = [
         fertilizer: { product: '好康多 1 號 350g(少量)', shared: true, priceMin: 100, priceMax: 150 },
         tools: ['剪刀'],
       },
+      fit: { suitableFor: ['beginner', 'small_space', 'low_maintenance'], warnings: ['strong_scent'] },
     },
     sections: [
       {
@@ -7245,6 +7314,7 @@ const PLANTS = [
         fertilizer: { product: '好康多 1 號(少氮)', shared: true, priceMin: 100, priceMax: 150 },
         tools: [],
       },
+      fit: { suitableFor: ['kid_friendly'], warnings: ['needs_deep_pot'] },
     },
     sections: [
       {
@@ -7592,6 +7662,7 @@ const PLANTS = [
         fertilizer: { product: '好康多 1 號 350g', shared: true, priceMin: 100, priceMax: 150 },
         tools: [],
       },
+      fit: { suitableFor: ['beginner', 'kid_friendly'], warnings: ['needs_deep_pot'] },
     },
     sections: [
       {
@@ -7916,6 +7987,7 @@ const PLANTS = [
         fertilizer: { product: '好康多 1 號 + 花寶 2 號(結球期)', shared: true, priceMin: 200, priceMax: 300 },
         tools: [],
       },
+      fit: { suitableFor: ['beginner'], warnings: ['pet_toxic'] },
     },
     sections: [
       {
@@ -8242,6 +8314,7 @@ const PLANTS = [
         fertilizer: { product: '好康多 1 號 + 花寶 2 號(開花期)', shared: true, priceMin: 200, priceMax: 300 },
         tools: ['竹枝/支架(爬藤必備,1.5-2 公尺)', '剪刀'],
       },
+      fit: { suitableFor: ['kid_friendly'], warnings: ['advanced', 'needs_deep_pot'] },
     },
     sections: [
       {
@@ -8570,6 +8643,7 @@ const PLANTS = [
         fertilizer: { product: '好康多 1 號 350g', shared: true, priceMin: 100, priceMax: 150 },
         tools: [],
       },
+      fit: { suitableFor: ['beginner', 'kid_friendly'], warnings: ['pollen'] },
     },
     sections: [
       {
@@ -8889,6 +8963,7 @@ const PLANTS = [
         fertilizer: { product: '好康多 1 號 + 花寶 2 號(花前)', shared: true, priceMin: 200, priceMax: 300 },
         tools: ['剪刀(冬修剪)'],
       },
+      fit: { suitableFor: [], warnings: ['strong_scent'] },
     },
     sections: [
       {
@@ -9461,12 +9536,97 @@ function openPlant(plantId) {
     <div><strong>地點</strong>${plant.meta.location}</div>
   `;
 
+  renderPlantOverview(plant);
   renderPlantSections(plant);
   updateFavBtn();
   updateCartBtn();
   renderMemoHistory();
   document.getElementById('memo-input').value = '';
   navigateTo('page-plant');
+}
+
+const FIT_LABELS = {
+  suitableFor: {
+    beginner:        { emoji: '🌱', text: '新手友善' },
+    small_space:     { emoji: '📐', text: '小空間 OK' },
+    indoor:          { emoji: '🏠', text: '室內可種' },
+    kid_friendly:    { emoji: '👶', text: '兒童可參與' },
+    low_maintenance: { emoji: '💤', text: '懶人友善' },
+  },
+  warnings: {
+    pet_toxic:       { emoji: '🐱', text: '寵物勿食(貓狗有毒)' },
+    strong_scent:    { emoji: '👃', text: '強香(過敏注意)' },
+    pollen:          { emoji: '🤧', text: '花粉過敏注意' },
+    needs_deep_pot:  { emoji: '📏', text: '需深盆 30cm+' },
+    advanced:        { emoji: '🎯', text: '進階(搭架/授粉)' },
+    kid_caution:     { emoji: '🌶️', text: '有辣味,兒童小心' },
+  },
+};
+
+function renderPlantOverview(plant) {
+  const host = document.getElementById('plant-overview');
+  if (!host) return;
+  const sl = plant.meta.shoppingList || {};
+
+  // What line — propagation + pot + soil condensed
+  let whatParts = [];
+  if (sl.propagation) whatParts.push(`${sl.propagation.name} ${sl.propagation.qty}`);
+  if (sl.containers && sl.containers[0]) whatParts.push(sl.containers[0].spec);
+  if (sl.soil) whatParts.push(`培養土 ${sl.soil.volumeL}L`);
+  const whatText = whatParts.join(' · ') || '-';
+
+  // Where — source + location
+  const whereText = (sl.propagation ? sl.propagation.source + ' 買' : '') +
+    ' / ' + plant.meta.location + ' 種';
+
+  // When — meta.season
+  const whenText = plant.meta.season;
+
+  // Why — pull first `why` section's first bullet or use short version
+  let whyText = '';
+  const whySec = (plant.sections || []).find(s => s.id === 'why');
+  if (whySec && whySec.html) {
+    // Extract first <li>...</li> content, strip tags
+    const m = whySec.html.match(/<li>(.*?)<\/li>/s);
+    if (m) {
+      whyText = m[1].replace(/<[^>]+>/g, '').replace(/—.*$/, '').trim();
+      if (whyText.length > 40) whyText = whyText.slice(0, 40) + '...';
+    }
+  }
+  if (!whyText) whyText = plant.name + ' 的第一個好處';
+
+  // Who — derive from fit.suitableFor tags primarily
+  const fit = plant.meta.fit || { suitableFor: [], warnings: [] };
+  const suitables = (fit.suitableFor || []).map(k => FIT_LABELS.suitableFor[k]).filter(Boolean);
+  const warnings  = (fit.warnings || []).map(k => FIT_LABELS.warnings[k]).filter(Boolean);
+  const whoText = suitables.length > 0 ? suitables.map(s => s.text).join(' · ') : '一般家庭';
+
+  // How — one-liner derived from steps or a template
+  const bsm = plant.meta.bestStartMonths || [];
+  const monthsStr = bsm.length === 12 ? '四季' : bsm.join('/') + ' 月';
+  const howText = `${monthsStr} 下手 → 照「完整時程表」做`;
+
+  let html = '<h3>🎯 5 秒總覽(5W1H)</h3>';
+  html += `<div class="ov-row"><span class="ov-label">👥 Who</span><span class="ov-text">${whoText}</span></div>`;
+  html += `<div class="ov-row"><span class="ov-label">🌱 What</span><span class="ov-text">${whatText}</span></div>`;
+  html += `<div class="ov-row"><span class="ov-label">📅 When</span><span class="ov-text">${whenText}</span></div>`;
+  html += `<div class="ov-row"><span class="ov-label">📍 Where</span><span class="ov-text">${whereText}</span></div>`;
+  html += `<div class="ov-row"><span class="ov-label">💡 Why</span><span class="ov-text">${whyText}</span></div>`;
+  html += `<div class="ov-row"><span class="ov-label">🔧 How</span><span class="ov-text">${howText}</span></div>`;
+
+  // Tags row
+  if (suitables.length > 0 || warnings.length > 0) {
+    html += '<div class="fit-tags">';
+    suitables.forEach(s => {
+      html += `<span class="fit-tag good">${s.emoji} ${s.text}</span>`;
+    });
+    warnings.forEach(w => {
+      html += `<span class="fit-tag warn">⚠️ ${w.emoji} ${w.text}</span>`;
+    });
+    html += '</div>';
+  }
+
+  host.innerHTML = html;
 }
 
 function renderPlantSections(plant) {
@@ -9773,6 +9933,20 @@ function renderCart() {
     html += '</div>';
   }
 
+  // Suggested timeline — 建議時程
+  html += '<div class="cart-section">';
+  html += '<h3>🗓️ 採購 → 種植 → 採收 建議流程</h3>';
+  html += '<ul style="padding-left:22px;line-height:1.9;">';
+  html += '<li><strong>Day 0(今天)</strong>:去<strong>花市</strong>備盆 + 土(+ 基本工具組,如果第一次種)</li>';
+  html += '<li><strong>Day 1–2</strong>:<strong>蝦皮下單</strong>種苗/枝條 或 <strong>市場</strong>買新鮮枝條</li>';
+  html += '<li><strong>Day 3–5</strong>:種苗到貨 → <strong>當天立刻種</strong>(枝條在袋子裡悶會死)</li>';
+  html += '<li><strong>Day 6–29</strong>:依免洗筷法澆水,<strong>不要施肥</strong>(新根怕燒)</li>';
+  html += '<li><strong>Day 30</strong>:第一次施肥,好康多 1 號 15 粒(<em>系統會在行事曆提醒</em>)</li>';
+  html += '<li><strong>Day 30+</strong>:依各 plant 「📋 完整時程表」進入採收階段</li>';
+  html += '</ul>';
+  html += '<p style="font-size:13px;color:var(--muted);margin-top:6px;"><em>⚠️ 順序不能顛倒:先備盆土、後買種苗。種苗到了沒盆會悶死。</em></p>';
+  html += '</div>';
+
   // Budget — include basic tool set (one-time purchase, separate line)
   const toolsBudgetMin = 280, toolsBudgetMax = 630;
   html += `<div class="cart-budget">
@@ -9811,6 +9985,13 @@ function exportCartText() {
     });
     text += '\n';
   });
+
+  text += '【🗓️ 建議流程】\n';
+  text += '  Day 0(今天):花市備盆土 + 工具\n';
+  text += '  Day 1-2:下單/買種苗\n';
+  text += '  Day 3-5:到齊當天立刻種\n';
+  text += '  Day 30:第一次施肥(好康多)\n';
+  text += '  Day 30+:依各 plant 時程表採收\n\n';
 
   text += '【🔧 基本工具組(建議都有一套)】\n';
   text += '  • 小鏟子(挖土填土)— NT$50-100\n';
