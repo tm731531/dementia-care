@@ -595,6 +595,66 @@ footer a { color: var(--primary); text-decoration: none; }
     </details>
 
     <details class="plant-section">
+      <summary><span class="summary-text">🌾 施肥:缺肥 vs 過肥對照表</span></summary>
+      <div class="section-body">
+        <h4 style="color:var(--primary);">為什麼盆栽一定要施肥</h4>
+        <p>地種的植物根系能擴展找養分,<strong>盆栽只有盆裡那一點土</strong>。澆水會慢慢把養分沖走,兩個月後土就「空了」。不施肥 = 植物活著但長不好:葉小、色淡、採量越來越少。</p>
+
+        <h4 style="color:var(--primary);margin-top:14px;">通用時機規則</h4>
+        <ul>
+          <li><strong>剛種下 / 剛換盆 → 不施</strong>(根怕燒)</li>
+          <li><strong>冒新葉、植物穩住 → 開始施</strong></li>
+          <li><strong>生長期 → 規律施</strong>(夏天葉菜 7–10 天一次液肥;觀葉植物 2–4 週一次)</li>
+          <li><strong>冬季 / 太熱 / 太冷 → 休眠不施</strong></li>
+        </ul>
+
+        <div class="callout warn">
+          <h4>⚠️ 缺肥 vs 過肥 — 兩者症狀很像,新手最容易誤判</h4>
+          <p style="margin:0;">看到葉黃就「再補肥」,結果其實是過肥在惡化。一定要分辨:</p>
+        </div>
+        <table>
+          <thead><tr><th></th><th>缺肥</th><th>過肥</th></tr></thead>
+          <tbody>
+            <tr><td><strong>葉色</strong></td><td>均勻淡/黃,<strong>從老葉開始</strong></td><td>葉<strong>緣焦黃</strong>、捲曲,像燙傷</td></tr>
+            <tr><td><strong>新葉</strong></td><td>越長越小</td><td>異常肥大、顏色過深</td></tr>
+            <tr><td><strong>土表</strong></td><td>正常</td><td>白/灰色結晶(鹽積)</td></tr>
+            <tr><td><strong>生長</strong></td><td>慢、僵</td><td>看似旺但根可能已爛</td></tr>
+            <tr><td><strong>補救</strong></td><td>補薄肥 + 有機質</td><td><strong>停肥 + 大量清水沖盆 3–5 次</strong>,嚴重換土</td></tr>
+          </tbody>
+        </table>
+        <p style="font-size:14px;color:var(--muted);margin-top:8px;"><em>每種植物自己的缺肥/過肥具體症狀,看該植物頁的「🌾 施肥」section。</em></p>
+
+        <h4 style="color:var(--primary);margin-top:14px;">肥料三大類</h4>
+        <ul>
+          <li><strong>化學液肥</strong>(花寶 1/2/3 號):便宜有效,新手首選。稀釋後澆</li>
+          <li><strong>化學顆粒 / 緩釋肥</strong>(好康多、魔肥):放一次吃幾個月,懶人友善</li>
+          <li><strong>有機肥</strong>(魚精、豆餅、雞糞顆粒、堆肥):味道重但會養土,長期土質越來越好</li>
+        </ul>
+
+        <h4 style="color:var(--primary);margin-top:14px;">NPK 三元素速查</h4>
+        <table>
+          <thead><tr><th>元素</th><th>功能</th><th>哪種植物要重</th></tr></thead>
+          <tbody>
+            <tr><td><strong>N 氮</strong></td><td>長葉</td><td>葉菜、觀葉 → 20-20-20 或 30-10-10</td></tr>
+            <tr><td><strong>P 磷</strong></td><td>開花結果</td><td>果菜、花卉 → 10-30-20</td></tr>
+            <tr><td><strong>K 鉀</strong></td><td>根莖健壯、抗病</td><td>根莖類、老化期 → 10-10-30</td></tr>
+          </tbody>
+        </table>
+        <p style="font-size:14px;color:var(--muted);margin-top:8px;">市售「花寶 1 號」= 20-20-20 均衡通用款,<strong>買一罐新手都夠用</strong>。</p>
+
+        <div class="callout" style="margin-top:12px;">
+          <h4>📌 施肥通則(不管什麼植物)</h4>
+          <ul style="margin:4px 0 0;padding-left:20px;">
+            <li>新手一律<strong>包裝稀釋濃度再減半</strong> — 濃了會燒,薄了再加就好</li>
+            <li>澆<strong>根部土面</strong>,不澆葉心(葉心積水會爛)</li>
+            <li><strong>早晚施</strong>,不在大太陽下施(水分蒸發快,肥集中燒根)</li>
+            <li>施肥後澆一次清水,沖掉葉面或盆底殘留</li>
+          </ul>
+        </div>
+      </div>
+    </details>
+
+    <details class="plant-section">
       <summary><span class="summary-text">📖 資料來源</span></summary>
       <div class="section-body">
         <p>這區內容整理自:</p>
@@ -750,13 +810,7 @@ const PLANTS = [
 <li><strong>排水要好</strong> — 如果用黑土可以混入一些珍珠石或粗砂,避免積水</li>
 <li>講究的可以先養土(加有機肥擺幾天讓土活化)</li>
 </ul>
-
-<h4 style="color:var(--primary);margin-top:12px;">追肥</h4>
-<ul>
-<li><strong>生長期(夏天)</strong>:每週一次液肥,或每月一次有機肥顆粒</li>
-<li>採收後補點氮肥,幫助葉子長回來</li>
-<li>冬季休眠期不用施肥</li>
-</ul>`,
+<p style="font-size:14px;color:var(--muted);margin-top:10px;"><em>施肥細節獨立成下面的「🌾 施肥」section。</em></p>`,
       },
       {
         id: 'steps', emoji: '🌳', heading: '種植步驟',
@@ -780,6 +834,58 @@ const PLANTS = [
 <tr><td>持續採收期</td><td>整個夏天,可採到秋冬降溫</td></tr>
 </tbody>
 </table>`,
+      },
+      {
+        id: 'fertilizer', emoji: '🌾', heading: '施肥',
+        html: `
+<p>地瓜葉是<strong>葉菜</strong>,目標是「一直長新葉」→ <strong>氮(N)要重</strong>,頻率要高。通用施肥原則(缺肥 vs 過肥對照、NPK 速查)看 <a href="#" onclick="event.preventDefault();navigateTo('page-knowledge');return false;" style="color:var(--primary);font-weight:bold;">📚 通用園藝知識 → 🌾 施肥</a>。</p>
+
+<h4 style="color:var(--primary);margin-top:14px;">📅 時機</h4>
+<ul>
+<li><strong>扦插後第 1 個月不施</strong> — 新根怕燒</li>
+<li><strong>冒出 5–6 片新葉後</strong> → 第一次薄肥</li>
+<li>生長期(4–9 月):每 <strong>7–10 天一次液肥</strong> 或每月一次顆粒肥</li>
+<li><strong>每次採收後 2–3 天補薄肥</strong>(採完葉少了,直接施濃度相對高,等 2–3 天再施)</li>
+<li>冬季休眠不施</li>
+</ul>
+
+<h4 style="color:var(--primary);margin-top:14px;">🧪 用什麼</h4>
+<ul>
+<li><strong>新手首選</strong>:花寶 1 號(NPK 20-20-20)— 全聯/花市都有,一罐萬用</li>
+<li><strong>進階高氮</strong>:NPK 30-10-10 系列,葉子長更猛</li>
+<li><strong>有機派</strong>:魚精、豆餅水(黃豆泡水發酵 1 週)、雞糞顆粒</li>
+<li><strong>天然補充</strong>:蛋殼磨粉撒土面(鈣源,預防葉緣焦);洗米水稀釋一倍後澆</li>
+</ul>
+
+<h4 style="color:var(--primary);margin-top:14px;">💧 怎麼施</h4>
+<ol>
+<li>液肥按包裝稀釋,<strong>新手再減半</strong>(防燒)</li>
+<li>澆在根部土面,<strong>不澆葉心</strong>(葉心積水會爛)</li>
+<li>施完再澆一次清水,沖掉殘留</li>
+<li><strong>早晚施,不在中午大太陽下施</strong>(水分蒸發快,肥集中燒根)</li>
+</ol>
+
+<div class="callout">
+<h4>📍 地瓜葉的缺肥訊號</h4>
+<ul style="margin:4px 0 0;padding-left:20px;">
+<li><strong>老葉先變淡</strong> → 發黃 → 自然脫落(這是最早的訊號)</li>
+<li>新葉越長越小、越薄</li>
+<li>採收後恢復變慢(應該 3–5 天冒新葉,變成一週以上)</li>
+<li>整體葉色偏黃綠(健康應該是深綠)</li>
+</ul>
+<p style="margin:6px 0 0;font-size:14px;"><strong>對策</strong>:補一次薄液肥(說明稀釋比例的一半),加蛋殼粉或液態有機肥。</p>
+</div>
+
+<div class="callout warn">
+<h4>🚨 地瓜葉的過肥訊號</h4>
+<ul style="margin:4px 0 0;padding-left:20px;">
+<li><strong>葉緣焦黃、捲曲</strong>(像燙傷 — 不是從老葉開始,跟缺肥不同)</li>
+<li>新葉異常肥大、葉色深得發黑</li>
+<li>土表出現<strong>白色結晶</strong>(鹽積)</li>
+<li>葉子看似旺但根可能已爛,拔起來根是黑褐色</li>
+</ul>
+<p style="margin:6px 0 0;font-size:14px;"><strong>對策</strong>:立刻停肥,大量清水沖盆 <strong>3–5 次</strong>(把多餘鹽分帶出盆底)。情況嚴重就整株拔起換新土。</p>
+</div>`,
       },
       {
         id: 'harvest', emoji: '✂️', heading: '採收',
