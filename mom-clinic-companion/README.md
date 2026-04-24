@@ -213,6 +213,14 @@ mom-clinic-companion/
 
 ---
 
+## 相關閱讀（失智照顧系列）
+
+- [失智家人確診後的第一週，先做這 5 件事](https://blog.tomting.com/2026/04/23/dementia-first-week-5-things/) — 法律 / 醫療 / 防走失 完整清單
+- [失智照顧半年的三個誤會](https://blog.tomting.com/2026/04/22/dementia-care-three-misunderstandings/)
+- [失智長輩為什麼一直到處走](https://blog.tomting.com/2026/04/22/dementia-mother-finding-home/)
+
+---
+
 ## 作者
 
 **Tom Ting** — [blog.tomting.com](https://blog.tomting.com/)
