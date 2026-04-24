@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#0066CC">
   <title>就診小幫手 — 失智長輩回診前的手機 prep 工具｜趨勢偵測 + 症狀分類 + 診間錄音</title>
-  <meta name="description" content="失智照護者帶長輩回診前的手機 prep 工具。從 iDempiere 紀錄自動算趨勢變差(用最近兩次回診當窗口邊界,不是寫死「近 14 天」)、跨欄位同日組合(如睡差+隔天精神差)、連續異常 streak、長期問題偵測、13 類症狀 regex 關鍵字分類、問題清單、診間 Web Speech 錄音轉字。純 JS 規則引擎,離線 OK。">
+  <meta name="description" content="失智照護者帶長輩回診前的手機 prep 工具。從 iDempiere 紀錄自動算趨勢變差(用最近兩次回診當窗口邊界,不是寫死「近 14 天」)、跨欄位同日組合(如睡差+隔天精神差)、連續異常 streak、長期問題偵測、13 類症狀 regex 關鍵字分類、問題清單、診間 Web Speech 錄音轉字。純 JS 規則引擎,離線 OK。適合 1966 長照 3.0 / 回診準備使用者。">
   <meta name="keywords" content="失智照護,回診,神經科,iDempiere,REST API,趨勢偵測,症狀分類,診間錄音,Web Speech API,規則引擎,GitHub Pages,CORS,台灣,繁體中文">
   <meta name="author" content="Tom Ting">
   <meta name="robots" content="index, follow">
@@ -683,10 +683,10 @@
     },
     {
       "@type": "Question",
-      "name": "長照 2.0 / 1966 相關功能有嗎？",
+      "name": "長照 3.0 / 1966 相關功能有嗎？",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "目前沒有內建長照申請 SOP,但工具輸出的症狀趨勢可作為長照評估(CMS)的客觀依據。也可作為申請身障證明時的醫師參考。"
+        "text": "目前沒有內建長照申請 SOP,但工具輸出的症狀趨勢可作為長照評估(CMS)的客觀依據。也可作為申請身障證明時的醫師參考。2026 年起台灣長照進入 3.0:申請仍撥 1966 / 巴氏量表仍適用,新增 49 歲以下失智者納入、外勞家庭可用社區服務、照顧管理專員。"
       }
     },
     {
@@ -705,6 +705,17 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:type" content="image/svg+xml">
 <meta name="twitter:image" content="https://tm731531.github.io/dementia-care/mom-clinic-companion/og-image.svg">
+<style>
+/* B3 · prefers-reduced-motion:前庭功能退化的失智/長輩/小孩減少暈眩 */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+</style>
 </head>
 <body>
 

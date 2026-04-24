@@ -6,7 +6,7 @@
   <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22%3E%3Ctext%20y=%22.9em%22%20font-size=%2290%22%3E💭%3C/text%3E%3C/svg%3E">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>陪伴小幫手 — 失智症照護互動工具｜免費・離線・零廣告</title>
-  <meta name="description" content="專為失智症長輩設計的免費互動陪伴工具。15 種認知訓練遊戲，依認知程度 8 級自動調整難度。翻牌配對、時鐘認讀、看圖認物、情緒辨識、呼吸練習等。一位內向的照護者，因為陪伴家人時想話題太消耗腦力，所以做了這個工具，希望幫助同樣困難的人。純前端零廣告，完全離線可用。">
+  <meta name="description" content="專為失智症長輩設計的免費互動陪伴工具。15 種認知訓練遊戲，依認知程度 8 級自動調整難度。翻牌配對、時鐘認讀、看圖認物、情緒辨識、呼吸練習等。一位內向的照護者，因為陪伴家人時想話題太消耗腦力，所以做了這個工具，希望幫助同樣困難的人。純前端零廣告，完全離線可用。失智症別稱認知症、阿茲海默症。">
   <meta name="keywords" content="失智症,認知訓練,陪伴工具,照護者,長輩互動,認知遊戲,記憶訓練,翻牌配對,時鐘認讀,看圖認物,情緒辨識,呼吸練習,免費,離線,無廣告,台灣,繁體中文,dementia,cognitive training">
   <meta name="author" content="Tom Ting">
   <meta name="robots" content="index, follow">
@@ -80,10 +80,10 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --bg-primary: #000000;
+      --bg-primary: #1a1a1a;        /* B1 老花/白內障友善:從純黑改深灰,消除 halation 眩光 */
       --bg-card: #FFFFFF;
-      --text-primary: #FFFFFF;
-      --text-on-card: #000000;
+      --text-primary: #f0f0f0;      /* 從純白改近白,保持 WCAG AAA 對比 (~14:1) */
+      --text-on-card: #1a1a1a;
       --accent-warm: #FF6600;
       --accent-green: #00AA00;
       --accent-blue: #0066FF;
@@ -915,6 +915,17 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:type" content="image/svg+xml">
 <meta name="twitter:image" content="https://tm731531.github.io/dementia-care/dementia-companion/og-image.svg">
+<style>
+/* B3 · prefers-reduced-motion:前庭功能退化的失智/長輩/小孩減少暈眩 */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+</style>
 </head>
 <body>
 
@@ -1306,7 +1317,7 @@
       const u = new SpeechSynthesisUtterance(clean);
       u.lang = 'zh-TW';
       u.rate = 0.7;
-      u.pitch = 1.1;
+      u.pitch = 0.95;  /* B2 失智長輩偏好中低頻,去童音 */
       speechSynthesis.speak(u);
     }
 
@@ -3076,7 +3087,7 @@ const BodyGame = {
 <!-- 🆘 醫療免責 + 緊急資源(auto-injected 2026-04-24)-->
 <div class="emergency-disclaimer" style="margin:40px auto 20px;max-width:720px;padding:16px 20px;border-top:1px solid rgba(0,0,0,0.08);font-size:13px;color:#888;text-align:center;line-height:1.7;">
   <p style="margin:0 0 8px 0;">
-    <a href="../" style="color:inherit;">← 所有工具</a> · <a href="https://github.com/tm731531/dementia-care" style="color:inherit;">GitHub</a> · <a href="https://blog.tomting.com/" style="color:inherit;">Blog</a>
+    <a href="../" style="color:inherit;">← 所有工具</a> · <a href="../dementia-companion-v2/" style="color:inherit;" class="try-v2-link">試試推薦式 v2 →</a> · <a href="https://github.com/tm731531/dementia-care" style="color:inherit;">GitHub</a> · <a href="https://blog.tomting.com/" style="color:inherit;">Blog</a>
   </p>
   <p style="margin:0 0 8px 0;font-size:12px;color:#999;">
     本工具非醫療器材，所有內容僅供照護者備忘。用藥與治療決定請由主治醫師判斷。

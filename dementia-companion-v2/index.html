@@ -894,6 +894,17 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:type" content="image/svg+xml">
 <meta name="twitter:image" content="https://tm731531.github.io/dementia-care/dementia-companion-v2/og-image.svg">
+<style>
+/* B3 · prefers-reduced-motion:前庭功能退化的失智/長輩/小孩減少暈眩 */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+</style>
 </head>
 <body>
 
@@ -1806,7 +1817,7 @@ function speak(text, onEnd) {
   const clean = text.replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE00}-\u{FEFF}\u{1F900}-\u{1F9FF}\u{200D}\u{20E3}]/gu, '').trim();
   if (!clean) { onEnd && onEnd(); return; }
   const u = new SpeechSynthesisUtterance(clean);
-  u.lang = 'zh-TW'; u.rate = 0.7; u.pitch = 1.1;
+  u.lang = 'zh-TW'; u.rate = 0.7; u.pitch = 0.95;  /* B2 失智長輩偏好中低頻,去童音 */
   u.onend = () => { if (gen === _voice.gen && onEnd) onEnd(); };
   speechSynthesis.speak(u);
 }
@@ -3389,7 +3400,7 @@ setInterval(renderGreeting, 60000); // refresh time display
 <!-- 🆘 醫療免責 + 緊急資源(auto-injected 2026-04-24)-->
 <div class="emergency-disclaimer" style="margin:40px auto 20px;max-width:720px;padding:16px 20px;border-top:1px solid rgba(0,0,0,0.08);font-size:13px;color:#888;text-align:center;line-height:1.7;">
   <p style="margin:0 0 8px 0;">
-    <a href="../" style="color:inherit;">← 所有工具</a> · <a href="https://github.com/tm731531/dementia-care" style="color:inherit;">GitHub</a> · <a href="https://blog.tomting.com/" style="color:inherit;">Blog</a>
+    <a href="../" style="color:inherit;">← 所有工具</a> · <a href="../dementia-companion/" style="color:inherit;" class="try-v1-link">← 原版自由選擇 v1</a> · <a href="https://github.com/tm731531/dementia-care" style="color:inherit;">GitHub</a> · <a href="https://blog.tomting.com/" style="color:inherit;">Blog</a>
   </p>
   <p style="margin:0 0 8px 0;font-size:12px;color:#999;">
     本工具非醫療器材，所有內容僅供照護者備忘。用藥與治療決定請由主治醫師判斷。
