@@ -1,7 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
   <rect width="1200" height="630" fill="#fafaf5"/>
   <text x="100" y="230" font-family="system-ui, -apple-system, 'PingFang TC', 'Microsoft JhengHei', sans-serif" font-size="140" fill="#7d2c0f">🏠</text>
-  <text x="100" y="340" font-family="system-ui, -apple-system, 'PingFang TC', 'Microsoft JhengHei', sans-serif" font-size="54" font-weight="bold" fill="#7d2c0f">家中環境改造手冊</text>
-  <text x="100" y="410" font-family="system-ui, -apple-system, 'PingFang TC', 'Microsoft JhengHei', sans-serif" font-size="30" fill="#2d3436" opacity="0.7">失智長輩居家 · 11 項硬體改動 + 早晚 SOP + 分散注意力 3 招</text>
+  <text x="100" y="340" font-family="system-ui, -apple-system, 'PingFang TC', 'Microsoft JhengHei', sans-serif" font-size="54" font-weight="bold" fill="#7d2c0f">家中照護手冊</text>
+  <text x="100" y="410" font-family="system-ui, -apple-system, 'PingFang TC', 'Microsoft JhengHei', sans-serif" font-size="30" fill="#2d3436" opacity="0.75">失智確診全階段 · 法律 / 醫療 / 環境 / SOP</text>
+  <text x="100" y="460" font-family="system-ui, -apple-system, 'PingFang TC', 'Microsoft JhengHei', sans-serif" font-size="24" fill="#2d3436" opacity="0.55">意定監護 · 銀行代理 · GPS · 廁所布簾 · 分散注意力 3 招</text>
   <text x="100" y="560" font-family="system-ui, -apple-system, 'PingFang TC', 'Microsoft JhengHei', sans-serif" font-size="24" fill="#2d3436" opacity="0.5">tm731531.github.io/dementia-care/home-handbook/</text>
 </svg>
