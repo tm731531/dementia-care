@@ -16,7 +16,7 @@
   <meta property="og:description" content="從「10 格遊戲自己挑」改成「今天一起做這個好嗎?」。45 條可直接對長輩說的陪伴指南 + 今日摘要一鍵貼 LINE。">
   <meta property="og:url" content="https://tm731531.github.io/dementia-care/dementia-companion-v2/">
   <meta property="og:locale" content="zh_TW">
-  <meta name="twitter:card" content="summary">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="陪伴小幫手 v2 — 推薦式首頁">
   <meta name="twitter:description" content="15 遊戲 + 45 條陪伴指南 + 今日摘要。純前端零廣告離線可用。">
   <script type="application/ld+json">
@@ -869,6 +869,31 @@
 /* Accessibility: keyboard focus ring (WCAG 2.4.7) */
 :focus-visible { outline: 3px solid #ff8800; outline-offset: 2px; border-radius: 4px; }
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Dementia Care Tools",
+      "item": "https://tm731531.github.io/dementia-care/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "陪伴小幫手 v2",
+      "item": "https://tm731531.github.io/dementia-care/dementia-companion-v2/"
+    }
+  ]
+}
+</script>
+<meta property="og:image" content="https://tm731531.github.io/dementia-care/dementia-companion-v2/og-image.svg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/svg+xml">
+<meta name="twitter:image" content="https://tm731531.github.io/dementia-care/dementia-companion-v2/og-image.svg">
 </head>
 <body>
 
@@ -878,7 +903,7 @@
   <!-- ===== Home (recommendation) ===== -->
   <div id="home" class="screen active">
     <div class="greeting">
-      <div class="hello" id="greet-hello">您好</div>
+      <div class="hello" id="greet-hello">你好</div>
       <div class="date" id="greet-date"></div>
     </div>
 
@@ -928,7 +953,7 @@
     <div class="complete" id="color-complete">
       <div class="big">🎨</div>
       <h3>顏色都認對了！</h3>
-      <p>好厲害！</p>
+      <p>做完了 ✓</p>
       <button class="btn-primary" onclick="goHome()">回首頁</button>
     </div>
   </div>
@@ -951,7 +976,7 @@
     <div class="complete" id="word-complete">
       <div class="big">📖</div>
       <h3>全部認對了！</h3>
-      <p>你好厲害！</p>
+      <p>做完了 ✓</p>
       <button class="btn-primary" onclick="goHome()">回首頁</button>
     </div>
   </div>
@@ -973,8 +998,8 @@
     <div class="shape-options" id="shape-options"></div>
     <div class="complete" id="shape-complete">
       <div class="big">🌟</div>
-      <h3>太厲害了！</h3>
-      <p>全部答對了！</p>
+      <h3>全部答對了 ✓</h3>
+      <p>完成了</p>
       <button class="btn-primary" onclick="goHome()">回首頁</button>
     </div>
   </div>
@@ -997,7 +1022,7 @@
     <div class="complete" id="number-complete">
       <div class="big">🔢</div>
       <h3>數字都認對了！</h3>
-      <p>你好棒！</p>
+      <p>做完了 ✓</p>
       <button class="btn-primary" onclick="goHome()">回首頁</button>
     </div>
   </div>
@@ -1021,7 +1046,7 @@
     <div class="complete" id="classify-complete">
       <div class="big">📦</div>
       <h3>分類都對了！</h3>
-      <p>好厲害！</p>
+      <p>做完了 ✓</p>
       <button class="btn-primary" onclick="goHome()">回首頁</button>
     </div>
   </div>
@@ -1044,7 +1069,7 @@
     <div class="complete" id="picture-complete">
       <div class="big">🖼️</div>
       <h3>全部認出來了！</h3>
-      <p>好厲害！</p>
+      <p>做完了 ✓</p>
       <button class="btn-primary" onclick="goHome()">回首頁</button>
     </div>
   </div>
@@ -1067,7 +1092,7 @@
     <div class="complete" id="clock-complete">
       <div class="big">🕐</div>
       <h3>時間都認對了！</h3>
-      <p>好棒！</p>
+      <p>做完了 ✓</p>
       <button class="btn-primary" onclick="goHome()">回首頁</button>
     </div>
   </div>
@@ -1091,7 +1116,7 @@
     <div class="complete" id="matching-complete">
       <div class="big">🔗</div>
       <h3>全部配對了！</h3>
-      <p>好厲害！</p>
+      <p>做完了 ✓</p>
       <button class="btn-primary" onclick="goHome()">回首頁</button>
     </div>
   </div>
@@ -1111,7 +1136,7 @@
     <div class="complete" id="sorting-complete">
       <div class="big">📏</div>
       <h3>排序都對了！</h3>
-      <p>好棒！</p>
+      <p>做完了 ✓</p>
       <button class="btn-primary" onclick="goHome()">回首頁</button>
     </div>
   </div>
@@ -1154,7 +1179,7 @@
     <div class="complete" id="emotion-complete">
       <div class="big">😊</div>
       <h3>全部答對了！</h3>
-      <p>你好厲害！</p>
+      <p>做完了 ✓</p>
       <button class="btn-primary" onclick="goHome()">回首頁</button>
     </div>
   </div>
@@ -1364,16 +1389,16 @@ const GAMES = [
 // 45 條陪伴提示：15 遊戲 × 3 時機（start / correct / complete）
 // breath 特例：correct 用 mid（中段顯示），因為呼吸練習沒有「答對」概念，回饋要在做到一半時給
 const TIPS = {
-  color:       { start: '哇，好多顏色，你以前最愛穿什麼顏色？', correct: '對！你好厲害',            complete: '今天陪你看顏色，我也覺得很漂亮' },
-  pairs:       { start: '這個要記一下，慢慢翻沒關係',           correct: '哎喲！你記得耶',            complete: '你記憶力真好' },
+  color:       { start: '哇，好多顏色，你以前最愛穿什麼顏色？', correct: '對，就是這個顏色',            complete: '今天陪你看顏色，我也覺得很漂亮' },
+  pairs:       { start: '這個要記一下，慢慢翻沒關係',           correct: '嗯，就是這個',            complete: '你記憶力真好' },
   word:        { start: '這個字你以前就認得吧',                 correct: '對啦，這個字你小時候就會了', complete: '今天還認這麼多字，真棒' },
   differences: { start: '看看這兩排哪一個不一樣？',              correct: '你眼睛真利！',               complete: '你觀察力比我還好' },
   clock:       { start: '以前上學都要看這個呢',                 correct: '你看時間很準',              complete: '看時鐘不難吧？' },
-  matching:    { start: '看看哪個配哪個，慢慢來',                correct: '對！就是這一對',            complete: '都配對完了，好厲害' },
+  matching:    { start: '看看哪個配哪個，慢慢來',                correct: '對！就是這一對',            complete: '都配對完了 ✓' },
   shape:       { start: '看看是什麼形狀',                       correct: '對啦，一樣的形狀',           complete: '這些形狀你都認得' },
   picture:     { start: '這個你認得吧，以前家裡可能有',          correct: '沒錯！',                     complete: '這些東西你都認得好熟' },
   number:      { start: '以前買菜都要算錢的',                   correct: '對，就是這個數字',           complete: '數字你還是那麼清楚' },
-  sorting:     { start: '從小到大排排看',                       correct: '對！你排得真好',             complete: '你很會排喔' },
+  sorting:     { start: '從小到大排排看',                       correct: '對，就是這樣排',             complete: '你很會排喔' },
   classify:    { start: '想想這個是哪一類',                     correct: '沒錯，就是那邊',             complete: '分類對你來說不難吧' },
   counting:    { start: '一起數數看有幾個',                     correct: '對，就是這麼多個',           complete: '數得很準' },
   emotion:     { start: '看看他的表情是怎麼樣',                 correct: '對，他看起來就是這樣',       complete: '你很會看人的心情' },
@@ -1594,7 +1619,7 @@ function showPicker() {
 function renderGreeting() {
   const now = new Date();
   const h = now.getHours();
-  let hello = '您好';
+  let hello = '你好';
   if (h < 6) hello = '夜深了';
   else if (h < 11) hello = '早安';
   else if (h < 13) hello = '午安';
@@ -1850,7 +1875,7 @@ function showFeedback(text, warn) {
   setTimeout(() => { el.classList.remove('show'); }, 1500);
 }
 
-const PRAISES = ['太棒了！👏', '好厲害！🌟', '做得好！💪', '你真聰明！😊', '非常好！⭐', '很好！繼續加油！🎉'];
+const PRAISES = ['對了 ✓', '就是這個 ✓', '沒錯 ✓', '這樣就對了 ✓', '嗯，對 😊', '很好 ⭐'];
 const RETRIES = ['再試試看！沒關係 😊', '不對喔，再看看？🤔'];
 function randomPraise() { return randomFrom(PRAISES); }
 function randomRetry() { return randomFrom(RETRIES); }
@@ -1950,7 +1975,7 @@ function finishColorGame() {
   document.getElementById('color-complete').classList.add('show');
   TipBanner.show('color', 'complete');
   recordCompletion('color');
-  speak('全部完成了，你好厲害！');
+  speak('全部完成了');
 }
 
 // ====================================================================
@@ -1998,7 +2023,7 @@ const WordGame = {
       document.getElementById('word-complete').classList.add('show');
       TipBanner.show('word', 'complete');
       recordCompletion('word');
-      speak('全部認對了，你好厲害！');
+      speak('全部認對了');
       return;
     }
     document.getElementById('word-round').textContent = `第 ${this.round} / ${this.total} 題`;
@@ -2191,7 +2216,7 @@ const NumberGame = {
       document.getElementById('number-complete').classList.add('show');
       TipBanner.show('number', 'complete');
       recordCompletion('number');
-      speak('數字都認對了，你好棒！');
+      speak('數字都認對了');
       return;
     }
     document.getElementById('number-round').textContent = `第 ${this.round} / ${this.total} 題`;
@@ -2302,7 +2327,7 @@ const ClassifyGame = {
       document.getElementById('classify-complete').classList.add('show');
       TipBanner.show('classify', 'complete');
       recordCompletion('classify');
-      speak('分類都對了，好厲害！');
+      speak('分類都對了');
       return;
     }
     document.getElementById('classify-round').textContent = `第 ${this.round} / ${this.total} 題`;
@@ -2403,7 +2428,7 @@ const PictureGame = {
       document.getElementById('picture-complete').classList.add('show');
       TipBanner.show('picture', 'complete');
       recordCompletion('picture');
-      speak('全部認出來了，好厲害！');
+      speak('全部認出來了');
       return;
     }
     document.getElementById('picture-round').textContent = `第 ${this.round} / ${this.total} 題`;
@@ -2541,7 +2566,7 @@ const ClockGame = {
       document.getElementById('clock-complete').classList.add('show');
       TipBanner.show('clock', 'complete');
       recordCompletion('clock');
-      speak('時間都認對了，好棒！');
+      speak('時間都認對了');
       return;
     }
     document.getElementById('clock-round').textContent = `第 ${this.round} / ${this.total} 題`;
@@ -2646,7 +2671,7 @@ const MatchingGame = {
       document.getElementById('matching-complete').classList.add('show');
       TipBanner.show('matching', 'complete');
       recordCompletion('matching');
-      speak('全部配對了，好厲害！');
+      speak('全部配對了');
       return;
     }
 
@@ -2779,7 +2804,7 @@ const SortingGame = {
       document.getElementById('sorting-complete').classList.add('show');
       TipBanner.show('sorting', 'complete');
       recordCompletion('sorting');
-      speak('排序都對了，好棒！');
+      speak('排序都對了');
       return;
     }
     document.getElementById('sorting-round').textContent = `第 ${this.round} / ${this.total} 題`;
@@ -2963,7 +2988,7 @@ const EmotionGame = {
       document.getElementById('emotion-complete').classList.add('show');
       TipBanner.show('emotion', 'complete');
       recordCompletion('emotion');
-      speak('全部答對了，你好厲害！');
+      speak('全部答對了');
       return;
     }
     document.getElementById('emotion-round').textContent = `第 ${this.round} / ${this.total} 題`;
@@ -3360,5 +3385,18 @@ setInterval(renderGreeting, 60000); // refresh time display
 })();
 </script>
 
+
+<!-- 🆘 醫療免責 + 緊急資源(auto-injected 2026-04-24)-->
+<div class="emergency-disclaimer" style="margin:40px auto 20px;max-width:720px;padding:16px 20px;border-top:1px solid rgba(0,0,0,0.08);font-size:13px;color:#888;text-align:center;line-height:1.7;">
+  <p style="margin:0 0 8px 0;">
+    <a href="../" style="color:inherit;">← 所有工具</a> · <a href="https://github.com/tm731531/dementia-care" style="color:inherit;">GitHub</a> · <a href="https://blog.tomting.com/" style="color:inherit;">Blog</a>
+  </p>
+  <p style="margin:0 0 8px 0;font-size:12px;color:#999;">
+    本工具非醫療器材，所有內容僅供照護者備忘。用藥與治療決定請由主治醫師判斷。
+  </p>
+  <p style="margin:0;font-size:12px;">
+    🆘 緊急撥 <strong style="color:#c00;">119</strong> · 長照 <strong>1966</strong> · 失智關懷 <strong>0800-474-580</strong>
+  </p>
+</div>
 </body>
 </html>

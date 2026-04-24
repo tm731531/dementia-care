@@ -12,7 +12,7 @@
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://tm731531.github.io/dementia-care/dementia-companion/">
 <meta property="og:url" content="https://tm731531.github.io/dementia-care/dementia-companion/">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="陪伴小幫手 — 失智症照護互動工具">
 <meta name="twitter:description" content="15 個失智症認知訓練遊戲,8 級難度自動調整。純前端零廣告離線可用。">
 
@@ -842,6 +842,79 @@
 /* Accessibility: keyboard focus ring (WCAG 2.4.7) */
 :focus-visible { outline: 3px solid #ff8800; outline-offset: 2px; border-radius: 4px; }
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Dementia Care Tools",
+      "item": "https://tm731531.github.io/dementia-care/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "陪伴小幫手",
+      "item": "https://tm731531.github.io/dementia-care/dementia-companion/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "失智症長輩適合玩什麼遊戲？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "推薦翻牌配對、時鐘認讀、看圖認物、情緒辨識、呼吸練習等。本工具提供 15 種認知訓練遊戲,依長輩認知程度自動從 8 級難度中選出最適合的 10 個。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "認知症或阿茲海默症可以用嗎？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "可以。本工具適合所有類型的失智症(包含認知症、阿茲海默症、血管型失智、路易氏體失智等)照護情境,不限診斷分類。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "這個工具需要網路嗎？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "不需要。純前端零伺服器,開啟一次後完全離線可用,不需要 WiFi 或行動數據。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "失智症幾級適合用認知訓練遊戲？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "輕度至中度失智均適用。難度滑桿 1-8 級,輕度(CDR 0.5-1)建議 4-6 級,中度(CDR 2)建議 1-3 級。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "要怎麼備份長輩的使用進度？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "開啟開發者工具 → Console 執行 localStorage.getItem(\"dementiaApp\") 複製字串。新裝置上執行 localStorage.setItem 即可還原。"
+      }
+    }
+  ]
+}
+</script>
+<meta property="og:image" content="https://tm731531.github.io/dementia-care/dementia-companion/og-image.svg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/svg+xml">
+<meta name="twitter:image" content="https://tm731531.github.io/dementia-care/dementia-companion/og-image.svg">
 </head>
 <body>
 
@@ -851,12 +924,12 @@
       style="position:fixed;top:12px;right:12px;z-index:1000;width:48px;height:48px;border-radius:50%;border:2px solid #fff;background:rgba(0,0,0,0.7);color:#fff;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;">🔊</button>
 
     <div class="home-header">
-      <h1 id="home-greeting">您好！</h1>
+      <h1 id="home-greeting">你好！</h1>
       <div class="date" id="home-date"></div>
     </div>
     <div class="difficulty-bar">
       <div class="bar-labels">
-        <span>輕度 (1-2)</span><span>重度 (7-8)</span>
+        <span>失智嚴重度輕 (1-2)</span><span>失智嚴重度重 (7-8)</span>
       </div>
       <input type="range" id="difficulty-slider" min="1" max="8" value="4">
       <div class="bar-value" id="difficulty-value">中度 (4)</div>
@@ -891,7 +964,7 @@
     </div>
     <div class="complete-screen" id="memory-complete">
       <div class="icon">📖</div>
-      <div class="msg">全部認對了！<br>你好厲害！</div>
+      <div class="msg">全部認對了！<br>都對了 ✓</div>
       <button class="btn-primary" onclick="MemoryGame.reset()">再玩一次</button>
     </div>
   </div>
@@ -937,7 +1010,7 @@
     </div>
     <div class="complete-screen" id="colors-complete">
       <div class="icon">🎨</div>
-      <div class="msg">顏色都認對了！<br>好厲害！</div>
+      <div class="msg">顏色都認對了！<br>都對了 ✓</div>
       <button class="btn-primary" onclick="ColorGame.reset()">再玩一次</button>
     </div>
   </div>
@@ -960,7 +1033,7 @@
     </div>
     <div class="complete-screen" id="numbers-complete">
       <div class="icon">🔢</div>
-      <div class="msg">數字都認對了！<br>你好棒！</div>
+      <div class="msg">數字都認對了！<br>都對了 ✓</div>
       <button class="btn-primary" onclick="NumberGame.reset()">再玩一次</button>
     </div>
   </div>
@@ -984,7 +1057,7 @@
     </div>
     <div class="complete-screen" id="classify-complete">
       <div class="icon">📦</div>
-      <div class="msg">分類都對了！<br>好厲害！</div>
+      <div class="msg">分類都對了！<br>都對了 ✓</div>
       <button class="btn-primary" onclick="ClassifyGame.reset()">再玩一次</button>
     </div>
   </div>
@@ -1007,7 +1080,7 @@
     </div>
     <div class="complete-screen" id="picture-complete">
       <div class="icon">🖼️</div>
-      <div class="msg">全部認出來了！<br>好厲害！</div>
+      <div class="msg">全部認出來了！<br>都對了 ✓</div>
       <button class="btn-primary" onclick="PictureGame.reset()">再玩一次</button>
     </div>
   </div>
@@ -1030,7 +1103,7 @@
     </div>
     <div class="complete-screen" id="clock-complete">
       <div class="icon">🕐</div>
-      <div class="msg">時間都認對了！<br>好棒！</div>
+      <div class="msg">時間都認對了！<br>都對了 ✓</div>
       <button class="btn-primary" onclick="ClockGame.reset()">再玩一次</button>
     </div>
   </div>
@@ -1050,7 +1123,7 @@
     </div>
     <div class="complete-screen" id="matching-complete">
       <div class="icon">🔗</div>
-      <div class="msg">全部配對了！<br>好厲害！</div>
+      <div class="msg">全部配對了！<br>都對了 ✓</div>
       <button class="btn-primary" onclick="MatchingGame.reset()">再玩一次</button>
     </div>
   </div>
@@ -1068,7 +1141,7 @@
     </div>
     <div class="complete-screen" id="sorting-complete">
       <div class="icon">📏</div>
-      <div class="msg">排序都對了！<br>好棒！</div>
+      <div class="msg">排序都對了！<br>都對了 ✓</div>
       <button class="btn-primary" onclick="SortingGame.reset()">再玩一次</button>
     </div>
   </div>
@@ -1103,7 +1176,7 @@
       <div class="emotion-options" id="emotion-options"></div>
     </div>
     <div id="emotion-complete" class="complete-screen">
-      <div class="msg">全部答對了！<br>你好厲害！</div>
+      <div class="msg">全部答對了！<br>都對了 ✓</div>
       <button class="btn-primary" onclick="EmotionGame.reset()">再玩一次</button>
     </div>
   </div>
@@ -1136,8 +1209,8 @@
     // 共用工具
     // ============================
     const praiseMessages = [
-      '太棒了！👏', '好厲害！🌟', '做得好！💪',
-      '很好！繼續加油！🎉', '你真聰明！😊', '非常好！⭐'
+      '對了 ✓', '就是這個 ✓', '沒錯 ✓',
+      '這樣就對了 ✓', '嗯，對 😊', '很好 ⭐'
     ];
 
     const retryMessages = [
@@ -1251,7 +1324,7 @@
         speak(questionText);
         return;
       }
-      // 重度（1-3）：朗讀題目 + 所有選項，然後重複一次
+      // 重度（7-8）：朗讀題目 + 所有選項，然後重複一次
       const all = [questionText, ...optionTexts];
       speakSequence(all, 1000);
       setTimeout(() => speakSequence(all, 1000), all.length * 1000 + 1500);
@@ -1365,7 +1438,7 @@
 
     function updateHomeGreeting() {
       const h = new Date().getHours();
-      let greet = '您好！';
+      let greet = '你好！';
       if (h >= 5 && h < 12) greet = '早安！今天過得好嗎？';
       else if (h >= 12 && h < 18) greet = '午安！今天過得好嗎？';
       else greet = '晚安！今天辛苦了！';
@@ -2999,5 +3072,18 @@ const BodyGame = {
   </div>
 
 
+
+<!-- 🆘 醫療免責 + 緊急資源(auto-injected 2026-04-24)-->
+<div class="emergency-disclaimer" style="margin:40px auto 20px;max-width:720px;padding:16px 20px;border-top:1px solid rgba(0,0,0,0.08);font-size:13px;color:#888;text-align:center;line-height:1.7;">
+  <p style="margin:0 0 8px 0;">
+    <a href="../" style="color:inherit;">← 所有工具</a> · <a href="https://github.com/tm731531/dementia-care" style="color:inherit;">GitHub</a> · <a href="https://blog.tomting.com/" style="color:inherit;">Blog</a>
+  </p>
+  <p style="margin:0 0 8px 0;font-size:12px;color:#999;">
+    本工具非醫療器材，所有內容僅供照護者備忘。用藥與治療決定請由主治醫師判斷。
+  </p>
+  <p style="margin:0;font-size:12px;">
+    🆘 緊急撥 <strong style="color:#c00;">119</strong> · 長照 <strong>1966</strong> · 失智關懷 <strong>0800-474-580</strong>
+  </p>
+</div>
 </body>
 </html>
