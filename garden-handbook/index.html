@@ -2526,6 +2526,34 @@ footer a { color: var(--primary); text-decoration: none; }
     <div class="favorites-zone" id="favorites-zone"></div>
   </div>
 
+  <!-- 新手 3 株推薦 — 只在 favorites 空的時候顯示 -->
+  <div class="starter-section" id="starter-section" style="display:none;background:#e8f5e9;border-radius:12px;padding:14px 16px;margin:0 0 16px;border:1px solid #c9e4b6;">
+    <div style="font-size:16px;color:var(--primary-dark);font-weight:700;margin-bottom:10px;">
+      ☘️ 新手?先從這 3 株開始
+    </div>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:10px;line-height:1.5;">
+      32 種植物看不完?不用每種都看完。這 3 株是最皮實、失敗率最低、馬上上手的入門組合,一個類別一株。
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;">
+      <a href="#" onclick="event.preventDefault();openPlant('sweet-potato-leaves');return false;" style="display:block;padding:12px;background:#fff;border-radius:10px;text-decoration:none;color:inherit;border:1px solid var(--border);">
+        <div style="font-size:32px;margin-bottom:4px;">🍃</div>
+        <div style="font-weight:700;font-size:15px;">地瓜葉</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px;">可食 · 春夏 · 扦插就活</div>
+      </a>
+      <a href="#" onclick="event.preventDefault();openPlant('mint');return false;" style="display:block;padding:12px;background:#fff;border-radius:10px;text-decoration:none;color:inherit;border:1px solid var(--border);">
+        <div style="font-size:32px;margin-bottom:4px;">🌿</div>
+        <div style="font-weight:700;font-size:15px;">薄荷</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px;">香草 · 四季 · 丟水裡就發根</div>
+      </a>
+      <a href="#" onclick="event.preventDefault();openPlant('snake-plant');return false;" style="display:block;padding:12px;background:#fff;border-radius:10px;text-decoration:none;color:inherit;border:1px solid var(--border);">
+        <div style="font-size:32px;margin-bottom:4px;">🌳</div>
+        <div style="font-weight:700;font-size:15px;">虎尾蘭</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px;">觀葉 · 四季 · 忘了澆也活</div>
+      </a>
+    </div>
+    <div style="font-size:12px;color:var(--muted);margin-top:8px;">種下任何一株並加入 ⭐ 最愛後,這區會自動收起。</div>
+  </div>
+
   <div class="tab-bar" id="tab-bar"></div>
   <div id="tab-content-wrapper"></div>
 
@@ -13703,10 +13731,18 @@ function renderPlanningToggle() {
 
 function renderHome() {
   renderFavorites();
+  renderStarterHint();
   renderTabs();
   updateLevelBanner();
   updatePlanningBanner();
   updateCartCount();
+}
+
+// 新手 3 株 hint — 只在沒最愛時顯示
+function renderStarterHint() {
+  const el = document.getElementById('starter-section');
+  if (!el) return;
+  el.style.display = (STATE.favorites && STATE.favorites.length > 0) ? 'none' : 'block';
 }
 
 function renderTabs() {
@@ -13951,6 +13987,7 @@ function toggleFav() {
   saveState();
   updateFavBtn();
   renderFavorites();              // 同步首頁最愛區
+  renderStarterHint();            // 有最愛 → 新手提示收起
   updateAllPlantCardsFavState();  // 同步所有 plant card 右上角 ⭐
 }
 

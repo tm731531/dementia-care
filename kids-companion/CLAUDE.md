@@ -1,7 +1,7 @@
 # 小朋友學習樂園 — 開發指引
 
 ## 專案簡介
-1-6 歲兒童平板學習 app，寓教於樂，親子兩用，中英文可切換。
+2-6 歲兒童平板學習 app，寓教於樂，親子兩用，中英文可切換。
 所有功能集中在單一 `index.html`，無需伺服器或建置工具，完全離線可用。
 
 **設計哲學（核心）**：自適應深度（Adaptive Depth）—— 同一內容，不同年齡，不同深度。
@@ -211,7 +211,7 @@ JS：`// <!-- #SECTION:名稱 -->` ... `// <!-- #END:名稱 -->`
 | `#SECTION:TIMER` | 使用時長計時 |
 | `#SECTION:SETTINGS` | 設定面板 HTML |
 | `#SECTION:PAGE-HOME` | 首頁 HTML |
-| `#SECTION:PAGE-XXX` | 每個活動頁面（23 個）|
+| `#SECTION:PAGE-XXX` | 每個活動頁面（25+ 個）|
 | `#SECTION:IMAGES-CURRENCY` (×2) | 硬幣圖 |
 | `#SECTION:IMAGES-ZOO` | 動物園照片（166 張）|
 | `#SECTION:IMAGES-FOOD` | 食物照片（108 張）|
