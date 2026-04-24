@@ -726,9 +726,6 @@ const CONFIG = {
   AUTH: IS_LOCAL
     ? { clientId: 0, roleId: 0, organizationId: 0, warehouseId: 0 }
     : { clientId: 1000000, roleId: 1000000, organizationId: 0, warehouseId: 0 },
-  // 媽媽的 business partner id（從 brain file：C_BPartner_ID = 丁肇璽 = Tom 自己）
-  // 實際媽媽的 BP id 要從 iDempiere 查,這裡先放 placeholder
-  MOM_BP_NAME: '孫玉美',
   // localStorage keys
   LS_TOKEN: 'clinicToken',
   LS_QUESTIONS: 'clinicQuestions',
@@ -736,6 +733,7 @@ const CONFIG = {
   LS_CACHE: 'clinicMomDataCache',
   LS_VISITS: 'clinicVisits',       // JSON array of 'YYYY-MM-DD' 排序
   LS_NEXT_APPT: 'clinicNextAppt',  // 舊 schema,會自動 migrate 進 LS_VISITS
+  LS_PATIENT_NAME: 'clinicPatientName',  // 長輩姓名,使用者第一次同步錄音時輸入,存本機
 };
 
 // 症狀 pattern — 分類 + regex + 排除詞(解決「打」抓到「打招呼」的誤判)
@@ -817,7 +815,25 @@ const STATE = {
   recognition: null,
   isRecording: false,
   currentTranscript: '',
+  patientName: '',  // 從 localStorage 載入,首次同步錄音會 prompt
 };
+
+// 首次使用時 prompt 輸入長輩姓名,存本機;回傳 true/false 看有沒有設成功
+function ensurePatientName() {
+  if (STATE.patientName) return true;
+  const saved = localStorage.getItem(CONFIG.LS_PATIENT_NAME);
+  if (saved) {
+    STATE.patientName = saved;
+    return true;
+  }
+  const name = prompt('請輸入長輩姓名(存在本機,不會上傳到 iDempiere 以外的地方):');
+  if (name && name.trim()) {
+    STATE.patientName = name.trim();
+    localStorage.setItem(CONFIG.LS_PATIENT_NAME, STATE.patientName);
+    return true;
+  }
+  return false;
+}
 
 // =============================================================
 // 登入
@@ -1815,6 +1831,10 @@ async function syncRecordings() {
     showLoginScreen();
     return;
   }
+  if (!ensurePatientName()) {
+    showToast('需要輸入長輩姓名才能同步');
+    return;
+  }
 
   let okCount = 0;
   for (const r of toSync) {
@@ -1829,7 +1849,7 @@ async function syncRecordings() {
         body: JSON.stringify({
           DateDoc: dateStr,
           Description: `[就診錄音] ${r.text}`,
-          Name: '孫玉美',
+          Name: STATE.patientName,
         }),
       });
       if (res.ok) {
@@ -1899,6 +1919,7 @@ function renderTodayDate() {
 // =============================================================
 function init() {
   migrateOldApptKey();
+  STATE.patientName = localStorage.getItem(CONFIG.LS_PATIENT_NAME) || '';
   renderTodayDate();
   renderQuestions();
   renderRecordings();
