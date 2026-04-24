@@ -209,6 +209,34 @@
       cursor: pointer;
       padding: 0 4px;
     }
+    .question-item { flex-wrap: wrap; }
+    .doctor-reply-wrap {
+      flex: 1 0 100%;
+      margin: 8px 0 4px 32px;
+      padding: 8px 10px;
+      background: #fef9e7;
+      border-left: 3px solid #f59e0b;
+      border-radius: 4px;
+    }
+    .doctor-reply-wrap .label {
+      font-size: 12px;
+      color: #92400e;
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+    .doctor-reply-wrap textarea {
+      width: 100%;
+      min-height: 44px;
+      padding: 6px 8px;
+      border: 1px solid #fbbf24;
+      border-radius: 4px;
+      font-size: 14px;
+      font-family: inherit;
+      resize: vertical;
+      background: #fffbeb;
+      box-sizing: border-box;
+    }
+    .doctor-reply-wrap textarea.has-reply { background: #ecfccb; border-color: #84cc16; }
     .add-question {
       display: flex;
       gap: 8px;
@@ -738,7 +766,10 @@
   <div class="card">
     <div class="card-header">
       <h2>📋 這次要問醫生 <span id="questions-count"></span></h2>
-      <button class="action-btn" onclick="clearCheckedQuestions()">清已完成</button>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+        <button class="action-btn" onclick="syncDoctorReplies()" title="把醫生的回覆寫回 iDempiere,完成回診資料閉環">⚕ 同步醫生回覆</button>
+        <button class="action-btn" onclick="clearCheckedQuestions()">清已完成</button>
+      </div>
     </div>
     <div id="questions-list"></div>
     <div class="add-question">
@@ -1734,13 +1765,23 @@ function renderQuestions() {
     el.innerHTML = '<div class="empty">還沒有想問的問題,下面輸入加一個</div>';
     return;
   }
-  el.innerHTML = qs.map((q, i) => `
+  el.innerHTML = qs.map((q, i) => {
+    const reply = q.doctorReply || '';
+    const hasReply = reply.trim().length > 0;
+    const syncedTag = q.replySynced ? '<span style="color:#16a34a;margin-left:6px;font-size:11px;">✓ 已同步</span>' : '';
+    const replyUI = q.checked ? `
+      <div class="doctor-reply-wrap">
+        <div class="label">⚕ 醫生怎麼回?${syncedTag}</div>
+        <textarea class="${hasReply ? 'has-reply' : ''}" placeholder="例:調整藥物劑量 / 三個月後追蹤 / 建議加做抽血…" oninput="updateDoctorReply(${i}, this.value)" onblur="this.classList.toggle('has-reply', this.value.trim().length > 0)">${escapeHtml(reply)}</textarea>
+      </div>` : '';
+    return `
     <div class="question-item ${q.checked ? 'checked' : ''}">
       <div class="checkbox ${q.checked ? 'checked' : ''}" onclick="toggleQuestion(${i})"></div>
       <div class="text">${escapeHtml(q.text)}</div>
       <button class="del-btn" onclick="deleteQuestion(${i})">×</button>
-    </div>
-  `).join('');
+      ${replyUI}
+    </div>`;
+  }).join('');
 }
 function addQuestion() {
   const input = document.getElementById('new-question');
@@ -1782,6 +1823,72 @@ function clearCheckedQuestions() {
   saveQuestions(qs);
   renderQuestions();
   showToast('已清除已勾選項目');
+}
+function updateDoctorReply(i, text) {
+  const qs = loadQuestions();
+  if (!qs[i]) return;
+  qs[i].doctorReply = text;
+  // 改動後 replySynced 重置
+  if (qs[i].replySynced && text.trim() !== (qs[i].lastSyncedReply || '')) {
+    qs[i].replySynced = false;
+  }
+  saveQuestions(qs);
+}
+
+// =============================================================
+// 資料閉環第 4 段:把「問題 + 醫生回覆」寫回 iDempiere
+// =============================================================
+async function syncDoctorReplies() {
+  const qs = loadQuestions();
+  const pending = qs.filter(q => q.doctorReply && q.doctorReply.trim() && !q.replySynced);
+  if (pending.length === 0) {
+    showToast('沒有新的醫生回覆要同步');
+    return;
+  }
+  if (!navigator.onLine) {
+    showToast('目前離線,無法同步(等有網再試)');
+    return;
+  }
+  if (!STATE.token) {
+    showLoginScreen();
+    return;
+  }
+  if (!ensurePatientName()) {
+    showToast('需要輸入長輩姓名才能同步');
+    return;
+  }
+  const today = new Date().toISOString().split('T')[0];
+  let okCount = 0;
+  for (const q of pending) {
+    try {
+      const desc = `[醫生回覆] Q: ${q.text}\nA: ${q.doctorReply.trim()}`;
+      const res = await fetch(`${CONFIG.API_BASE}/models/Z_momSystem`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${STATE.token}`,
+        },
+        body: JSON.stringify({
+          DateDoc: today,
+          Description: desc,
+          Name: STATE.patientName,
+        }),
+      });
+      if (res.ok) {
+        q.replySynced = true;
+        q.lastSyncedReply = q.doctorReply.trim();
+        q.syncedAt = Date.now();
+        okCount++;
+      } else {
+        console.warn('doctor reply sync failed', res.status);
+      }
+    } catch (e) {
+      console.error('doctor reply sync err', e);
+    }
+  }
+  saveQuestions(qs);
+  renderQuestions();
+  showToast(`已同步 ${okCount}/${pending.length} 筆醫生回覆`);
 }
 
 // =============================================================
