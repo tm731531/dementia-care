@@ -633,7 +633,11 @@
       <div class="title">🏥 就診小幫手</div>
       <div class="date" id="today-date">—</div>
     </div>
-    <div class="sync-status" id="sync-status">● 準備中</div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <div class="sync-status" id="sync-status">● 準備中</div>
+      <button onclick="logoutAndClear()" aria-label="登出並清除本機資料"
+        style="padding:6px 10px;border-radius:16px;border:1px solid #c44;background:#fff;color:#c44;font-size:12px;cursor:pointer;white-space:nowrap;">登出清除</button>
+    </div>
   </div>
 
   <!-- 回診倒數 -->
@@ -891,6 +895,30 @@ async function doLogin() {
 
 function showLoginScreen() {
   document.getElementById('login-screen').classList.add('show');
+}
+
+// 登出並清除所有本機醫療資料 — 公用裝置/診間共用場景用
+function logoutAndClear() {
+  const msg = '確定登出並清除本機資料?\n\n' +
+    '這會清除:\n' +
+    '• 登入 token\n' +
+    '• 近 30 天醫療紀錄快取\n' +
+    '• 診間錄音逐字稿\n' +
+    '• 問題清單 / 回診日期\n' +
+    '• 長輩姓名設定\n\n' +
+    '(不會影響 iDempiere 伺服器上的資料)';
+  if (!confirm(msg)) return;
+  // 清 session + local storage(只清本工具的 keys)
+  try { sessionStorage.removeItem(CONFIG.LS_TOKEN); } catch(e) {}
+  [CONFIG.LS_QUESTIONS, CONFIG.LS_RECORDINGS, CONFIG.LS_CACHE,
+   CONFIG.LS_VISITS, CONFIG.LS_NEXT_APPT, CONFIG.LS_PATIENT_NAME].forEach(k => {
+    try { localStorage.removeItem(k); } catch(e) {}
+  });
+  // reset state + reload 到乾淨狀態
+  STATE.token = null;
+  STATE.momData = null;
+  STATE.patientName = '';
+  location.reload();
 }
 function hideLoginScreen() {
   document.getElementById('login-screen').classList.remove('show');

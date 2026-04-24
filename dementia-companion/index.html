@@ -847,6 +847,9 @@
 
   <!-- ===== 首頁 ===== -->
   <div id="page-home" class="page">
+    <button id="tts-mute-btn" onclick="toggleTtsMute()" aria-label="關閉語音"
+      style="position:fixed;top:12px;right:12px;z-index:1000;width:48px;height:48px;border-radius:50%;border:2px solid #fff;background:rgba(0,0,0,0.7);color:#fff;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;">🔊</button>
+
     <div class="home-header">
       <h1 id="home-greeting">您好！</h1>
       <div class="date" id="home-date"></div>
@@ -1208,7 +1211,21 @@
       return arr[Math.floor(Math.random() * arr.length)];
     }
 
+    // TTS 靜音狀態(使用者可從右上角 🔊 鈕切換,存 localStorage)
+    let TTS_MUTED = localStorage.getItem('ttsMuted') === '1';
+    function toggleTtsMute() {
+      TTS_MUTED = !TTS_MUTED;
+      localStorage.setItem('ttsMuted', TTS_MUTED ? '1' : '0');
+      if (TTS_MUTED && 'speechSynthesis' in window) speechSynthesis.cancel();
+      const btn = document.getElementById('tts-mute-btn');
+      if (btn) {
+        btn.textContent = TTS_MUTED ? '🔇' : '🔊';
+        btn.setAttribute('aria-label', TTS_MUTED ? '開啟語音' : '關閉語音');
+      }
+    }
+
     function speak(text) {
+      if (TTS_MUTED) return;
       if (!('speechSynthesis' in window)) return;
       speechSynthesis.cancel();
       const clean = text.replace(/[\u{1F000}-\u{1FFFF}]|[\u{2600}-\u{27BF}]|[\u{FE00}-\u{FEFF}]|[\u{1F900}-\u{1F9FF}]|[\u{200D}\u{20E3}\u{FE0F}]/gu, '').trim();
@@ -2519,6 +2536,12 @@
     // ============================
     document.addEventListener('DOMContentLoaded', () => {
       navigateTo('page-home');
+      // 同步 TTS 靜音鈕狀態(若 localStorage 已關)
+      const btn = document.getElementById('tts-mute-btn');
+      if (btn && TTS_MUTED) {
+        btn.textContent = '🔇';
+        btn.setAttribute('aria-label', '開啟語音');
+      }
     });
   // ============================
   // 情緒辨識

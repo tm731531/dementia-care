@@ -872,6 +872,9 @@
 </head>
 <body>
 
+  <button id="tts-mute-btn" onclick="toggleTtsMute()" aria-label="關閉語音"
+    style="position:fixed;top:12px;right:12px;z-index:1000;width:48px;height:48px;border-radius:50%;border:2px solid #fff;background:rgba(0,0,0,0.7);color:#fff;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;">🔊</button>
+
   <!-- ===== Home (recommendation) ===== -->
   <div id="home" class="screen active">
     <div class="greeting">
@@ -1756,7 +1759,21 @@ function _clearVoiceTimers() {
   _voice.timers = [];
 }
 
+// TTS 靜音狀態(使用者可從右上角 🔊 鈕切換,存 localStorage)
+let TTS_MUTED = localStorage.getItem('ttsMuted') === '1';
+function toggleTtsMute() {
+  TTS_MUTED = !TTS_MUTED;
+  localStorage.setItem('ttsMuted', TTS_MUTED ? '1' : '0');
+  if (TTS_MUTED && 'speechSynthesis' in window) speechSynthesis.cancel();
+  const btn = document.getElementById('tts-mute-btn');
+  if (btn) {
+    btn.textContent = TTS_MUTED ? '🔇' : '🔊';
+    btn.setAttribute('aria-label', TTS_MUTED ? '開啟語音' : '關閉語音');
+  }
+}
+
 function speak(text, onEnd) {
+  if (TTS_MUTED) { onEnd && onEnd(); return; }
   if (!('speechSynthesis' in window)) { onEnd && onEnd(); return; }
   _clearVoiceTimers();
   const gen = ++_voice.gen;
@@ -3333,6 +3350,14 @@ loadState();
 renderGreeting();
 renderRecommendation();
 setInterval(renderGreeting, 60000); // refresh time display
+// 同步 TTS 靜音鈕狀態
+(function() {
+  const btn = document.getElementById('tts-mute-btn');
+  if (btn && TTS_MUTED) {
+    btn.textContent = '🔇';
+    btn.setAttribute('aria-label', '開啟語音');
+  }
+})();
 </script>
 
 </body>
