@@ -90,30 +90,6 @@ const DRINKS = [
     }
   },
   {
-    id: "ikitchen-fish-sauce",
-    name: "美味大師魚露",
-    brand: "愛廚房",
-    volume_ml: 200,
-    image: "images/愛廚房~美味大師魚露.webp",
-    categories: ["調味料"],
-    nutrients: {
-      "熱量(kcal)": 59.6, "蛋白質(g)": 7.3, "脂肪(g)": 0, "飽和脂肪(g)": 0,
-      "反式脂肪(g)": 0, "碳水化合物(g)": 7.6, "糖(g)": 7.6, "鈉(mg)": 10639
-    }
-  },
-  {
-    id: "oilseed-taiwan-peanut-oil",
-    name: "100%臺灣九號花生油",
-    brand: "油籽學堂",
-    volume_ml: 200,
-    image: "images/油籽學堂-100％臺灣黑麻油.jpg",
-    categories: ["食用油"],
-    nutrients: {
-      "熱量(kcal)": 828, "蛋白質(g)": 0, "脂肪(g)": 92, "飽和脂肪(g)": 12,
-      "反式脂肪(g)": 0, "碳水化合物(g)": 0, "糖(g)": 0, "鈉(mg)": 0
-    }
-  },
-  {
     id: "quaker-chicken-essence-original",
     name: "原味水解雞精",
     brand: "桂格 Quaker",

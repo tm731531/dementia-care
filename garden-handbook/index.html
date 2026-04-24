@@ -11388,6 +11388,17 @@ const PLANTS = [
       location: '開放陽台 / 頂樓 / 庭院',
       seasons: ['spring', 'summer'],
       bestStartMonths: [3, 4, 5, 6],
+      fit: { suitableFor: [], warnings: ['needs_deep_pot', 'advanced'] },
+      shoppingList: {
+        propagation: { name: '絲瓜種子', qty: '10 粒 / 包', source: '蝦皮 · 種苗行', priceMin: 50, priceMax: 120 },
+        containers: [
+          { spec: '30cm+ 深盆(至少 15L 土)', qty: 1, priceMin: 150, priceMax: 250 },
+          { spec: '攀爬架 120cm 以上 或 A 字架', qty: 1, priceMin: 200, priceMax: 400 },
+        ],
+        soil: { volumeL: 15, type: '一般培養土 + 有機肥底', priceMin: 150, priceMax: 250 },
+        fertilizer: { product: '好康多 1 號 350g', shared: true, priceMin: 100, priceMax: 150 },
+        tools: ['剪刀', '攀爬繩 / 束帶', '澆水壺'],
+      },
     },
     sections: [
       {
@@ -11724,6 +11735,17 @@ const PLANTS = [
       location: '陽台 / 戶外 / 大盆窗邊',
       seasons: ['spring', 'autumn'],
       bestStartMonths: [3, 4, 9, 10],
+      fit: { suitableFor: ['beginner'], warnings: ['needs_deep_pot'] },
+      shoppingList: {
+        propagation: { name: '四季豆種子(矮性或蔓性)', qty: '20 粒 / 包', source: '蝦皮 · 種苗行', priceMin: 30, priceMax: 80 },
+        containers: [
+          { spec: '25cm 深盆 或 50cm 長方盆', qty: 1, priceMin: 100, priceMax: 200 },
+          { spec: '竹竿 120cm 或小型攀爬架(蔓性品種用)', qty: 3, priceMin: 60, priceMax: 150 },
+        ],
+        soil: { volumeL: 8, type: '一般培養土', priceMin: 80, priceMax: 150 },
+        fertilizer: { product: '好康多 1 號 350g', shared: true, priceMin: 100, priceMax: 150 },
+        tools: ['剪刀', '束帶'],
+      },
     },
     suitableFor: ['kid_friendly'],
     warnings: ['needs_deep_pot'],
@@ -12064,6 +12086,14 @@ const PLANTS = [
       location: '陽台 / 窗邊(外陽台最理想)',
       seasons: ['spring', 'summer', 'autumn', 'winter'],
       bestStartMonths: [1,2,3,4,5,6,7,8,9,10,11,12],
+      fit: { suitableFor: ['beginner', 'indoor', 'low_maintenance'], warnings: ['pet_toxic'] },
+      shoppingList: {
+        propagation: { name: '蘆薈小苗(庫拉索 / 不夜城)', qty: '1–2 株', source: '蝦皮 · 花市 · 免費(朋友分株)', priceMin: 80, priceMax: 200, freeFromKitchen: false },
+        containers: [{ spec: '15cm 素燒盆 或 排水孔多的陶盆', qty: 1, priceMin: 100, priceMax: 180 }],
+        soil: { volumeL: 2, type: '多肉專用土 或 培養土+珍珠石(3:1)', priceMin: 60, priceMax: 150 },
+        fertilizer: { product: '好康多 1 號 350g(量減半)', shared: true, priceMin: 100, priceMax: 150 },
+        tools: ['手套(採收時防黏液)', '剪刀'],
+      },
     },
     suitableFor: ['beginner', 'small_space', 'low_maintenance'],
     warnings: ['pet_toxic'],
@@ -12426,6 +12456,14 @@ const PLANTS = [
       location: '陽台 / 戶外 / 窗邊(建議獨立盆)',
       seasons: ['spring', 'summer', 'autumn'],
       bestStartMonths: [3, 4, 5, 6, 7, 8, 9],
+      fit: { suitableFor: ['beginner', 'low_maintenance'], warnings: ['strong_scent'] },
+      shoppingList: {
+        propagation: { name: '艾草扦插苗(台灣山艾 / 蘄艾)', qty: '2–3 株', source: '蝦皮 · 草藥行 · 野外取枝', priceMin: 80, priceMax: 180, freeFromKitchen: false },
+        containers: [{ spec: '25cm+ 深盆(獨立盆,會竄根)', qty: 1, priceMin: 100, priceMax: 180 }],
+        soil: { volumeL: 5, type: '一般培養土(排水好)', priceMin: 50, priceMax: 120 },
+        fertilizer: { product: '好康多 1 號 350g(量減半,艾草耐貧瘠)', shared: true, priceMin: 100, priceMax: 150 },
+        tools: ['剪刀', '手套'],
+      },
     },
     sections: [
       {
@@ -12771,6 +12809,14 @@ const PLANTS = [
       location: '室內 — 客廳窗邊、餐桌旁、浴室',
       seasons: ['spring', 'summer', 'autumn', 'winter'],
       bestStartMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      fit: { suitableFor: ['indoor'], warnings: [] },
+      shoppingList: {
+        propagation: { name: '鐵線蕨盆栽成品', qty: '1 盆', source: '花市 · IKEA · 蝦皮', priceMin: 150, priceMax: 350 },
+        containers: [{ spec: '15–20cm 盆 + 托盤(用來積水保濕)', qty: 1, priceMin: 100, priceMax: 200 }],
+        soil: { volumeL: 3, type: '培養土 + 珍珠石(2:1,排水要好)', priceMin: 50, priceMax: 120 },
+        fertilizer: { product: '好康多 1 號 350g(量極少,1/3 量)', shared: true, priceMin: 100, priceMax: 150 },
+        tools: ['噴霧器(每日噴葉必備)', '剪刀'],
+      },
     },
     sections: [
       {
@@ -13100,6 +13146,14 @@ const PLANTS = [
       location: '廚房流理台 / 水槽旁 / 櫥櫃裡',
       seasons: ['spring', 'summer', 'autumn', 'winter'],
       bestStartMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      fit: { suitableFor: ['beginner', 'small_space', 'indoor', 'kid_friendly', 'low_maintenance'], warnings: [] },
+      shoppingList: {
+        propagation: { name: '芽菜種子(綠豆 / 苜蓿 / 紫高麗 / 蘿蔔)', qty: '100g / 包', source: '蝦皮 · 有機店', priceMin: 30, priceMax: 100 },
+        containers: [{ spec: '玻璃罐(500ml) 或 專用芽菜盒', qty: 1, priceMin: 50, priceMax: 200 }],
+        soil: { volumeL: 0, type: '不需要土(水耕)', priceMin: 0, priceMax: 0 },
+        fertilizer: { product: '不需要(3–7 天採收)', shared: false, priceMin: 0, priceMax: 0 },
+        tools: ['紗布 / 濾網', '橡皮筋'],
+      },
     },
     suitableFor: ['beginner', 'small_space', 'indoor', 'kid_friendly', 'low_maintenance'],
     warnings: [],
@@ -13366,6 +13420,13 @@ const PLANTS = [
       location: '貓容易搆到的低處(茶几、地板、貓窩旁)',
       seasons: ['spring', 'summer', 'autumn', 'winter'],
       bestStartMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      shoppingList: {
+        propagation: { name: '貓草種子(小麥草 / 燕麥草)', qty: '50–100g / 包', source: '蝦皮 · 寵物店', priceMin: 30, priceMax: 80 },
+        containers: [{ spec: '淺盆 15cm 寬(貓容易低頭咬)', qty: 2, priceMin: 60, priceMax: 150 }],
+        soil: { volumeL: 2, type: '一般培養土', priceMin: 50, priceMax: 80 },
+        fertilizer: { product: '不需要(10–14 天採收就換)', shared: false, priceMin: 0, priceMax: 0 },
+        tools: ['剪刀(讓貓吃前修短)'],
+      },
     },
     sections: [
       {
