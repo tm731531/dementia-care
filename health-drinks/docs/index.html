@@ -199,6 +199,9 @@ body { font-family: 'PingFang TC', 'Microsoft JhengHei', system-ui, -apple-syste
 .toolbar-hint { font-size: .75rem; color: var(--muted); }
 
 #no-result { text-align: center; color: var(--muted); padding: 3rem; display: none; }
+
+/* Accessibility: keyboard focus ring (WCAG 2.4.7) */
+:focus-visible { outline: 3px solid #ff8800; outline-offset: 2px; border-radius: 4px; }
 </style>
 </head>
 <body>
