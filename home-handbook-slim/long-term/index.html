@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- 4-page split experiment - long-term -->
+<title>長期規劃 · 機構 / 保險 / 關懷據點</title>
+<meta name="description" content="失智家人確診那週的法律醫療 P0(意定監護/銀行代理/診斷證明/印鑑/GPS)+ 物理環境改造 13 項 + 早晚 SOP + 分散注意力 3 招 + 黃昏症候群處理。基於一位失智照護者 2025-10 起實戰 6 個月的踩坑紀錄。純前端、離線可用、零廣告。">
+<meta name="keywords" content="失智照護,家中改造,廁所布簾,黃昏症候群,居家環境,失智症,長照 3.0,照護 SOP">
+<meta name="author" content="Tom Ting">
+<link rel="canonical" href="https://tm731531.github.io/dementia-care/home-handbook/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="家中照護手冊 · 失智家人確診後不用重蹈 6 個月的坑">
+<meta property="og:description" content="法律清醒窗口、環境安全改造、早晚 SOP、黃昏症候群 — 免費、無廣告、離線可用、CDR 1-2 家庭適用。">
+<meta property="og:url" content="https://tm731531.github.io/dementia-care/home-handbook/">
+<meta property="og:image" content="https://tm731531.github.io/dementia-care/home-handbook/og-image.svg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/svg+xml">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="家中照護手冊 · 失智家人確診後不用重蹈 6 個月的坑">
+<meta name="twitter:description" content="法律清醒窗口、環境安全改造、早晚 SOP、黃昏症候群 — 免費、無廣告、離線可用、CDR 1-2 家庭適用。">
+<meta name="twitter:image" content="https://tm731531.github.io/dementia-care/home-handbook/og-image.svg">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏠</text></svg>">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Dementia Care Tools", "item": "https://tm731531.github.io/dementia-care/"},
+    {"@type": "ListItem", "position": 2, "name": "家中照護手冊", "item": "https://tm731531.github.io/dementia-care/home-handbook/"}
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "家中照護手冊 · 失智中度家庭實戰紀錄",
+  "description": "剛確診那週的法律醫療 P0(意定監護 / 銀行代理 / 診斷證明 / 印鑑 / GPS)+ 物理環境改造 13 項 + 早晚 SOP + 分散注意力 3 招 + 黃昏症候群處理。一位失智照護者 2025-10 起的 6 個月記錄。",
+  "author": {"@type": "Person", "name": "Tom Ting", "url": "https://blog.tomting.com/"},
+  "datePublished": "2026-04-24",
+  "inLanguage": "zh-Hant",
+  "keywords": ["失智照護", "意定監護", "監護宣告", "印鑑證明", "銀行親屬代理人", "神經科初診", "診斷證明", "AirTag 防走失", "家中改造", "長照 3.0", "喘息補助", "黃昏症候群", "照護 SOP"]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "失智家人剛確診,第一週最該做什麼?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "法律醫療 P0 比物理改造更迫切,因為有「清醒窗口」。5 件事:(1) 簽意定監護契約(民法 1113-2,由法院公證處或民間公證人作成公證書),同時規劃 AD(病主法)— AD(預立醫療決定)需本人意識清楚時辦理;DNR 另需末期診斷。三者是不同法規、不同文件,請分別確認辦理條件。(2) 到銀行臨櫃辦「失智者金融友善服務」,三親等親屬陪同協助(這是協助不是代理權;代理需監護宣告或信託)。(3) 神經科初診拿診斷證明,基線 MMSE/CASI/CDR 評估。(4) 整理印鑑、身分文件、房屋權狀、保單。(5) AirTag + 門窗感應器防走失(藏進她的習慣物品,不是給她新的)。具體程序請諮詢當地公證處、銀行、法扶基金會。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "失智長輩在家,第一件環境改造該做什麼?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "先做 P0 三件事:(1)廁所門拆掉改布簾或永遠敞開(她找不到廁所會在陽台/廚房上);(2)馬桶圈改成跟白色馬桶對比的顏色(藍或黃,同色她看不到);(3)鐵窗加紗網束帶加隔音板材三層(她會開始丟東西下樓、敲窗)。這三件是安全底線,其他可慢慢做。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "意定監護、輔助宣告、監護宣告差在哪?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "台灣失能家人的法律保護分三層。預防層:意定監護(民法 1113-2),本人清醒時與受任人約定將來受監護宣告時由誰擔任監護人,由公證人作成公證書才成立(法院公證處或民間公證人都可辦),契約訂立時不生效,要等受監護宣告才啟動。輕度層:輔助宣告(民法 15-1、15-2),本人能力顯有不足但還沒喪失,仍有行為能力,只有特定重大行為需輔助人同意,輕度失智多適用。重度層:監護宣告(民法 14),本人不能為意思表示,由監護人代為,中度到重度失智多適用。兩種宣告都向家事法院聲請,可先輔助後變更為監護。意定監護跟 AD(病主法的預立醫療決定)、DNR(安寧條例的不施行心肺復甦術意願書)是三份不同文件、不同法規,建議都規劃。具體程序請諮詢公證處、法扶基金會或律師。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "什麼是黃昏症候群?為什麼失智長輩下午特別躁?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "黃昏症候群(Sundowning)是失智症常見症狀,下午 3 點後到傍晚情緒會變得焦躁不安、想離家。成因跟 circadian rhythm 混亂、光線減弱、下午體力耗盡都有關。實務對策:把需要外出的行程改到中午而非下午 — 傍晚才帶出門「很難帶回來」。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "怎麼讓失智長輩「有事情做」但不覺得在被訓練?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "關鍵是「不能被她看到你擺」。照護者故意把衣服 5 件打亂丟沙發邊、玩具散在桌上 — 製造「要收」的工作。她自然就會收、疊、整理。重點是分散注意力讓她身體有點事,不是考她。看到在擺反而不會去做。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "這份手冊適合所有失智家庭嗎?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "適合輕度到中度失智(CDR 1-2)、長輩仍可自主行動、但判斷力退化的家庭。重度失智(CDR 3、臥床)的需求完全不同,主要在醫療級照護。本手冊的內容是一位照護者的個人紀錄,不是所有家庭都需要全部 13 項。建議先做 P0 三件,其餘看自家情境挑。"
+      }
+    }
+  ]
+}
+</script>
+
+<style>
+/* ========== Base ========== */
+* { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --bg: #fafaf5;
+  --card: #ffffff;
+  --text: #2d3436;
+  --text-muted: #636e72;
+  --primary: #b7491f;
+  --primary-dark: #7d2c0f;
+  --accent: #e17055;
+  --border: #e0d8c5;
+  --danger: #d63031;
+  --success: #00864d;
+  --warn-bg: #fff4e6;
+  --warn-border: #ff8c42;
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: system-ui, -apple-system, "PingFang TC", "Microsoft JhengHei", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 17px;
+  padding: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+*:focus-visible { outline: 3px solid #ff8800; outline-offset: 2px; border-radius: 4px; }
+
+.wrap { max-width: 780px; margin: 0 auto; padding: 24px 20px 60px; }
+.hero { text-align: center; padding: 32px 0 20px; border-bottom: 2px solid var(--border); margin-bottom: 32px; }
+.hero h1 { font-size: 32px; color: var(--primary-dark); margin-bottom: 8px; }
+.hero .sub { color: var(--text-muted); font-size: 15px; }
+.hero .meta { margin-top: 14px; font-size: 13px; color: var(--text-muted); }
+
+h2 { font-size: 24px; color: var(--primary-dark); margin: 36px 0 12px; padding-bottom: 6px; border-bottom: 2px solid var(--border); }
+h3 { font-size: 19px; color: var(--primary); margin: 20px 0 8px; }
+h4 { font-size: 17px; color: var(--primary-dark); margin: 14px 0 6px; }
+
+p { margin: 10px 0; }
+ul, ol { margin: 10px 0 10px 24px; }
+li { margin: 4px 0; }
+
+.card {
+  background: var(--card);
+  border-radius: 10px;
+  padding: 18px 22px;
+  margin: 14px 0;
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.callout {
+  background: #f1f8e9;
+  border-left: 4px solid var(--success);
+  padding: 12px 16px;
+  margin: 14px 0;
+  border-radius: 4px;
+}
+.callout.warn {
+  background: var(--warn-bg);
+  border-left-color: var(--warn-border);
+}
+.callout.danger {
+  background: #ffebee;
+  border-left-color: var(--danger);
+}
+
+.item-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin: 18px 0; }
+.item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 6px solid var(--primary);
+  border-radius: 8px;
+  padding: 16px 20px;
+}
+.item.p0 { border-left-color: var(--danger); }
+.item-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--primary-dark);
+  margin-bottom: 6px;
+}
+.item-title .num {
+  background: var(--primary);
+  color: white;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+.item.p0 .item-title .num { background: var(--danger); }
+.item p { margin: 6px 0; font-size: 15px; color: var(--text); }
+.item .why { color: var(--text-muted); font-size: 14px; margin-top: 4px; }
+
+.sop-list { counter-reset: sop; list-style: none; padding: 0; }
+.sop-list li {
+  counter-increment: sop;
+  padding: 10px 14px 10px 46px;
+  margin: 8px 0;
+  background: #fff;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  position: relative;
+}
+.sop-list li::before {
+  content: counter(sop);
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  background: var(--primary);
+  color: white;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.quote {
+  border-left: 4px solid var(--accent);
+  padding: 8px 16px;
+  margin: 14px 0;
+  font-style: italic;
+  color: var(--text-muted);
+  background: #fffaf5;
+}
+
+table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 15px; }
+th, td { padding: 10px 12px; text-align: left; border: 1px solid var(--border); }
+th { background: #f5ede0; font-weight: 600; color: var(--primary-dark); }
+tr:nth-child(even) td { background: #fafaf5; }
+
+.nav-toc {
+  background: #fff;
+  padding: 14px 20px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  margin: 24px 0;
+}
+.nav-toc h4 { margin: 0 0 8px 0; }
+.nav-toc a { display: block; padding: 4px 0; color: var(--primary); text-decoration: none; font-size: 15px; }
+.nav-toc a:hover { text-decoration: underline; }
+
+.emergency-disclaimer {
+  margin: 40px auto 20px;
+  max-width: 720px;
+  padding: 16px 20px;
+  border-top: 1px solid rgba(0,0,0,0.08);
+  font-size: 13px;
+  color: #888;
+  text-align: center;
+  line-height: 1.7;
+}
+
+@media print {
+  body { background: white; }
+  .nav-toc { display: none; }
+}
+</style>
+
+<style>
+.page-tabs { display:flex; gap:8px; flex-wrap:wrap; margin:8px 0 24px; padding:0; }
+.page-tabs a { display:inline-block; padding:10px 16px; background:var(--card); border:1px solid var(--border); border-radius:8px; color:var(--text); text-decoration:none; font-size:15px; font-weight:500; transition:background 0.15s, color 0.15s; }
+.page-tabs a:hover { background:var(--primary); color:#fff; }
+.page-tabs a.tab-active { background:var(--primary); color:#fff; box-shadow:0 2px 6px rgba(0,0,0,0.1); cursor:default; }
+@media print { .page-tabs { display: none; } }
+</style>
+</head>
+<body>
+<a href="#e-facility" class="skip-link" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;" onfocus="this.style.cssText='position:fixed;top:0;left:0;z-index:9999;padding:12px;background:#000;color:#fff;'">跳到主內容</a>
+
+<main class="wrap" aria-label="長期規劃 · 機構 / 保險 / 關懷據點">
+
+<nav class="page-tabs">
+  <a href="../">📘 主入口</a>
+  <a href="../emergency/">🚨 急性事件 SOP</a>
+  <a href="../long-term/" class="tab-active">🏛 長期規劃</a>
+  <a href="../caregiver/">💙 照護者自己</a>
+</nav>
+<div class="callout" style="background:#fef7e6;border:2px dashed #d4a04c;margin:16px 0;padding:14px 18px;border-radius:8px;font-size:14px;">
+🧪 <strong>這是 4 頁拆分實驗版</strong> · 原版仍在 <a href="../../home-handbook/">/home-handbook/</a>(完整單頁)。
+</div>
+
+<div class="hero">
+  <h1>🏠 長期規劃 · 機構 / 保險 / 關懷據點</h1>
+  <div class="sub">失智病程進展後的中長期資源 — 機構選擇、自費保險、社區據點</div>
+  <div class="meta">一位失智照護者 2025-10 起的 6 個月記錄 · 最後更新 2026-04-25</div>
+</div>
+
+<!-- ============================================================== -->
+<!-- E6 · 機構照護選擇 + 入住 checklist                              -->
+<!-- ============================================================== -->
+<h2 id="e-facility">🏥 E6 · 機構照護選擇 + 入住 checklist</h2>
+
+<div class="callout warn">
+<strong>什麼時候會看到這一區?</strong>當主照護者已經出現「撐不住的訊號」(下方有清單)、或長輩 CDR 進到 2-3 級且日夜顛倒、跌倒頻繁、進食困難 — 這時 24 小時居家照護的人力 / 體力 / 財務任一條斷掉,機構就會進入選項。<strong>愈早把這份 checklist 印出來放抽屜,真的要決定時愈不會慌</strong>。
+</div>
+
+<div class="callout danger">
+<strong>關鍵提醒</strong>:本節所有費用區間 / 機構分類 / 補助條件,皆為 ⚠ 2025-2026 概況,<strong>請以當下衛福部長期照顧司公告與 1966 評估為準</strong>。本手冊<strong>不推薦</strong>任何特定機構,也<strong>不收取</strong>任何介紹費或業配。
+</div>
+
+<h3>📋 衛福部機構分類速查(2025-2026)</h3>
+
+<p>台灣失智 / 失能長輩可使用的「機構式 / 社區式」服務,依《老人福利法》《長期照顧服務法》區分。簡化對照表:</p>
+
+<div style="overflow-x:auto;">
+<table>
+<thead>
+<tr>
+  <th>類型</th>
+  <th>主管法規</th>
+  <th>住宿/時段</th>
+  <th>失智 staff</th>
+  <th>適合什麼狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>養護型長照機構</strong></td>
+  <td>長照服務法</td>
+  <td>24h 住宿</td>
+  <td>看機構,部分有失智專區</td>
+  <td>失能但慢性病穩定、無管路</td>
+</tr>
+<tr>
+  <td><strong>護理之家</strong></td>
+  <td>護理人員法</td>
+  <td>24h 住宿</td>
+  <td>必有護理人員</td>
+  <td>有鼻胃管 / 尿管 / 氣切 / 慢性病不穩</td>
+</tr>
+<tr>
+  <td><strong>失智專責(專區/專責病房)</strong></td>
+  <td>長照服務法</td>
+  <td>24h 住宿</td>
+  <td>受過失智專業訓練</td>
+  <td>中重度失智、行為精神症狀(BPSD)明顯</td>
+</tr>
+<tr>
+  <td><strong>安養中心</strong></td>
+  <td>老人福利法</td>
+  <td>24h 住宿</td>
+  <td>無強制要求</td>
+  <td>能自理長輩,<strong>失智者不一定收</strong></td>
+</tr>
+<tr>
+  <td><strong>日間照顧中心(日照)</strong></td>
+  <td>長照服務法</td>
+  <td>白天 8 小時</td>
+  <td>多有失智訓練</td>
+  <td>輕中度失智 + 家人白天無法陪</td>
+</tr>
+<tr>
+  <td><strong>失智社區服務據點</strong></td>
+  <td>長照 2.0 / 3.0</td>
+  <td>每週數次半日</td>
+  <td>專注失智活動</td>
+  <td>輕度失智、家人能接送</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<p class="why"><strong>查詢來源</strong>:衛福部長照司「長照機構查詢系統」、各縣市衛生局網站、台灣失智症協會(TADA)資源地圖、1966 長照專線轉介。<strong>請以當下公告為準</strong>。</p>
+
+<h3>🚨 何時開始考慮機構 — 不是看「年齡」是看「主照護者撐不住的訊號」</h3>
+
+<div class="callout warn">
+<strong>觸發點不是長輩多老 / 病多重,是<u>主照護者</u>出現以下任一訊號</strong>。家屬常常拖到自己倒下才轉手,結果照護者也成病人。出現 3 項以上請優先預約 1966 評估。
+</div>
+
+<div class="card">
+<h4>📌 主照護者撐不住的 12 個訊號</h4>
+<ul>
+  <li>連續 4 週每晚被吵醒 ≥ 2 次,白天無法補眠</li>
+  <li>體重半年內下降 / 上升超過 5 公斤(壓力性飲食改變)</li>
+  <li>開始對長輩產生怒氣 / 厭惡感(這是<strong>警訊不是道德問題</strong>)</li>
+  <li>出現自己的健康問題:高血壓、心律不整、長期疲倦、頻繁感冒</li>
+  <li>已經放棄自己的工作 / 興趣 / 社交超過 6 個月</li>
+  <li>家庭成員之間因照護出現衝突 / 互相責備</li>
+  <li>長輩跌倒 / 走失次數每月 ≥ 1 次</li>
+  <li>長輩日夜顛倒到主照護者連續 3 天無法睡足 4 小時</li>
+  <li>長輩出現吞嚥困難 / 嗆咳 / 反覆肺炎</li>
+  <li>長輩需要管路照護(鼻胃管 / 尿管 / 氣切)而家人無法執行</li>
+  <li>主照護者出現自殺意念 / 嚴重憂鬱(請立刻撥 1925 安心專線)</li>
+  <li>家中經濟條件已無法負擔 24 小時居服員(長照 3.0 補助 + 自費組合算過撐不住)</li>
+</ul>
+<p class="why">⚠ 出現這些訊號,代表<strong>「轉機構」是維持照護品質的決定,不是放棄</strong>。台灣文化常把送機構視為不孝,但 24h 專業照護(包含夜間)很多家庭做不到。<strong>請優先諮詢照管專員(case manager)做客觀評估</strong>。</p>
+</div>
+
+<h3>✅ 機構比較選擇 checklist(15 項,參訪時逐項打勾)</h3>
+
+<p>建議至少參訪 <strong>3 間以上</strong> 再做決定。理想上看不同時段(平日下午看照護密度、用餐時段看餵食 SOP、傍晚看人力縮減),但實務上多家屬連跑 1 次都不容易 — <strong>有時間就盡量看,做不到 3 時段不等於放棄選機構</strong>。重點是看到「家屬不在的常態」,不是看門面。</p>
+
+<div class="card">
+<h4>👥 一、人力與專業(5 項)</h4>
+<ul>
+  <li>☐ <strong>失智專業訓練 staff 比例</strong>:多少 % 的照服員受過失智照護課程?有無證書?</li>
+  <li>☐ <strong>24 小時護理人員 / 醫師排班</strong>:夜間有護理師?哪幾科醫師定期巡診?多久一次?</li>
+  <li>☐ <strong>照服員 vs 床位比例</strong>:白天 / 夜間各別比例?(夜間常掉到 1:15 以上)</li>
+  <li>☐ <strong>人員流動率</strong>:近 1 年照服員離職率?(高流動 = 長輩無法建立信任)</li>
+  <li>☐ <strong>失智專區獨立性</strong>:跟一般失能長輩混住?還是有獨立空間 / 動線?</li>
+</ul>
+</div>
+
+<div class="card">
+<h4>🛡 二、安全 SOP(4 項)</h4>
+<ul>
+  <li>☐ <strong>跑廁所 SOP</strong>:多久協助如廁一次?夜間如何處理?有無紙尿褲更換時程表?</li>
+  <li>☐ <strong>跌倒預防</strong>:浴室 / 床邊防滑?床欄?跌倒後處理流程?(問近 3 月跌倒紀錄)</li>
+  <li>☐ <strong>進食 SOP</strong>:吞嚥困難評估?食物質地分級(普通 / 軟質 / 泥狀 / 流質)?</li>
+  <li>☐ <strong>防走失設施</strong>:門禁感應?圍籬高度?GPS 手環 / 鞋墊?走失過幾次?</li>
+</ul>
+</div>
+
+<div class="card">
+<h4>💊 三、用藥與醫療(2 項)</h4>
+<ul>
+  <li>☐ <strong>用藥管理流程</strong>:誰準備藥?誰核對?誰餵?有無雙人核對?家屬可否看用藥紀錄?</li>
+  <li>☐ <strong>送醫流程</strong>:急性狀況送哪間醫院?家屬幾分鐘內被通知?有無合作醫師?</li>
+</ul>
+</div>
+
+<div class="card">
+<h4>👨‍👩‍👧 四、家屬關係(3 項)</h4>
+<ul>
+  <li>☐ <strong>家屬探望規則</strong>:幾點到幾點?需預約?可否帶食物?可否帶長輩外出?</li>
+  <li>☐ <strong>視訊頻率</strong>:有無提供視訊服務?多久一次?家屬主動 vs 機構主動?</li>
+  <li>☐ <strong>院方對家屬參與的態度</strong>:歡迎家屬參與活動?家屬意見回饋管道?</li>
+</ul>
+</div>
+
+<div class="card">
+<h4>🏠 五、生活環境(3 項)</h4>
+<ul>
+  <li>☐ <strong>食物</strong>:可否試吃午餐?有無素 / 軟質 / 糖尿病飲食?味道如何?</li>
+  <li>☐ <strong>房間</strong>:採光、通風、噪音?幾人一房?可否擺自己物品 / 照片?</li>
+  <li>☐ <strong>整體氛圍</strong>:長輩看起來放鬆 / 緊張?有無人在哭 / 喊?氣味(尿騷 / 消毒水)?</li>
+</ul>
+</div>
+
+<div class="card">
+<h4>💀 六、安寧與末期(2 項 — 但很多家屬避談)</h4>
+<ul>
+  <li>☐ <strong>長輩離世前的安寧支持</strong>:能否在機構內安寧?有無合作安寧團隊?</li>
+  <li>☐ <strong>家屬陪伴規則</strong>:末期可否日夜陪伴?可否在機構過世?</li>
+</ul>
+<p class="why">⚠ 這兩題多數人不敢問,但 <strong>機構回答不出來 = 之後家屬會痛苦</strong>。</p>
+</div>
+
+<div class="callout danger">
+<h4 style="margin:0 0 8px 0;">🚨 七、退費與終止合約條款(關鍵踩雷區,務必逐字讀)</h4>
+<ul>
+  <li>☐ <strong>合約期間</strong>:有無最低住期?提前終止違約金多少?</li>
+  <li>☐ <strong>退費計算</strong>:住院期間 / 暫時返家期間退多少?以日 / 月計算?</li>
+  <li>☐ <strong>機構單方終止</strong>:什麼情況機構可單方終止?(BPSD 嚴重?照護需求超過機構能力?)</li>
+  <li>☐ <strong>過世後</strong>:長輩過世當月費用如何結算?押金幾天內退?</li>
+  <li>☐ <strong>調漲條款</strong>:多久可調漲費用?需提前多久通知?</li>
+</ul>
+<p style="margin:8px 0 0 0;font-size:14px;"><strong>這些條款寫在合約細節,參訪時很少主動講。請一定要拿合約樣本回家逐字讀,看不懂找律師或法扶基金會諮詢。</strong></p>
+</div>
+
+<h3>👀 第一次參訪要看什麼(不要只看門面)</h3>
+
+<div class="card">
+<ol>
+  <li><strong>長輩的眼神</strong>:坐在大廳的長輩眼神放空 vs 有互動?(放空 = 沒人理)</li>
+  <li><strong>照服員的語氣</strong>:對長輩說話像對小孩兇?還是平等?</li>
+  <li><strong>氣味</strong>:走進去聞到尿騷 / 糞味 = 清潔 SOP 沒做;聞到強烈消毒水 = 可能臨時打掃給你看</li>
+  <li><strong>洗手間</strong>:堅持要去機構洗手間,看清潔度 / 防滑 / 扶手</li>
+  <li><strong>用餐時段</strong>:用餐是「快速餵完」還是「陪長輩慢慢吃」?有無嗆咳處理?</li>
+  <li><strong>夜間參訪</strong>:有些機構願意讓你 7-9 點來看(夜間人力是參訪時的 1/3)</li>
+  <li><strong>跟現有家屬聊</strong>:離開時跟正在探訪的家屬聊兩句:「住多久了?有沒有踩雷?」</li>
+</ol>
+</div>
+
+<h3>📅 入住後第一個月觀察重點</h3>
+
+<div class="callout warn">
+<strong>第一個月是「適應期」也是「踩雷期」</strong>。長輩可能因環境改變出現急性混亂(delirium-like),家屬請每週至少訪視 2 次,並追蹤以下指標:
+</div>
+
+<div class="card">
+<ul>
+  <li><strong>皮膚壓瘡</strong>:背、薦骨、腳跟、肩胛骨 — 有無紅、破皮?(代表翻身 SOP 沒做)</li>
+  <li><strong>體重變化</strong>:每週量一次?入住一個月內掉 ≥ 2 公斤要追問</li>
+  <li><strong>情緒</strong>:笑容?眼神?認得家屬?(若 1 個月還沒適應,可能該換機構)</li>
+  <li><strong>進食量</strong>:每餐吃幾成?要求看餵食紀錄表</li>
+  <li><strong>睡眠</strong>:夜間是否吵?有無使用約束(身體 / 化學)?</li>
+  <li><strong>大小便</strong>:幾天沒大便?尿量?有無泌尿道感染?</li>
+  <li><strong>跌倒紀錄</strong>:正式問「這個月跌倒幾次?」並要看意外事件報告</li>
+  <li><strong>用藥變動</strong>:精神科藥物有無加 / 換?問用藥理由,有些是為「方便照顧」加鎮靜</li>
+</ul>
+</div>
+
+<h3>💰 費用區間(⚠ 2025-2026 概況,請依當下查詢為準)</h3>
+
+<div class="callout warn">
+<strong>機構費用差異極大</strong>,影響因素:地區(北部 > 南部)、單人房 / 多人房、是否失智專區、是否需特殊照護(管路 / 氣切)。粗略區間:<strong>月費 NT$3-9 萬</strong>(2025 概況,<strong>請依當下機構公告為準</strong>)。
+</div>
+
+<div class="card">
+<ul>
+  <li><strong>公辦民營</strong>:相對便宜,但等候名單長(常 1-3 年)</li>
+  <li><strong>私立平價</strong>:月費 3-5 萬,品質落差大,需仔細參訪</li>
+  <li><strong>私立中價</strong>:依民間整理,北部護理之家月費約 <strong>2.8-5.5 萬</strong>、失智團體家屋約 <strong>4.9-6 萬</strong>(來源:<a href="https://www.nursing.com.tw/長照服務項目費用/" target="_blank" rel="noopener noreferrer">長照服務項目費用整理</a>;衛福部官方未公告統一價,屬機構自訂)。<strong>⚠ 實務提醒</strong>:這個價位帶等於 1-2 個人的薪水,絕大多數中位收入家庭無法長期負擔。如果不在這個經濟區間,請<strong>先用關懷據點 + 居服員擴展時間</strong>(見上方 E8),或考慮公辦民營型機構(費用較低)。月費寫得起 ≠ 多數家庭負擔得起。</li>
+  <li><strong>高端機構</strong>:月費 7-15 萬,單人房 / 高 staff 比 / 醫療資源</li>
+  <li><strong>長照 3.0 補助</strong>:依失能等級 CMS 1-8 級給付,部分服務可抵扣</li>
+</ul>
+<p class="why">⚠ 補助條件 / 金額 / 給付內容會變動,<strong>請以當下衛福部長照 3.0 公告 + 1966 評估為準</strong>。</p>
+</div>
+
+<h3>📋 入住當天的「交接清單」(避免長輩物品 / 病史 / 用藥失聯)</h3>
+
+<div class="card">
+<p>機構入住當天會有一份「<strong>入住健康評估表</strong>」,但很多家屬沒準備、被動填,結果第一週護理師對長輩狀況不熟。建議家屬<strong>主動帶以下整理好的清單</strong>:</p>
+<ul>
+  <li><strong>用藥清單</strong>:藥名 / 劑量 / 服用時間 / 過敏藥物(可向診所要列印版)</li>
+  <li><strong>近 6 個月就醫紀錄</strong>:神經科、家醫科、其他專科的診斷證明 / 出院摘要</li>
+  <li><strong>失智症狀地圖</strong>:寫一份「她下午 3-5 點容易躁、晚上 9 點要關燈、早上 6 點會自己起來」的個性化說明</li>
+  <li><strong>飲食偏好 / 禁忌</strong>:不愛吃的、有過嗆咳的、宗教或文化禁忌</li>
+  <li><strong>家人聯絡優先順序</strong>:急狀況先聯絡誰?第二、第三順位?</li>
+  <li><strong>個人物品清單</strong>:衣物 / 棉被 / 照片 / 小擺飾(每件貼名牌,避免混淆)</li>
+  <li><strong>意定監護 / 監護宣告 / 健保卡</strong>:影本各一份留機構檔案</li>
+  <li><strong>過往跌倒 / 走失紀錄</strong>:讓機構評估風險等級</li>
+</ul>
+</div>
+
+<h3>🚨 入住後 6 個月內的紅旗(要立刻處理)</h3>
+
+<div class="callout danger">
+<strong>以下任一發生 = 立刻召開家屬會議,可能要考慮換機構</strong>:
+<ul style="margin:8px 0 0 18px;">
+  <li>長輩出現「<strong>從不曾有的</strong>」精神症狀(暴躁 / 退縮 / 妄想加重)</li>
+  <li>體重 1 個月內掉超過 3 公斤,且機構說不出原因</li>
+  <li>多次發現長輩身上瘀青 / 擦傷,但機構未主動通報</li>
+  <li>機構臨時要求加收費用,但合約上未列明</li>
+  <li>家屬探訪被「特定時段限制」(疑似刻意避開狀況時段)</li>
+  <li>長輩明確表達「想回家」+ 哭泣 + 拒食 連續 ≥ 2 週</li>
+  <li>機構照服員 / 護理人員大量離職(短期內人事不穩)</li>
+  <li>用藥被未經告知變更(尤其精神科藥物加量)</li>
+</ul>
+</div>
+
+<div class="callout warn" style="margin-top:12px;">
+<h4>⚠ 現實提醒 · 「比較入住前後落差」是有資源者的特權</h4>
+<p style="margin:0 0 6px;">前面 checklist 寫得像「家屬可以挑機構」,但實務上 ——</p>
+<ul>
+  <li><strong>失智長輩的市場接受度遠低於失能 / 一般長照</strong>:許多機構的失智專區一床難求 / 排隊半年到一年 / 中重度直接拒收</li>
+  <li><strong>BPSD 嚴重(暴躁 / 走動 / 拒食)的會被「篩掉」</strong>:機構考慮其他住民安寧、人力比、保險風險</li>
+  <li><strong>偏鄉資源缺乏</strong>:某些縣市根本沒有失智專區,只能跨縣市</li>
+</ul>
+<p style="margin:6px 0 0;"><strong>本手冊作者的真實感受是:有機構肯收就感謝上帝了</strong>。所以前面的 15 項 checklist 跟「3 時段參訪」是<strong>「找得到願意收的機構」之後</strong>才用的工具,不是「天天有得選」的場景。如果你家在排隊階段,先聚焦「有沒有人收」。</p>
+</div>
+
+
+
+<div class="callout">
+<strong>本節結語</strong>:機構選擇是<strong>逆過程</strong> — 一旦入住、長輩適應了,再換機構成本(情緒 / 適應期 / 違約金)極高。<strong>第一次選對</strong>比後悔再換重要。<br>
+👉 <strong>請以當下衛福部公告 / 1966 評估 / 法扶基金會諮詢為準</strong>。
+</div>
+
+
+
+
+<!-- ============================================================== -->
+<!-- E7 · 自費長照保險選購指引                                       -->
+<!-- ============================================================== -->
+<h2 id="e-insurance">📑 E7 · 自費長照保險選購指引</h2>
+
+<div class="callout warn">
+<strong>為什麼要看這一區?</strong>長照 2.0 / 3.0(2026 起,<strong>以衛福部最新公告為準</strong>)涵蓋的是「服務」(居服員時數 / 喘息 / 輔具補助),但<strong>每月的現金缺口</strong>(包尿布、營養品、自費照服員加班、機構月費差額、家屬減少工時)需要自己補。商業長照保險就是補這塊。<br>
+但保險商品<strong>條款複雜、踩雷多、不退費</strong>,<strong>確診後幾乎無法投保</strong>,所以時機跟條款比品牌重要。
+</div>
+
+<div class="callout danger">
+<strong>本手冊不推薦特定保險商品</strong>。商品條款年年異動,<strong>請找獨立保險業務員諮詢 + 自己讀條款 + 必要時請律師審閱</strong>。所有保險細節以保發中心公告 / 金管會保險局 / 個別保單條款為準。
+</div>
+
+<h3>📊 三大類長照相關保險比較</h3>
+
+<div style="overflow-x:auto;">
+<table>
+<thead>
+<tr>
+  <th>類型</th>
+  <th>觸發條件</th>
+  <th>給付方式</th>
+  <th>給誰買</th>
+  <th>注意點</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>失能扶助險(殘扶險)</strong></td>
+  <td>意外或疾病造成<strong>失能</strong>(依失能等級表 1-11 級)</td>
+  <td>多為月給付,部分一次金</td>
+  <td>怕意外失能、預算有限</td>
+  <td>失智不一定符合「失能」定義,要看條款是否明列「失智」</td>
+</tr>
+<tr>
+  <td><strong>失智險(長照險中失智專屬)</strong></td>
+  <td>多以 <strong>CDR ≥ 1</strong> 觸發,需專科醫師證明</td>
+  <td>月給付為主,有些 + 一次金</td>
+  <td>家族有失智史、預防性投保</td>
+  <td>等待期長、確診後拒保、CDR 評估需專科醫師</td>
+</tr>
+<tr>
+  <td><strong>長照險(廣義)</strong></td>
+  <td>巴氏量表 / CDR / 認知功能等多軸觸發</td>
+  <td>多月給付,常 ≥ 6 個月持續失能才理賠</td>
+  <td>整體長照規劃,預算充足</td>
+  <td>條款定義「持續性」嚴格,短期失能不理賠</td>
+</tr>
+<tr>
+  <td><strong>終身醫療 + 長照附約</strong></td>
+  <td>主約看醫療事件,附約看失能 / 認知</td>
+  <td>主約日額 + 附約月給付</td>
+  <td>想要雙保障</td>
+  <td>保費最高,退保解約金低</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<p class="why">⚠ 各保險公司商品定義不一,「失能」「失智」「長照」名詞看似相同,條款內容差很大。<strong>同一張保單,不同年度可能停售或改版</strong>。請以當下保單條款為準。</p>
+
+<h3>⏰ 投保時機 — 確診前 vs 確診後</h3>
+
+<div class="callout danger">
+<strong>關鍵事實:確診失智 / 失能後,絕大多數長照相關保險會被「拒保」或「除外不保」既往症</strong>。意思是即使你買了,失智這項就不理賠。所以投保時機是<strong>「身體還健康時」</strong>,不是出狀況才急著買。
+</div>
+
+<div class="card">
+<h4>📌 健康時投保的好處</h4>
+<ul>
+  <li>保費最低(年齡愈低保費愈便宜)</li>
+  <li>可選擇商品最多(健康告知通過率高)</li>
+  <li>無「不保事項」附加條款</li>
+  <li>等待期(長照險常見 90-180 天)有時間消化</li>
+</ul>
+</div>
+
+<div class="card">
+<h4>⚠️ 已有輕度症狀(MCI / CDR 0.5)時投保的限制</h4>
+<ul>
+  <li>多數保險公司會要求<strong>體檢 / 認知測驗</strong></li>
+  <li>常見結果:<strong>拒保</strong>(整張保單不收)、<strong>加費承保</strong>(保費上調 50-200%)、<strong>除外承保</strong>(失智這項不理賠,其他理賠)</li>
+  <li>若隱匿病史投保 → 後續理賠時可<strong>主張解除契約</strong>(2 年內)</li>
+</ul>
+</div>
+
+<div class="card">
+<h4>🚫 已確診失智 / 失能後</h4>
+<ul>
+  <li>長照 / 失智 / 失能扶助險 — <strong>幾乎全部拒保</strong></li>
+  <li>少數壽險 / 終身醫療 — 看告知與評估</li>
+  <li>替代方案請看下面「替代方案」段落</li>
+</ul>
+</div>
+
+<h3>🔍 投保前必問的 6 個條款細節</h3>
+
+<div class="card">
+<ol>
+  <li><strong>等待期(waiting period)</strong>:投保後多久才開始有效?長照險常見 <strong>90 天到 180 天</strong>(來源:<a href="https://www.phew.tw/article/cont/phewpoint/current/topic/10663/2021020910663" target="_blank" rel="noopener noreferrer">PHEW! 好險網 — 等待期免責期解釋</a>);某些失能扶助險產品有更長等待期,請看具體保單條款。<strong>等待期內發病不理賠</strong>,「先有症狀再投保」沒用。</li>
+  <li><strong>免責期(elimination period)</strong>:符合條件後多久才開始給付?常見 6 個月。意思是失智判定後還要等 6 個月才領第一筆。</li>
+  <li><strong>給付方式</strong>:月給付 vs 一次金?月給付穩定但長期通膨稀釋;一次金安全但容易花光。<strong>多數家庭適合月給付為主 + 小額一次金</strong>。</li>
+  <li><strong>給付期間</strong>:給付幾年?常見 10 年 / 15 年 / 終身。失智症診斷後平均餘命依年齡 4-13 年(台灣本土研究中位數 <strong>7.69 年</strong>,來源:<a href="https://udn.com/news/story/7266/8271529" target="_blank" rel="noopener noreferrer">台灣首份阿茲海默症餘命研究 udn 2024</a>;國際 meta-analysis 60 歲約 9 年、85 歲約 2-4 年,來源:<a href="https://www.thelancet.com/journals/lanhl/article/PIIS2666-7568(21)00140-9/fulltext" target="_blank" rel="noopener noreferrer">Lancet Healthy Longevity 2021</a>)。給付期短 = 後期沒錢。</li>
+  <li><strong>解約金 / 退保</strong>:<strong>前 3-5 年解約幾乎拿不回保費</strong>。某些終身險前 10 年解約金 < 已繳保費 50%。<strong>不要把長照險當儲蓄</strong>。</li>
+  <li><strong>不保事項(exclusions)</strong>:酒精性失智?藥物濫用導致失能?家族遺傳早發性失智?各家條款不同。</li>
+</ol>
+</div>
+
+<h3>🎯 帶病投保的「不保事項」陷阱</h3>
+
+<div class="callout warn">
+<ul>
+  <li><strong>除外條款</strong>:健康告知時若已有 MCI / 高血壓 / 糖尿病 / 中風史,保險公司可加註「失智症 / 腦中風相關失能不在保障範圍」。<strong>等於整張保單最重要的部分被排除</strong>。</li>
+  <li><strong>2 年解除權</strong>:投保時若隱匿病史,保險公司在<strong>「知悉之日起 1 個月、契約成立日起 2 年」</strong>內可解除契約(保險法 64 條,<strong>請以最新法規為準</strong>)。投保 5 年後失智發作不一定能反悔,但<strong>2 年內被查出隱匿 → 解約 + 不退保費</strong>。</li>
+  <li><strong>誠實告知 vs 業務員「沒關係不用寫」</strong>:業務員話術不能取代書面告知。<strong>白紙黑字寫的才算數</strong>。</li>
+</ul>
+</div>
+
+<h3>💡 替代方案(已確診 / 高齡 / 預算有限)</h3>
+
+<div class="card">
+<ol>
+  <li><strong>預立信託 / 安養信託</strong>:把資產放進信託,每月按需求支領,專款專用照顧失智長輩。可避免家屬挪用 / 詐騙風險。<strong>請諮詢銀行信託部 / 律師</strong>。</li>
+  <li><strong>自存長照基金</strong>:每月自動扣款到專戶,不買保險。優點透明、無等待期、隨時可動用。缺點靠紀律,不像保險被動扣款。</li>
+  <li><strong>子女協議分攤</strong>:兄弟姊妹簽家庭協議書(可請律師見證),每月分攤金額 + 主要照護者勞務折算。<strong>避免後期金錢爭議</strong>。</li>
+  <li><strong>反向抵押 / 以房養老</strong>:長輩有自住房可考慮(銀行多有「不動產逆向抵押貸款」),用房產換每月現金。需評估。</li>
+  <li><strong>長照 3.0 補助 + 政府資源最大化</strong>:1966 評估出來的 CMS 等級,確認所有可用補助有用滿,才看自費。</li>
+</ol>
+</div>
+
+<h3>📐 試算思路:每月需要多少現金缺口?</h3>
+
+<div class="card">
+<p>規劃保額前,<strong>先估算「未來失智 / 失能後每月需要多少現金」</strong>,再回推保額。粗略試算思路(⚠ 數字僅為示意,請依當下市場為準):</p>
+<ul>
+  <li><strong>居家照護組合</strong>:24h 居服員 / 外籍看護 / 自費照服員加班 / 包尿布 / 營養品 / 醫材 / 醫療部分負擔</li>
+  <li><strong>機構照護組合</strong>:月費 + 包尿布 / 營養品 / 醫療部分負擔 / 家屬交通 / 物品補充</li>
+  <li><strong>家屬機會成本</strong>:主照護者若減少工時或離職,每月薪資損失也是缺口</li>
+  <li><strong>長照 3.0 給付抵扣</strong>:依 CMS 等級可抵扣部分服務費用,但不抵扣機構月費差額</li>
+</ul>
+<p class="why">⚠ 有些保單給付每月 NT$3-5 萬,看起來很多,但失智症診斷後平均餘命依年齡可達 4-13 年(中位數約 7.69 年,見上方 source),<strong>長期算下來給付期長度比月給付金額更關鍵</strong>。<strong>請依當下保單條款試算</strong>。</p>
+</div>
+
+<h3>👥 找保險業務員的 3 個原則</h3>
+
+<div class="card">
+<ol>
+  <li><strong>找「獨立業務員 / 保經」</strong>:不只代理一家,可比較多家商品。專屬一家的業務員只能推自家商品。</li>
+  <li><strong>要求逐條解釋條款</strong>:特別是「不保事項」「等待期」「免責期」「給付期間」「解約金表」。<strong>業務員講不清楚 = 換一個</strong>。</li>
+  <li><strong>第二意見</strong>:重大保單(月繳 ≥ NT$5,000 或保額 ≥ 千萬)請另一位業務員看一次,或上「<strong>金管會保險局保單比較</strong>」「<strong>保發中心</strong>」對照。</li>
+</ol>
+</div>
+
+
+
+<div class="callout">
+<strong>本節結語</strong>:商業長照保險是「<strong>給未來的自己 / 配偶</strong>」買的,不是「等家人確診才急著買」的工具。最好的時機是<strong>家人都健康時就規劃</strong>,確診後改走信託 / 自存 / 政府資源組合拳。<br>
+👉 <strong>請以當下保單條款 / 金管會保險局公告 / 獨立保險業務員諮詢為準</strong>(不要只聽單一家業務員)。
+</div>
+
+
+
+
+<!-- ============================================================== -->
+<!-- E8 · 關懷據點(中間方案) — Tom 這週剛發現                       -->
+<!-- ============================================================== -->
+<h2 id="e-station">🤝 E8 · 關懷據點 · 居家與日照之間的中間方案</h2>
+
+<div class="callout">
+<strong>為什麼有這一區?</strong>失智照護常被簡化成兩極:「<strong>居服員到家</strong>」vs「<strong>送機構 / 日照</strong>」。但其實還有<strong>第三條路</strong> — <strong>關懷據點 + 居服員陪同外出</strong>。讓長輩可以「出門」但有人力陪,介於完全居家和日照之間。這是一個很多家屬不知道的選項。
+</div>
+
+<h3>📍 關懷據點是什麼?(衛福部 2017 起推動)</h3>
+
+<p>「關懷據點」是一個<strong>口語統稱</strong>,實際上涵蓋幾類由不同政策推動、由社區 / 里辦 / NGO 經營的「<strong>非住宿型、半日制</strong>」服務據點:</p>
+
+<div class="card">
+<ul>
+  <li><strong>社區整合型服務中心(A 級)</strong>:長照 2.0 / 3.0 體系下的「綜合服務」據點,做轉介 + 案管</li>
+  <li><strong>複合型服務中心(B 級)</strong>:提供居家服務、日照、輔具等多項</li>
+  <li><strong>巷弄長照站(C 級)</strong>:在「巷弄裡」的小據點,半日活動、共餐、簡單運動</li>
+  <li><strong>失智社區服務據點</strong>:專門服務失智長輩 + 家屬支持團體(衛福部 + TADA 推動)</li>
+  <li><strong>社區照顧關懷據點</strong>:由衛福部 / 各縣市社會局推動,初期目標是健康老人關懷,部分有失智服務</li>
+</ul>
+<p class="why">⚠ 不同據點主管法規 / 補助來源 / 收案條件不同,口語上常混用「關懷據點」這個詞。<strong>實際使用前請以 1966 / 各縣市衛生局 / TADA 失智據點查詢系統為準</strong>。</p>
+</div>
+
+<h3>🆚 與其他選項的差別(這個比較表是關鍵)</h3>
+
+<div style="overflow-x:auto;">
+<table>
+<thead>
+<tr>
+  <th>選項</th>
+  <th>地點</th>
+  <th>時長</th>
+  <th>長輩是否「出門」</th>
+  <th>失智等級</th>
+  <th>費用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>居服員到家</strong></td>
+  <td>家中</td>
+  <td>每次 1-3 小時</td>
+  <td>否(在家)</td>
+  <td>各級皆可</td>
+  <td>長照 3.0 補助 + 自付</td>
+</tr>
+<tr>
+  <td><strong>關懷據點</strong></td>
+  <td>社區中心 / 里辦 / 教會</td>
+  <td>半日 / 幾小時</td>
+  <td>是(短程出門)</td>
+  <td>多 CDR 0.5-2,部分接 CDR 2</td>
+  <td>多免費或低自付</td>
+</tr>
+<tr>
+  <td><strong>關懷據點 + 居服員陪同</strong></td>
+  <td>同上</td>
+  <td>同上</td>
+  <td>是,有人扶</td>
+  <td>失智中度可行</td>
+  <td>據點低費 + 居服員按時計費</td>
+</tr>
+<tr>
+  <td><strong>日照中心</strong></td>
+  <td>專業日照機構</td>
+  <td>整天 8 小時 + 接送</td>
+  <td>是(整天出門)</td>
+  <td>輕中度為主</td>
+  <td>長照 3.0 補助 + 自付</td>
+</tr>
+<tr>
+  <td><strong>機構住宿</strong></td>
+  <td>養護 / 護理之家</td>
+  <td>24 小時</td>
+  <td>長住</td>
+  <td>中重度</td>
+  <td>月費高,可申請補助</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout warn">
+<strong>「關懷據點 + 居服員陪同」這個組合是台灣家屬常忽略的中間方案</strong>。長輩 CDR 2 已經不能自己出門 → 但日照中心一天 8 小時太久 / 適應不來 → 機構又太遠太重。<strong>關懷據點 2-3 小時 + 居服員 1 對 1 陪同</strong>,讓長輩有「出門」的儀式感、社交刺激、不同空間,又不會疲累。
+</div>
+
+<h3>🎯 失智等級限制(各據點不一)</h3>
+
+<div class="card">
+<ul>
+  <li><strong>CDR 0.5(疑似失智)</strong>:多數據點皆可收,適合「預防性參與」</li>
+  <li><strong>CDR 1(輕度)</strong>:絕大多數失智社區據點主要服務對象</li>
+  <li><strong>CDR 2(中度)</strong>:部分據點可收,須有家屬 / 居服員陪同;<strong>請事先告知據點實際狀況</strong></li>
+  <li><strong>CDR 3(重度)</strong>:多數據點不收,通常需轉日照或機構</li>
+</ul>
+<p class="why">⚠ <strong>每個據點規則不同</strong>。有些社區照顧關懷據點原本只服務健康長者,後來開放輕度失智;有些失智專屬據點則接到 CDR 2。<strong>請打 1966 由照管專員評估後轉介,不要自己亂排</strong>。</p>
+</div>
+
+<h3>🔎 怎麼找關懷據點(4 個管道)</h3>
+
+<div class="card">
+<ol>
+  <li><strong>1966 長照專線</strong>:照管專員會根據你家地址、長輩 CDR 評估、家屬需求,提供轄區據點清單 + 轉介。<strong>第一步永遠是這裡</strong>。</li>
+  <li><strong>各縣市衛生局 / 社會局網站</strong>:搜「<strong>(縣市) 失智社區服務據點</strong>」「<strong>(縣市) 社區照顧關懷據點</strong>」</li>
+  <li><strong>台灣失智症協會(TADA)失智社區據點查詢系統</strong>:全台失智專屬據點地圖 + 服務內容</li>
+  <li><strong>里長辦公室 / 社區發展協會</strong>:很多巷弄站 / 關懷據點<strong>連網路都沒掛</strong>,直接走進里辦問</li>
+</ol>
+</div>
+
+<h3>💰 費用(⚠ 2025-2026 概況,請依當下查詢為準)</h3>
+
+<div class="callout">
+<ul>
+  <li><strong>多數據點免費或非常低自付</strong>(每次 NT$0-200 不等)</li>
+  <li><strong>政府補助大半</strong>(社區發展基金 / 長照基金 / 衛福部專案經費)</li>
+  <li><strong>共餐</strong>:有些據點午餐每次 NT$30-80 共餐費</li>
+  <li><strong>居服員陪同部分</strong>:走長照 3.0 補助,依 CMS 等級給付,部分自付</li>
+</ul>
+<p style="margin:8px 0 0 0;font-size:14px;">⚠ 各縣市 / 各據點補助條件不一,<strong>請以當下 1966 評估與當地公告為準</strong>。</p>
+</div>
+
+<h3>📞 預約與評估流程(從 0 開始)</h3>
+
+<div class="card">
+<ol class="sop-list" style="counter-reset:sop;list-style:none;padding:0;">
+  <li>撥<strong> 1966</strong> 長照專線(免費),說「家人是失智(CDR X),想了解社區據點 / 關懷據點選項」</li>
+  <li>1966 轉接到<strong>住所地長照管理中心</strong>,排<strong>照管專員(case manager)到府評估</strong></li>
+  <li>照管專員到家:評估 CMS 等級(1-8 級失能等級)、認知功能、家庭照顧資源</li>
+  <li>專員開立<strong>「長照需求評估報告 + 服務計畫」</strong>(這是後續所有補助的依據)</li>
+  <li>計畫中會列出<strong>適合的服務組合</strong>(居服 N 小時 + 據點 N 次 + 喘息 N 天 + 輔具補助)</li>
+  <li>由<strong>A 級服務中心</strong>(個案管理)轉介到具體據點,協助安排</li>
+  <li>據點端<strong>初訪 / 試訪</strong>(多數據點可先試 1-2 次再決定),家屬陪同</li>
+  <li>確認長輩可以適應後,正式排入週間時段</li>
+</ol>
+<p class="why">⚠ 整個流程從電話到入站約<strong> 2-6 週</strong>,熱門地區可能更久。<strong>請以當下 1966 與各縣市實際排期為準</strong>。</p>
+</div>
+
+<h3>💡 給家屬的實務建議</h3>
+
+<div class="card">
+<ul>
+  <li><strong>不要直接問據點「你們收 CDR 幾?」</strong> — 很多據點承辦人員也不熟 CDR,直接描述狀況:「她可以走、會說話、但找不到家、需要有人陪」更有效</li>
+  <li><strong>第一次去,家屬要在</strong> — 看長輩反應,看據點如何接待。實務上多數據點是<strong>家屬自己帶去</strong>,居服員一般不陪同(見下方分工說明)</li>
+  <li><strong>連續去 4-6 週才能看出是否適合</strong> — 失智長輩第一次接觸新環境會混亂,不代表不適合</li>
+  <li><strong>把據點當「家人帶外出」、把居服員資源留給日照中心</strong> — 失智初期家屬還能自己帶去據點(免費 + 時段短),居服員的時數本來就有限,要用在每週固定的日照中心交班才划算</li>
+  <li><strong>據點不是「正式的活動」</strong> — 重點是長輩離開家、看到人、聽到聲音、被人叫名字。<strong>有沒有「課」不重要,有沒有「儀式感」才重要</strong></li>
+</ul>
+</div>
+
+<div class="callout">
+<h4>💡 一個實例 · 新北土城青雲里社區照顧關懷據點</h4>
+<ul>
+  <li><strong>類型</strong>:社區照顧關懷據點(由地方協會 / 物理治療所對接,服務 65 歲以上長者)</li>
+  <li><strong>失智等級接受度</strong>:實務上以<strong>輕度為主</strong>(物理治療所對接的據點會限輕度,中重度需另尋失智專責據點 / 日照)</li>
+  <li><strong>開放時段</strong>:每週一、三、四、六上午 9 時(地點:青雲里活動中心)</li>
+  <li><strong>內容</strong>:植栽、桌遊等課程</li>
+  <li><strong>費用</strong>:免費</li>
+  <li><strong>查詢</strong>:撥(02)8072-5454 或 1999;頁面參考 <a href="https://community.ntpd.gov.tw/NTPDWeb/wSite/page/1-400-93281.html" target="_blank" rel="noopener noreferrer">community.ntpd.gov.tw 公告</a></li>
+</ul>
+<p style="margin:8px 0 0;font-size:13px;color:#888;">⚠ 各縣市 / 各據點規則差異很大,這只是新北一個例子。你家附近的據點請撥 1966 / 各縣市衛生局網站查。</p>
+</div>
+
+
+<div class="callout warn">
+<h4>📌 居服員 vs 據點 vs 日照中心 — 實際分工</h4>
+<p style="margin:0 0 8px;">本手冊作者實際走過的分工(可能與你家不同):</p>
+<ul>
+  <li><strong>關懷據點</strong> = <strong>家屬自己帶去</strong>(免費,時段 2-3 小時內,離家近)</li>
+  <li><strong>日照中心</strong> = <strong>居服員陪同帶去</strong>(用長照補助時數,每週固定時段半天到全天)</li>
+  <li><strong>居家</strong> = 居服員到府(其他時段)</li>
+</ul>
+<p style="margin:8px 0 0;font-size:13px;">居服員時數有限(用補助有上限),把固定排程的「日照」交給居服員,把彈性短時段的「據點外出」留給家人 — 這樣資源才夠用。<strong>不要假設居服員可以陪所有外出活動</strong>。</p>
+</div>
+
+
+<div class="callout">
+<strong>本節結語</strong>:關懷據點是<strong>家屬最常忽略的中間方案</strong>。如果你家還在「居家硬撐 vs 送日照 / 機構」二選一卡關,<strong>先撥 1966 問有沒有第三條路</strong>。<br>
+👉 <strong>請以當下衛福部公告 / 1966 長照專線 / TADA 失智據點查詢系統為準</strong>。
+</div>
+
+
+<!-- ============================================================== -->
+<!-- 整節結語                                                         -->
+<!-- ============================================================== -->
+<div class="callout warn" style="margin-top:32px;">
+<h3 style="margin:0 0 8px 0;">📚 E-system 章節整體權責聲明</h3>
+<ul style="margin:0 0 0 18px;">
+  <li>本章涵蓋的「機構 / 保險 / 關懷據點」三大區塊,皆為<strong>制度面資訊整理</strong>,非個人經驗。</li>
+  <li>所有費用 / 條款 / 補助 / 法規細節皆會變動,<strong>請以當下衛福部公告 / 保險業務員諮詢 / 1966 評估為準</strong>。</li>
+  <li>本手冊不收取任何介紹費 / 業配 / 商品代言,亦不推薦特定機構或保險商品。</li>
+  <li><strong>任何因參考本章內容做出的決策後果,作者與本站不負任何責任</strong>。</li>
+  <li>緊急狀況請撥:<strong>長照諮詢 1966</strong> / <strong>失智關懷 0800-474-580</strong> / <strong>心理危機 1925</strong> / <strong>119</strong>。</li>
+</ul>
+</div>
+
+
+
+
+<div style="margin:32px 0 16px;padding:16px;background:#f5f1e8;border-radius:8px;">
+  <strong>📍 其他分區</strong>:<br>
+  <a href="../../" style="display:inline-block;margin:6px 6px 0 0;padding:8px 14px;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);text-decoration:none;">📘 主入口</a>
+  <a href="../../emergency/" style="display:inline-block;margin:6px 6px 0 0;padding:8px 14px;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);text-decoration:none;">🚨 急性事件 SOP</a>
+  <a href="../../caregiver/" style="display:inline-block;margin:6px 6px 0 0;padding:8px 14px;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);text-decoration:none;">💙 照護者自己</a>
+  <br><br>
+  <a href="../../" style="color:var(--text-muted);font-size:14px;">← 回 dementia-care 工具集</a>
+</div>
+
+</main>
+
+</body>
+</html>

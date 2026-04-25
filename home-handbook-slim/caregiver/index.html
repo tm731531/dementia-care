@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- 4-page split experiment - caregiver -->
+<title>照護者自己 · 失智家屬的自我照顧</title>
+<meta name="description" content="失智家人確診那週的法律醫療 P0(意定監護/銀行代理/診斷證明/印鑑/GPS)+ 物理環境改造 13 項 + 早晚 SOP + 分散注意力 3 招 + 黃昏症候群處理。基於一位失智照護者 2025-10 起實戰 6 個月的踩坑紀錄。純前端、離線可用、零廣告。">
+<meta name="keywords" content="失智照護,家中改造,廁所布簾,黃昏症候群,居家環境,失智症,長照 3.0,照護 SOP">
+<meta name="author" content="Tom Ting">
+<link rel="canonical" href="https://tm731531.github.io/dementia-care/home-handbook/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="家中照護手冊 · 失智家人確診後不用重蹈 6 個月的坑">
+<meta property="og:description" content="法律清醒窗口、環境安全改造、早晚 SOP、黃昏症候群 — 免費、無廣告、離線可用、CDR 1-2 家庭適用。">
+<meta property="og:url" content="https://tm731531.github.io/dementia-care/home-handbook/">
+<meta property="og:image" content="https://tm731531.github.io/dementia-care/home-handbook/og-image.svg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/svg+xml">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="家中照護手冊 · 失智家人確診後不用重蹈 6 個月的坑">
+<meta name="twitter:description" content="法律清醒窗口、環境安全改造、早晚 SOP、黃昏症候群 — 免費、無廣告、離線可用、CDR 1-2 家庭適用。">
+<meta name="twitter:image" content="https://tm731531.github.io/dementia-care/home-handbook/og-image.svg">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏠</text></svg>">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Dementia Care Tools", "item": "https://tm731531.github.io/dementia-care/"},
+    {"@type": "ListItem", "position": 2, "name": "家中照護手冊", "item": "https://tm731531.github.io/dementia-care/home-handbook/"}
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "家中照護手冊 · 失智中度家庭實戰紀錄",
+  "description": "剛確診那週的法律醫療 P0(意定監護 / 銀行代理 / 診斷證明 / 印鑑 / GPS)+ 物理環境改造 13 項 + 早晚 SOP + 分散注意力 3 招 + 黃昏症候群處理。一位失智照護者 2025-10 起的 6 個月記錄。",
+  "author": {"@type": "Person", "name": "Tom Ting", "url": "https://blog.tomting.com/"},
+  "datePublished": "2026-04-24",
+  "inLanguage": "zh-Hant",
+  "keywords": ["失智照護", "意定監護", "監護宣告", "印鑑證明", "銀行親屬代理人", "神經科初診", "診斷證明", "AirTag 防走失", "家中改造", "長照 3.0", "喘息補助", "黃昏症候群", "照護 SOP"]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "失智家人剛確診,第一週最該做什麼?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "法律醫療 P0 比物理改造更迫切,因為有「清醒窗口」。5 件事:(1) 簽意定監護契約(民法 1113-2,由法院公證處或民間公證人作成公證書),同時規劃 AD(病主法)— AD(預立醫療決定)需本人意識清楚時辦理;DNR 另需末期診斷。三者是不同法規、不同文件,請分別確認辦理條件。(2) 到銀行臨櫃辦「失智者金融友善服務」,三親等親屬陪同協助(這是協助不是代理權;代理需監護宣告或信託)。(3) 神經科初診拿診斷證明,基線 MMSE/CASI/CDR 評估。(4) 整理印鑑、身分文件、房屋權狀、保單。(5) AirTag + 門窗感應器防走失(藏進她的習慣物品,不是給她新的)。具體程序請諮詢當地公證處、銀行、法扶基金會。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "失智長輩在家,第一件環境改造該做什麼?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "先做 P0 三件事:(1)廁所門拆掉改布簾或永遠敞開(她找不到廁所會在陽台/廚房上);(2)馬桶圈改成跟白色馬桶對比的顏色(藍或黃,同色她看不到);(3)鐵窗加紗網束帶加隔音板材三層(她會開始丟東西下樓、敲窗)。這三件是安全底線,其他可慢慢做。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "意定監護、輔助宣告、監護宣告差在哪?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "台灣失能家人的法律保護分三層。預防層:意定監護(民法 1113-2),本人清醒時與受任人約定將來受監護宣告時由誰擔任監護人,由公證人作成公證書才成立(法院公證處或民間公證人都可辦),契約訂立時不生效,要等受監護宣告才啟動。輕度層:輔助宣告(民法 15-1、15-2),本人能力顯有不足但還沒喪失,仍有行為能力,只有特定重大行為需輔助人同意,輕度失智多適用。重度層:監護宣告(民法 14),本人不能為意思表示,由監護人代為,中度到重度失智多適用。兩種宣告都向家事法院聲請,可先輔助後變更為監護。意定監護跟 AD(病主法的預立醫療決定)、DNR(安寧條例的不施行心肺復甦術意願書)是三份不同文件、不同法規,建議都規劃。具體程序請諮詢公證處、法扶基金會或律師。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "什麼是黃昏症候群?為什麼失智長輩下午特別躁?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "黃昏症候群(Sundowning)是失智症常見症狀,下午 3 點後到傍晚情緒會變得焦躁不安、想離家。成因跟 circadian rhythm 混亂、光線減弱、下午體力耗盡都有關。實務對策:把需要外出的行程改到中午而非下午 — 傍晚才帶出門「很難帶回來」。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "怎麼讓失智長輩「有事情做」但不覺得在被訓練?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "關鍵是「不能被她看到你擺」。照護者故意把衣服 5 件打亂丟沙發邊、玩具散在桌上 — 製造「要收」的工作。她自然就會收、疊、整理。重點是分散注意力讓她身體有點事,不是考她。看到在擺反而不會去做。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "這份手冊適合所有失智家庭嗎?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "適合輕度到中度失智(CDR 1-2)、長輩仍可自主行動、但判斷力退化的家庭。重度失智(CDR 3、臥床)的需求完全不同,主要在醫療級照護。本手冊的內容是一位照護者的個人紀錄,不是所有家庭都需要全部 13 項。建議先做 P0 三件,其餘看自家情境挑。"
+      }
+    }
+  ]
+}
+</script>
+
+<style>
+/* ========== Base ========== */
+* { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --bg: #fafaf5;
+  --card: #ffffff;
+  --text: #2d3436;
+  --text-muted: #636e72;
+  --primary: #b7491f;
+  --primary-dark: #7d2c0f;
+  --accent: #e17055;
+  --border: #e0d8c5;
+  --danger: #d63031;
+  --success: #00864d;
+  --warn-bg: #fff4e6;
+  --warn-border: #ff8c42;
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: system-ui, -apple-system, "PingFang TC", "Microsoft JhengHei", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 17px;
+  padding: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+*:focus-visible { outline: 3px solid #ff8800; outline-offset: 2px; border-radius: 4px; }
+
+.wrap { max-width: 780px; margin: 0 auto; padding: 24px 20px 60px; }
+.hero { text-align: center; padding: 32px 0 20px; border-bottom: 2px solid var(--border); margin-bottom: 32px; }
+.hero h1 { font-size: 32px; color: var(--primary-dark); margin-bottom: 8px; }
+.hero .sub { color: var(--text-muted); font-size: 15px; }
+.hero .meta { margin-top: 14px; font-size: 13px; color: var(--text-muted); }
+
+h2 { font-size: 24px; color: var(--primary-dark); margin: 36px 0 12px; padding-bottom: 6px; border-bottom: 2px solid var(--border); }
+h3 { font-size: 19px; color: var(--primary); margin: 20px 0 8px; }
+h4 { font-size: 17px; color: var(--primary-dark); margin: 14px 0 6px; }
+
+p { margin: 10px 0; }
+ul, ol { margin: 10px 0 10px 24px; }
+li { margin: 4px 0; }
+
+.card {
+  background: var(--card);
+  border-radius: 10px;
+  padding: 18px 22px;
+  margin: 14px 0;
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.callout {
+  background: #f1f8e9;
+  border-left: 4px solid var(--success);
+  padding: 12px 16px;
+  margin: 14px 0;
+  border-radius: 4px;
+}
+.callout.warn {
+  background: var(--warn-bg);
+  border-left-color: var(--warn-border);
+}
+.callout.danger {
+  background: #ffebee;
+  border-left-color: var(--danger);
+}
+
+.item-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin: 18px 0; }
+.item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 6px solid var(--primary);
+  border-radius: 8px;
+  padding: 16px 20px;
+}
+.item.p0 { border-left-color: var(--danger); }
+.item-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--primary-dark);
+  margin-bottom: 6px;
+}
+.item-title .num {
+  background: var(--primary);
+  color: white;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+.item.p0 .item-title .num { background: var(--danger); }
+.item p { margin: 6px 0; font-size: 15px; color: var(--text); }
+.item .why { color: var(--text-muted); font-size: 14px; margin-top: 4px; }
+
+.sop-list { counter-reset: sop; list-style: none; padding: 0; }
+.sop-list li {
+  counter-increment: sop;
+  padding: 10px 14px 10px 46px;
+  margin: 8px 0;
+  background: #fff;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  position: relative;
+}
+.sop-list li::before {
+  content: counter(sop);
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  background: var(--primary);
+  color: white;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.quote {
+  border-left: 4px solid var(--accent);
+  padding: 8px 16px;
+  margin: 14px 0;
+  font-style: italic;
+  color: var(--text-muted);
+  background: #fffaf5;
+}
+
+table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 15px; }
+th, td { padding: 10px 12px; text-align: left; border: 1px solid var(--border); }
+th { background: #f5ede0; font-weight: 600; color: var(--primary-dark); }
+tr:nth-child(even) td { background: #fafaf5; }
+
+.nav-toc {
+  background: #fff;
+  padding: 14px 20px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  margin: 24px 0;
+}
+.nav-toc h4 { margin: 0 0 8px 0; }
+.nav-toc a { display: block; padding: 4px 0; color: var(--primary); text-decoration: none; font-size: 15px; }
+.nav-toc a:hover { text-decoration: underline; }
+
+.emergency-disclaimer {
+  margin: 40px auto 20px;
+  max-width: 720px;
+  padding: 16px 20px;
+  border-top: 1px solid rgba(0,0,0,0.08);
+  font-size: 13px;
+  color: #888;
+  text-align: center;
+  line-height: 1.7;
+}
+
+@media print {
+  body { background: white; }
+  .nav-toc { display: none; }
+}
+</style>
+
+<style>
+.page-tabs { display:flex; gap:8px; flex-wrap:wrap; margin:8px 0 24px; padding:0; }
+.page-tabs a { display:inline-block; padding:10px 16px; background:var(--card); border:1px solid var(--border); border-radius:8px; color:var(--text); text-decoration:none; font-size:15px; font-weight:500; transition:background 0.15s, color 0.15s; }
+.page-tabs a:hover { background:var(--primary); color:#fff; }
+.page-tabs a.tab-active { background:var(--primary); color:#fff; box-shadow:0 2px 6px rgba(0,0,0,0.1); cursor:default; }
+@media print { .page-tabs { display: none; } }
+</style>
+</head>
+<body>
+<a href="#caregiver" class="skip-link" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;" onfocus="this.style.cssText='position:fixed;top:0;left:0;z-index:9999;padding:12px;background:#000;color:#fff;'">跳到主內容</a>
+
+<main class="wrap" aria-label="照護者自己 · 失智家屬的自我照顧">
+
+<nav class="page-tabs">
+  <a href="../">📘 主入口</a>
+  <a href="../emergency/">🚨 急性事件 SOP</a>
+  <a href="../long-term/">🏛 長期規劃</a>
+  <a href="../caregiver/" class="tab-active">💙 照護者自己</a>
+</nav>
+<div class="callout" style="background:#fef7e6;border:2px dashed #d4a04c;margin:16px 0;padding:14px 18px;border-radius:8px;font-size:14px;">
+🧪 <strong>這是 4 頁拆分實驗版</strong> · 原版仍在 <a href="../../home-handbook/">/home-handbook/</a>(完整單頁)。
+</div>
+
+<div class="hero">
+  <h1>🏠 照護者自己 · 失智家屬的自我照顧</h1>
+  <div class="sub">比手冊任何一條都重要 — 主照護者的身心管理</div>
+  <div class="meta">一位失智照護者 2025-10 起的 6 個月記錄 · 最後更新 2026-04-25</div>
+</div>
+
+<h2 id="caregiver">💙 照護者自己 · 比上面 13 項都重要</h2>
+
+<p>整本手冊都在講「怎麼照顧她」,但失智照護真正的瓶頸<strong>不是她的狀態,是你的狀態</strong>。全世界的失智照護教科書第一章都在講同一件事:</p>
+
+<div class="quote">
+<strong>照護者負荷(caregiver burden)是失智長者提早入住機構、家庭照護中斷的主要驅動因素之一</strong> — 不是疾病本身,而是主照護者先倒下。<br><span style="font-size:13px;color:#666;">(來源:<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7683084/" target="_blank" rel="noopener noreferrer">PMC7683084 系統性回顧</a>、BMC Medicine 2010 安置決定研究)</span>
+</div>
+
+<p>研究數字:失智主照護者<strong>憂鬱盛行率約 30-40%(meta-analysis 中位 ≈ 31%)</strong>,顯著高於同齡一般人口(<a href="https://www.cambridge.org/core/journals/ageing-and-society/article/abs/prevalence-of-depression-and-burden-among-informal-caregivers-of-people-with-dementia-a-metaanalysis/45C8A0DD5DED53978E039111FCCEB8EF" target="_blank" rel="noopener noreferrer">Cambridge meta-analysis</a> / <a href="https://www.jamda.com/article/S1525-8610(15)00607-6/abstract" target="_blank" rel="noopener noreferrer">JAMDA 2015</a>)。失智照護平均長達 <strong>4-8 年</strong>,光靠意志撐是不可能的。「再撐一下」「等週末再休息」這些念頭累積下來就是 burnout — 沒定期喘息 + 沒支持系統的話,頭幾個月就會累積到讓「再完美的 SOP」也跟著垮掉。</p>
+
+<h3>🩺 照護者負擔自評(台灣本土量表)</h3>
+<p><strong>家庭照顧者關懷總會(家總)</strong>提供免費線上自評量表,14 題、幾分鐘做完、自動評分,是台灣本土化最直接可用的工具(國際上常用的 ZBI 是原型,家總做了本土整合版)。</p>
+<ul style="margin:4px 0 4px 18px;font-size:15px;">
+  <li><strong>官方來源(家總)</strong>:<a href="https://www.familycare.org.tw/policy/10643" target="_blank" rel="noopener noreferrer">家庭照顧者壓力量表(14 題)說明 + PDF + 線上測驗</a> / <a href="https://www.familycare.org.tw/service/10737" target="_blank" rel="noopener noreferrer">家總壓力量表介紹頁</a></li>
+  <li><strong>線上自評(社群第三方架設,內容引用家總官方量表)</strong>:<a href="https://workdai.github.io/caregiver-stress-scale/" target="_blank" rel="noopener noreferrer">14 題線上版</a> — <em>注意:此頁面為民間引用家總公開內容做線上化,家總並未背書這個 GitHub Pages 站</em>
+    <ul style="margin:4px 0 0 16px;font-size:14px;">
+      <li>分數解讀(家總官方):0 非常好 / 1-13 調適良好 / 14-25 出現壓力徵兆 / <strong>26-42 強烈建議立即尋求協助</strong></li>
+    </ul>
+  </li>
+  <li><strong>家總專線</strong>:<code>0800-50-7272</code>(<strong>有您真好</strong>諧音,照顧者關懷專線)</li>
+  <li><strong>量表背景</strong>:本量表概念與國際 Zarit Burden Interview(ZBI)系列相近(<a href="https://www.airitilibrary.com/Article/Detail/15612546-N202407100027-00001" target="_blank" rel="noopener noreferrer">ZBI 短版心理計量研究</a>)。國際版本 ZBI-12 / ZBI-22 主要用於失智、緩和醫療等<strong>研究與臨床評估</strong>(<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3146806/" target="_blank" rel="noopener noreferrer">Cronbach&#39;s α ≈ 0.89-0.92</a>)。</li>
+  <li><strong>建議頻率(本手冊建議,非家總官方)</strong>:配合長輩 3 個月一次回診同步自評,看分數變化趨勢</li>
+  <li><strong>分數升高不是你的問題</strong>是訊號:該找喘息、找支持團體、或跟主治醫師商量照護配置</li>
+</ul>
+
+<h3>🏖️ 喘息不是選配,是 SOP 的一部分</h3>
+<p>很多照護者把「喘息」想成「奢侈」或「等撐不住再說」。實際上喘息<strong>要像吃藥一樣定期排</strong>,不是反應性而是預防性:</p>
+<ul style="margin:4px 0 4px 18px;font-size:15px;">
+  <li><strong>居家喘息</strong>:居服員到府代班(2 小時為單位,單日上限 10 小時),你出門喘息</li>
+  <li><strong>機構喘息</strong>:長照住宿機構短期入住(通常 3 天至 2 週),家屬全天休息</li>
+  <li><strong>社區(日間)喘息</strong>:日照中心或巷弄長照站臨時加日 / 加班</li>
+  <li><strong>申請</strong>:撥 <strong>1966</strong>,喘息有<strong>獨立年度額度</strong>(2025 概況:長照失能等級 2-6 級每年約 32,340 元、7-8 級每年約 48,510 元;<em>失智者的長照失能等級需經 CMS 評估,跟 CDR 臨床分期不是 1-1 對應</em>),<strong>跟居服時數分開計算</strong>。額度依政策每年異動,以當下 1966 公告為準。</li>
+</ul>
+
+<h3>🫂 你不是一個人 · 專線 + 社群</h3>
+<ul style="margin:4px 0 4px 18px;font-size:15px;">
+  <li><strong>家庭照顧者關懷專線</strong> <code>0800-50-7272</code>(諧音「有您真好」)— 家總,所有類型照護者(不限失智)的壓力支援。<strong>週一至週五 09:00-18:00</strong></li>
+  <li><strong>失智關懷專線</strong> <code>0800-474-580</code>(台灣失智症協會 TADA)— 家屬支持團體、電話諮詢、課程活動。<strong>週一至週五 09:00-21:00</strong></li>
+  <li><strong>長照專線</strong> <code>1966</code> — 長照服務申請、喘息、居服</li>
+  <li><strong>各大醫院失智照護家屬會</strong>:通常每月一次,免費參加。你帶家人回診的醫院幾乎都有。</li>
+  <li><strong>照護 LINE 社群 / 地區家屬群</strong>:同溫層互助最有效</li>
+  <li><strong>24 小時心理危機專線(只有這兩條全年無休)</strong>:
+    <ul style="margin:4px 0 0 16px;">
+      <li><code>1925</code> · 安心專線(衛福部,24 小時免付費,諧音「依舊愛我」)</li>
+      <li><code>1995</code> · 生命線(國際生命線,24 小時免付費,諧音「要救救我」)</li>
+      <li>自己撐不下去了 → <strong>先打電話</strong>,不要硬扛。你一個人倒下,她也跟著倒。</li>
+    </ul>
+  </li>
+</ul>
+
+<h3>⚡ 最小執行</h3>
+<div class="callout" style="background:#f0f9ff;border-left-color:#0066cc;">
+如果你現在只有 10 分鐘看這 section,做這 3 件事:
+<ol style="margin:6px 0 0 20px;">
+  <li>打開 <a href="https://workdai.github.io/caregiver-stress-scale/" target="_blank" rel="noopener noreferrer">家總線上自評量表</a>,做一次 14 題(3-5 分鐘),把分數寫在手機備忘錄(基線值)</li>
+  <li>撥 <code>1966</code> 問你能申請多少喘息時數(不是申請,先問)</li>
+  <li>把 <code>1925</code>、<code>0800-50-7272</code>、<code>0800-474-580</code> 存進手機通訊錄</li>
+</ol>
+</div>
+
+<p class="why">這 section 的存在是因為:<strong>這份手冊優先保的是你,不是她。</strong>前面 13 項改造 + SOPs 都是為了讓你有能力繼續照顧她,不是讓她舒服、讓她像正常人。她終究會退化,這是疾病。但你要撐到最後,而你要撐下去需要被照顧、需要喘息、需要知道什麼時候該喊救命。沒有這個基礎,前面全部白做。</p>
+
+<!-- ============================================================== -->
+
+
+
+<div style="margin:32px 0 16px;padding:16px;background:#f5f1e8;border-radius:8px;">
+  <strong>📍 其他分區</strong>:<br>
+  <a href="../../" style="display:inline-block;margin:6px 6px 0 0;padding:8px 14px;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);text-decoration:none;">📘 主入口</a>
+  <a href="../../emergency/" style="display:inline-block;margin:6px 6px 0 0;padding:8px 14px;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);text-decoration:none;">🚨 急性事件 SOP</a>
+  <a href="../../long-term/" style="display:inline-block;margin:6px 6px 0 0;padding:8px 14px;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);text-decoration:none;">🏛 長期規劃</a>
+  <br><br>
+  <a href="../../" style="color:var(--text-muted);font-size:14px;">← 回 dementia-care 工具集</a>
+</div>
+
+</main>
+
+</body>
+</html>

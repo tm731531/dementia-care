@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /home-handbook-slim/
 
 # AI crawlers - 明確允許,讓 ChatGPT / Perplexity / Claude search 能收錄
 User-agent: GPTBot
