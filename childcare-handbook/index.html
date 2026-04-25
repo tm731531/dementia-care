@@ -1,0 +1,2236 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>托幼手冊 · 找托嬰/幼兒園的方法論</title>
+<meta name="description" content="0-6 歲托嬰/幼兒園選擇方法論手冊。涵蓋公托、公幼、非營利、準公共、私立 4 種類型,報名時程、抽籤機制、文件 SOP、現場 checklist 一次看完。">
+<meta name="keywords" content="托嬰,幼兒園,公托,公幼,非營利幼兒園,準公共,私立幼兒園,報名,抽籤,2歲班,新北幼兒園,kid123,接種紀錄,失智照護,三明治世代">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='52' font-size='52'%3E🧒%3C/text%3E%3C/svg%3E">
+<style>
+:root {
+  --primary: #e0735c;
+  --primary-dark: #c25540;
+  --primary-light: #fdf2ee;
+  --accent: #6b8eaa;
+  --bg: #fffaf6;
+  --card: #fff;
+  --text: #2a1f1c;
+  --muted: #7a5f57;
+  --border: #f0d7c8;
+  --warn-bg: #fff4e6;
+  --warn-border: #f0a868;
+  --danger-bg: #fde8e8;
+  --danger-border: #e07c7c;
+  --ok-bg: #e8f4ec;
+  --ok-border: #6ba88a;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Microsoft JhengHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 17px;
+  padding: 0 0 60px;
+}
+header {
+  background: var(--primary);
+  color: #fff;
+  padding: 16px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+.header-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.brand {
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  color: #fff;
+  text-decoration: none;
+}
+.brand-emoji { font-size: 26px; margin-right: 6px; }
+.nav-toggle {
+  background: rgba(255,255,255,0.2);
+  border: 0;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+}
+.nav-toggle:hover { background: rgba(255,255,255,0.3); }
+
+nav {
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  display: none;
+}
+nav.open { display: block; }
+.nav-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 12px 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.nav-link {
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  text-decoration: none;
+  border: 1px solid var(--border);
+  cursor: pointer;
+}
+.nav-link:hover { background: var(--primary); color: #fff; }
+.nav-link.active { background: var(--primary); color: #fff; }
+
+main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px 20px;
+}
+.page { display: none; }
+.page.active { display: block; }
+
+h1 {
+  font-size: 28px;
+  margin-bottom: 12px;
+  color: var(--primary-dark);
+  line-height: 1.4;
+}
+h2 {
+  font-size: 22px;
+  margin: 28px 0 14px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--primary-light);
+  color: var(--primary-dark);
+}
+h3 {
+  font-size: 18px;
+  margin: 20px 0 10px;
+  color: var(--text);
+}
+h4 {
+  font-size: 16px;
+  margin: 14px 0 8px;
+  color: var(--primary-dark);
+}
+p { margin-bottom: 12px; }
+ul, ol { margin: 8px 0 16px 22px; }
+li { margin-bottom: 6px; }
+strong { color: var(--primary-dark); font-weight: 700; }
+em { font-style: normal; color: var(--muted); }
+
+a { color: var(--primary-dark); }
+a:hover { color: var(--primary); }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+  font-size: 15px;
+  background: var(--card);
+}
+th, td {
+  border: 1px solid var(--border);
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+th {
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  font-weight: 700;
+}
+tbody tr:nth-child(even) { background: rgba(0,0,0,0.02); }
+
+.callout {
+  background: var(--primary-light);
+  border-left: 4px solid var(--primary);
+  padding: 14px 18px;
+  border-radius: 8px;
+  margin: 14px 0;
+}
+.callout.warn {
+  background: var(--warn-bg);
+  border-left-color: var(--warn-border);
+}
+.callout.danger {
+  background: var(--danger-bg);
+  border-left-color: var(--danger-border);
+}
+.callout.ok {
+  background: var(--ok-bg);
+  border-left-color: var(--ok-border);
+}
+.callout h4 { margin-top: 0; }
+
+.tag {
+  display: inline-block;
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 13px;
+  margin: 2px 4px 2px 0;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
+  margin: 16px 0;
+}
+.choice-card {
+  background: var(--card);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  padding: 18px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.choice-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+.choice-card .emoji {
+  font-size: 36px;
+  display: block;
+  margin-bottom: 8px;
+}
+.choice-card .title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--primary-dark);
+  margin-bottom: 4px;
+}
+.choice-card .desc {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.checklist-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 6px;
+}
+.checklist-item input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  cursor: pointer;
+  accent-color: var(--primary);
+}
+.checklist-item.checked {
+  background: var(--ok-bg);
+  border-color: var(--ok-border);
+}
+.checklist-item.checked .label { text-decoration: line-through; color: var(--muted); }
+.checklist-item .label { flex: 1; line-height: 1.5; }
+.checklist-item .label strong { display: block; margin-bottom: 2px; }
+.checklist-item .label .hint { font-size: 13px; color: var(--muted); display: block; }
+
+details {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin: 10px 0;
+}
+details summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--primary-dark);
+  user-select: none;
+}
+details[open] summary { margin-bottom: 8px; }
+
+.btn {
+  display: inline-block;
+  background: var(--primary);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 15px;
+  border: 0;
+  cursor: pointer;
+  font-weight: 700;
+}
+.btn:hover { background: var(--primary-dark); color: #fff; }
+.btn-secondary {
+  background: var(--card);
+  color: var(--primary-dark);
+  border: 2px solid var(--primary);
+}
+.btn-secondary:hover { background: var(--primary-light); color: var(--primary-dark); }
+
+.matrix-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+.matrix-row > div:first-child {
+  flex: 0 0 100px;
+  font-weight: 700;
+  color: var(--primary-dark);
+}
+
+.steps-list { counter-reset: step; list-style: none; padding-left: 0; }
+.steps-list li {
+  counter-increment: step;
+  padding: 12px 16px 12px 50px;
+  position: relative;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+.steps-list li::before {
+  content: counter(step);
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  width: 26px;
+  height: 26px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.summary-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--border);
+}
+.summary-row:last-child { border-bottom: 0; }
+.summary-row .icon { font-size: 20px; flex-shrink: 0; width: 30px; }
+.summary-row .label {
+  font-weight: 700;
+  color: var(--primary-dark);
+  flex: 0 0 60px;
+}
+.summary-row .content { flex: 1; }
+
+.footer-note {
+  margin-top: 40px;
+  padding: 20px;
+  background: var(--primary-light);
+  border-radius: 12px;
+  font-size: 14px;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* Toggle switch */
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+.toggle-row .label-area { flex: 1; }
+.toggle-row .label-area strong { display: block; font-size: 16px; }
+.toggle-row .label-area .hint { font-size: 13px; color: var(--muted); }
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 28px;
+  flex-shrink: 0;
+}
+.switch input { opacity: 0; width: 0; height: 0; }
+.switch .slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background: #ccc;
+  border-radius: 28px;
+  transition: 0.3s;
+}
+.switch .slider::before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 3px;
+  top: 3px;
+  background: #fff;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+.switch input:checked + .slider { background: var(--primary); }
+.switch input:checked + .slider::before { transform: translateX(22px); }
+
+/* Form */
+.form-field {
+  margin-bottom: 14px;
+}
+.form-field label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--primary-dark);
+}
+.form-field input, .form-field select, .form-field textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 15px;
+  font-family: inherit;
+  background: var(--card);
+  color: var(--text);
+}
+.form-field textarea { min-height: 60px; resize: vertical; }
+
+/* Compare basket */
+.compare-record {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 10px;
+}
+.compare-record .name {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--primary-dark);
+  margin-bottom: 4px;
+}
+.compare-record .meta {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+.compare-record .actions {
+  margin-top: 8px;
+}
+.compare-record .actions button {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 12px;
+  font-size: 13px;
+  color: var(--muted);
+  cursor: pointer;
+  margin-right: 6px;
+}
+.compare-record .actions button:hover { background: var(--primary-light); color: var(--primary-dark); }
+.compare-record .actions button.danger:hover { background: var(--danger-bg); color: var(--danger-border); }
+
+.compare-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--muted);
+  background: var(--card);
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+}
+
+/* Planning mode block */
+.planning-block {
+  background: var(--ok-bg);
+  border: 2px solid var(--ok-border);
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin: 16px 0;
+}
+.planning-block h3 { margin-top: 0; color: #2d6a4f; }
+.planning-block ul { margin-left: 22px; }
+
+.month-tag {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  margin-left: 6px;
+}
+
+@media print {
+  header, nav { display: none; }
+  body { font-size: 12pt; padding: 0; }
+  .page { display: block !important; page-break-after: always; }
+  a { color: inherit; text-decoration: none; }
+}
+
+@media (max-width: 600px) {
+  body { font-size: 16px; }
+  h1 { font-size: 24px; }
+  h2 { font-size: 20px; }
+  main { padding: 16px 14px; }
+  table { font-size: 13px; }
+  th, td { padding: 6px 8px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a class="brand" onclick="navigateTo('page-home');return false;" href="#"><span class="brand-emoji">🧒</span>托幼手冊</a>
+    <button class="nav-toggle" onclick="toggleNav()">☰ 章節</button>
+  </div>
+</header>
+
+<nav id="nav">
+  <div class="nav-inner">
+    <a class="nav-link" data-page="page-home" onclick="navigateTo('page-home');return false;" href="#">🏠 首頁</a>
+    <a class="nav-link" data-page="page-types" onclick="navigateTo('page-types');return false;" href="#">🏫 4 種類型</a>
+    <a class="nav-link" data-page="page-infant" onclick="navigateTo('page-infant');return false;" href="#">👶 托嬰專區</a>
+    <a class="nav-link" data-page="page-5w1h" onclick="navigateTo('page-5w1h');return false;" href="#">🎯 5W1H 方法論</a>
+    <a class="nav-link" data-page="page-checklist" onclick="navigateTo('page-checklist');return false;" href="#">📋 看園所 Checklist</a>
+    <a class="nav-link" data-page="page-timeline" onclick="navigateTo('page-timeline');return false;" href="#">📅 時程地圖</a>
+    <a class="nav-link" data-page="page-documents" onclick="navigateTo('page-documents');return false;" href="#">📄 文件 SOP</a>
+    <a class="nav-link" data-page="page-lottery" onclick="navigateTo('page-lottery');return false;" href="#">🎲 抽籤機制</a>
+    <a class="nav-link" data-page="page-traps" onclick="navigateTo('page-traps');return false;" href="#">⚠️ 常見地雷</a>
+    <a class="nav-link" data-page="page-sandwich" onclick="navigateTo('page-sandwich');return false;" href="#">👨‍👩‍👧 三明治世代</a>
+    <a class="nav-link" data-page="page-compare" onclick="navigateTo('page-compare');return false;" href="#">🛒 比較籃</a>
+    <a class="nav-link" data-page="page-cases" onclick="navigateTo('page-cases');return false;" href="#">📖 案例</a>
+    <a class="nav-link" data-page="page-knowledge" onclick="navigateTo('page-knowledge');return false;" href="#">📚 縣市資源</a>
+    <a class="nav-link" data-page="page-settings" onclick="navigateTo('page-settings');return false;" href="#">⚙️ 設定</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- ========== 首頁 ========== -->
+<section class="page active" id="page-home">
+  <h1>🧒 找托嬰/幼兒園的方法論</h1>
+  <p style="font-size:18px;color:var(--muted);">給家裡有 <strong>0-6 歲幼兒</strong>、第一次面對托嬰中心 / 幼兒園系統的家長。教你<strong>怎麼看</strong>,不告訴你<strong>選哪家</strong>。</p>
+
+  <div id="planning-mode-block" style="display:none;">
+    <div class="planning-block">
+      <h3>🎯 本月該做的事 <span class="month-tag" id="current-month-tag"></span></h3>
+      <div id="planning-actions"></div>
+      <p style="margin:12px 0 0;font-size:14px;color:var(--muted);">想看全部章節?到 <a onclick="navigateTo('page-settings');return false;" href="#">⚙️ 設定</a> 關掉「規劃模式」即可。</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <h4>❓ 你的孩子幾歲?</h4>
+    <p style="margin:0;">點下面對應卡片,直接跳到該年齡段該做的事。</p>
+  </div>
+
+  <div class="card-grid">
+    <div class="choice-card" onclick="navigateTo('page-types', 'infant')">
+      <span class="emoji">👶</span>
+      <div class="title">0-1 歲</div>
+      <div class="desc">主要看托嬰中心。公托登記要排很久,現在就要排隊。</div>
+    </div>
+    <div class="choice-card" onclick="navigateTo('page-timeline', 'toddler')">
+      <span class="emoji">🧒</span>
+      <div class="title">2-3 歲</div>
+      <div class="desc">幼兒園 2 歲班報名密集期(每年 4-6 月),公幼/非營利/準公共一起跑。</div>
+    </div>
+    <div class="choice-card" onclick="navigateTo('page-timeline', 'preschool')">
+      <span class="emoji">🎒</span>
+      <div class="title">4-6 歲</div>
+      <div class="desc">大部分已在園,看是否要換園或補新生缺額。</div>
+    </div>
+    <div class="choice-card" onclick="navigateTo('page-sandwich')">
+      <span class="emoji">👨‍👩‍👧</span>
+      <div class="title">三明治世代</div>
+      <div class="desc">同時照顧失智長輩 + 幼兒。接送動線、喘息資源整合考量。</div>
+    </div>
+  </div>
+
+  <h2>📌 第一次找園所?從這 3 個地方開始</h2>
+  <ol>
+    <li><strong>先讀 <a onclick="navigateTo('page-types');return false;" href="#">🏫 4 種類型</a></strong> — 公托、公幼、非營利、準公共、私立差在哪。費用差好幾倍,選錯類型一切白搞。</li>
+    <li><strong>再看 <a onclick="navigateTo('page-traps');return false;" href="#">⚠️ 常見地雷</a></strong> — 過了報名截止 = 等下年。先看會炸的點,動作之前避開。</li>
+    <li><strong>最後跑 <a onclick="navigateTo('page-checklist');return false;" href="#">📋 看園所 Checklist</a></strong> — 現場參觀時逐項檢查,不被漂亮裝潢分心。</li>
+  </ol>
+
+  <h2>🎯 5 秒總覽</h2>
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;">
+    <div class="summary-row"><span class="icon">👤</span><span class="label">Who</span><span class="content">家長:你的家庭結構、預算、接送可行性。<strong>不是</strong>「孩子是誰」</span></div>
+    <div class="summary-row"><span class="icon">🏫</span><span class="label">What</span><span class="content">4 種類型(公托/公幼 · 非營利 · 準公共 · 私立),費用差 5-15 倍</span></div>
+    <div class="summary-row"><span class="icon">📅</span><span class="label">When</span><span class="content">公托:出生就排隊。幼兒園:每年 4-6 月。8 月開學</span></div>
+    <div class="summary-row"><span class="icon">📍</span><span class="label">Where</span><span class="content">步行 20 分鐘原則(颱風 + 大雨 + 小孩走慢實際是 30+)</span></div>
+    <div class="summary-row"><span class="icon">💡</span><span class="label">Why</span><span class="content">教學風格(蒙氏/華德福/主題式/雙語)只是其中一個維度,不是全部</span></div>
+    <div class="summary-row"><span class="icon">🔧</span><span class="label">How</span><span class="content">報名 → 抽籤 → 正取/備取 → 報到。每步有截止日期,過了就 GG</span></div>
+  </div>
+
+  <div class="callout warn" style="margin-top:24px;">
+    <h4>⚠️ 一個最大的提醒</h4>
+    <p style="margin:0;">這本手冊是<strong>方法論</strong>,不是「該選哪家」的建議。每個家庭情況不同,選擇權永遠在你。手冊只負責讓你<strong>把該想的都想過、該查的都查過</strong>。</p>
+  </div>
+
+  <div class="footer-note">
+    最後更新 2026-04-26 · v1 · 政府補助標準會逐年更新,以官方公告為準
+  </div>
+</section>
+
+<!-- ========== 4 種類型 ========== -->
+<section class="page" id="page-types">
+  <h1>🏫 4 種托育類型</h1>
+  <p style="font-size:17px;color:var(--muted);">費用、報名方式、抽籤規則完全不同。<strong>選錯類型,所有後續動作都白搞</strong>。</p>
+
+  <h2>📊 一張表看完</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>類型</th>
+        <th>適用年齡</th>
+        <th>費用(每月)</th>
+        <th>報名方式</th>
+        <th>抽籤規則</th>
+        <th>等候時間</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>公托 / 公幼</strong></td>
+        <td>0-6</td>
+        <td>最低(月費 2000-4000,含補助後)</td>
+        <td>各縣市網站</td>
+        <td>區域順位 + 抽籤</td>
+        <td>1-3 年(0-2 歲尤其競爭)</td>
+      </tr>
+      <tr>
+        <td><strong>非營利幼兒園</strong></td>
+        <td>2-6</td>
+        <td>第 1 胎 3000(統一)</td>
+        <td>新北 kid123 / 各縣市統一網站</td>
+        <td>統一電腦抽籤</td>
+        <td>中等</td>
+      </tr>
+      <tr>
+        <td><strong>準公共</strong></td>
+        <td>0-6</td>
+        <td>第 1 胎 3000 上限</td>
+        <td>各園自辦(現場/Email/網站)</td>
+        <td>各園自辦公開抽籤</td>
+        <td>中等</td>
+      </tr>
+      <tr>
+        <td><strong>私立(自費)</strong></td>
+        <td>0-6</td>
+        <td>8000-50000+(無上限)</td>
+        <td>各園自辦</td>
+        <td>名額制(可加錢插隊)</td>
+        <td>即時(有錢就有位)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>🏛 公托 / 公幼</h2>
+  <div class="callout">
+    <p style="margin:0;"><strong>政府辦的公立托嬰中心 / 公立幼兒園</strong>。費用最低,但僧多粥少,要靠抽籤。</p>
+  </div>
+  <h3>特點</h3>
+  <ul>
+    <li>👍 <strong>費用最低</strong>(月費 2000-4000,含政府補助後)</li>
+    <li>👍 <strong>師資穩定</strong>(教保員多為公務體系,流動率低)</li>
+    <li>👍 <strong>標準化</strong>(教學內容、餐食、安全規範統一管理)</li>
+    <li>👎 <strong>名額極少</strong>,公托(0-2 歲)等候 1-3 年很正常</li>
+    <li>👎 <strong>區域順位</strong>:沒設籍在該區可能根本沒抽籤資格</li>
+    <li>👎 <strong>教學偏「保守」</strong>:沒有蒙氏/華德福之類的特色</li>
+  </ul>
+  <h3>怎麼報</h3>
+  <ul>
+    <li>各縣市教育局 / 社會局網站(各地不同 — 看 <a onclick="navigateTo('page-knowledge');return false;" href="#">📚 縣市資源</a>)</li>
+    <li>0-2 歲公托:**孩子出生就要去登記**,等候名單通常 1-3 年</li>
+    <li>2-6 歲公幼:每年 4-5 月一波,跟非營利同期</li>
+  </ul>
+
+  <h2>🏘 非營利幼兒園(只有 2-6 歲)</h2>
+  <div class="callout">
+    <p style="margin:0;"><strong>政府委託民間單位辦的幼兒園</strong>。費用跟準公共一樣低,但**報名規則跟公幼一樣統一**(新北統一用 kid123.ntpc.edu.tw)。</p>
+  </div>
+  <h3>特點</h3>
+  <ul>
+    <li>👍 <strong>費用低</strong>(第 1 胎月費 3000 上限,跟準公共相同)</li>
+    <li>👍 <strong>報名統一</strong>(各縣市一個網站搞定多家)</li>
+    <li>👍 <strong>備取保留期長</strong>(新北非營利保留至下年留園直升前一日,**最長**)</li>
+    <li>👍 <strong>線上報到</strong>(不用臨櫃)</li>
+    <li>👎 <strong>名額少</strong>,抽籤競爭激烈</li>
+    <li>👎 <strong>不收 0-2 歲</strong>(如果有 0-2 歲幼兒只能找公托或私托)</li>
+  </ul>
+  <h3>怎麼報</h3>
+  <ol>
+    <li>找該縣市的統一報名網站(新北:<a href="https://kid123.ntpc.edu.tw" target="_blank" rel="noopener">kid123.ntpc.edu.tw</a>)</li>
+    <li>提前註冊帳號(不要等到報名日才註冊)</li>
+    <li>缺額公告當天確認可報名園所</li>
+    <li>網路報名 → 資格審查 → 補件 → 抽籤 → 線上報到</li>
+  </ol>
+
+  <h2>🏢 準公共</h2>
+  <div class="callout">
+    <p style="margin:0;"><strong>私立但跟政府簽合約</strong>,讓家長享有「跟非營利一樣的低費用」。涵蓋 0-6 歲(包含 0-2 歲托嬰)。</p>
+  </div>
+  <h3>特點</h3>
+  <ul>
+    <li>👍 <strong>費用低</strong>(第 1 胎月費 3000 上限)</li>
+    <li>👍 <strong>名額較多</strong>(多家私園加入,選擇多)</li>
+    <li>👍 <strong>含 0-2 歲托嬰</strong>(準公共托嬰中心)</li>
+    <li>👍 <strong>教學風格較多元</strong>(各園自由發展特色)</li>
+    <li>👎 <strong>各園自辦報名</strong>(時程、地點、文件、規則全不一樣 — 累)</li>
+    <li>👎 <strong>備取保留期差異大</strong>(短的 5 天,長的 4 個月,要看清楚)</li>
+    <li>👎 <strong>5 年合約到期可能退場</strong>(變回完全私立,費用爆漲)</li>
+  </ul>
+  <h3>怎麼報</h3>
+  <ol>
+    <li>找各縣市「準公共幼兒園/托嬰中心」清單(教育部 / 衛福部官網有)</li>
+    <li>篩選步行範圍內的園所</li>
+    <li>逐家查報名期間 + 報名方式(現場/Email/網站,各家不同)</li>
+    <li>**注意:準公共報名期間常與非營利重疊**(都是 4-6 月),要排好優先序</li>
+  </ol>
+
+  <h2>💸 私立(自費)</h2>
+  <div class="callout warn">
+    <p style="margin:0;"><strong>完全自由訂價</strong>。費用從每月 8000(基本)到 50000+(雙語/特色園)都有。沒有政府補助。</p>
+  </div>
+  <h3>特點</h3>
+  <ul>
+    <li>👍 <strong>有錢就有位</strong>(不用抽籤,不用等)</li>
+    <li>👍 <strong>教學風格多元</strong>(蒙氏、華德福、雙語、森林、體育)</li>
+    <li>👍 <strong>可以中途轉入</strong>(不限年度開學)</li>
+    <li>👎 <strong>費用高</strong>(年費可能是準公共的 5-15 倍)</li>
+    <li>👎 <strong>隱形費用多</strong>(註冊費、書本費、制服費、活動費、延托費 — 累計可能再加 30%)</li>
+    <li>👎 <strong>退費規則嚴</strong>(中途離園可能要付違約金)</li>
+    <li>👎 <strong>師資流動率參差</strong>(有些園所離職率高,孩子適應期長)</li>
+  </ul>
+  <h3>什麼情況考慮私立</h3>
+  <ul>
+    <li>沒抽中任何公幼/非營利/準公共,等不到下一年</li>
+    <li>家庭預算寬裕,要特定教學風格</li>
+    <li>想要某些特殊服務(全美語、雙師制、小班)</li>
+    <li>想要中途插班(其他類型只在 8 月開學)</li>
+  </ul>
+
+  <h2>📐 怎麼決定優先順序</h2>
+  <table>
+    <thead>
+      <tr><th>狀況</th><th>建議優先序</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>預算緊 + 雙薪 + 0-2 歲幼兒</td><td>公托 → 準公共托嬰 → 私立托嬰</td></tr>
+      <tr><td>預算緊 + 雙薪 + 2-6 歲幼兒</td><td>非營利 + 公幼(同期報) → 準公共 → 私立(備援)</td></tr>
+      <tr><td>預算寬 + 想要特定教學</td><td>直接看私立(蒙氏/華德福/雙語) → 準公共補位</td></tr>
+      <tr><td>住偏遠地區</td><td>查最近的「準公共」+ 「私立」(公幼/非營利通常市區才多)</td></tr>
+      <tr><td>想全家搬家配合園所</td><td>公托/公幼是首選(便宜 + 穩定),其他類型不用為它搬</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout warn">
+    <h4>⚠️ 不要只報一家</h4>
+    <p style="margin:0;">即使最想要 A 園,也要報 B、C、D 當保險。<strong>抽籤是運氣</strong>,沒抽中要等下一年(8 月開學前可能補不到位)。<strong>同時報 3-5 家</strong>是常態。</p>
+  </div>
+</section>
+
+<!-- ========== 5W1H 方法論 ========== -->
+<section class="page" id="page-5w1h">
+  <h1>🎯 5W1H 評估方法論</h1>
+  <p style="font-size:17px;color:var(--muted);">每個家庭適合的園所不同。這 6 個維度逐一回答,不是想哪個算哪個。</p>
+
+  <h2>👤 Who · 你家是誰</h2>
+  <p>「孩子幾歲」不是 Who 的全部。Who 是<strong>整個家庭結構</strong>:</p>
+  <ul>
+    <li><strong>家庭結構</strong>:雙薪 / 單薪 / 單親 / 多代同堂(有失智長輩參與接送嗎?)</li>
+    <li><strong>預算</strong>:每月教育預算上限是多少?(影響類型選擇)</li>
+    <li><strong>接送角色</strong>:誰接、誰送、有沒有備援?</li>
+    <li><strong>孩子個性</strong>:好動 / 內向 / 過敏體質 / 有特殊需求</li>
+    <li><strong>家裡其他成員</strong>:兄弟姊妹是否同園(可能有「在園生弟妹」優先順位)</li>
+  </ul>
+  <div class="callout">
+    <h4>📌 隱形維度:祖父母</h4>
+    <p style="margin:0;">如果有失智長輩在家,需要評估:長輩是否能參與接送(認知功能)、長輩日照中心位置是否在接送動線上、長輩走失風險是否影響你的行程彈性。看 <a onclick="navigateTo('page-sandwich');return false;" href="#">👨‍👩‍👧 三明治世代</a>。</p>
+  </div>
+
+  <h2>🏫 What · 選哪一類</h2>
+  <p>看 <a onclick="navigateTo('page-types');return false;" href="#">🏫 4 種類型</a>。決策邏輯:</p>
+  <ol>
+    <li>先看預算(私立 vs 補助類)</li>
+    <li>再看年齡(0-2 vs 2-6)</li>
+    <li>再看時間(等得起公托嗎?)</li>
+    <li>最後看教學風格偏好</li>
+  </ol>
+
+  <h2>📅 When · 什麼時候動</h2>
+  <table>
+    <thead>
+      <tr><th>類型</th><th>關鍵時機</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>公托(0-2 歲)</td><td><strong>孩子出生就排隊</strong>。等候 1-3 年正常</td></tr>
+      <tr><td>非營利 + 公幼(2-6)</td><td>每年 <strong>4 月底缺額公告 → 5 月初報名 → 5 月中抽籤</strong></td></tr>
+      <tr><td>準公共</td><td>各園不同,集中在 <strong>5-6 月</strong></td></tr>
+      <tr><td>私立</td><td>全年隨時(看名額),<strong>但 7-8 月開學潮位置最少</strong></td></tr>
+    </tbody>
+  </table>
+  <div class="callout warn">
+    <p style="margin:0;"><strong>過了報名截止就是 GG</strong>。各園截止日不同,排不開的話只能放棄某些園。看 <a onclick="navigateTo('page-timeline');return false;" href="#">📅 時程地圖</a>。</p>
+  </div>
+
+  <h2>📍 Where · 距離與動線</h2>
+  <h3>步行 20 分鐘原則</h3>
+  <ul>
+    <li>地圖顯示 15 分鐘 → 實際 20 分鐘起跳(小孩腳步慢)</li>
+    <li>下雨 / 颱風 / 寒流 → 30+ 分鐘或無法步行</li>
+    <li>不要評估「我成人快走的時間」</li>
+  </ul>
+  <h3>接送動線評估</h3>
+  <ul>
+    <li>從家到園所(早上)</li>
+    <li>從園所到工作地點(早上接續)</li>
+    <li>從工作地點回園所(下午接)</li>
+    <li>從園所回家(下午接續)</li>
+    <li>有失智長輩家庭:加上「日照中心位置」「醫院位置」</li>
+  </ul>
+  <div class="callout">
+    <h4>📌 試走一遍</h4>
+    <p style="margin:0;">真的去走一次。算上紅綠燈、推車、抱孩子。把這個時間 +10 分鐘當作「能接受的上限」。超過就不要勉強(會崩潰)。</p>
+  </div>
+
+  <h2>💡 Why · 教學風格</h2>
+  <p>不要只看招生簡章上的標榜。問:</p>
+  <ul>
+    <li><strong>典型一天的時間表是什麼?</strong>(自由探索 vs 結構式上課的比例)</li>
+    <li><strong>戶外活動多久一次?</strong>(每天 / 每週?)</li>
+    <li><strong>有沒有特殊課程?</strong>(雙語?才藝?)</li>
+    <li><strong>怎麼處理孩子情緒?</strong>(這題回答得好不好,反映教保理念)</li>
+    <li><strong>家長如何參與?</strong>(只看 Line 群還是真的有家長日)</li>
+  </ul>
+  <details>
+    <summary>常見教學風格簡介</summary>
+    <ul style="margin-top:8px;">
+      <li><strong>蒙特梭利(Montessori)</strong>:孩子自選工作、混齡、教具導向。強調獨立。</li>
+      <li><strong>華德福(Waldorf)</strong>:節奏、季節、自然材質、不接觸電子產品。慢學派。</li>
+      <li><strong>瑞吉歐(Reggio Emilia)</strong>:專案式學習、藝術中心、強調對話。</li>
+      <li><strong>主題式(主流)</strong>:每月或每季一個主題,各種活動圍繞主題。</li>
+      <li><strong>遊戲式 / 開放教育</strong>:大量自由遊戲時間。</li>
+      <li><strong>雙語 / 全美語</strong>:重視語言環境。注意是「外師全程」還是「中師翻譯式」。</li>
+    </ul>
+    <p style="margin-top:8px;font-size:14px;"><em>教學風格沒有絕對好壞 — 看孩子個性。內向慢熟的孩子可能不適合大團體競爭式環境。</em></p>
+  </details>
+
+  <h2>🔧 How · 報名流程</h2>
+  <ol>
+    <li><strong>準備期</strong>(報名前 2-4 週):備齊文件、排清單、跟家人達成共識</li>
+    <li><strong>報名期</strong>(各園不同):準時遞表 / 上傳</li>
+    <li><strong>等候期</strong>(報名後 1-2 週):資格審查、補件</li>
+    <li><strong>抽籤日</strong>(各園不同):當天公告結果</li>
+    <li><strong>報到期</strong>(抽中後 1-3 天):**準時報到!過了就放棄正取**</li>
+    <li><strong>備取等候期</strong>(看各園公告,5/14 ~ 10/31 都有):備取保留期長的有機會</li>
+  </ol>
+  <p>看 <a onclick="navigateTo('page-lottery');return false;" href="#">🎲 抽籤機制</a>。</p>
+</section>
+
+<!-- ========== 看園所 Checklist ========== -->
+<section class="page" id="page-checklist">
+  <h1>📋 看園所 Checklist</h1>
+  <p style="font-size:17px;color:var(--muted);">現場參觀必檢的 6 大維度。<strong>不被漂亮裝潢分心</strong>,問該問的、看該看的。</p>
+
+  <div class="callout">
+    <h4>📌 怎麼用</h4>
+    <p style="margin:0;">參觀前印一份(或手機開這頁)。每項打勾 ✓。狀態存在你的裝置 localStorage,換頁不丟。可以同時跑多家比較。</p>
+  </div>
+
+  <h2>👶 托嬰專屬(0-2 歲)</h2>
+  <p style="font-size:14px;color:var(--muted);"><em>給找托嬰中心的家長。2 歲以上跳過,直接看下面 6 大維度即可。</em></p>
+  <div id="cl-infant"></div>
+
+  <h2>🛡 安全</h2>
+  <div id="cl-safety"></div>
+
+  <h2>👩‍🏫 師資</h2>
+  <div id="cl-teacher"></div>
+
+  <h2>🏠 環境</h2>
+  <div id="cl-env"></div>
+
+  <h2>🍽 餐食</h2>
+  <div id="cl-meal"></div>
+
+  <h2>📚 教學</h2>
+  <div id="cl-curriculum"></div>
+
+  <h2>💰 隱形費用</h2>
+  <div id="cl-cost"></div>
+
+  <div class="callout warn" style="margin-top:24px;">
+    <h4>⚠️ 「不能問」的警訊</h4>
+    <p style="margin:0;">如果某園所對你的問題顯得不耐煩、迴避、說「這是商業機密」,**那就是答案**。能信任孩子去的園所,應該樂於回答家長的詢問。</p>
+  </div>
+
+  <button class="btn btn-secondary" onclick="resetChecklist()">↻ 清空所有勾選</button>
+</section>
+
+<!-- ========== 時程地圖 ========== -->
+<section class="page" id="page-timeline">
+  <h1>📅 時程地圖</h1>
+  <p style="font-size:17px;color:var(--muted);">幼兒園系統按年運轉。<strong>知道哪個月該做什麼</strong>,才能提前準備不錯過。</p>
+
+  <h2>🗓 每年的標準節奏(以新北市為例)</h2>
+  <table>
+    <thead>
+      <tr><th>月份</th><th>事項</th><th>強度</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1-3 月</td><td>觀察期:逛各家園所招生公告(尚未開放報名)、準備文件</td><td>🟢 低</td></tr>
+      <tr><td><strong>4 月底</strong></td><td>非營利缺額公告(各縣市教育局網)</td><td>🔴 高</td></tr>
+      <tr><td><strong>5 月初</strong></td><td>非營利網路報名 + 部分準公共現場報名(同週並行!)</td><td>🔴 最高</td></tr>
+      <tr><td><strong>5 月中</strong></td><td>非營利電腦抽籤 + 部分準公共抽籤</td><td>🔴 高</td></tr>
+      <tr><td><strong>5 月下 - 6 月</strong></td><td>非營利線上報到 + 其他準公共陸續抽籤</td><td>🟡 中</td></tr>
+      <tr><td>7 月</td><td>備取遞補 + 私立補位</td><td>🟡 中</td></tr>
+      <tr><td><strong>8 月初</strong></td><td>開學(普遍 8/3 左右)</td><td>🟢 低</td></tr>
+      <tr><td>9-12 月</td><td>跟園所互動、評估是否續讀</td><td>🟢 低</td></tr>
+    </tbody>
+  </table>
+
+  <h2>👶 0-2 歲(托嬰)的時程不同</h2>
+  <div class="callout">
+    <p style="margin:0;">公托不是「每年 4-6 月一波」,而是<strong>滾動式登記</strong>。出生就排,等候名單通常 1-3 年。</p>
+  </div>
+  <h3>什麼時候做什麼</h3>
+  <ul>
+    <li><strong>孕期 / 出生</strong>:確認戶籍區,查該區有哪些公托 + 準公共托嬰</li>
+    <li><strong>出生 0-3 月</strong>:辦戶籍 → 立刻去公托登記排隊</li>
+    <li><strong>出生 6 個月後</strong>:確認自己預計幾月送托(影響可登記月份)</li>
+    <li><strong>送托前 2 個月</strong>:看排到第幾位 → 決定送公托還是準公共/私立</li>
+    <li><strong>送托前 1 個月</strong>:報名選定園所 + 安排試讀(很重要,試讀看孩子適應度)</li>
+  </ul>
+
+  <h2>🎒 4-6 歲(大班/中班/續讀)</h2>
+  <ul>
+    <li>大部分孩子 2 歲入園後就<strong>留園直升</strong>到大班畢業</li>
+    <li>**留園直升登記**通常 1-2 月,不要錯過(錯過要重抽籤)</li>
+    <li>想換園的話,看新生缺額(4-5 月公告)</li>
+    <li>準備上小學:大班下學期(隔年 4-5 月)看小學學區</li>
+  </ul>
+
+  <h2>📌 提前該做的事(現在開始)</h2>
+  <div class="callout warn">
+    <h4>⚠️ 預防接種紀錄影本</h4>
+    <p style="margin:0;">這是<strong>所有園所都需要</strong>的文件,但很多家長到報到才發現黃卡找不到 → 衛生所補發要 1-2 週。<strong>現在就先確認在哪、影印 5 份</strong>。看 <a onclick="navigateTo('page-documents');return false;" href="#">📄 文件 SOP</a>。</p>
+  </div>
+</section>
+
+<!-- ========== 文件 SOP ========== -->
+<section class="page" id="page-documents">
+  <h1>📄 文件 SOP</h1>
+  <p style="font-size:17px;color:var(--muted);">各園需要的文件大同小異。<strong>提前備齊</strong>,錄取後不用臨時找。</p>
+
+  <h2>📋 報名階段(一般生)</h2>
+  <div class="callout">
+    <p style="margin:0;">大部分準公共/私立的<strong>一般生報名</strong>只需現場填表,不需提前帶文件。但到場時帶以下「正本」:</p>
+  </div>
+  <ul>
+    <li>✅ 孩子健保卡 正本(確認出生年月日)</li>
+    <li>✅ 家長身分證 正本(確認家長身份)</li>
+    <li>✅ 原子筆</li>
+  </ul>
+
+  <h2>💻 非營利網路報名</h2>
+  <ul>
+    <li>✅ 提前在統一網站<strong>註冊帳號</strong>(別等到報名日才註冊)</li>
+    <li>✅ 戶口名簿掃描檔(系統查調為主,失敗時上傳)</li>
+    <li>✅ 確認手機號碼可收簡訊(補件、抽籤結果都靠簡訊)</li>
+    <li>✅ 跨縣市新搬遷者:**必須上傳戶口名簿**(設籍未滿期者)</li>
+  </ul>
+
+  <h2>📦 錄取後報到(備齊全套)</h2>
+  <p>各園要求略有差異,建議<strong>提前準備全套 3-5 份</strong>,錄取後電話確認該園實際需求。</p>
+
+  <table>
+    <thead>
+      <tr><th>文件</th><th>份數</th><th>說明</th><th>備注</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>孩子戶口名簿 影本</strong></td>
+        <td>3-5</td>
+        <td>身份核對</td>
+        <td>非營利明確要求</td>
+      </tr>
+      <tr>
+        <td><strong>預防接種紀錄 影本</strong></td>
+        <td>3-5</td>
+        <td>健兒手冊黃卡影印</td>
+        <td>⚠️ <strong>最花時間</strong>,黃卡丟了要去衛生所補發 1-2 週</td>
+      </tr>
+      <tr>
+        <td><strong>孩子健保卡 影本</strong></td>
+        <td>3-5</td>
+        <td>身份核對</td>
+        <td>大部分園所要</td>
+      </tr>
+      <tr>
+        <td><strong>家長身分證 影本</strong></td>
+        <td>3-5</td>
+        <td>家長身份</td>
+        <td>大部分園所要</td>
+      </tr>
+      <tr>
+        <td>低收 / 中低收證明</td>
+        <td>3</td>
+        <td>申請補助用</td>
+        <td>有低收身份才需要</td>
+      </tr>
+      <tr>
+        <td>身心障礙證明</td>
+        <td>3</td>
+        <td>特殊需求</td>
+        <td>有特殊需求才需要</td>
+      </tr>
+      <tr>
+        <td>原住民身份</td>
+        <td>3</td>
+        <td>優先順位用</td>
+        <td>原民身份家庭</td>
+      </tr>
+      <tr>
+        <td>家庭照片(部分園所)</td>
+        <td>1</td>
+        <td>緊急聯絡用</td>
+        <td>少數園所要</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>🟡 預防接種紀錄(最容易漏)</h2>
+  <div class="callout warn">
+    <h4>⚠️ 黃卡找不到怎辦?</h4>
+    <ol style="margin:8px 0 0 22px;">
+      <li>先翻媽媽手冊和產檢資料夾(常被夾在裡面)</li>
+      <li>找不到去戶籍地<strong>衛生所</strong>補發,要帶孩子健保卡</li>
+      <li>補發要 <strong>1-2 週</strong>,不要等到報到前才辦</li>
+      <li>有些縣市可線上查接種紀錄(健保署「健康存摺」)</li>
+    </ol>
+  </div>
+
+  <h2>📥 文件準備清單(可勾選)</h2>
+  <div id="cl-documents"></div>
+
+  <button class="btn btn-secondary" onclick="resetChecklist('documents')">↻ 清空文件清單</button>
+</section>
+
+<!-- ========== 抽籤機制 ========== -->
+<section class="page" id="page-lottery">
+  <h1>🎲 抽籤機制</h1>
+  <p style="font-size:17px;color:var(--muted);">大部分公幼/非營利/準公共都靠抽籤。<strong>備取保留期短的等於沒中</strong>,這個細節千萬要看。</p>
+
+  <h2>🔄 標準流程</h2>
+  <ol class="steps-list">
+    <li><strong>報名</strong> — 各園規定的報名期間提交資料</li>
+    <li><strong>資格審查</strong> — 園方/教育局審核資料、補件通知</li>
+    <li><strong>抽籤</strong> — 報名人數 > 名額 才會抽。報名人數 ≤ 名額 直接全錄取</li>
+    <li><strong>正取 + 備取公告</strong> — 抽到正取的依序遞補,備取按抽籤順序排隊</li>
+    <li><strong>正取生報到</strong> — 截止日內到場/線上報到。**過了就放棄正取資格**</li>
+    <li><strong>備取生遞補</strong> — 正取沒報到 → 備取依序通知 → 直到滿額或備取保留期截止</li>
+  </ol>
+
+  <h2>⚠️ 順位 vs 抽籤的差別</h2>
+  <div class="callout">
+    <p style="margin:0;">同一園所內可能有<strong>多個順位</strong>(例:第 2 順位是教職員子女,第 3 順位是社區住戶,第 4 順位才是一般生)。<strong>順位是先後順序</strong>,前順位優先填滿,輪到一般生才開始抽籤。</p>
+  </div>
+  <h3>典型順位範例(各園不同)</h3>
+  <ol>
+    <li>第 1 順位:特殊身份(身障、原民、低收)</li>
+    <li>第 2 順位:教職員子女、在園生兄弟姊妹</li>
+    <li>第 3 順位:社區/鄰里居民、簽約合作機構員工</li>
+    <li>第 4 順位:一般生(沒在前 3 順位)</li>
+  </ol>
+  <div class="callout warn">
+    <p style="margin:0;"><strong>問清楚自己屬於第幾順位</strong>。報名前看簡章「順位」段,搞清楚自己被排在哪一順。</p>
+  </div>
+
+  <h2>🚨 備取保留期 — 最容易踩的地雷</h2>
+  <div class="callout danger">
+    <h4>❌ 備取保留 5 天 = 跟沒中差不多</h4>
+    <p style="margin:0;">假設你是備取第 5 名,正取通常 1-2 個月內陸續報到。如果園所規定「備取保留只到報到日後 7 天」,那等於正取沒人放棄你就 GG。<strong>備取保留期短的園所,沒抽中正取就要當作沒中</strong>。</p>
+  </div>
+  <h3>備取保留期長短意義</h3>
+  <table>
+    <thead>
+      <tr><th>備取保留期</th><th>對你的意義</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>5-14 天</td><td>⚠️ 等於只看正取。沒中正取 → 看下家</td></tr>
+      <tr><td>1 個月</td><td>🟡 部分機會。前 3 名備取可期待</td></tr>
+      <tr><td>2-3 個月</td><td>🟢 真的有機會。8 月開學前都可能輪到</td></tr>
+      <tr><td>到下年留園直升前</td><td>🟢🟢 最長(新北非營利的標準)。整年都有機會</td></tr>
+    </tbody>
+  </table>
+
+  <h2>📊 同時報多家的策略</h2>
+  <ol>
+    <li><strong>3-5 家是常態</strong>,不要只押寶一家</li>
+    <li><strong>確認時程不衝突</strong>(報名期間、抽籤日、報到日不要撞)</li>
+    <li><strong>排優先順序</strong>(離家最近 / 教學風格最合 / 費用最低)</li>
+    <li><strong>抽中複數家時</strong>:選最想要的,其他家**主動放棄正取**(讓其他備取家庭有機會,不要佔位)</li>
+    <li><strong>都沒抽中</strong>:看哪家備取保留期長,等遞補。也準備私立 plan B</li>
+  </ol>
+
+  <h2>🤝 留園直升</h2>
+  <div class="callout">
+    <p style="margin:0;">已經在園的孩子,通常隔年可以「<strong>直升</strong>」上一個年級,不用重抽。直升登記時間各園不同(通常 1-2 月),<strong>錯過就要重新抽籤</strong>。</p>
+  </div>
+</section>
+
+<!-- ========== 常見地雷 ========== -->
+<section class="page" id="page-traps">
+  <h1>⚠️ 常見地雷</h1>
+  <p style="font-size:17px;color:var(--muted);">這些是「<strong>會全盤失敗</strong>」的前提條件。看完再開始動作,不要踩過才知道。</p>
+
+  <div class="callout danger">
+    <h4>🚨 過了報名截止 = 等下一年</h4>
+    <p style="margin:0;">大部分園所一年只開一次報名期。錯過就要等到隔年(整整 12 個月)。截止日記到 Google 行事曆 + 提醒前 3 天。</p>
+  </div>
+
+  <div class="callout danger">
+    <h4>🚨 沒準時報到 = 放棄正取</h4>
+    <p style="margin:0;">抽中正取後,各園規定的報到期限(通常 2-3 天)內必須完成報到。**逾期視同放棄,直接讓備取遞補**。如果正在處理多家,務必把每家報到截止日列出來。</p>
+  </div>
+
+  <div class="callout danger">
+    <h4>🚨 備取保留期太短 ≈ 沒中</h4>
+    <p style="margin:0;">備取保留只到 5-14 天的園所,實質上等於只看正取。**評估這家園所時,要當作「沒抽中正取就是沒上」**。</p>
+  </div>
+
+  <div class="callout warn">
+    <h4>⚠️ 預防接種卡找不到 → 補發 1-2 週</h4>
+    <p style="margin:0;">健兒手冊黃卡是入園必備。錄取後才找會發現要去衛生所補發,可能來不及。**現在就翻出來確認,影印 5 份**。</p>
+  </div>
+
+  <div class="callout warn">
+    <h4>⚠️ 距離評估太樂觀</h4>
+    <p style="margin:0;">Google Maps 顯示 15 分鐘 = 大人快走。實際帶孩子(小腳步、推車、抱抱、停下來看路邊東西)是 25-30 分。再加上下雨/颱風日 → 不可行。**選園前親自走一趟**。</p>
+  </div>
+
+  <div class="callout warn">
+    <h4>⚠️ 報名表要先去園所拿</h4>
+    <p style="margin:0;">部分準公共要「現場索取報名表」,不能下載。指定日期才能拿。<strong>查清楚什麼時候可以拿</strong>,不要報名截止前一天才發現沒表格。</p>
+  </div>
+
+  <div class="callout warn">
+    <h4>⚠️ 多家報名期重疊</h4>
+    <p style="margin:0;">5 月初是地獄週 — 非營利網路報名(統一)+ 多家準公共現場報名(各別)同期跑。**先做行事曆**,把每家的「報名期間 + 報到日 + 抽籤日」全標出來,排出可行的時序。</p>
+  </div>
+
+  <div class="callout warn">
+    <h4>⚠️ 順位搞錯</h4>
+    <p style="margin:0;">很多家長以為自己是第 2 順位「鄰里居民」,結果簡章寫的「鄰里」只算特定路段或里。**逐字看簡章「優先順位」段**,不確定就打電話問。</p>
+  </div>
+
+  <div class="callout warn">
+    <h4>⚠️ 私立隱形費用</h4>
+    <p style="margin:0;">月費 12000 看起來合理,但加上註冊費 5000 / 學期 + 書本費 3000 + 制服 2000 + 活動費 1500/月 + 延托費 200/天 → 實際年費可能多 30%。<strong>問清楚「全年總費用」</strong>,不要只看月費。</p>
+  </div>
+
+  <div class="callout warn">
+    <h4>⚠️ 教學風格名稱含糊</h4>
+    <p style="margin:0;">招牌寫「蒙特梭利」「華德福」不一定是真的(這些名稱沒法律保護,任何園所都能掛)。**問實際做法**:教具是否齊全、老師是否經過認證、混齡比例多少。</p>
+  </div>
+
+  <div class="callout warn">
+    <h4>⚠️ 雙語/全美語的真實程度</h4>
+    <p style="margin:0;">「全美語」可能是「外師上 1 小時、其他時間中文」,也可能是「全天英文,午睡才中文」。**實際聽老師對話**,不是看招生海報。</p>
+  </div>
+
+  <div class="callout warn">
+    <h4>⚠️ 試讀沒做</h4>
+    <p style="margin:0;">部分園所提供試讀(半天、一天、一週)。**如果有提供一定要試**。孩子能不能適應、跟老師合不合,只有試了才知道。</p>
+  </div>
+
+  <div class="callout">
+    <h4>📌 5 月初的地獄週(假設你住新北)</h4>
+    <p style="margin:8px 0 0;">同一週內可能要處理:</p>
+    <ul style="margin:6px 0 0 20px;">
+      <li>非營利統一網路報名(5/初開放,5/7 截止)</li>
+      <li>常春藤 / 天翔現場報名(各別 5/3 / 5/4 開始)</li>
+      <li>跑去廣福拿報名表(5/11 才能拿)</li>
+      <li>準備全部園所要的文件</li>
+    </ul>
+    <p style="margin:6px 0 0;">**4 月底就把整個 5 月的時序排好**,不要 5/1 才開始想。</p>
+  </div>
+</section>
+
+<!-- ========== 三明治世代 ========== -->
+<section class="page" id="page-sandwich">
+  <h1>👨‍👩‍👧 三明治世代家庭專區</h1>
+  <p style="font-size:17px;color:var(--muted);">同時照顧失智長輩 + 幼兒的家庭。**接送動線、認知資源、緊急應變** 三件事要一起想。</p>
+
+  <div class="callout">
+    <h4>📌 為什麼這一頁</h4>
+    <p style="margin:0;">主流幼兒園手冊只考慮「夫妻 + 孩子」三人結構。但很多家庭實際是「失智長輩 + 夫妻 + 0-6 歲孩子」四到五人結構,選園的考量完全不同。這一頁專門寫這類家庭。</p>
+  </div>
+
+  <h2>🧭 接送動線整合</h2>
+  <p>單純夫妻只要算「家 ↔ 園所 ↔ 工作」三點。三明治家庭加上:</p>
+  <ul>
+    <li><strong>長輩日照中心</strong>(早送 / 下午接)</li>
+    <li><strong>長輩看診</strong>(每週固定 / 不定期)</li>
+    <li><strong>居服員到府時段</strong>(白天某幾小時)</li>
+    <li><strong>長輩固定散步路線</strong>(若仍可外出)</li>
+  </ul>
+  <h3>能做的事</h3>
+  <ul>
+    <li>幼兒園選在「日照中心 → 工作」的動線上(一趟解決兩個送)</li>
+    <li>避開「長輩固定外出時段」的接送(長輩可能跟孫見到產生情緒波動)</li>
+    <li>接送時段固定 → 居服員時段安排不衝突</li>
+  </ul>
+
+  <h2>👵 祖父母接孫的可行性評估</h2>
+  <div class="callout warn">
+    <p style="margin:0;"><strong>失智早期</strong>長輩可能還能接送孫,但要評估:</p>
+    <ul style="margin:8px 0 0 20px;">
+      <li>認知功能:能否記得時間、地址、孩子名字</li>
+      <li>方向感:單獨往返園所是否會迷路</li>
+      <li>應變能力:孩子哭鬧、跌倒、突然需要回家時的處理</li>
+      <li>體力:推車、抱孩子、走樓梯是否吃力</li>
+      <li>**最重要**:長輩自己<strong>願不願意</strong>(被指派照顧責任會增加壓力)</li>
+    </ul>
+  </div>
+  <h3>建議</h3>
+  <ul>
+    <li>**輕度失智**:可以「<strong>陪伴接送</strong>」(成人陪去成人陪回),不單獨負責</li>
+    <li>**中度失智**:不建議單獨接送,但可以一起去當「長輩跟孫互動的活動」</li>
+    <li>**重度失智**:不適合接送,但可以在家等接回來時跟孫說話、看孩子畫畫</li>
+  </ul>
+  <p style="font-size:14px;color:var(--muted);"><em>長輩跟孫互動本身對失智是正向刺激(嗅覺/視覺/觸覺豐富)。重點是<strong>不增加長輩負擔</strong>,讓互動是樂趣不是責任。</em></p>
+
+  <h2>🆘 緊急狀況預演</h2>
+  <p>三明治家庭最怕「兩邊同時出狀況」。預先想清楚:</p>
+  <ul>
+    <li><strong>長輩半夜送醫,白天孩子怎麼接?</strong>(備援接送名單:配偶 / 鄰居 / 教保員家送 / 暫托)</li>
+    <li><strong>孩子在園所發燒要接,你正陪長輩看診?</strong>(備援名單)</li>
+    <li><strong>長輩走失,你在園所路上?</strong>(分流原則:孩子是當下最緊急,長輩有警察)</li>
+    <li><strong>夫妻有一人發燒/出差,單一照顧者撐多久?</strong>(同時照顧 2 個失能者的極限是 24-48 小時)</li>
+  </ul>
+  <div class="callout">
+    <h4>📌 備援名單</h4>
+    <p style="margin:0;">至少 2 個人能緊急接孩子(寫在園所聯絡卡上),並讓他們知道。配偶 / 親戚 / 鄰居 / 朋友 / 居服員 / 教保員都可以。</p>
+  </div>
+
+  <h2>🏥 喘息資源整合</h2>
+  <p>**長照 + 兒童托育** 服務可以疊用,讓主照顧者真的有休息時間。</p>
+  <table>
+    <thead>
+      <tr><th>資源</th><th>對象</th><th>申請方式</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>居家服務</td><td>長輩</td><td>長照 1966 專線</td></tr>
+      <tr><td>日間照顧中心</td><td>長輩</td><td>長照 1966 專線</td></tr>
+      <tr><td>喘息服務</td><td>長輩(短期住宿/到府)</td><td>長照 1966 專線</td></tr>
+      <tr><td>幼兒園 / 托嬰中心</td><td>孩子(0-6 歲)</td><td>本手冊涵蓋的內容</td></tr>
+      <tr><td>居家臨托</td><td>孩子(0-6 歲)</td><td>各縣市保母系統 / 托育媒合</td></tr>
+      <tr><td>家庭照顧者支持服務</td><td>主照顧者</td><td>家庭照顧者關懷專線 0800-507272</td></tr>
+    </tbody>
+  </table>
+
+  <h2>🎯 選園 checklist(失智家庭專屬)</h2>
+  <p>在 <a onclick="navigateTo('page-checklist');return false;" href="#">📋 一般 checklist</a> 之外,額外要看:</p>
+  <ul>
+    <li>✅ 接送動線是否經過<strong>日照中心 / 長輩會去的地方</strong></li>
+    <li>✅ 接送時段是否錯開<strong>居服員到府時間</strong></li>
+    <li>✅ 是否能接受<strong>祖父母陪伴接送</strong>(部分園所要求只能法定監護人)</li>
+    <li>✅ 是否提供<strong>緊急接送的彈性</strong>(臨時需要早接 / 晚送)</li>
+    <li>✅ 教保員是否願意配合<strong>多人接送名單</strong>(備援人選)</li>
+    <li>✅ 園所是否會<strong>主動聯繫家中其他成員</strong>(若主照顧者聯繫不上,會否找備援)</li>
+  </ul>
+
+  <div class="callout">
+    <h4>📌 跟園所先講白</h4>
+    <p style="margin:0;">第一次面談就坦白家裡的狀況(有失智長輩、可能有突發狀況)。<strong>願意配合的園所會欣賞你的誠實,不願意的提早知道也比較好</strong>。</p>
+  </div>
+</section>
+
+<!-- ========== 案例 ========== -->
+<section class="page" id="page-cases">
+  <h1>📖 案例 logs</h1>
+  <p style="font-size:17px;color:var(--muted);">匿名化的真實家庭案例。**只當參考,不當「應該選哪家」的建議**。</p>
+
+  <h2>📝 Case A · 新北土城雙薪 2 歲女兒(2026 報名)</h2>
+  <div class="callout">
+    <h4>家庭背景</h4>
+    <ul style="margin:6px 0 0 20px;">
+      <li>新北土城,離捷運海山站約 10 分鐘步行</li>
+      <li>雙薪家庭,孩子 2 歲女兒(2024 年 9 月前出生)</li>
+      <li>住址設籍青雲里(該里在園所順位上幾乎都是「一般生」)</li>
+      <li>有失智長輩在家(由居服員協助)</li>
+    </ul>
+  </div>
+
+  <h3>篩選標準</h3>
+  <ul>
+    <li>步行 30 分鐘內(實測,不只 Google Maps)</li>
+    <li>2 歲班有名額</li>
+    <li>非營利優先(費用最低 + 統一報名 + 備取保留期最長)</li>
+    <li>準公共補位(費用相同,各園自辦)</li>
+  </ul>
+
+  <h3>找到的 11 家(步行 + 2 歲班 + 公費類)</h3>
+  <table>
+    <thead>
+      <tr><th>類型</th><th>數量</th><th>備註</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>非營利</td><td>2</td><td>中正、明德(統一網路報名 4/30-5/7,5/19 抽籤)</td></tr>
+      <tr><td>準公共(20 分內)</td><td>3</td><td>肯恩土城、樹德、天翔</td></tr>
+      <tr><td>準公共(28-32 分)</td><td>4</td><td>征洋、奇士華、常春藤、廣福、有一天</td></tr>
+      <tr><td>準公共(40+ 分)</td><td>2</td><td>全球、詠樂(較遠,當保險)</td></tr>
+      <tr><td>排除</td><td>2</td><td>凱樂(99 分)、頂埔(152 分)路程不實際</td></tr>
+    </tbody>
+  </table>
+
+  <h3>策略</h3>
+  <ol>
+    <li>**非營利**先報(統一網路,費力低)</li>
+    <li>**步行 20 分內**的 3 家(肯恩、樹德、天翔)優先實地參觀</li>
+    <li>**5 月初地獄週**:同步處理非營利 + 常春藤 + 天翔(報名期重疊)</li>
+    <li>**5 月中**:跑廣福取報名表(5/11 後才開放索取)</li>
+    <li>**備取保留期**:廣福(6/30)、征洋(7/31)、土城名仁(10/31)是長期備取的安全網</li>
+  </ol>
+
+  <h3>學到的事</h3>
+  <ul>
+    <li><strong>「鄰里順位」要逐字看</strong>:常春藤的「第 3 順位是清水里」,青雲里就不算,直接是一般生</li>
+    <li><strong>備取保留期極短的園所要謹慎</strong>:常春藤備取只到 5/14,等於沒中正取就 GG</li>
+    <li><strong>名額多 ≠ 容易抽中</strong>:天翔 24 名,但報名也多,實際抽中率要看當年資料</li>
+    <li><strong>多家報名要做時序表</strong>:同一週可能跑 4-5 家,沒排表會錯過</li>
+  </ul>
+
+  <div class="callout warn">
+    <p style="margin:0;font-size:14px;"><em>整理日期 2026-04-26,各園資料以該年度簡章為準。隔年資料可能調整。</em></p>
+  </div>
+
+  <h2>📨 想分享你的案例?</h2>
+  <p>歡迎 PR 到 <a href="https://github.com/tm731531/dementia-care" target="_blank" rel="noopener">dementia-care repo</a>。**務必去識別化**:</p>
+  <ul>
+    <li>住址 → 「縣市區」即可,不留巷弄、里名</li>
+    <li>孩子 → 「2 歲女兒」/「3 歲男孩」,不留具體出生月</li>
+    <li>不留個人姓名</li>
+    <li>園所名稱可保留(對在地家長有用),但標明整理日期</li>
+  </ul>
+</section>
+
+<!-- ========== 縣市資源 ========== -->
+<section class="page" id="page-knowledge">
+  <h1>📚 縣市資源 · 報名網站清單</h1>
+  <p style="font-size:17px;color:var(--muted);">各縣市的官方查詢/報名入口。**只列入口**,不列園所(會過時)。</p>
+
+  <div class="callout">
+    <h4>📌 為什麼不列園所</h4>
+    <p style="margin:0;">園所資訊每年異動(新增、退出準公共、改地址、改費用)。手冊會過時,但<strong>政府入口網站不會</strong>。從入口查最新最準。</p>
+  </div>
+
+  <h2>🌐 全國通用</h2>
+  <table>
+    <thead>
+      <tr><th>網站</th><th>用途</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><a href="https://www.ece.moe.edu.tw/" target="_blank" rel="noopener">教育部全國教保資訊網</a></td><td>查全國公私立幼兒園基本資料、評鑑紀錄</td></tr>
+      <tr><td><a href="https://kid.cloud.ncnu.edu.tw/" target="_blank" rel="noopener">全國幼兒園查詢</a></td><td>地圖式查詢園所</td></tr>
+      <tr><td><a href="https://www.sfaa.gov.tw/" target="_blank" rel="noopener">衛福部社家署</a></td><td>查托嬰中心(0-2 歲)</td></tr>
+      <tr><td><a href="https://www.1957.org.tw/" target="_blank" rel="noopener">福利諮詢專線 1957</a></td><td>政府補助/福利資源整合查詢</td></tr>
+    </tbody>
+  </table>
+
+  <h2>🏙 各縣市網站</h2>
+  <table>
+    <thead>
+      <tr><th>縣市</th><th>非營利/公幼報名</th><th>備註</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>新北市</td><td><a href="https://kid123.ntpc.edu.tw" target="_blank" rel="noopener">kid123.ntpc.edu.tw</a></td><td>公托查詢另在社會局</td></tr>
+      <tr><td>台北市</td><td><a href="https://kids.gov.taipei/" target="_blank" rel="noopener">kids.gov.taipei</a></td><td>含公托、公幼、非營利、準公共</td></tr>
+      <tr><td>桃園市</td><td><a href="https://www.tycg.gov.tw/" target="_blank" rel="noopener">桃園市政府教育局</a></td><td>看「教育局 - 幼兒教育」</td></tr>
+      <tr><td>台中市</td><td><a href="https://www.tc.edu.tw/" target="_blank" rel="noopener">台中市教育局</a></td><td>看「教育局 - 幼兒教育」</td></tr>
+      <tr><td>台南市</td><td><a href="https://boe.tn.edu.tw/" target="_blank" rel="noopener">台南市教育局</a></td><td>看「幼兒教育科」</td></tr>
+      <tr><td>高雄市</td><td><a href="https://www.kh.edu.tw/" target="_blank" rel="noopener">高雄市教育局</a></td><td>看「幼兒教育科」</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:14px;color:var(--muted);"><em>其他縣市請查「○○縣 / 市政府 教育處 / 教育局 - 幼兒教育」。</em></p>
+
+  <h2>📞 接種紀錄查詢</h2>
+  <ul>
+    <li><strong>健保署「健康存摺」App</strong> — 可查孩子完整接種紀錄</li>
+    <li><strong>戶籍地衛生所</strong> — 黃卡補發(1-2 週),記得帶健保卡</li>
+    <li><a href="https://www.cdc.gov.tw/" target="_blank" rel="noopener">疾管署網站</a> — 各疫苗排程資訊</li>
+  </ul>
+
+  <h2>🆘 三明治世代相關</h2>
+  <ul>
+    <li><strong>長照專線 1966</strong> — 居服、日照、喘息服務</li>
+    <li><strong>家庭照顧者關懷專線 0800-507272</strong> — 主照顧者支持</li>
+    <li><a href="https://1966.gov.tw/" target="_blank" rel="noopener">長照 2.0 入口網</a> — 完整資源整合</li>
+  </ul>
+
+  <h2>📖 詞彙速查</h2>
+  <details open>
+    <summary>常見專有名詞</summary>
+    <table style="margin-top:8px;">
+      <tbody>
+        <tr><td><strong>公托</strong></td><td>公立托嬰中心(0-2 歲),由縣市政府辦</td></tr>
+        <tr><td><strong>公幼</strong></td><td>公立幼兒園(2-6 歲),由縣市政府辦</td></tr>
+        <tr><td><strong>非營利</strong></td><td>政府委託民間單位辦的幼兒園,費用同準公共</td></tr>
+        <tr><td><strong>準公共</strong></td><td>私立但跟政府簽合約,費用第 1 胎 3000 上限</td></tr>
+        <tr><td><strong>正取</strong></td><td>抽中第一輪錄取,須在期限內報到</td></tr>
+        <tr><td><strong>備取</strong></td><td>抽中候補,正取沒報到時依序遞補</td></tr>
+        <tr><td><strong>備取保留期</strong></td><td>備取資格的有效期,過期視同放棄</td></tr>
+        <tr><td><strong>留園直升</strong></td><td>已在園生隔年升上一個年級,不用重抽籤</td></tr>
+        <tr><td><strong>2 歲班</strong></td><td>幼兒園專收 2-3 歲的班,通常名額較少</td></tr>
+        <tr><td><strong>大班</strong></td><td>幼兒園 5-6 歲的班(隔年上小學)</td></tr>
+        <tr><td><strong>順位</strong></td><td>同一園所內優先錄取的順序</td></tr>
+        <tr><td><strong>缺額公告</strong></td><td>每年招生前公告各園可收新生人數</td></tr>
+      </tbody>
+    </table>
+  </details>
+</section>
+
+<!-- ========== 托嬰專區 ========== -->
+<section class="page" id="page-infant">
+  <h1>👶 托嬰專區(0-2 歲)</h1>
+  <p style="font-size:17px;color:var(--muted);">托嬰跟幼兒園邏輯<strong>完全不同</strong>。0-2 歲的關鍵是「<strong>替家裡分擔基本照顧</strong>」,不是教育。重點看老師怎麼帶、怎麼餵、怎麼管。</p>
+
+  <div class="callout">
+    <h4>📌 跟幼兒園(2-6 歲)的根本差異</h4>
+    <ul style="margin:8px 0 0 22px;">
+      <li><strong>師生比 1:5</strong>(法規)— 比幼兒園嚴格(2-3 歲是 1:8)</li>
+      <li><strong>不教東西</strong> — 重點是吃飽、睡好、不哭、安全。發展刺激是附加</li>
+      <li><strong>每日狀態回報</strong> — 大便幾次、睡幾小時、喝幾 cc 全要記</li>
+      <li><strong>家長端配合多</strong> — 副食品要家裡先試吃、午睡作息要對齊</li>
+      <li><strong>送托心理門檻高</strong> — 第一次送 0-2 歲幼兒,新手家長不適應期 1-3 個月</li>
+    </ul>
+  </div>
+
+  <h2>🍼 1. 帶小孩方法論(教保理念)</h2>
+  <p>每家托嬰風格差很多。問下面這些問題,聽<strong>實際做法</strong>不是聽口號。</p>
+  <h3>哭聲處置</h3>
+  <ul>
+    <li><strong>立刻抱起</strong>(回應派):0-1 歲哭通常是需求未滿足,先處理生理</li>
+    <li><strong>觀察 30 秒</strong>(混合派):非生理哭(無聊/想抱)讓他學自我安撫</li>
+    <li><strong>哭聲控制法</strong>(訓練派):制定哭多久才回應的時間表</li>
+  </ul>
+  <p style="font-size:14px;color:var(--muted);"><em>沒有絕對對錯,但要跟<strong>家裡作法一致</strong>。家裡立刻抱、托嬰讓他哭,孩子會混亂。</em></p>
+
+  <h3>副食品引入</h3>
+  <ul>
+    <li><strong>4-6 個月開始</strong>(主流):米精 → 米糊 → 蔬菜泥 → 水果泥 → 蛋黃 → 肉泥</li>
+    <li><strong>BLW(寶寶主導離乳)</strong>:6 個月直接吃手指食物,讓寶寶自己抓</li>
+    <li>**禁忌**:1 歲前不給蜂蜜(肉毒桿菌)、不給未消毒鮮奶</li>
+  </ul>
+  <h3>睡眠訓練</h3>
+  <ul>
+    <li><strong>不訓練</strong>(自然派):隨需求餵 / 抱睡 / 自然睡</li>
+    <li><strong>溫和訓練</strong>(費伯法 / 抱起放下法):漸進式延長獨處時間</li>
+    <li><strong>哭出來訓練</strong>:讓寶寶自己學會入睡(爭議大)</li>
+  </ul>
+  <h3>體罰 / 罰站</h3>
+  <ul>
+    <li>0-2 歲<strong>禁止任何體罰</strong>(法規 + 倫理),這條沒得談</li>
+    <li>看老師怎麼處理「打人」「咬人」「搶玩具」的孩子,有沒有 SOP</li>
+  </ul>
+  <div class="callout warn">
+    <p style="margin:0;"><strong>面試問題</strong>:「孩子哭超過 30 分鐘,老師怎麼處理?」「孩子打另一個孩子,你會怎麼做?」回答得越具體越可信,越含糊越要警戒。</p>
+  </div>
+
+  <h2>📹 2. 監視器 / 透明度</h2>
+  <p>0-2 歲不會說話,家長無法從孩子口中知道一天發生什麼。<strong>監視器是最低保障</strong>。</p>
+  <table>
+    <thead>
+      <tr><th>方案</th><th>透明度</th><th>備註</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>無監視器</td><td>❌ 零</td><td>放棄這家</td></tr>
+      <tr><td>只有出入口監視</td><td>⚠️ 低</td><td>看不到教室內,不夠</td></tr>
+      <tr><td>教室全區監視 + 法規保存 30 天</td><td>🟡 標準</td><td>有狀況可調閱(但要寫申請)</td></tr>
+      <tr><td>家長可遠端查看(手機 App)</td><td>🟢 高</td><td>較罕見,有的話加分</td></tr>
+      <tr><td>每日推照片 / 影片給家長</td><td>🟢 高</td><td>主動推送,看得到孩子實況</td></tr>
+    </tbody>
+  </table>
+  <h3>要問的問題</h3>
+  <ul>
+    <li>監視器涵蓋哪些區域?(教室 / 寢室 / 用餐區 / 廁所內 — 廁所內通常沒有,但廁所外要有)</li>
+    <li>錄影保存幾天?有狀況怎麼調閱?</li>
+    <li>家長能不能<strong>主動看</strong>?還是只在出事才能看?</li>
+    <li>有家長手機 App 嗎?照片頻率多高?</li>
+  </ul>
+
+  <h2>🏠 3. 空間大小</h2>
+  <p>0-2 歲多數時間在地板上爬、玩、睡。空間夠不夠很關鍵。</p>
+  <ul>
+    <li><strong>法規</strong>:每幼兒室內活動空間至少 <strong>2 平方公尺</strong>(0.6 坪)</li>
+    <li><strong>實際扣掉</strong>:嬰兒床 + 圍欄 + 教具櫃 + 桌椅後,真正能爬能玩的空間是多少?</li>
+    <li><strong>戶外活動空間</strong>:有自己的戶外?還是要去公園?雨天怎麼活動?</li>
+    <li><strong>分齡分區</strong>:0-1 歲(不會走)和 1-2 歲(會走會爬)有沒有分開,還是混在一起?(混區風險:大寶寶不小心踩到小寶寶)</li>
+    <li><strong>午睡區</strong>:每個孩子有專屬嬰兒床嗎?床距夠不夠(預防交叉傳染)?</li>
+  </ul>
+
+  <h2>🍱 4. 餐點 / 飲食</h2>
+  <h3>0-1 歲</h3>
+  <ul>
+    <li><strong>配方奶</strong>:用哪個牌子?家長能不能指定品牌?</li>
+    <li><strong>配方奶溫度 / 沖泡比例</strong>:園所有 SOP 嗎?</li>
+    <li><strong>瓶餵方式</strong>:抱著餵還是放著餵?(影響孩子安全感 + 中耳炎風險)</li>
+    <li><strong>母乳冷藏</strong>:家長送母乳到園,有沒有冰箱?如何分裝、加熱?</li>
+  </ul>
+  <h3>1-2 歲(副食品)</h3>
+  <ul>
+    <li><strong>菜單透明度</strong>:有沒有公開週菜單?食材來源?</li>
+    <li><strong>過敏處理</strong>:家裡有過敏紀錄,園所怎麼處理(完全不給 vs 替換餐)?</li>
+    <li><strong>家長端配合</strong>:新食材要不要家裡先試 3 天?</li>
+    <li><strong>餵食方式</strong>:幾點餵 / 餵多少 / 不吃怎麼處理(強迫 vs 換時段 vs 跳過)</li>
+  </ul>
+  <h3>共通</h3>
+  <ul>
+    <li><strong>餐具消毒</strong>:每個孩子專屬餐具?每次消毒方式?</li>
+    <li><strong>飲水</strong>:1 歲後可以喝水,水從哪來、水溫多高?</li>
+    <li><strong>輔食器具</strong>:果汁機 / 食物剪 / 食物剪刀清洗頻率?</li>
+  </ul>
+
+  <h2>👩‍🏫 5. 老師師資(0-2 歲特殊)</h2>
+  <p>0-2 歲老師的證照種類比幼兒園更多元,要看清楚。</p>
+  <table>
+    <thead>
+      <tr><th>證照</th><th>意義</th><th>適合年齡</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>保母證照</strong>(技術士)</td><td>主要訓練嬰幼兒生活照顧</td><td>0-2 歲(主流)</td></tr>
+      <tr><td><strong>教保員</strong>(高中職幼保科以上)</td><td>幼教學門出身,理論強</td><td>2-6 歲</td></tr>
+      <tr><td><strong>教保員 + 嬰幼兒組</strong></td><td>大學幼教加修 0-2 歲</td><td>0-6 歲</td></tr>
+      <tr><td><strong>幼兒園教師證</strong>(大學幼教系 + 教檢)</td><td>專業師資,薪資較高</td><td>2-6 歲</td></tr>
+      <tr><td><strong>護理師</strong></td><td>少數園所配置,處理生病</td><td>各年齡</td></tr>
+    </tbody>
+  </table>
+  <h3>要問的問題</h3>
+  <ul>
+    <li>0-1 歲班的老師有幾個是<strong>有保母證</strong>的?</li>
+    <li>有沒有護理師駐園?(發燒、跌倒、餵藥誰負責)</li>
+    <li>老師<strong>平均待多久</strong>?(高流動率對 0-2 歲影響特別大,孩子需要建立依附)</li>
+    <li>**主帶老師**(primary caregiver)制度?同一個孩子是否由同一位老師主帶,讓孩子能建立穩定關係</li>
+  </ul>
+
+  <h2>⏰ 6. 延托(extended care)</h2>
+  <p>標準時間:7:30-17:30。超過要延托。雙薪家庭幾乎一定會用。</p>
+  <h3>要問清楚</h3>
+  <ul>
+    <li><strong>延托到幾點?</strong>(18:30 / 19:00 / 19:30 — 各家不同)</li>
+    <li><strong>計費方式</strong>:每小時(150-300 元)/ 每天(50-100 元)/ 月票</li>
+    <li><strong>單次 vs 月租</strong>:偶爾用 vs 每天用,哪個划算</li>
+    <li><strong>提前通知時間</strong>:當天打電話算晚還是 OK?</li>
+    <li><strong>晚餐</strong>:延托時間有沒有提供餐點(有的有有的沒)</li>
+    <li><strong>緊急狀況</strong>:你 18:00 突然開會,能不能臨時延?</li>
+    <li><strong>逾時罰款</strong>:超過延托時間還沒接,每分鐘怎麼算(很多園 5 分鐘就罰)</li>
+  </ul>
+  <div class="callout warn">
+    <p style="margin:0;"><strong>三明治世代特別注意</strong>:長輩臨時送醫的話,延托是救命用。問清楚「臨時延托」的彈性。如果園所說「一律不能臨時延」,你家可能不適合這家。</p>
+  </div>
+
+  <h2>📅 7. 活動管理 / 一天的時間表</h2>
+  <h3>0-1 歲(沒結構日,只有作息)</h3>
+  <p>0-1 歲不需要「課程」,需要的是<strong>穩定作息</strong>。</p>
+  <ul>
+    <li>早上:到園 → 玩 → 喝奶 → 小睡</li>
+    <li>中午:午餐 → 午睡(2-3 小時)</li>
+    <li>下午:醒 → 喝奶 → 玩 → 點心 → 接送</li>
+  </ul>
+  <p style="font-size:14px;color:var(--muted);"><em>「玩」是觀察 / 抓握 / 跟老師互動,不是上課。如果園所說「我們有教 0-1 歲認字」, 那是行銷話術。</em></p>
+
+  <h3>1-2 歲(開始有結構)</h3>
+  <ul>
+    <li>9:30-10:00 主題活動(15-20 分鐘上限,1-2 歲注意力短)</li>
+    <li>10:00-10:30 戶外或大肢體</li>
+    <li>10:30-11:00 點心 + 自由玩</li>
+    <li>11:00-11:30 午餐</li>
+    <li>11:30-14:30 午睡</li>
+    <li>下午類似上午,但少一個主題活動</li>
+  </ul>
+  <h3>要問的問題</h3>
+  <ul>
+    <li>**戶外活動**多久一次?雨天替代方案?</li>
+    <li>**主題活動**怎麼設計?是否每月有不同主題?</li>
+    <li>**音樂 / 律動 / 美勞**頻率?</li>
+    <li>**蒙氏教具 / 感統教具**有嗎?用在什麼時段?</li>
+    <li>**電子設備**:1-2 歲會看影片嗎?(有的家長很在意)</li>
+  </ul>
+
+  <h2>🤝 8. 活動配合方式 · 家長端的功課</h2>
+  <p>0-2 歲送托後家長還要做很多。**了解清楚再簽約**,不然變成雙方互怨。</p>
+  <h3>每天</h3>
+  <ul>
+    <li><strong>聯絡簿</strong>:紙本還是 App?家長要不要每天回?(有的園所要)</li>
+    <li><strong>用品補充</strong>:尿布、濕紙巾、口水巾、奶粉、奶瓶 — 用完要立刻補</li>
+    <li><strong>衣物備品</strong>:換洗衣 2-3 套,弄髒要立刻補</li>
+    <li><strong>奶粉 / 母乳</strong>:每天送新鮮的還是 1 週送一批</li>
+  </ul>
+  <h3>每週 / 每月</h3>
+  <ul>
+    <li><strong>家庭日 / 親子活動</strong>:多久一次?強制參加嗎?</li>
+    <li><strong>新食材試吃</strong>:園所要試新食材時,家裡要先試 3 天觀察過敏</li>
+    <li><strong>親師會</strong>:多久一次?重要時段</li>
+    <li><strong>體適能 / 健康檢查</strong>:園方主辦還是家長帶去?</li>
+  </ul>
+  <h3>突發</h3>
+  <ul>
+    <li><strong>生病請假</strong>:發燒幾度要接回?(通常 38°C)</li>
+    <li><strong>傳染病停課</strong>:腸病毒 / 流感 — 全班停或個案隔離?</li>
+    <li><strong>送醫</strong>:園方先送哪家醫院?家長到場時間預期?</li>
+  </ul>
+
+  <h2>📌 0-2 歲送托心理建設</h2>
+  <div class="callout">
+    <p style="margin:0;"><strong>第一個月會崩潰,這是正常的</strong>:</p>
+    <ul style="margin:8px 0 0 22px;">
+      <li>孩子哭著去 / 哭著回(分離焦慮高峰)</li>
+      <li>常生病(免疫系統碰到群體病菌的洗禮,3-6 個月才穩)</li>
+      <li>作息打亂、夜醒增加</li>
+      <li>家長自責、懷疑送托是不是錯誤</li>
+    </ul>
+    <p style="margin:8px 0 0;">這些<strong>大部分會過去</strong>。如果 3 個月後還是無法適應 → 評估是園所不合還是孩子真的不適合送托(極少數)。</p>
+  </div>
+</section>
+
+<!-- ========== 比較籃 ========== -->
+<section class="page" id="page-compare">
+  <h1>🛒 比較籃</h1>
+  <p style="font-size:17px;color:var(--muted);">跑了多家現場 / 蒐集多家資料?加進比較籃,自動產出對照表。</p>
+
+  <div class="callout">
+    <h4>📌 怎麼用</h4>
+    <ol style="margin:8px 0 0 22px;">
+      <li>在下方填一筆園所資料(名稱 + 你關心的維度)</li>
+      <li>跑完幾家之後,看下面的對照表</li>
+      <li>可以匯出純文字 → 貼 LINE 給家人討論</li>
+    </ol>
+    <p style="margin:8px 0 0;">資料只存在你的裝置,不上雲端。換手機可以從 <a onclick="navigateTo('page-settings');return false;" href="#">⚙️ 設定</a> 匯出 / 匯入 JSON 備份。</p>
+  </div>
+
+  <h2>➕ 加新園所</h2>
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;">
+    <div class="form-field">
+      <label for="cmp-name">園所名稱 *</label>
+      <input type="text" id="cmp-name" placeholder="例:○○幼兒園 / ○○托嬰中心">
+    </div>
+    <div class="form-field">
+      <label for="cmp-type">類型</label>
+      <select id="cmp-type">
+        <option value="">— 選擇 —</option>
+        <option value="public">公托 / 公幼</option>
+        <option value="nonprofit">非營利</option>
+        <option value="semi">準公共</option>
+        <option value="private">私立</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label for="cmp-walk">步行時間(分鐘)</label>
+      <input type="text" id="cmp-walk" placeholder="實測時間,不是 Google Maps">
+    </div>
+    <div class="form-field">
+      <label for="cmp-class-size">招生年齡 / 名額</label>
+      <input type="text" id="cmp-class-size" placeholder="例:2 歲班 8 人 / 0-2 歲 15 人">
+    </div>
+    <div class="form-field">
+      <label for="cmp-fee">月費(實付)</label>
+      <input type="text" id="cmp-fee" placeholder="例:3000 / 12000(含什麼註明)">
+    </div>
+    <div class="form-field">
+      <label for="cmp-reg">報名期間</label>
+      <input type="text" id="cmp-reg" placeholder="例:5/3 - 5/7">
+    </div>
+    <div class="form-field">
+      <label for="cmp-lottery">抽籤日</label>
+      <input type="text" id="cmp-lottery" placeholder="例:5/15 上午 10 時">
+    </div>
+    <div class="form-field">
+      <label for="cmp-retain">備取保留期</label>
+      <input type="text" id="cmp-retain" placeholder="例:6/30 止 / 5/14 止 ⚠️">
+    </div>
+    <div class="form-field">
+      <label for="cmp-notes">備註(教學風格 / 特殊優缺 / 直覺感受)</label>
+      <textarea id="cmp-notes" placeholder="自由筆記:現場印象、教保員態度、廚房狀況、可疑的點..."></textarea>
+    </div>
+    <button class="btn" onclick="addCompareRecord()">➕ 加入比較籃</button>
+    <button class="btn btn-secondary" onclick="clearCompareForm()" style="margin-left:8px;">清空欄位</button>
+  </div>
+
+  <h2 id="compare-list-heading">📊 已加入的園所 (<span id="compare-count">0</span>)</h2>
+  <div id="compare-list"></div>
+
+  <div id="compare-table-wrap" style="display:none;margin-top:24px;">
+    <h2>📋 對照表</h2>
+    <div style="overflow-x:auto;">
+      <table id="compare-table"></table>
+    </div>
+    <div style="margin-top:16px;">
+      <button class="btn" onclick="exportCompareText()">📋 複製純文字</button>
+      <button class="btn btn-secondary" onclick="clearAllCompare()" style="margin-left:8px;">↻ 清空全部</button>
+    </div>
+  </div>
+
+  <textarea id="compare-export-area" style="position:absolute;left:-9999px;"></textarea>
+</section>
+
+<!-- ========== 設定 ========== -->
+<section class="page" id="page-settings">
+  <h1>⚙️ 設定</h1>
+  <p style="font-size:17px;color:var(--muted);">所有設定都存在你的裝置,不上雲端。</p>
+
+  <h2>🎯 規劃模式</h2>
+  <div class="toggle-row">
+    <div class="label-area">
+      <strong>規劃模式</strong>
+      <span class="hint">開啟後,首頁只顯示「本月該做的事」。月份過了自動更新。</span>
+    </div>
+    <label class="switch">
+      <input type="checkbox" id="toggle-planning" onchange="togglePlanningMode()">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <h2>👨‍👩‍👧 家庭模式</h2>
+  <p style="font-size:14px;color:var(--muted);">影響某些章節的呈現重點(例如三明治世代的接送考量)。</p>
+  <div class="form-field">
+    <select id="family-mode" onchange="setFamilyMode(this.value)">
+      <option value="normal">一般家庭</option>
+      <option value="sandwich">三明治世代(有失智長輩)</option>
+      <option value="dual_income">雙薪家庭(無長輩同住)</option>
+      <option value="single_parent">單親家庭</option>
+    </select>
+  </div>
+
+  <h2>💾 資料管理</h2>
+  <p>你的勾選紀錄、收藏、比較籃都存在 localStorage(<code>childcareHandbookState</code>)。</p>
+  <div style="margin:12px 0;">
+    <button class="btn" onclick="exportJson()">📥 匯出 JSON 備份</button>
+    <button class="btn btn-secondary" onclick="document.getElementById('import-input').click()" style="margin-left:8px;">📤 匯入 JSON</button>
+    <input type="file" id="import-input" accept=".json" style="display:none;" onchange="importJson(event)">
+  </div>
+  <div>
+    <button class="btn btn-secondary" onclick="resetAll()" style="border-color:var(--danger-border);color:var(--danger-border);">🗑 清空所有資料</button>
+  </div>
+
+  <h2>ℹ️ 關於</h2>
+  <ul>
+    <li><strong>版本</strong>:v1.1(2026-04-26)</li>
+    <li><strong>來源</strong>:<a href="https://github.com/tm731531/dementia-care" target="_blank" rel="noopener">tm731531/dementia-care · childcare-handbook</a></li>
+    <li><strong>授權</strong>:MIT</li>
+    <li><strong>離線</strong>:本頁所有資源 inline,不連外部 CDN</li>
+    <li><strong>隱私</strong>:你的資料只存在裝置,不上傳任何伺服器</li>
+  </ul>
+</section>
+
+</main>
+
+<script>
+// ============ State ============
+const STORAGE_KEY = 'childcareHandbookState';
+const DEFAULT_STATE = {
+  childAge: null,
+  familyMode: 'normal',
+  planningMode: false,
+  favorites: [],
+  checklist: {},
+  compareList: [],
+};
+let STATE = loadState();
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return {...DEFAULT_STATE};
+    return {...DEFAULT_STATE, ...JSON.parse(raw)};
+  } catch(e) {
+    return {...DEFAULT_STATE};
+  }
+}
+function saveState() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(STATE));
+  } catch(e) { /* localStorage 滿 / 隱私模式 */ }
+}
+
+// ============ Navigation ============
+function navigateTo(pageId, hint) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(pageId)?.classList.add('active');
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.toggle('active', l.dataset.page === pageId));
+  window.scrollTo({top: 0, behavior: 'smooth'});
+  document.getElementById('nav').classList.remove('open');
+}
+function toggleNav() {
+  document.getElementById('nav').classList.toggle('open');
+}
+
+// ============ Checklists ============
+const CHECKLIST_DATA = {
+  infant: [
+    {id: 'inf-ratio', label: '師生比 1:5(法規 0-2 歲)', hint: '實際比例 vs 法規,有沒有保母證老師,還是只有助理'},
+    {id: 'inf-cert', label: '老師證照種類', hint: '保母證 vs 教保員 vs 嬰幼兒組,0-2 歲首選有保母證的'},
+    {id: 'inf-primary', label: '主帶老師制度', hint: '同一個孩子由同一位老師主帶?(對 0-2 歲依附關係很重要)'},
+    {id: 'inf-camera', label: '監視器涵蓋範圍', hint: '教室全區?家長能否主動查看?錄影保存幾天?'},
+    {id: 'inf-app', label: '家長 App / 推照片', hint: '每天有沒有照片 / 影片推送?頻率多高?'},
+    {id: 'inf-cry', label: '哭聲處置 SOP', hint: '問:「孩子哭超過 30 分鐘怎麼處理?」聽具體做法'},
+    {id: 'inf-discipline', label: '衝突 / 咬人處理', hint: '問:「孩子打另一個孩子時你會怎麼做?」 0-2 歲不應該有體罰'},
+    {id: 'inf-formula', label: '配方奶 / 母乳處理', hint: '可指定品牌嗎?母乳冷藏冰箱?加熱方式?瓶餵抱姿'},
+    {id: 'inf-food', label: '副食品引入流程', hint: '新食材家長要先試?過敏處理?菜單透明度'},
+    {id: 'inf-utensil', label: '餐具消毒', hint: '每個孩子專屬?消毒方式(蒸 / 紫外線)?頻率'},
+    {id: 'inf-sleep', label: '午睡安排', hint: '每個孩子專屬嬰兒床?床距?監看頻率(防 SIDS)'},
+    {id: 'inf-space', label: '活動空間實際', hint: '法規 2 平方公尺/人,扣掉設備後實際多少'},
+    {id: 'inf-zone', label: '0-1 vs 1-2 分齡', hint: '會不會分區?混區的話大寶寶可能踩到小寶寶'},
+    {id: 'inf-extended', label: '延托方案', hint: '幾點?計費(時 / 天 / 月)?臨時延托彈性?有晚餐嗎'},
+    {id: 'inf-sick', label: '生病標準 / 通報', hint: '幾度發燒要接回?多久通知?送哪家醫院?'},
+    {id: 'inf-supplies', label: '日常用品補充', hint: '尿布 / 濕巾 / 口水巾 / 衣服家長補,頻率?'},
+    {id: 'inf-comm', label: '聯絡簿頻率 / 形式', hint: '每天?紙本還是 App?家長要不要每天回?'},
+    {id: 'inf-turnover', label: '老師流動率', hint: '0-2 歲老師換太頻繁,孩子無法建立穩定依附,直接 NG'},
+  ],
+  safety: [
+    {id: 'gate', label: '門禁系統', hint: '是否有門禁卡 / 接送名單登記制 / 監視器涵蓋出入口'},
+    {id: 'stairs', label: '樓梯安全', hint: '欄杆高度是否合適幼兒、有無防夾門、防滑墊'},
+    {id: 'kitchen', label: '廚房隔離', hint: '熱湯/利器/熱水區是否完全隔離,孩子不可進入'},
+    {id: 'evac', label: '逃生路線', hint: '消防演習頻率,是否有清楚標示。問:「最近一次演習是什麼時候?」'},
+    {id: 'firstaid', label: '醫護應變', hint: '園內是否有護理師 / 教保員 CPR 認證 / 跟哪家醫院合作'},
+    {id: 'allergy', label: '過敏應對', hint: '對特定食物/藥物過敏的處理流程,有無 EpiPen 或預備藥'},
+    {id: 'illness', label: '生病通報', hint: '孩子發燒/腸胃炎時,通知家長的時效跟流程'},
+    {id: 'pickup', label: '接送名單', hint: '能否登記多位接送人(配偶 / 祖父母 / 居服員 / 朋友)'},
+  ],
+  teacher: [
+    {id: 'ratio', label: '師生比', hint: '法規 0-2 歲 1:5,2-3 歲 1:8,3-6 歲 1:15。問實際比例'},
+    {id: 'turnover', label: '師資流動率', hint: '老師平均待多久,過去一年離職幾位。離職率高 = 警訊'},
+    {id: 'qualification', label: '師資資格', hint: '教保員 vs 老師(老師需大學幼教系)的比例,有沒有助理員'},
+    {id: 'communication', label: '家長溝通頻率', hint: '聯絡簿 / Line 群 / 家長日 / 個別會談,週/月/季的頻率'},
+    {id: 'philosophy', label: '教保理念', hint: '孩子哭鬧時怎麼處理?孩子打架時怎麼處理?(實際情境問)'},
+    {id: 'continuity', label: '老師連續性', hint: '同一個孩子由同一位老師帶幾年(連續比輪替好)'},
+  ],
+  env: [
+    {id: 'outdoor', label: '戶外活動空間', hint: '有沒有自己的操場 / 是否要去公園 / 多久去一次'},
+    {id: 'classroom', label: '教室坪數 / 採光', hint: '法規最低 1.5 坪/人,實際看是否擁擠、明亮度'},
+    {id: 'nap', label: '午睡室', hint: '是否獨立空間 / 是否分齡 / 床鋪安全(防墜)'},
+    {id: 'toilet', label: '廁所', hint: '是否分齡(2 歲 vs 5 歲身高不同)、清潔度、有無監督'},
+    {id: 'playground', label: '遊具安全', hint: '遊具年齡標示、是否定期檢修、有無軟墊'},
+    {id: 'air', label: '空氣品質', hint: '通風 / 是否有空氣清淨機 / 廚房油煙是否進教室'},
+  ],
+  meal: [
+    {id: 'menu', label: '一週菜單', hint: '有沒有公開菜單?可以索取一份回家研究'},
+    {id: 'origin', label: '食材來源', hint: '自煮還是外送?食材供應商有沒有檢驗報告?'},
+    {id: 'allergy_meal', label: '過敏應對', hint: '對特定食物過敏的孩子怎麼處理(替換餐 / 完全分區)'},
+    {id: 'snack', label: '點心種類', hint: '高糖高鹽 vs 水果牛奶?頻率多高?'},
+    {id: 'milk', label: '飲水/牛奶', hint: '隨時可喝水?牛奶是調味乳還是鮮奶?'},
+    {id: 'utensil', label: '餐具與清潔', hint: '消毒方式、是否個人專用、有無蟑螂老鼠'},
+  ],
+  curriculum: [
+    {id: 'schedule', label: '一天的時間表', hint: '幾點到園、自由活動 / 結構式上課 / 戶外的比例'},
+    {id: 'outdoor_freq', label: '戶外活動頻率', hint: '每天?每週?雨天替代方案?'},
+    {id: 'language', label: '語言環境', hint: '雙語?全美語?中師 vs 外師比例?上課時長'},
+    {id: 'art', label: '藝術 / 音樂 / 體能', hint: '頻率、是否外聘老師、是否額外收費'},
+    {id: 'screen', label: '電子設備使用', hint: '是否會用平板 / 看影片?頻率多高?(部分家長會在意)'},
+    {id: 'transition', label: '銜接小學', hint: '大班是否有銜接國小的準備(注音、生活自理)'},
+  ],
+  cost: [
+    {id: 'monthly', label: '月費', hint: '寫清楚:基本月費 / 含什麼 / 不含什麼'},
+    {id: 'reg', label: '註冊費', hint: '每學期 vs 每年?多少錢?是否退費?'},
+    {id: 'book', label: '書本 / 教材費', hint: '一學期多少?是否一次性 vs 持續性'},
+    {id: 'uniform', label: '制服 / 圍兜', hint: '幾套?多少錢?成長後要續買?'},
+    {id: 'activity', label: '活動費', hint: '校外教學 / 才藝課 / 親子日 — 一年大概額外多少'},
+    {id: 'extended', label: '延托費', hint: '5 點後接送的計費方式(每小時 / 每天 / 月票)'},
+    {id: 'meal_fee', label: '餐費', hint: '是否含在月費?點心、午餐分開算?'},
+    {id: 'other', label: '其他雜費', hint: '保險、戶外設備、特殊器材 — 問「每月實際支出多少」'},
+  ],
+};
+
+const DOCUMENTS_CHECKLIST = [
+  {id: 'doc-account', label: '統一報名網站帳號註冊', hint: '提前到該縣市網站(新北 kid123 / 台北 kids.gov.taipei)註冊好'},
+  {id: 'doc-household', label: '孩子戶口名簿掃描檔', hint: '非營利網路報名要,系統查調失敗時上傳'},
+  {id: 'doc-vaccine-find', label: '找到預防接種卡(健兒手冊黃卡)', hint: '⚠️ 找不到去衛生所補發要 1-2 週'},
+  {id: 'doc-vaccine-copy', label: '預防接種紀錄影本 5 份', hint: '入園必備'},
+  {id: 'doc-household-copy', label: '孩子戶口名簿影本 5 份', hint: '報到用'},
+  {id: 'doc-health-copy', label: '孩子健保卡影本 5 份', hint: '報到用'},
+  {id: 'doc-id-copy', label: '家長身分證影本 5 份', hint: '報到用'},
+  {id: 'doc-low-income', label: '低收 / 中低收證明 3 份(若適用)', hint: '申請補助用,先去區公所辦'},
+  {id: 'doc-special', label: '身心障礙 / 原住民證明(若適用)', hint: '影響優先順位'},
+  {id: 'doc-phone', label: '確認手機號碼可收簡訊', hint: '補件 / 抽籤 / 報到通知都靠簡訊'},
+  {id: 'doc-pen', label: '原子筆 + 文件夾', hint: '現場報名要填表'},
+  {id: 'doc-id-original', label: '家長身分證 + 孩子健保卡 正本', hint: '現場報名核對身份用'},
+];
+
+function renderChecklist(category, containerId) {
+  const items = CHECKLIST_DATA[category];
+  if (!items) return;
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  container.innerHTML = items.map(item => {
+    const checked = STATE.checklist[item.id] ? 'checked' : '';
+    const checkedClass = STATE.checklist[item.id] ? 'checked' : '';
+    return `
+      <div class="checklist-item ${checkedClass}" id="ci-${item.id}">
+        <input type="checkbox" ${checked} onchange="toggleChecklist('${item.id}', this)">
+        <div class="label">
+          <strong>${item.label}</strong>
+          <span class="hint">${item.hint}</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderDocumentsChecklist() {
+  const container = document.getElementById('cl-documents');
+  if (!container) return;
+  container.innerHTML = DOCUMENTS_CHECKLIST.map(item => {
+    const checked = STATE.checklist[item.id] ? 'checked' : '';
+    const checkedClass = STATE.checklist[item.id] ? 'checked' : '';
+    return `
+      <div class="checklist-item ${checkedClass}" id="ci-${item.id}">
+        <input type="checkbox" ${checked} onchange="toggleChecklist('${item.id}', this)">
+        <div class="label">
+          <strong>${item.label}</strong>
+          <span class="hint">${item.hint}</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function toggleChecklist(id, input) {
+  STATE.checklist[id] = input.checked;
+  saveState();
+  document.getElementById('ci-' + id)?.classList.toggle('checked', input.checked);
+}
+
+function resetChecklist(scope) {
+  if (!confirm('確定要清空所有勾選嗎?')) return;
+  if (scope === 'documents') {
+    DOCUMENTS_CHECKLIST.forEach(i => delete STATE.checklist[i.id]);
+  } else {
+    STATE.checklist = {};
+  }
+  saveState();
+  renderAllChecklists();
+}
+
+function renderAllChecklists() {
+  renderChecklist('infant', 'cl-infant');
+  renderChecklist('safety', 'cl-safety');
+  renderChecklist('teacher', 'cl-teacher');
+  renderChecklist('env', 'cl-env');
+  renderChecklist('meal', 'cl-meal');
+  renderChecklist('curriculum', 'cl-curriculum');
+  renderChecklist('cost', 'cl-cost');
+  renderDocumentsChecklist();
+}
+
+// ============ Planning Mode ============
+const MONTHLY_ACTIONS = {
+  1: ['留園直升登記(已在園的孩子)','觀察各園公告(招生資訊預告)','整理孩子戶口名簿掃描檔'],
+  2: ['留園直升登記截止前確認','繼續整理文件','研究今年 4-6 月可能報名的園所'],
+  3: ['預防接種卡確認(找不到趕快補發,要 1-2 週)','文件影印備齊 5 份','到該縣市統一報名網站註冊帳號'],
+  4: ['🔴 月底:非營利缺額公告','現場索取報名表(部分準公共需要)','排出 5-6 月地獄週時序表','確認自己屬於各園第幾順位'],
+  5: ['🔴🔴 地獄週:非營利報名 + 多家準公共報名同時跑','5 月中:非營利電腦抽籤 + 部分準公共抽籤','5 月下:非營利線上報到截止前完成','補件:資格審查不過的補件'],
+  6: ['後段準公共抽籤(肯恩、廣福等)','備取等遞補通知','正取沒上的家庭考慮私立 plan B'],
+  7: ['備取持續等遞補(備取保留期長的有機會)','私立補位(7-8 月開學潮位置最少)','確認入園文件全套'],
+  8: ['🔴 月初開學','建立每日聯絡簿習慣','觀察孩子適應狀況(0-2 歲第一個月會崩潰是正常的)'],
+  9: ['孩子適應期持續觀察','跟園所建立溝通','評估接送動線實際運作'],
+  10: ['備取仍可能遞補(備取保留 10/31 止的園所)','秋冬流感 / 腸病毒注意','評估是否續讀 / 換園'],
+  11: ['年度回顧:孩子在園狀況','預先研究明年留園直升登記時間','補預防接種(年度疫苗)'],
+  12: ['寒假安排(部分園所提供)','明年留園直升登記前準備','總體年度檢討'],
+};
+
+function renderPlanningModeBlock() {
+  const block = document.getElementById('planning-mode-block');
+  if (!block) return;
+  if (!STATE.planningMode) {
+    block.style.display = 'none';
+    return;
+  }
+  block.style.display = 'block';
+  const month = (new Date()).getMonth() + 1;
+  const monthName = ['1 月','2 月','3 月','4 月','5 月','6 月','7 月','8 月','9 月','10 月','11 月','12 月'][month - 1];
+  document.getElementById('current-month-tag').textContent = monthName;
+  const actions = MONTHLY_ACTIONS[month] || [];
+  const html = actions.length ? '<ul>' + actions.map(a => `<li>${a}</li>`).join('') + '</ul>' : '<p>本月沒有特別需要做的事。</p>';
+  document.getElementById('planning-actions').innerHTML = html;
+}
+
+function togglePlanningMode() {
+  STATE.planningMode = document.getElementById('toggle-planning').checked;
+  saveState();
+  renderPlanningModeBlock();
+}
+
+// ============ Family Mode ============
+function setFamilyMode(mode) {
+  STATE.familyMode = mode;
+  saveState();
+}
+
+// ============ Compare Basket ============
+function addCompareRecord() {
+  const name = document.getElementById('cmp-name').value.trim();
+  if (!name) { alert('請至少填園所名稱'); return; }
+  const record = {
+    id: Date.now() + '-' + Math.random().toString(36).slice(2,8),
+    name: name,
+    type: document.getElementById('cmp-type').value,
+    walk: document.getElementById('cmp-walk').value.trim(),
+    classSize: document.getElementById('cmp-class-size').value.trim(),
+    fee: document.getElementById('cmp-fee').value.trim(),
+    reg: document.getElementById('cmp-reg').value.trim(),
+    lottery: document.getElementById('cmp-lottery').value.trim(),
+    retain: document.getElementById('cmp-retain').value.trim(),
+    notes: document.getElementById('cmp-notes').value.trim(),
+  };
+  STATE.compareList.push(record);
+  saveState();
+  clearCompareForm();
+  renderCompareList();
+}
+
+function clearCompareForm() {
+  ['cmp-name','cmp-type','cmp-walk','cmp-class-size','cmp-fee','cmp-reg','cmp-lottery','cmp-retain','cmp-notes'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+}
+
+function removeCompareRecord(id) {
+  STATE.compareList = STATE.compareList.filter(r => r.id !== id);
+  saveState();
+  renderCompareList();
+}
+
+function clearAllCompare() {
+  if (!confirm('確定要清空整個比較籃嗎?')) return;
+  STATE.compareList = [];
+  saveState();
+  renderCompareList();
+}
+
+const TYPE_LABELS = {
+  public: '公托/公幼',
+  nonprofit: '非營利',
+  semi: '準公共',
+  private: '私立',
+};
+
+function renderCompareList() {
+  const listEl = document.getElementById('compare-list');
+  const tableWrap = document.getElementById('compare-table-wrap');
+  const countEl = document.getElementById('compare-count');
+  if (!listEl) return;
+  countEl.textContent = STATE.compareList.length;
+  if (STATE.compareList.length === 0) {
+    listEl.innerHTML = '<div class="compare-empty">還沒加入任何園所。先在上面填一筆吧。</div>';
+    tableWrap.style.display = 'none';
+    return;
+  }
+  listEl.innerHTML = STATE.compareList.map(r => `
+    <div class="compare-record">
+      <div class="name">${escapeHtml(r.name)} ${r.type ? `<span class="tag">${TYPE_LABELS[r.type] || ''}</span>` : ''}</div>
+      <div class="meta">
+        ${r.walk ? `🚶 ${escapeHtml(r.walk)} 分鐘 · ` : ''}
+        ${r.classSize ? `📊 ${escapeHtml(r.classSize)} · ` : ''}
+        ${r.fee ? `💰 ${escapeHtml(r.fee)}` : ''}
+      </div>
+      ${r.notes ? `<div class="meta" style="margin-top:6px;">${escapeHtml(r.notes)}</div>` : ''}
+      <div class="actions">
+        <button class="danger" onclick="removeCompareRecord('${r.id}')">🗑 移除</button>
+      </div>
+    </div>
+  `).join('');
+  // table
+  if (STATE.compareList.length >= 2) {
+    tableWrap.style.display = 'block';
+    renderCompareTable();
+  } else {
+    tableWrap.style.display = 'none';
+  }
+}
+
+function renderCompareTable() {
+  const tbl = document.getElementById('compare-table');
+  if (!tbl) return;
+  const records = STATE.compareList;
+  const fields = [
+    {key: 'type', label: '類型', mapper: v => TYPE_LABELS[v] || '—'},
+    {key: 'walk', label: '步行(分)'},
+    {key: 'classSize', label: '招生 / 名額'},
+    {key: 'fee', label: '月費'},
+    {key: 'reg', label: '報名期'},
+    {key: 'lottery', label: '抽籤日'},
+    {key: 'retain', label: '備取保留'},
+  ];
+  let html = '<thead><tr><th>項目</th>' + records.map(r => `<th>${escapeHtml(r.name)}</th>`).join('') + '</tr></thead><tbody>';
+  fields.forEach(f => {
+    html += `<tr><td><strong>${f.label}</strong></td>` + records.map(r => {
+      const val = f.mapper ? f.mapper(r[f.key]) : (r[f.key] || '—');
+      return `<td>${escapeHtml(val)}</td>`;
+    }).join('') + '</tr>';
+  });
+  // notes row
+  html += '<tr><td><strong>備註</strong></td>' + records.map(r => `<td style="font-size:13px;">${escapeHtml(r.notes || '—')}</td>`).join('') + '</tr>';
+  html += '</tbody>';
+  tbl.innerHTML = html;
+}
+
+function exportCompareText() {
+  const records = STATE.compareList;
+  if (records.length === 0) { alert('比較籃還沒有資料'); return; }
+  let text = '【托幼選園比較表】\n\n';
+  records.forEach((r, i) => {
+    text += `${i+1}. ${r.name}` + (r.type ? ` (${TYPE_LABELS[r.type] || ''})` : '') + '\n';
+    if (r.walk) text += `   步行:${r.walk} 分鐘\n`;
+    if (r.classSize) text += `   招生:${r.classSize}\n`;
+    if (r.fee) text += `   月費:${r.fee}\n`;
+    if (r.reg) text += `   報名期:${r.reg}\n`;
+    if (r.lottery) text += `   抽籤:${r.lottery}\n`;
+    if (r.retain) text += `   備取保留:${r.retain}\n`;
+    if (r.notes) text += `   備註:${r.notes}\n`;
+    text += '\n';
+  });
+  text += '— 整理自托幼手冊 https://tm731531.github.io/dementia-care/childcare-handbook/';
+  // try clipboard API first
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(() => {
+      alert('已複製到剪貼簿,可以直接貼到 LINE / 記事本。');
+    }).catch(() => fallbackCopy(text));
+  } else {
+    fallbackCopy(text);
+  }
+}
+
+function fallbackCopy(text) {
+  const area = document.getElementById('compare-export-area');
+  area.value = text;
+  area.select();
+  try {
+    document.execCommand('copy');
+    alert('已複製到剪貼簿。');
+  } catch(e) {
+    alert('複製失敗,請手動選取下方文字框複製。');
+    area.style.position = 'static';
+    area.style.width = '100%';
+    area.style.minHeight = '300px';
+  }
+}
+
+function escapeHtml(str) {
+  if (str == null) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+// ============ Settings: Export / Import / Reset ============
+function exportJson() {
+  const dataStr = JSON.stringify(STATE, null, 2);
+  const blob = new Blob([dataStr], {type: 'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const date = new Date().toISOString().slice(0, 10);
+  a.href = url;
+  a.download = `childcare-handbook-${date}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function importJson(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (!confirm('確定要匯入這份備份?目前資料會被覆蓋。')) return;
+      STATE = {...DEFAULT_STATE, ...data};
+      saveState();
+      alert('匯入成功!頁面將重新整理。');
+      location.reload();
+    } catch(err) {
+      alert('匯入失敗:檔案格式錯誤。');
+    }
+  };
+  reader.readAsText(file);
+}
+
+function resetAll() {
+  if (!confirm('⚠️ 真的要清空所有勾選、收藏、比較籃和設定嗎?無法復原。')) return;
+  STATE = {...DEFAULT_STATE};
+  saveState();
+  alert('已清空。頁面將重新整理。');
+  location.reload();
+}
+
+function syncSettingsUI() {
+  const tp = document.getElementById('toggle-planning');
+  if (tp) tp.checked = !!STATE.planningMode;
+  const fm = document.getElementById('family-mode');
+  if (fm) fm.value = STATE.familyMode || 'normal';
+}
+
+// ============ Init ============
+document.addEventListener('DOMContentLoaded', () => {
+  renderAllChecklists();
+  renderPlanningModeBlock();
+  renderCompareList();
+  syncSettingsUI();
+
+  // hash routing
+  const hash = window.location.hash;
+  if (hash && hash.startsWith('#page-')) {
+    navigateTo(hash.slice(1));
+  }
+});
+
+// expose to global
+window.navigateTo = navigateTo;
+window.toggleNav = toggleNav;
+window.toggleChecklist = toggleChecklist;
+window.resetChecklist = resetChecklist;
+window.togglePlanningMode = togglePlanningMode;
+window.setFamilyMode = setFamilyMode;
+window.addCompareRecord = addCompareRecord;
+window.clearCompareForm = clearCompareForm;
+window.removeCompareRecord = removeCompareRecord;
+window.clearAllCompare = clearAllCompare;
+window.exportCompareText = exportCompareText;
+window.exportJson = exportJson;
+window.importJson = importJson;
+window.resetAll = resetAll;
+</script>
+
+</body>
+</html>

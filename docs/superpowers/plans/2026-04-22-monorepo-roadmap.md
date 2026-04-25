@@ -31,6 +31,7 @@
 - [x] garden-handbook 新增(第 7 個子專案,2026-04-22,第一個 entry:地瓜葉)
 - [x] pet-handbook 新增(第 8 個子專案,2026-04-23,貓 6 個 topics + 物種分類架構可擴充)
 - [x] garden-handbook v1 大擴充(2026-04-23,25 plants + 6 類別 + 規劃模式 + 🛒 購物籃 + 🎯 5W1H 總覽,平行 subagent 模式驗證)
+- [x] childcare-handbook 新增(第 9 個子專案,2026-04-26,0-6 歲托嬰/幼兒園選擇方法論,4 類型對照 + 看園 checklist + 抽籤機制 + 三明治世代專區)
 
 ### 🟡 進行中
 - [ ] kids-companion 9 MB 單檔問題 — 接近 GitHub Pages 單檔上限 100MB，但初次載入慢。未來若再加圖片/活動要考慮拆檔或用 image sprite
@@ -87,6 +88,7 @@ Python 服務（bot）目前手動啟，未來可考慮 systemd service。
 - `health-drinks/docs/superpowers/plans/` — 資料錄入 + 比較矩陣 + current
 - `garden-handbook/docs/superpowers/plans/` — 家庭園藝手冊(可食+觀葉)+ current
 - `pet-handbook/docs/superpowers/plans/` — 家中寵物手冊(按物種分類)+ current
+- `childcare-handbook/docs/superpowers/plans/` — 0-6 歲托嬰/幼兒園選擇方法論手冊 + current
 
 ## Re-review Triggers
 本 roadmap 什麼時候重看：
