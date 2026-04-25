@@ -6,15 +6,15 @@
   <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22%3E%3Ctext%20y=%22.9em%22%20font-size=%2290%22%3E🫶%3C/text%3E%3C/svg%3E">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="google-site-verification" content="iCSYvSs7E_6BDzhCwURGrORdjzPCdyGz5r_tWY41Yvk" />
-  <title>Dementia Care Tools — 失智照護生態系 + 家用工具｜8 個免費・離線・零廣告 App</title>
-  <meta name="description" content="8 個免費家用工具:失智照護生態系(陪伴遊戲 v1/v2、白板 OCR 自動化、回診 prep 工具)+ 家庭園藝手冊(25 種植物)+ 寵物手冊 + 幼兒學習樂園 + 健康飲品成分比較。純前端零廣告,完全離線可用。一位軟體工程師為照顧失智媽媽 + 2023 年出生女兒而做。適用失智症、認知症、阿茲海默症家屬。">
+  <title>Dementia Care Tools — 失智照護家用工具集｜一個家庭的需求地圖</title>
+  <meta name="description" content="一位失智照護者為家人打造的免費工具:🔴 失智照護主線 4 個(剛確診的家中照護手冊、日常陪伴 v2、回診 prep、紀錄自動化)+ 🌱 讓全家忙起來 3 個(園藝、寵物、健康飲品)+ 👶 給孩子 1 個(學習樂園)。純前端・零廣告・完全離線。從剛確診那週的法律醫療 P0 到全家忙起來的日常活動。適用失智症、認知症、阿茲海默症家屬。">
   <meta name="keywords" content="失智症,失智照護,陪伴工具,認知訓練,家庭園藝,寵物手冊,幼兒學習,醫療營養品,iDempiere,回診,免費,離線,無廣告,台灣,繁體中文">
   <meta name="author" content="Tom Ting">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://tm731531.github.io/dementia-care/">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Dementia Care Tools — 8 個失智照護 + 家用工具">
-  <meta property="og:description" content="失智生態系 4 個 + 家用 4 個,全部免費・離線・零廣告。一位工程師為家人做的。">
+  <meta property="og:title" content="Dementia Care Tools — 一個家庭的需求地圖">
+  <meta property="og:description" content="從剛確診那週到讓全家忙起來,一位失智照護者為家人打造的免費工具集。純前端・零廣告・完全離線。">
   <meta property="og:url" content="https://tm731531.github.io/dementia-care/">
   <meta property="og:locale" content="zh_TW">
   <meta name="twitter:card" content="summary_large_image">
@@ -28,20 +28,30 @@
     "url": "https://tm731531.github.io/dementia-care/",
     "inLanguage": "zh-TW",
     "author": { "@type": "Person", "name": "Tom Ting", "url": "https://blog.tomting.com/" },
-    "description": "一位軟體工程師為照顧失智媽媽 + 2023 年出生女兒打造的 8 個免費家用工具。純前端、單一 HTML、零伺服器、零廣告、零追蹤、完全離線可用。"
+    "description": "一位失智照護者為家人打造的免費工具集 — 失智照護主線 4 個 + 讓全家忙起來 3 個 + 給孩子 1 個 = 一個家庭的需求地圖。純前端、單一 HTML、零伺服器、零廣告、零追蹤、完全離線可用。"
   }
   </script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Nunito', -apple-system, sans-serif; background: #FFF8F0; color: #333; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
-    h1 { font-size: 28px; margin-bottom: 8px; }
-    .subtitle { font-size: 16px; color: #888; margin-bottom: 30px; text-align: center; line-height: 1.6; }
-    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; width: 100%; max-width: 1280px; }
-    .card { background: #fff; border-radius: 20px; padding: 30px 24px; text-align: center; text-decoration: none; color: #333; box-shadow: 0 2px 12px rgba(0,0,0,0.08); transition: transform 0.2s; }
+    body { font-family: -apple-system, "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif; background: #FFF8F0; color: #333; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+    h1 { font-size: 32px; margin-bottom: 8px; }
+    .subtitle { font-size: 16px; color: #555; margin-bottom: 20px; text-align: center; line-height: 1.7; max-width: 720px; }
+    .subtitle strong { color: #b7491f; }
+    .quick-nav { background: #fff; border: 1px solid #f0e0c8; border-radius: 12px; padding: 12px 18px; margin: 0 0 24px 0; max-width: 720px; font-size: 14px; line-height: 1.8; }
+    .quick-nav strong { color: #b7491f; margin-right: 8px; }
+    .quick-nav a { color: #0066cc; text-decoration: none; padding: 2px 8px; border-radius: 4px; background: #f0f9ff; margin: 0 4px 4px 0; display: inline-block; }
+    .section-title { font-size: 22px; color: #b7491f; margin: 24px 0 12px 0; padding-bottom: 4px; border-bottom: 2px solid #f0e0c8; max-width: 1280px; width: 100%; }
+    .section-hint { font-size: 13px; color: #888; margin-bottom: 16px; max-width: 1280px; width: 100%; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; width: 100%; max-width: 1280px; margin-bottom: 20px; }
+    .card { background: #fff; border-radius: 20px; padding: 24px 20px; text-align: center; text-decoration: none; color: #333; box-shadow: 0 2px 12px rgba(0,0,0,0.08); transition: transform 0.2s; position: relative; }
     .card:active { transform: scale(0.97); }
-    .card-icon { font-size: 64px; display: block; margin-bottom: 12px; }
-    .card-title { font-size: 20px; font-weight: bold; margin-bottom: 6px; }
+    .card-icon { font-size: 56px; display: block; margin-bottom: 10px; }
+    .card-title { font-size: 19px; font-weight: bold; margin-bottom: 6px; }
     .card-desc { font-size: 14px; color: #888; line-height: 1.5; }
+    .card-when { display: inline-block; margin-top: 8px; padding: 2px 8px; background: #fff8ed; color: #b7491f; border: 1px solid #f0d8b5; border-radius: 4px; font-size: 11px; }
+    .card-warn { display: inline-block; margin-top: 6px; padding: 2px 8px; background: #fef3c7; color: #92400e; border-radius: 4px; font-size: 11px; }
+    .archive-link { font-size: 12px; color: #aaa; margin-top: 20px; text-align: center; max-width: 1280px; width: 100%; }
+    .archive-link a { color: #888; text-decoration: underline; }
     .footer { margin-top: 40px; font-size: 13px; color: #aaa; text-align: center; }
     .footer a { color: #E8724A; text-decoration: none; }
   
@@ -80,53 +90,77 @@
 </style>
 </head>
 <body>
-  <h1>Dementia Care Tools</h1>
-  <div class="subtitle">一位工程師爸爸為家人打造的免費工具<br>純前端・零廣告・完全離線</div>
+  <h1>🫶 Dementia Care Tools</h1>
+  <div class="subtitle">
+    一位失智照護者為家人打造的免費工具集<br>
+    <strong>從剛確診那週的法律醫療 P0,到讓全家忙起來的日常活動 — 一個家庭的需求地圖</strong><br>
+    純前端・零廣告・完全離線
+  </div>
+
+  <nav class="quick-nav" aria-label="快速導覽">
+    <strong>⚡ 5 秒看這裡</strong>
+    <a href="#main-line">剛確診 / 找方向</a>
+    <a href="#main-line">日常陪伴</a>
+    <a href="#main-line">準備回診</a>
+    <a href="#daily-life">全家活動</a>
+    <a href="#kids">給孩子</a>
+  </nav>
+
+  <h2 class="section-title" id="main-line">🔴 失智照護主線(時間順序)</h2>
+  <div class="section-hint">從剛確診 → 日常照護 → 每月回診的時間軸串接</div>
   <div class="cards">
-    <a class="card" href="./dementia-companion/">
-      <span class="card-icon">🧠</span>
-      <div class="card-title">陪伴小幫手（原版）</div>
-      <div class="card-desc">失智症照護互動工具<br>15 種認知訓練遊戲<br>8 級難度自動調整</div>
+    <a class="card" href="./home-handbook/">
+      <span class="card-icon">🏠</span>
+      <div class="card-title">家中照護手冊</div>
+      <div class="card-desc">剛確診那週的法律醫療 P0<br>(意定監護 / 銀行 / GPS)<br>+ 物理改造 13 項 + 早晚 SOP<br><span class="card-when">⏱️ 確診後 → 第一個月</span></div>
     </a>
     <a class="card" href="./dementia-companion-v2/">
-      <span class="card-icon">🧠</span>
-      <div class="card-title">陪伴小幫手 v2（試驗版）</div>
-      <div class="card-desc">推薦式首頁 · 一鍵開始<br>15 遊戲全部可玩<br>照護者陪伴指南 + 今日摘要</div>
+      <span class="card-icon">💭</span>
+      <div class="card-title">陪伴小幫手 v2</div>
+      <div class="card-desc">推薦式首頁・一鍵開始<br>15 個認知遊戲<br>+ 45 條陪伴指南 + 今日摘要<br><span class="card-when">⏱️ 日常陪伴(每天)</span></div>
+    </a>
+    <a class="card" href="./mom-clinic-companion/">
+      <span class="card-icon">🩺</span>
+      <div class="card-title">就診小幫手</div>
+      <div class="card-desc">回診區間異常自動偵測<br>症狀分類 · 問題清單 · 診間錄音<br><span class="card-when">⏱️ 每月回診前</span><br><span class="card-warn">⚠ 需自架 iDempiere(技術門檻)</span></div>
     </a>
     <a class="card" href="./whiteboard-ocr-bot/">
       <span class="card-icon">📋</span>
       <div class="card-title">白板 OCR 紀錄 Bot</div>
-      <div class="card-desc">照護員交班白板自動化<br>拍照 → Gemini OCR → iDempiere<br>純前端 Demo 可先試玩</div>
+      <div class="card-desc">照護員交班白板自動化<br>拍照 → Gemini OCR → iDempiere<br><span class="card-when">⏱️ 每日記錄(自動)</span><br><span class="card-warn">⚠ 需 Python 部署 + Gemini API</span></div>
     </a>
-    <a class="card" href="./mom-clinic-companion/">
-      <span class="card-icon">🏥</span>
-      <div class="card-title">就診小幫手</div>
-      <div class="card-desc">回診區間異常自動偵測<br>症狀關鍵字分類<br>問題清單 · 診間錄音<br><span style="display:inline-block;margin-top:6px;padding:2px 8px;background:#fef3c7;color:#92400e;border-radius:4px;font-size:11px;">⚠ 需自架 iDempiere 才能用</span></div>
-    </a>
-    <a class="card" href="./health-drinks/docs/">
-      <span class="card-icon">🥤</span>
-      <div class="card-title">健康飲品成分分析</div>
-      <div class="card-desc">醫療營養品成分比較<br>安素・葡勝納・倍速益・補體素<br>拍包裝→AI 擷取→含微量元素</div>
-    </a>
-    <a class="card" href="./kids-companion/">
-      <span class="card-icon">🎨</span>
-      <div class="card-title">小朋友學習樂園</div>
-      <div class="card-desc">2~6 歲幼兒學習平台<br>25+ 種互動活動<br>中英文可切換</div>
-    </a>
+  </div>
+  <div class="archive-link">
+    想試 2025-12 之前的原版?→ <a href="./dementia-companion/">陪伴小幫手 v1(經典模式 archive)</a>
+  </div>
+
+  <h2 class="section-title" id="daily-life">🌱 讓整個家忙起來</h2>
+  <div class="section-hint">behavior redirection · 全家共活動 · 失智長輩的日常錨點</div>
+  <div class="cards">
     <a class="card" href="./garden-handbook/">
       <span class="card-icon">🌱</span>
       <div class="card-title">家庭園藝手冊</div>
-      <div class="card-desc">25 種植物 · 6 大類別<br>規劃模式 + 購物籃匯入<br>失智照護 3 級 + 5W1H 總覽</div>
+      <div class="card-desc">陽台種菜 · 32+ 種植物<br>規劃模式 + 購物籃匯入<br>失智 3 級活動建議</div>
     </a>
     <a class="card" href="./pet-handbook/">
       <span class="card-icon">🐾</span>
       <div class="card-title">寵物手冊</div>
-      <div class="card-desc">會主動靠近你的家人<br>目前貓 6 個 topics(其他物種待擴充)<br>含失智照護 × 寵物選擇指南</div>
+      <div class="card-desc">會主動靠近你的家人<br>失智照護 × 寵物選擇指南<br>(目前貓 6 個 topics)</div>
     </a>
-    <a class="card" href="./home-handbook/">
-      <span class="card-icon">🏠</span>
-      <div class="card-title">家中照護手冊</div>
-      <div class="card-desc">確診那週法律醫療 P0<br>(意定監護 / 銀行代理 / GPS)<br>+ 物理改造 13 項 + SOP</div>
+    <a class="card" href="./health-drinks/docs/">
+      <span class="card-icon">🥤</span>
+      <div class="card-title">健康飲品成分分析</div>
+      <div class="card-desc">醫療營養品成分比較<br>安素・葡勝納・倍速益・補體素<br>(失智長輩中後期吞嚥退化用)</div>
+    </a>
+  </div>
+
+  <h2 class="section-title" id="kids">👶 給孩子</h2>
+  <div class="section-hint">家裡有失智長輩 + 也有小孩的家庭</div>
+  <div class="cards">
+    <a class="card" href="./kids-companion/">
+      <span class="card-icon">🎨</span>
+      <div class="card-title">小朋友學習樂園</div>
+      <div class="card-desc">2-6 歲幼兒親子學前教育<br>25+ 種互動活動<br>中文 / 英文 / 數學 / 生活</div>
     </a>
   </div>
   <div style="text-align:center;margin:30px auto;padding:20px;max-width:360px;background:#fff;border-radius:20px;box-shadow:0 2px 8px rgba(0,0,0,0.08)">
