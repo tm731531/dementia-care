@@ -514,6 +514,8 @@ details[open] summary { margin-bottom: 8px; }
     <a class="nav-link" data-page="page-home" onclick="navigateTo('page-home');return false;" href="#">🏠 首頁</a>
     <a class="nav-link" data-page="page-types" onclick="navigateTo('page-types');return false;" href="#">🏫 4 種類型</a>
     <a class="nav-link" data-page="page-infant" onclick="navigateTo('page-infant');return false;" href="#">👶 托嬰專區</a>
+    <a class="nav-link" data-page="page-nanny" onclick="navigateTo('page-nanny');return false;" href="#">👵 保母系統</a>
+    <a class="nav-link" data-page="page-subsidy" onclick="navigateTo('page-subsidy');return false;" href="#">💰 補助系統</a>
     <a class="nav-link" data-page="page-5w1h" onclick="navigateTo('page-5w1h');return false;" href="#">🎯 5W1H 方法論</a>
     <a class="nav-link" data-page="page-checklist" onclick="navigateTo('page-checklist');return false;" href="#">📋 看園所 Checklist</a>
     <a class="nav-link" data-page="page-timeline" onclick="navigateTo('page-timeline');return false;" href="#">📅 時程地圖</a>
@@ -551,8 +553,8 @@ details[open] summary { margin-bottom: 8px; }
   <div class="card-grid">
     <div class="choice-card" onclick="navigateTo('page-types', 'infant')">
       <span class="emoji">👶</span>
-      <div class="title">0-1 歲</div>
-      <div class="desc">主要看托嬰中心。公托登記要排很久,現在就要排隊。</div>
+      <div class="title">0-2 歲</div>
+      <div class="desc">看托嬰中心 + 保母兩條路。公托等 6 個月-2 年,保母彈性大。</div>
     </div>
     <div class="choice-card" onclick="navigateTo('page-timeline', 'toddler')">
       <span class="emoji">🧒</span>
@@ -571,17 +573,18 @@ details[open] summary { margin-bottom: 8px; }
     </div>
   </div>
 
-  <h2>📌 第一次找園所?從這 3 個地方開始</h2>
+  <h2>📌 第一次找園所?從這 4 個地方開始</h2>
   <ol>
-    <li><strong>先讀 <a onclick="navigateTo('page-types');return false;" href="#">🏫 4 種類型</a></strong> — 公托、公幼、非營利、準公共、私立差在哪。費用差好幾倍,選錯類型一切白搞。</li>
-    <li><strong>再看 <a onclick="navigateTo('page-traps');return false;" href="#">⚠️ 常見地雷</a></strong> — 過了報名截止 = 等下年。先看會炸的點,動作之前避開。</li>
+    <li><strong>先讀 <a onclick="navigateTo('page-types');return false;" href="#">🏫 4 種類型</a></strong> — 0-2 歲 vs 2-6 歲是兩套法律。公托 / 公幼 / 非營利 / 準公共 / 私立差在哪。費用差好幾倍,選錯類型一切白搞。</li>
+    <li><strong>看 <a onclick="navigateTo('page-subsidy');return false;" href="#">💰 補助系統</a></strong> — 育兒津貼 vs 托育補助互斥。選錯類型 = 每月差 8,000。</li>
+    <li><strong>看 <a onclick="navigateTo('page-traps');return false;" href="#">⚠️ 常見地雷</a></strong> — 過了報名截止 = 等下年。先看會炸的點,動作之前避開。</li>
     <li><strong>最後跑 <a onclick="navigateTo('page-checklist');return false;" href="#">📋 看園所 Checklist</a></strong> — 現場參觀時逐項檢查,不被漂亮裝潢分心。</li>
   </ol>
 
   <h2>🎯 5 秒總覽</h2>
   <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;">
     <div class="summary-row"><span class="icon">👤</span><span class="label">Who</span><span class="content">家長:你的家庭結構、預算、接送可行性。<strong>不是</strong>「孩子是誰」</span></div>
-    <div class="summary-row"><span class="icon">🏫</span><span class="label">What</span><span class="content">4 種類型(公托/公幼 · 非營利 · 準公共 · 私立),費用差 5-15 倍</span></div>
+    <div class="summary-row"><span class="icon">🏫</span><span class="label">What</span><span class="content">**0-2 歲**:公托 / 準公共托嬰 / 私托 / 保母 4 條路。**2-6 歲**:公幼 / 非營利 / 準公共 / 私立 4 類型。費用差 5-15 倍</span></div>
     <div class="summary-row"><span class="icon">📅</span><span class="label">When</span><span class="content">公托:出生就排隊。幼兒園:每年 4-6 月。8 月開學</span></div>
     <div class="summary-row"><span class="icon">📍</span><span class="label">Where</span><span class="content">步行 20 分鐘原則(颱風 + 大雨 + 小孩走慢實際是 30+)</span></div>
     <div class="summary-row"><span class="icon">💡</span><span class="label">Why</span><span class="content">教學風格(蒙氏/華德福/主題式/雙語)只是其中一個維度,不是全部</span></div>
@@ -603,13 +606,59 @@ details[open] summary { margin-bottom: 8px; }
   <h1>🏫 4 種托育類型</h1>
   <p style="font-size:17px;color:var(--muted);">費用、報名方式、抽籤規則完全不同。<strong>選錯類型,所有後續動作都白搞</strong>。</p>
 
-  <h2>📊 一張表看完</h2>
+  <div class="callout warn">
+    <h4>⚠️ 重要前提:0-2 歲跟 2-6 歲是兩套法律</h4>
+    <p style="margin:0;">「0-2 歲機構式托嬰」歸<strong>衛福部</strong>管(兒少法),「2-6 歲幼兒園」歸<strong>教育部</strong>管(幼照法)。**兩套主管機關、兩套類型、兩套收費規則**。所以下面拆兩張表看,不要互相套用。</p>
+  </div>
+
+  <h2>📊 0-2 歲(托嬰中心)— 3 類型</h2>
   <table>
     <thead>
       <tr>
         <th>類型</th>
         <th>適用年齡</th>
-        <th>費用(每月)</th>
+        <th>家長實付/月(雙北一般家庭)</th>
+        <th>政府補助</th>
+        <th>報名/抽籤</th>
+        <th>等候時間</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>公辦民營公托 / 社區公共托育家園</strong></td>
+        <td>滿 2 個月 - 未滿 2 歲</td>
+        <td>約 4,000 元(一般)<br>約 2,000 元(中低收)<br>約 0 元(低收/弱勢)</td>
+        <td>中央 7,000 / 月起</td>
+        <td>滾動式登記 + 集中抽籤<br>(台北每年 7 月)</td>
+        <td>**6 個月 - 1.5 年**(熱區可至 2 年)</td>
+      </tr>
+      <tr>
+        <td><strong>準公共托嬰中心</strong></td>
+        <td>滿 2 個月 - 未滿 3 歲</td>
+        <td>約 5,000 - 12,000 元<br>(各中心收費 - 補助後)</td>
+        <td>中央 13,000 / 月起<br>+ 縣市加碼(台北 +5,000-8,000、新北 +2,000)</td>
+        <td>各中心自辦</td>
+        <td>較公托短<br>(熱門中心仍排 3-6 月)</td>
+      </tr>
+      <tr>
+        <td><strong>一般私立托嬰中心</strong></td>
+        <td>滿 2 個月 - 未滿 3 歲</td>
+        <td>15,000 - 40,000+ 元<br>(全額自付)</td>
+        <td>**只能改領育兒津貼 5,000**<br>(不可同時領托育補助)</td>
+        <td>各中心自辦</td>
+        <td>即時 - 半年</td>
+      </tr>
+    </tbody>
+  </table>
+  <p style="font-size:14px;color:var(--muted);margin-top:6px;"><em>**「非營利」在 0-2 歲層級不存在**(非營利幼兒園是教育部體系,法定只收滿 2 足歲)。<br>0-2 歲還有第 4 條路 — **保母**(居家式托育),看 <a onclick="navigateTo('page-nanny');return false;" href="#">👵 保母系統</a> 專頁。</em></p>
+
+  <h2>📊 2-6 歲(幼兒園)— 4 類型</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>類型</th>
+        <th>適用年齡</th>
+        <th>家長月費</th>
         <th>報名方式</th>
         <th>抽籤規則</th>
         <th>等候時間</th>
@@ -617,39 +666,40 @@ details[open] summary { margin-bottom: 8px; }
     </thead>
     <tbody>
       <tr>
-        <td><strong>公托 / 公幼</strong></td>
-        <td>0-6</td>
-        <td>最低(月費 2000-4000,含補助後)</td>
-        <td>各縣市網站</td>
+        <td><strong>公立幼兒園(公幼)</strong></td>
+        <td>2-6 歲</td>
+        <td>約 1,000 元 + 餐點代辦</td>
+        <td>各縣市統一網站</td>
         <td>區域順位 + 抽籤</td>
-        <td>1-3 年(0-2 歲尤其競爭)</td>
+        <td>2 歲班最競爭</td>
       </tr>
       <tr>
         <td><strong>非營利幼兒園</strong></td>
-        <td>2-6</td>
-        <td>第 1 胎 3000(統一)</td>
+        <td>2-6 歲</td>
+        <td>第 1 胎 2,000 元(各園略有差異)</td>
         <td>新北 kid123 / 各縣市統一網站</td>
         <td>統一電腦抽籤</td>
         <td>中等</td>
       </tr>
       <tr>
-        <td><strong>準公共</strong></td>
-        <td>0-6</td>
-        <td>第 1 胎 3000 上限</td>
-        <td>各園自辦(現場/Email/網站)</td>
+        <td><strong>準公共幼兒園</strong></td>
+        <td>2-6 歲</td>
+        <td>第 1 胎 3,000 / 第 2 胎 2,000 / 第 3 胎 1,000<br>(法定上限)</td>
+        <td>各園自辦</td>
         <td>各園自辦公開抽籤</td>
         <td>中等</td>
       </tr>
       <tr>
-        <td><strong>私立(自費)</strong></td>
-        <td>0-6</td>
-        <td>8000-50000+(無上限)</td>
+        <td><strong>私立幼兒園(自費)</strong></td>
+        <td>2-6 歲</td>
+        <td>8,000 - 50,000+ 元<br>(雙語/特色園更高)</td>
         <td>各園自辦</td>
-        <td>名額制(可加錢插隊)</td>
+        <td>名額制</td>
         <td>即時(有錢就有位)</td>
       </tr>
     </tbody>
   </table>
+  <p style="font-size:14px;color:var(--muted);margin-top:6px;"><em>準公共幼兒園的 3,000 元含學費 + 雜費 + 代收代辦費,但**不含**延托費、保險費、交通費。</em></p>
 
   <h2>🏛 公托 / 公幼</h2>
   <div class="callout">
@@ -673,16 +723,22 @@ details[open] summary { margin-bottom: 8px; }
 
   <h2>🏘 非營利幼兒園(只有 2-6 歲)</h2>
   <div class="callout">
-    <p style="margin:0;"><strong>政府委託民間單位辦的幼兒園</strong>。費用跟準公共一樣低,但**報名規則跟公幼一樣統一**(新北統一用 kid123.ntpc.edu.tw)。</p>
+    <p style="margin:0;"><strong>政府委託符合資格的非營利法人辦的幼兒園</strong>。法源是《幼兒教育及照顧法》第 9 條 + 《非營利幼兒園實施辦法》。**契約期 4 學年**,連續 3 年考評通過可申請續約。</p>
   </div>
+  <h3>承辦資格(法定)</h3>
+  <ul>
+    <li>學校財團法人 / 醫療法人</li>
+    <li>幼兒教保工會組織 / 職工福利委員會(已完成法人登記)</li>
+    <li>章程載明兒童福祉或教保服務的財團法人 / 非營利社團法人</li>
+  </ul>
   <h3>特點</h3>
   <ul>
-    <li>👍 <strong>費用低</strong>(第 1 胎月費 3000 上限,跟準公共相同)</li>
+    <li>👍 <strong>費用低</strong>(第 1 胎月費約 2,000 元,各園略有差異,比準公共更低)</li>
     <li>👍 <strong>報名統一</strong>(各縣市一個網站搞定多家)</li>
     <li>👍 <strong>備取保留期長</strong>(新北非營利保留至下年留園直升前一日,**最長**)</li>
     <li>👍 <strong>線上報到</strong>(不用臨櫃)</li>
     <li>👎 <strong>名額少</strong>,抽籤競爭激烈</li>
-    <li>👎 <strong>不收 0-2 歲</strong>(如果有 0-2 歲幼兒只能找公托或私托)</li>
+    <li>👎 <strong>不收 0-2 歲</strong>(0-2 歲只能找公托 / 準公共托嬰 / 私托 / 保母)</li>
   </ul>
   <h3>怎麼報</h3>
   <ol>
@@ -694,24 +750,51 @@ details[open] summary { margin-bottom: 8px; }
 
   <h2>🏢 準公共</h2>
   <div class="callout">
-    <p style="margin:0;"><strong>私立但跟政府簽合約</strong>,讓家長享有「跟非營利一樣的低費用」。涵蓋 0-6 歲(包含 0-2 歲托嬰)。</p>
+    <p style="margin:0;"><strong>私立但跟政府簽合約</strong>,讓家長享有「跟非營利一樣的低費用」。**0-2 歲托嬰**跟 **2-6 歲幼兒園** 兩個系統各自有「準公共」,但補助金額跟收費規則**完全不同**。</p>
   </div>
+
+  <h3>準公共 · 兩種版本對比</h3>
+  <table>
+    <thead>
+      <tr><th></th><th>準公共托嬰(0-2 歲)</th><th>準公共幼兒園(2-6 歲)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>主管機關</td><td>衛福部社家署</td><td>教育部</td></tr>
+      <tr><td>家長費用</td><td>**沒有 3000 統一上限**,各中心收費 - 政府補助 13,000 後家長自付 5,000-12,000</td><td>第 1 胎 3,000 / 第 2 胎 2,000 / 第 3 胎 1,000(法定上限)</td></tr>
+      <tr><td>政府補助來源</td><td>中央托育補助 13,000 + 縣市加碼</td><td>免學費 + 家長部分負擔</td></tr>
+      <tr><td>合約期程</td><td>視縣市,常 1-3 年</td><td>**第 3 期程 113-116 / 7**(每期程約 3 學年)</td></tr>
+    </tbody>
+  </table>
+
   <h3>特點</h3>
   <ul>
-    <li>👍 <strong>費用低</strong>(第 1 胎月費 3000 上限)</li>
+    <li>👍 <strong>費用比私立低很多</strong>(0-2 歲補助後可省一半;2-6 歲第 1 胎只 3,000)</li>
     <li>👍 <strong>名額較多</strong>(多家私園加入,選擇多)</li>
-    <li>👍 <strong>含 0-2 歲托嬰</strong>(準公共托嬰中心)</li>
+    <li>👍 <strong>有 0-2 歲托嬰版本</strong>(這是非營利沒有的)</li>
     <li>👍 <strong>教學風格較多元</strong>(各園自由發展特色)</li>
     <li>👎 <strong>各園自辦報名</strong>(時程、地點、文件、規則全不一樣 — 累)</li>
     <li>👎 <strong>備取保留期差異大</strong>(短的 5 天,長的 4 個月,要看清楚)</li>
-    <li>👎 <strong>5 年合約到期可能退場</strong>(變回完全私立,費用爆漲)</li>
+    <li>👎 <strong>合約期到期可能退場</strong>(看下方警告)</li>
   </ul>
+
+  <div class="callout warn">
+    <h4>⚠️ 準公共合約期到期 = 隨時可能爆價</h4>
+    <p style="margin:0;">準公共不是永久合約,而是<strong>期程制</strong>(第 3 期程 113/8 - 116/7)。期滿:</p>
+    <ul style="margin:8px 0 0 22px;">
+      <li>**不自動續約** — 需地方政府跟園所重新協商</li>
+      <li>**評鑑未通過者無法續約** — 直接從清單消失</li>
+      <li>**不續約後**:園所恢復為一般私立,費用立刻回到 8,000-15,000+ 月費</li>
+      <li>**家長端**:每年 7-8 月新學年前注意園所公告;到期前一學期(1-2 月)主動詢問是否續約</li>
+    </ul>
+  </div>
+
   <h3>怎麼報</h3>
   <ol>
     <li>找各縣市「準公共幼兒園/托嬰中心」清單(教育部 / 衛福部官網有)</li>
     <li>篩選步行範圍內的園所</li>
     <li>逐家查報名期間 + 報名方式(現場/Email/網站,各家不同)</li>
     <li>**注意:準公共報名期間常與非營利重疊**(都是 4-6 月),要排好優先序</li>
+    <li>**確認該園所合約期到哪一年**(全國教保資訊網查得到)</li>
   </ol>
 
   <h2>💸 私立(自費)</h2>
@@ -841,6 +924,28 @@ details[open] summary { margin-bottom: 8px; }
     </ul>
     <p style="margin-top:8px;font-size:14px;"><em>教學風格沒有絕對好壞 — 看孩子個性。內向慢熟的孩子可能不適合大團體競爭式環境。</em></p>
   </details>
+
+  <div class="callout warn">
+    <h4>⚠️ 雙語 / 全美語的法規灰色地帶</h4>
+    <p style="margin:0;"><strong>《幼兒教保服務實施準則》第 13 條</strong>:幼兒園「**不得採全日、半日或分科之外語教學**」。意思是「全美語幼兒園」依現行法規嚴格解讀<strong>屬違規</strong>,但執法力度因縣市而異。</p>
+    <ul style="margin:8px 0 0 22px;">
+      <li>教育部立場:**外語可以「融入活動」**(例如玩遊戲時帶幾句英文),但不能整天英文</li>
+      <li>市場現況:「全美語」招牌仍廣泛存在,實質遊走灰色地帶</li>
+      <li>家長判斷方法:直接問「<strong>每天有幾小時中文活動?中文教師是誰?</strong>」</li>
+      <li>查證:全教網查該園評鑑 + 裁罰紀錄</li>
+    </ul>
+  </div>
+
+  <div class="callout warn">
+    <h4>⚠️ 注音教育部明確不教,但私園可能偷教</h4>
+    <p style="margin:0;"><strong>《幼兒園教保服務實施準則》第 13 條</strong>規定課程應以「統整方式」進行,**不得採分科教學**。教育部明確反對學前分科教注音、寫字。理由:幼兒眼球和手部肌肉仍在發育,「精熟」目的的讀寫教學對發展不恰當。</p>
+    <ul style="margin:8px 0 0 22px;">
+      <li>**正規期**:小一前 10 週才是注音教學期,不需提前學完</li>
+      <li>**實際**:部分私園大班仍有「認字」「注音遊戲」,以「融入」包裝</li>
+      <li>**該不該先學**:研究顯示提前死記反而在一年級造成干擾;但若孩子有興趣 + 不強迫,亦非禁止</li>
+      <li>**選園要問**:「大班會教注音嗎?寫字嗎?」回答「教」就違規,「不教」要看實際情況</li>
+    </ul>
+  </div>
 
   <h2>🔧 How · 報名流程</h2>
   <ol>
@@ -1285,7 +1390,7 @@ details[open] summary { margin-bottom: 8px; }
     <ul style="margin:6px 0 0 20px;">
       <li>新北土城,離捷運海山站約 10 分鐘步行</li>
       <li>雙薪家庭,孩子 2 歲女兒(2024 年 9 月前出生)</li>
-      <li>住址設籍青雲里(該里在園所順位上幾乎都是「一般生」)</li>
+      <li>戶籍里在各園所順位上幾乎都是「一般生」(沒在「鄰里優先」清單)</li>
       <li>有失智長輩在家(由居服員協助)</li>
     </ul>
   </div>
@@ -1323,8 +1428,11 @@ details[open] summary { margin-bottom: 8px; }
 
   <h3>學到的事</h3>
   <ul>
-    <li><strong>「鄰里順位」要逐字看</strong>:常春藤的「第 3 順位是清水里」,青雲里就不算,直接是一般生</li>
+    <li><strong>「鄰里順位」要逐字看</strong>:常春藤的「第 3 順位」只算特定里(例:清水里),不在該里就直接被歸為一般生 — 不要以為「土城區」就一定有順位</li>
     <li><strong>備取保留期極短的園所要謹慎</strong>:常春藤備取只到 5/14,等於沒中正取就 GG</li>
+    <li><strong>「未超額不抽籤」要看清楚</strong>:常春藤 PDF 有設 5/8 抽籤日,只是「未超額才全錄」— 不是完全不抽。意思是即使你以為一定上,也要等到 5/8 才知道</li>
+    <li><strong>備取保留期 markdown 不一定有寫</strong>:天翔 PDF 寫 6/8 止,但部分二手整理寫「PDF 缺漏」— **以 PDF 為準**</li>
+    <li><strong>「正取 X 人」要看是哪個班</strong>:詠樂寫「正取 10 人」是全園正取數(2 歲班 8 + 3 歲班 2),不是 2 歲班 10 人</li>
     <li><strong>名額多 ≠ 容易抽中</strong>:天翔 24 名,但報名也多,實際抽中率要看當年資料</li>
     <li><strong>多家報名要做時序表</strong>:同一週可能跑 4-5 家,沒排表會錯過</li>
   </ul>
@@ -1366,21 +1474,39 @@ details[open] summary { margin-bottom: 8px; }
     </tbody>
   </table>
 
-  <h2>🏙 各縣市網站</h2>
+  <h2>🏙 各縣市抽籤系統(2-6 歲幼兒園)</h2>
   <table>
     <thead>
-      <tr><th>縣市</th><th>非營利/公幼報名</th><th>備註</th></tr>
+      <tr><th>縣市</th><th>系統 / 方式</th><th>特色</th></tr>
     </thead>
     <tbody>
-      <tr><td>新北市</td><td><a href="https://kid123.ntpc.edu.tw" target="_blank" rel="noopener">kid123.ntpc.edu.tw</a></td><td>公托查詢另在社會局</td></tr>
-      <tr><td>台北市</td><td><a href="https://kids.gov.taipei/" target="_blank" rel="noopener">kids.gov.taipei</a></td><td>含公托、公幼、非營利、準公共</td></tr>
-      <tr><td>桃園市</td><td><a href="https://www.tycg.gov.tw/" target="_blank" rel="noopener">桃園市政府教育局</a></td><td>看「教育局 - 幼兒教育」</td></tr>
-      <tr><td>台中市</td><td><a href="https://www.tc.edu.tw/" target="_blank" rel="noopener">台中市教育局</a></td><td>看「教育局 - 幼兒教育」</td></tr>
-      <tr><td>台南市</td><td><a href="https://boe.tn.edu.tw/" target="_blank" rel="noopener">台南市教育局</a></td><td>看「幼兒教育科」</td></tr>
+      <tr><td>新北市</td><td><a href="https://kid123.ntpc.edu.tw" target="_blank" rel="noopener">kid123.ntpc.edu.tw</a></td><td>統一線上報名,**最多可填 60 個志願**,電腦統一抽</td></tr>
+      <tr><td>台北市</td><td><a href="https://kid-online.tp.edu.tw/" target="_blank" rel="noopener">kid-online.tp.edu.tw</a></td><td>統一系統,公幼/非營利各自報名</td></tr>
+      <tr><td>桃園市</td><td>統一線上系統</td><td>公幼/非營利每位幼兒**只能登記一園**</td></tr>
+      <tr><td>台中市</td><td><a href="https://kids.tc.edu.tw/" target="_blank" rel="noopener">kids.tc.edu.tw</a></td><td>即時揭示系統,線上 + 現場雙軌</td></tr>
+      <tr><td>台南市</td><td><a href="https://kid.tn.edu.tw/" target="_blank" rel="noopener">kid.tn.edu.tw</a></td><td>有統一系統</td></tr>
       <tr><td>高雄市</td><td><a href="https://www.kh.edu.tw/" target="_blank" rel="noopener">高雄市教育局</a></td><td>看「幼兒教育科」</td></tr>
+      <tr><td>嘉義縣 / 南投縣 / 彰化縣 / 屏東縣</td><td>**各園自行報名**</td><td>無統一平台,逐園跑</td></tr>
+      <tr><td>金門 / 連江 / 澎湖(離島)</td><td>現場報名為主</td><td>幼兒數少多無需抽籤,設籍優先</td></tr>
+      <tr><td>偏鄉(新北 / 新竹縣等偏遠地區)</td><td>設籍優先制</td><td>**設籍 2 年以上可優先入學,免抽籤**</td></tr>
     </tbody>
   </table>
-  <p style="font-size:14px;color:var(--muted);"><em>其他縣市請查「○○縣 / 市政府 教育處 / 教育局 - 幼兒教育」。</em></p>
+  <p style="font-size:14px;color:var(--muted);"><em>**重要規則**:各縣市均規定「每名幼兒只能登記一間(或有志願上限)」,重複登記取消資格。其他縣市請查「○○縣 / 市政府 教育處 / 教育局 - 幼兒教育」。</em></p>
+
+  <h2>👶 0-2 歲托嬰中心查詢</h2>
+  <ul>
+    <li><strong>全國 NCWIS 系統</strong>:<a href="https://ncwisweb.sfaa.gov.tw/home/childcare-center" target="_blank" rel="noopener">ncwisweb.sfaa.gov.tw</a> — 衛福部社家署,可查全台托嬰中心 + **評鑑結果 + 違規紀錄**</li>
+    <li><strong>新北市育兒資訊網</strong>:<a href="https://lovebaby.sw.ntpc.gov.tw/" target="_blank" rel="noopener">lovebaby.sw.ntpc.gov.tw</a> — 含補助試算 + 親子館</li>
+    <li><strong>新北 open data 私立托嬰機構名冊</strong>:<a href="https://data.ntpc.gov.tw/datasets/69cecdb0-7796-48df-84e5-99e4f1274245" target="_blank" rel="noopener">data.ntpc.gov.tw</a>(JSON / CSV / XML 可下載 252 家全清單)</li>
+    <li><strong>台北市</strong>:<a href="https://dosw.gov.taipei" target="_blank" rel="noopener">dosw.gov.taipei</a> — 社會局,公托登記抽籤</li>
+  </ul>
+
+  <h2>👵 找保母</h2>
+  <ul>
+    <li><strong>各縣市居家托育服務中心</strong>:全國 22 縣市皆設,**媒合免費**,撥 1957 福利專線查最近的</li>
+    <li><strong>衛福部托育媒合平台</strong>:<a href="https://ncwisweb.sfaa.gov.tw/home/childcare-center" target="_blank" rel="noopener">ncwisweb.sfaa.gov.tw</a></li>
+    <li>看 <a onclick="navigateTo('page-nanny');return false;" href="#">👵 保母系統</a> 全頁</li>
+  </ul>
 
   <h2>📞 接種紀錄查詢</h2>
   <ul>
@@ -1619,6 +1745,332 @@ details[open] summary { margin-bottom: 8px; }
     </ul>
     <p style="margin:8px 0 0;">這些<strong>大部分會過去</strong>。如果 3 個月後還是無法適應 → 評估是園所不合還是孩子真的不適合送托(極少數)。</p>
   </div>
+</section>
+
+<!-- ========== 保母系統 ========== -->
+<section class="page" id="page-nanny">
+  <h1>👵 保母系統(居家式托育)</h1>
+  <p style="font-size:17px;color:var(--muted);">**0-3 歲的另一條路**。不送機構,找一個有證照的人來帶 — 在她家、或在你家。1 對 1 / 1 對 4(法定上限)的精緻照顧。</p>
+
+  <div class="callout">
+    <h4>📌 跟托嬰中心的根本差異</h4>
+    <table style="margin-top:8px;">
+      <thead><tr><th></th><th>保母</th><th>托嬰中心</th></tr></thead>
+      <tbody>
+        <tr><td>師生比</td><td>1:1 - 1:4(法定)</td><td>1:5(法定)</td></tr>
+        <tr><td>環境</td><td>家庭式(她家或你家)</td><td>機構式</td></tr>
+        <tr><td>群體感染</td><td>低</td><td>高</td></tr>
+        <tr><td>同儕互動</td><td>少(可能只有 1-2 個小孩)</td><td>多(同齡群體)</td></tr>
+        <tr><td>監督</td><td>單人作業 + 政府訪視</td><td>多人在場 + 監視器</td></tr>
+        <tr><td>緊急備援</td><td>無(保母請假即停托)</td><td>有(其他教保員替補)</td></tr>
+        <tr><td>適合月齡</td><td>0-12 月最適合(個別化照顧)</td><td>1 歲後較合(可融入群體)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>👤 1. 保母 4 種類型</h2>
+  <p>不只「來家裡的保母」一種。台灣現行有 4 種正式分類:</p>
+
+  <h3>① 在宅居家式托育人員(主流,90% 用這種)</h3>
+  <ul>
+    <li><strong>定義</strong>:在自己家中收托兒童的登記保母</li>
+    <li><strong>登記要求</strong>:依法須向居家托育服務中心辦理登記,取得「居家式托育服務提供者」資格</li>
+    <li><strong>地點</strong>:保母自宅</li>
+    <li><strong>能否簽準公共</strong>:能 — 簽約後家長可領 13,000 元/月補助</li>
+  </ul>
+
+  <h3>② 到府保母 / 駐家保母</h3>
+  <ul>
+    <li><strong>定義</strong>:保母來你家照顧</li>
+    <li><strong>登記要求</strong>:⚠️ 法規灰色地帶 — 「居家式托育服務提供者登記及管理辦法」是否適用未完全明確,多數以個人勞務合約執業</li>
+    <li><strong>能否簽準公共</strong>:**通常不能**(政府補助以「送托」為主),家長只能領育兒津貼 5,000</li>
+    <li><strong>費用</strong>:**最高**,雙北月費 27,000-46,000</li>
+  </ul>
+
+  <h3>③ 社區媒合保母(透過居家托育服務中心)</h3>
+  <ul>
+    <li><strong>定義</strong>:已登記的在宅保母,透過各縣市「居家托育服務中心」媒合</li>
+    <li><strong>媒合費</strong>:**免費**,中心提供訪視、輔導、媒合</li>
+    <li><strong>性質</strong>:其實就是「①在宅保母」+ 公家管道,不是另一種保母</li>
+  </ul>
+
+  <h3>④ 親屬保母(三親等內)</h3>
+  <ul>
+    <li><strong>定義</strong>:祖父母、叔伯姑舅等三親等內親屬照顧</li>
+    <li><strong>補助</strong>:主要領「育兒津貼」5,000-7,000(跟有無證照無關)</li>
+    <li><strong>台北市加碼</strong>:有結業證書/技術士證者,**協力照顧補助** 加 2,000-3,000</li>
+    <li><strong>適用情境</strong>:不想送外人 + 有可信任家族成員</li>
+  </ul>
+
+  <h2>📜 2. 證照系統 · 托育人員技術士證</h2>
+  <p>原名「保母人員技術士證」(2022 年正名)。**單一等級**,不再分丙級/乙級(舊證仍有效)。</p>
+
+  <h3>怎麼考</h3>
+  <ul>
+    <li><strong>資格</strong>:年滿 20 歲 + 高中以上幼保 / 家政 / 護理科系畢業 **或** 修畢專業訓練 126 小時</li>
+    <li><strong>學科</strong>:選擇 80 題,100 分鐘</li>
+    <li><strong>術科</strong>:4 區實作 — 清潔區 / 調製區 / 遊戲學習區 / 安全醫護區</li>
+    <li><strong>有效期</strong>:**終身有效**,不需換證</li>
+    <li><strong>每年考期</strong>:1 月 / 4-5 月 / 8-9 月 三批</li>
+  </ul>
+
+  <h3>專業訓練 126 小時主題(實作大綱)</h3>
+  <p>家長要看保母「有沒有受過完整訓練」,要看是不是涵蓋這 18 大類:</p>
+  <table>
+    <thead><tr><th>領域</th><th>主要內容</th></tr></thead>
+    <tbody>
+      <tr><td><strong>嬰幼兒發展</strong></td><td>0-3 歲生理 / 認知 / 語言 / 動作 / 社會發展里程碑</td></tr>
+      <tr><td><strong>嬰幼兒保育</strong></td><td>沐浴、換尿布、穿衣、抱姿、擦屁股</td></tr>
+      <tr><td><strong>嬰幼兒餵哺</strong></td><td>母乳/配方奶調製、瓶餵姿勢、副食品引入順序</td></tr>
+      <tr><td><strong>嬰幼兒疾病預防</strong></td><td>常見疾病、發燒處理、預防接種、隔離</td></tr>
+      <tr><td><strong>嬰幼兒衛生與保健</strong></td><td>口腔、五官、皮膚、便溺處理</td></tr>
+      <tr><td><strong>事故傷害預防</strong></td><td>跌倒、燙傷、窒息、誤食、溺水</td></tr>
+      <tr><td><strong>嬰幼兒急救</strong></td><td>CPR、哈姆立克(嗆食)、傷口處理</td></tr>
+      <tr><td><strong>環境規劃與設備</strong></td><td>動線、安全角、嬰兒床、消毒、玩具</td></tr>
+      <tr><td><strong>遊戲學習活動</strong></td><td>感官 / 語言 / 認知 / 大肢體 / 精細動作</td></tr>
+      <tr><td><strong>嬰幼兒行為輔導</strong></td><td>哭鬧、咬人、打人、分離焦慮處理</td></tr>
+      <tr><td><strong>家長溝通</strong></td><td>聯絡簿、會談技巧、衝突處理</td></tr>
+      <tr><td><strong>多元文化敏感度</strong></td><td>不同家庭文化的尊重</td></tr>
+      <tr><td><strong>特殊兒童照顧</strong></td><td>過敏、發展遲緩、慢性病的辨識</td></tr>
+      <tr><td><strong>法律與倫理</strong></td><td>兒少法、通報義務、保密、避免不當管教</td></tr>
+      <tr><td><strong>緊急應變</strong></td><td>地震、火災、停電的安置流程</td></tr>
+      <tr><td><strong>食品衛生與營養</strong></td><td>食材處理、烹調、過敏原</td></tr>
+      <tr><td><strong>居家安全檢核</strong></td><td>環境檢查表、定期檢測</td></tr>
+      <tr><td><strong>實務見習</strong></td><td>到合格保母家見習</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:14px;color:var(--muted);"><em>面談時可以拿這個清單對照,問保母「這 18 項你哪幾項你最熟?最不熟?」聽她的具體經驗,就知道是訓練合格 vs 紙上談兵。</em></p>
+
+  <h2>⚖️ 3. 法規收托人數上限</h2>
+  <div class="callout warn">
+    <p style="margin:0;"><strong>單人保母</strong>不論時段,最多 4 人(其中未滿 2 歲不得超過 2 人)。**多收違法**。</p>
+  </div>
+  <table>
+    <thead>
+      <tr><th>托育類型</th><th>最多收托</th><th>未滿 2 歲上限</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>半日 / 日間 / 延長 / 臨時</td><td>4 人</td><td>2 人</td></tr>
+      <tr><td>全日 / 夜間</td><td>2 人</td><td>2 人(總量限制)</td></tr>
+      <tr><td>同處所多名保母</td><td>合計 4 人</td><td>—</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:14px;"><em>**計入人數包含**:保母自己未滿 3 歲的子女、未滿 5 歲的三親等內兒童(即使親屬不收費也計入)。</em></p>
+
+  <h3>違規罰則</h3>
+  <ul>
+    <li>未登記擅自執業:罰鍰 6,000 - 30,000 元 + 限期改善</li>
+    <li>屆期未改:再罰 + 強制轉介</li>
+    <li>違反收托人數 + 處罰 3 次以上:**廢止登記** + 1 年內不得重新登記</li>
+  </ul>
+
+  <h2>💰 4. 收費(2025-2026 雙北行情)</h2>
+  <h3>在宅保母</h3>
+  <table>
+    <thead><tr><th>地區</th><th>全日托(約 16 小時)</th><th>日托(約 10 小時)</th></tr></thead>
+    <tbody>
+      <tr><td>台北市</td><td>24,000 - 27,000</td><td>18,000 - 20,000</td></tr>
+      <tr><td>新北市</td><td>24,400 - 26,600</td><td>16,000 - 18,000</td></tr>
+      <tr><td>台中市</td><td>23,000 - 24,000</td><td>13,000 - 15,000</td></tr>
+      <tr><td>高雄市</td><td>上限約 25,240</td><td>上限約 15,800</td></tr>
+    </tbody>
+  </table>
+
+  <h3>到府保母(月費,8 小時日托)</h3>
+  <table>
+    <thead><tr><th>地區</th><th>月費範圍</th></tr></thead>
+    <tbody>
+      <tr><td>台北市</td><td>27,000 - 46,000</td></tr>
+      <tr><td>新北市</td><td>26,000 - 42,000</td></tr>
+      <tr><td>台中市</td><td>25,000 - 34,000</td></tr>
+      <tr><td>高雄市</td><td>24,000 - 34,000</td></tr>
+    </tbody>
+  </table>
+
+  <h3>其他</h3>
+  <ul>
+    <li><strong>臨時托育(臨托)</strong>:時薪 100-250 元(雙北偏高);各縣市多有政府補助</li>
+    <li><strong>副食品</strong>:部分另計 1,000-2,000 / 月</li>
+    <li><strong>四節禮金</strong>:慣例約 2,000-3,600 / 次,**非法定義務**</li>
+  </ul>
+
+  <h2>🎁 5. 政府補助(看 <a onclick="navigateTo('page-subsidy');return false;" href="#">💰 補助系統</a> 全頁)</h2>
+  <table>
+    <thead><tr><th>送哪類</th><th>中央補助/月</th></tr></thead>
+    <tbody>
+      <tr><td>準公共保母</td><td><strong>13,000</strong> + 縣市加碼</td></tr>
+      <tr><td>一般(非簽約)保母</td><td>只能領育兒津貼 <strong>5,000</strong></td></tr>
+      <tr><td>親屬代帶</td><td>育兒津貼 <strong>5,000</strong></td></tr>
+      <tr><td>自己帶</td><td>育兒津貼 <strong>5,000</strong></td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:14px;color:var(--muted);"><em>**育兒津貼跟托育補助互斥,只能擇一**。送準公共保母一定選托育補助(差 8,000)。</em></p>
+
+  <h2>🏛 6. 「準公共保母」是什麼?</h2>
+  <p>已完成居家式托育登記 + 跟地方政府簽訂準公共化合作契約的在宅保母。家長能領中央 13,000 + 縣市加碼。</p>
+  <h3>政府要求(簽約資格)</h3>
+  <ul>
+    <li>完成居家托育服務中心登記(有登記字號)</li>
+    <li>同意接受縣市訂定的收費上限</li>
+    <li>定期接受訪視評鑑</li>
+    <li>不得拒絕中央 / 地方政府轉介個案</li>
+    <li>加入居家托育服務中心管理</li>
+  </ul>
+
+  <h3>準公共 vs 一般保母核心差別</h3>
+  <table>
+    <thead><tr><th></th><th>準公共保母</th><th>一般(未簽約)保母</th></tr></thead>
+    <tbody>
+      <tr><td>登記</td><td>已登記 + 簽準公共合約</td><td>已登記 / 未登記</td></tr>
+      <tr><td>家長補助</td><td>中央 13,000 + 縣市加碼</td><td>只能領育兒津貼 5,000</td></tr>
+      <tr><td>收費限制</td><td>受縣市上限規範</td><td>雙方自由議定</td></tr>
+      <tr><td>政府訪視</td><td>新進每 3 月 1 次 / 資深每年 1 次</td><td>較少</td></tr>
+      <tr><td>彈性</td><td>較受限</td><td>較自由</td></tr>
+    </tbody>
+  </table>
+
+  <h2>🔍 7. 找保母的管道</h2>
+  <h3>官方(免費,推薦)</h3>
+  <ul>
+    <li><strong>各縣市居家托育服務中心</strong>(全國 22 縣市):媒合 + 訪視 + 輔導一條龍</li>
+    <li>查詢方式:撥 1957 福利專線 / 各縣市社會局網</li>
+    <li><strong>衛福部托育媒合平台</strong>:<a href="https://ncwisweb.sfaa.gov.tw/home/childcare-center" target="_blank" rel="noopener">ncwisweb.sfaa.gov.tw</a></li>
+    <li><strong>新北市育兒資訊網</strong>:<a href="https://lovebaby.sw.ntpc.gov.tw/" target="_blank" rel="noopener">lovebaby.sw.ntpc.gov.tw</a></li>
+    <li><strong>台北市</strong>:<a href="https://dosw.gov.taipei" target="_blank" rel="noopener">dosw.gov.taipei</a></li>
+  </ul>
+
+  <h3>民間平台</h3>
+  <ul>
+    <li>波比保母 PoBi、Bananny 托育小幫手、OurKids 育兒樂</li>
+  </ul>
+
+  <h3>媒合流程(透過官方中心)</h3>
+  <ol class="steps-list">
+    <li><strong>聯繫居家托育服務中心</strong> — 說明區域、時段、起托日</li>
+    <li><strong>中心媒合保母名單</strong> — 自行聯繫面談</li>
+    <li><strong>面談 + 試托</strong>(通常 1-3 天)— 確認彼此適合</li>
+    <li><strong>簽訂托育服務契約</strong>(衛福部有定型化契約範本)</li>
+  </ol>
+
+  <h2>🚨 8. 風險點 · 家長要正視</h2>
+  <div class="callout warn">
+    <ul style="margin:0 0 0 22px;">
+      <li><strong>單人作業沒同事監督</strong> — 異常行為無人即時發現(機構式有 2 人以上互相 check)</li>
+      <li><strong>監視器普及率低</strong> — 多數保母家未裝,且裝設與否完全取決於保母意願</li>
+      <li><strong>保母生病 / 家事突發 → 直接停托</strong> — 沒有人員替補機制,當日可能突然無人可托(對職場影響大)</li>
+      <li><strong>品質難外部評估</strong> — 沒有同梯爸媽口耳相傳,主要靠面談印象 + 訪視報告</li>
+      <li><strong>家庭隱私外漏</strong> — 到府保母知悉家庭作息、財物、家庭關係</li>
+    </ul>
+  </div>
+
+  <h3>確認品質的方法</h3>
+  <ul>
+    <li>透過居家托育服務中心查保母的<strong>訪視紀錄 + 評鑑結果</strong></li>
+    <li>要求查看<strong>環境安全檢核表</strong>(登記申請時即填報)</li>
+    <li>詢問是否願意<strong>裝監視器</strong>並開放遠端查看</li>
+    <li>打聽<strong>前任家長評價</strong>(可請中心協助)</li>
+    <li>觀察<strong>試托期間</strong>保母與孩子互動細節</li>
+    <li>確認保母是否<strong>加入居家托育服務中心</strong>(有加入者定期接受訪視)</li>
+  </ul>
+
+  <h2>📋 9. 面談必問清單</h2>
+  <ul>
+    <li>有托育人員技術士證嗎?(要看實體證照)</li>
+    <li>有跟政府簽準公共嗎?(影響補助金額)</li>
+    <li>同時帶幾個孩子?各幾歲?(法定上限 4 人 / 0-2 歲限 2 人)</li>
+    <li>家裡有誰?(配偶 / 公婆 / 自己孩子)— 出入頻率影響孩子</li>
+    <li>有寵物嗎?(過敏家長要問)</li>
+    <li>抽煙嗎?(直接 NG)</li>
+    <li>典型一天的時間表?(看作息穩不穩)</li>
+    <li>哭鬧處理方式?</li>
+    <li>遇到孩子打人 / 咬人怎麼處理?</li>
+    <li>過敏 / 特殊飲食配合?</li>
+    <li>請假 / 休假有多少?替手是誰?</li>
+    <li>緊急狀況送哪家醫院?</li>
+    <li>願意給家長看 LINE 群 / 推照片?頻率?</li>
+    <li>能不能裝 / 開監視器?</li>
+    <li>跟之前家長有沒有出過糾紛?(問了她敢不敢答,反映誠實度)</li>
+  </ul>
+</section>
+
+<!-- ========== 補助系統 ========== -->
+<section class="page" id="page-subsidy">
+  <h1>💰 補助系統</h1>
+  <p style="font-size:17px;color:var(--muted);">育兒津貼 vs 托育補助 vs 幼兒園補助 — **三選一,不可並領**。很多家長搞錯,選錯每月差 8,000。</p>
+
+  <div class="callout danger">
+    <h4>🚨 最關鍵的一條:互斥規則</h4>
+    <p style="margin:0;">**育兒津貼、托育補助、幼兒園補助:三選一,只能領一種**。不能同時領、不能交替月份領。送公托 / 準公共托嬰 / 準公共保母 → **一定選托育補助**(高出 8,000+)。自己帶 / 親屬帶 / 一般私托 → 只能領育兒津貼。</p>
+  </div>
+
+  <h2>📊 三種補助對照</h2>
+  <table>
+    <thead>
+      <tr><th>補助</th><th>對象</th><th>第 1 胎 / 月</th><th>第 2 胎</th><th>第 3 胎+</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>育兒津貼</strong></td><td>0-未滿 6 歲,自己帶 / 親屬帶 / 送非準公共私托</td><td>5,000</td><td>6,000</td><td>7,000</td></tr>
+      <tr><td><strong>托育補助(公共化)</strong></td><td>0-未滿 3 歲,送公托 / 公共托育家園</td><td>7,000</td><td>8,000</td><td>9,000</td></tr>
+      <tr><td><strong>托育補助(準公共)</strong></td><td>0-未滿 3 歲,送準公共托嬰 / 準公共保母</td><td>13,000</td><td>14,000</td><td>15,000</td></tr>
+      <tr><td>中低收入戶(準公共)</td><td>同上,中低收身分</td><td>15,000</td><td>—</td><td>—</td></tr>
+      <tr><td>低收入戶 / 弱勢(準公共)</td><td>同上,低收身分</td><td>17,000</td><td>—</td><td>—</td></tr>
+      <tr><td><strong>幼兒園補助(公幼)</strong></td><td>2-6 歲送公幼</td><td>免學費 + 部分自付</td><td>—</td><td>—</td></tr>
+      <tr><td><strong>幼兒園補助(非營利/準公共)</strong></td><td>2-6 歲送非營利 / 準公共幼兒園</td><td>家長月費 3,000 上限</td><td>2,000</td><td>1,000</td></tr>
+    </tbody>
+  </table>
+
+  <h2>🏙 各縣市加碼(中央以外多領)</h2>
+  <p>**中央補助是「下限」**,多數縣市另有加碼。差距很大。</p>
+  <table>
+    <thead><tr><th>縣市</th><th>加碼對象</th><th>加碼金額/月</th></tr></thead>
+    <tbody>
+      <tr><td>台北市</td><td>送準公共保母 / 托嬰中心</td><td><strong>+5,000</strong>(115/7 起調為 +8,000),第 2 胎再 +2,000</td></tr>
+      <tr><td>新北市</td><td>送準公共保母 / 托嬰中心</td><td>+2,000</td></tr>
+      <tr><td>桃園市</td><td>送準公共保母 / 托嬰中心</td><td>+1,000</td></tr>
+      <tr><td>其他縣市</td><td>各地不同</td><td>查各縣市社會局網</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <h4>📌 算總帳:雙北家庭送準公共保母</h4>
+    <p style="margin:0;">**台北市第 1 胎 + 準公共保母**:
+中央 13,000 + 台北加碼 5,000 = <strong>18,000</strong> / 月(115/7 後 21,000)
+**新北市第 1 胎 + 準公共保母**:
+中央 13,000 + 新北加碼 2,000 = <strong>15,000</strong> / 月
+這意味著保母收 25,000,家長實付**只 7,000-10,000**。但**未簽約**保母月費差不多,卻只能領育兒津貼 5,000,實付要 20,000。差 3 倍。</p>
+  </div>
+
+  <h2>🔄 何時換補助 · 年齡銜接</h2>
+  <table>
+    <thead><tr><th>孩子年齡</th><th>可領補助</th><th>誰發</th></tr></thead>
+    <tbody>
+      <tr><td>0 - 未滿 2 歲</td><td>育兒津貼 / 托育補助(擇一)</td><td>衛福部</td></tr>
+      <tr><td>2 - 未滿 3 歲(續托)</td><td>托育補助延續(無需重新申請)</td><td>衛福部</td></tr>
+      <tr><td>2 - 未滿 5 歲(自己帶)</td><td>育兒津貼</td><td>**改由教育部**接手發放</td></tr>
+      <tr><td>2 - 未滿 6 歲(送幼兒園)</td><td>幼兒園補助</td><td>教育部</td></tr>
+      <tr><td>5 歲以上</td><td>免學費就學</td><td>教育部</td></tr>
+    </tbody>
+  </table>
+
+  <h2>🚫 常見誤解</h2>
+  <div class="callout warn">
+    <ul style="margin:0 0 0 22px;">
+      <li>❌ 「我送托嬰 + 也想領育兒津貼」 — 不行,二選一</li>
+      <li>❌ 「我自己帶,但領托育補助」 — 不行,托育補助限「送機構/簽約保母」</li>
+      <li>❌ 「我送非準公共私托,但想領 13,000」 — 不行,只能領育兒津貼 5,000</li>
+      <li>❌ 「育嬰留停跟托育補助互斥」 — **111 年起已取消互斥**,可以同時領</li>
+      <li>✅ 「育嬰留停 + 育兒津貼」可以(只要符合各自資格)</li>
+      <li>✅ 「育嬰留停 + 托育補助」可以(2024 年新規)</li>
+    </ul>
+  </div>
+
+  <h2>📝 申請</h2>
+  <ul>
+    <li><strong>育兒津貼</strong>:孩子戶籍地公所申請,**不會自動發放**(很多家長不知)</li>
+    <li><strong>托育補助</strong>:跟簽約托嬰 / 保母 / 幼兒園 報到時順便申請</li>
+    <li><strong>應備文件</strong>:身分證、戶口名簿、孩子健保卡、銀行存摺</li>
+    <li><strong>查詢試算</strong>:<a href="https://lovebaby.sw.ntpc.gov.tw/" target="_blank" rel="noopener">新北 lovebaby</a> / <a href="https://www.mohw.gov.tw/cp-5130-58003-1.html" target="_blank" rel="noopener">衛福部專區</a></li>
+  </ul>
 </section>
 
 <!-- ========== 比較籃 ========== -->
