@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>心法手冊 · 失智照護面對新事件的判斷視角</title>
-<meta name="description" content="一位失智照護者面對新狀況時,腦袋裡跑的判斷視角。失智不是失能、用加法對抗減法、躁動不是無聊、動線是功能可及性、誠實版優於善意包裝、手冊是網狀不是清單 — 6 條主觀經驗,可採可不採。歡迎其他家屬補充自己的視角。提供英文版。">
+<meta name="description" content="一位失智照護者面對新狀況時,腦袋裡跑的判斷視角。失智不是失能、用加法對抗減法、躁動不是無聊、動線是功能可及性、誠實版優於善意包裝、手冊是網狀不是清單 — 6 條主觀經驗,可採可不採。歡迎其他家屬補充自己的視角。">
 <meta name="keywords" content="失智照護,判斷視角,心法,照護框架,失智不是失能,加法減法,失智症,長照,Mindset Handbook,Dementia Care Frames">
 <meta name="author" content="一位失智照護者">
 <link rel="canonical" href="https://tm731531.github.io/dementia-care/mindset/">
 <meta property="og:type" content="article">
 <meta property="og:title" content="心法手冊 · 失智照護面對新事件的判斷視角">
-<meta property="og:description" content="6 條主觀經驗的判斷視角,可採可不採 — 一位照護者怎麼看失智這件事(中英雙語可切換)。">
+<meta property="og:description" content="6 條主觀經驗的判斷視角,可採可不採 — 一位照護者怎麼看失智這件事。">
 <meta property="og:url" content="https://tm731531.github.io/dementia-care/mindset/">
 <meta property="og:image" content="https://tm731531.github.io/dementia-care/mindset/og-image.svg">
 <meta property="og:image:width" content="1200">
@@ -18,7 +18,7 @@
 <meta property="og:image:type" content="image/svg+xml">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="心法手冊 · 失智照護的判斷視角">
-<meta name="twitter:description" content="6 條主觀經驗的判斷視角,可採可不採。中英雙語。">
+<meta name="twitter:description" content="6 條主觀經驗的判斷視角,可採可不採。">
 <meta name="twitter:image" content="https://tm731531.github.io/dementia-care/mindset/og-image.svg">
 
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧠</text></svg>">
@@ -29,7 +29,7 @@
   "@type": "BreadcrumbList",
   "itemListElement": [
     {"@type": "ListItem", "position": 1, "name": "Dementia Care Tools", "item": "https://tm731531.github.io/dementia-care/"},
-    {"@type": "ListItem", "position": 2, "name": "心法手冊 / Mindset Handbook", "item": "https://tm731531.github.io/dementia-care/mindset/"}
+    {"@type": "ListItem", "position": 2, "name": "心法手冊", "item": "https://tm731531.github.io/dementia-care/mindset/"}
   ]
 }
 </script>
@@ -39,7 +39,7 @@
   "@context": "https://schema.org",
   "@type": "Article",
   "headline": "心法手冊 · 失智照護面對新事件的判斷視角",
-  "description": "一位失智照護者面對新狀況時,腦袋裡跑的判斷視角。6 條主觀經驗,可採可不採。提供中英雙語切換。",
+  "description": "一位失智照護者面對新狀況時,腦袋裡跑的判斷視角。6 條主觀經驗,可採可不採。",
   "author": {"@type": "Person", "name": "一位失智照護者", "url": "https://blog.tomting.com/"},
   "datePublished": "2026-04-25",
   "inLanguage": ["zh-Hant", "en"],
@@ -84,27 +84,25 @@ a:hover { text-decoration-color: var(--primary); }
 .skip-link { position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
 .skip-link:focus { position:fixed; top:0; left:0; z-index:9999; width:auto; height:auto; padding:12px; background:#000; color:#fff; }
 
-.lang-toggle-bar {
-  position: sticky;
-  top: 0;
-  background: var(--bg);
-  padding: 12px 20px;
-  text-align: right;
-  z-index: 100;
-  border-bottom: 1px solid var(--border);
-}
 .lang-toggle-btn {
-  background: var(--primary);
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
-  font-size: 14px;
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 200;
+  background: var(--card);
+  color: var(--primary-dark);
+  border: 1px solid var(--border);
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   font-family: inherit;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: background 0.15s, color 0.15s;
 }
-.lang-toggle-btn:hover { background: var(--primary-dark); }
+.lang-toggle-btn:hover { background: var(--primary); color: #fff; }
+@media print { .lang-toggle-btn { display: none !important; } }
 
 .wrap { max-width: 760px; margin: 0 auto; padding: 24px 20px 60px; }
 .hero { text-align: center; padding: 32px 0 16px; border-bottom: 2px solid var(--border); margin-bottom: 24px; }
@@ -198,17 +196,10 @@ th { background: #f5ede0; }
 </head>
 <body>
 
-<a href="#frames-zh" class="skip-link">跳到第一條視角 / Skip to first frame</a>
+<button id="lang-toggle-btn" class="lang-toggle-btn" type="button" aria-label="切換語言 / Toggle language">EN</button>
 
-<div class="lang-toggle-bar">
-  <button id="lang-toggle-btn" class="lang-toggle-btn" type="button" aria-label="切換語言 · Toggle language">
-    🌐 English
-  </button>
-</div>
+<a href="#frames-zh" class="skip-link">跳到第一條視角</a>
 
-<!-- ============================================================================ -->
-<!-- 中文版 -->
-<!-- ============================================================================ -->
 <main class="wrap" id="content-zh" lang="zh-Hant" aria-label="心法手冊主內容">
 
 <div class="hero">
@@ -488,6 +479,8 @@ th { background: #f5ede0; }
 </div>
 
 </main>
+
+
 
 <!-- ============================================================================ -->
 <!-- English version -->
@@ -775,42 +768,40 @@ th { background: #f5ede0; }
 
 <script>
 (function() {
-  const btn = document.getElementById('lang-toggle-btn');
-  const zh = document.getElementById('content-zh');
-  const en = document.getElementById('content-en');
-  const STORAGE_KEY = 'mindset-lang';
+  var btn = document.getElementById('lang-toggle-btn');
+  var zh = document.getElementById('content-zh');
+  var en = document.getElementById('content-en');
+  var STORAGE_KEY = 'mindset-lang';
 
   function applyLang(lang) {
     if (lang === 'en') {
       zh.style.display = 'none';
       en.style.display = '';
-      btn.textContent = '🌐 中文';
+      btn.textContent = '中';
+      btn.setAttribute('aria-label', '切換為中文 / Switch to Chinese');
       document.documentElement.lang = 'en';
       document.title = 'Mindset Handbook · Frames for facing new events in dementia care';
     } else {
       zh.style.display = '';
       en.style.display = 'none';
-      btn.textContent = '🌐 English';
+      btn.textContent = 'EN';
+      btn.setAttribute('aria-label', 'Switch to English / 切換為英文');
       document.documentElement.lang = 'zh-Hant';
       document.title = '心法手冊 · 失智照護面對新事件的判斷視角';
     }
   }
 
-  // Load saved preference
-  let saved;
-  try { saved = localStorage.getItem(STORAGE_KEY); } catch(e) {}
-  if (saved === 'en' || saved === 'zh') {
-    applyLang(saved);
-  } else {
-    // Auto-detect from browser language
-    const browserLang = (navigator.language || 'zh').toLowerCase();
-    applyLang(browserLang.startsWith('en') ? 'en' : 'zh');
-  }
+  // Default Chinese; only switch on explicit user toggle.
+  // Browser locale is intentionally NOT auto-detected — caregivers in Taiwan
+  // may use English-locale browsers but want Chinese content.
+  var saved;
+  try { saved = localStorage.getItem(STORAGE_KEY); } catch (e) {}
+  applyLang(saved === 'en' ? 'en' : 'zh');
 
-  btn.addEventListener('click', function() {
-    const newLang = (en.style.display === 'none') ? 'en' : 'zh';
+  btn.addEventListener('click', function () {
+    var newLang = (en.style.display === 'none') ? 'en' : 'zh';
     applyLang(newLang);
-    try { localStorage.setItem(STORAGE_KEY, newLang); } catch(e) {}
+    try { localStorage.setItem(STORAGE_KEY, newLang); } catch (e) {}
   });
 })();
 </script>
