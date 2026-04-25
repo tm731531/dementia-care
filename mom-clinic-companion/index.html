@@ -30,7 +30,7 @@
     "applicationCategory": "HealthApplication",
     "operatingSystem": "Any (Web Browser)",
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "TWD" },
-    "inLanguage": "zh-TW",
+    "inLanguage": "zh-Hant",
     "isAccessibleForFree": true,
     "creator": { "@type": "Person", "name": "Tom Ting", "url": "https://blog.tomting.com/" }
   }
@@ -686,7 +686,7 @@
       "name": "長照 3.0 / 1966 相關功能有嗎？",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "目前沒有內建長照申請 SOP,但工具輸出的症狀趨勢可作為長照評估(CMS)的客觀依據。也可作為申請身障證明時的醫師參考。2026 年起台灣長照進入 3.0:申請仍撥 1966 / 巴氏量表仍適用,新增 49 歲以下失智者納入、外勞家庭可用社區服務、照顧管理專員。"
+        "text": "目前沒有內建長照申請 SOP,但工具輸出的症狀趨勢可作為長照評估(CMS)的客觀依據。也可作為申請身障證明時的醫師參考。長照 3.0(2026 起,以衛福部最新公告為準):申請仍撥 1966 / 巴氏量表仍適用,新增 49 歲以下失智者納入、外勞家庭可用社區服務、照顧管理專員。"
       }
     },
     {
@@ -724,6 +724,16 @@
     <div class="login-box">
       <h1>🏥 就診小幫手</h1>
       <div class="sub">連線 iDempiere 照顧系統</div>
+      <div style="margin: 20px 0 16px; padding: 14px 16px; background: #fef7e6; border: 1px solid #d4a04c; border-radius: 8px; font-size: 13px; line-height: 1.7; color: var(--text-muted); text-align: left;">
+        <div style="font-weight: 600; color: var(--text); margin-bottom: 6px;">沒有 iDempiere 帳號?</div>
+        <p style="margin: 0 0 8px 0;">這個工具需要自架 iDempiere ERP。如果你想:</p>
+        <ul style="margin: 0 0 8px 18px; padding: 0;">
+          <li><a href="../home-handbook/" style="color: var(--primary);">看家中照護手冊(零技術門檻)</a></li>
+          <li><a href="../whiteboard-ocr-bot/" style="color: var(--primary);">了解搭配的白板 OCR Bot(同樣需技術部署)</a></li>
+          <li><a href="https://github.com/tm731531/dementia-care/tree/main/mom-clinic-companion" style="color: var(--primary);">看 GitHub source code 自架</a></li>
+        </ul>
+        <p style="margin: 0; font-size: 12px; color: #999;">設計初衷:給 ERP 開發者照護者用,不是 SaaS 服務。</p>
+      </div>
       <input type="text" id="login-user" placeholder="使用者名稱" autocomplete="username">
       <input type="password" id="login-pass" placeholder="密碼" autocomplete="current-password">
       <div class="err" id="login-err"></div>
@@ -2173,7 +2183,7 @@ init();
     本工具非醫療器材，所有內容僅供照護者備忘。用藥與治療決定請由主治醫師判斷。
   </p>
   <p style="margin:0;font-size:12px;">
-    🆘 緊急撥 <strong style="color:#c00;">119</strong> · 長照 <strong>1966</strong> · 失智關懷 <strong>0800-474-580</strong>
+    🆘 緊急撥 <strong style="color:#c00;">119</strong> · 長照 <strong>1966</strong> · 失智關懷 <strong>0800-474-580</strong> · 家庭照顧者關懷 <strong>0800-50-7272</strong>
   </p>
 </div>
 </body>
