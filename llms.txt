@@ -6,7 +6,7 @@
 
 ## 失智照護生態系(主線 · 4 個工具組成資料閉環)
 
-- [家中照護手冊](https://tm731531.github.io/dementia-care/home-handbook/): 失智家人確診後的法律/醫療/環境/SOP 入口手冊(P0)。涵蓋意定監護 / 銀行代理 / 診斷證明 / 印鑑 / GPS 防走失 + 物理環境安全改造 13 項 + 早晚 SOP + 黃昏症候群處理 + 照顧者喘息資源(家總 0800-50-7272 / 失智關懷 0800-474-580)。純前端、離線可用。
+- [家中照護手冊](https://tm731531.github.io/dementia-care/home-handbook/): 失智家人確診後的入口手冊(P0),拆 4 頁:[主入口](https://tm731531.github.io/dementia-care/home-handbook/)(法律 P0 + 物理改造 13 項 + 早晚 SOP)/ [急性事件](https://tm731531.github.io/dementia-care/home-handbook/emergency/)(用藥 / 跌倒 / 走失 / 聯絡卡 / 譫妄)/ [長期規劃](https://tm731531.github.io/dementia-care/home-handbook/long-term/)(機構 / 自費保險 / 關懷據點)/ [照護者自己](https://tm731531.github.io/dementia-care/home-handbook/caregiver/)。涵蓋意定監護 / 銀行代理 / 診斷證明 / 印鑑 / GPS 防走失 + 喘息資源(家總 0800-50-7272 / 失智關懷 0800-474-580)。純前端、離線可用。
 - [陪伴小幫手 v1](https://tm731531.github.io/dementia-care/dementia-companion/): 15 個遊戲(13 認知訓練 + 2 舒緩工具 + 常駐每日問候)。8 級難度滑桿依長輩認知程度自動選 10 個顯示。語音輔助依難度調整。
 - [陪伴小幫手 v2](https://tm731531.github.io/dementia-care/dementia-companion-v2/): v1 同款 15 遊戲,首頁改成推薦式(「今天一起做這個好嗎?」)。附 45 條可直接對失智長輩說的陪伴指南(15 遊戲 × 3 時機:進入/答對/完成)+ 今日摘要一鍵貼 LINE 家族群。跟 v1 並存不取代。
 - [白板 OCR 紀錄 Bot](https://tm731531.github.io/dementia-care/whiteboard-ocr-bot/): Python + Telegram + Gemini 3 Flash Preview。照護員每天填的 12 項白板磁鐵 → Gemini 辨識「磁鐵在第幾格」(box-index 策略避開手寫 OCR)→ 自動寫入 iDempiere Z_momSystem 表。human-as-verifier 設計:寧缺勿錯。
