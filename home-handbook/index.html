@@ -282,7 +282,9 @@ tr:nth-child(even) td { background: #fafaf5; }
 </head>
 <body>
 
-<div class="wrap">
+<a href="#legal" class="skip-link" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;" onfocus="this.style.cssText='position:fixed;top:0;left:0;z-index:9999;padding:12px;background:#000;color:#fff;'">跳到第一個 P0 · 意定監護</a>
+
+<main class="wrap" aria-label="失智家人照護手冊主內容">
 
 <div class="hero">
   <h1>🏠 家中照護手冊</h1>
@@ -306,8 +308,20 @@ tr:nth-child(even) td { background: #fafaf5; }
   </li>
   <li><strong>家庭狀況不同</strong>,本手冊反映的是<strong>一個 CDR 2 中度失智 + 有長照居服員入場 + 北部公寓的具體家庭</strong>。不是所有條件都適用你家。挑對你家有用的用,踩過的坑不用再踩。</li>
   <li><strong>使用者需自行判斷並自負責任</strong>。作者、本站與所有連結對象,不為任何因參考本手冊所做決策的後果負任何責任。</li>
+  <li><strong>品牌提及免責</strong>:文中提及的商品品牌(AirTag、Aqara / 米家、煮蛋器、葉片式暖氣、GPS 鞋墊等)為作者實際使用的舉例,<strong>非商業合作 / 非代言 / 非背書</strong>,同類替代品皆可。</li>
   <li><strong>緊急狀況請撥 119;長照諮詢 1966;失智關懷 0800-474-580。</strong></li>
 </ul>
+</div>
+
+<div class="card" style="border-left:4px solid #0066cc;background:#f0f9ff;">
+  <h3 style="margin:0 0 8px 0;color:#0066cc;">⚡ 只有 5 分鐘?跳這裡</h3>
+  <p style="margin:0 0 6px 0;">剛確診 / 剛進來找資料,以下是<strong>最救命的 3 個連結</strong>:</p>
+  <ol style="margin:0 0 0 20px;">
+    <li><a href="#legal"><strong>剛確診那週的法律 P0</strong></a> — 意定監護有「清醒窗口」,錯過失效</li>
+    <li><a href="#caregiver"><strong>照護者自己(做一次壓力自評)</strong></a> — 比所有改造都重要</li>
+    <li><a href="#pitfalls"><strong>踩過的坑</strong></a> — 別重蹈</li>
+  </ol>
+  <p style="margin:6px 0 0 0;font-size:14px;color:#555;">其餘內容可之後再看。<strong>本手冊不用一次讀完</strong>,當成查詢用就好。</p>
 </div>
 
 <div class="card">
@@ -321,7 +335,7 @@ tr:nth-child(even) td { background: #fafaf5; }
   </ol>
 </div>
 
-<div class="nav-toc">
+<nav class="nav-toc" aria-label="目錄">
   <h4>📑 目錄</h4>
   <a href="#legal">🔴 剛確診那週的法律/醫療 P0(清醒窗口)</a>
   <a href="#start">🟠 物理安全先做這 3 件</a>
@@ -337,7 +351,7 @@ tr:nth-child(even) td { background: #fafaf5; }
   <a href="#levels">🧠 適用範圍 · 我目前在哪一級</a>
   <a href="#caregiver">💙 照護者自己 · 比 13 項都重要</a>
   <a href="#pitfalls">⚠️ 踩過的坑</a>
-</div>
+</nav>
 
 <!-- ============================================================== -->
 <h2 id="legal">🔴 剛確診那週的法律/醫療 P0(清醒窗口)</h2>
@@ -923,7 +937,13 @@ tr:nth-child(even) td { background: #fafaf5; }
   <li><strong>物理位置 = 資訊</strong>:任何人只要知道倉庫在哪,就找得到所有東西。不依賴紙本標示、不會被失智者破壞、不用維護。</li>
   <li><strong>倉庫選址</strong>:失智者平常不會翻的位置(高櫃上層、很裡面的儲藏室、客房不起眼的櫃子)。她走不到 = 不會被攻擊。</li>
   <li><strong>例外:居服員專用備品</strong>可單獨一個小區塊(不跟家用混),但仍在同一個倉庫區內,讓「倉庫在 X」這個 mental model 不被打破。</li>
-  <li><strong>紀錄本在顯眼處</strong>(餐桌 / 冰箱貼 / 倉庫門口)— 這個可能會被破壞,但丟了也只損失當日紀錄,不影響物資取用。</li>
+  <li><strong>紀錄本例外:可以放顯眼處</strong>(餐桌 / 冰箱貼 / 倉庫門口) — 這個「紙本 OK,跟上面規則不衝突」,因為:
+    <ul style="margin:4px 0 0 16px;font-size:14px;">
+      <li><strong>物資地圖 / 櫃子標籤不要做</strong>:丟了 = 所有人找不到東西 = 機制壞掉</li>
+      <li><strong>紀錄本可以做</strong>:丟了只損失當日紀錄,物資取用不受影響,損失可接受</li>
+      <li>規則就是一句:<strong>「會讓整個系統停擺的紙本不要做,只損失當日資訊的紙本可以做」</strong></li>
+    </ul>
+  </li>
 </ul>
 <p class="why">失智家庭裡<strong>任何寫在紙上的東西都會被破壞</strong>,越精心做越是目標。信任感不是來自完美的說明書,是<strong>「東西永遠就在那邊」的物理確定性</strong>。</p>
 
@@ -1021,6 +1041,17 @@ tr:nth-child(even) td { background: #fafaf5; }
   <li><strong>中度(CDR 2)</strong>家屬:本手冊的<strong>主要適用對象</strong></li>
   <li><strong>重度(CDR 3)</strong>家屬:這個階段需要的是<strong>醫療級介入</strong>(專業看護、醫療設備、安寧規劃),不是空間改造。請諮詢主治醫師與當地長照管理中心。本手冊多數策略不適用</li>
 </ul>
+
+<div class="callout warn" style="margin-top:12px;">
+<strong>🌏 不同家庭配置的補充(本手冊沒深入覆蓋,但你家可能是)</strong>:
+<ul style="margin:4px 0 0 18px;">
+  <li><strong>外籍看護在場</strong>:手冊以「家人 + 台灣長照居服員」為前提。外籍看護家庭的 SOP 分工邏輯類似,但溝通、班表、休假規範不同 — 請撥 1955(勞工申訴專線)或 <a href="https://1955.mol.gov.tw/" target="_blank" rel="noopener noreferrer">1955 官網</a> 查相關權益。</li>
+  <li><strong>獨居失智者 / 子女遠距照護</strong>:手冊多數假設同住 — 遠距照護的核心在<strong>遠端監測 + 在地服務媒合</strong>,請諮詢當地「<a href="https://dementia-map.tada2002.org.tw/" target="_blank" rel="noopener noreferrer">失智共同照護中心</a>」(TADA 地圖)。</li>
+  <li><strong>中南部 / 東部離島 / 原住民區 / 新住民家庭</strong>:居服員 / 日照中心在各地的<strong>可得性差異很大</strong>(核定後可能找不到機構)。實際可用資源請撥 1966 詢問當地「長照管理中心」有哪些特約單位。</li>
+  <li><strong>租屋 / 空間有限家庭</strong>:本手冊很多 item(運動間、沙發中心島、獨立倉庫)預設有一定空間。空間限制的家庭<strong>優先做 P0 三件</strong>(廁所、馬桶、鐵窗)+ 法律 P0,其他看條件挑。</li>
+</ul>
+這些情境本手冊沒深入覆蓋,因為作者沒親歷。請以當地專業資源為準。
+</div>
 
 <!-- ============================================================== -->
 <h2 id="caregiver">💙 照護者自己 · 比上面 13 項都重要</h2>
@@ -1171,6 +1202,44 @@ tr:nth-child(even) td { background: #fafaf5; }
 </div>
 
 <!-- ============================================================== -->
+<h2>📚 術語對照 glossary</h2>
+<details style="background:#fff;padding:14px 20px;border-radius:8px;border:1px solid var(--border);margin:10px 0;">
+  <summary style="cursor:pointer;font-weight:600;color:var(--primary-dark);">點開展開術語對照(手冊出現的英文 / 醫學詞)</summary>
+  <dl style="margin:10px 0 0 0;font-size:15px;">
+    <dt style="font-weight:600;margin-top:8px;">CDR(Clinical Dementia Rating)</dt>
+    <dd style="margin:2px 0 0 20px;">臨床失智評估量表,分 0.5 / 1 / 2 / 3 級。輕度 0.5-1、中度 2、重度 3。</dd>
+    <dt style="font-weight:600;margin-top:8px;">MMSE / CASI</dt>
+    <dd style="margin:2px 0 0 20px;">失智初診常用的認知功能篩檢量表,評估記憶、定向感、計算等。</dd>
+    <dt style="font-weight:600;margin-top:8px;">BPSD(Behavioral and Psychological Symptoms of Dementia)</dt>
+    <dd style="margin:2px 0 0 20px;">失智症的行為與精神症狀。包括躁動、幻覺、妄想、日夜顛倒、重複行為、冷漠等。</dd>
+    <dt style="font-weight:600;margin-top:8px;">Sundowning(黃昏症候群)</dt>
+    <dd style="margin:2px 0 0 20px;">失智者在下午到傍晚情緒變得焦躁、疑神疑鬼、想離家的典型症狀。</dd>
+    <dt style="font-weight:600;margin-top:8px;">Restlessness(躁動不安 / 停不下來)</dt>
+    <dd style="margin:2px 0 0 20px;">BPSD 的一種,失智者表現為持續踱步、無法安靜坐下。</dd>
+    <dt style="font-weight:600;margin-top:8px;">Misidentification(物品 / 空間 / 人物辨識錯誤)</dt>
+    <dd style="margin:2px 0 0 20px;">失智者可能把熟悉的東西 / 家人 / 空間說成「不是我的」「不認得」。</dd>
+    <dt style="font-weight:600;margin-top:8px;">Procedural memory(身體記憶 / 程序性記憶)</dt>
+    <dd style="margin:2px 0 0 20px;">失智中期仍保留的記憶類型:身體記得怎麼做某些動作(摺衣、洗碗、撿菜)不用思考。</dd>
+    <dt style="font-weight:600;margin-top:8px;">Reminiscence therapy(懷舊治療)</dt>
+    <dd style="margin:2px 0 0 20px;">照護中利用長期記憶(童年 / 年輕時的物品 / 音樂)引發長輩情感連結的方法。</dd>
+    <dt style="font-weight:600;margin-top:8px;">Disorientation(定向感混亂)</dt>
+    <dd style="margin:2px 0 0 20px;">對時間、地點、人物失去正確判斷。</dd>
+    <dt style="font-weight:600;margin-top:8px;">Executive function(執行功能)</dt>
+    <dd style="margin:2px 0 0 20px;">大腦前額葉負責的計畫、決策、切換任務的能力,失智早期就開始退化。</dd>
+    <dt style="font-weight:600;margin-top:8px;">Circadian rhythm(生理時鐘 / 日夜節律)</dt>
+    <dd style="margin:2px 0 0 20px;">24 小時的睡眠 / 清醒週期,失智者容易紊亂。</dd>
+    <dt style="font-weight:600;margin-top:8px;">ACP / AD / DNR</dt>
+    <dd style="margin:2px 0 0 20px;">ACP(預立醫療照護諮商)→ AD(預立醫療決定,病主法)→ DNR(不施行心肺復甦術,安寧條例)。三件事不同法規不同文件,詳見法律 P0 section。</dd>
+    <dt style="font-weight:600;margin-top:8px;">ICF(功能、失能及健康分類系統)</dt>
+    <dd style="margin:2px 0 0 20px;">WHO 訂的評估標準,台灣身障鑑定採用。失智者需經 ICF 醫療團隊鑑定。</dd>
+    <dt style="font-weight:600;margin-top:8px;">ZBI(Zarit Burden Interview)/ CBI</dt>
+    <dd style="margin:2px 0 0 20px;">國際通用的照護者負擔量表。台灣家總的 14 題版本概念相近。</dd>
+    <dt style="font-weight:600;margin-top:8px;">CMS(照顧管理專員)</dt>
+    <dd style="margin:2px 0 0 20px;">長照 3.0 的專業角色,撥 1966 後到府評估失能等級、媒合服務。</dd>
+  </dl>
+</details>
+
+<!-- ============================================================== -->
 <h2>📖 相關閱讀(失智照顧系列)</h2>
 <ul>
   <li><a href="https://blog.tomting.com/2026/04/23/dementia-first-week-5-things/">失智家人確診後的第一週,先做這 5 件事(法律/醫療/防走失)</a></li>
@@ -1191,7 +1260,7 @@ tr:nth-child(even) td { background: #fafaf5; }
   </p>
 </div>
 
-</div><!-- /.wrap -->
+</main><!-- /.wrap -->
 
 </body>
 </html>
