@@ -650,19 +650,39 @@ tr:nth-child(even) td { background: #fafaf5; }
   </div>
 
   <div class="item p0">
-    <div class="item-title"><span class="num">13</span>🛁 浴室安全(失智家庭 #2 急診原因)</div>
-    <p><strong>為什麼 P0</strong>:失智長輩<strong>急診進醫院的前兩名</strong>是脫水(第 #1)跟<strong>浴室跌倒</strong>(第 #2)。有統計顯示長者跌倒約 70% 發生在浴室。地滑 + 轉身 + 溫差 + 赤腳 + 失智判斷力退化,每個因子都放大,合起來就是災難。</p>
-    <p><strong>怎麼做(一次性改造,之後不用再碰)</strong>:</p>
-    <ul style="margin:6px 0 0 18px;font-size:14px;">
-      <li><strong>L 型 / 一字扶手</strong>裝在馬桶旁 + 淋浴區 — 她起身 / 站著洗澡時有東西抓</li>
-      <li><strong>沐浴椅</strong>(可坐著洗澡 + 讓居服員能幫忙洗)— 大賣場或長照輔具補助都有,這是降低跌倒率最大單一裝備</li>
-      <li><strong>止滑墊 / 止滑膠條</strong>鋪在濕區地面 + 浴缸底部</li>
-      <li><strong>熱水器溫度上限鎖定</strong>(40-42°C),避免她自己轉到燙(失智後期溫度感覺遲鈍,燙傷後果嚴重)</li>
-      <li><strong>馬桶坐墊加高</strong>(加高椅套 / 專用馬桶),降低起身難度</li>
-      <li><strong>門內門外都能開</strong> — 接第 8 項浴室鎖原則,她反鎖自己時你從外硬幣開</li>
-      <li><strong>緊急呼叫</strong>(選配):無線呼叫鈴放浴室,她跌倒按鈕會響到你手機 / 廚房</li>
+    <div class="item-title"><span class="num">13</span>🛁 浴室的失智防線(不是失能輔具)</div>
+    <div class="callout warn" style="margin:8px 0;">
+    <strong>⚠️ 失智 vs 失能,浴室安全完全不同</strong>:
+    <ul style="margin:4px 0 0 18px;">
+      <li><strong>失能</strong>(身體弱、認知正常):用<strong>輔具</strong>解 — 扶手抓著、沐浴椅坐著、緊急鈴按了會有人來</li>
+      <li><strong>失智</strong>(身體可能還可以、認知退化):輔具<strong>大多無效</strong> — 她不一定會抓扶手、可能認不出沐浴椅、<strong>緊急鈴她根本不會按</strong>(忘記怎麼用 / 不知道按了會怎樣)</li>
     </ul>
-    <p class="why">浴室改造的 ROI 比任何 section 都高。跌倒一次進醫院的代價(救護車 + 急診 + 住院 + 長照家庭全家節奏崩壞)遠大於整套浴室改造成本。可以走<strong>長照 2.0/3.0 的輔具補助</strong>(中度失智核定後,沐浴椅 / 扶手 / 防滑墊有補助額度),撥 1966 諮詢。</p>
+    這個 item 寫的是<strong>失智 frame</strong> — 對抗的是<strong>她不知道自己在做什麼</strong>,不是「她想做但身體做不到」。
+    </div>
+    <p><strong>失智浴室真正的風險與對策</strong>:</p>
+    <ul style="margin:6px 0 0 18px;font-size:14px;">
+      <li><strong>燙傷</strong>(她不知道熱、轉水龍頭到滾燙不放手)→ <strong>熱水器溫度上限鎖定</strong>(40-42°C),從源頭限制她能接觸到的最高水溫。這是失智浴室<strong>最 P0 的單一改造</strong>。</li>
+      <li><strong>洗劑 / 藥品誤食</strong>(她認不出洗髮精跟飲料的差別)→ <strong>洗劑、漂白水、清潔劑全部移出浴室</strong>,放她拿不到的固定倉庫(連動 #8 浴室鎖 + 「常備物資地圖」單一倉庫原則)。浴室裡只放當天會用的小份。</li>
+      <li><strong>反鎖出不來</strong>(她操作門鎖但忘記怎麼開)→ <strong>浴室鎖改硬幣可外開</strong>(已在 #8 項處理,不在這條重複)。</li>
+      <li><strong>跌倒</strong> → 對失智<strong>不是用扶手解</strong>(她不會記得抓)。實際解法:
+        <ol style="margin:4px 0 0 16px;">
+          <li><strong>地面整體止滑</strong>(防滑膠條 / 全域止滑漆,不是局部墊子 — 墊子會被她踢開或絆倒)</li>
+          <li><strong>洗澡時間有人在旁邊</strong>(配 #4 段早晚 SOP — 中午居服員洗澡是排在這個時段的原因)</li>
+        </ol>
+      </li>
+      <li><strong>淹水 / 不會關水</strong>(她開水但忘了關)→ <strong>漏水感應器</strong>(Aqara / 米家)放浴室地板 + 廚房水槽下,推播照護者手機。失智者不會自己注意到水滿。</li>
+      <li><strong>馬桶找不到 / 看不到</strong> → 已在 #1(廁所拆門改布簾)+ #2(馬桶對比色圈)處理,不在這條重複。</li>
+    </ul>
+    <div class="callout danger" style="margin:8px 0;">
+    <strong>🚫 對失智浴室<strong>無效或誤導</strong>的常見輔具</strong>(失能寫法常推、失智不一定有用):
+    <ul style="margin:4px 0 0 18px;">
+      <li><strong>緊急呼叫鈴</strong> — 失智者不會按。要等到「按鈕語意丟失」就太晚了</li>
+      <li><strong>L 型扶手</strong> — 她不一定記得抓。可裝(成本不高)但不要當主防線</li>
+      <li><strong>沐浴椅</strong> — 中後期可能認不出這是椅子,或拒絕坐。建議在居服員陪同洗澡時使用,不是給她自己用</li>
+    </ul>
+    這些對失能長者絕對有用,但失智 frame 要把它們<strong>降階為輔助</strong>,不是主防線。主防線永遠是「<strong>環境本身被設計成不會出事</strong>」(熱水鎖、洗劑收走、漏水偵測)+「<strong>洗澡有人在</strong>」。
+    </div>
+    <p class="why">浴室是失智照護家庭風險集中點之一。但解法<strong>不是從失能輔具清單抄</strong>,要從失智的<strong>認知退化</strong>機制反推:她不知道熱 → 從源頭鎖溫度;她認不出洗劑 → 直接搬走;她不會關水 → 用感應器代替她的注意力;她不會抓扶手 → 改用全域止滑 + 人陪伴。可以走<strong>長照輔具補助</strong>(中度失智核定後,扶手 / 止滑 / 沐浴椅有補助),撥 1966 諮詢。</p>
   </div>
 </div>
 
