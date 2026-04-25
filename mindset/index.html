@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>心法手冊 · 失智照護面對新事件的判斷視角</title>
-<meta name="description" content="一位失智照護者面對新狀況時,腦袋裡跑的判斷框架。失智 vs 失能、加法 vs 減法、restlessness vs boredom、動線 = 功能可及性、誠實版 framing、handbook 是 mesh — 6 條主觀經驗,可採可不採。歡迎其他家屬補充自己的視角。">
-<meta name="keywords" content="失智照護,判斷框架,心法,照護視角,失智 vs 失能,加法減法,失智症,長照">
+<meta name="description" content="一位失智照護者面對新狀況時,腦袋裡跑的判斷視角。失智不是失能、用加法對抗減法、躁動不是無聊、動線是功能可及性、誠實版優於善意包裝、手冊是網狀不是清單 — 6 條主觀經驗,可採可不採。歡迎其他家屬補充自己的視角。提供英文版。">
+<meta name="keywords" content="失智照護,判斷視角,心法,照護框架,失智不是失能,加法減法,失智症,長照,Mindset Handbook,Dementia Care Frames">
 <meta name="author" content="一位失智照護者">
 <link rel="canonical" href="https://tm731531.github.io/dementia-care/mindset/">
 <meta property="og:type" content="article">
 <meta property="og:title" content="心法手冊 · 失智照護面對新事件的判斷視角">
-<meta property="og:description" content="6 條主觀經驗的判斷框架,可採可不採 — 從一個照護者的角度看失智這件事。">
+<meta property="og:description" content="6 條主觀經驗的判斷視角,可採可不採 — 一位照護者怎麼看失智這件事(中英雙語可切換)。">
 <meta property="og:url" content="https://tm731531.github.io/dementia-care/mindset/">
 <meta property="og:image" content="https://tm731531.github.io/dementia-care/mindset/og-image.svg">
 <meta property="og:image:width" content="1200">
@@ -18,7 +18,7 @@
 <meta property="og:image:type" content="image/svg+xml">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="心法手冊 · 失智照護的判斷視角">
-<meta name="twitter:description" content="6 條主觀經驗的判斷框架,可採可不採。">
+<meta name="twitter:description" content="6 條主觀經驗的判斷視角,可採可不採。中英雙語。">
 <meta name="twitter:image" content="https://tm731531.github.io/dementia-care/mindset/og-image.svg">
 
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧠</text></svg>">
@@ -29,7 +29,7 @@
   "@type": "BreadcrumbList",
   "itemListElement": [
     {"@type": "ListItem", "position": 1, "name": "Dementia Care Tools", "item": "https://tm731531.github.io/dementia-care/"},
-    {"@type": "ListItem", "position": 2, "name": "心法手冊", "item": "https://tm731531.github.io/dementia-care/mindset/"}
+    {"@type": "ListItem", "position": 2, "name": "心法手冊 / Mindset Handbook", "item": "https://tm731531.github.io/dementia-care/mindset/"}
   ]
 }
 </script>
@@ -39,11 +39,11 @@
   "@context": "https://schema.org",
   "@type": "Article",
   "headline": "心法手冊 · 失智照護面對新事件的判斷視角",
-  "description": "一位失智照護者面對新狀況時,腦袋裡跑的判斷框架。6 條主觀經驗的 frames,可採可不採。",
+  "description": "一位失智照護者面對新狀況時,腦袋裡跑的判斷視角。6 條主觀經驗,可採可不採。提供中英雙語切換。",
   "author": {"@type": "Person", "name": "一位失智照護者", "url": "https://blog.tomting.com/"},
   "datePublished": "2026-04-25",
-  "inLanguage": "zh-Hant",
-  "keywords": ["失智照護", "判斷框架", "心法", "照護視角"]
+  "inLanguage": ["zh-Hant", "en"],
+  "keywords": ["失智照護", "判斷視角", "心法", "照護框架", "Dementia Care", "Caregiver Frames"]
 }
 </script>
 
@@ -83,6 +83,28 @@ a:hover { text-decoration-color: var(--primary); }
 
 .skip-link { position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
 .skip-link:focus { position:fixed; top:0; left:0; z-index:9999; width:auto; height:auto; padding:12px; background:#000; color:#fff; }
+
+.lang-toggle-bar {
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  padding: 12px 20px;
+  text-align: right;
+  z-index: 100;
+  border-bottom: 1px solid var(--border);
+}
+.lang-toggle-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+.lang-toggle-btn:hover { background: var(--primary-dark); }
 
 .wrap { max-width: 760px; margin: 0 auto; padding: 24px 20px 60px; }
 .hero { text-align: center; padding: 32px 0 16px; border-bottom: 2px solid var(--border); margin-bottom: 24px; }
@@ -168,37 +190,50 @@ h2 { font-size: 22px; color: var(--primary-dark); margin: 32px 0 10px; padding-b
   text-align: center;
   line-height: 1.7;
 }
+
+table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 6px 0; }
+th, td { border: 1px solid var(--border); padding: 6px 8px; text-align: left; }
+th { background: #f5ede0; }
 </style>
 </head>
 <body>
 
-<a href="#frames" class="skip-link">跳到第一條 frame</a>
+<a href="#frames-zh" class="skip-link">跳到第一條視角 / Skip to first frame</a>
 
-<main class="wrap" aria-label="心法手冊主內容">
+<div class="lang-toggle-bar">
+  <button id="lang-toggle-btn" class="lang-toggle-btn" type="button" aria-label="切換語言 · Toggle language">
+    🌐 English
+  </button>
+</div>
+
+<!-- ============================================================================ -->
+<!-- 中文版 -->
+<!-- ============================================================================ -->
+<main class="wrap" id="content-zh" lang="zh-Hant" aria-label="心法手冊主內容">
 
 <div class="hero">
   <h1>🧠 心法手冊</h1>
-  <div class="sub">失智照護面對新事件時,我腦袋裡跑的判斷框架<br>6 條主觀經驗 · 可採可不採</div>
+  <div class="sub">失智照護面對新事件時,我腦袋裡跑的判斷視角<br>6 條主觀經驗 · 可採可不採</div>
   <div class="meta">一位失智照護者的判斷視角整理 · 2026-04-25 初版</div>
 </div>
 
 <div class="intro">
-  <p>這份手冊不是 SOP、不是規則。是<strong>我面對失智照護新狀況時,腦袋裡跑的判斷框架</strong>。每一條都可以採用、改寫、或拒絕 — 你家情境不同,選擇用不用都合理。</p>
-  <p><strong>跟<a href="../home-handbook/">家中照護手冊</a>的關係</strong>:home-handbook 是<strong>我家的實務經驗</strong>(13 項改造、4 段 SOP、踩坑),這份是<strong>我寫那些東西時背後的判斷視角</strong>。</p>
-  <p><strong>為什麼分開</strong>:home 是<我們家發生過的具體事>,可以照抄(家具擺一擺、買個布簾)。心法是<我怎麼看一個新事件>,本質上是主觀的;每個照護者的視角會不一樣,有些可能你完全不採用 — 那也對。</p>
+  <p>這份手冊不是 SOP、不是規則。是<strong>我面對失智照護新狀況時,腦袋裡跑的判斷視角</strong>。每一條都可以採用、改寫、或拒絕 — 你家情境不同,選擇用不用都合理。</p>
+  <p><strong>跟<a href="../home-handbook/">家中照護手冊</a>的關係</strong>:家中照護手冊是<strong>我家的實務經驗</strong>(13 項改造、4 段照護流程、踩過的坑),這份是<strong>我寫那些東西時背後的判斷視角</strong>。</p>
+  <p><strong>為什麼分開</strong>:家中手冊是<strong>我們家發生過的具體事</strong>,可以照抄(家具擺一擺、買個布簾)。心法是<strong>我怎麼看一個新事件</strong>,本質上是主觀的;每個照護者的視角會不一樣,有些可能你完全不採用 — 那也對。</p>
 </div>
 
-<h2 id="frames">📐 6 條 frame</h2>
+<h2 id="frames-zh">📐 6 條視角</h2>
 
-<!-- ========== Frame 1 ========== -->
-<div class="frame" id="frame-1">
+<!-- ========== 視角 1 ========== -->
+<div class="frame">
   <div class="frame-title">🧠 1. 失智不是失能(我這樣分)</div>
 
   <div class="frame-section">
-    <span class="label">我的描述</span>
+    <span class="label">我這樣看</span>
     <p><strong>失能</strong>:身體弱、認知正常 → 用<strong>輔具</strong>解(她想做但身體做不到 → 給她工具)</p>
     <p><strong>失智</strong>:認知退化、身體可能還可以 → 輔具<strong>大多無效</strong>(她不知道自己在做什麼 → 給她工具沒用,要從環境本身設計)</p>
-    <p>對失智 frame 的設計原則:</p>
+    <p>對失智情境的設計原則:</p>
     <ul>
       <li>從<strong>環境源頭限制</strong>(熱水器溫度鎖,不是叫她別轉燙)</li>
       <li>把<strong>危險物品搬走</strong>(洗劑放她拿不到的位置,不是放著叫她別碰)</li>
@@ -208,7 +243,7 @@ h2 { font-size: 22px; color: var(--primary-dark); margin: 32px 0 10px; padding-b
   </div>
 
   <div class="frame-section">
-    <span class="label">我用這個 frame 的情境</span>
+    <span class="label">我會這樣用</span>
     <ul>
       <li>浴室安全:扶手 / 緊急鈴對失智無效(她不會抓 / 不會按),熱水器溫度鎖才是主防線</li>
       <li>廚房瓦斯:換電磁爐 + 智慧插座,不是「叫她別開瓦斯」</li>
@@ -220,28 +255,28 @@ h2 { font-size: 22px; color: var(--primary-dark); margin: 32px 0 10px; padding-b
     <span class="label">你不一定適用因為</span>
     <ul>
       <li>你家長輩可能<strong>同時</strong>失智 + 失能 — 兩種設計都要</li>
-      <li>失智早期可能還停留在「失能 frame 有效」的階段(扶手抓得到、緊急鈴按得來)</li>
-      <li>程度不同的長輩,這個 frame 的應用比例也不同</li>
+      <li>失智早期可能還停留在「失能設計有效」的階段(扶手抓得到、緊急鈴按得來)</li>
+      <li>程度不同的長輩,這套視角的應用比例也不同</li>
     </ul>
   </div>
 
   <div class="cross-ref">
-    📖 對應 <a href="../home-handbook/#items">home-handbook 第 13 項浴室安全 + 第 8 項全家門鎖</a>
+    📖 對應 <a href="../home-handbook/#items">家中照護手冊第 13 項浴室安全 + 第 8 項全家門鎖</a>
   </div>
 </div>
 
-<!-- ========== Frame 2 ========== -->
-<div class="frame" id="frame-2">
+<!-- ========== 視角 2 ========== -->
+<div class="frame">
   <div class="frame-title">➕ 2. 用加法對抗她自己的減法</div>
 
   <div class="frame-section">
-    <span class="label">我的描述</span>
+    <span class="label">我這樣看</span>
     <p>失智本身是<strong>減法</strong> — 她每天都在忘記、能力都在退化。如果照護者去<strong>測試她原有能力</strong>(「這個你記得嗎?」「你還會不會 X?」「你記不記得我?」)= <strong>強化減法</strong>,讓她意識到自己失去了什麼,只會沮喪。</p>
     <p>正確方向是<strong>加法</strong> — 給她<strong>新的環境刺激、新的動作、新的陪伴內容</strong>,讓她<strong>不需要展示</strong>自己仍能做什麼。重複動作她就做、不問她能不能做、不評論她做得好不好、不對比過去。</p>
   </div>
 
   <div class="frame-section">
-    <span class="label">我用這個 frame 的情境</span>
+    <span class="label">我會這樣用</span>
     <ul>
       <li>給她剝蒜頭 / 分豆子時,不問「你還會分嗎?」,只給她做</li>
       <li>看到老照片時,不問「這是誰?」,直接說「這是 X 阿姨,以前常來我們家」</li>
@@ -252,35 +287,35 @@ h2 { font-size: 22px; color: var(--primary-dark); margin: 32px 0 10px; padding-b
   <div class="frame-section">
     <span class="label">你不一定適用因為</span>
     <ul>
-      <li>你跟長輩的互動模式可能 <strong>reminiscence(懷舊治療)</strong> 比較有效 — 用老照片喚起記憶,可能正是你家家庭凝聚的方式</li>
-      <li>你想<strong>「保留她的記憶」</strong>是有意義的努力,選擇不用這個 frame 也合理</li>
-      <li>失智早期她還能 actively recall,測試可能還是 OK 的</li>
+      <li>你跟長輩的互動模式可能<strong>懷舊治療</strong>(用過去記憶喚起情感連結)比較有效 — 用老照片喚起記憶,可能正是你家家庭凝聚的方式</li>
+      <li>你想<strong>「保留她的記憶」</strong>是有意義的努力,選擇不用這個視角也合理</li>
+      <li>失智早期她還能主動回想,測試可能還是 OK 的</li>
     </ul>
   </div>
 
   <div class="cross-ref">
-    📖 對應 <a href="../home-handbook/#pitfalls">home-handbook 坑 5「認知訓練 vs 讓她忙起來」</a> + <a href="../home-handbook/#distraction">招式 2 身體記憶</a>
+    📖 對應 <a href="../home-handbook/#pitfalls">家中照護手冊坑 5「認知訓練 vs 讓她忙起來」</a> + <a href="../home-handbook/#distraction">招式 2 身體記憶</a>
   </div>
 </div>
 
-<!-- ========== Frame 3 ========== -->
-<div class="frame" id="frame-3">
-  <div class="frame-title">🚶 3. Restlessness vs Boredom · 失智中期不是「無聊」</div>
+<!-- ========== 視角 3 ========== -->
+<div class="frame">
+  <div class="frame-title">🚶 3. 躁動不是無聊 · 失智中期是停不下來</div>
 
   <div class="frame-section">
-    <span class="label">我的描述</span>
-    <p>失智中期常見的是<strong>restlessness(停不下來)</strong>,不是<strong>boredom(無聊)</strong>。這是 BPSD 行為精神症狀的一種。兩個 frame 看起來像同一回事,但工具設計目的<strong>相反</strong>:</p>
-    <table style="width:100%;border-collapse:collapse;font-size:14px;margin:6px 0;">
-      <thead><tr><th style="border:1px solid var(--border);padding:6px;background:#f5ede0;text-align:left;">Frame</th><th style="border:1px solid var(--border);padding:6px;background:#f5ede0;text-align:left;">設計目的</th><th style="border:1px solid var(--border);padding:6px;background:#f5ede0;text-align:left;">寫起來像</th></tr></thead>
+    <span class="label">我這樣看</span>
+    <p>失智中期常見的是<strong>躁動不安(restlessness)</strong>,不是<strong>無聊(boredom)</strong>。這是失智症行為精神症狀(BPSD)的一種。兩個視角看起來像同一回事,但工具設計目的<strong>相反</strong>:</p>
+    <table>
+      <thead><tr><th>視角</th><th>設計目的</th><th>寫起來像</th></tr></thead>
       <tbody>
-        <tr><td style="border:1px solid var(--border);padding:6px;">Boredom</td><td style="border:1px solid var(--border);padding:6px;">補充樂趣</td><td style="border:1px solid var(--border);padding:6px;">觀察、訓練、學習、reminiscence</td></tr>
-        <tr><td style="border:1px solid var(--border);padding:6px;">Restlessness</td><td style="border:1px solid var(--border);padding:6px;">物理鎮靜</td><td style="border:1px solid var(--border);padding:6px;">動作重複 + 身體記憶 + 不需要認知</td></tr>
+        <tr><td>無聊</td><td>補充樂趣</td><td>觀察、訓練、學習、懷舊</td></tr>
+        <tr><td>躁動</td><td>物理鎮靜</td><td>動作重複 + 身體記憶 + 不需要認知</td></tr>
       </tbody>
     </table>
   </div>
 
   <div class="frame-section">
-    <span class="label">我用這個 frame 的情境</span>
+    <span class="label">我會這樣用</span>
     <ul>
       <li>三樣手工(剝蒜 / 分豆 / 撥豆芽)— 目的是<strong>讓她坐下</strong>,不是給她事做</li>
       <li>運動間 — 為了消耗體力讓她休息,不是訓練她肌少症</li>
@@ -291,33 +326,33 @@ h2 { font-size: 22px; color: var(--primary-dark); margin: 32px 0 10px; padding-b
   <div class="frame-section">
     <span class="label">你不一定適用因為</span>
     <ul>
-      <li>你長輩可能還在輕度,<strong>真的會無聊</strong>(boredom frame 適用)</li>
-      <li>restlessness vs boredom 是 spectrum 不是 binary,中間地帶很大</li>
-      <li>選 boredom frame(reminiscence、認知訓練、社交活動)也合理 — 是另一個 valid 路徑</li>
+      <li>你長輩可能還在輕度,<strong>真的會無聊</strong>(無聊視角適用)</li>
+      <li>躁動跟無聊是光譜不是二分,中間地帶很大</li>
+      <li>選無聊視角(懷舊治療、認知訓練、社交活動)也合理 — 是另一個有效的路徑</li>
     </ul>
   </div>
 
   <div class="cross-ref">
-    📖 對應 <a href="../home-handbook/#items">home-handbook 第 6 項三樣手工 + 第 7 項小遊戲 + 第 10 項運動間</a>
+    📖 對應 <a href="../home-handbook/#items">家中照護手冊第 6 項三樣手工 + 第 7 項小遊戲 + 第 10 項運動間</a>
   </div>
 </div>
 
-<!-- ========== Frame 4 ========== -->
-<div class="frame" id="frame-4">
+<!-- ========== 視角 4 ========== -->
+<div class="frame">
   <div class="frame-title">🔄 4. 動線是<strong>功能可及性</strong>,不是<strong>體力管理</strong></div>
 
   <div class="frame-section">
-    <span class="label">我的描述</span>
+    <span class="label">我這樣看</span>
     <p>失智者<strong>不會主動想到</strong>「我該去喝水了」「我該去廁所了」。動線複雜或被堵 → 她可能<strong>卡在原地</strong>、或<strong>在不該的地方解決</strong> → 脫水、便秘、失禁 連環發生。</p>
     <p>真正目的:讓她有機會<strong>「無意間走到」</strong>廁所跟飲水區。動線通暢 = 她繞著走時自然會經過這兩個關鍵點 → 自然完成基本生理機能。</p>
     <p>所以家具設計的核心問題不是「她會不會撞到」,是「<strong>她繞行時會不會經過廁所跟水杯位置</strong>」。</p>
   </div>
 
   <div class="frame-section">
-    <span class="label">我用這個 frame 的情境</span>
+    <span class="label">我會這樣用</span>
     <ul>
       <li>雙層迴圈(全屋大迴圈 + 客廳小迴圈)讓她無意間走到廁所/水杯</li>
-      <li>水杯放在<strong>她迴圈會經過的位置</strong>,不是分散四處(那是 reminder thinking,失智不適用)</li>
+      <li>水杯放在<strong>她迴圈會經過的位置</strong>,不是分散四處(那是提醒思維,失智不適用)</li>
       <li>沒尖角不是設計目的,有迴圈才是 — 尖角用防撞角貼上去就解</li>
     </ul>
   </div>
@@ -326,32 +361,32 @@ h2 { font-size: 22px; color: var(--primary-dark); margin: 32px 0 10px; padding-b
     <span class="label">你不一定適用因為</span>
     <ul>
       <li>你家空間結構不一定能做雙層迴圈(套房 / 小坪數可能不行)</li>
-      <li>你長輩可能還能<strong>主動 plan</strong>(輕度時) — 那她想到要喝水會自己去,不需要動線經過</li>
+      <li>你長輩可能還能<strong>主動規劃</strong>(輕度時) — 那她想到要喝水會自己去,不需要動線經過</li>
       <li>「她走到 X」不一定能保證她「做 X」 — 還是要看認知程度</li>
     </ul>
   </div>
 
   <div class="cross-ref">
-    📖 對應 <a href="../home-handbook/#items">home-handbook 第 5 項雙層迴圈</a> + <a href="../home-handbook/#watch">全天候盯緊水杯水量</a>
+    📖 對應 <a href="../home-handbook/#items">家中照護手冊第 5 項雙層迴圈</a> + <a href="../home-handbook/#watch">全天候盯緊水杯水量</a>
   </div>
 </div>
 
-<!-- ========== Frame 5 ========== -->
-<div class="frame" id="frame-5">
-  <div class="frame-title">💪 5. 誠實版 framing &gt; 善意包裝</div>
+<!-- ========== 視角 5 ========== -->
+<div class="frame">
+  <div class="frame-title">💪 5. 誠實版優於善意包裝</div>
 
   <div class="frame-section">
-    <span class="label">我的描述</span>
+    <span class="label">我這樣看</span>
     <p>寫照護動作時,「為患者好」跟「為照護者好」常常是<strong>同一個動作的兩種解釋</strong>。我選誠實版(「為了我能撐下去」),因為:</p>
     <ul>
       <li><strong>善意包裝</strong>(「為她健康」)其他家屬讀了會被勸退 — 覺得「太奢侈 / 太麻煩 / 我做不到那麼周全」</li>
       <li><strong>功利誠實</strong>(「少吵我」「我半夜不用起來」「我能睡」)讀完反而想做 — 「對啊那我也要做」</li>
     </ul>
-    <p>照護是 caregiver-patient <strong>雙人系統</strong>,不是 patient 單方。包裝成單方利他會讓系統<strong>不可持續</strong>(照護者燒完 → 系統倒)。</p>
+    <p>照護是照護者-患者<strong>雙人系統</strong>,不是患者單方。包裝成單方利他會讓系統<strong>不可持續</strong>(照護者燒完 → 系統倒)。</p>
   </div>
 
   <div class="frame-section">
-    <span class="label">我用這個 frame 的情境</span>
+    <span class="label">我會這樣用</span>
     <ul>
       <li>運動間:讓她耗體力 → 她休息 → 我能安靜(不寫成「為她肌少症」)</li>
       <li>沙發放重物:讓她回房睡 → 我半夜不用起來 → 我能睡(不寫成「對她比較好」)</li>
@@ -362,80 +397,80 @@ h2 { font-size: 22px; color: var(--primary-dark); margin: 32px 0 10px; padding-b
   <div class="frame-section">
     <span class="label">你不一定適用因為</span>
     <ul>
-      <li>你還在「為她好」階段,那也對 — 那是健康的 starting point</li>
-      <li>文化 / 家庭 dynamic 不同,不一定能對外承認「為了少吵我」</li>
-      <li>如果你的伴侶 / 長輩看到這份手冊,他們可能不能接受這個 framing — 那就保留原本的</li>
+      <li>你還在「為她好」階段,那也對 — 那是健康的起點</li>
+      <li>文化 / 家庭動力不同,不一定能對外承認「為了少吵我」</li>
+      <li>如果你的伴侶 / 長輩看到這份手冊,他們可能不能接受這個視角 — 那就保留原本的</li>
     </ul>
   </div>
 
   <div class="cross-ref">
-    📖 對應 <a href="../home-handbook/#items">home-handbook 第 10 項運動間</a> + <a href="../home-handbook/#caregiver">照護者自己 section</a>
+    📖 對應 <a href="../home-handbook/#items">家中照護手冊第 10 項運動間</a> + <a href="../home-handbook/#caregiver">照護者自己 section</a>
   </div>
 </div>
 
-<!-- ========== Frame 6 ========== -->
-<div class="frame" id="frame-6">
-  <div class="frame-title">🕸️ 6. Handbook 是 mesh 不是 list</div>
+<!-- ========== 視角 6 ========== -->
+<div class="frame">
+  <div class="frame-title">🕸️ 6. 手冊是網狀不是清單</div>
 
   <div class="frame-section">
-    <span class="label">我的描述</span>
-    <p>家中改造看起來是 <strong>list</strong>(13 項清單),但實際是 <strong>mesh</strong> — 很多 item 的真正效益來自<strong>跨 section 配合</strong>。單獨做某 item 不會 work。</p>
+    <span class="label">我這樣看</span>
+    <p>家中改造看起來是<strong>清單</strong>(13 項),但實際是<strong>網狀</strong> — 很多項目的真正效益來自<strong>跨段落配合</strong>。單獨做某一項不會有效。</p>
     <p>例子:</p>
     <ul>
-      <li><strong>動線</strong>(#5)+ <strong>水杯位置</strong>(全天候 section)= 完整補水機制</li>
-      <li><strong>沙發重物</strong>(睡前 SOP)+ <strong>早上定時器</strong>(#4)= 半夜走客廳的完整對策</li>
-      <li><strong>GPS 藏習慣物品</strong>(法律 P0)+ <strong>第 12 門縫氣密</strong> = 防走失硬軟體配合</li>
+      <li><strong>動線</strong>(第 5 項)+ <strong>水杯位置</strong>(全天候段落)= 完整補水機制</li>
+      <li><strong>沙發重物</strong>(睡前流程)+ <strong>早上定時器</strong>(第 4 項)= 半夜走客廳的完整對策</li>
+      <li><strong>GPS 藏習慣物品</strong>(法律 P0)+ <strong>第 12 項門縫氣密</strong> = 防走失硬軟體配合</li>
     </ul>
-    <p>單獨做動線、單獨買水杯、單獨買 GPS、單獨裝感應器,效果都比 paired 做差很多。</p>
+    <p>單獨做動線、單獨買水杯、單獨買 GPS、單獨裝感應器,效果都比配對做差很多。</p>
   </div>
 
   <div class="frame-section">
-    <span class="label">我用這個 frame 的情境</span>
+    <span class="label">我會這樣用</span>
     <ul>
-      <li>讀其他失智資源時,看到單一 item 推薦,我會問:「跟哪個 paired 才完整?」</li>
-      <li>自己排優先級時,選 item pair 一起做,不選單獨 item</li>
-      <li>跟其他家屬討論時,會推薦 item 組合,不是單個</li>
+      <li>讀其他失智資源時,看到單一項目推薦,我會問:「跟哪個配對才完整?」</li>
+      <li>自己排優先級時,選項目<strong>配對</strong>一起做,不選單獨項目</li>
+      <li>跟其他家屬討論時,會推薦項目組合,不是單個</li>
     </ul>
   </div>
 
   <div class="frame-section">
     <span class="label">你不一定適用因為</span>
     <ul>
-      <li>你資源有限,可能只能做單一 item — 那也比沒做好,不要因為「找不到 pair」就不做</li>
-      <li>你的 pair 跟我家的 pair 可能不同(你家動線跟水杯的搭配可能不同)</li>
-      <li>不是所有 item 都有 pair(例如廁所拆門 = 獨立的 P0,沒有明顯需要 pair 的 item)</li>
+      <li>你資源有限,可能只能做單一項目 — 那也比沒做好,不要因為「找不到配對」就不做</li>
+      <li>你的配對跟我家的配對可能不同(你家動線跟水杯的搭配可能不同)</li>
+      <li>不是所有項目都有配對(例如廁所拆門 = 獨立的 P0,沒有明顯需要配對的項目)</li>
     </ul>
   </div>
 
   <div class="cross-ref">
-    📖 對應 <a href="../home-handbook/#items">home-handbook 整本 13 項物理改造</a>
+    📖 對應 <a href="../home-handbook/#items">家中照護手冊整本 13 項物理改造</a>
   </div>
 </div>
 
 <!-- ============================================================== -->
-<h2 id="caveat">⚠️ 重要提醒 · 不要把任何 framework 當絕對</h2>
+<h2 id="caveat-zh">⚠️ 重要提醒 · 不要把任何視角當絕對</h2>
 
 <div class="disclaimer">
   <h3>這不是失智照護的真理</h3>
-  <p>這 6 條 frame 是<strong>我寫家中照護手冊時用的判斷方式</strong>,不是<strong>失智照護的真理</strong>。照護圈裡有很多其他 framework:</p>
+  <p>這 6 條視角是<strong>我寫家中照護手冊時用的判斷方式</strong>,不是<strong>失智照護的真理</strong>。照護圈裡有很多其他理論框架:</p>
   <ul>
-    <li><strong>Reminiscence Therapy(懷舊治療)</strong> — 用過去的記憶喚起情感連結。跟我的<strong>加法 vs 減法</strong>有衝突。</li>
-    <li><strong>Validation Therapy(認可治療)</strong> — 不糾正失智者的話語,接受她的現實。跟我的某些 framework 互補。</li>
-    <li><strong>Montessori Method for Dementia</strong> — 用兒童教育原則套用到失智照護。跟我的<strong>restlessness vs boredom</strong>不一定相同。</li>
-    <li><strong>Person-Centered Care</strong>(以人為本照護)— Tom Kitwood 的失智照護理論基礎。</li>
+    <li><strong>懷舊治療(Reminiscence Therapy)</strong> — 用過去的記憶喚起情感連結。跟我的<strong>加法 vs 減法</strong>視角有衝突。</li>
+    <li><strong>認可治療(Validation Therapy)</strong> — 不糾正失智者的話語,接受她的現實。跟我的某些視角互補。</li>
+    <li><strong>蒙特梭利失智照護法(Montessori Method for Dementia)</strong> — 用兒童教育原則套用到失智照護。跟我的<strong>躁動 vs 無聊</strong>視角不一定相同。</li>
+    <li><strong>以人為本照護(Person-Centered Care)</strong> — 湯姆基特伍德(Tom Kitwood)的失智照護理論基礎。</li>
   </ul>
-  <p>這些跟我列的 6 條,有的衝突、有的互補。<strong>不要把任何一個 framework 當絕對</strong>。我的 frames 反映我家情境;你家不同,你的 frames 也會不同。</p>
+  <p>這些跟我列的 6 條,有的衝突、有的互補。<strong>不要把任何一個視角當絕對</strong>。我的視角反映我家情境;你家不同,你的視角也會不同。</p>
 </div>
 
 <div class="contribute">
-  <h3 style="font-size:17px;color:var(--primary-dark);margin-bottom:8px;">🤝 歡迎其他照護者補充自己的 frames</h3>
-  <p style="font-size:15px;">這份手冊跟<a href="../garden-handbook/">家庭園藝手冊</a>一樣可以擴充 — 如果你有自己的 frame(任何看待失智照護新事件的判斷視角),歡迎透過 GitHub 或 LINE 群組分享。每個照護者的 lens 都不一樣,collection 越多元越有用。</p>
+  <h3 style="font-size:17px;color:var(--primary-dark);margin-bottom:8px;">🤝 歡迎其他照護者補充自己的視角</h3>
+  <p style="font-size:15px;">這份手冊跟<a href="../garden-handbook/">家庭園藝手冊</a>一樣可以擴充 — 如果你有自己的視角(任何看待失智照護新事件的判斷方式),歡迎透過 GitHub 或 LINE 群組分享。每個照護者的看法都不一樣,collection 越多元越有用。</p>
 </div>
 
 <!-- ============================================================== -->
 <h2>📚 配套</h2>
 <ul style="margin:6px 0 6px 22px;">
-  <li><a href="../home-handbook/">家中照護手冊</a> — 13 項實務改造 + 早晚 SOP + 踩過的坑</li>
+  <li><a href="../home-handbook/">家中照護手冊</a> — 13 項實務改造 + 早晚流程 + 踩過的坑</li>
   <li><a href="../">所有工具</a> — Dementia Care Tools 全集</li>
 </ul>
 
@@ -445,7 +480,7 @@ h2 { font-size: 22px; color: var(--primary-dark); margin: 32px 0 10px; padding-b
     <a href="../" style="color:inherit;">← 所有工具</a> · <a href="../home-handbook/" style="color:inherit;">家中照護手冊</a> · <a href="https://github.com/tm731531/dementia-care" style="color:inherit;">GitHub</a> · <a href="https://blog.tomting.com/" style="color:inherit;">Blog</a>
   </p>
   <p style="margin:0 0 8px 0;font-size:12px;color:#999;">
-    本手冊為一位照護者的個人主觀判斷視角整理,不是法律 / 醫療 / 長照規劃諮詢,也不是失智照護的權威 framework。請依自己情況與專業諮詢判斷。
+    本手冊為一位照護者的個人主觀判斷視角整理,不是法律 / 醫療 / 長照規劃諮詢,也不是失智照護的權威理論框架。請依自己情況與專業諮詢判斷。
   </p>
   <p style="margin:0;font-size:12px;">
     🆘 緊急撥 <strong style="color:#c00;">119</strong> · 長照 <strong>1966</strong> · 失智關懷 <strong>0800-474-580</strong> · 家庭照顧者關懷 <strong>0800-50-7272</strong>
@@ -453,6 +488,332 @@ h2 { font-size: 22px; color: var(--primary-dark); margin: 32px 0 10px; padding-b
 </div>
 
 </main>
+
+<!-- ============================================================================ -->
+<!-- English version -->
+<!-- ============================================================================ -->
+<main class="wrap" id="content-en" lang="en" aria-label="Mindset Handbook main content" style="display:none;">
+
+<div class="hero">
+  <h1>🧠 Mindset Handbook</h1>
+  <div class="sub">Frames I run through my head when facing new events in dementia care<br>6 subjective lenses · take or leave</div>
+  <div class="meta">A caregiver's judgment frames · First edition 2026-04-25</div>
+</div>
+
+<div class="intro">
+  <p>This handbook is not an SOP, not a rule. It's the <strong>judgment frames I use when facing new dementia care situations</strong>. Each can be adopted, modified, or rejected — your situation differs, choosing not to use is also valid.</p>
+  <p><strong>Relation to the <a href="../home-handbook/">Home Care Handbook</a></strong>: the home handbook is <strong>my family's actual experience</strong> (13 retrofits, 4-stage care flow, pitfalls). This handbook is the <strong>judgment lenses behind those decisions</strong>.</p>
+  <p><strong>Why separate</strong>: home handbook is <strong>concrete events that happened in our family</strong>, can be replicated (move some furniture, buy a curtain). Mindset is <strong>how I see a new event</strong>, inherently subjective; each caregiver's lenses differ — some you may not adopt at all, that's okay.</p>
+  <p style="font-size:13px;color:#888;margin-top:8px;"><em>Note: links to home-handbook are in Traditional Chinese only.</em></p>
+</div>
+
+<h2 id="frames-en">📐 6 Frames</h2>
+
+<!-- ========== Frame 1 ========== -->
+<div class="frame">
+  <div class="frame-title">🧠 1. Dementia ≠ Disability (How I draw the line)</div>
+
+  <div class="frame-section">
+    <span class="label">How I see it</span>
+    <p><strong>Disability</strong>: physically limited, cognitively normal → use <strong>assistive tools</strong> (she wants to but can't physically do it)</p>
+    <p><strong>Dementia</strong>: cognitively declining, body may be okay → assistive tools mostly <strong>don't work</strong> (she doesn't know what she's doing → tools don't help, design the environment instead)</p>
+    <p>Design principles for the dementia frame:</p>
+    <ul>
+      <li>Limit <strong>at the source</strong> (water heater temp lock, not telling her not to turn it hot)</li>
+      <li>Move <strong>dangerous items away</strong> (cleaning agents out of reach, not just "tell her not to touch")</li>
+      <li>Use <strong>sensors instead of her attention</strong> (leak detectors, not asking her to watch)</li>
+      <li>Use <strong>companionship / sync action</strong> instead of <strong>after-the-fact rescue</strong> (someone with her during bath, not an emergency button waiting for her to press)</li>
+    </ul>
+  </div>
+
+  <div class="frame-section">
+    <span class="label">When I use this frame</span>
+    <ul>
+      <li>Bathroom safety: handrails / emergency bell don't work for dementia (she won't grab / won't press); water heater temp lock is the main defense</li>
+      <li>Kitchen gas: switch to induction + smart plug, not "tell her not to use gas"</li>
+      <li>Front door soundproofing: outside, not inside (she'll destroy the inside)</li>
+    </ul>
+  </div>
+
+  <div class="frame-section">
+    <span class="label">You may not apply because</span>
+    <ul>
+      <li>Your loved one may have <strong>both</strong> dementia + disability — both designs needed</li>
+      <li>Early dementia may still be in the "disability tools work" stage (she can grab handrails / press emergency bells)</li>
+      <li>Different stages, different application ratios</li>
+    </ul>
+  </div>
+
+  <div class="cross-ref">
+    📖 See Home Care Handbook (zh-Hant only): bathroom safety + lock change items
+  </div>
+</div>
+
+<!-- ========== Frame 2 ========== -->
+<div class="frame">
+  <div class="frame-title">➕ 2. Use addition against her own subtraction</div>
+
+  <div class="frame-section">
+    <span class="label">How I see it</span>
+    <p>Dementia itself is <strong>subtraction</strong> — she forgets things every day, abilities deteriorate. If the caregiver <strong>tests her existing abilities</strong> ("Do you remember this?" "Can you still X?" "Do you remember me?") = <strong>reinforce subtraction</strong>, makes her aware of what she's lost, only causes sadness.</p>
+    <p>The right direction is <strong>addition</strong> — give her <strong>new environmental stimuli, new actions, new companionship content</strong>, so she <strong>doesn't need to demonstrate</strong> she can still do something. Repeat actions with her, don't ask if she can, don't comment on quality, don't compare to past.</p>
+  </div>
+
+  <div class="frame-section">
+    <span class="label">When I use this frame</span>
+    <ul>
+      <li>When she peels garlic / sorts beans, don't ask "Can you still sort?", just give her the work</li>
+      <li>When looking at old photos, don't ask "Who's this?", just say "This is Aunt X, she used to come over"</li>
+      <li>When she can't recall my name, don't correct, just continue the conversation</li>
+    </ul>
+  </div>
+
+  <div class="frame-section">
+    <span class="label">You may not apply because</span>
+    <ul>
+      <li>Your interaction with the elder may work better with <strong>reminiscence therapy</strong> (using past memories to evoke emotional connection) — old photos may be how your family bonds</li>
+      <li>"Preserving her memories" is meaningful effort; choosing not to use this frame is also valid</li>
+      <li>In early dementia, she can still actively recall, so testing may still be okay</li>
+    </ul>
+  </div>
+
+  <div class="cross-ref">
+    📖 See Home Care Handbook (zh-Hant only): pitfall 5 + technique 2 body memory
+  </div>
+</div>
+
+<!-- ========== Frame 3 ========== -->
+<div class="frame">
+  <div class="frame-title">🚶 3. Restlessness is not Boredom · Mid-stage dementia is "can't stop"</div>
+
+  <div class="frame-section">
+    <span class="label">How I see it</span>
+    <p>Mid-stage dementia commonly presents as <strong>restlessness</strong> (can't stop), not <strong>boredom</strong>. A type of BPSD (Behavioral and Psychological Symptoms of Dementia). The two frames look similar but tools designed differently:</p>
+    <table>
+      <thead><tr><th>Frame</th><th>Design Goal</th><th>Looks Like</th></tr></thead>
+      <tbody>
+        <tr><td>Boredom</td><td>supplement entertainment</td><td>observation, training, learning, reminiscence</td></tr>
+        <tr><td>Restlessness</td><td>physical calming</td><td>repeat motion + body memory + no cognition required</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="frame-section">
+    <span class="label">When I use this frame</span>
+    <ul>
+      <li>Three handcrafts (peel garlic / sort beans / pluck sprouts) — goal is <strong>make her sit</strong>, not give her something to do</li>
+      <li>Exercise room — burn energy so she rests, not train her sarcopenia</li>
+      <li>Sofa weights — guide her back to bedroom, not force her</li>
+    </ul>
+  </div>
+
+  <div class="frame-section">
+    <span class="label">You may not apply because</span>
+    <ul>
+      <li>Your elder may still be in early stage and <strong>genuinely feels bored</strong> (boredom frame applies)</li>
+      <li>Restlessness vs boredom is a spectrum, not binary, with a wide middle ground</li>
+      <li>Choosing the boredom frame (reminiscence, cognitive training, social activity) is also valid — another effective path</li>
+    </ul>
+  </div>
+
+  <div class="cross-ref">
+    📖 See Home Care Handbook (zh-Hant only): items 6, 7, 10
+  </div>
+</div>
+
+<!-- ========== Frame 4 ========== -->
+<div class="frame">
+  <div class="frame-title">🔄 4. Movement paths are <strong>functional accessibility</strong>, not <strong>energy management</strong></div>
+
+  <div class="frame-section">
+    <span class="label">How I see it</span>
+    <p>People with dementia <strong>don't actively think</strong> "I should drink water now" or "I should go to the bathroom." Complex or blocked paths → she may <strong>get stuck in place</strong>, or <strong>resolve in the wrong place</strong> → dehydration, constipation, incontinence in chain.</p>
+    <p>Real goal: let her have the chance to <strong>"unintentionally walk to"</strong> the bathroom and water area. A smooth path = naturally passes these key points = naturally completes basic physiological functions.</p>
+    <p>So furniture design's core question isn't "will she bump into?", it's "<strong>will her circular walk pass the bathroom and water cup positions</strong>".</p>
+  </div>
+
+  <div class="frame-section">
+    <span class="label">When I use this frame</span>
+    <ul>
+      <li>Two-tier loop (full-house + living-room) lets her unintentionally pass bathroom / water cup</li>
+      <li>Water cup at <strong>positions her loop passes through</strong>, not scattered four places (that's reminder thinking, doesn't apply to dementia)</li>
+      <li>No sharp corners isn't the design goal, having loops is — sharp corners are solved by anti-bump pads</li>
+    </ul>
+  </div>
+
+  <div class="frame-section">
+    <span class="label">You may not apply because</span>
+    <ul>
+      <li>Your home structure may not allow a two-tier loop (small apartment may not)</li>
+      <li>Your elder may still be able to <strong>plan actively</strong> (early stage) — then she'll go drink water on her own, no need for the path</li>
+      <li>"Walking to X" doesn't guarantee "doing X" — depends on cognition</li>
+    </ul>
+  </div>
+
+  <div class="cross-ref">
+    📖 See Home Care Handbook (zh-Hant only): item 5 + always-on water monitoring
+  </div>
+</div>
+
+<!-- ========== Frame 5 ========== -->
+<div class="frame">
+  <div class="frame-title">💪 5. Honest framing > Good-intentions wrapping</div>
+
+  <div class="frame-section">
+    <span class="label">How I see it</span>
+    <p>When writing care actions, "for the patient's good" and "for the caregiver's good" are often <strong>two interpretations of the same action</strong>. I choose the honest version ("so I can keep going") because:</p>
+    <ul>
+      <li><strong>Good-intentions wrapping</strong> ("for her health") deters other caregivers — feels "too luxurious / too troublesome / I can't do this much"</li>
+      <li><strong>Utilitarian honesty</strong> ("less disturbance to me", "I don't have to wake up at night", "I can sleep") makes them want to do — "right, I should too"</li>
+    </ul>
+    <p>Care is a <strong>caregiver-patient two-person system</strong>, not patient single side. Wrapping as one-sided altruism makes the system <strong>unsustainable</strong> (caregiver burns out → system collapses).</p>
+  </div>
+
+  <div class="frame-section">
+    <span class="label">When I use this frame</span>
+    <ul>
+      <li>Exercise room: tire her → she rests → I can be quiet (don't write "for her sarcopenia")</li>
+      <li>Sofa weights: lead her back to bedroom → I don't have to wake up at night → I can sleep (don't write "better for her")</li>
+      <li>Whole home handbook emphasizes "the priority is you, not her"</li>
+    </ul>
+  </div>
+
+  <div class="frame-section">
+    <span class="label">You may not apply because</span>
+    <ul>
+      <li>You're still in the "for her good" phase — that's also valid, a healthy starting point</li>
+      <li>Different culture / family dynamics may not allow you to admit "for less disturbance to me"</li>
+      <li>If your spouse / elder reads this handbook, they may not accept this framing — keep the original</li>
+    </ul>
+  </div>
+
+  <div class="cross-ref">
+    📖 See Home Care Handbook (zh-Hant only): item 10 + caregiver section
+  </div>
+</div>
+
+<!-- ========== Frame 6 ========== -->
+<div class="frame">
+  <div class="frame-title">🕸️ 6. The handbook is a mesh, not a list</div>
+
+  <div class="frame-section">
+    <span class="label">How I see it</span>
+    <p>Home retrofitting looks like a <strong>list</strong> (13 items), but it's actually a <strong>mesh</strong> — many items' real benefits come from <strong>cross-section combinations</strong>. Doing a single item alone doesn't work.</p>
+    <p>Examples:</p>
+    <ul>
+      <li><strong>Movement paths</strong> (item 5) + <strong>water cup positions</strong> (always-on section) = complete hydration mechanism</li>
+      <li><strong>Sofa weights</strong> (bedtime SOP) + <strong>morning timer</strong> (item 4) = complete countermeasure for nighttime living-room walking</li>
+      <li><strong>GPS hidden in habitual items</strong> (Legal P0) + <strong>Item 12 door-gap soundproofing</strong> = walk-prevention hardware/software combo</li>
+    </ul>
+    <p>Doing movement alone, buying water cup alone, buying GPS alone, installing sensor alone — all worse than paired.</p>
+  </div>
+
+  <div class="frame-section">
+    <span class="label">When I use this frame</span>
+    <ul>
+      <li>When reading other dementia resources and seeing a single-item recommendation, I ask: "what's it paired with?"</li>
+      <li>When prioritizing my own work, choose item <strong>pairs</strong> to do together, not single items</li>
+      <li>When discussing with other caregivers, recommend item combinations, not single items</li>
+    </ul>
+  </div>
+
+  <div class="frame-section">
+    <span class="label">You may not apply because</span>
+    <ul>
+      <li>Limited resources, may only be able to do single items — that's still better than nothing, don't skip because of "no pair"</li>
+      <li>Your pairs may differ from mine (your home's path-cup pairing may differ)</li>
+      <li>Not all items have pairs (e.g., bathroom door = standalone P0, no obvious pair needed)</li>
+    </ul>
+  </div>
+
+  <div class="cross-ref">
+    📖 See Home Care Handbook (zh-Hant only): all 13 retrofit items
+  </div>
+</div>
+
+<!-- ============================================================== -->
+<h2 id="caveat-en">⚠️ Important · Don't take any framework as absolute</h2>
+
+<div class="disclaimer">
+  <h3>This is not the truth of dementia care</h3>
+  <p>These 6 frames are <strong>the judgment methods I used when writing the home care handbook</strong>, not <strong>the truth of dementia care</strong>. The care community has many other theoretical frameworks:</p>
+  <ul>
+    <li><strong>Reminiscence Therapy</strong> — uses past memories to evoke emotional connection. Conflicts with my <strong>addition vs subtraction</strong> frame.</li>
+    <li><strong>Validation Therapy</strong> — doesn't correct the dementia patient's words, accepts their reality. Complements some of my frames.</li>
+    <li><strong>Montessori Method for Dementia</strong> — applies child education principles to dementia care. Differs from my <strong>restlessness vs boredom</strong> frame.</li>
+    <li><strong>Person-Centered Care</strong> — Tom Kitwood's foundational dementia care theory.</li>
+  </ul>
+  <p>These conflict / complement my 6 frames in different ways. <strong>Don't take any framework as absolute</strong>. My frames reflect my family's situation; yours differs, your frames will differ too.</p>
+</div>
+
+<div class="contribute">
+  <h3 style="font-size:17px;color:var(--primary-dark);margin-bottom:8px;">🤝 Other caregivers welcome to contribute their frames</h3>
+  <p style="font-size:15px;">This handbook can be expanded like the <a href="../garden-handbook/">Garden Handbook</a> — if you have your own frames (any judgment method for facing new events in dementia care), please share via GitHub or LINE group. Each caregiver's view is different; the more diverse the collection, the more useful.</p>
+</div>
+
+<!-- ============================================================== -->
+<h2>📚 Companion materials</h2>
+<ul style="margin:6px 0 6px 22px;">
+  <li><a href="../home-handbook/">Home Care Handbook</a> — 13 practical retrofits + morning/evening flow + pitfalls (zh-Hant only)</li>
+  <li><a href="../">All Tools</a> — Dementia Care Tools collection</li>
+</ul>
+
+<!-- 🆘 Disclaimer + emergency lines -->
+<div class="emergency-disclaimer">
+  <p style="margin:0 0 8px 0;">
+    <a href="../" style="color:inherit;">← All Tools</a> · <a href="../home-handbook/" style="color:inherit;">Home Care Handbook</a> · <a href="https://github.com/tm731531/dementia-care" style="color:inherit;">GitHub</a> · <a href="https://blog.tomting.com/" style="color:inherit;">Blog</a>
+  </p>
+  <p style="margin:0 0 8px 0;font-size:12px;color:#999;">
+    This handbook is one caregiver's personal subjective judgment frames, not legal / medical / long-term-care planning advice, nor an authoritative dementia care framework. Please use your own judgment combined with professional consultation.
+  </p>
+  <p style="margin:0;font-size:12px;">
+    🆘 Emergency dial <strong style="color:#c00;">119</strong> (Taiwan) · Long-term care <strong>1966</strong> · Dementia care line <strong>0800-474-580</strong> · Family caregiver care <strong>0800-50-7272</strong>
+  </p>
+</div>
+
+</main>
+
+<script>
+(function() {
+  const btn = document.getElementById('lang-toggle-btn');
+  const zh = document.getElementById('content-zh');
+  const en = document.getElementById('content-en');
+  const STORAGE_KEY = 'mindset-lang';
+
+  function applyLang(lang) {
+    if (lang === 'en') {
+      zh.style.display = 'none';
+      en.style.display = '';
+      btn.textContent = '🌐 中文';
+      document.documentElement.lang = 'en';
+      document.title = 'Mindset Handbook · Frames for facing new events in dementia care';
+    } else {
+      zh.style.display = '';
+      en.style.display = 'none';
+      btn.textContent = '🌐 English';
+      document.documentElement.lang = 'zh-Hant';
+      document.title = '心法手冊 · 失智照護面對新事件的判斷視角';
+    }
+  }
+
+  // Load saved preference
+  let saved;
+  try { saved = localStorage.getItem(STORAGE_KEY); } catch(e) {}
+  if (saved === 'en' || saved === 'zh') {
+    applyLang(saved);
+  } else {
+    // Auto-detect from browser language
+    const browserLang = (navigator.language || 'zh').toLowerCase();
+    applyLang(browserLang.startsWith('en') ? 'en' : 'zh');
+  }
+
+  btn.addEventListener('click', function() {
+    const newLang = (en.style.display === 'none') ? 'en' : 'zh';
+    applyLang(newLang);
+    try { localStorage.setItem(STORAGE_KEY, newLang); } catch(e) {}
+  });
+})();
+</script>
 
 </body>
 </html>
