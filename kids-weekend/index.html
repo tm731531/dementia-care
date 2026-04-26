@@ -189,7 +189,7 @@ a { color: var(--accent); }
   </div>
 
   <div class="footer-note">
-    最後更新 2026-04-27 · v1.1 · 全台 22 縣市 100+ 親子景點 · <a href="https://github.com/tm731531/dementia-care" target="_blank">GitHub</a>
+    最後更新 2026-04-27 · v1.2 · 全台 22 縣市 126 景點 · 範圍改用車程分鐘(雙北西)/ 鄰近縣市(其他都會圈) · <a href="https://github.com/tm731531/dementia-care" target="_blank">GitHub</a>
   </div>
 </section>
 
@@ -556,10 +556,11 @@ function renderWizard() {
   const el = document.getElementById('wizard-container');
   if (!el) return;
   const p = STATE.userProfile || {};
-  if (p.weather && p.season && p.age && p.range) {
+  if (p.home && p.weather && p.season && p.age && p.range) {
     el.innerHTML = renderWizardResult(p);
     return;
   }
+  if (!p.home) { el.innerHTML = renderWizardQ('home'); return; }
   if (!p.weather) { el.innerHTML = renderWizardQ('weather'); return; }
   if (!p.season) { el.innerHTML = renderWizardQ('season'); return; }
   if (!p.age) { el.innerHTML = renderWizardQ('age'); return; }
@@ -567,9 +568,29 @@ function renderWizard() {
 }
 
 function renderWizardQ(step) {
+  if (step === 'home') {
+    return `<div class="wizard-card">
+      <div class="wizard-step">第 1 / 5 題(只問一次,之後記住)</div>
+      <h2>🏠 你住哪?</h2>
+      <p style="margin:0;color:var(--muted);">影響「車程範圍」怎麼算。住雙北西區用車程分鐘篩,其他縣市用鄰近縣市篩。</p>
+      <div class="wizard-options">
+        <button class="wizard-opt" onclick="setWizardAnswer('home','metro_tw_west')"><span class="opt-icon">🏙</span>雙北西區<span class="opt-hint">土城/板橋/中和/新莊/三重/新店/三峽/萬華/中正/大安/文山 等</span></button>
+        <button class="wizard-opt" onclick="setWizardAnswer('home','taipei')"><span class="opt-icon">🏙</span>台北市 / 新北東北<span class="opt-hint">內湖/南港/汐止/北投/士林/瑞芳 等</span></button>
+        <button class="wizard-opt" onclick="setWizardAnswer('home','taoyuan')"><span class="opt-icon">🚗</span>桃園市</button>
+        <button class="wizard-opt" onclick="setWizardAnswer('home','hsinchu_city')"><span class="opt-icon">🚗</span>新竹市 / 縣</button>
+        <button class="wizard-opt" onclick="setWizardAnswer('home','taichung')"><span class="opt-icon">🚗</span>台中市</button>
+        <button class="wizard-opt" onclick="setWizardAnswer('home','tainan')"><span class="opt-icon">🚗</span>台南市</button>
+        <button class="wizard-opt" onclick="setWizardAnswer('home','kaohsiung')"><span class="opt-icon">🚗</span>高雄市</button>
+        <button class="wizard-opt" onclick="setWizardAnswer('home','yilan')"><span class="opt-icon">🚗</span>宜蘭縣</button>
+        <button class="wizard-opt" onclick="setWizardAnswer('home','hualien')"><span class="opt-icon">🚗</span>花蓮縣</button>
+        <button class="wizard-opt" onclick="setWizardAnswer('home','taitung')"><span class="opt-icon">🚗</span>臺東縣</button>
+        <button class="wizard-opt" onclick="setWizardAnswer('home','other')"><span class="opt-icon">🚗</span>其他縣市<span class="opt-hint">會去全景點瀏覽選你縣市</span></button>
+      </div>
+    </div>`;
+  }
   if (step === 'weather') {
     return `<div class="wizard-card">
-      <div class="wizard-step">第 1 / 4 題</div>
+      <div class="wizard-step">第 2 / 5 題 <a class="reset-link" onclick="setWizardAnswer('home',null)">← 改第 1 題</a></div>
       <h2>☀️ 今天的天氣?</h2>
       <p style="margin:0;color:var(--muted);">影響推薦室內外景點。</p>
       <div class="wizard-options">
@@ -584,7 +605,7 @@ function renderWizardQ(step) {
     const auto = m>=3&&m<=5 ? 'spring' : m>=6&&m<=8 ? 'summer' : m>=9&&m<=11 ? 'autumn' : 'winter';
     const autoLabel = {spring:'春',summer:'夏',autumn:'秋',winter:'冬'}[auto];
     return `<div class="wizard-card">
-      <div class="wizard-step">第 2 / 4 題 <a class="reset-link" onclick="setWizardAnswer('weather',null)">← 改第 1 題</a></div>
+      <div class="wizard-step">第 3 / 5 題 <a class="reset-link" onclick="setWizardAnswer('weather',null)">← 改第 2 題</a></div>
       <h2>🍂 季節?(系統判斷:${autoLabel})</h2>
       <p style="margin:0;color:var(--muted);">不同季節有不同好景點(花季 / 海邊 / 溫泉)。</p>
       <div class="wizard-options">
@@ -597,7 +618,7 @@ function renderWizardQ(step) {
   }
   if (step === 'age') {
     return `<div class="wizard-card">
-      <div class="wizard-step">第 3 / 4 題 <a class="reset-link" onclick="setWizardAnswer('season',null)">← 改第 2 題</a></div>
+      <div class="wizard-step">第 4 / 5 題 <a class="reset-link" onclick="setWizardAnswer('season',null)">← 改第 3 題</a></div>
       <h2>👶 孩子年齡?</h2>
       <p style="margin:0;color:var(--muted);">影響推薦的活動類型。</p>
       <div class="wizard-options">
@@ -608,14 +629,30 @@ function renderWizardQ(step) {
     </div>`;
   }
   if (step === 'range') {
+    const home = STATE.userProfile.home;
+    let nearHint = '住家附近 30 分鐘', mediumHint = '1 小時車程', tripHint = '半日小旅行';
+    if (home === 'metro_tw_west') {
+      nearHint = '土城 / 板橋 / 中和 / 萬華 / 文山 等(車程 ≤ 30 分)';
+      mediumHint = '+ 士林 / 北投 / 內湖 / 林口 / 烏來 / 桃園市區(≤ 60 分)';
+      tripHint = '+ 基隆 / 桃園山區 / 新竹 / 苗栗 / 台中 / 宜蘭(≤ 120 分)';
+    } else if (HOME_CONFIG[home]) {
+      const cfg = HOME_CONFIG[home];
+      nearHint = '同縣市內(' + cfg.primary.map(r=>REGION_LABEL[r]).join(' / ') + ')';
+      mediumHint = '+ 鄰近縣市(' + cfg.neighbors.map(r=>REGION_LABEL[r]).join(' / ') + ')';
+      tripHint = '+ 再遠一點(' + cfg.far.map(r=>REGION_LABEL[r]).join(' / ') + ')';
+    } else if (home === 'other') {
+      nearHint = '不限(其他縣市建議用全景點瀏覽)';
+      mediumHint = '不限';
+      tripHint = '不限';
+    }
     return `<div class="wizard-card">
-      <div class="wizard-step">第 4 / 4 題 <a class="reset-link" onclick="setWizardAnswer('age',null)">← 改第 3 題</a></div>
+      <div class="wizard-step">第 5 / 5 題 <a class="reset-link" onclick="setWizardAnswer('age',null)">← 改第 4 題</a></div>
       <h2>🚗 出門範圍?</h2>
-      <p style="margin:0;color:var(--muted);">預設以新北土城為中心(住其他縣市的話選「全台跨區」或去全景點瀏覽選你縣市)。</p>
+      <p style="margin:0;color:var(--muted);">範圍以你住的位置為中心算。</p>
       <div class="wizard-options">
-        <button class="wizard-opt" onclick="setWizardAnswer('range','near')"><span class="opt-icon">🏠</span>住家附近 30 分鐘<span class="opt-hint">雙北 + 基隆</span></button>
-        <button class="wizard-opt" onclick="setWizardAnswer('range','medium')"><span class="opt-icon">🚗</span>1 小時車程<span class="opt-hint">+ 桃園 + 新竹</span></button>
-        <button class="wizard-opt" onclick="setWizardAnswer('range','trip')"><span class="opt-icon">🛣️</span>半日小旅行<span class="opt-hint">+ 宜蘭 + 苗栗 + 台中</span></button>
+        <button class="wizard-opt" onclick="setWizardAnswer('range','near')"><span class="opt-icon">🏠</span>住家附近<span class="opt-hint">${nearHint}</span></button>
+        <button class="wizard-opt" onclick="setWizardAnswer('range','medium')"><span class="opt-icon">🚗</span>1 小時車程<span class="opt-hint">${mediumHint}</span></button>
+        <button class="wizard-opt" onclick="setWizardAnswer('range','trip')"><span class="opt-icon">🛣️</span>半日小旅行<span class="opt-hint">${tripHint}</span></button>
         <button class="wizard-opt" onclick="setWizardAnswer('range','nationwide')"><span class="opt-icon">🇹🇼</span>全台跨區大旅行<span class="opt-hint">過夜 / 全台 22 縣市</span></button>
       </div>
     </div>`;
@@ -627,6 +664,7 @@ function setWizardAnswer(key, value) {
   if (!STATE.userProfile) STATE.userProfile = {};
   if (value === null) {
     delete STATE.userProfile[key];
+    if (key === 'home') { delete STATE.userProfile.weather; delete STATE.userProfile.season; delete STATE.userProfile.age; delete STATE.userProfile.range; }
     if (key === 'weather') { delete STATE.userProfile.season; delete STATE.userProfile.age; delete STATE.userProfile.range; }
     if (key === 'season') { delete STATE.userProfile.age; delete STATE.userProfile.range; }
     if (key === 'age') { delete STATE.userProfile.range; }
@@ -646,18 +684,80 @@ function resetWizard() {
 const ALL_REGIONS = ['taipei','newtaipei','keelung','taoyuan','hsinchu_city','hsinchu_county','miaoli','taichung','changhua','nantou','yunlin','chiayi_city','chiayi_county','tainan','kaohsiung','pingtung','yilan','hualien','taitung','penghu','kinmen','lienchiang'];
 const REGION_LABEL = {taipei:'台北市',newtaipei:'新北市',keelung:'基隆市',taoyuan:'桃園市',hsinchu_city:'新竹市',hsinchu_county:'新竹縣',miaoli:'苗栗縣',taichung:'台中市',changhua:'彰化縣',nantou:'南投縣',yunlin:'雲林縣',chiayi_city:'嘉義市',chiayi_county:'嘉義縣',tainan:'台南市',kaohsiung:'高雄市',pingtung:'屏東縣',yilan:'宜蘭縣',hualien:'花蓮縣',taitung:'臺東縣',penghu:'澎湖縣',kinmen:'金門縣',lienchiang:'連江縣(馬祖)'};
 
-function rangeToRegions(range) {
-  // 預設以新北土城為中心
-  if (range === 'near') return ['taipei','newtaipei','keelung'];
-  if (range === 'medium') return ['taipei','newtaipei','keelung','taoyuan','hsinchu_city','hsinchu_county'];
-  if (range === 'trip') return ['taipei','newtaipei','keelung','taoyuan','hsinchu_city','hsinchu_county','miaoli','taichung','yilan'];
-  return ALL_REGIONS; // nationwide
+// ========== 從新北土城出發的車程分鐘估算(area 字串分類)==========
+// v1.2 改用「實際車程」而非「縣市」— 縣市太粗(新北從鶯歌到瑞芳跨 80 分鐘)
+// area 格式如「台北中正」「新北土城」「基隆中正」 — 必須先 anchor 縣市前綴避免「基隆中正」誤判為 30 分
+function getDriveMinutesFromTucheng(area) {
+  const a = area;
+  const isTaipei = /^台北/.test(a);
+  const isNewTaipei = /^新北/.test(a);
+
+  // 雙北西核心 ≤ 30 分(土城出發開車 30 分內,士林是 Tom 提的「極限」)
+  if ((isTaipei || isNewTaipei) && /土城|板橋|中和|永和|新莊|三重|蘆洲|新店|三峽|鶯歌|樹林|萬華|中正|大安|文山|信義|大同|松山|中山|士林/.test(a)) return 30;
+  // 雙北其他 30-60 分(北投 / 內湖 / 南港 / 林口 / 烏來 等)
+  if ((isTaipei || isNewTaipei) && /北投|內湖|南港|汐止|金山|八里|淡水|林口|深坑|石碇|烏來/.test(a)) return 60;
+  // 雙北東北角 60-90 分(瑞芳 / 平溪 / 貢寮 等)
+  if ((isTaipei || isNewTaipei) && /瑞芳|平溪|雙溪|貢寮|萬里/.test(a)) return 90;
+
+  // 基隆 60-90 分(中正區海科館 60、安樂 / 暖暖 90)
+  if (/^基隆/.test(a)) {
+    if (/中正/.test(a)) return 60;
+    return 90;
+  }
+  // 桃園市區 60 分,復興 90 分
+  if (/^桃園/.test(a)) {
+    if (/復興/.test(a)) return 90;
+    return 60;
+  }
+  // 宜蘭西北 90、東 / 南 120
+  if (/^宜蘭/.test(a)) {
+    if (/頭城|五結|礁溪|員山|宜蘭市/.test(a)) return 90;
+    return 120;
+  }
+  // 新竹 90
+  if (/^新竹/.test(a)) return 90;
+  // 苗栗 / 台中 120
+  if (/^苗栗/.test(a)) return 120;
+  if (/^台中/.test(a)) return 120;
+
+  return 999; // 跨區大旅行
+}
+
+// 各「家」的 region 配置(near/medium/trip 的 region 集合)
+const HOME_CONFIG = {
+  taipei:        {primary:['taipei','newtaipei'], neighbors:['keelung'], far:['taoyuan','yilan']},
+  taoyuan:       {primary:['taoyuan'], neighbors:['taipei','newtaipei','hsinchu_city','hsinchu_county'], far:['miaoli','keelung']},
+  hsinchu_city:  {primary:['hsinchu_city','hsinchu_county'], neighbors:['taoyuan','miaoli'], far:['taichung','taipei','newtaipei']},
+  taichung:      {primary:['taichung'], neighbors:['miaoli','changhua','nantou'], far:['hsinchu_city','hsinchu_county','yunlin']},
+  tainan:        {primary:['tainan'], neighbors:['chiayi_city','chiayi_county','kaohsiung'], far:['nantou','pingtung','yunlin']},
+  kaohsiung:     {primary:['kaohsiung'], neighbors:['tainan','pingtung'], far:['chiayi_city','chiayi_county']},
+  yilan:         {primary:['yilan'], neighbors:['taipei','newtaipei'], far:['hualien','keelung']},
+  hualien:       {primary:['hualien'], neighbors:['yilan','taitung'], far:['nantou']},
+  taitung:       {primary:['taitung'], neighbors:['hualien','pingtung'], far:['kaohsiung']},
+  other:         {primary:ALL_REGIONS, neighbors:[], far:[]},
+};
+
+function passesRange(place, profile) {
+  const home = profile.home || 'metro_tw_west';
+  // 雙北西:用車程分鐘篩(最精準 — 不再讓土城人看到基隆)
+  if (home === 'metro_tw_west') {
+    const min = getDriveMinutesFromTucheng(place.area);
+    if (profile.range === 'near') return min <= 30;
+    if (profile.range === 'medium') return min <= 60;
+    if (profile.range === 'trip') return min <= 120;
+    return true;
+  }
+  // 其他都會圈:用 region 集合
+  const cfg = HOME_CONFIG[home] || HOME_CONFIG.other;
+  if (profile.range === 'near') return cfg.primary.includes(place.region);
+  if (profile.range === 'medium') return [...cfg.primary, ...cfg.neighbors].includes(place.region);
+  if (profile.range === 'trip') return [...cfg.primary, ...cfg.neighbors, ...cfg.far].includes(place.region);
+  return true; // nationwide
 }
 
 function filterPlaces(p) {
-  const regions = rangeToRegions(p.range);
   return PLACES.filter(pl => {
-    if (!regions.includes(pl.region)) return false;
+    if (!passesRange(pl, p)) return false;
     if (!pl.ages.includes(p.age)) return false;
     if (!pl.seasons.includes(p.season)) return false;
     if (p.weather === 'sunny' && !pl.weathers.includes('sunny') && !pl.outdoor) return false;
@@ -671,10 +771,11 @@ function renderWizardResult(p) {
   const wLabel = {sunny:'晴',rainy:'雨',any:'隨便'}[p.weather];
   const sLabel = {spring:'春',summer:'夏',autumn:'秋',winter:'冬'}[p.season];
   const aLabel = {'0-2':'0-2 歲','2-3':'2-3 歲','3-6':'3-6 歲'}[p.age];
-  const rLabel = {near:'30 分鐘內',medium:'1 小時內',trip:'半日小旅行',nationwide:'全台跨區'}[p.range];
+  const rLabel = {near:'近',medium:'1 小時內',trip:'半日',nationwide:'全台'}[p.range];
+  const hLabel = {metro_tw_west:'雙北西',taipei:'雙北東/北',taoyuan:'桃園',hsinchu_city:'新竹',taichung:'台中',tainan:'台南',kaohsiung:'高雄',yilan:'宜蘭',hualien:'花蓮',taitung:'臺東',other:'其他縣市'}[p.home] || '';
 
   let html = `<div class="wizard-result-card">
-    <h2>🎯 給你的推薦(${wLabel} · ${sLabel} · ${aLabel} · ${rLabel}) <a class="reset-link" onclick="resetWizard()">↻ 重答</a></h2>
+    <h2>🎯 給你的推薦(${hLabel} · ${wLabel} · ${sLabel} · ${aLabel} · ${rLabel}) <a class="reset-link" onclick="resetWizard()">↻ 重答</a></h2>
     <p style="color:var(--muted);font-size:14px;margin:0 0 12px;">符合條件的景點 <strong>${matches.length}</strong> 個。點 <strong>📍 Google Maps</strong> 直接導航。</p>`;
 
   if (matches.length === 0) {
