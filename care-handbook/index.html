@@ -137,6 +137,7 @@ tbody tr:nth-child(even) { background: rgba(0,0,0,0.02); }
     <a class="nav-link" data-page="page-checklist" onclick="navigateTo('page-checklist');return false;" href="#">📋 觀察 Checklist</a>
     <a class="nav-link" data-page="page-combo" onclick="navigateTo('page-combo');return false;" href="#">🧩 跨服務組合</a>
     <a class="nav-link" data-page="page-complain" onclick="navigateTo('page-complain');return false;" href="#">🚨 SOP 沒做怎辦</a>
+    <a class="nav-link" data-page="page-resources" onclick="navigateTo('page-resources');return false;" href="#">🔗 官方資源連結</a>
   </div>
 </nav>
 
@@ -148,6 +149,13 @@ tbody tr:nth-child(even) { background: rgba(0,0,0,0.02); }
 
   <div id="wizard-container"></div>
 
+  <div class="callout warn">
+    <h4>🗺️ 第一個動作:用「長照地圖」查附近服務</h4>
+    <p style="margin:0 0 10px;">衛福部官方一站式查詢工具 — 輸入地址,看附近<strong>居家服務 / 日照 / 喘息 / 失智據點 / 機構</strong>全部分布。比手冊裡寫的任何資訊都即時。</p>
+    <a class="btn" href="https://ltcpap.mohw.gov.tw/public/index.html" target="_blank" rel="noopener">🗺️ 開長照地圖 →</a>
+    <a class="btn btn-secondary" href="https://1966.gov.tw/" target="_blank" rel="noopener" style="margin-left:8px;">📞 1966 長照官網</a>
+  </div>
+
   <details style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 18px;margin:24px 0;">
     <summary style="font-weight:700;color:var(--primary-dark);cursor:pointer;">📚 第一次來?系統性學習路線</summary>
     <ol style="margin:12px 0 0 22px;">
@@ -155,6 +163,7 @@ tbody tr:nth-child(even) { background: rgba(0,0,0,0.02); }
       <li><a onclick="navigateTo('page-types');return false;" href="#">🏥 5 種服務類型</a> — 居家 / 日照 / 喘息 / 看護工 / 機構</li>
       <li><a onclick="navigateTo('page-subsidy');return false;" href="#">💰 補助系統</a> — 失能等級 → 給付額度</li>
       <li><a onclick="navigateTo('page-combo');return false;" href="#">🧩 跨服務組合</a> — 居家+日照+喘息怎麼搭</li>
+      <li><a onclick="navigateTo('page-resources');return false;" href="#">🔗 官方資源連結</a> — 政府網站 + 專線 + 法規</li>
     </ol>
   </details>
 
@@ -164,7 +173,7 @@ tbody tr:nth-child(even) { background: rgba(0,0,0,0.02); }
   </div>
 
   <div class="footer-note">
-    最後更新 2026-04-26 · v1.0 · 補助標準會逐年更新,以衛福部公告為準 · <a href="https://github.com/tm731531/dementia-care" target="_blank">GitHub</a>
+    最後更新 2026-04-26 · v1.1 · 補助標準會逐年更新,以衛福部公告為準 · <a href="https://github.com/tm731531/dementia-care" target="_blank">GitHub</a>
   </div>
 </section>
 
@@ -279,22 +288,23 @@ tbody tr:nth-child(even) { background: rgba(0,0,0,0.02); }
     <p style="margin:0;"><strong>關鍵概念</strong>:長照 2.0 不是「政府幫你付錢」,是「政府給你<strong>額度</strong>,你選服務在額度內政府支付,超出自己付」。額度依失能等級。</p>
   </div>
 
-  <h2>📊 失能等級 vs 給付額度(2025-2026)</h2>
-  <p style="font-size:13px;color:var(--muted);"><em>給付額度單位:元/月。實際數字以衛福部公告為準。</em></p>
-  <div style="overflow-x:auto;">
-  <table>
-    <thead><tr><th>失能等級</th><th>BCS 照顧服務</th><th>D 喘息服務</th><th>失智專責</th></tr></thead>
-    <tbody>
-      <tr><td>第 2 級</td><td>10,020 / 月</td><td>32,340 / 年</td><td>需另評</td></tr>
-      <tr><td>第 3 級</td><td>15,460 / 月</td><td>32,340 / 年</td><td>+ 4,000 / 月</td></tr>
-      <tr><td>第 4 級</td><td>18,580 / 月</td><td>32,340 / 年</td><td>+ 5,000 / 月</td></tr>
-      <tr><td>第 5 級</td><td>24,100 / 月</td><td>32,340 / 年</td><td>+ 6,000 / 月</td></tr>
-      <tr><td>第 6 級</td><td>28,070 / 月</td><td>32,340 / 年</td><td>+ 6,500 / 月</td></tr>
-      <tr><td>第 7 級</td><td>32,090 / 月</td><td>48,510 / 年</td><td>+ 7,000 / 月</td></tr>
-      <tr><td>第 8 級</td><td>36,180 / 月</td><td>48,510 / 年</td><td>+ 7,500 / 月</td></tr>
-    </tbody>
-  </table>
+  <h2>📊 失能等級 vs 給付額度</h2>
+  <div class="callout warn">
+    <p style="margin:0;"><strong>給付金額會逐年調整,本手冊不寫死數字。請查官方最新公告</strong>:</p>
+    <ul style="margin:8px 0 0 22px;">
+      <li>📞 撥 <strong>1966</strong> 詢問照管專員(最快)</li>
+      <li>🏛 <a href="https://1966.gov.tw/" target="_blank" rel="noopener">1966 長照入口</a> — 八大服務項目給付額度說明</li>
+      <li>🏛 <a href="https://dep.mohw.gov.tw/DOLTC/mp-123.html" target="_blank" rel="noopener">衛福部長期照顧司</a> — 政策公告 + 22 縣市照管中心</li>
+    </ul>
   </div>
+
+  <h3>📐 邏輯(會變的是金額,邏輯不會變)</h3>
+  <ul>
+    <li>長照失能分 <strong>1-8 級</strong>(8 級最重,失智長輩多在 2-6 級)</li>
+    <li>給付分 <strong>BCS 照顧服務</strong>(月額度)+ <strong>D 喘息服務</strong>(年額度)+ <strong>失智專責</strong>(失能 3+ 級可加給)</li>
+    <li>等級越高 → 月給付越高 → 可用服務時數越長</li>
+    <li><strong>用不完不能存</strong>,一般月度結算</li>
+  </ul>
 
   <h2>💵 自付比例</h2>
   <table>
@@ -477,9 +487,9 @@ tbody tr:nth-child(even) { background: rgba(0,0,0,0.02); }
 
   <h2>📊 額度</h2>
   <ul>
-    <li>失能 2-6 級:<strong>21 天 / 年</strong>(換算約 32,340 元 / 年)</li>
-    <li>失能 7-8 級:<strong>32 天 / 年</strong>(換算約 48,510 元 / 年)</li>
-    <li><strong>沒用會作廢,不能跨年</strong></li>
+    <li>失能 2-6 級 vs 7-8 級 額度不同(具體天數 / 金額逐年公告 — 撥 1966 或看 <a href="https://1966.gov.tw/LTC/lp-6455-207.html" target="_blank" rel="noopener">衛福部喘息服務</a> 最新)</li>
+    <li><strong>沒用會作廢,不能跨年</strong>(這個原則不變)</li>
+    <li>📞 申請喘息直接撥 <strong>1966</strong> 或看 <a href="https://www.familycare.org.tw" target="_blank" rel="noopener">家庭照顧者關懷總會</a></li>
   </ul>
 
   <h2>⚡ 怎麼預約</h2>
@@ -611,8 +621,11 @@ tbody tr:nth-child(even) { background: rgba(0,0,0,0.02); }
 
 <!-- ========== 預算試算 ========== -->
 <section class="page" id="page-budget">
-  <h1>💵 預算試算</h1>
-  <p style="font-size:17px;color:var(--muted);">輸入失能等級 + 收入身分 → 自動算各類服務的家長實付。</p>
+  <h1>💵 預算試算(粗估)</h1>
+  <p style="font-size:17px;color:var(--muted);">輸入失能等級 + 收入身分 → 各類服務粗估實付。<strong>結果僅供參考,不構成個人理財建議</strong> — 實際金額以衛福部當年度公告 + 各服務提供者收費為準。</p>
+  <div class="callout warn">
+    <p style="margin:0;font-size:14px;">給付額度 / 自付比例 <strong>逐年調整</strong>。本工具用的是估算值,正確數字請查 <a href="https://1966.gov.tw/" target="_blank" rel="noopener">1966 長照入口</a> 或撥 <strong>1966</strong> 詢問照管專員。</p>
+  </div>
 
   <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;">
     <div style="margin-bottom:14px;">
@@ -833,6 +846,106 @@ tbody tr:nth-child(even) { background: rgba(0,0,0,0.02); }
     <li>太情緒 / 沒重點 → 對方逃避</li>
     <li>沒寫書面 → 沒有正式紀錄</li>
   </ul>
+</section>
+
+<!-- ========== 官方資源連結 ========== -->
+<section class="page" id="page-resources">
+  <h1>🔗 官方資源連結</h1>
+  <p style="font-size:17px;color:var(--muted);">所有政策、金額、機構名單<strong>會變動</strong>。本手冊不寫死,連到官方原始來源 — 永遠最新。</p>
+
+  <h2>🗺️ 最有用的查詢工具(優先看)</h2>
+  <table>
+    <thead><tr><th>工具</th><th>能查什麼</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong><a href="https://ltcpap.mohw.gov.tw/public/index.html" target="_blank" rel="noopener">🗺️ 長照地圖</a></strong></td>
+        <td>輸入地址 → 附近的居家服務 / 日照 / 喘息 / 失智據點 / 機構 22 類服務全部分布。<strong>所有家屬第一個動作</strong></td>
+      </tr>
+      <tr>
+        <td><a href="https://1966.gov.tw/" target="_blank" rel="noopener">📞 1966 長照入口</a></td>
+        <td>長照 3.0 八大服務項目、申請方式、政策公告</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>🏛 衛福部 / 政府主要入口</h2>
+  <table>
+    <thead><tr><th>單位</th><th>連結</th><th>用途</th></tr></thead>
+    <tbody>
+      <tr><td>衛福部長期照顧司</td><td><a href="https://dep.mohw.gov.tw/DOLTC/mp-123.html" target="_blank" rel="noopener">dep.mohw.gov.tw/DOLTC</a></td><td>22 縣市照管中心清單 / 政策公告</td></tr>
+      <tr><td>家庭照顧者支持服務</td><td><a href="https://1966.gov.tw/LTC/lp-6455-207.html" target="_blank" rel="noopener">1966 喘息服務</a></td><td>喘息服務規範 / 家照據點分布 / 互助喘息</td></tr>
+      <tr><td>失智照護服務</td><td><a href="https://1966.gov.tw/LTC/lp-6456-207.html" target="_blank" rel="noopener">1966 失智照護</a></td><td>失智照護計畫 / 失智住宿資源 / 共照中心</td></tr>
+      <tr><td>住宿式機構服務</td><td><a href="https://1966.gov.tw/LTC/lp-6457-207.html" target="_blank" rel="noopener">1966 機構服務</a></td><td>機構評鑑 / 補助方案 / 感染管制</td></tr>
+      <tr><td>社區整體照顧服務體系(ABC)</td><td><a href="https://1966.gov.tw/LTC/np-6459-207.html" target="_blank" rel="noopener">1966 ABC 體系</a></td><td>A/B/C 三層架構說明</td></tr>
+      <tr><td>社家署老人福利</td><td><a href="https://www.sfaa.gov.tw/SFAA/Pages/List.aspx?nodeid=189" target="_blank" rel="noopener">sfaa.gov.tw 老人福利</a></td><td>老人福利政策 + 4916 個社區關懷據點</td></tr>
+      <tr><td>身心障礙服務入口網</td><td><a href="https://dpws.sfaa.gov.tw/" target="_blank" rel="noopener">dpws.sfaa.gov.tw</a></td><td>身心障礙鑑定申請 + 輔具補助線上申請</td></tr>
+      <tr><td>輔具資源入口網</td><td><a href="https://newrepat.sfaa.gov.tw" target="_blank" rel="noopener">newrepat.sfaa.gov.tw</a></td><td>輔具補助申請 + 輔具產品 + 評估人員培訓</td></tr>
+    </tbody>
+  </table>
+
+  <h2>🌏 外籍看護工(勞動部)</h2>
+  <table>
+    <thead><tr><th>單位</th><th>連結</th></tr></thead>
+    <tbody>
+      <tr><td>勞動部勞動力發展署(主入口)</td><td><a href="https://www.wda.gov.tw" target="_blank" rel="noopener">wda.gov.tw</a></td></tr>
+      <tr><td>移工申辦線上系統</td><td><a href="https://fw.wda.gov.tw" target="_blank" rel="noopener">fw.wda.gov.tw</a></td></tr>
+      <tr><td><strong>直接聘僱聯合服務中心</strong>(免仲介費)</td><td><a href="https://dhsc.wda.gov.tw/" target="_blank" rel="noopener">dhsc.wda.gov.tw</a> · 0800-085-151</td></tr>
+    </tbody>
+  </table>
+
+  <h2>🆘 緊急 / 支持專線(直接撥打)</h2>
+  <p style="font-size:14px;color:var(--muted);"><em>大字標示用法:電話直撥即可,不需網站。</em></p>
+  <table>
+    <thead><tr><th>專線</th><th>用途</th><th>時間</th></tr></thead>
+    <tbody>
+      <tr><td><strong style="font-size:18px;">1966</strong></td><td>長照諮詢 + 申請(免費)</td><td>週一至週五 8:30-12:00 / 13:30-17:30</td></tr>
+      <tr><td><strong style="font-size:18px;">1955</strong></td><td>外籍勞工申訴(免費)</td><td>24 小時</td></tr>
+      <tr><td><strong style="font-size:18px;">113</strong></td><td>婦幼保護 + 兒虐 + 老人受虐</td><td>24 小時</td></tr>
+      <tr><td><strong style="font-size:18px;">1957</strong></td><td>福利諮詢(社福資源整合)</td><td>每天 8:00-22:00</td></tr>
+      <tr><td><strong style="font-size:18px;">1925</strong></td><td>安心專線(主照顧者心理崩潰)</td><td>24 小時</td></tr>
+      <tr><td><strong style="font-size:18px;">0800-507-272</strong></td><td>家庭照顧者關懷總會 — 喘息資源 / 心理支持</td><td>諮詢時段</td></tr>
+    </tbody>
+  </table>
+
+  <h3>📞 家庭照顧者關懷總會</h3>
+  <p><a href="https://www.familycare.org.tw" target="_blank" rel="noopener">familycare.org.tw</a> — 主照顧者支持資源、互助喘息、心理諮商連結。</p>
+
+  <h2>📜 法規 / 法律規劃(全國法規資料庫)</h2>
+  <table>
+    <thead><tr><th>法規</th><th>連結</th><th>用途</th></tr></thead>
+    <tbody>
+      <tr><td>長期照顧服務法</td><td><a href="https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=L0070040" target="_blank" rel="noopener">law.moj.gov.tw/L0070040</a></td><td>機構分類 / 管理 / 罰則</td></tr>
+      <tr><td>長期照顧服務機構設立標準</td><td><a href="https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=L0070048" target="_blank" rel="noopener">law.moj.gov.tw/L0070048</a></td><td>居家 / 社區 / 住宿 / 綜合式機構標準 + 業務負責人資格</td></tr>
+      <tr><td>老人福利法</td><td><a href="https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=D0050037" target="_blank" rel="noopener">law.moj.gov.tw/D0050037</a></td><td>老人保護 / 福利機構 / 罰則</td></tr>
+      <tr><td>病人自主權利法<br>(預立醫療決定 ACP)</td><td><a href="https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=L0020189" target="_blank" rel="noopener">law.moj.gov.tw/L0020189</a></td><td>預立醫療決定 / 醫療委任代理人 / 特定臨床條件(末期 / 植物人)</td></tr>
+      <tr><td>安寧緩和醫療條例</td><td><a href="https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=L0020066" target="_blank" rel="noopener">law.moj.gov.tw/L0020066</a></td><td>末期病人選擇安寧 / 維生醫療意願書</td></tr>
+    </tbody>
+  </table>
+
+  <h2>🚨 通報 / 投訴</h2>
+  <ul>
+    <li><a href="https://ecare.mohw.gov.tw/" target="_blank" rel="noopener">社安網通報平台</a> — 疑似遭不當對待 / 疏忽照顧線上通報(113 / 1957 前置入口)</li>
+  </ul>
+
+  <h2>🧠 失智症資源</h2>
+  <ul>
+    <li><a href="https://1966.gov.tw/LTC/lp-6456-207.html" target="_blank" rel="noopener">衛福部失智照護服務</a> — 失智照護計畫 + 失智專責服務 + 共照中心</li>
+    <li><a href="https://www.tada2002.org.tw" target="_blank" rel="noopener">台灣失智症協會 TADA</a> — 民間失智症衛教(若無法開啟,搜尋「台灣失智症協會」)</li>
+    <li>失智症診斷量表(CDR / MMSE):由神經內科 / 精神科醫師評估,TADA 衛教資料有說明</li>
+  </ul>
+
+  <h2>📋 證件 / 補助(說明文字,不依賴連結)</h2>
+  <ul>
+    <li><strong>重大傷病卡</strong>(失智可申請):持<strong>失智診斷書</strong>至各地<strong>健保署分區業務組</strong>申請,或在醫院健保業務部辦理</li>
+    <li><strong>身心障礙證明</strong>:至 <a href="https://dpws.sfaa.gov.tw/" target="_blank" rel="noopener">身心障礙服務入口網</a> 申請,需身心障礙鑑定</li>
+    <li><strong>無障礙環境改善補助</strong>:撥 1966 → 照管專員可連動申請(屬長照 2.0 輔具服務項目)</li>
+    <li><strong>監護宣告 / 輔助宣告</strong>:向<strong>地方法院家事庭</strong>聲請,備醫師診斷書 + 親屬資料,可至法院服務中心索取聲請書表</li>
+  </ul>
+
+  <h2>📌 設計原則</h2>
+  <div class="callout">
+    <p style="margin:0;font-size:14px;">手冊只寫「<strong>怎麼做的方法</strong>」(這個不變)。具體<strong>金額 / 等級 / 機構名單</strong>連到官方(永遠最新)。<strong>不寫死避免落後 + 提醒永遠以官方公告為準</strong>。</p>
+  </div>
 </section>
 
 </main>
