@@ -2909,6 +2909,13 @@ details[open] summary { margin-bottom: 8px; }
     <p style="margin:8px 0 0;">資料只存在你的裝置,不上雲端。換手機可以從 <a onclick="navigateTo('page-settings');return false;" href="#">⚙️ 設定</a> 匯出 / 匯入 JSON 備份。</p>
   </div>
 
+  <div class="callout warn" style="margin-bottom:16px;">
+    <h4>📚 第一次用?載入土城 11 家招生章範例</h4>
+    <p style="margin:0 0 8px;"><strong>不知道每欄怎麼填?</strong> 一鍵載入 13 家範例(2 家非營利 + 11 家準公共,2026 / 115 學年度新北土城),看別人怎麼填、欄位怎麼用,然後改成你自己的資料 / 或一鍵清除範例。</p>
+    <button class="btn" onclick="loadSampleData()">📚 載入土城 13 家範例</button>
+    <button class="btn btn-secondary" onclick="clearSamplesOnly()" style="margin-left:8px;">🗑 只清範例(保留你自己加的)</button>
+  </div>
+
   <h2>➕ 加新園所(對應招生章完整欄位)</h2>
   <p style="font-size:14px;color:var(--muted);"><em>欄位按招生章順序排列。<strong>只有「名稱」必填</strong>,其他可邊跑邊補。展開各區塊填欄位。</em></p>
   <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;">
@@ -3528,6 +3535,221 @@ function setFamilyMode(mode) {
 }
 
 // ============ Compare Basket ============
+// 範例資料 — 新北土城 115 學年度 11 家準公共 + 2 家非營利招生章(2026 年)
+// 這是 demo data,讓家長看到比較籃完整使用方式。可一鍵載入,也可一鍵清除。
+const SAMPLE_PRESCHOOLS = [
+  // 非營利(統一報名)
+  {
+    name: '中正幼兒園(範例)', type: 'nonprofit',
+    address: '新北市土城區', phone: '(統一報名 — 新北市教育局)', email: '',
+    walk: '依家戶位置',
+    cls2: '統一抽籤分發', cls3: '', cls4: '', cls5: '',
+    fee1: '≤ 2,000(教育部上限)', fee2: '≤ 1,000', hiddenCost: '中低收/低收免費。餐點代辦約 1,500-2,500/月',
+    regStart: '2026-04-30', regEnd: '2026-05-07', regMethod: 'unified',
+    lottery: '2026-05-19', lotteryTime: '中午 12 時(教育局統一電腦抽籤)',
+    report: '2026-05-20', retain: '2027-01-31',
+    myRank: '一般生(第 8 順位 — 土城設籍)',
+    style: '主流主題式 + 公辦民營', trial: '無(線上報到)',
+    extendedCare: '學期間下午 4-7 時', documents: '戶口名簿掃描 + 系統查調',
+    special: '備取保留至下年留園直升前一日(全清單最長)',
+    myRating: '', notes: '範例:統一報名 kid123.ntpc.edu.tw / 線上抽籤 / 線上報到',
+    isSample: true,
+  },
+  {
+    name: '明德幼兒園(範例)', type: 'nonprofit',
+    address: '新北市土城區', phone: '(統一報名 — 新北市教育局)', email: '',
+    walk: '依家戶位置',
+    cls2: '統一抽籤分發', cls3: '', cls4: '', cls5: '',
+    fee1: '≤ 2,000(教育部上限)', fee2: '≤ 1,000', hiddenCost: '中低收/低收免費。餐點代辦約 1,500-2,500/月',
+    regStart: '2026-04-30', regEnd: '2026-05-07', regMethod: 'unified',
+    lottery: '2026-05-19', lotteryTime: '中午 12 時(教育局統一電腦抽籤)',
+    report: '2026-05-20', retain: '2027-01-31',
+    myRank: '一般生(第 8 順位 — 土城設籍)',
+    style: '主流主題式 + 公辦民營', trial: '無(線上報到)',
+    extendedCare: '學期間下午 4-7 時', documents: '戶口名簿掃描 + 系統查調',
+    special: '備取保留至下年留園直升前一日',
+    myRating: '', notes: '範例:統一報名 kid123.ntpc.edu.tw / 線上抽籤 / 線上報到',
+    isSample: true,
+  },
+  // 準公共(各園自辦,11 家)
+  {
+    name: '常春藤(範例)', type: 'semi',
+    address: '新北市土城區青仁路 1 號', phone: '(02)8273-2241', email: '',
+    walk: '31 / 2.2km',
+    cls2: '9 人', cls3: '', cls4: '', cls5: '',
+    fee1: '3,000(法定上限)', fee2: '2,000 / 第 3 胎 1,000', hiddenCost: '不含延托費/保險費/交通費',
+    regStart: '2026-05-03', regEnd: '2026-05-07', regMethod: 'mixed',
+    lottery: '2026-05-08', lotteryTime: '上午 11 時(未超額才全錄,不是不抽)',
+    report: '', retain: '2026-05-14',
+    myRank: '一般生(第 3 順位「清水里」不適用大多數家戶)',
+    style: '主題式', trial: '',
+    extendedCare: '', documents: '',
+    special: '⚠️ 備取保留只 5 天 — 沒抽中正取等於沒中。報名可現場 / 掛號郵寄',
+    myRating: '', notes: '範例:報名最早(下週就要報)。若想要建議優先處理',
+    isSample: true,
+  },
+  {
+    name: '天翔(範例)', type: 'semi',
+    address: '新北市土城區學享街 47 號', phone: '(02)8261-2548', email: 'a82612548@yahoo.com',
+    walk: '20 / 1.5km',
+    cls2: '24 人 ⭐(全清單最多)', cls3: '', cls4: '', cls5: '',
+    fee1: '3,000(法定上限)', fee2: '2,000 / 第 3 胎 1,000', hiddenCost: '不含延托費/保險費/交通費',
+    regStart: '2026-05-04', regEnd: '2026-05-12', regMethod: 'email',
+    lottery: '2026-05-15', lotteryTime: '上午 10 時',
+    report: '2026-05-25', retain: '2026-06-08',
+    myRank: '一般生(第 3 順位)',
+    style: '主題式', trial: '隨時電話預約',
+    extendedCare: '', documents: '',
+    special: '可 Email 報名(較方便)',
+    myRating: '', notes: '範例:2 歲班 24 人最多,報名最早,優先處理',
+    isSample: true,
+  },
+  {
+    name: '征洋(範例)', type: 'semi',
+    address: '新北市土城區仁愛路 16 巷 3 弄 7 號', phone: '(02)2261-1953', email: '',
+    walk: '28 / 2.0km',
+    cls2: '16 人', cls3: '', cls4: '', cls5: '',
+    fee1: '3,000(法定上限)', fee2: '2,000 / 第 3 胎 1,000', hiddenCost: '不含延托費/保險費/交通費',
+    regStart: '2026-05-06', regEnd: '2026-05-12', regMethod: 'onsite',
+    lottery: '2026-05-14', lotteryTime: '⚠️ 晚上 7 時抽籤(夜間)',
+    report: '', retain: '2026-07-31',
+    myRank: '一般生(第 4 順位:學區內幼生)',
+    style: '主題式', trial: '',
+    extendedCare: '', documents: '',
+    special: '備取保留 7/31 止 ✅ 全清單最長之一',
+    myRating: '', notes: '範例:備取保留長,沒抽中正取也有機會遞補',
+    isSample: true,
+  },
+  {
+    name: '有一天(範例)', type: 'semi',
+    address: '新北市土城區廣福街 2 號', phone: '(02)8260-3126', email: '',
+    walk: '32 / 2.3km',
+    cls2: '16 人', cls3: '', cls4: '', cls5: '',
+    fee1: '3,000(法定上限)', fee2: '2,000 / 第 3 胎 1,000', hiddenCost: '不含延托費/保險費/交通費',
+    regStart: '2026-05-06', regEnd: '2026-05-12', regMethod: 'onsite',
+    lottery: '2026-05-15', lotteryTime: '下午 1 時',
+    report: '', retain: '2026-06-02',
+    myRank: '一般生',
+    style: '主題式', trial: '',
+    extendedCare: '', documents: '',
+    special: '全園 89 人(最多)',
+    myRating: '', notes: '範例',
+    isSample: true,
+  },
+  {
+    name: '全球(範例)', type: 'semi',
+    address: '新北市土城區立德路 135 巷 2 號', phone: '', email: '',
+    walk: '41 / 2.9km',
+    cls2: '10 人', cls3: '', cls4: '', cls5: '',
+    fee1: '3,000(法定上限)', fee2: '2,000 / 第 3 胎 1,000', hiddenCost: '不含延托費/保險費/交通費',
+    regStart: '2026-05-05', regEnd: '2026-05-09', regMethod: 'onsite',
+    lottery: '2026-05-12', lotteryTime: '下午 1:30',
+    report: '', retain: '2026-05-21',
+    myRank: '一般生',
+    style: '主題式', trial: '',
+    extendedCare: '', documents: '',
+    special: '⚠️ 偏遠 + 備取保留短',
+    myRating: '', notes: '範例:當保險用,主要園所沒上才考慮',
+    isSample: true,
+  },
+  {
+    name: '詠樂(範例)', type: 'semi',
+    address: '新北市土城區延和路 19 號', phone: '', email: '',
+    walk: '42 / 3.2km',
+    cls2: '8 人(全園正取僅 10 人,其餘列備取)', cls3: '', cls4: '', cls5: '',
+    fee1: '3,000(法定上限)', fee2: '2,000 / 第 3 胎 1,000', hiddenCost: '不含延托費/保險費/交通費',
+    regStart: '2026-05-07', regEnd: '2026-05-12', regMethod: 'onsite',
+    lottery: '2026-05-15', lotteryTime: '上午 11 時',
+    report: '', retain: '2026-05-26',
+    myRank: '一般生(第 4 順位:延和里/安和里戶籍)',
+    style: '主題式', trial: '',
+    extendedCare: '', documents: '',
+    special: '⚠️ 因師資不足正取大幅縮減(全園可招 36 人但僅正取 10),其餘列備取',
+    myRating: '', notes: '範例:正取人少,謹慎評估',
+    isSample: true,
+  },
+  {
+    name: '奇士華(範例)', type: 'semi',
+    address: '新北市土城區青仁路 31 號', phone: '0933-834918', email: '',
+    walk: '29 / 2.1km',
+    cls2: '8 人', cls3: '混齡', cls4: '混齡', cls5: '混齡',
+    fee1: '3,000(法定上限)', fee2: '2,000 / 第 3 胎 1,000', hiddenCost: '不含延托費/保險費/交通費',
+    regStart: '2026-05-19', regEnd: '2026-05-23', regMethod: 'mixed',
+    lottery: '2026-05-27', lotteryTime: '下午 1:30',
+    report: '2026-05-28', retain: '2026-06-05',
+    myRank: '一般生(第 2 順位:合作契約團體 — 鄰家早餐店等)',
+    style: '混齡(3 歲以上)', trial: '中籤者 5/31(日)13:30-14:30',
+    extendedCare: '', documents: '',
+    special: '⚠️ 5/23(週六)只能用 Google 表單。3 歲以上混齡',
+    myRating: '', notes: '範例',
+    isSample: true,
+  },
+  {
+    name: '樹德(範例)', type: 'semi',
+    address: '新北市土城區裕民路 114 巷 25 號', phone: '(02)2270-3828', email: 'shuder88601@gmail.com',
+    walk: '20 / 1.4km',
+    cls2: '8 人', cls3: '', cls4: '', cls5: '',
+    fee1: '3,000(法定上限)', fee2: '2,000 / 第 3 胎 1,000', hiddenCost: '不含延托費/保險費/交通費',
+    regStart: '2026-05-22', regEnd: '2026-05-29', regMethod: 'email',
+    lottery: '2026-06-01', lotteryTime: '下午 1 時',
+    report: '2026-06-09', retain: '2026-06-13',
+    myRank: '一般生(第 2 順位:員工三等親 / 原就讀弟妹 / 周邊鄰里)',
+    style: '主題式', trial: '',
+    extendedCare: '', documents: '',
+    special: '可 Email 報名',
+    myRating: '', notes: '範例:離家近 ⭐(裕民路上順路)',
+    isSample: true,
+  },
+  {
+    name: '廣福(範例)', type: 'semi',
+    address: '新北市土城區學府路一段 5 號', phone: '(02)8273-2820', email: '',
+    walk: '31 / 2.2km',
+    cls2: '24 人 ⭐', cls3: '', cls4: '', cls5: '',
+    fee1: '3,000(法定上限)', fee2: '2,000 / 第 3 胎 1,000', hiddenCost: '不含延托費/保險費/交通費',
+    regStart: '2026-05-26', regEnd: '2026-05-30', regMethod: 'onsite',
+    lottery: '2026-06-02', lotteryTime: '上午 10 時',
+    report: '2026-06-06', retain: '2026-06-30',
+    myRank: '一般生(第 2 順位:教職員工二等親)',
+    style: '主題式', trial: '',
+    extendedCare: '', documents: '',
+    special: '⚠️ 報名表 5/11(日) 後到大門口取(報名表本身要拿)',
+    myRating: '', notes: '範例:備取保留 6/30 較寬裕,2 歲班 24 人最多',
+    isSample: true,
+  },
+  {
+    name: '肯恩土城(範例)', type: 'semi',
+    address: '新北市土城區學士路 12 巷 16 號', phone: '(02)2263-8303', email: '',
+    walk: '19 / 1.4km ⭐(最近)',
+    cls2: '8 人', cls3: '', cls4: '', cls5: '',
+    fee1: '3,000(法定上限)', fee2: '2,000 / 第 3 胎 1,000', hiddenCost: '不含延托費/保險費/交通費',
+    regStart: '2026-06-03', regEnd: '2026-06-09', regMethod: 'mixed',
+    lottery: '2026-06-10', lotteryTime: '下午 4:30',
+    report: '2026-06-11', retain: '2026-06-16',
+    myRank: '一般生(第 3 順位:鄰近社區住戶 — 視距離認定)',
+    style: '主題式', trial: '',
+    extendedCare: '', documents: '',
+    special: '優先生 5/29~6/2 / 一般生 6/3~6/9。可 Google 表單報名',
+    myRating: '', notes: '範例:離家最近 ⭐ 19 分鐘',
+    isSample: true,
+  },
+  {
+    name: '土城名仁(範例)', type: 'semi',
+    address: '新北市土城區延吉街 217 巷 9 弄 3 號', phone: '', email: '',
+    walk: '55 / 3.9km(較遠)',
+    cls2: '8 人', cls3: '', cls4: '', cls5: '',
+    fee1: '3,000(法定上限)', fee2: '2,000 / 第 3 胎 1,000', hiddenCost: '不含延托費/保險費/交通費',
+    regStart: '2026-05-25', regEnd: '2026-06-01', regMethod: 'onsite',
+    lottery: '2026-06-04', lotteryTime: '上午 10 時',
+    report: '', retain: '2026-10-31',
+    myRank: '一般生(第 2 順位:員工子女)',
+    style: '主題式', trial: '',
+    extendedCare: '', documents: '戶口名簿影本 + 預防接種影本',
+    special: '備取保留 10/31 止 ✅✅ 全清單最長,沒抽中正取也有 4 個月遞補機會',
+    myRating: '', notes: '範例:雖然較遠,備取保留期最長,當長線備援很好',
+    isSample: true,
+  },
+];
+
 const CMP_FIELDS = [
   'cmp-name','cmp-type','cmp-address','cmp-phone','cmp-email','cmp-walk',
   'cmp-cls2','cmp-cls3','cmp-cls4','cmp-cls5',
@@ -3599,6 +3821,31 @@ function clearAllCompare() {
   renderCompareList();
 }
 
+function loadSampleData() {
+  const existing = STATE.compareList.filter(r => r.isSample).length;
+  if (existing > 0) {
+    if (!confirm(`已有 ${existing} 筆範例資料,要再載入一次嗎?(會重複)`)) return;
+  }
+  SAMPLE_PRESCHOOLS.forEach(s => {
+    STATE.compareList.push({
+      id: 'sample-' + Date.now() + '-' + Math.random().toString(36).slice(2,8),
+      ...s,
+    });
+  });
+  saveState();
+  renderCompareList();
+  alert(`已載入 ${SAMPLE_PRESCHOOLS.length} 家土城範例 (115 學年度招生章)。可滑動查看完整欄位填法,然後改成你自己的資料 / 或一鍵清除範例。`);
+}
+
+function clearSamplesOnly() {
+  const samples = STATE.compareList.filter(r => r.isSample).length;
+  if (samples === 0) { alert('沒有範例資料可清除'); return; }
+  if (!confirm(`要清除全部 ${samples} 筆範例(保留你自己加的)嗎?`)) return;
+  STATE.compareList = STATE.compareList.filter(r => !r.isSample);
+  saveState();
+  renderCompareList();
+}
+
 const TYPE_LABELS = {
   public: '公幼/公托',
   nonprofit: '非營利',
@@ -3632,9 +3879,11 @@ function renderCompareList() {
     const cls = [r.cls2 && `2歲 ${r.cls2}`, r.cls3 && `3歲 ${r.cls3}`, r.cls4 && `4歲 ${r.cls4}`, r.cls5 && `5歲 ${r.cls5}`].filter(Boolean).join(' / ');
     const regPeriod = (r.regStart || r.regEnd) ? `${r.regStart || '?'} ~ ${r.regEnd || '?'}` : '';
     const stars = r.myRating ? '⭐'.repeat(parseInt(r.myRating)) : '';
+    const sampleStyle = r.isSample ? 'border-left:6px solid var(--accent);background:#f4f8fc;' : '';
+    const sampleTag = r.isSample ? '<span class="tag" style="background:var(--accent);color:#fff;">📚 範例</span>' : '';
     return `
-    <div class="compare-record">
-      <div class="name">${escapeHtml(r.name)} ${r.type ? `<span class="tag">${TYPE_LABELS[r.type] || ''}</span>` : ''} ${stars ? `<span style="margin-left:6px;">${stars}</span>` : ''}</div>
+    <div class="compare-record" style="${sampleStyle}">
+      <div class="name">${escapeHtml(r.name)} ${r.type ? `<span class="tag">${TYPE_LABELS[r.type] || ''}</span>` : ''} ${sampleTag} ${stars ? `<span style="margin-left:6px;">${stars}</span>` : ''}</div>
       ${r.address ? `<div class="meta">📍 ${escapeHtml(r.address)} ${r.phone ? `· ☎ ${escapeHtml(r.phone)}` : ''}</div>` : ''}
       <div class="meta">
         ${r.walk ? `🚶 ${escapeHtml(r.walk)} 分 · ` : ''}
@@ -4093,6 +4342,8 @@ window.clearCompareForm = clearCompareForm;
 window.removeCompareRecord = removeCompareRecord;
 window.clearAllCompare = clearAllCompare;
 window.exportCompareText = exportCompareText;
+window.loadSampleData = loadSampleData;
+window.clearSamplesOnly = clearSamplesOnly;
 window.exportJson = exportJson;
 window.importJson = importJson;
 window.resetAll = resetAll;
