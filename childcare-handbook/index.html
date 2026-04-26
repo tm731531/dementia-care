@@ -598,7 +598,7 @@ details[open] summary { margin-bottom: 8px; }
   <p style="font-size:18px;color:var(--muted);">給家裡有 <strong>0-6 歲幼兒</strong>、第一次面對托嬰中心 / 幼兒園系統的家長。教你<strong>怎麼看</strong>,不告訴你<strong>選哪家</strong>。</p>
 
   <div class="quick-summary">
-    <strong>⏱ 沒空全讀?5 分鐘版</strong>:① 點下面年齡卡片定位 → ② 看「對號入座」表找你的情境 → ③ 點對應頁讀關鍵段 → ④ 開「規劃模式」每個月自動提醒。<strong>現在就開規劃模式 ↓</strong>
+    <strong>⏱ 本月最重要的一件事</strong>:<span id="monthly-quick-action">載入中...</span>
   </div>
 
   <div id="planning-mode-block" style="display:none;">
@@ -706,7 +706,7 @@ details[open] summary { margin-bottom: 8px; }
   </div>
 
   <div class="footer-note">
-    最後更新 2026-04-26 · v2.0 · 政府補助標準會逐年更新,以官方公告為準
+    最後更新 2026-04-26 · v2.3 · 政府補助標準會逐年更新,以官方公告為準
   </div>
 </section>
 
@@ -1092,20 +1092,32 @@ details[open] summary { margin-bottom: 8px; }
   </div>
 
   <div class="callout warn">
-    <h4>🎯 現場必問 Top 10(30 分鐘版)</h4>
-    <p style="margin:0 0 8px;">下面 50+ 項現場跑不完。先用這 10 題,其他留給<strong>試讀觀察</strong>或<strong>入園後追蹤</strong>:</p>
+    <h4>🎯 現場 30 分鐘:3 題口問 + 5 個眼睛看 + 2 試讀觀察</h4>
+    <p style="margin:0 0 8px;">10 題口問實際 35-50 分鐘跑不完(每家給的時間多 30-60 分)。改用「<strong>口問 3 題</strong>」(看現場應變)+「<strong>眼睛看 5 個指標</strong>」(看實質)+「<strong>試讀 2 點觀察</strong>」(看孩子反應)。</p>
+
+    <p style="margin:8px 0 4px;"><strong>🗣 口問 3 題(別讓園所給標準答案)</strong></p>
     <ol style="margin:0 0 0 22px;">
-      <li>「我今天參觀的班,<strong>主帶老師</strong>是哪位?她帶多久了?」(間接探流動率)</li>
-      <li>「今天<strong>全園老師和孩子</strong>各幾個?」(確認師生比達法規)</li>
-      <li>「我可以<strong>看一下今天的午餐菜單</strong>嗎?」(直接看,不靠口說)</li>
-      <li>「孩子<strong>發燒幾度</strong>會通知我?多久通知一次?」(測 SOP)</li>
-      <li>「<strong>門禁</strong>怎麼管?我朋友 / 祖父母可以來接嗎?」(測接送授權)</li>
-      <li>「可以<strong>帶我看教室和廚房</strong>嗎?」(邊走邊看)</li>
-      <li>「<strong>延托費</strong>怎麼算?晚 10 分鐘怎麼計?」(費用糾紛高頻原因)</li>
-      <li>「<strong>監視器</strong>有嗎?需要調閱時怎麼申請?」(不問「能不能家長看」,改問「怎麼申請」)</li>
-      <li>「你們有<strong>試讀</strong>嗎?怎麼安排?」(有試讀一定要試)</li>
-      <li>「孩子<strong>哭不停</strong>,老師怎麼處理?能舉個最近發生的例子嗎?」(要具體例子)</li>
+      <li>「<strong>今天主帶我家小孩的老師是哪位?她帶多久了?去年有沒有換過主帶?</strong>」(主帶 + 異動,雙問)</li>
+      <li>「<strong>孩子哭不停 / 打人,老師怎麼處理?能舉個最近發生的例子嗎?</strong>」(要具體例子,不聽 SOP)</li>
+      <li>「<strong>能不能讓我跟近期在讀家長(最近 1 年)聊一聊?</strong>」(測園所是否有信心讓家長交流)</li>
     </ol>
+
+    <p style="margin:12px 0 4px;"><strong>👀 眼睛看 5 個指標(走動時觀察,比口問可靠)</strong></p>
+    <ol style="margin:0 0 0 22px;">
+      <li><strong>老師眼神</strong>:跟孩子互動時是「眼睛在孩子身上」還是「看天花板等下班」?有沒有<strong>蹲下來</strong>跟孩子說話?</li>
+      <li><strong>當下實際師生比</strong>:不問「法規 1:5」(都會說對),自己算今天現場幾位老師對幾個孩子,並問「另一位老師上廁所時,標準處置是什麼?」</li>
+      <li><strong>菜單看當天的</strong>:口頭說沒用,要看當天午餐(菜色 / 份量 / 溫度)</li>
+      <li><strong>廚房 + 廁所</strong>(邀請式問「可不可以走走廚房旁邊」):熱水區 / 利器是否隔離、廁所乾淨嗎</li>
+      <li><strong>離園時孩子的神情</strong>:在場其他孩子被接走時是<strong>哭著要回去</strong>還是<strong>玩到不想走</strong>?(這個指標比所有口問都真)</li>
+    </ol>
+
+    <p style="margin:12px 0 4px;"><strong>🧪 試讀 2 點觀察(若有試讀務必試)</strong></p>
+    <ol style="margin:0 0 0 22px;">
+      <li><strong>午睡 + 第一餐</strong>:0-3 歲孩子能否在陌生環境睡 / 吃,是最真實的訊號</li>
+      <li><strong>家長離開 5 分鐘的反應</strong>:你假裝接電話走出去 5 分鐘,看老師如何處理孩子情緒</li>
+    </ol>
+
+    <p style="margin:12px 0 0;font-size:13px;color:var(--muted);"><em>下面 50+ 項是「<strong>第二次參觀 / 試讀後 / 入園前</strong>」的深度檢查清單。第一次 30 分鐘只看上面 3+5+2 即可。</em></p>
   </div>
 
   <h2>🏫 幼兒園專屬(2-6 歲)</h2>
@@ -1447,6 +1459,35 @@ details[open] summary { margin-bottom: 8px; }
       <li>準備全部園所要的文件</li>
     </ul>
     <p style="margin:6px 0 0;"><strong>4 月底就把整個 5 月的時序排好</strong>,不要 5/1 才開始想。</p>
+  </div>
+
+  <div class="callout danger">
+    <h4>🚨 5 月地獄週全落榜怎麼辦?Plan B 三條路</h4>
+    <p style="margin:0 0 8px;"><strong>抽籤是運氣</strong>,報 5 家全落榜的家庭一年都有。<strong>這時不是世界末日,而是要切換到 plan B 模式</strong>:</p>
+    <ol style="margin:0 0 0 22px;">
+      <li><strong>Plan B-1:備取等遞補</strong>(免費 + 高機率) — 備取保留期長的園所(土城名仁 10/31 / 征洋 7/31 / 廣福 6/30)有實際機會,7-8 月才會結算。<strong>繼續每天看簡訊</strong></li>
+      <li><strong>Plan B-2:私立補位</strong>(立刻有位 + 費用高) — 7-8 月開學前位置最少,<strong>6 月就要開始打電話問私立</strong>(月費 8K-50K)。先選一般主題式(8-15K),特色園(蒙氏/雙語)當奢侈品</li>
+      <li><strong>Plan B-3:祖父母 / 保母過渡</strong>(短期橋接) — 等明年再戰。<strong>0-2 歲送托嬰補位</strong>(找準公共保母,3-6 月可進);<strong>3-6 歲找居家臨托或祖父母帶半年</strong>,1-2 月再辦下年留園直升</li>
+    </ol>
+    <p style="margin:8px 0 0;font-size:13px;"><strong>心理建設</strong>:全落榜不是你做錯了,是抽籤機制的數學現實(每園錄取率 10-30%,5 家全落榜機率約 17-60%)。先深呼吸再行動。</p>
+  </div>
+
+  <div class="callout warn">
+    <h4>⚠️ 抽中後 7 月才開學:4-6 月銜接期(準爸媽常忽略)</h4>
+    <p style="margin:0 0 8px;">5 月抽中正取 → 6 月報到 → <strong>8 月才開學</strong>。中間 2-4 個月要安排:</p>
+    <ul style="margin:0 0 0 22px;">
+      <li><strong>0-2 歲</strong>:祖父母 / 保母 / 自己帶過渡。提前確認到入園日的銜接</li>
+      <li><strong>2-6 歲(從托嬰升幼兒園)</strong>:現有托嬰可能要在 6/30 前結束,7-8 月「轉場期」要安排好</li>
+      <li><strong>準備期可做的事</strong>:練習自理(穿鞋 / 上廁所 / 自己吃飯)、調作息(午睡時段對齊)、買書包 / 餐具 / 棉被等用品</li>
+      <li><strong>陪伴期</strong>:8 月開學後第一週可能要請假(漸進入園),預先跟主管溝通</li>
+    </ul>
+  </div>
+
+  <div class="next-step-cta">
+    <h4>✅ 看完地雷,下一步</h4>
+    <a onclick="navigateTo('page-checklist');return false;" href="#">📋 拿 Checklist 去現場跑</a>
+    <a onclick="navigateTo('page-budget');return false;" href="#">💵 預算試算</a>
+    <a onclick="navigateTo('page-calendar');return false;" href="#">📆 開 Calendar 設提醒</a>
   </div>
 </section>
 
@@ -3183,17 +3224,26 @@ details[open] summary { margin-bottom: 8px; }
   </div>
 
   <h2>➕ 加新園所(對應招生章完整欄位)</h2>
-  <p style="font-size:14px;color:var(--muted);"><em>欄位按招生章順序排列。<strong>只有「名稱」必填</strong>,其他可邊跑邊補。展開各區塊填欄位。</em></p>
+  <p style="font-size:14px;color:var(--muted);"><em>欄位按招生章順序排列。<strong>只有「名稱」必填</strong>,其他可邊跑邊補。</em></p>
+  <div class="callout" style="margin-bottom:12px;font-size:14px;">
+    <strong>📌 標籤圖例</strong> — 知道何時填哪欄:
+    <ul style="margin:4px 0 0 22px;">
+      <li>📄 <strong>招生章查</strong>:看 PDF / 官網就能填(報名期 / 抽籤日 / 名額 / 月費上限)</li>
+      <li>🏠 <strong>事前量</strong>:自己量(步行時間)</li>
+      <li>📋 <strong>現場填</strong>:觀課時問園所(隱形費用 / 試讀 / 延托 / 教學風格)</li>
+      <li>⭐ <strong>觀課後填</strong>:你的主觀評分</li>
+    </ul>
+  </div>
   <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;">
 
     <details open style="border:0;padding:0;margin:0 0 12px;">
       <summary>📌 基本資訊(必看)</summary>
       <div class="form-field" style="margin-top:12px;">
-        <label for="cmp-name">園所名稱 *</label>
+        <label for="cmp-name">📌 園所名稱 *</label>
         <input type="text" id="cmp-name" placeholder="例:○○幼兒園 / ○○托嬰中心">
       </div>
       <div class="form-field">
-        <label for="cmp-type">類型</label>
+        <label for="cmp-type">📌 類型</label>
         <select id="cmp-type">
           <option value="">— 選擇 —</option>
           <option value="public">公幼 / 公托</option>
@@ -3205,19 +3255,19 @@ details[open] summary { margin-bottom: 8px; }
         </select>
       </div>
       <div class="form-field">
-        <label for="cmp-address">地址</label>
+        <label for="cmp-address">📄 地址(招生章查)</label>
         <input type="text" id="cmp-address" placeholder="例:新北市土城區○○路○○號">
       </div>
       <div class="form-field">
-        <label for="cmp-phone">電話</label>
+        <label for="cmp-phone">📄 電話(招生章查)</label>
         <input type="text" id="cmp-phone" placeholder="例:(02)2263-8303">
       </div>
       <div class="form-field">
-        <label for="cmp-email">Email(若有)</label>
+        <label for="cmp-email">📄 Email(招生章 / 官網查)</label>
         <input type="text" id="cmp-email" placeholder="例:abc@example.com">
       </div>
       <div class="form-field">
-        <label for="cmp-walk">步行時間(分鐘)</label>
+        <label for="cmp-walk">🏠 步行時間(自己量)</label>
         <input type="text" id="cmp-walk" placeholder="實測時間,不是 Google Maps(雨天 +50%)">
       </div>
     </details>
@@ -3226,50 +3276,50 @@ details[open] summary { margin-bottom: 8px; }
       <summary>📊 招生 + 費用</summary>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px;">
         <div class="form-field">
-          <label for="cmp-cls2">2 歲班名額</label>
+          <label for="cmp-cls2">📄 2 歲班名額</label>
           <input type="text" id="cmp-cls2" placeholder="例:8 / 24 / 無">
         </div>
         <div class="form-field">
-          <label for="cmp-cls3">3 歲班名額</label>
+          <label for="cmp-cls3">📄 3 歲班名額</label>
           <input type="text" id="cmp-cls3" placeholder="例:10 / 混齡 / 無">
         </div>
         <div class="form-field">
-          <label for="cmp-cls4">4 歲班名額</label>
+          <label for="cmp-cls4">📄 4 歲班名額</label>
           <input type="text" id="cmp-cls4" placeholder="例:15 / 無">
         </div>
         <div class="form-field">
-          <label for="cmp-cls5">5 歲班名額</label>
+          <label for="cmp-cls5">📄 5 歲班名額</label>
           <input type="text" id="cmp-cls5" placeholder="例:30 / 無">
         </div>
       </div>
       <div class="form-field">
-        <label for="cmp-fee1">第 1 胎月費(實付)</label>
+        <label for="cmp-fee1">📄 第 1 胎月費(招生章 / 預算試算估)</label>
         <input type="text" id="cmp-fee1" placeholder="例:3,000(準公幼上限) / 12,000(私立)">
       </div>
       <div class="form-field">
-        <label for="cmp-fee2">第 2 胎以上月費(若不同)</label>
+        <label for="cmp-fee2">📄 第 2 胎以上月費(招生章查)</label>
         <input type="text" id="cmp-fee2" placeholder="例:第 2 胎 2,000 / 第 3 胎 1,000">
       </div>
       <div class="form-field">
-        <label for="cmp-hidden-cost">隱形費用(註冊 / 書本 / 制服 / 活動 / 延托 / 才藝 / 餐 / 雜)</label>
+        <label for="cmp-hidden-cost">📋 隱形費用(現場問清楚)(註冊 / 書本 / 制服 / 活動 / 延托 / 才藝 / 餐 / 雜)</label>
         <textarea id="cmp-hidden-cost" placeholder="例:註冊 5,000/學期 + 制服 2,000 + 餐 2,500/月 + 才藝 1,500/月..."></textarea>
       </div>
     </details>
 
-    <details style="border:0;padding:0;margin:0 0 12px;">
-      <summary>📅 報名 + 抽籤時程</summary>
+    <details open style="border:0;padding:0;margin:0 0 12px;">
+      <summary>📅 報名 + 抽籤時程(<strong>填這裡 Calendar 才會自動帶日期</strong>)</summary>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px;">
         <div class="form-field">
-          <label for="cmp-reg-start">報名開始日</label>
+          <label for="cmp-reg-start">📄 報名開始日</label>
           <input type="date" id="cmp-reg-start">
         </div>
         <div class="form-field">
-          <label for="cmp-reg-end">報名截止日</label>
+          <label for="cmp-reg-end">📄 報名截止日</label>
           <input type="date" id="cmp-reg-end">
         </div>
       </div>
       <div class="form-field">
-        <label for="cmp-reg-method">報名方式</label>
+        <label for="cmp-reg-method">📄 報名方式</label>
         <select id="cmp-reg-method">
           <option value="">— 選擇 —</option>
           <option value="onsite">現場填表</option>
@@ -3282,20 +3332,20 @@ details[open] summary { margin-bottom: 8px; }
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
         <div class="form-field">
-          <label for="cmp-lottery">抽籤日</label>
+          <label for="cmp-lottery">📄 抽籤日</label>
           <input type="date" id="cmp-lottery">
         </div>
         <div class="form-field">
-          <label for="cmp-lottery-time">抽籤時間 / 地點</label>
+          <label for="cmp-lottery-time">📄 抽籤時間 / 地點</label>
           <input type="text" id="cmp-lottery-time" placeholder="例:上午 10 時 / 園所大門">
         </div>
       </div>
       <div class="form-field">
-        <label for="cmp-report">正取報到截止</label>
+        <label for="cmp-report">📄 正取報到截止</label>
         <input type="date" id="cmp-report">
       </div>
       <div class="form-field">
-        <label for="cmp-retain">備取保留期截止</label>
+        <label for="cmp-retain">📄 備取保留期截止(短的等於沒中)</label>
         <input type="date" id="cmp-retain">
       </div>
     </details>
@@ -3303,31 +3353,31 @@ details[open] summary { margin-bottom: 8px; }
     <details style="border:0;padding:0;margin:0 0 12px;">
       <summary>🎯 我的順位 + 評估維度</summary>
       <div class="form-field" style="margin-top:12px;">
-        <label for="cmp-my-rank">我家順位(看簡章逐字確認)</label>
+        <label for="cmp-my-rank">📄 我家順位(看簡章逐字確認)</label>
         <input type="text" id="cmp-my-rank" placeholder="例:一般生(第 4 順位) / 第 3 順位:鄰里(清水里)">
       </div>
       <div class="form-field">
-        <label for="cmp-style">教學風格</label>
+        <label for="cmp-style">📋 教學風格(現場問 + 觀察)</label>
         <input type="text" id="cmp-style" placeholder="例:蒙氏(AMI 認證)/ 主題式 / 雙語(外師 50%)">
       </div>
       <div class="form-field">
-        <label for="cmp-trial">試讀規則</label>
+        <label for="cmp-trial">📋 試讀規則(現場問)</label>
         <input type="text" id="cmp-trial" placeholder="例:免費半天 / 收 1,000 試讀 3 天 / 無試讀">
       </div>
       <div class="form-field">
-        <label for="cmp-extended">延托規則</label>
+        <label for="cmp-extended">📋 延托規則(現場問,雙薪必問)</label>
         <input type="text" id="cmp-extended" placeholder="例:到 18:30 / 月票 3,500 / 逾時每 15 分鐘 200">
       </div>
       <div class="form-field">
-        <label for="cmp-documents">需備文件</label>
+        <label for="cmp-documents">📋 需備文件(現場問)</label>
         <input type="text" id="cmp-documents" placeholder="例:戶口名簿 + 預防接種卡 + 健保卡">
       </div>
       <div class="form-field">
-        <label for="cmp-special">特殊規定 / 警訊</label>
+        <label for="cmp-special">📋 特殊規定 / 警訊(現場觀察)</label>
         <input type="text" id="cmp-special" placeholder="例:全美語 / 混齡 / 報名表 5/11 後到大門口取 / ⚠️ 備取只 5 天">
       </div>
       <div class="form-field">
-        <label for="cmp-rating">我的評分(1-5)</label>
+        <label for="cmp-rating">⭐ 我的評分(觀課後填,1-5)</label>
         <select id="cmp-rating">
           <option value="">— 還沒看 —</option>
           <option value="5">⭐⭐⭐⭐⭐ 強烈想要</option>
@@ -3498,7 +3548,7 @@ details[open] summary { margin-bottom: 8px; }
 
   <h2>ℹ️ 關於</h2>
   <ul>
-    <li><strong>版本</strong>:v2.0(2026-04-26 · 5 輪 30 視角審查全修)</li>
+    <li><strong>版本</strong>:v2.3(2026-04-26 · 5 輪 30 視角審查全修)</li>
     <li><strong>來源</strong>:<a href="https://github.com/tm731531/dementia-care" target="_blank" rel="noopener">tm731531/dementia-care · childcare-handbook</a></li>
     <li><strong>授權</strong>:MIT</li>
     <li><strong>離線</strong>:本頁所有資源 inline,不連外部 CDN</li>
@@ -3514,7 +3564,7 @@ const STORAGE_KEY = 'childcareHandbookState';
 const DEFAULT_STATE = {
   childAge: null,
   familyMode: 'normal',
-  planningMode: false,
+  planningMode: true, // 預設啟用 — 新使用者第一次進來就看到「本月該做的事」
   favorites: [],
   checklist: {},
   compareList: [],
@@ -3756,6 +3806,22 @@ function renderAllChecklists() {
 }
 
 // ============ Planning Mode ============
+// 當月最重要的一件事(一句話行動,不是步驟)
+const MONTHLY_QUICK_ACTION = {
+  1: '🟢 留園直升登記月。已在園的孩子辦直升,**錯過要重抽**。',
+  2: '🟢 文件整理月。**現在就翻出預防接種卡**(沒有要去衛生所補,1-2 週)。',
+  3: '🟡 報名前最後一個月。**到該縣市報名網站註冊帳號**(別等到 4 月底才註冊)。',
+  4: '🔴 月底非營利缺額公告。**今天就把想報的 3-5 家報名截止日加進手機行事曆**。',
+  5: '🔴🔴 地獄週。今天就動,**所有要報的園所表單填好提早 2 天送出**。',
+  6: '🟡 抽籤+報到+備取期。**每天看簡訊**(報到通知都靠簡訊)。',
+  7: '🟡 備取等遞補 + 私立補位。**沒抽到的家庭立刻找私立 plan B**。',
+  8: '🟢 月初開學。**備齊文件 + 確認接送名單 + 跟祖父母對齊**。',
+  9: '🟢 適應期觀察。**頭 3 週孩子哭著去是正常的**,別退縮但也別硬撐到 6 週後仍崩潰。',
+  10: '🟢 流感/腸病毒高峰前。**確認接種卡更新 + 病假備援名單**(看入園後實務 §7)。',
+  11: '🟢 年度檢視。**評估孩子適不適合園所**;不適合的早決定明年換園(1-2 月直升前)。',
+  12: '🟢 寒假到來。**問園所有沒有寒假托育**(沒有的話祖父母 / 暫托規劃)。',
+};
+
 const MONTHLY_ACTIONS = {
   1: ['留園直升登記(已在園的孩子)','觀察各園公告(招生資訊預告)','整理孩子戶口名簿掃描檔'],
   2: ['留園直升登記截止前確認','繼續整理文件','研究今年 4-6 月可能報名的園所'],
@@ -4706,11 +4772,19 @@ function syncSettingsUI() {
 }
 
 // ============ Init ============
+function renderMonthlyQuickAction() {
+  const el = document.getElementById('monthly-quick-action');
+  if (!el) return;
+  const month = (new Date()).getMonth() + 1;
+  el.innerHTML = MONTHLY_QUICK_ACTION[month] || '';
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   renderAllChecklists();
   renderPlanningModeBlock();
   renderCompareList();
   renderCalendarAll();
+  renderMonthlyQuickAction();
   syncSettingsUI();
   applyFamilyMode();
 
