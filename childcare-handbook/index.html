@@ -2909,52 +2909,174 @@ details[open] summary { margin-bottom: 8px; }
     <p style="margin:8px 0 0;">資料只存在你的裝置,不上雲端。換手機可以從 <a onclick="navigateTo('page-settings');return false;" href="#">⚙️ 設定</a> 匯出 / 匯入 JSON 備份。</p>
   </div>
 
-  <h2>➕ 加新園所</h2>
+  <h2>➕ 加新園所(對應招生章完整欄位)</h2>
+  <p style="font-size:14px;color:var(--muted);"><em>欄位按招生章順序排列。<strong>只有「名稱」必填</strong>,其他可邊跑邊補。展開各區塊填欄位。</em></p>
   <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;">
-    <div class="form-field">
-      <label for="cmp-name">園所名稱 *</label>
-      <input type="text" id="cmp-name" placeholder="例:○○幼兒園 / ○○托嬰中心">
-    </div>
-    <div class="form-field">
-      <label for="cmp-type">類型</label>
-      <select id="cmp-type">
-        <option value="">— 選擇 —</option>
-        <option value="public">公托 / 公幼</option>
-        <option value="nonprofit">非營利</option>
-        <option value="semi">準公共</option>
-        <option value="private">私立</option>
-      </select>
-    </div>
-    <div class="form-field">
-      <label for="cmp-walk">步行時間(分鐘)</label>
-      <input type="text" id="cmp-walk" placeholder="實測時間,不是 Google Maps">
-    </div>
-    <div class="form-field">
-      <label for="cmp-class-size">招生年齡 / 名額</label>
-      <input type="text" id="cmp-class-size" placeholder="例:2 歲班 8 人 / 0-2 歲 15 人">
-    </div>
-    <div class="form-field">
-      <label for="cmp-fee">月費(實付)</label>
-      <input type="text" id="cmp-fee" placeholder="例:3000 / 12000(含什麼註明)">
-    </div>
-    <div class="form-field">
-      <label for="cmp-reg">報名期間</label>
-      <input type="text" id="cmp-reg" placeholder="例:5/3 - 5/7">
-    </div>
-    <div class="form-field">
-      <label for="cmp-lottery">抽籤日</label>
-      <input type="text" id="cmp-lottery" placeholder="例:5/15 上午 10 時">
-    </div>
-    <div class="form-field">
-      <label for="cmp-retain">備取保留期</label>
-      <input type="text" id="cmp-retain" placeholder="例:6/30 止 / 5/14 止 ⚠️">
-    </div>
-    <div class="form-field">
-      <label for="cmp-notes">備註(教學風格 / 特殊優缺 / 直覺感受)</label>
-      <textarea id="cmp-notes" placeholder="自由筆記:現場印象、教保員態度、廚房狀況、可疑的點..."></textarea>
-    </div>
+
+    <details open style="border:0;padding:0;margin:0 0 12px;">
+      <summary>📌 基本資訊(必看)</summary>
+      <div class="form-field" style="margin-top:12px;">
+        <label for="cmp-name">園所名稱 *</label>
+        <input type="text" id="cmp-name" placeholder="例:○○幼兒園 / ○○托嬰中心">
+      </div>
+      <div class="form-field">
+        <label for="cmp-type">類型</label>
+        <select id="cmp-type">
+          <option value="">— 選擇 —</option>
+          <option value="public">公幼 / 公托</option>
+          <option value="nonprofit">非營利</option>
+          <option value="semi">準公共</option>
+          <option value="private">私立</option>
+          <option value="infant">托嬰中心</option>
+          <option value="nanny">保母</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label for="cmp-address">地址</label>
+        <input type="text" id="cmp-address" placeholder="例:新北市土城區○○路○○號">
+      </div>
+      <div class="form-field">
+        <label for="cmp-phone">電話</label>
+        <input type="text" id="cmp-phone" placeholder="例:(02)2263-8303">
+      </div>
+      <div class="form-field">
+        <label for="cmp-email">Email(若有)</label>
+        <input type="text" id="cmp-email" placeholder="例:abc@example.com">
+      </div>
+      <div class="form-field">
+        <label for="cmp-walk">步行時間(分鐘)</label>
+        <input type="text" id="cmp-walk" placeholder="實測時間,不是 Google Maps(雨天 +50%)">
+      </div>
+    </details>
+
+    <details style="border:0;padding:0;margin:0 0 12px;">
+      <summary>📊 招生 + 費用</summary>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px;">
+        <div class="form-field">
+          <label for="cmp-cls2">2 歲班名額</label>
+          <input type="text" id="cmp-cls2" placeholder="例:8 / 24 / 無">
+        </div>
+        <div class="form-field">
+          <label for="cmp-cls3">3 歲班名額</label>
+          <input type="text" id="cmp-cls3" placeholder="例:10 / 混齡 / 無">
+        </div>
+        <div class="form-field">
+          <label for="cmp-cls4">4 歲班名額</label>
+          <input type="text" id="cmp-cls4" placeholder="例:15 / 無">
+        </div>
+        <div class="form-field">
+          <label for="cmp-cls5">5 歲班名額</label>
+          <input type="text" id="cmp-cls5" placeholder="例:30 / 無">
+        </div>
+      </div>
+      <div class="form-field">
+        <label for="cmp-fee1">第 1 胎月費(實付)</label>
+        <input type="text" id="cmp-fee1" placeholder="例:3,000(準公幼上限) / 12,000(私立)">
+      </div>
+      <div class="form-field">
+        <label for="cmp-fee2">第 2 胎以上月費(若不同)</label>
+        <input type="text" id="cmp-fee2" placeholder="例:第 2 胎 2,000 / 第 3 胎 1,000">
+      </div>
+      <div class="form-field">
+        <label for="cmp-hidden-cost">隱形費用(註冊 / 書本 / 制服 / 活動 / 延托 / 才藝 / 餐 / 雜)</label>
+        <textarea id="cmp-hidden-cost" placeholder="例:註冊 5,000/學期 + 制服 2,000 + 餐 2,500/月 + 才藝 1,500/月..."></textarea>
+      </div>
+    </details>
+
+    <details style="border:0;padding:0;margin:0 0 12px;">
+      <summary>📅 報名 + 抽籤時程</summary>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px;">
+        <div class="form-field">
+          <label for="cmp-reg-start">報名開始日</label>
+          <input type="date" id="cmp-reg-start">
+        </div>
+        <div class="form-field">
+          <label for="cmp-reg-end">報名截止日</label>
+          <input type="date" id="cmp-reg-end">
+        </div>
+      </div>
+      <div class="form-field">
+        <label for="cmp-reg-method">報名方式</label>
+        <select id="cmp-reg-method">
+          <option value="">— 選擇 —</option>
+          <option value="onsite">現場填表</option>
+          <option value="email">Email 報名</option>
+          <option value="google_form">Google 表單</option>
+          <option value="unified">統一網站(kid123 / kid-online 等)</option>
+          <option value="mail">掛號郵寄</option>
+          <option value="mixed">混合方式(看備註)</option>
+        </select>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <div class="form-field">
+          <label for="cmp-lottery">抽籤日</label>
+          <input type="date" id="cmp-lottery">
+        </div>
+        <div class="form-field">
+          <label for="cmp-lottery-time">抽籤時間 / 地點</label>
+          <input type="text" id="cmp-lottery-time" placeholder="例:上午 10 時 / 園所大門">
+        </div>
+      </div>
+      <div class="form-field">
+        <label for="cmp-report">正取報到截止</label>
+        <input type="date" id="cmp-report">
+      </div>
+      <div class="form-field">
+        <label for="cmp-retain">備取保留期截止</label>
+        <input type="date" id="cmp-retain">
+      </div>
+    </details>
+
+    <details style="border:0;padding:0;margin:0 0 12px;">
+      <summary>🎯 我的順位 + 評估維度</summary>
+      <div class="form-field" style="margin-top:12px;">
+        <label for="cmp-my-rank">我家順位(看簡章逐字確認)</label>
+        <input type="text" id="cmp-my-rank" placeholder="例:一般生(第 4 順位) / 第 3 順位:鄰里(清水里)">
+      </div>
+      <div class="form-field">
+        <label for="cmp-style">教學風格</label>
+        <input type="text" id="cmp-style" placeholder="例:蒙氏(AMI 認證)/ 主題式 / 雙語(外師 50%)">
+      </div>
+      <div class="form-field">
+        <label for="cmp-trial">試讀規則</label>
+        <input type="text" id="cmp-trial" placeholder="例:免費半天 / 收 1,000 試讀 3 天 / 無試讀">
+      </div>
+      <div class="form-field">
+        <label for="cmp-extended">延托規則</label>
+        <input type="text" id="cmp-extended" placeholder="例:到 18:30 / 月票 3,500 / 逾時每 15 分鐘 200">
+      </div>
+      <div class="form-field">
+        <label for="cmp-documents">需備文件</label>
+        <input type="text" id="cmp-documents" placeholder="例:戶口名簿 + 預防接種卡 + 健保卡">
+      </div>
+      <div class="form-field">
+        <label for="cmp-special">特殊規定 / 警訊</label>
+        <input type="text" id="cmp-special" placeholder="例:全美語 / 混齡 / 報名表 5/11 後到大門口取 / ⚠️ 備取只 5 天">
+      </div>
+      <div class="form-field">
+        <label for="cmp-rating">我的評分(1-5)</label>
+        <select id="cmp-rating">
+          <option value="">— 還沒看 —</option>
+          <option value="5">⭐⭐⭐⭐⭐ 強烈想要</option>
+          <option value="4">⭐⭐⭐⭐ 不錯</option>
+          <option value="3">⭐⭐⭐ 中等</option>
+          <option value="2">⭐⭐ 不太合</option>
+          <option value="1">⭐ 不要</option>
+        </select>
+      </div>
+    </details>
+
+    <details style="border:0;padding:0;margin:0 0 12px;">
+      <summary>📝 自由筆記</summary>
+      <div class="form-field" style="margin-top:12px;">
+        <label for="cmp-notes">現場印象 / 教保員態度 / 廚房狀況 / 可疑的點</label>
+        <textarea id="cmp-notes" placeholder="自由筆記:可以寫得越長越好,所有印象都記下來..."></textarea>
+      </div>
+    </details>
+
     <button class="btn" onclick="addCompareRecord()">➕ 加入比較籃</button>
     <button class="btn btn-secondary" onclick="clearCompareForm()" style="margin-left:8px;">清空欄位</button>
+    <button class="btn btn-secondary" onclick="navigateTo('page-calendar')" style="margin-left:8px;">📆 跳到 Calendar</button>
   </div>
 
   <h2 id="compare-list-heading">📊 已加入的園所 (<span id="compare-count">0</span>)</h2>
@@ -3406,20 +3528,50 @@ function setFamilyMode(mode) {
 }
 
 // ============ Compare Basket ============
+const CMP_FIELDS = [
+  'cmp-name','cmp-type','cmp-address','cmp-phone','cmp-email','cmp-walk',
+  'cmp-cls2','cmp-cls3','cmp-cls4','cmp-cls5',
+  'cmp-fee1','cmp-fee2','cmp-hidden-cost',
+  'cmp-reg-start','cmp-reg-end','cmp-reg-method',
+  'cmp-lottery','cmp-lottery-time','cmp-report','cmp-retain',
+  'cmp-my-rank','cmp-style','cmp-trial','cmp-extended','cmp-documents','cmp-special','cmp-rating',
+  'cmp-notes'
+];
+
 function addCompareRecord() {
   const name = document.getElementById('cmp-name').value.trim();
   if (!name) { alert('請至少填園所名稱'); return; }
+  const get = (id) => (document.getElementById(id)?.value || '').trim();
   const record = {
     id: Date.now() + '-' + Math.random().toString(36).slice(2,8),
     name: name,
-    type: document.getElementById('cmp-type').value,
-    walk: document.getElementById('cmp-walk').value.trim(),
-    classSize: document.getElementById('cmp-class-size').value.trim(),
-    fee: document.getElementById('cmp-fee').value.trim(),
-    reg: document.getElementById('cmp-reg').value.trim(),
-    lottery: document.getElementById('cmp-lottery').value.trim(),
-    retain: document.getElementById('cmp-retain').value.trim(),
-    notes: document.getElementById('cmp-notes').value.trim(),
+    type: get('cmp-type'),
+    address: get('cmp-address'),
+    phone: get('cmp-phone'),
+    email: get('cmp-email'),
+    walk: get('cmp-walk'),
+    cls2: get('cmp-cls2'),
+    cls3: get('cmp-cls3'),
+    cls4: get('cmp-cls4'),
+    cls5: get('cmp-cls5'),
+    fee1: get('cmp-fee1'),
+    fee2: get('cmp-fee2'),
+    hiddenCost: get('cmp-hidden-cost'),
+    regStart: get('cmp-reg-start'),
+    regEnd: get('cmp-reg-end'),
+    regMethod: get('cmp-reg-method'),
+    lottery: get('cmp-lottery'),
+    lotteryTime: get('cmp-lottery-time'),
+    report: get('cmp-report'),
+    retain: get('cmp-retain'),
+    myRank: get('cmp-my-rank'),
+    style: get('cmp-style'),
+    trial: get('cmp-trial'),
+    extendedCare: get('cmp-extended'),
+    documents: get('cmp-documents'),
+    special: get('cmp-special'),
+    myRating: get('cmp-rating'),
+    notes: get('cmp-notes'),
   };
   STATE.compareList.push(record);
   saveState();
@@ -3428,7 +3580,7 @@ function addCompareRecord() {
 }
 
 function clearCompareForm() {
-  ['cmp-name','cmp-type','cmp-walk','cmp-class-size','cmp-fee','cmp-reg','cmp-lottery','cmp-retain','cmp-notes'].forEach(id => {
+  CMP_FIELDS.forEach(id => {
     const el = document.getElementById(id);
     if (el) el.value = '';
   });
@@ -3448,10 +3600,21 @@ function clearAllCompare() {
 }
 
 const TYPE_LABELS = {
-  public: '公托/公幼',
+  public: '公幼/公托',
   nonprofit: '非營利',
   semi: '準公共',
   private: '私立',
+  infant: '托嬰中心',
+  nanny: '保母',
+};
+
+const REG_METHOD_LABELS = {
+  onsite: '現場',
+  email: 'Email',
+  google_form: 'Google 表單',
+  unified: '統一網站',
+  mail: '掛號郵寄',
+  mixed: '混合',
 };
 
 function renderCompareList() {
@@ -3465,20 +3628,33 @@ function renderCompareList() {
     tableWrap.style.display = 'none';
     return;
   }
-  listEl.innerHTML = STATE.compareList.map(r => `
+  listEl.innerHTML = STATE.compareList.map(r => {
+    const cls = [r.cls2 && `2歲 ${r.cls2}`, r.cls3 && `3歲 ${r.cls3}`, r.cls4 && `4歲 ${r.cls4}`, r.cls5 && `5歲 ${r.cls5}`].filter(Boolean).join(' / ');
+    const regPeriod = (r.regStart || r.regEnd) ? `${r.regStart || '?'} ~ ${r.regEnd || '?'}` : '';
+    const stars = r.myRating ? '⭐'.repeat(parseInt(r.myRating)) : '';
+    return `
     <div class="compare-record">
-      <div class="name">${escapeHtml(r.name)} ${r.type ? `<span class="tag">${TYPE_LABELS[r.type] || ''}</span>` : ''}</div>
+      <div class="name">${escapeHtml(r.name)} ${r.type ? `<span class="tag">${TYPE_LABELS[r.type] || ''}</span>` : ''} ${stars ? `<span style="margin-left:6px;">${stars}</span>` : ''}</div>
+      ${r.address ? `<div class="meta">📍 ${escapeHtml(r.address)} ${r.phone ? `· ☎ ${escapeHtml(r.phone)}` : ''}</div>` : ''}
       <div class="meta">
-        ${r.walk ? `🚶 ${escapeHtml(r.walk)} 分鐘 · ` : ''}
-        ${r.classSize ? `📊 ${escapeHtml(r.classSize)} · ` : ''}
-        ${r.fee ? `💰 ${escapeHtml(r.fee)}` : ''}
+        ${r.walk ? `🚶 ${escapeHtml(r.walk)} 分 · ` : ''}
+        ${cls ? `📊 ${escapeHtml(cls)} · ` : ''}
+        ${r.fee1 ? `💰 第1胎 ${escapeHtml(r.fee1)}` : ''}
       </div>
-      ${r.notes ? `<div class="meta" style="margin-top:6px;">${escapeHtml(r.notes)}</div>` : ''}
+      ${regPeriod || r.lottery || r.retain ? `<div class="meta" style="margin-top:4px;">
+        ${regPeriod ? `📝 報名 ${escapeHtml(regPeriod)} · ` : ''}
+        ${r.lottery ? `🎲 抽 ${escapeHtml(r.lottery)} · ` : ''}
+        ${r.retain ? `⏳ 備取至 ${escapeHtml(r.retain)}` : ''}
+      </div>` : ''}
+      ${r.myRank ? `<div class="meta" style="margin-top:4px;">🎯 ${escapeHtml(r.myRank)}</div>` : ''}
+      ${r.style ? `<div class="meta">🎨 ${escapeHtml(r.style)}</div>` : ''}
+      ${r.special ? `<div class="meta" style="color:var(--danger-border);">⚠️ ${escapeHtml(r.special)}</div>` : ''}
+      ${r.notes ? `<div class="meta" style="margin-top:6px;font-style:italic;">📝 ${escapeHtml(r.notes)}</div>` : ''}
       <div class="actions">
         <button class="danger" onclick="removeCompareRecord('${r.id}')">🗑 移除</button>
       </div>
     </div>
-  `).join('');
+  `;}).join('');
   // table
   if (STATE.compareList.length >= 2) {
     tableWrap.style.display = 'block';
@@ -3494,21 +3670,41 @@ function renderCompareTable() {
   const records = STATE.compareList;
   const fields = [
     {key: 'type', label: '類型', mapper: v => TYPE_LABELS[v] || '—'},
+    {key: 'address', label: '地址'},
+    {key: 'phone', label: '電話'},
     {key: 'walk', label: '步行(分)'},
-    {key: 'classSize', label: '招生 / 名額'},
-    {key: 'fee', label: '月費'},
-    {key: 'reg', label: '報名期'},
-    {key: 'lottery', label: '抽籤日'},
+    {label: '2 歲班', mapper: (_, r) => r.cls2 || '—'},
+    {label: '3 歲班', mapper: (_, r) => r.cls3 || '—'},
+    {label: '4 歲班', mapper: (_, r) => r.cls4 || '—'},
+    {label: '5 歲班', mapper: (_, r) => r.cls5 || '—'},
+    {key: 'fee1', label: '第 1 胎月費'},
+    {key: 'fee2', label: '第 2 胎月費'},
+    {key: 'hiddenCost', label: '隱形費用'},
+    {label: '報名期', mapper: (_, r) => (r.regStart || r.regEnd) ? `${r.regStart || '?'} ~ ${r.regEnd || '?'}` : '—'},
+    {key: 'regMethod', label: '報名方式', mapper: v => REG_METHOD_LABELS[v] || '—'},
+    {label: '抽籤日 / 時', mapper: (_, r) => [r.lottery, r.lotteryTime].filter(Boolean).join(' ') || '—'},
+    {key: 'report', label: '報到截止'},
     {key: 'retain', label: '備取保留'},
+    {key: 'myRank', label: '我家順位'},
+    {key: 'style', label: '教學風格'},
+    {key: 'trial', label: '試讀'},
+    {key: 'extendedCare', label: '延托'},
+    {key: 'documents', label: '需備文件'},
+    {key: 'special', label: '特殊規定'},
+    {key: 'myRating', label: '我的評分', mapper: v => v ? '⭐'.repeat(parseInt(v)) : '—'},
   ];
   let html = '<thead><tr><th>項目</th>' + records.map(r => `<th>${escapeHtml(r.name)}</th>`).join('') + '</tr></thead><tbody>';
   fields.forEach(f => {
-    html += `<tr><td><strong>${f.label}</strong></td>` + records.map(r => {
-      const val = f.mapper ? f.mapper(r[f.key]) : (r[f.key] || '—');
+    html += `<tr><td><strong>${escapeHtml(f.label)}</strong></td>` + records.map(r => {
+      let val;
+      if (f.mapper) {
+        val = f.mapper(f.key ? r[f.key] : null, r);
+      } else {
+        val = r[f.key] || '—';
+      }
       return `<td>${escapeHtml(val)}</td>`;
     }).join('') + '</tr>';
   });
-  // notes row
   html += '<tr><td><strong>備註</strong></td>' + records.map(r => `<td style="font-size:13px;">${escapeHtml(r.notes || '—')}</td>`).join('') + '</tr>';
   html += '</tbody>';
   tbl.innerHTML = html;
@@ -3519,13 +3715,26 @@ function exportCompareText() {
   if (records.length === 0) { alert('比較籃還沒有資料'); return; }
   let text = '【托幼選園比較表】\n\n';
   records.forEach((r, i) => {
-    text += `${i+1}. ${r.name}` + (r.type ? ` (${TYPE_LABELS[r.type] || ''})` : '') + '\n';
-    if (r.walk) text += `   步行:${r.walk} 分鐘\n`;
-    if (r.classSize) text += `   招生:${r.classSize}\n`;
-    if (r.fee) text += `   月費:${r.fee}\n`;
-    if (r.reg) text += `   報名期:${r.reg}\n`;
-    if (r.lottery) text += `   抽籤:${r.lottery}\n`;
+    text += `${i+1}. ${r.name}` + (r.type ? ` (${TYPE_LABELS[r.type] || ''})` : '') + (r.myRating ? ` ${'⭐'.repeat(parseInt(r.myRating))}` : '') + '\n';
+    if (r.address) text += `   地址:${r.address}\n`;
+    if (r.phone) text += `   電話:${r.phone}\n`;
+    if (r.email) text += `   Email:${r.email}\n`;
+    if (r.walk) text += `   步行:${r.walk} 分\n`;
+    const cls = [r.cls2 && `2歲 ${r.cls2}`, r.cls3 && `3歲 ${r.cls3}`, r.cls4 && `4歲 ${r.cls4}`, r.cls5 && `5歲 ${r.cls5}`].filter(Boolean).join(' / ');
+    if (cls) text += `   招生:${cls}\n`;
+    if (r.fee1) text += `   第 1 胎月費:${r.fee1}\n`;
+    if (r.fee2) text += `   第 2 胎月費:${r.fee2}\n`;
+    if (r.hiddenCost) text += `   隱形費用:${r.hiddenCost}\n`;
+    if (r.regStart || r.regEnd) text += `   報名期:${r.regStart || '?'} ~ ${r.regEnd || '?'}` + (r.regMethod ? ` (${REG_METHOD_LABELS[r.regMethod] || r.regMethod})` : '') + '\n';
+    if (r.lottery) text += `   抽籤:${r.lottery}` + (r.lotteryTime ? ` ${r.lotteryTime}` : '') + '\n';
+    if (r.report) text += `   報到截止:${r.report}\n`;
     if (r.retain) text += `   備取保留:${r.retain}\n`;
+    if (r.myRank) text += `   我家順位:${r.myRank}\n`;
+    if (r.style) text += `   教學風格:${r.style}\n`;
+    if (r.trial) text += `   試讀:${r.trial}\n`;
+    if (r.extendedCare) text += `   延托:${r.extendedCare}\n`;
+    if (r.documents) text += `   需備文件:${r.documents}\n`;
+    if (r.special) text += `   特殊規定:${r.special}\n`;
     if (r.notes) text += `   備註:${r.notes}\n`;
     text += '\n';
   });
@@ -3610,20 +3819,26 @@ function loadFromCompare() {
     alert('比較籃還沒有園所。請先到 🛒 比較籃 加入。');
     return;
   }
-  if (!confirm(`匯入比較籃 ${STATE.compareList.length} 筆?日期欄位需手動補,因比較籃只記月費/距離。`)) return;
+  if (!confirm(`匯入比較籃 ${STATE.compareList.length} 筆?(日期 / 備註自動帶,已存在的園所跳過)`)) return;
+  let added = 0;
   STATE.compareList.forEach(c => {
     if (STATE.calendarList.some(x => x.name === c.name)) return; // 去重
     STATE.calendarList.push({
       id: Date.now() + '-' + Math.random().toString(36).slice(2,8),
       name: c.name,
       type: c.type || '',
-      regStart: '', regEnd: '', lottery: '', report: '', retain: '',
-      notes: c.notes || '',
+      regStart: c.regStart || '',
+      regEnd: c.regEnd || '',
+      lottery: c.lottery || '',
+      report: c.report || '',
+      retain: c.retain || '',
+      notes: [c.special, c.notes].filter(Boolean).join(' / ') || '',
     });
+    added++;
   });
   saveState();
   renderCalendarAll();
-  alert('匯入完成。請編輯每筆補日期欄位。');
+  alert(`匯入完成,新增 ${added} 筆。`);
 }
 
 function renderCalendarAll() {
