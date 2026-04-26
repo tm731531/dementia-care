@@ -595,118 +595,76 @@ details[open] summary { margin-bottom: 8px; }
 <!-- ========== 首頁 ========== -->
 <section class="page active" id="page-home">
   <h1>🧒 找托嬰/幼兒園的方法論</h1>
-  <p style="font-size:18px;color:var(--muted);">給家裡有 <strong>0-6 歲幼兒</strong>、第一次面對托嬰中心 / 幼兒園系統的家長。教你<strong>怎麼看</strong>,不告訴你<strong>選哪家</strong>。</p>
 
-  <div class="quick-summary">
+  <!-- ━━━ 第 1 屏:本月一件事 + 主 CTA ━━━ -->
+  <div class="quick-summary" style="font-size:16px;line-height:1.7;">
     <strong>⏱ 本月最重要的一件事</strong>:<span id="monthly-quick-action">載入中...</span>
   </div>
 
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:16px 0;">
+    <a class="btn" onclick="navigateTo('page-budget');return false;" href="#" style="text-align:center;">💵 1 分鐘預算試算</a>
+    <a class="btn btn-secondary" onclick="navigateTo('page-compare');return false;" href="#" style="text-align:center;">🛒 比較籃(13 範例)</a>
+    <a class="btn btn-secondary" onclick="navigateTo('page-calendar');return false;" href="#" style="text-align:center;">📆 行事曆設提醒</a>
+    <a class="btn btn-secondary" onclick="navigateTo('page-checklist');return false;" href="#" style="text-align:center;">📋 現場 Checklist</a>
+  </div>
+
+  <!-- ━━━ 第 2 屏:本月該做的事(規劃模式預設啟用) ━━━ -->
   <div id="planning-mode-block" style="display:none;">
     <div class="planning-block">
-      <h3>🎯 本月該做的事 <span class="month-tag" id="current-month-tag"></span></h3>
+      <h3 style="margin-top:0;">🎯 本月該做的事 <span class="month-tag" id="current-month-tag"></span></h3>
       <div id="planning-actions"></div>
-      <p style="margin:12px 0 0;font-size:14px;color:var(--muted);">想看全部章節?到 <a onclick="navigateTo('page-settings');return false;" href="#">⚙️ 設定</a> 關掉「規劃模式」即可。</p>
     </div>
   </div>
 
-  <div class="callout">
-    <h4>❓ 你的孩子幾歲?</h4>
-    <p style="margin:0;">點下面對應卡片,直接跳到該年齡段該做的事。</p>
-  </div>
-
-  <div class="card-grid">
-    <div class="choice-card" onclick="navigateTo('page-types', 'infant')">
-      <span class="emoji">👶</span>
-      <div class="title">0-2 歲</div>
-      <div class="desc">看托嬰中心 + 保母兩條路。公托等 6 個月-2 年,保母彈性大。</div>
-    </div>
-    <div class="choice-card" onclick="navigateTo('page-timeline', 'toddler')">
-      <span class="emoji">🧒</span>
-      <div class="title">2-3 歲</div>
-      <div class="desc">幼兒園 2 歲班報名密集期(每年 4-6 月),公幼/非營利/準公共一起跑。</div>
-    </div>
-    <div class="choice-card" onclick="navigateTo('page-timeline', 'preschool')">
-      <span class="emoji">🎒</span>
-      <div class="title">4-6 歲</div>
-      <div class="desc">大部分已在園,看是否要換園或補新生缺額。</div>
-    </div>
-    <div class="choice-card" onclick="navigateTo('page-sandwich')">
-      <span class="emoji">👨‍👩‍👧</span>
-      <div class="title">三明治世代</div>
-      <div class="desc">同時照顧失智長輩 + 幼兒。接送動線、喘息資源整合考量。</div>
-    </div>
-  </div>
-
-  <div class="callout warn" style="display:flex;align-items:center;gap:14px;">
-    <div style="flex:1;">
-      <h4 style="margin:0 0 4px;">💡 規劃模式 — 自動顯示「本月該做的事」</h4>
-      <p style="margin:0;font-size:14px;">月份過了自動更新,不用記。例如 4 月底會顯示「非營利缺額公告 / 文件備齊」。</p>
-    </div>
-    <label class="switch" style="flex-shrink:0;">
-      <input type="checkbox" id="toggle-planning-home" onchange="togglePlanningModeFromHome()">
-      <span class="slider"></span>
-    </label>
-  </div>
-
-  <h2>📌 第一次找園所?從這 4 個地方開始</h2>
-  <ol>
-    <li><strong>先讀 <a onclick="navigateTo('page-types');return false;" href="#">🏫 4 種類型</a></strong> — 0-2 歲 vs 2-6 歲是兩套法律。公托 / 公幼 / 非營利 / 準公共 / 私立差在哪。費用差好幾倍,選錯類型一切白搞。</li>
-    <li><strong>看 <a onclick="navigateTo('page-subsidy');return false;" href="#">💰 補助系統</a></strong> — 育兒津貼 vs 托育補助互斥。選錯類型 = 每月差 8,000。</li>
-    <li><strong>看 <a onclick="navigateTo('page-traps');return false;" href="#">⚠️ 常見地雷</a></strong> — 過了報名截止 = 等下年。先看會炸的點,動作之前避開。</li>
-    <li><strong>最後跑 <a onclick="navigateTo('page-checklist');return false;" href="#">📋 看園所 Checklist</a></strong> — 現場參觀時逐項檢查,不被漂亮裝潢分心。</li>
-  </ol>
-
-  <div data-family-only="sandwich" style="display:none;">
-    <div class="callout warn">
-      <h4>👨‍👩‍👧 三明治世代家庭專屬提示(已啟用)</h4>
-      <p style="margin:0 0 8px;">手冊偵測到你選的是「三明治世代」家庭模式。建議優先看:</p>
-      <ul style="margin:0 0 0 22px;">
-        <li><a onclick="navigateTo('page-sandwich');return false;" href="#">👨‍👩‍👧 三明治世代</a> — 接送動線整合 / 祖父母可行性 / 緊急應變 / 喘息資源</li>
-        <li><a onclick="navigateTo('page-aftercare');return false;" href="#">🏡 入園後實務</a> — 第 7 節「病假備援計畫」對你特別重要</li>
-        <li>選園 checklist 加問:「能不能配合祖父母接送(失智早期可陪伴)」「臨時延托彈性(長輩送醫救命用)」</li>
-      </ul>
-      <p style="margin:8px 0 0;font-size:13px;">想關掉 → <a onclick="navigateTo('page-settings');return false;" href="#">⚙️ 設定</a> 切回「一般家庭」。</p>
-    </div>
-  </div>
-
-  <h2>🎯 對號入座 · 你最該先看哪裡</h2>
+  <!-- ━━━ 第 3 屏:你的情境 → 直接跳對應頁 ━━━ -->
+  <h2>🎯 你的情境 → 直接跳這頁</h2>
   <div style="overflow-x:auto;">
   <table>
-    <thead><tr><th>你的情境</th><th>建議路線</th></tr></thead>
+    <thead><tr><th>你是這種家庭</th><th>直接看</th></tr></thead>
     <tbody>
-      <tr><td>0-1 歲 + 預算緊 + 雙薪</td><td>立刻排公托 → 同時找準公共 → 看 <a onclick="navigateTo('page-infant');return false;" href="#">👶 托嬰專區</a> + <a onclick="navigateTo('page-nanny');return false;" href="#">👵 保母</a></td></tr>
-      <tr><td>1-2 歲 + 急著送(這個月)</td><td>熱門排 3-6 月,<strong>現在就動</strong>。看 <a onclick="navigateTo('page-infant');return false;" href="#">👶 托嬰專區</a> + <a onclick="navigateTo('page-nanny');return false;" href="#">👵 保母</a></td></tr>
-      <tr><td>1-2 歲 + 預算寬</td><td>私立托嬰 + 育兒津貼 5,000。看 <a onclick="navigateTo('page-types');return false;" href="#">🏫 類型選擇</a></td></tr>
-      <tr><td><strong>2 歲 + 雙薪 + 預算緊</strong></td><td>4-6 月一波。看 <a onclick="navigateTo('page-preschool');return false;" href="#">🏫 幼兒園專區</a> + <a onclick="navigateTo('page-timeline');return false;" href="#">📅 時程地圖</a></td></tr>
-      <tr><td><strong>2-6 歲 + 想要特定教學風格</strong>(蒙氏/華德福/雙語)</td><td>看 <a onclick="navigateTo('page-preschool');return false;" href="#">🏫 幼兒園專區</a> 教學風格章節</td></tr>
-      <tr><td><strong>從托嬰跨系統升幼兒園(2-3 歲首次入園)</strong></td><td>跟 2 歲班邏輯相同,4-6 月一波,但<strong>注意系統切換</strong>(衛福部 → 教育部、文件不同)。看 <a onclick="navigateTo('page-preschool');return false;" href="#">🏫 幼兒園專區</a> + <a onclick="navigateTo('page-documents');return false;" href="#">📄 文件 SOP</a></td></tr>
-      <tr><td><strong>3-6 歲(已在園,想換園或續讀)</strong></td><td>1-2 月辦留園直升;4-5 月看新生缺額。看 <a onclick="navigateTo('page-preschool');return false;" href="#">🏫 幼兒園專區</a></td></tr>
-      <tr><td><strong>大班 5-6 歲(準備上小一)</strong></td><td>看 <a onclick="navigateTo('page-aftercare');return false;" href="#">🏡 入園後實務</a> 第 8 節「升小一銜接」</td></tr>
-      <tr><td>單親家庭(各年齡)</td><td>低收/中低收身分認定可大幅降費,撥 1957 福利專線 + 看 <a onclick="navigateTo('page-subsidy');return false;" href="#">💰 補助系統</a></td></tr>
-      <tr><td>三明治世代(同時照顧失智長輩)</td><td>看 <a onclick="navigateTo('page-sandwich');return false;" href="#">👨‍👩‍👧 三明治世代</a> 專區</td></tr>
-      <tr><td>住偏遠地區</td><td><strong>先查偏鄉公幼</strong>(設籍 2 年以上免抽籤、優先入學) → 再查最近的「準公共」</td></tr>
+      <tr><td><strong>0-2 歲</strong> 找托嬰 / 保母</td><td><a onclick="navigateTo('page-infant');return false;" href="#">👶 托嬰專區</a> + <a onclick="navigateTo('page-nanny');return false;" href="#">👵 保母</a></td></tr>
+      <tr><td><strong>2 歲 2026/8 月入幼兒園</strong>(主流情境)</td><td><a onclick="navigateTo('page-preschool');return false;" href="#">🏫 幼兒園專區</a> + <a onclick="navigateTo('page-timeline');return false;" href="#">📅 時程地圖</a></td></tr>
+      <tr><td><strong>3-6 歲</strong> 已在園想換園 / 續讀</td><td><a onclick="navigateTo('page-preschool');return false;" href="#">🏫 幼兒園專區</a>(留園直升 + 換園評估)</td></tr>
+      <tr><td><strong>大班 5-6 歲</strong> 準備上小一</td><td><a onclick="navigateTo('page-aftercare');return false;" href="#">🏡 入園後實務</a> § 8 升小一</td></tr>
+      <tr><td>三明治世代 / 單親 / 偏遠地區</td><td><a onclick="navigateTo('page-sandwich');return false;" href="#">👨‍👩‍👧 三明治</a> · 1957 福利專線 · <a onclick="navigateTo('page-subsidy');return false;" href="#">💰 補助</a></td></tr>
     </tbody>
   </table>
   </div>
-  <p style="font-size:14px;color:var(--muted);margin-top:6px;"><em>找不到符合你的情境?看 <a onclick="navigateTo('page-types');return false;" href="#">🏫 類型選擇</a> 自己組合。</em></p>
 
-  <h2>🎯 5 秒總覽</h2>
-  <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;">
-    <div class="summary-row"><span class="icon">👤</span><span class="label">Who</span><span class="content"><strong>孩子</strong>(個性 / 氣質 / 特殊需求)<strong> + 家庭</strong>(結構 / 預算 / 接送)。<strong>孩子的氣質適配性比距離 / 費用都更重要</strong></span></div>
-    <div class="summary-row"><span class="icon">🏫</span><span class="label">What</span><span class="content"><strong>0-2 歲</strong>:公托 / 準公共托嬰 / 私托 / 保母 4 條路。<strong>2-6 歲</strong>:公幼 / 非營利 / 準公共 / 私立 4 類型。費用差 5-15 倍</span></div>
-    <div class="summary-row"><span class="icon">📅</span><span class="label">When</span><span class="content">公托:出生就排隊。幼兒園:每年 4-6 月。8 月開學</span></div>
-    <div class="summary-row"><span class="icon">📍</span><span class="label">Where</span><span class="content">步行 20 分鐘原則(颱風 + 大雨 + 小孩走慢實際是 30+)</span></div>
-    <div class="summary-row"><span class="icon">💡</span><span class="label">Why</span><span class="content">教學風格(蒙氏/華德福/主題式/雙語)只是其中一個維度,不是全部</span></div>
-    <div class="summary-row"><span class="icon">🔧</span><span class="label">How</span><span class="content">報名 → 抽籤 → 正取/備取 → 報到。每步有截止日期,錯過就直接失去資格</span></div>
+  <div data-family-only="sandwich" style="display:none;">
+    <div class="callout warn">
+      <h4>👨‍👩‍👧 三明治世代家庭(已啟用)</h4>
+      <p style="margin:0;font-size:14px;">看 <a onclick="navigateTo('page-sandwich');return false;" href="#">👨‍👩‍👧 三明治世代</a> + <a onclick="navigateTo('page-aftercare');return false;" href="#">🏡 入園後實務 § 7 病假備援</a></p>
+    </div>
   </div>
 
-  <div class="callout warn" style="margin-top:24px;">
-    <h4>⚠️ 一個最大的提醒</h4>
-    <p style="margin:0;">這本手冊是<strong>方法論</strong>,不是「該選哪家」的建議。每個家庭情況不同,選擇權永遠在你。手冊只負責讓你<strong>把該想的都想過、該查的都查過</strong>。</p>
-  </div>
+  <!-- ━━━ 第 4 屏:第一次來?系統性學習路線(摺疊) ━━━ -->
+  <details style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 18px;margin:24px 0;">
+    <summary style="font-weight:700;color:var(--primary-dark);cursor:pointer;">📚 第一次來?系統性學習路線(4 步驟)</summary>
+    <ol style="margin:12px 0 0 22px;">
+      <li><a onclick="navigateTo('page-types');return false;" href="#">🏫 4 種類型</a> — 0-2 vs 2-6 兩套法律,費用差好幾倍</li>
+      <li><a onclick="navigateTo('page-subsidy');return false;" href="#">💰 補助系統</a> — 三選一互斥,選錯每月差 8K</li>
+      <li><a onclick="navigateTo('page-traps');return false;" href="#">⚠️ 常見地雷</a> — 過了報名截止 = 等下年</li>
+      <li><a onclick="navigateTo('page-checklist');return false;" href="#">📋 Checklist</a> — 現場參觀對照</li>
+    </ol>
+  </details>
+
+  <details style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 18px;margin:16px 0;">
+    <summary style="font-weight:700;color:var(--primary-dark);cursor:pointer;">🎯 5W1H 速查(進階方法論)</summary>
+    <div style="margin-top:12px;">
+      <div class="summary-row"><span class="icon">👤</span><span class="label">Who</span><span class="content"><strong>孩子</strong>(個性 / 氣質 / 特殊需求)<strong> + 家庭</strong>(結構 / 預算 / 接送)。<strong>孩子的氣質適配性比距離 / 費用都更重要</strong></span></div>
+      <div class="summary-row"><span class="icon">🏫</span><span class="label">What</span><span class="content"><strong>0-2 歲</strong>:公托 / 準公共托嬰 / 私托 / 保母 4 條路。<strong>2-6 歲</strong>:公幼 / 非營利 / 準公共 / 私立 4 類型</span></div>
+      <div class="summary-row"><span class="icon">📅</span><span class="label">When</span><span class="content">公托:出生就排隊。幼兒園:每年 4-6 月。8 月開學</span></div>
+      <div class="summary-row"><span class="icon">📍</span><span class="label">Where</span><span class="content">步行 20 分鐘原則(颱風 / 大雨 / 小孩走慢 → 實際 30+)</span></div>
+      <div class="summary-row"><span class="icon">💡</span><span class="label">Why</span><span class="content">教學風格只是其中一個維度,不是全部</span></div>
+      <div class="summary-row"><span class="icon">🔧</span><span class="label">How</span><span class="content">報名 → 抽籤 → 正取/備取 → 報到。每步有截止日期,錯過直接失去資格</span></div>
+    </div>
+  </details>
+
+  <p style="font-size:13px;color:var(--muted);text-align:center;margin-top:24px;">這本手冊是<strong>方法論</strong>,不是「選哪家」的建議。手冊只負責讓你<strong>把該想的都想過、該查的都查過</strong>。</p>
 
   <div class="footer-note">
-    最後更新 2026-04-26 · v2.3 · 政府補助標準會逐年更新,以官方公告為準
+    最後更新 2026-04-26 · v2.4 · 政府補助標準會逐年更新,以官方公告為準
   </div>
 </section>
 
@@ -3548,7 +3506,7 @@ details[open] summary { margin-bottom: 8px; }
 
   <h2>ℹ️ 關於</h2>
   <ul>
-    <li><strong>版本</strong>:v2.3(2026-04-26 · 5 輪 30 視角審查全修)</li>
+    <li><strong>版本</strong>:v2.4(2026-04-26 · 5 輪 30 視角審查全修)</li>
     <li><strong>來源</strong>:<a href="https://github.com/tm731531/dementia-care" target="_blank" rel="noopener">tm731531/dementia-care · childcare-handbook</a></li>
     <li><strong>授權</strong>:MIT</li>
     <li><strong>離線</strong>:本頁所有資源 inline,不連外部 CDN</li>
