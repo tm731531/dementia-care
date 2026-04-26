@@ -697,7 +697,7 @@ details[open] summary { margin-bottom: 8px; }
     <div class="summary-row"><span class="icon">📅</span><span class="label">When</span><span class="content">公托:出生就排隊。幼兒園:每年 4-6 月。8 月開學</span></div>
     <div class="summary-row"><span class="icon">📍</span><span class="label">Where</span><span class="content">步行 20 分鐘原則(颱風 + 大雨 + 小孩走慢實際是 30+)</span></div>
     <div class="summary-row"><span class="icon">💡</span><span class="label">Why</span><span class="content">教學風格(蒙氏/華德福/主題式/雙語)只是其中一個維度,不是全部</span></div>
-    <div class="summary-row"><span class="icon">🔧</span><span class="label">How</span><span class="content">報名 → 抽籤 → 正取/備取 → 報到。每步有截止日期,過了就 GG</span></div>
+    <div class="summary-row"><span class="icon">🔧</span><span class="label">How</span><span class="content">報名 → 抽籤 → 正取/備取 → 報到。每步有截止日期,錯過就直接失去資格</span></div>
   </div>
 
   <div class="callout warn" style="margin-top:24px;">
@@ -1002,7 +1002,7 @@ details[open] summary { margin-bottom: 8px; }
     </tbody>
   </table>
   <div class="callout warn">
-    <p style="margin:0;"><strong>過了報名截止就是 GG</strong>。各園截止日不同,排不開的話只能放棄某些園。看 <a onclick="navigateTo('page-timeline');return false;" href="#">📅 時程地圖</a>。</p>
+    <p style="margin:0;"><strong>過了報名截止 = 直接失去資格,等下一年</strong>。各園截止日不同,排不開的話只能放棄某些園。看 <a onclick="navigateTo('page-timeline');return false;" href="#">📅 時程地圖</a>。</p>
   </div>
 
   <h2>📍 Where · 距離與動線</h2>
@@ -1324,7 +1324,7 @@ details[open] summary { margin-bottom: 8px; }
   <h2>🚨 備取保留期 — 最容易踩的地雷</h2>
   <div class="callout danger">
     <h4>❌ 備取保留 5 天 = 跟沒中差不多</h4>
-    <p style="margin:0;">假設你是備取第 5 名,正取通常 1-2 個月內陸續報到。如果園所規定「備取保留只到報到日後 7 天」,那等於正取沒人放棄你就 GG。<strong>備取保留期短的園所,沒抽中正取就要當作沒中</strong>。</p>
+    <p style="margin:0;">假設你是備取第 5 名,正取通常 1-2 個月內陸續報到。如果園所規定「備取保留只到報到日後 7 天」,那等於沒人放棄你就無從遞補。<strong>備取保留期短的園所,沒抽中正取就要當作沒中</strong>。</p>
   </div>
   <h3>備取保留期長短意義</h3>
   <table>
@@ -1721,10 +1721,11 @@ details[open] summary { margin-bottom: 8px; }
     <li>急性腹瀉(24 小時內 3 次以上)→ 不送</li>
     <li>有水痘 / 腸病毒 / 流感 → 強制隔離,看症狀緩解 + 退燒 24 小時</li>
     <li>感冒(無發燒)→ 部分園所收,部分不收,<strong>事先問清楚</strong></li>
-    <li><strong>腸病毒</strong>:孩子確診須隔離 5-7 天(到水泡結痂、退燒 24 小時)</li>
+    <li><strong>腸病毒</strong>:<strong>以退燒 24 小時且全部水泡乾涸結痂為標準</strong>(通常 5-14 天,重症可拉長,以症狀為準非固定天數;詳情參疾管署最新指引)</li>
     <li><strong>流感</strong>:確診須隔離至退燒滿 24 小時(通常 3-5 天)</li>
-    <li><strong>水痘</strong>:全部水痘結痂(約 7 天)才可返園</li>
-    <li><strong>接觸確診者(腸病毒/流感)但本人無症狀</strong>:各園規定不同,有的要隔離 3-5 天觀察,有的不管 — <strong>務必問清楚</strong></li>
+    <li><strong>水痘</strong>:<strong>以全部水痘乾涸結痂為返園標準</strong>(通常 7-10 天,以結痂狀況為準)</li>
+    <li><strong>接觸確診者但本人無症狀</strong>:各園規定不同,有的要隔離 3-5 天觀察(<strong>非衛生法規強制</strong>,屬園所自訂內規) — <strong>務必問清楚</strong></li>
+    <li><strong>以上隔離天數及症狀描述僅供參考,以孩子主治醫師或衛生主管機關當時公告為準</strong></li>
   </ul>
 
   <h2>🎓 8. 大班升小一 · 銜接準備指南</h2>
@@ -1844,8 +1845,8 @@ details[open] summary { margin-bottom: 8px; }
     <p style="margin:0;">這是 hard filter — <strong>不符合條件的園所直接淘汰</strong>:</p>
     <ul style="margin:8px 0 0 22px;">
       <li>園內<strong>必須有護理人員</strong>(駐園 / 或有合作醫療單位 5 分鐘到場)</li>
-      <li>教保員<strong>必須受訓可操作 EpiPen</strong>(問:你們老師最近一次 EpiPen 訓練是什麼時候?)</li>
-      <li><strong>必須備有家長提供的 Epi-pen + 緊急聯絡 SOP</strong>(問:會放在哪?誰知道?過期前怎麼通知家長換新?)</li>
+      <li>詢問教保員<strong>是否已接受 EpiPen 操作訓練</strong>(法規無明文強制,但是緊急救命必要能力)</li>
+      <li><strong>須家長事先簽署書面授權書</strong>給予緊急情況注射 EpiPen + 備有 EpiPen + 緊急聯絡 SOP(問:會放在哪?誰知道?過期前怎麼通知家長換新?)</li>
       <li><strong>菜單管理</strong>:過敏食材完全分區?還是只「不放在你孩子盤子」?(交叉污染風險)</li>
       <li><strong>校外教學</strong>:出門帶 Epi-pen + 過敏卡?</li>
     </ul>
@@ -1856,7 +1857,7 @@ details[open] summary { margin-bottom: 8px; }
     <tbody>
       <tr><td>🟡 輕度</td><td>皮膚起疹 / 輕微紅腫</td><td>記錄 + 通知家長 + 繼續觀察</td></tr>
       <tr><td>🟠 中度</td><td>多系統反應(皮膚 + 腸胃 / 呼吸)</td><td>停食 + <strong>立刻通知家長接回</strong> + 評估就診</td></tr>
-      <tr><td>🔴 重度</td><td>過敏性休克(呼吸困難 / 意識變化)</td><td><strong>立刻打 119</strong> + 注射 EpiPen(若已備) + 通知家長</td></tr>
+      <tr><td>🔴 重度</td><td>過敏性休克(呼吸困難 / 意識變化)</td><td><strong>立刻打 119</strong> + 注射 EpiPen(若已備且家長已書面授權) + 通知家長</td></tr>
     </tbody>
   </table>
 
@@ -1928,16 +1929,16 @@ details[open] summary { margin-bottom: 8px; }
     <li>節慶禮(若送)寫個小卡 + 班級耗材,比現金禮卡讓老師更有溫度</li>
   </ul>
 
-  <h2>💬 11.5 教保員「想說但不能說」的 10 句話(從現職老師整理)</h2>
+  <h2>💬 11.5 教保員「通常不會主動說但家長可以主動問」的 10 件事</h2>
   <div class="callout">
-    <p style="margin:0;">這些是教保員<strong>每天看到但職業倫理上不能直接告訴家長</strong>的事。家長知道後可以更好理解老師,以及主動配合。</p>
+    <p style="margin:0;">這些是教保員<strong>每天看到但礙於顧忌(怕投訴 / 怕誤解)很少主動開口</strong>的事 — <strong>這是教保員的自我審查,不是法律或倫理規定</strong>。家長知道後可以主動詢問、打破僵局。<strong>以下是教保員的專業觀察,不是對家庭的評判</strong>。</p>
   </div>
   <ol class="steps-list">
     <li><strong>你孩子在家發生的事我們都知道</strong> — 昨晚爸媽吵架、今天媽媽有情緒、早餐沒吃好,我們從孩子行為全看得出來。<strong>主動告知家庭重大變動</strong>(搬家 / 弟妹出生 / 家人住院)讓老師能更好幫孩子</li>
     <li><strong>我同時帶 5-30 個孩子,做不到一對一服務</strong> — 你傳訊「幫我多留意我家孩子今天有沒有蓋被子」,我盡力但無法保證。<strong>理解師生比現實</strong></li>
     <li><strong>觀課那天我們會準備</strong> — 「歡迎隨時參觀」就算真隨機,只要家長在場,老師和孩子行為都會改變(觀察者效應)。看真實狀況最好的方法是<strong>第三個月後才觀課</strong>(已進入日常節奏)</li>
     <li><strong>群組截圖是摧毀師生關係的武器</strong> — 截圖傳家長私群討論 → 整件事被放大、斷章取義。老師知道發生了但不知道哪句被截 → 焦慮 → 離職</li>
-    <li><strong>我覺得你孩子可能需要評估,但我不能說</strong> — 通報發展遲緩疑慮怕家長投訴「老師說我孩子有問題」。很多孩子拖到小學才被發現。<strong>家長主動問</strong>「老師覺得孩子發展跟同齡比怎麼樣?」</li>
+    <li><strong>我觀察到你孩子可能有發展評估的需要,但礙於顧忌家長反應,很少主動開口</strong> — 法規上教保員應通報疑似發展遲緩,但<strong>怕家長投訴「老師說我孩子有問題」是真實心理障礙</strong>。很多孩子拖到小學才被發現。<strong>家長主動問</strong>「老師覺得孩子發展跟同齡比怎麼樣?有沒有需要早療評估的訊號?」可打破僵局</li>
     <li><strong>午睡時間是老師唯一喘息</strong>,不是偷懶。要求老師午睡時發更多照片 / 整理紀錄 → 下午老師情緒品質下降,受害的是孩子</li>
     <li><strong>節慶禮金讓我陷入心理拉扯</strong> — 送禮家長 vs 沒送家長,老師會無意識地對前者更關注。<strong>最好做法是改送班級共用耗材</strong></li>
     <li><strong>你孩子有持續攻擊行為,但群組不能說</strong> — 告知被打孩子家長會引起恐慌,告知打人孩子家長怕被說「污名化」。<strong>家長主動問</strong>「孩子在班上跟大家互動如何?有沒有要在家配合改善的?」</li>
@@ -2017,7 +2018,7 @@ details[open] summary { margin-bottom: 8px; }
   <h3>學到的事</h3>
   <ul>
     <li><strong>「鄰里順位」要逐字看</strong>:常春藤的「第 3 順位」只算特定里(例:清水里),不在該里就直接被歸為一般生 — 不要以為「土城區」就一定有順位</li>
-    <li><strong>備取保留期極短的園所要謹慎</strong>:常春藤備取只到 5/14,等於沒中正取就 GG</li>
+    <li><strong>備取保留期極短的園所要謹慎</strong>:常春藤備取只到 5/14,等於沒中正取就直接失去資格</li>
     <li><strong>「未超額不抽籤」要看清楚</strong>:常春藤 PDF 有設 5/8 抽籤日,只是「未超額才全錄」— 不是完全不抽。意思是即使你以為一定上,也要等到 5/8 才知道</li>
     <li><strong>備取保留期 markdown 不一定有寫</strong>:天翔 PDF 寫 6/8 止,但部分二手整理寫「PDF 缺漏」— <strong>以 PDF 為準</strong></li>
     <li><strong>「正取 X 人」要看是哪個班</strong>:詠樂寫「正取 10 人」是全園正取數(2 歲班 8 + 3 歲班 2),不是 2 歲班 10 人</li>
@@ -3126,8 +3127,8 @@ details[open] summary { margin-bottom: 8px; }
       <label for="bud-income">家庭月薪(合計,選填)</label>
       <select id="bud-income">
         <option value="">— 不指定 —</option>
-        <option value="low">中低收入戶(月入 ≤ 3 萬)</option>
-        <option value="vlow">低收入戶 / 弱勢</option>
+        <option value="low">中低收入戶(需社政核定證明)</option>
+        <option value="vlow">低收入戶 / 弱勢(需社政核定證明)</option>
         <option value="normal">一般家庭</option>
       </select>
     </div>
@@ -3146,7 +3147,7 @@ details[open] summary { margin-bottom: 8px; }
       <table id="budget-table"></table>
     </div>
     <div class="callout warn" style="margin-top:14px;">
-      <p style="margin:0;font-size:14px;"><strong>注意</strong>:月費為平均估算,各園所實際收費差異大(尤其私立 8K-50K)。<strong>準公共幼兒園 3,000 上限不含</strong>延托費 / 保險 / 交通(約另 +30-70%)。<strong>看完結果後到 🛒 比較籃填具體園所</strong>取得精確數字。</p>
+      <p style="margin:0;font-size:14px;"><strong>免責</strong>:月費為平均估算,各園所實際收費差異大(尤其私立 8K-50K)。<strong>準公共幼兒園 3,000 上限不含</strong>延托費 / 保險 / 交通(約另 +30-70%)。<strong>中低收入戶/低收入戶補助以各縣市社政主管機關核定證明為準,非依收入門檻自判</strong>。<strong>看完結果後到 🛒 比較籃填具體園所</strong>取得精確數字。本工具僅供參考,不構成個人理財建議。</p>
     </div>
   </div>
 
@@ -4009,7 +4010,7 @@ const SAMPLE_PRESCHOOLS = [
     myRank: '一般生(第 2 順位:員工子女)',
     style: '主題式', trial: '',
     extendedCare: '', documents: '戶口名簿影本 + 預防接種影本',
-    special: '備取保留 10/31 止 ✅✅ 全清單最長,沒抽中正取也有 4 個月遞補機會',
+    special: '備取保留 10/31 止 ✅✅ 準公共清單最長(非營利中正/明德保留至次年初更長),沒抽中正取也有 4 個月遞補機會',
     myRating: '', notes: '範例:雖然較遠,備取保留期最長,當長線備援很好',
     isSample: true,
   },
@@ -4469,7 +4470,7 @@ function renderCalendarConflicts() {
       html += '</ul><p style="margin:8px 0 0;font-size:14px;">同日可分頭遞,但建議提早 1-2 天完成,避免最後一刻系統塞車。</p></div>';
     });
     veryShort.forEach(r => {
-      html += `<div class="callout danger"><h4>🚨 ${escapeHtml(r.name)} 備取保留期 ≤ 7 天 = 等於沒中</h4><p style="margin:0;font-size:14px;">抽籤 ${r.lottery} → 備取保留只到 ${r.retain}。<strong>沒抽中正取就直接 GG</strong>,當作沒這家。</p></div>`;
+      html += `<div class="callout danger"><h4>🚨 ${escapeHtml(r.name)} 備取保留期 ≤ 7 天 = 等於沒中</h4><p style="margin:0;font-size:14px;">抽籤 ${r.lottery} → 備取保留只到 ${r.retain}。<strong>沒抽中正取就直接失去資格</strong>,當作沒這家。</p></div>`;
     });
     short.forEach(r => {
       html += `<div class="callout warn"><h4>🟡 ${escapeHtml(r.name)} 備取保留期 8-14 天 = 機會不大</h4><p style="margin:0;font-size:14px;">抽籤 ${r.lottery} → 備取保留只到 ${r.retain}。前 1-2 名備取有機會,3 名後請當沒中。</p></div>`;
@@ -4564,12 +4565,12 @@ const SUBSIDY_RULES = {
   // 0-2 歲(衛福部)
   public: {1: 7000, 2: 8000, 3: 9000, low: 9000, vlow: 11000}, // 公托補助
   semi: {1: 13000, 2: 14000, 3: 15000, low: 15000, vlow: 17000}, // 準公共補助
-  allowance: {1: 5000, 2: 6000, 3: 7000, low: 5000, vlow: 5000}, // 育兒津貼 0-2
+  allowance: {1: 5000, 2: 6000, 3: 7000}, // 育兒津貼 0-2(低收/中低收按胎次,不另設 low/vlow)
   // 2-6 歲(教育部)
   public_pre: {1: 0, 2: 0, 3: 0}, // 公幼月費已補貼後
   nonprofit_pre: {1: 0, 2: 0, 3: 0}, // 非營利同上
   semi_pre: {1: 0, 2: 0, 3: 0}, // 準公共月費 3K 已含補助
-  allowance_pre: {1: 5000, 2: 6000, 3: 7000, low: 5000, vlow: 5000},
+  allowance_pre: {1: 5000, 2: 6000, 3: 7000}, // 同上,按胎次
 };
 
 const CITY_EXTRA = {
@@ -4609,7 +4610,7 @@ function runBudgetCalc() {
   const results = options.map(opt => {
     const subsidy = calcSubsidy(opt, hatch, city, income);
     const actualPay = Math.max(0, opt.fee - subsidy);
-    return {...opt, subsidy, actualPay, yearTotal: actualPay * 12};
+    return {...opt, subsidy_key: opt.subsidy, subsidy, actualPay, yearTotal: actualPay * 12};
   }).sort((a, b) => a.actualPay - b.actualPay);
 
   let summaryHtml = `<div class="callout"><p style="margin:0;"><strong>條件</strong>:${age === '0-2' ? '0-2 歲' : '2-6 歲'} · 第 ${hatch} 胎 · ${{taipei:'台北市',['taipei-new']:'台北市 115/7+',newtaipei:'新北市',taoyuan:'桃園市',other:'其他縣市'}[city]}${income === 'low' ? ' · 中低收入戶' : income === 'vlow' ? ' · 低收入戶/弱勢' : ''}${budget ? ` · 預算上限 ${budget.toLocaleString()}` : ''}</p></div>`;
@@ -4622,7 +4623,7 @@ function runBudgetCalc() {
     html += `<tr style="${rowStyle}">
       <td><strong>${escapeHtml(r.name)}</strong> ${status}</td>
       <td>${r.fee.toLocaleString()}</td>
-      <td>${r.subsidy ? r.subsidy.toLocaleString() : '—'}</td>
+      <td>${r.subsidy ? r.subsidy.toLocaleString() : (['public_pre','nonprofit_pre','semi_pre'].includes(r.subsidy_key || '') ? '— (已含補後)' : '—')}</td>
       <td><strong>${r.actualPay.toLocaleString()}</strong></td>
       <td>${r.yearTotal.toLocaleString()}</td>
       <td style="font-size:13px;">${escapeHtml(r.extra)}</td>
