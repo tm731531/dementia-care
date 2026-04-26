@@ -512,7 +512,7 @@ details[open] summary { margin-bottom: 8px; }
 <nav id="nav">
   <div class="nav-inner">
     <a class="nav-link" data-page="page-home" onclick="navigateTo('page-home');return false;" href="#">🏠 首頁</a>
-    <a class="nav-link" data-page="page-types" onclick="navigateTo('page-types');return false;" href="#">🏫 4 種類型</a>
+    <a class="nav-link" data-page="page-types" onclick="navigateTo('page-types');return false;" href="#">🏫 類型選擇</a>
     <a class="nav-link" data-page="page-infant" onclick="navigateTo('page-infant');return false;" href="#">👶 托嬰專區</a>
     <a class="nav-link" data-page="page-nanny" onclick="navigateTo('page-nanny');return false;" href="#">👵 保母系統</a>
     <a class="nav-link" data-page="page-subsidy" onclick="navigateTo('page-subsidy');return false;" href="#">💰 補助系統</a>
@@ -523,6 +523,7 @@ details[open] summary { margin-bottom: 8px; }
     <a class="nav-link" data-page="page-lottery" onclick="navigateTo('page-lottery');return false;" href="#">🎲 抽籤機制</a>
     <a class="nav-link" data-page="page-traps" onclick="navigateTo('page-traps');return false;" href="#">⚠️ 常見地雷</a>
     <a class="nav-link" data-page="page-sandwich" onclick="navigateTo('page-sandwich');return false;" href="#">👨‍👩‍👧 三明治世代</a>
+    <a class="nav-link" data-page="page-aftercare" onclick="navigateTo('page-aftercare');return false;" href="#">🏡 入園後實務</a>
     <a class="nav-link" data-page="page-compare" onclick="navigateTo('page-compare');return false;" href="#">🛒 比較籃</a>
     <a class="nav-link" data-page="page-cases" onclick="navigateTo('page-cases');return false;" href="#">📖 案例</a>
     <a class="nav-link" data-page="page-knowledge" onclick="navigateTo('page-knowledge');return false;" href="#">📚 縣市資源</a>
@@ -581,10 +582,39 @@ details[open] summary { margin-bottom: 8px; }
     <li><strong>最後跑 <a onclick="navigateTo('page-checklist');return false;" href="#">📋 看園所 Checklist</a></strong> — 現場參觀時逐項檢查,不被漂亮裝潢分心。</li>
   </ol>
 
+  <div data-family-only="sandwich" style="display:none;">
+    <div class="callout warn">
+      <h4>👨‍👩‍👧 三明治世代家庭專屬提示(已啟用)</h4>
+      <p style="margin:0 0 8px;">手冊偵測到你選的是「三明治世代」家庭模式。建議優先看:</p>
+      <ul style="margin:0 0 0 22px;">
+        <li><a onclick="navigateTo('page-sandwich');return false;" href="#">👨‍👩‍👧 三明治世代</a> — 接送動線整合 / 祖父母可行性 / 緊急應變 / 喘息資源</li>
+        <li><a onclick="navigateTo('page-aftercare');return false;" href="#">🏡 入園後實務</a> — 第 7 節「病假備援計畫」對你特別重要</li>
+        <li>選園 checklist 加問:「能不能配合祖父母接送(失智早期可陪伴)」「臨時延托彈性(長輩送醫救命用)」</li>
+      </ul>
+      <p style="margin:8px 0 0;font-size:13px;">想關掉 → <a onclick="navigateTo('page-settings');return false;" href="#">⚙️ 設定</a> 切回「一般家庭」。</p>
+    </div>
+  </div>
+
+  <h2>🎯 對號入座 · 你最該先看哪裡</h2>
+  <table>
+    <thead><tr><th>你的情境</th><th>建議路線</th></tr></thead>
+    <tbody>
+      <tr><td>0-1 歲 + 預算緊 + 雙薪</td><td>立刻排公托 → 同時找準公共托嬰 / 準公共保母 補位</td></tr>
+      <tr><td>1-2 歲 + 急著送(這個月)</td><td>準公共托嬰 + 準公共保母(熱門排 3-6 月,<strong>現在就動</strong>)</td></tr>
+      <tr><td>1-2 歲 + 預算寬</td><td>私立托嬰 + 補助領育兒津貼 5,000</td></tr>
+      <tr><td>2 歲 + 雙薪 + 預算緊</td><td>4-6 月一波:非營利 + 公幼(統一報) + 準公共補位</td></tr>
+      <tr><td>2 歲 + 想要特定教學風格</td><td>私立(蒙氏 / 華德福 / 雙語) + 準公共補位</td></tr>
+      <tr><td>3-6 歲(已在園)</td><td>每年 1-2 月辦留園直升;想換園看 4-5 月新生缺額</td></tr>
+      <tr><td>三明治世代(同時照顧失智長輩)</td><td>看 <a onclick="navigateTo('page-sandwich');return false;" href="#">👨‍👩‍👧 三明治世代</a> 專區</td></tr>
+      <tr><td>住偏遠地區</td><td>查最近的「準公共」+ 「私立」(公幼/非營利通常市區才多)</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:14px;color:var(--muted);margin-top:6px;"><em>找不到符合你的情境?看 <a onclick="navigateTo('page-types');return false;" href="#">🏫 4 種類型</a> 自己組合。</em></p>
+
   <h2>🎯 5 秒總覽</h2>
   <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;">
     <div class="summary-row"><span class="icon">👤</span><span class="label">Who</span><span class="content">家長:你的家庭結構、預算、接送可行性。<strong>不是</strong>「孩子是誰」</span></div>
-    <div class="summary-row"><span class="icon">🏫</span><span class="label">What</span><span class="content">**0-2 歲**:公托 / 準公共托嬰 / 私托 / 保母 4 條路。**2-6 歲**:公幼 / 非營利 / 準公共 / 私立 4 類型。費用差 5-15 倍</span></div>
+    <div class="summary-row"><span class="icon">🏫</span><span class="label">What</span><span class="content"><strong>0-2 歲</strong>:公托 / 準公共托嬰 / 私托 / 保母 4 條路。<strong>2-6 歲</strong>:公幼 / 非營利 / 準公共 / 私立 4 類型。費用差 5-15 倍</span></div>
     <div class="summary-row"><span class="icon">📅</span><span class="label">When</span><span class="content">公托:出生就排隊。幼兒園:每年 4-6 月。8 月開學</span></div>
     <div class="summary-row"><span class="icon">📍</span><span class="label">Where</span><span class="content">步行 20 分鐘原則(颱風 + 大雨 + 小孩走慢實際是 30+)</span></div>
     <div class="summary-row"><span class="icon">💡</span><span class="label">Why</span><span class="content">教學風格(蒙氏/華德福/主題式/雙語)只是其中一個維度,不是全部</span></div>
@@ -608,7 +638,7 @@ details[open] summary { margin-bottom: 8px; }
 
   <div class="callout warn">
     <h4>⚠️ 重要前提:0-2 歲跟 2-6 歲是兩套法律</h4>
-    <p style="margin:0;">「0-2 歲機構式托嬰」歸<strong>衛福部</strong>管(兒少法),「2-6 歲幼兒園」歸<strong>教育部</strong>管(幼照法)。**兩套主管機關、兩套類型、兩套收費規則**。所以下面拆兩張表看,不要互相套用。</p>
+    <p style="margin:0;">「0-2 歲機構式托嬰」歸<strong>衛福部</strong>管(兒少法),「2-6 歲幼兒園」歸<strong>教育部</strong>管(幼照法)。<strong>兩套主管機關、兩套類型、兩套收費規則</strong>。所以下面拆兩張表看,不要互相套用。</p>
   </div>
 
   <h2>📊 0-2 歲(托嬰中心)— 3 類型</h2>
@@ -630,7 +660,7 @@ details[open] summary { margin-bottom: 8px; }
         <td>約 4,000 元(一般)<br>約 2,000 元(中低收)<br>約 0 元(低收/弱勢)</td>
         <td>中央 7,000 / 月起</td>
         <td>滾動式登記 + 集中抽籤<br>(台北每年 7 月)</td>
-        <td>**6 個月 - 1.5 年**(熱區可至 2 年)</td>
+        <td><strong>6 個月 - 1.5 年</strong>(熱區可至 2 年)</td>
       </tr>
       <tr>
         <td><strong>準公共托嬰中心</strong></td>
@@ -644,13 +674,13 @@ details[open] summary { margin-bottom: 8px; }
         <td><strong>一般私立托嬰中心</strong></td>
         <td>滿 2 個月 - 未滿 3 歲</td>
         <td>15,000 - 40,000+ 元<br>(全額自付)</td>
-        <td>**只能改領育兒津貼 5,000**<br>(不可同時領托育補助)</td>
+        <td><strong>只能改領育兒津貼 5,000</strong><br>(不可同時領托育補助)</td>
         <td>各中心自辦</td>
         <td>即時 - 半年</td>
       </tr>
     </tbody>
   </table>
-  <p style="font-size:14px;color:var(--muted);margin-top:6px;"><em>**「非營利」在 0-2 歲層級不存在**(非營利幼兒園是教育部體系,法定只收滿 2 足歲)。<br>0-2 歲還有第 4 條路 — **保母**(居家式托育),看 <a onclick="navigateTo('page-nanny');return false;" href="#">👵 保母系統</a> 專頁。</em></p>
+  <p style="font-size:14px;color:var(--muted);margin-top:6px;"><em><strong>「非營利」在 0-2 歲層級不存在</strong>(非營利幼兒園是教育部體系,法定只收滿 2 足歲)。<br>0-2 歲還有第 4 條路 — <strong>保母</strong>(居家式托育),看 <a onclick="navigateTo('page-nanny');return false;" href="#">👵 保母系統</a> 專頁。</em></p>
 
   <h2>📊 2-6 歲(幼兒園)— 4 類型</h2>
   <table>
@@ -676,7 +706,7 @@ details[open] summary { margin-bottom: 8px; }
       <tr>
         <td><strong>非營利幼兒園</strong></td>
         <td>2-6 歲</td>
-        <td>第 1 胎 2,000 元(各園略有差異)</td>
+        <td>第 1 胎 2,000 / 第 2 胎 1,000 / 第 3 胎以上免費<br>(中低收 / 低收 免費)</td>
         <td>新北 kid123 / 各縣市統一網站</td>
         <td>統一電腦抽籤</td>
         <td>中等</td>
@@ -699,7 +729,7 @@ details[open] summary { margin-bottom: 8px; }
       </tr>
     </tbody>
   </table>
-  <p style="font-size:14px;color:var(--muted);margin-top:6px;"><em>準公共幼兒園的 3,000 元含學費 + 雜費 + 代收代辦費,但**不含**延托費、保險費、交通費。</em></p>
+  <p style="font-size:14px;color:var(--muted);margin-top:6px;"><em>準公共幼兒園的 3,000 元含學費 + 雜費 + 代收代辦費,但<strong>不含</strong>延托費、保險費、交通費。</em></p>
 
   <h2>🏛 公托 / 公幼</h2>
   <div class="callout">
@@ -708,7 +738,7 @@ details[open] summary { margin-bottom: 8px; }
   <h3>特點</h3>
   <ul>
     <li>👍 <strong>費用最低</strong>(月費 2000-4000,含政府補助後)</li>
-    <li>👍 <strong>師資穩定</strong>(教保員多為公務體系,流動率低)</li>
+    <li>👍 <strong>師資穩定</strong>(教保員多為公務體系,流動率低)— 但<strong>代價</strong>是:若分配到風格不合的老師,公務體系幾乎不能換班 / 換園,私立 / 準公共反而還有彈性</li>
     <li>👍 <strong>標準化</strong>(教學內容、餐食、安全規範統一管理)</li>
     <li>👎 <strong>名額極少</strong>,公托(0-2 歲)等候 1-3 年很正常</li>
     <li>👎 <strong>區域順位</strong>:沒設籍在該區可能根本沒抽籤資格</li>
@@ -717,13 +747,13 @@ details[open] summary { margin-bottom: 8px; }
   <h3>怎麼報</h3>
   <ul>
     <li>各縣市教育局 / 社會局網站(各地不同 — 看 <a onclick="navigateTo('page-knowledge');return false;" href="#">📚 縣市資源</a>)</li>
-    <li>0-2 歲公托:**孩子出生就要去登記**,等候名單通常 1-3 年</li>
+    <li>0-2 歲公托:<strong>孩子出生就要去登記</strong>,等候名單通常 1-3 年</li>
     <li>2-6 歲公幼:每年 4-5 月一波,跟非營利同期</li>
   </ul>
 
   <h2>🏘 非營利幼兒園(只有 2-6 歲)</h2>
   <div class="callout">
-    <p style="margin:0;"><strong>政府委託符合資格的非營利法人辦的幼兒園</strong>。法源是《幼兒教育及照顧法》第 9 條 + 《非營利幼兒園實施辦法》。**契約期 4 學年**,連續 3 年考評通過可申請續約。</p>
+    <p style="margin:0;"><strong>政府委託符合資格的非營利法人辦的幼兒園</strong>。法源是《幼兒教育及照顧法》第 9 條 + 《非營利幼兒園實施辦法》。<strong>契約期 4 學年</strong>,連續 3 年考評通過可申請續約。</p>
   </div>
   <h3>承辦資格(法定)</h3>
   <ul>
@@ -735,7 +765,7 @@ details[open] summary { margin-bottom: 8px; }
   <ul>
     <li>👍 <strong>費用低</strong>(第 1 胎月費約 2,000 元,各園略有差異,比準公共更低)</li>
     <li>👍 <strong>報名統一</strong>(各縣市一個網站搞定多家)</li>
-    <li>👍 <strong>備取保留期長</strong>(新北非營利保留至下年留園直升前一日,**最長**)</li>
+    <li>👍 <strong>備取保留期長</strong>(新北非營利保留至下年留園直升前一日,<strong>最長</strong>)</li>
     <li>👍 <strong>線上報到</strong>(不用臨櫃)</li>
     <li>👎 <strong>名額少</strong>,抽籤競爭激烈</li>
     <li>👎 <strong>不收 0-2 歲</strong>(0-2 歲只能找公托 / 準公共托嬰 / 私托 / 保母)</li>
@@ -749,8 +779,14 @@ details[open] summary { margin-bottom: 8px; }
   </ol>
 
   <h2>🏢 準公共</h2>
-  <div class="callout">
-    <p style="margin:0;"><strong>私立但跟政府簽合約</strong>,讓家長享有「跟非營利一樣的低費用」。**0-2 歲托嬰**跟 **2-6 歲幼兒園** 兩個系統各自有「準公共」,但補助金額跟收費規則**完全不同**。</p>
+  <div class="callout warn">
+    <h4>📌 「準公共三兄弟」一句話釐清</h4>
+    <p style="margin:0;">「準公共」有 3 種,<strong>補助金額和規則完全不同</strong>,看名字會混:</p>
+    <ul style="margin:8px 0 0 22px;">
+      <li><strong>準公共托嬰中心</strong>(0-未滿 3 歲)— 衛福部 / 補助 13,000+ / 家長實付 5,000-12,000</li>
+      <li><strong>準公共保母</strong>(0-未滿 3 歲)— 衛福部 / 補助 13,000+ / 家長實付 5,000-12,000</li>
+      <li><strong>準公共幼兒園</strong>(2-6 歲)— 教育部 / 家長月費上限 3,000(第 1 胎)</li>
+    </ul>
   </div>
 
   <h3>準公共 · 兩種版本對比</h3>
@@ -760,9 +796,9 @@ details[open] summary { margin-bottom: 8px; }
     </thead>
     <tbody>
       <tr><td>主管機關</td><td>衛福部社家署</td><td>教育部</td></tr>
-      <tr><td>家長費用</td><td>**沒有 3000 統一上限**,各中心收費 - 政府補助 13,000 後家長自付 5,000-12,000</td><td>第 1 胎 3,000 / 第 2 胎 2,000 / 第 3 胎 1,000(法定上限)</td></tr>
+      <tr><td>家長費用</td><td><strong>沒有 3000 統一上限</strong>,各中心收費 - 政府補助 13,000 後家長自付 5,000-12,000</td><td>第 1 胎 3,000 / 第 2 胎 2,000 / 第 3 胎 1,000(法定上限)</td></tr>
       <tr><td>政府補助來源</td><td>中央托育補助 13,000 + 縣市加碼</td><td>免學費 + 家長部分負擔</td></tr>
-      <tr><td>合約期程</td><td>視縣市,常 1-3 年</td><td>**第 3 期程 113-116 / 7**(每期程約 3 學年)</td></tr>
+      <tr><td>合約期程</td><td>視縣市,常 1-3 年</td><td><strong>第 3 期程 113-116 / 7</strong>(每期程約 3 學年)</td></tr>
     </tbody>
   </table>
 
@@ -781,10 +817,10 @@ details[open] summary { margin-bottom: 8px; }
     <h4>⚠️ 準公共合約期到期 = 隨時可能爆價</h4>
     <p style="margin:0;">準公共不是永久合約,而是<strong>期程制</strong>(第 3 期程 113/8 - 116/7)。期滿:</p>
     <ul style="margin:8px 0 0 22px;">
-      <li>**不自動續約** — 需地方政府跟園所重新協商</li>
-      <li>**評鑑未通過者無法續約** — 直接從清單消失</li>
-      <li>**不續約後**:園所恢復為一般私立,費用立刻回到 8,000-15,000+ 月費</li>
-      <li>**家長端**:每年 7-8 月新學年前注意園所公告;到期前一學期(1-2 月)主動詢問是否續約</li>
+      <li><strong>不自動續約</strong> — 需地方政府跟園所重新協商</li>
+      <li><strong>評鑑未通過者無法續約</strong> — 直接從清單消失</li>
+      <li><strong>不續約後</strong>:園所恢復為一般私立,費用立刻回到 8,000-15,000+ 月費</li>
+      <li><strong>家長端</strong>:每年 7-8 月新學年前注意園所公告;到期前一學期(1-2 月)主動詢問是否續約</li>
     </ul>
   </div>
 
@@ -793,8 +829,8 @@ details[open] summary { margin-bottom: 8px; }
     <li>找各縣市「準公共幼兒園/托嬰中心」清單(教育部 / 衛福部官網有)</li>
     <li>篩選步行範圍內的園所</li>
     <li>逐家查報名期間 + 報名方式(現場/Email/網站,各家不同)</li>
-    <li>**注意:準公共報名期間常與非營利重疊**(都是 4-6 月),要排好優先序</li>
-    <li>**確認該園所合約期到哪一年**(全國教保資訊網查得到)</li>
+    <li><strong>注意:準公共報名期間常與非營利重疊</strong>(都是 4-6 月),要排好優先序</li>
+    <li><strong>確認該園所合約期到哪一年</strong>(全國教保資訊網查得到)</li>
   </ol>
 
   <h2>💸 私立(自費)</h2>
@@ -803,7 +839,7 @@ details[open] summary { margin-bottom: 8px; }
   </div>
   <h3>特點</h3>
   <ul>
-    <li>👍 <strong>有錢就有位</strong>(不用抽籤,不用等)</li>
+    <li>👍 <strong>不用抽籤,看名額即可申請</strong>(隨時可入,不限開學)</li>
     <li>👍 <strong>教學風格多元</strong>(蒙氏、華德福、雙語、森林、體育)</li>
     <li>👍 <strong>可以中途轉入</strong>(不限年度開學)</li>
     <li>👎 <strong>費用高</strong>(年費可能是準公共的 5-15 倍)</li>
@@ -927,9 +963,9 @@ details[open] summary { margin-bottom: 8px; }
 
   <div class="callout warn">
     <h4>⚠️ 雙語 / 全美語的法規灰色地帶</h4>
-    <p style="margin:0;"><strong>《幼兒教保服務實施準則》第 13 條</strong>:幼兒園「**不得採全日、半日或分科之外語教學**」。意思是「全美語幼兒園」依現行法規嚴格解讀<strong>屬違規</strong>,但執法力度因縣市而異。</p>
+    <p style="margin:0;"><strong>《幼兒教保及照顧服務實施準則》第 13 條第 4 款</strong>:有進行外語教學之必要者,應以部分時間融入教保活動課程,且應符合幼兒園教保活動課程大綱;<strong>不得以全部時間為之,或採非融入方式進行</strong>。意思是「全美語幼兒園」與現行準則牴觸,<strong>各縣市查核力度不一</strong>,有的嚴查、有的睜一眼閉一眼。家長選擇前宜自行評估風險。</p>
     <ul style="margin:8px 0 0 22px;">
-      <li>教育部立場:**外語可以「融入活動」**(例如玩遊戲時帶幾句英文),但不能整天英文</li>
+      <li>教育部立場:<strong>外語可以「融入活動」</strong>(例如玩遊戲時帶幾句英文),但不能整天英文</li>
       <li>市場現況:「全美語」招牌仍廣泛存在,實質遊走灰色地帶</li>
       <li>家長判斷方法:直接問「<strong>每天有幾小時中文活動?中文教師是誰?</strong>」</li>
       <li>查證:全教網查該園評鑑 + 裁罰紀錄</li>
@@ -938,12 +974,12 @@ details[open] summary { margin-bottom: 8px; }
 
   <div class="callout warn">
     <h4>⚠️ 注音教育部明確不教,但私園可能偷教</h4>
-    <p style="margin:0;"><strong>《幼兒園教保服務實施準則》第 13 條</strong>規定課程應以「統整方式」進行,**不得採分科教學**。教育部明確反對學前分科教注音、寫字。理由:幼兒眼球和手部肌肉仍在發育,「精熟」目的的讀寫教學對發展不恰當。</p>
+    <p style="margin:0;"><strong>《幼兒教保及照顧服務實施準則》第 13 條</strong>規定課程應以「<strong>統整方式</strong>」進行,<strong>不得採分科方式進行</strong>;同條第 9 款:<strong>不得進行以精熟為目的之讀、寫、算教學</strong>。教育部明確反對學前分科教注音、寫字。理由:幼兒眼球和手部肌肉仍在發育。</p>
     <ul style="margin:8px 0 0 22px;">
-      <li>**正規期**:小一前 10 週才是注音教學期,不需提前學完</li>
-      <li>**實際**:部分私園大班仍有「認字」「注音遊戲」,以「融入」包裝</li>
-      <li>**該不該先學**:研究顯示提前死記反而在一年級造成干擾;但若孩子有興趣 + 不強迫,亦非禁止</li>
-      <li>**選園要問**:「大班會教注音嗎?寫字嗎?」回答「教」就違規,「不教」要看實際情況</li>
+      <li><strong>正規期</strong>:小一前 10 週才是注音教學期,不需提前學完</li>
+      <li><strong>實際</strong>:部分私園大班仍有「認字」「注音遊戲」,以「融入」包裝</li>
+      <li><strong>該不該先學</strong>:研究顯示提前死記反而在一年級造成干擾;但若孩子有興趣 + 不強迫,亦非禁止</li>
+      <li><strong>選園要問</strong>:「大班會教注音嗎?寫字嗎?」回答「教」就違規,「不教」要看實際情況</li>
     </ul>
   </div>
 
@@ -953,7 +989,7 @@ details[open] summary { margin-bottom: 8px; }
     <li><strong>報名期</strong>(各園不同):準時遞表 / 上傳</li>
     <li><strong>等候期</strong>(報名後 1-2 週):資格審查、補件</li>
     <li><strong>抽籤日</strong>(各園不同):當天公告結果</li>
-    <li><strong>報到期</strong>(抽中後 1-3 天):**準時報到!過了就放棄正取**</li>
+    <li><strong>報到期</strong>(抽中後 1-3 天):<strong>準時報到!過了就放棄正取</strong></li>
     <li><strong>備取等候期</strong>(看各園公告,5/14 ~ 10/31 都有):備取保留期長的有機會</li>
   </ol>
   <p>看 <a onclick="navigateTo('page-lottery');return false;" href="#">🎲 抽籤機制</a>。</p>
@@ -967,6 +1003,23 @@ details[open] summary { margin-bottom: 8px; }
   <div class="callout">
     <h4>📌 怎麼用</h4>
     <p style="margin:0;">參觀前印一份(或手機開這頁)。每項打勾 ✓。狀態存在你的裝置 localStorage,換頁不丟。可以同時跑多家比較。</p>
+  </div>
+
+  <div class="callout warn">
+    <h4>🎯 現場必問 Top 10(30 分鐘版)</h4>
+    <p style="margin:0 0 8px;">下面 50+ 項現場跑不完。先用這 10 題,其他留給<strong>試讀觀察</strong>或<strong>入園後追蹤</strong>:</p>
+    <ol style="margin:0 0 0 22px;">
+      <li>「我今天參觀的班,<strong>主帶老師</strong>是哪位?她帶多久了?」(間接探流動率)</li>
+      <li>「今天<strong>全園老師和孩子</strong>各幾個?」(確認師生比達法規)</li>
+      <li>「我可以<strong>看一下今天的午餐菜單</strong>嗎?」(直接看,不靠口說)</li>
+      <li>「孩子<strong>發燒幾度</strong>會通知我?多久通知一次?」(測 SOP)</li>
+      <li>「<strong>門禁</strong>怎麼管?我朋友 / 祖父母可以來接嗎?」(測接送授權)</li>
+      <li>「可以<strong>帶我看教室和廚房</strong>嗎?」(邊走邊看)</li>
+      <li>「<strong>延托費</strong>怎麼算?晚 10 分鐘怎麼計?」(費用糾紛高頻原因)</li>
+      <li>「<strong>監視器</strong>有嗎?需要調閱時怎麼申請?」(不問「能不能家長看」,改問「怎麼申請」)</li>
+      <li>「你們有<strong>試讀</strong>嗎?怎麼安排?」(有試讀一定要試)</li>
+      <li>「孩子<strong>哭不停</strong>,老師怎麼處理?能舉個最近發生的例子嗎?」(要具體例子)</li>
+    </ol>
   </div>
 
   <h2>👶 托嬰專屬(0-2 歲)</h2>
@@ -992,8 +1045,8 @@ details[open] summary { margin-bottom: 8px; }
   <div id="cl-cost"></div>
 
   <div class="callout warn" style="margin-top:24px;">
-    <h4>⚠️ 「不能問」的警訊</h4>
-    <p style="margin:0;">如果某園所對你的問題顯得不耐煩、迴避、說「這是商業機密」,**那就是答案**。能信任孩子去的園所,應該樂於回答家長的詢問。</p>
+    <h4>⚠️ 觀察園所對問題的態度</h4>
+    <p style="margin:0;">這份 checklist 50+ 項,<strong>現場 30 分鐘問不完</strong>(就算優良園所也會疲憊)。重點觀察是:園所能不能解釋「<strong>為什麼這樣做</strong>」,而不只是「我們有做」。<strong>迴避一兩題可能有隱私原因</strong>(例如老師個資),但對每題都無法解釋、或迴避所有實務細節,才是警訊。<strong>建議優先問下方「現場必問 Top 10」</strong>(看「📋 看園所 Checklist」頁頂),其餘留給試讀觀察。</p>
   </div>
 
   <button class="btn btn-secondary" onclick="resetChecklist()">↻ 清空所有勾選</button>
@@ -1037,7 +1090,7 @@ details[open] summary { margin-bottom: 8px; }
   <h2>🎒 4-6 歲(大班/中班/續讀)</h2>
   <ul>
     <li>大部分孩子 2 歲入園後就<strong>留園直升</strong>到大班畢業</li>
-    <li>**留園直升登記**通常 1-2 月,不要錯過(錯過要重抽籤)</li>
+    <li><strong>留園直升登記</strong>通常 1-2 月,不要錯過(錯過要重抽籤)</li>
     <li>想換園的話,看新生缺額(4-5 月公告)</li>
     <li>準備上小學:大班下學期(隔年 4-5 月)看小學學區</li>
   </ul>
@@ -1069,7 +1122,7 @@ details[open] summary { margin-bottom: 8px; }
     <li>✅ 提前在統一網站<strong>註冊帳號</strong>(別等到報名日才註冊)</li>
     <li>✅ 戶口名簿掃描檔(系統查調為主,失敗時上傳)</li>
     <li>✅ 確認手機號碼可收簡訊(補件、抽籤結果都靠簡訊)</li>
-    <li>✅ 跨縣市新搬遷者:**必須上傳戶口名簿**(設籍未滿期者)</li>
+    <li>✅ 跨縣市新搬遷者:<strong>必須上傳戶口名簿</strong>(設籍未滿期者)</li>
   </ul>
 
   <h2>📦 錄取後報到(備齊全套)</h2>
@@ -1159,7 +1212,7 @@ details[open] summary { margin-bottom: 8px; }
     <li><strong>資格審查</strong> — 園方/教育局審核資料、補件通知</li>
     <li><strong>抽籤</strong> — 報名人數 > 名額 才會抽。報名人數 ≤ 名額 直接全錄取</li>
     <li><strong>正取 + 備取公告</strong> — 抽到正取的依序遞補,備取按抽籤順序排隊</li>
-    <li><strong>正取生報到</strong> — 截止日內到場/線上報到。**過了就放棄正取資格**</li>
+    <li><strong>正取生報到</strong> — 截止日內到場/線上報到。<strong>過了就放棄正取資格</strong></li>
     <li><strong>備取生遞補</strong> — 正取沒報到 → 備取依序通知 → 直到滿額或備取保留期截止</li>
   </ol>
 
@@ -1201,7 +1254,7 @@ details[open] summary { margin-bottom: 8px; }
     <li><strong>3-5 家是常態</strong>,不要只押寶一家</li>
     <li><strong>確認時程不衝突</strong>(報名期間、抽籤日、報到日不要撞)</li>
     <li><strong>排優先順序</strong>(離家最近 / 教學風格最合 / 費用最低)</li>
-    <li><strong>抽中複數家時</strong>:選最想要的,其他家**主動放棄正取**(讓其他備取家庭有機會,不要佔位)</li>
+    <li><strong>抽中複數家時</strong>:選最想要的,其他家<strong>主動放棄正取</strong>(讓其他備取家庭有機會,不要佔位)</li>
     <li><strong>都沒抽中</strong>:看哪家備取保留期長,等遞補。也準備私立 plan B</li>
   </ol>
 
@@ -1223,22 +1276,22 @@ details[open] summary { margin-bottom: 8px; }
 
   <div class="callout danger">
     <h4>🚨 沒準時報到 = 放棄正取</h4>
-    <p style="margin:0;">抽中正取後,各園規定的報到期限(通常 2-3 天)內必須完成報到。**逾期視同放棄,直接讓備取遞補**。如果正在處理多家,務必把每家報到截止日列出來。</p>
+    <p style="margin:0;">抽中正取後,各園規定的報到期限(通常 2-3 天)內必須完成報到。<strong>逾期視同放棄,直接讓備取遞補</strong>。如果正在處理多家,務必把每家報到截止日列出來。</p>
   </div>
 
   <div class="callout danger">
     <h4>🚨 備取保留期太短 ≈ 沒中</h4>
-    <p style="margin:0;">備取保留只到 5-14 天的園所,實質上等於只看正取。**評估這家園所時,要當作「沒抽中正取就是沒上」**。</p>
+    <p style="margin:0;">備取保留只到 5-14 天的園所,實質上等於只看正取。<strong>評估這家園所時,要當作「沒抽中正取就是沒上」</strong>。</p>
   </div>
 
   <div class="callout warn">
     <h4>⚠️ 預防接種卡找不到 → 補發 1-2 週</h4>
-    <p style="margin:0;">健兒手冊黃卡是入園必備。錄取後才找會發現要去衛生所補發,可能來不及。**現在就翻出來確認,影印 5 份**。</p>
+    <p style="margin:0;">健兒手冊黃卡是入園必備。錄取後才找會發現要去衛生所補發,可能來不及。<strong>現在就翻出來確認,影印 5 份</strong>。</p>
   </div>
 
   <div class="callout warn">
     <h4>⚠️ 距離評估太樂觀</h4>
-    <p style="margin:0;">Google Maps 顯示 15 分鐘 = 大人快走。實際帶孩子(小腳步、推車、抱抱、停下來看路邊東西)是 25-30 分。再加上下雨/颱風日 → 不可行。**選園前親自走一趟**。</p>
+    <p style="margin:0;">Google Maps 顯示 15 分鐘 = 大人快走。實際帶孩子(小腳步、推車、抱抱、停下來看路邊東西)是 25-30 分。再加上下雨/颱風日 → 不可行。<strong>選園前親自走一趟</strong>。</p>
   </div>
 
   <div class="callout warn">
@@ -1248,36 +1301,49 @@ details[open] summary { margin-bottom: 8px; }
 
   <div class="callout warn">
     <h4>⚠️ 多家報名期重疊</h4>
-    <p style="margin:0;">5 月初是地獄週 — 非營利網路報名(統一)+ 多家準公共現場報名(各別)同期跑。**先做行事曆**,把每家的「報名期間 + 報到日 + 抽籤日」全標出來,排出可行的時序。</p>
+    <p style="margin:0;">5 月初是地獄週 — 非營利網路報名(統一)+ 多家準公共現場報名(各別)同期跑。<strong>先做行事曆</strong>,把每家的「報名期間 + 報到日 + 抽籤日」全標出來,排出可行的時序。</p>
   </div>
 
   <div class="callout warn">
     <h4>⚠️ 順位搞錯</h4>
-    <p style="margin:0;">很多家長以為自己是第 2 順位「鄰里居民」,結果簡章寫的「鄰里」只算特定路段或里。**逐字看簡章「優先順位」段**,不確定就打電話問。</p>
+    <p style="margin:0;">很多家長以為自己是第 2 順位「鄰里居民」,結果簡章寫的「鄰里」只算特定路段或里。<strong>逐字看簡章「優先順位」段</strong>,不確定就打電話問。</p>
   </div>
 
   <div class="callout warn">
     <h4>⚠️ 私立隱形費用</h4>
-    <p style="margin:0;">月費 12000 看起來合理,但加上註冊費 5000 / 學期 + 書本費 3000 + 制服 2000 + 活動費 1500/月 + 延托費 200/天 → 實際年費可能多 30%。<strong>問清楚「全年總費用」</strong>,不要只看月費。</p>
+    <p style="margin:0;">月費 12,000 看起來合理,但<strong>全年實際支出常多 20-40%</strong>:</p>
+    <ul style="margin:8px 0 0 22px;font-size:14px;">
+      <li>註冊費 5,000 / 學期 × 2</li>
+      <li>書本 / 教材 3,000 / 學期</li>
+      <li>制服 / 圍兜 2,000(成長後續買)</li>
+      <li>活動 / 校外教學 1,500 / 月</li>
+      <li>延托費 200 / 天 → 月票約 2,000-3,500</li>
+      <li>學生平安保險 400-1,000 / 年(常被忽略)</li>
+      <li>才藝 / 課輔費 1,500-3,000 / 月(部分強制)</li>
+      <li>冷氣費 / 水電費 200-500 / 月(部分私立另收)</li>
+      <li>家長會費 500-1,000 / 年</li>
+      <li>節慶禮金(教師節/學期末)合資後約 1,000-2,000 / 年</li>
+    </ul>
+    <p style="margin:8px 0 0;"><strong>舉例</strong>:月費 12,000 × 12 = 144,000;加上述全部 → 實際年費約 187,000(月均 15,600)。<strong>問清楚「全年總費用」+ 拿合約看清楚</strong>,不要只看月費。</p>
   </div>
 
   <div class="callout warn">
     <h4>⚠️ 教學風格名稱含糊</h4>
-    <p style="margin:0;">招牌寫「蒙特梭利」「華德福」不一定是真的(這些名稱沒法律保護,任何園所都能掛)。**問實際做法**:教具是否齊全、老師是否經過認證、混齡比例多少。</p>
+    <p style="margin:0;">招牌寫「蒙特梭利」「華德福」不一定是真的(這些名稱沒法律保護,任何園所都能掛)。<strong>問實際做法</strong>:教具是否齊全、老師是否經過認證、混齡比例多少。</p>
   </div>
 
   <div class="callout warn">
     <h4>⚠️ 雙語/全美語的真實程度</h4>
-    <p style="margin:0;">「全美語」可能是「外師上 1 小時、其他時間中文」,也可能是「全天英文,午睡才中文」。**實際聽老師對話**,不是看招生海報。</p>
+    <p style="margin:0;">「全美語」可能是「外師上 1 小時、其他時間中文」,也可能是「全天英文,午睡才中文」。<strong>實際聽老師對話</strong>,不是看招生海報。</p>
   </div>
 
   <div class="callout warn">
     <h4>⚠️ 試讀沒做</h4>
-    <p style="margin:0;">部分園所提供試讀(半天、一天、一週)。**如果有提供一定要試**。孩子能不能適應、跟老師合不合,只有試了才知道。</p>
+    <p style="margin:0;">部分園所提供試讀(半天、一天、一週)。<strong>如果有提供一定要試</strong>。孩子能不能適應、跟老師合不合,只有試了才知道。</p>
   </div>
 
   <div class="callout">
-    <h4>📌 5 月初的地獄週(假設你住新北)</h4>
+    <h4>📌 5 月初的地獄週(以下為新北土城案例,你的縣市要另查)</h4>
     <p style="margin:8px 0 0;">同一週內可能要處理:</p>
     <ul style="margin:6px 0 0 20px;">
       <li>非營利統一網路報名(5/初開放,5/7 截止)</li>
@@ -1285,14 +1351,14 @@ details[open] summary { margin-bottom: 8px; }
       <li>跑去廣福拿報名表(5/11 才能拿)</li>
       <li>準備全部園所要的文件</li>
     </ul>
-    <p style="margin:6px 0 0;">**4 月底就把整個 5 月的時序排好**,不要 5/1 才開始想。</p>
+    <p style="margin:6px 0 0;"><strong>4 月底就把整個 5 月的時序排好</strong>,不要 5/1 才開始想。</p>
   </div>
 </section>
 
 <!-- ========== 三明治世代 ========== -->
 <section class="page" id="page-sandwich">
   <h1>👨‍👩‍👧 三明治世代家庭專區</h1>
-  <p style="font-size:17px;color:var(--muted);">同時照顧失智長輩 + 幼兒的家庭。**接送動線、認知資源、緊急應變** 三件事要一起想。</p>
+  <p style="font-size:17px;color:var(--muted);">同時照顧失智長輩 + 幼兒的家庭。<strong>接送動線、認知資源、緊急應變</strong> 三件事要一起想。</p>
 
   <div class="callout">
     <h4>📌 為什麼這一頁</h4>
@@ -1322,14 +1388,14 @@ details[open] summary { margin-bottom: 8px; }
       <li>方向感:單獨往返園所是否會迷路</li>
       <li>應變能力:孩子哭鬧、跌倒、突然需要回家時的處理</li>
       <li>體力:推車、抱孩子、走樓梯是否吃力</li>
-      <li>**最重要**:長輩自己<strong>願不願意</strong>(被指派照顧責任會增加壓力)</li>
+      <li><strong>最重要</strong>:長輩自己<strong>願不願意</strong>(被指派照顧責任會增加壓力)</li>
     </ul>
   </div>
   <h3>建議</h3>
   <ul>
-    <li>**輕度失智**:可以「<strong>陪伴接送</strong>」(成人陪去成人陪回),不單獨負責</li>
-    <li>**中度失智**:不建議單獨接送,但可以一起去當「長輩跟孫互動的活動」</li>
-    <li>**重度失智**:不適合接送,但可以在家等接回來時跟孫說話、看孩子畫畫</li>
+    <li><strong>輕度失智</strong>:可以「<strong>陪伴接送</strong>」(成人陪去成人陪回),不單獨負責</li>
+    <li><strong>中度失智</strong>:不建議單獨接送,但可以一起去當「長輩跟孫互動的活動」</li>
+    <li><strong>重度失智</strong>:不適合接送,但可以在家等接回來時跟孫說話、看孩子畫畫</li>
   </ul>
   <p style="font-size:14px;color:var(--muted);"><em>長輩跟孫互動本身對失智是正向刺激(嗅覺/視覺/觸覺豐富)。重點是<strong>不增加長輩負擔</strong>,讓互動是樂趣不是責任。</em></p>
 
@@ -1347,7 +1413,7 @@ details[open] summary { margin-bottom: 8px; }
   </div>
 
   <h2>🏥 喘息資源整合</h2>
-  <p>**長照 + 兒童托育** 服務可以疊用,讓主照顧者真的有休息時間。</p>
+  <p><strong>長照 + 兒童托育</strong> 服務可以疊用,讓主照顧者真的有休息時間。</p>
   <table>
     <thead>
       <tr><th>資源</th><th>對象</th><th>申請方式</th></tr>
@@ -1379,10 +1445,212 @@ details[open] summary { margin-bottom: 8px; }
   </div>
 </section>
 
+<!-- ========== 入園後實務 ========== -->
+<section class="page" id="page-aftercare">
+  <h1>🏡 入園後實務 · 簽約到上學的日常</h1>
+  <p style="font-size:17px;color:var(--muted);">選好園所後的「使用說明書」。試讀怎麼跑、適應期幾天、群組規矩、節慶禮金、生病備援 — 沒人會告訴你,踩過才知道。</p>
+
+  <h2>🧪 1. 試讀(試托)完整 SOP</h2>
+  <div class="callout">
+    <p style="margin:0;"><strong>有提供試讀的園所一定要試</strong>。試讀是孩子適合不適合、家長感受對不對的最後關卡。</p>
+  </div>
+  <h3>試讀模式</h3>
+  <table>
+    <thead><tr><th>模式</th><th>常見</th><th>費用</th></tr></thead>
+    <tbody>
+      <tr><td>體驗半天</td><td>多數準公共/私立</td><td>多免費</td></tr>
+      <tr><td>試讀 1-3 天</td><td>口碑園所</td><td>免費或 500-1,000 元</td></tr>
+      <tr><td>試讀一週</td><td>少數高端私立</td><td>1,500-3,000 元</td></tr>
+      <tr><td>無試讀</td><td>部分公托(名額太搶)</td><td>—</td></tr>
+    </tbody>
+  </table>
+  <h3>試讀觀察重點</h3>
+  <ul>
+    <li>孩子<strong>第一次哭</strong>多久才平靜?老師怎麼處理?</li>
+    <li>老師有沒有<strong>叫得出孩子名字</strong>?(有的試讀第二天就叫得出 = 加分)</li>
+    <li>孩子離開時是<strong>哭著要回去</strong>還是<strong>開心離開</strong>?</li>
+    <li>跟其他孩子<strong>互動如何</strong>?有沒有被欺負/欺負人?</li>
+    <li>老師有沒有<strong>拍照給家長</strong>?</li>
+    <li>試讀結束後園方是否<strong>主動回饋</strong>「今天孩子表現」?</li>
+  </ul>
+  <h3>試讀後決定</h3>
+  <ul>
+    <li>多數園所要求 <strong>3 天內</strong>確認(過了名額讓給後面的)</li>
+    <li>不確定可問:「我能再參觀一次嗎?」(願意的園所是好園所)</li>
+    <li>孩子哭整天但你還是想送 → 給 1 週適應期再判斷;<strong>完全拒絕進教室</strong> → 重新評估</li>
+  </ul>
+
+  <h2>🌅 2. 入園適應期 · 漸進入園 SOP</h2>
+  <div class="callout warn">
+    <p style="margin:0;"><strong>第一週孩子崩潰是常態</strong>。不要看到哭就退縮,但也不要硬撐。漸進式入園是業界標準做法。</p>
+  </div>
+  <h3>業界通行 3 階段</h3>
+  <ol class="steps-list">
+    <li><strong>第 1-2 天</strong>:家長陪 30-60 分鐘在教室內,孩子玩家長在旁,熟悉空間/老師</li>
+    <li><strong>第 3-5 天</strong>:半天接(早上送 → 中午接,不留午睡)</li>
+    <li><strong>第 2 週起</strong>:全天送,但提早接(下午 3-4 點)</li>
+    <li><strong>第 3 週起</strong>:正常時段,有狀況就接</li>
+  </ol>
+  <p style="font-size:14px;color:var(--muted);"><em>不是每家園所都會主動建議漸進式,如果園所要求第一天就全天送,可以<strong>主動爭取漸進式</strong>。</em></p>
+
+  <h3>已適應 vs 還沒適應的訊號</h3>
+  <table>
+    <thead><tr><th></th><th>已適應</th><th>還沒適應(注意)</th></tr></thead>
+    <tbody>
+      <tr><td>到園</td><td>哭一下就跟老師走</td><td>哭整路、抓住家長不放</td></tr>
+      <tr><td>離園</td><td>玩到不想走</td><td>看到家長立刻撲過來</td></tr>
+      <tr><td>飲食</td><td>正常吃</td><td>不吃午餐、不喝奶</td></tr>
+      <tr><td>睡眠</td><td>會午睡</td><td>整天不睡</td></tr>
+      <tr><td>晚上</td><td>正常入睡</td><td>夜醒、做惡夢</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:14px;color:var(--muted);"><em>3-6 週內仍未適應 → 跟園所討論;<strong>3 個月仍崩潰</strong> → 可能要換園或換策略。</em></p>
+
+  <h2>📱 3. 家長 Line 群組潛規則</h2>
+  <p>幾乎所有園所都有家長群組,有大量隱性規則,新手容易踩雷:</p>
+  <ul>
+    <li><strong>發訊時段</strong>:多數園所默契是<strong>晚上 21:00 後不發</strong>(老師休息),早上 7:00 前也避免</li>
+    <li><strong>不要私訊老師</strong>:孩子個別問題用聯絡簿/單獨 LINE,不在群組討論</li>
+    <li><strong>不要在群組批評園所</strong>:有意見直接跟園長談,群組會被截圖</li>
+    <li><strong>老師不一定每條都回</strong>:不是不重視你,是孩子在身邊脫不開</li>
+    <li><strong>群組成員確認</strong>:有時候<strong>所有老師</strong>在群組,有時候只有<strong>主帶老師</strong> — 影響你發訊措辭</li>
+    <li><strong>不要轉發外部訊息</strong>(廣告、政治、宗教)</li>
+    <li><strong>家長之間互加</strong>:有的家長會建立家長私群討論園所狀況(沒老師),要不要加自己決定</li>
+  </ul>
+
+  <h2>🎁 4. 節慶禮 · 隱性壓力</h2>
+  <div class="callout warn">
+    <p style="margin:0;"><strong>沒有強制,但有社會壓力</strong>。不送被視為冷漠;送太多被視為攀比。中庸最安全。</p>
+  </div>
+  <h3>常見場合 + 行情</h3>
+  <table>
+    <thead><tr><th>場合</th><th>頻率</th><th>慣例(每位老師)</th></tr></thead>
+    <tbody>
+      <tr><td>教師節(9/28)</td><td>1 次/年</td><td>200-500 元小禮 / 卡片 / 全班合資購禮卡</td></tr>
+      <tr><td>學期末(1 月、6 月)</td><td>2 次/年</td><td>同上,常合資</td></tr>
+      <tr><td>母親節 / 父親節</td><td>不一定</td><td>多為孩子手作小卡,家長無壓力</td></tr>
+      <tr><td>端午 / 中秋</td><td>不一定</td><td>應景小禮(粽子/月餅),合資</td></tr>
+      <tr><td>老師生日</td><td>不一定</td><td>大班小蛋糕,通常孩子主導</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:14px;color:var(--muted);"><em><strong>累計</strong>:1 年約 1,000-2,000 元/家(合資制下單人負擔)。<strong>handbook 建議計入「隱形費用」</strong>。如果你預算很緊,<strong>坦白告訴家長代表「我這次不參與,謝謝」即可</strong>,不會被排擠 — 但記得自己直接寫個小卡給老師。</em></p>
+
+  <h2>🏠 5. 入園前家訪</h2>
+  <p>部分非營利園所跟口碑私立會主動安排「老師到府家訪」(多在申請入園後、正式入園前)。</p>
+  <h3>家訪做什麼</h3>
+  <ul>
+    <li>了解孩子家庭環境(房間、玩具、家庭結構)</li>
+    <li>看孩子在熟悉環境的反應</li>
+    <li>家長補充孩子個性、習慣、過敏、特殊需求</li>
+    <li>建立家長-老師關係(以後溝通有基礎)</li>
+  </ul>
+  <h3>判斷</h3>
+  <ul>
+    <li><strong>有家訪 = 加分</strong>(代表園所重視個別化)</li>
+    <li>沒家訪也不一定差,但<strong>主動詢問是否能安排</strong>是合理的</li>
+    <li>家訪不需要特別布置,孩子日常空間就好</li>
+  </ul>
+
+  <h2>📅 6. 家長日 / 親子日的時段現實</h2>
+  <div class="callout warn">
+    <p style="margin:0;">多數園所辦在<strong>平日下午</strong>或<strong>週六上午</strong>。雙薪 / 三明治世代家庭幾乎都無法全勤。</p>
+  </div>
+  <h3>選園前要問</h3>
+  <ul>
+    <li><strong>家長日 / 親子日多久一次</strong>?(每月 / 每季 / 每學期?)</li>
+    <li><strong>幾點?週幾</strong>?</li>
+    <li><strong>強制出席嗎</strong>?缺席會怎樣?</li>
+    <li><strong>能不能補上</strong>?(影片回放 / 個別會談)</li>
+    <li>三明治世代:<strong>長輩可以代替家長出席嗎</strong>?</li>
+  </ul>
+
+  <h2>🤒 7. 病假備援計畫(三明治世代特別)</h2>
+  <div class="callout warn">
+    <p style="margin:0;"><strong>入園 3-6 個月孩子會頻繁生病</strong>(免疫系統洗禮)。這段時間家長必須有「孩子發燒立刻接」的彈性,但雙薪/三明治世代難以全部自己扛。<strong>先準備備援名單</strong>。</p>
+  </div>
+  <h3>備援選項</h3>
+  <ol>
+    <li><strong>配偶輪班</strong>:當天輪流請假</li>
+    <li><strong>祖父母 / 親屬</strong>:住附近能接的</li>
+    <li><strong>居家臨托保母</strong>:各縣市保母系統有「臨時托育」服務,通常時薪 100-250</li>
+    <li><strong>朋友 / 鄰居互助</strong>:平時打好關係</li>
+    <li><strong>育嬰留停半天 / 全天</strong>:預先規劃好可用天數</li>
+    <li><strong>家庭照顧者支持服務</strong>:撥 0800-507272</li>
+  </ol>
+  <h3>「不送托」的閾值</h3>
+  <ul>
+    <li>發燒 38°C 以上 → 不送(各園規定)</li>
+    <li>急性腹瀉(24 小時內 3 次以上)→ 不送</li>
+    <li>有水痘 / 腸病毒 / 流感 → 強制隔離,看症狀緩解 + 退燒 24 小時</li>
+    <li>感冒(無發燒)→ 部分園所收,部分不收,<strong>事先問清楚</strong></li>
+  </ul>
+
+  <h2>🎓 8. 大班升小一 · 銜接準備指南</h2>
+  <div class="callout">
+    <p style="margin:0;">5-6 歲家長最焦慮:<strong>注音要不要先學?認字量要多少?寫字要練嗎?生活自理基準在哪?</strong></p>
+  </div>
+
+  <h3>注音 / 認字 / 寫字</h3>
+  <ul>
+    <li><strong>注音</strong>:教育部明確「小一前 10 週才正式教,不需提前學」。研究顯示提前死記反而干擾。<strong>孩子有興趣 → 用遊戲方式接觸 OK;沒興趣 → 完全不用學</strong></li>
+    <li><strong>認字</strong>:能認自己名字 + 家人名字 + 常見字(出口/入口/廁所/危險)即可</li>
+    <li><strong>寫字</strong>:<strong>完全不用練字</strong>。手部小肌肉還在發育,過早握筆姿勢不正確很難改</li>
+    <li><strong>數字</strong>:1-20 認得 + 簡單加減 OK,不用會 99 乘法表</li>
+  </ul>
+
+  <h3>生活自理基準(上小學前該會)</h3>
+  <table>
+    <thead><tr><th>項目</th><th>應達程度</th></tr></thead>
+    <tbody>
+      <tr><td>自己穿脫鞋襪</td><td>5 分鐘內完成</td></tr>
+      <tr><td>自己上廁所</td><td>包含擦屁股、沖水、洗手</td></tr>
+      <tr><td>自己吃飯</td><td>用筷子/湯匙,不需餵</td></tr>
+      <tr><td>自己背書包</td><td>知道書包要背好,會收</td></tr>
+      <tr><td>找廁所 / 飲水機</td><td>新環境能主動找</td></tr>
+      <tr><td>表達需求</td><td>會跟老師說「我想上廁所」「我不舒服」</td></tr>
+      <tr><td>跟陌生小朋友互動</td><td>能主動加入或被拒絕後不崩潰</td></tr>
+      <tr><td>等待 / 排隊</td><td>能等 5-10 分鐘不抓狂</td></tr>
+      <tr><td>專注 15-20 分鐘</td><td>能坐著聽故事 / 完成一個活動</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:14px;color:var(--muted);"><em><strong>這些比注音重要 100 倍</strong>。生活自理是小一適應的關鍵,知識零基礎沒關係,生活白癡才是真正吃力。</em></p>
+
+  <h3>該不該送注音先修班</h3>
+  <ul>
+    <li><strong>不需要</strong>(教育部立場)</li>
+    <li>如果你還是想送 → 選「遊戲式」「不寫字」的;避開「填鴨式」「考試式」</li>
+    <li>把「先修班學費」存起來,<strong>買繪本 / 戶外活動 / 跟朋友玩</strong>反而對小一適應更有幫助</li>
+  </ul>
+
+  <h2>🔄 9. 留園直升 vs 換園評估</h2>
+  <h3>留園直升</h3>
+  <ul>
+    <li>各縣市時間不同,通常 1-2 月辦理</li>
+    <li><strong>錯過 = 失去直升資格</strong>,要重新抽籤(可能抽不到原園)</li>
+    <li>記在 Google 行事曆 + 學期初提醒</li>
+  </ul>
+  <h3>什麼時候考慮換園</h3>
+  <ul>
+    <li>孩子持續抗拒(超過 6 個月仍每天哭)</li>
+    <li>跟特定老師合不來且無法調班</li>
+    <li>園所師資大量流動(影響穩定性)</li>
+    <li>搬家(動線改變)</li>
+    <li>學費調漲不合理</li>
+    <li>孩子被霸凌或長期被忽略</li>
+  </ul>
+  <h3>換園的成本</h3>
+  <ul>
+    <li>新園適應期重來(再 1-3 個月)</li>
+    <li>老朋友斷層</li>
+    <li>家長作息又要重新校正</li>
+    <li><strong>先評估是「老師問題」還是「園所問題」</strong> — 老師問題可能下學期就解決</li>
+  </ul>
+</section>
+
 <!-- ========== 案例 ========== -->
 <section class="page" id="page-cases">
   <h1>📖 案例 logs</h1>
-  <p style="font-size:17px;color:var(--muted);">匿名化的真實家庭案例。**只當參考,不當「應該選哪家」的建議**。</p>
+  <p style="font-size:17px;color:var(--muted);">匿名化的真實家庭案例。<strong>只當參考,不當「應該選哪家」的建議</strong>。</p>
 
   <h2>📝 Case A · 新北土城雙薪 2 歲女兒(2026 報名)</h2>
   <div class="callout">
@@ -1419,11 +1687,11 @@ details[open] summary { margin-bottom: 8px; }
 
   <h3>策略</h3>
   <ol>
-    <li>**非營利**先報(統一網路,費力低)</li>
-    <li>**步行 20 分內**的 3 家(肯恩、樹德、天翔)優先實地參觀</li>
-    <li>**5 月初地獄週**:同步處理非營利 + 常春藤 + 天翔(報名期重疊)</li>
-    <li>**5 月中**:跑廣福取報名表(5/11 後才開放索取)</li>
-    <li>**備取保留期**:廣福(6/30)、征洋(7/31)、土城名仁(10/31)是長期備取的安全網</li>
+    <li><strong>非營利</strong>先報(統一網路,費力低)</li>
+    <li><strong>步行 20 分內</strong>的 3 家(肯恩、樹德、天翔)優先實地參觀</li>
+    <li><strong>5 月初地獄週</strong>:同步處理非營利 + 常春藤 + 天翔(報名期重疊)</li>
+    <li><strong>5 月中</strong>:跑廣福取報名表(5/11 後才開放索取)</li>
+    <li><strong>備取保留期</strong>:廣福(6/30)、征洋(7/31)、土城名仁(10/31)是長期備取的安全網</li>
   </ol>
 
   <h3>學到的事</h3>
@@ -1431,7 +1699,7 @@ details[open] summary { margin-bottom: 8px; }
     <li><strong>「鄰里順位」要逐字看</strong>:常春藤的「第 3 順位」只算特定里(例:清水里),不在該里就直接被歸為一般生 — 不要以為「土城區」就一定有順位</li>
     <li><strong>備取保留期極短的園所要謹慎</strong>:常春藤備取只到 5/14,等於沒中正取就 GG</li>
     <li><strong>「未超額不抽籤」要看清楚</strong>:常春藤 PDF 有設 5/8 抽籤日,只是「未超額才全錄」— 不是完全不抽。意思是即使你以為一定上,也要等到 5/8 才知道</li>
-    <li><strong>備取保留期 markdown 不一定有寫</strong>:天翔 PDF 寫 6/8 止,但部分二手整理寫「PDF 缺漏」— **以 PDF 為準**</li>
+    <li><strong>備取保留期 markdown 不一定有寫</strong>:天翔 PDF 寫 6/8 止,但部分二手整理寫「PDF 缺漏」— <strong>以 PDF 為準</strong></li>
     <li><strong>「正取 X 人」要看是哪個班</strong>:詠樂寫「正取 10 人」是全園正取數(2 歲班 8 + 3 歲班 2),不是 2 歲班 10 人</li>
     <li><strong>名額多 ≠ 容易抽中</strong>:天翔 24 名,但報名也多,實際抽中率要看當年資料</li>
     <li><strong>多家報名要做時序表</strong>:同一週可能跑 4-5 家,沒排表會錯過</li>
@@ -1442,7 +1710,7 @@ details[open] summary { margin-bottom: 8px; }
   </div>
 
   <h2>📨 想分享你的案例?</h2>
-  <p>歡迎 PR 到 <a href="https://github.com/tm731531/dementia-care" target="_blank" rel="noopener">dementia-care repo</a>。**務必去識別化**:</p>
+  <p>歡迎 PR 到 <a href="https://github.com/tm731531/dementia-care" target="_blank" rel="noopener">dementia-care repo</a>。<strong>務必去識別化</strong>:</p>
   <ul>
     <li>住址 → 「縣市區」即可,不留巷弄、里名</li>
     <li>孩子 → 「2 歲女兒」/「3 歲男孩」,不留具體出生月</li>
@@ -1454,7 +1722,7 @@ details[open] summary { margin-bottom: 8px; }
 <!-- ========== 縣市資源 ========== -->
 <section class="page" id="page-knowledge">
   <h1>📚 縣市資源 · 報名網站清單</h1>
-  <p style="font-size:17px;color:var(--muted);">各縣市的官方查詢/報名入口。**只列入口**,不列園所(會過時)。</p>
+  <p style="font-size:17px;color:var(--muted);">各縣市的官方查詢/報名入口。<strong>只列入口</strong>,不列園所(會過時)。</p>
 
   <div class="callout">
     <h4>📌 為什麼不列園所</h4>
@@ -1468,9 +1736,9 @@ details[open] summary { margin-bottom: 8px; }
     </thead>
     <tbody>
       <tr><td><a href="https://www.ece.moe.edu.tw/" target="_blank" rel="noopener">教育部全國教保資訊網</a></td><td>查全國公私立幼兒園基本資料、評鑑紀錄</td></tr>
-      <tr><td><a href="https://kid.cloud.ncnu.edu.tw/" target="_blank" rel="noopener">全國幼兒園查詢</a></td><td>地圖式查詢園所</td></tr>
+      <tr><td>(全國幼兒園地圖查詢)</td><td>請改用上面的「教育部全國教保資訊網」查詢功能</td></tr>
       <tr><td><a href="https://www.sfaa.gov.tw/" target="_blank" rel="noopener">衛福部社家署</a></td><td>查托嬰中心(0-2 歲)</td></tr>
-      <tr><td><a href="https://www.1957.org.tw/" target="_blank" rel="noopener">福利諮詢專線 1957</a></td><td>政府補助/福利資源整合查詢</td></tr>
+      <tr><td>福利諮詢專線 <strong>1957</strong>(電話)</td><td>直接撥打詢問政府補助/福利資源(線上網站維護中)</td></tr>
     </tbody>
   </table>
 
@@ -1480,22 +1748,22 @@ details[open] summary { margin-bottom: 8px; }
       <tr><th>縣市</th><th>系統 / 方式</th><th>特色</th></tr>
     </thead>
     <tbody>
-      <tr><td>新北市</td><td><a href="https://kid123.ntpc.edu.tw" target="_blank" rel="noopener">kid123.ntpc.edu.tw</a></td><td>統一線上報名,**最多可填 60 個志願**,電腦統一抽</td></tr>
+      <tr><td>新北市</td><td><a href="https://kid123.ntpc.edu.tw" target="_blank" rel="noopener">kid123.ntpc.edu.tw</a></td><td>統一線上報名,<strong>最多可填 60 個志願</strong>,電腦統一抽</td></tr>
       <tr><td>台北市</td><td><a href="https://kid-online.tp.edu.tw/" target="_blank" rel="noopener">kid-online.tp.edu.tw</a></td><td>統一系統,公幼/非營利各自報名</td></tr>
-      <tr><td>桃園市</td><td>統一線上系統</td><td>公幼/非營利每位幼兒**只能登記一園**</td></tr>
+      <tr><td>桃園市</td><td>統一線上系統</td><td>公幼/非營利每位幼兒<strong>只能登記一園</strong></td></tr>
       <tr><td>台中市</td><td><a href="https://kids.tc.edu.tw/" target="_blank" rel="noopener">kids.tc.edu.tw</a></td><td>即時揭示系統,線上 + 現場雙軌</td></tr>
       <tr><td>台南市</td><td><a href="https://kid.tn.edu.tw/" target="_blank" rel="noopener">kid.tn.edu.tw</a></td><td>有統一系統</td></tr>
       <tr><td>高雄市</td><td><a href="https://www.kh.edu.tw/" target="_blank" rel="noopener">高雄市教育局</a></td><td>看「幼兒教育科」</td></tr>
-      <tr><td>嘉義縣 / 南投縣 / 彰化縣 / 屏東縣</td><td>**各園自行報名**</td><td>無統一平台,逐園跑</td></tr>
+      <tr><td>嘉義縣 / 南投縣 / 彰化縣 / 屏東縣</td><td><strong>各園自行報名</strong></td><td>無統一平台,逐園跑</td></tr>
       <tr><td>金門 / 連江 / 澎湖(離島)</td><td>現場報名為主</td><td>幼兒數少多無需抽籤,設籍優先</td></tr>
-      <tr><td>偏鄉(新北 / 新竹縣等偏遠地區)</td><td>設籍優先制</td><td>**設籍 2 年以上可優先入學,免抽籤**</td></tr>
+      <tr><td>偏鄉(新北 / 新竹縣等偏遠地區)</td><td>設籍優先制</td><td><strong>設籍 2 年以上可優先入學,免抽籤</strong></td></tr>
     </tbody>
   </table>
-  <p style="font-size:14px;color:var(--muted);"><em>**重要規則**:各縣市均規定「每名幼兒只能登記一間(或有志願上限)」,重複登記取消資格。其他縣市請查「○○縣 / 市政府 教育處 / 教育局 - 幼兒教育」。</em></p>
+  <p style="font-size:14px;color:var(--muted);"><em><strong>重要規則</strong>:各縣市均規定「每名幼兒只能登記一間(或有志願上限)」,重複登記取消資格。其他縣市請查「○○縣 / 市政府 教育處 / 教育局 - 幼兒教育」。</em></p>
 
   <h2>👶 0-2 歲托嬰中心查詢</h2>
   <ul>
-    <li><strong>全國 NCWIS 系統</strong>:<a href="https://ncwisweb.sfaa.gov.tw/home/childcare-center" target="_blank" rel="noopener">ncwisweb.sfaa.gov.tw</a> — 衛福部社家署,可查全台托嬰中心 + **評鑑結果 + 違規紀錄**</li>
+    <li><strong>全國 NCWIS 系統</strong>:<a href="https://ncwisweb.sfaa.gov.tw/home/childcare-center" target="_blank" rel="noopener">ncwisweb.sfaa.gov.tw</a> — 衛福部社家署,可查全台托嬰中心 + <strong>評鑑結果 + 違規紀錄</strong></li>
     <li><strong>新北市育兒資訊網</strong>:<a href="https://lovebaby.sw.ntpc.gov.tw/" target="_blank" rel="noopener">lovebaby.sw.ntpc.gov.tw</a> — 含補助試算 + 親子館</li>
     <li><strong>新北 open data 私立托嬰機構名冊</strong>:<a href="https://data.ntpc.gov.tw/datasets/69cecdb0-7796-48df-84e5-99e4f1274245" target="_blank" rel="noopener">data.ntpc.gov.tw</a>(JSON / CSV / XML 可下載 252 家全清單)</li>
     <li><strong>台北市</strong>:<a href="https://dosw.gov.taipei" target="_blank" rel="noopener">dosw.gov.taipei</a> — 社會局,公托登記抽籤</li>
@@ -1503,7 +1771,7 @@ details[open] summary { margin-bottom: 8px; }
 
   <h2>👵 找保母</h2>
   <ul>
-    <li><strong>各縣市居家托育服務中心</strong>:全國 22 縣市皆設,**媒合免費**,撥 1957 福利專線查最近的</li>
+    <li><strong>各縣市居家托育服務中心</strong>:全國 22 縣市皆設,<strong>媒合免費</strong>,撥 1957 福利專線查最近的</li>
     <li><strong>衛福部托育媒合平台</strong>:<a href="https://ncwisweb.sfaa.gov.tw/home/childcare-center" target="_blank" rel="noopener">ncwisweb.sfaa.gov.tw</a></li>
     <li>看 <a onclick="navigateTo('page-nanny');return false;" href="#">👵 保母系統</a> 全頁</li>
   </ul>
@@ -1574,7 +1842,7 @@ details[open] summary { margin-bottom: 8px; }
   <ul>
     <li><strong>4-6 個月開始</strong>(主流):米精 → 米糊 → 蔬菜泥 → 水果泥 → 蛋黃 → 肉泥</li>
     <li><strong>BLW(寶寶主導離乳)</strong>:6 個月直接吃手指食物,讓寶寶自己抓</li>
-    <li>**禁忌**:1 歲前不給蜂蜜(肉毒桿菌)、不給未消毒鮮奶</li>
+    <li><strong>禁忌</strong>:1 歲前不給蜂蜜(肉毒桿菌)、不給未消毒鮮奶</li>
   </ul>
   <h3>睡眠訓練</h3>
   <ul>
@@ -1664,7 +1932,7 @@ details[open] summary { margin-bottom: 8px; }
     <li>0-1 歲班的老師有幾個是<strong>有保母證</strong>的?</li>
     <li>有沒有護理師駐園?(發燒、跌倒、餵藥誰負責)</li>
     <li>老師<strong>平均待多久</strong>?(高流動率對 0-2 歲影響特別大,孩子需要建立依附)</li>
-    <li>**主帶老師**(primary caregiver)制度?同一個孩子是否由同一位老師主帶,讓孩子能建立穩定關係</li>
+    <li><strong>主帶老師</strong>(primary caregiver)制度?同一個孩子是否由同一位老師主帶,讓孩子能建立穩定關係</li>
   </ul>
 
   <h2>⏰ 6. 延托(extended care)</h2>
@@ -1672,7 +1940,7 @@ details[open] summary { margin-bottom: 8px; }
   <h3>要問清楚</h3>
   <ul>
     <li><strong>延托到幾點?</strong>(18:30 / 19:00 / 19:30 — 各家不同)</li>
-    <li><strong>計費方式</strong>:每小時(150-300 元)/ 每天(50-100 元)/ 月票</li>
+    <li><strong>計費方式(2025-2026 雙北行情)</strong>:每天 100-250 元 / 月票 2,000-3,500 元 / 逾時罰每 15 分鐘 100-300 元</li>
     <li><strong>單次 vs 月租</strong>:偶爾用 vs 每天用,哪個划算</li>
     <li><strong>提前通知時間</strong>:當天打電話算晚還是 OK?</li>
     <li><strong>晚餐</strong>:延托時間有沒有提供餐點(有的有有的沒)</li>
@@ -1704,15 +1972,15 @@ details[open] summary { margin-bottom: 8px; }
   </ul>
   <h3>要問的問題</h3>
   <ul>
-    <li>**戶外活動**多久一次?雨天替代方案?</li>
-    <li>**主題活動**怎麼設計?是否每月有不同主題?</li>
-    <li>**音樂 / 律動 / 美勞**頻率?</li>
-    <li>**蒙氏教具 / 感統教具**有嗎?用在什麼時段?</li>
-    <li>**電子設備**:1-2 歲會看影片嗎?(有的家長很在意)</li>
+    <li><strong>戶外活動</strong>多久一次?雨天替代方案?</li>
+    <li><strong>主題活動</strong>怎麼設計?是否每月有不同主題?</li>
+    <li><strong>音樂 / 律動 / 美勞</strong>頻率?</li>
+    <li><strong>蒙氏教具 / 感統教具</strong>有嗎?用在什麼時段?</li>
+    <li><strong>電子設備</strong>:1-2 歲會看影片嗎?(有的家長很在意)</li>
   </ul>
 
   <h2>🤝 8. 活動配合方式 · 家長端的功課</h2>
-  <p>0-2 歲送托後家長還要做很多。**了解清楚再簽約**,不然變成雙方互怨。</p>
+  <p>0-2 歲送托後家長還要做很多。<strong>了解清楚再簽約</strong>,不然變成雙方互怨。</p>
   <h3>每天</h3>
   <ul>
     <li><strong>聯絡簿</strong>:紙本還是 App?家長要不要每天回?(有的園所要)</li>
@@ -1723,7 +1991,7 @@ details[open] summary { margin-bottom: 8px; }
   <h3>每週 / 每月</h3>
   <ul>
     <li><strong>家庭日 / 親子活動</strong>:多久一次?強制參加嗎?</li>
-    <li><strong>新食材試吃</strong>:園所要試新食材時,家裡要先試 3 天觀察過敏</li>
+    <li><strong>新食材試吃</strong>:正規做法是「家裡先試 3 天觀察過敏」,<strong>但實務上嚴格執行的園所不到 30%</strong>(尤其準公共/私立)。多數做法是家長填過敏記錄表 + 新食材通知 Line 群 + 有反應立刻聯繫。如果園所沒要求,<strong>家長主動在家先引入並告知結果</strong>比較實際,不要拿這條去質問</li>
     <li><strong>親師會</strong>:多久一次?重要時段</li>
     <li><strong>體適能 / 健康檢查</strong>:園方主辦還是家長帶去?</li>
   </ul>
@@ -1750,7 +2018,7 @@ details[open] summary { margin-bottom: 8px; }
 <!-- ========== 保母系統 ========== -->
 <section class="page" id="page-nanny">
   <h1>👵 保母系統(居家式托育)</h1>
-  <p style="font-size:17px;color:var(--muted);">**0-3 歲的另一條路**。不送機構,找一個有證照的人來帶 — 在她家、或在你家。1 對 1 / 1 對 4(法定上限)的精緻照顧。</p>
+  <p style="font-size:17px;color:var(--muted);"><strong>0-3 歲的另一條路</strong>。不送機構,找一個有證照的人來帶 — 在她家、或在你家。1 對 1 / 1 對 4(法定上限)的精緻照顧。</p>
 
   <div class="callout">
     <h4>📌 跟托嬰中心的根本差異</h4>
@@ -1783,14 +2051,14 @@ details[open] summary { margin-bottom: 8px; }
   <ul>
     <li><strong>定義</strong>:保母來你家照顧</li>
     <li><strong>登記要求</strong>:⚠️ 法規灰色地帶 — 「居家式托育服務提供者登記及管理辦法」是否適用未完全明確,多數以個人勞務合約執業</li>
-    <li><strong>能否簽準公共</strong>:**通常不能**(政府補助以「送托」為主),家長只能領育兒津貼 5,000</li>
-    <li><strong>費用</strong>:**最高**,雙北月費 27,000-46,000</li>
+    <li><strong>能否簽準公共</strong>:<strong>通常不能</strong>(政府補助以「送托」為主),家長只能領育兒津貼 5,000</li>
+    <li><strong>費用</strong>:<strong>最高</strong>,雙北月費 27,000-46,000</li>
   </ul>
 
   <h3>③ 社區媒合保母(透過居家托育服務中心)</h3>
   <ul>
     <li><strong>定義</strong>:已登記的在宅保母,透過各縣市「居家托育服務中心」媒合</li>
-    <li><strong>媒合費</strong>:**免費**,中心提供訪視、輔導、媒合</li>
+    <li><strong>媒合費</strong>:<strong>免費</strong>,中心提供訪視、輔導、媒合</li>
     <li><strong>性質</strong>:其實就是「①在宅保母」+ 公家管道,不是另一種保母</li>
   </ul>
 
@@ -1798,19 +2066,19 @@ details[open] summary { margin-bottom: 8px; }
   <ul>
     <li><strong>定義</strong>:祖父母、叔伯姑舅等三親等內親屬照顧</li>
     <li><strong>補助</strong>:主要領「育兒津貼」5,000-7,000(跟有無證照無關)</li>
-    <li><strong>台北市加碼</strong>:有結業證書/技術士證者,**協力照顧補助** 加 2,000-3,000</li>
+    <li><strong>台北市加碼</strong>:有結業證書/技術士證者,<strong>協力照顧補助</strong> 加 2,000-3,000</li>
     <li><strong>適用情境</strong>:不想送外人 + 有可信任家族成員</li>
   </ul>
 
   <h2>📜 2. 證照系統 · 托育人員技術士證</h2>
-  <p>原名「保母人員技術士證」(2022 年正名)。**單一等級**,不再分丙級/乙級(舊證仍有效)。</p>
+  <p>原名「保母人員技術士證」(2022 年正名)。<strong>單一等級</strong>,不再分丙級/乙級(舊證仍有效)。</p>
 
   <h3>怎麼考</h3>
   <ul>
-    <li><strong>資格</strong>:年滿 20 歲 + 高中以上幼保 / 家政 / 護理科系畢業 **或** 修畢專業訓練 126 小時</li>
+    <li><strong>資格</strong>:年滿 20 歲 + 高中以上幼保 / 家政 / 護理科系畢業 <strong>或</strong> 修畢專業訓練 126 小時</li>
     <li><strong>學科</strong>:選擇 80 題,100 分鐘</li>
     <li><strong>術科</strong>:4 區實作 — 清潔區 / 調製區 / 遊戲學習區 / 安全醫護區</li>
-    <li><strong>有效期</strong>:**終身有效**,不需換證</li>
+    <li><strong>有效期</strong>:<strong>終身有效</strong>,不需換證</li>
     <li><strong>每年考期</strong>:1 月 / 4-5 月 / 8-9 月 三批</li>
   </ul>
 
@@ -1843,7 +2111,7 @@ details[open] summary { margin-bottom: 8px; }
 
   <h2>⚖️ 3. 法規收托人數上限</h2>
   <div class="callout warn">
-    <p style="margin:0;"><strong>單人保母</strong>不論時段,最多 4 人(其中未滿 2 歲不得超過 2 人)。**多收違法**。</p>
+    <p style="margin:0;"><strong>單人保母</strong>不論時段,最多 4 人(其中未滿 2 歲不得超過 2 人)。<strong>多收違法</strong>。</p>
   </div>
   <table>
     <thead>
@@ -1855,13 +2123,13 @@ details[open] summary { margin-bottom: 8px; }
       <tr><td>同處所多名保母</td><td>合計 4 人</td><td>—</td></tr>
     </tbody>
   </table>
-  <p style="font-size:14px;"><em>**計入人數包含**:保母自己未滿 3 歲的子女、未滿 5 歲的三親等內兒童(即使親屬不收費也計入)。</em></p>
+  <p style="font-size:14px;"><em><strong>計入人數包含</strong>:保母自己未滿 3 歲的子女、未滿 5 歲的三親等內兒童(即使親屬不收費也計入)。</em></p>
 
   <h3>違規罰則</h3>
   <ul>
     <li>未登記擅自執業:罰鍰 6,000 - 30,000 元 + 限期改善</li>
     <li>屆期未改:再罰 + 強制轉介</li>
-    <li>違反收托人數 + 處罰 3 次以上:**廢止登記** + 1 年內不得重新登記</li>
+    <li>違反收托人數 + 處罰 3 次以上:<strong>廢止登記</strong> + 1 年內不得重新登記</li>
   </ul>
 
   <h2>💰 4. 收費(2025-2026 雙北行情)</h2>
@@ -1891,7 +2159,7 @@ details[open] summary { margin-bottom: 8px; }
   <ul>
     <li><strong>臨時托育(臨托)</strong>:時薪 100-250 元(雙北偏高);各縣市多有政府補助</li>
     <li><strong>副食品</strong>:部分另計 1,000-2,000 / 月</li>
-    <li><strong>四節禮金</strong>:慣例約 2,000-3,600 / 次,**非法定義務**</li>
+    <li><strong>四節禮金</strong>:慣例約 2,000-3,600 / 次,<strong>非法定義務</strong></li>
   </ul>
 
   <h2>🎁 5. 政府補助(看 <a onclick="navigateTo('page-subsidy');return false;" href="#">💰 補助系統</a> 全頁)</h2>
@@ -1904,7 +2172,7 @@ details[open] summary { margin-bottom: 8px; }
       <tr><td>自己帶</td><td>育兒津貼 <strong>5,000</strong></td></tr>
     </tbody>
   </table>
-  <p style="font-size:14px;color:var(--muted);"><em>**育兒津貼跟托育補助互斥,只能擇一**。送準公共保母一定選托育補助(差 8,000)。</em></p>
+  <p style="font-size:14px;color:var(--muted);"><em><strong>育兒津貼跟托育補助互斥,只能擇一</strong>。送準公共保母一定選托育補助(差 8,000)。</em></p>
 
   <h2>🏛 6. 「準公共保母」是什麼?</h2>
   <p>已完成居家式托育登記 + 跟地方政府簽訂準公共化合作契約的在宅保母。家長能領中央 13,000 + 縣市加碼。</p>
@@ -1956,7 +2224,7 @@ details[open] summary { margin-bottom: 8px; }
   <div class="callout warn">
     <ul style="margin:0 0 0 22px;">
       <li><strong>單人作業沒同事監督</strong> — 異常行為無人即時發現(機構式有 2 人以上互相 check)</li>
-      <li><strong>監視器普及率低</strong> — 多數保母家未裝,且裝設與否完全取決於保母意願</li>
+      <li><strong>監視器普及率低</strong> — 多數保母家未裝。但<strong>願意配合家長加裝(育兒空間如客廳/餵奶區)</strong>的保母,透明度反而比機構更高(機構監視器要申請才能調閱,家長手機可即時看)。<strong>監視器是可協商的條件</strong>,面談時主動提</li>
       <li><strong>保母生病 / 家事突發 → 直接停托</strong> — 沒有人員替補機制,當日可能突然無人可托(對職場影響大)</li>
       <li><strong>品質難外部評估</strong> — 沒有同梯爸媽口耳相傳,主要靠面談印象 + 訪視報告</li>
       <li><strong>家庭隱私外漏</strong> — 到府保母知悉家庭作息、財物、家庭關係</li>
@@ -1996,14 +2264,32 @@ details[open] summary { margin-bottom: 8px; }
 <!-- ========== 補助系統 ========== -->
 <section class="page" id="page-subsidy">
   <h1>💰 補助系統</h1>
-  <p style="font-size:17px;color:var(--muted);">育兒津貼 vs 托育補助 vs 幼兒園補助 — **三選一,不可並領**。很多家長搞錯,選錯每月差 8,000。</p>
+  <p style="font-size:17px;color:var(--muted);">育兒津貼 vs 托育補助 vs 幼兒園補助 — <strong>三選一,不可並領</strong>。很多家長搞錯,選錯每月差 8,000。</p>
 
   <div class="callout danger">
     <h4>🚨 最關鍵的一條:互斥規則</h4>
-    <p style="margin:0;">**育兒津貼、托育補助、幼兒園補助:三選一,只能領一種**。不能同時領、不能交替月份領。送公托 / 準公共托嬰 / 準公共保母 → **一定選托育補助**(高出 8,000+)。自己帶 / 親屬帶 / 一般私托 → 只能領育兒津貼。</p>
+    <p style="margin:0;"><strong>育兒津貼、托育補助、幼兒園補助:三選一,只能領一種</strong>。不能同時領、不能交替月份領。送公托 / 準公共托嬰 / 準公共保母 → <strong>一定選托育補助</strong>(高出 8,000+)。自己帶 / 親屬帶 / 一般私托 → 只能領育兒津貼。</p>
+  </div>
+
+  <h2>🌳 三步驟決策樹 · 我能領哪一種?</h2>
+  <ol class="steps-list">
+    <li><strong>問:孩子有送機構 / 簽約保母嗎?</strong><br>
+      ❌ 沒有(自己帶 / 親屬帶 / 一般保母 / 一般私托) → 領 <strong>育兒津貼 5,000</strong>(就停在這)<br>
+      ✅ 有 → 進下一題</li>
+    <li><strong>問:是「公托 / 準公共」嗎?</strong><br>
+      ❌ 不是(一般私托) → 領 <strong>育兒津貼 5,000</strong>(就停在這)<br>
+      ✅ 公托 → 領 <strong>托育補助 7,000</strong> + 縣市加碼<br>
+      ✅ 準公共 → 領 <strong>托育補助 13,000</strong> + 縣市加碼(進下一題)</li>
+    <li><strong>問:孩子幾歲?</strong><br>
+      0-未滿 3 歲 → 上述托育補助繼續領<br>
+      2-未滿 6 歲送幼兒園 → 改領 <strong>幼兒園補助</strong>(月費上限 3,000 起)</li>
+  </ol>
+  <div class="callout warn">
+    <p style="margin:0;"><strong>關鍵:三種補助不可疊加</strong>。送公托不能再領育兒津貼;送準公共不能再領育兒津貼。<strong>選錯類型 = 每月差 8,000 起(台北市差到 16,000)</strong>。</p>
   </div>
 
   <h2>📊 三種補助對照</h2>
+  <p style="font-size:14px;color:var(--muted);"><em>下表為 113 年起標準(育兒津貼 112 年起取消排富、調金額;托育補助 113 年起調整)。以衛福部 / 教育部最新公告為準。</em></p>
   <table>
     <thead>
       <tr><th>補助</th><th>對象</th><th>第 1 胎 / 月</th><th>第 2 胎</th><th>第 3 胎+</th></tr>
@@ -2020,7 +2306,7 @@ details[open] summary { margin-bottom: 8px; }
   </table>
 
   <h2>🏙 各縣市加碼(中央以外多領)</h2>
-  <p>**中央補助是「下限」**,多數縣市另有加碼。差距很大。</p>
+  <p><strong>中央補助是「下限」</strong>,多數縣市另有加碼。差距很大。<em>下表為 2025-2026 年度資料,以各縣市社會局/教育局最新公告為準。台北市 +8,000 為 115/7 起預告,以正式公告為準。</em></p>
   <table>
     <thead><tr><th>縣市</th><th>加碼對象</th><th>加碼金額/月</th></tr></thead>
     <tbody>
@@ -2032,12 +2318,17 @@ details[open] summary { margin-bottom: 8px; }
   </table>
 
   <div class="callout">
-    <h4>📌 算總帳:雙北家庭送準公共保母</h4>
-    <p style="margin:0;">**台北市第 1 胎 + 準公共保母**:
-中央 13,000 + 台北加碼 5,000 = <strong>18,000</strong> / 月(115/7 後 21,000)
-**新北市第 1 胎 + 準公共保母**:
-中央 13,000 + 新北加碼 2,000 = <strong>15,000</strong> / 月
-這意味著保母收 25,000,家長實付**只 7,000-10,000**。但**未簽約**保母月費差不多,卻只能領育兒津貼 5,000,實付要 20,000。差 3 倍。</p>
+    <h4>📌 算總帳:雙北家庭送準公共保母(假設保母月費 25,000)</h4>
+    <table style="margin:8px 0 0;">
+      <thead><tr><th>情境</th><th>中央補助</th><th>縣市加碼</th><th>家長實付</th></tr></thead>
+      <tbody>
+        <tr><td><strong>台北市第 1 胎</strong></td><td>13,000</td><td>+ 5,000</td><td>25,000 - 18,000 = <strong>7,000</strong></td></tr>
+        <tr><td>台北市 115/7 後(預告)</td><td>13,000</td><td>+ 8,000</td><td>25,000 - 21,000 = <strong>4,000</strong></td></tr>
+        <tr><td><strong>新北市第 1 胎</strong></td><td>13,000</td><td>+ 2,000</td><td>25,000 - 15,000 = <strong>10,000</strong></td></tr>
+        <tr><td><strong>未簽約</strong>(任何縣市)</td><td>0</td><td>+ 育兒津貼 5,000</td><td>25,000 - 5,000 = <strong>20,000</strong></td></tr>
+      </tbody>
+    </table>
+    <p style="margin:8px 0 0;"><strong>差 2-5 倍</strong>。同樣是保母收 25,000,雙北簽約 vs 未簽約家長實付差到 13,000-16,000 / 月。</p>
   </div>
 
   <h2>🔄 何時換補助 · 年齡銜接</h2>
@@ -2046,7 +2337,7 @@ details[open] summary { margin-bottom: 8px; }
     <tbody>
       <tr><td>0 - 未滿 2 歲</td><td>育兒津貼 / 托育補助(擇一)</td><td>衛福部</td></tr>
       <tr><td>2 - 未滿 3 歲(續托)</td><td>托育補助延續(無需重新申請)</td><td>衛福部</td></tr>
-      <tr><td>2 - 未滿 5 歲(自己帶)</td><td>育兒津貼</td><td>**改由教育部**接手發放</td></tr>
+      <tr><td>2 - 未滿 5 歲(自己帶)</td><td>育兒津貼</td><td><strong>改由教育部</strong>接手發放</td></tr>
       <tr><td>2 - 未滿 6 歲(送幼兒園)</td><td>幼兒園補助</td><td>教育部</td></tr>
       <tr><td>5 歲以上</td><td>免學費就學</td><td>教育部</td></tr>
     </tbody>
@@ -2058,7 +2349,7 @@ details[open] summary { margin-bottom: 8px; }
       <li>❌ 「我送托嬰 + 也想領育兒津貼」 — 不行,二選一</li>
       <li>❌ 「我自己帶,但領托育補助」 — 不行,托育補助限「送機構/簽約保母」</li>
       <li>❌ 「我送非準公共私托,但想領 13,000」 — 不行,只能領育兒津貼 5,000</li>
-      <li>❌ 「育嬰留停跟托育補助互斥」 — **111 年起已取消互斥**,可以同時領</li>
+      <li>❌ 「育嬰留停跟托育補助互斥」 — <strong>111 年起已取消互斥</strong>,可以同時領</li>
       <li>✅ 「育嬰留停 + 育兒津貼」可以(只要符合各自資格)</li>
       <li>✅ 「育嬰留停 + 托育補助」可以(2024 年新規)</li>
     </ul>
@@ -2066,7 +2357,7 @@ details[open] summary { margin-bottom: 8px; }
 
   <h2>📝 申請</h2>
   <ul>
-    <li><strong>育兒津貼</strong>:孩子戶籍地公所申請,**不會自動發放**(很多家長不知)</li>
+    <li><strong>育兒津貼</strong>:孩子戶籍地公所申請,<strong>不會自動發放</strong>(很多家長不知)</li>
     <li><strong>托育補助</strong>:跟簽約托嬰 / 保母 / 幼兒園 報到時順便申請</li>
     <li><strong>應備文件</strong>:身分證、戶口名簿、孩子健保卡、銀行存摺</li>
     <li><strong>查詢試算</strong>:<a href="https://lovebaby.sw.ntpc.gov.tw/" target="_blank" rel="noopener">新北 lovebaby</a> / <a href="https://www.mohw.gov.tw/cp-5130-58003-1.html" target="_blank" rel="noopener">衛福部專區</a></li>
@@ -2239,7 +2530,31 @@ function navigateTo(pageId, hint) {
   document.querySelectorAll('.nav-link').forEach(l => l.classList.toggle('active', l.dataset.page === pageId));
   window.scrollTo({top: 0, behavior: 'smooth'});
   document.getElementById('nav').classList.remove('open');
+  // update hash so browser back/forward + share-link work
+  if (window.location.hash !== '#' + pageId) {
+    history.pushState(null, '', '#' + pageId);
+  }
+  applyFamilyMode();
 }
+
+function applyFamilyMode() {
+  const mode = STATE.familyMode || 'normal';
+  document.body.setAttribute('data-family', mode);
+  // toggle visibility of family-specific blocks
+  document.querySelectorAll('[data-family-only]').forEach(el => {
+    const required = el.getAttribute('data-family-only');
+    el.style.display = (required === mode) ? '' : 'none';
+  });
+}
+
+window.addEventListener('popstate', () => {
+  const hash = window.location.hash;
+  if (hash && hash.startsWith('#page-')) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(hash.slice(1))?.classList.add('active');
+    document.querySelectorAll('.nav-link').forEach(l => l.classList.toggle('active', l.dataset.page === hash.slice(1)));
+  }
+});
 function toggleNav() {
   document.getElementById('nav').classList.toggle('open');
 }
@@ -2264,7 +2579,7 @@ const CHECKLIST_DATA = {
     {id: 'inf-sick', label: '生病標準 / 通報', hint: '幾度發燒要接回?多久通知?送哪家醫院?'},
     {id: 'inf-supplies', label: '日常用品補充', hint: '尿布 / 濕巾 / 口水巾 / 衣服家長補,頻率?'},
     {id: 'inf-comm', label: '聯絡簿頻率 / 形式', hint: '每天?紙本還是 App?家長要不要每天回?'},
-    {id: 'inf-turnover', label: '老師流動率', hint: '0-2 歲老師換太頻繁,孩子無法建立穩定依附,直接 NG'},
+    {id: 'inf-turnover', label: '老師流動率(間接探)', hint: '直問通常園所不會說真話。改問「今天主帶我家小孩的老師是哪位?帶多久了?」+ 看教室照片牆有無老師名牌 + 觀察園長叫得出名字嗎'},
   ],
   safety: [
     {id: 'gate', label: '門禁系統', hint: '是否有門禁卡 / 接送名單登記制 / 監視器涵蓋出入口'},
@@ -2443,6 +2758,7 @@ function togglePlanningMode() {
 function setFamilyMode(mode) {
   STATE.familyMode = mode;
   saveState();
+  applyFamilyMode();
 }
 
 // ============ Compare Basket ============
@@ -2659,6 +2975,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderPlanningModeBlock();
   renderCompareList();
   syncSettingsUI();
+  applyFamilyMode();
 
   // hash routing
   const hash = window.location.hash;
