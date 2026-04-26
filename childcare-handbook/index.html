@@ -572,6 +572,7 @@ details[open] summary { margin-bottom: 8px; }
     <a class="nav-link" data-page="page-preschool" onclick="navigateTo('page-preschool');return false;" href="#">🏫 幼兒園專區</a>
     <a class="nav-link" data-page="page-nanny" onclick="navigateTo('page-nanny');return false;" href="#">👵 保母系統</a>
     <div class="nav-group-label">🛠 工具(填表追蹤)</div>
+    <a class="nav-link" data-page="page-budget" onclick="navigateTo('page-budget');return false;" href="#">💵 預算試算</a>
     <a class="nav-link" data-page="page-compare" onclick="navigateTo('page-compare');return false;" href="#">🛒 比較籃</a>
     <a class="nav-link" data-page="page-calendar" onclick="navigateTo('page-calendar');return false;" href="#">📆 Calendar</a>
     <a class="nav-link" data-page="page-checklist" onclick="navigateTo('page-checklist');return false;" href="#">📋 Checklist</a>
@@ -3081,6 +3082,82 @@ details[open] summary { margin-bottom: 8px; }
   </ul>
 </section>
 
+<!-- ========== 預算試算 ========== -->
+<section class="page" id="page-budget">
+  <h1>💵 預算試算工具</h1>
+  <p style="font-size:17px;color:var(--muted);">輸入家庭月薪 + 縣市 + 孩子年齡 + 胎次,自動算出 <strong>各類型的家長實付金額</strong>,告訴你哪些選項在預算內。</p>
+
+  <div class="quick-summary">
+    <strong>⏱ 5 分鐘版</strong>:填表單(全部欄位都不必填,跳過用預設值)→ 看結果 → 知道你的預算可選哪些類型 → 跳到「🛒 比較籃」開始填具體園所。
+  </div>
+
+  <div class="callout">
+    <h4>📌 試算根據</h4>
+    <p style="margin:0;">月費以雙北 2025-2026 行情估算 / 補助以衛福部+教育部 113 起標準。<strong>實際以各園收費 + 各縣市最新公告為準</strong>,結果僅供參考。</p>
+  </div>
+
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;">
+    <div class="form-field">
+      <label for="bud-age">孩子年齡段</label>
+      <select id="bud-age">
+        <option value="0-2">0-2 歲(托嬰 / 保母)</option>
+        <option value="2-6">2-6 歲(幼兒園)</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label for="bud-hatch">胎次</label>
+      <select id="bud-hatch">
+        <option value="1">第 1 胎</option>
+        <option value="2">第 2 胎</option>
+        <option value="3">第 3 胎以上</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label for="bud-city">縣市(影響加碼)</label>
+      <select id="bud-city">
+        <option value="taipei">台北市(現行加碼)</option>
+        <option value="taipei-new">台北市(115/7 起)</option>
+        <option value="newtaipei">新北市</option>
+        <option value="taoyuan">桃園市</option>
+        <option value="other">其他縣市(無加碼)</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label for="bud-income">家庭月薪(合計,選填)</label>
+      <select id="bud-income">
+        <option value="">— 不指定 —</option>
+        <option value="low">中低收入戶(月入 ≤ 3 萬)</option>
+        <option value="vlow">低收入戶 / 弱勢</option>
+        <option value="normal">一般家庭</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label for="bud-budget">每月可接受實付預算(元,選填)</label>
+      <input type="number" id="bud-budget" placeholder="例:10000(算出超過的會標紅)">
+    </div>
+    <button class="btn" onclick="runBudgetCalc()">💵 試算</button>
+    <button class="btn btn-secondary" onclick="resetBudget()" style="margin-left:8px;">↻ 重置</button>
+  </div>
+
+  <div id="budget-result" style="display:none;margin-top:24px;">
+    <h2>📊 試算結果</h2>
+    <div id="budget-summary"></div>
+    <div style="overflow-x:auto;">
+      <table id="budget-table"></table>
+    </div>
+    <div class="callout warn" style="margin-top:14px;">
+      <p style="margin:0;font-size:14px;"><strong>注意</strong>:月費為平均估算,各園所實際收費差異大(尤其私立 8K-50K)。<strong>準公共幼兒園 3,000 上限不含</strong>延托費 / 保險 / 交通(約另 +30-70%)。<strong>看完結果後到 🛒 比較籃填具體園所</strong>取得精確數字。</p>
+    </div>
+  </div>
+
+  <div class="next-step-cta">
+    <h4>✅ 算完了預算,下一步</h4>
+    <a onclick="navigateTo('page-types');return false;" href="#">🏫 看 4 種類型細節</a>
+    <a onclick="navigateTo('page-compare');return false;" href="#">🛒 比較籃填具體園所</a>
+    <a onclick="navigateTo('page-subsidy');return false;" href="#">💰 補助系統三選一決策樹</a>
+  </div>
+</section>
+
 <!-- ========== 比較籃 ========== -->
 <section class="page" id="page-compare">
   <h1>🛒 比較籃</h1>
@@ -4463,6 +4540,109 @@ function exportCalendarText() {
   } else { fallbackCopy(text); }
 }
 
+// ============ 預算試算 ============
+const FEE_ESTIMATES = {
+  '0-2': [
+    {key: 'public', name: '公托(公辦民營)', fee: 11000, subsidy: 'public', extra: '需抽籤,等候 6 月-1.5 年'},
+    {key: 'semi', name: '準公共托嬰', fee: 22000, subsidy: 'semi', extra: '熱門中心仍排 3-6 月'},
+    {key: 'nanny_semi', name: '準公共在宅保母', fee: 25000, subsidy: 'semi', extra: '1:1-1:4 個別照顧'},
+    {key: 'nanny_unsigned', name: '一般保母(未簽約)', fee: 25000, subsidy: 'allowance', extra: '只能領育兒津貼'},
+    {key: 'private_infant', name: '一般私立托嬰', fee: 25000, subsidy: 'allowance', extra: '高端可達 35-40K'},
+    {key: 'self', name: '自己帶 / 親屬帶', fee: 0, subsidy: 'allowance', extra: '無托費,但有收入機會成本'},
+  ],
+  '2-6': [
+    {key: 'public', name: '公幼', fee: 3000, subsidy: 'public_pre', extra: '含學費 1,000 + 餐點代辦 ~2,000'},
+    {key: 'nonprofit', name: '非營利幼兒園', fee: 4500, subsidy: 'nonprofit_pre', extra: '含學費 ≤2,000 + 餐點 ~2,500'},
+    {key: 'semi', name: '準公共幼兒園', fee: 6000, subsidy: 'semi_pre', extra: '學費 3,000 上限 + 餐點 + 延托 ~3,000'},
+    {key: 'private', name: '私立(主題式)', fee: 13500, subsidy: 'allowance_pre', extra: '隱形費用另 +20-40% 年費'},
+    {key: 'private_special', name: '私立特色園(蒙氏/雙語)', fee: 25000, subsidy: 'allowance_pre', extra: '20K-40K 都常見'},
+    {key: 'self', name: '自己帶', fee: 0, subsidy: 'allowance_pre', extra: '5 歲後無補助'},
+  ]
+};
+
+const SUBSIDY_RULES = {
+  // 0-2 歲(衛福部)
+  public: {1: 7000, 2: 8000, 3: 9000, low: 9000, vlow: 11000}, // 公托補助
+  semi: {1: 13000, 2: 14000, 3: 15000, low: 15000, vlow: 17000}, // 準公共補助
+  allowance: {1: 5000, 2: 6000, 3: 7000, low: 5000, vlow: 5000}, // 育兒津貼 0-2
+  // 2-6 歲(教育部)
+  public_pre: {1: 0, 2: 0, 3: 0}, // 公幼月費已補貼後
+  nonprofit_pre: {1: 0, 2: 0, 3: 0}, // 非營利同上
+  semi_pre: {1: 0, 2: 0, 3: 0}, // 準公共月費 3K 已含補助
+  allowance_pre: {1: 5000, 2: 6000, 3: 7000, low: 5000, vlow: 5000},
+};
+
+const CITY_EXTRA = {
+  taipei: {semi: 5000, nanny_semi: 5000, semi2nd: 7000}, // 台北 +5000 / 第 2 胎再 +2000
+  'taipei-new': {semi: 8000, nanny_semi: 8000, semi2nd: 10000}, // 台北 115/7
+  newtaipei: {semi: 2000, nanny_semi: 2000},
+  taoyuan: {semi: 1000, nanny_semi: 1000},
+  other: {},
+};
+
+function calcSubsidy(option, hatch, city, income) {
+  let base = 0;
+  const rule = SUBSIDY_RULES[option.subsidy];
+  if (!rule) return 0;
+  // 弱勢/中低收特殊
+  if (income === 'vlow' && rule.vlow) base = rule.vlow;
+  else if (income === 'low' && rule.low) base = rule.low;
+  else base = rule[hatch] || rule[1] || 0;
+  // 縣市加碼(只對準公共)
+  const extras = CITY_EXTRA[city] || {};
+  let cityAdd = 0;
+  if (option.key === 'semi' || option.key === 'nanny_semi') {
+    if (hatch >= 2 && extras.semi2nd) cityAdd = extras.semi2nd;
+    else cityAdd = extras[option.key] || 0;
+  }
+  return base + cityAdd;
+}
+
+function runBudgetCalc() {
+  const age = document.getElementById('bud-age').value;
+  const hatch = parseInt(document.getElementById('bud-hatch').value);
+  const city = document.getElementById('bud-city').value;
+  const income = document.getElementById('bud-income').value;
+  const budget = parseInt(document.getElementById('bud-budget').value) || 0;
+
+  const options = FEE_ESTIMATES[age];
+  const results = options.map(opt => {
+    const subsidy = calcSubsidy(opt, hatch, city, income);
+    const actualPay = Math.max(0, opt.fee - subsidy);
+    return {...opt, subsidy, actualPay, yearTotal: actualPay * 12};
+  }).sort((a, b) => a.actualPay - b.actualPay);
+
+  let summaryHtml = `<div class="callout"><p style="margin:0;"><strong>條件</strong>:${age === '0-2' ? '0-2 歲' : '2-6 歲'} · 第 ${hatch} 胎 · ${{taipei:'台北市',['taipei-new']:'台北市 115/7+',newtaipei:'新北市',taoyuan:'桃園市',other:'其他縣市'}[city]}${income === 'low' ? ' · 中低收入戶' : income === 'vlow' ? ' · 低收入戶/弱勢' : ''}${budget ? ` · 預算上限 ${budget.toLocaleString()}` : ''}</p></div>`;
+
+  let html = '<thead><tr><th>選項</th><th>月費估</th><th>補助</th><th>家長實付/月</th><th>年總</th><th>說明</th></tr></thead><tbody>';
+  results.forEach(r => {
+    const overBudget = budget && r.actualPay > budget;
+    const rowStyle = overBudget ? 'background:var(--danger-bg);' : (budget && r.actualPay <= budget ? 'background:var(--ok-bg);' : '');
+    const status = overBudget ? '🔴 超出' : (budget && r.actualPay <= budget ? '🟢 預算內' : '');
+    html += `<tr style="${rowStyle}">
+      <td><strong>${escapeHtml(r.name)}</strong> ${status}</td>
+      <td>${r.fee.toLocaleString()}</td>
+      <td>${r.subsidy ? r.subsidy.toLocaleString() : '—'}</td>
+      <td><strong>${r.actualPay.toLocaleString()}</strong></td>
+      <td>${r.yearTotal.toLocaleString()}</td>
+      <td style="font-size:13px;">${escapeHtml(r.extra)}</td>
+    </tr>`;
+  });
+  html += '</tbody>';
+  document.getElementById('budget-summary').innerHTML = summaryHtml;
+  document.getElementById('budget-table').innerHTML = html;
+  document.getElementById('budget-result').style.display = 'block';
+}
+
+function resetBudget() {
+  document.getElementById('bud-age').value = '0-2';
+  document.getElementById('bud-hatch').value = '1';
+  document.getElementById('bud-city').value = 'taipei';
+  document.getElementById('bud-income').value = '';
+  document.getElementById('bud-budget').value = '';
+  document.getElementById('budget-result').style.display = 'none';
+}
+
 function togglePlanningModeFromHome() {
   const home = document.getElementById('toggle-planning-home');
   STATE.planningMode = home.checked;
@@ -4564,6 +4744,8 @@ window.clearAllCalendar = clearAllCalendar;
 window.loadFromCompare = loadFromCompare;
 window.exportCalendarText = exportCalendarText;
 window.togglePlanningModeFromHome = togglePlanningModeFromHome;
+window.runBudgetCalc = runBudgetCalc;
+window.resetBudget = resetBudget;
 </script>
 
 </body>
