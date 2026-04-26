@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>長照手冊 · 找居服員 / 日照 / 喘息 / 機構 / 看護工</title>
+<meta name="description" content="失智長照服務找法手冊。涵蓋居服員、日照中心、喘息服務、住宿機構、外籍看護工的選擇方法論 + 比較籃 + 預算試算 + Calendar。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='52' font-size='52'%3E🏥%3C/text%3E%3C/svg%3E">
+<style>
+:root {
+  --primary: #5a8aa8;
+  --primary-dark: #3e6a85;
+  --primary-light: #ecf3f8;
+  --accent: #c9826b;
+  --bg: #f7faf c;
+  --card: #fff;
+  --text: #1f2933;
+  --muted: #5c6a78;
+  --border: #d6e1ea;
+  --warn-bg: #fff4e6;
+  --warn-border: #f0a868;
+  --danger-bg: #fde8e8;
+  --danger-border: #e07c7c;
+  --ok-bg: #e8f4ec;
+  --ok-border: #6ba88a;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Microsoft JhengHei", sans-serif;
+  background: var(--bg); color: var(--text);
+  line-height: 1.7; font-size: 17px; padding: 0 0 60px;
+}
+header {
+  background: var(--primary); color: #fff; padding: 16px 20px;
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+.header-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.brand { font-size: 20px; font-weight: 700; cursor: pointer; color: #fff; text-decoration: none; }
+.brand-emoji { font-size: 26px; margin-right: 6px; }
+.nav-toggle { background: rgba(255,255,255,0.2); border: 0; color: #fff; padding: 8px 14px; border-radius: 8px; font-size: 15px; cursor: pointer; }
+nav { background: var(--card); border-bottom: 1px solid var(--border); display: none; }
+nav.open { display: block; }
+.nav-inner { max-width: 900px; margin: 0 auto; padding: 12px 16px; display: flex; flex-wrap: wrap; gap: 8px; }
+.nav-link { background: var(--primary-light); color: var(--primary-dark); padding: 8px 14px; border-radius: 20px; font-size: 14px; text-decoration: none; border: 1px solid var(--border); cursor: pointer; }
+.nav-link:hover, .nav-link.active { background: var(--primary); color: #fff; }
+.nav-group-label { width: 100%; font-size: 12px; color: var(--muted); font-weight: 700; margin: 8px 0 4px; }
+
+main { max-width: 900px; margin: 0 auto; padding: 24px 20px; }
+.page { display: none; }
+.page.active { display: block; }
+h1 { font-size: 28px; margin-bottom: 12px; color: var(--primary-dark); }
+h2 { font-size: 22px; margin: 28px 0 14px; padding-bottom: 8px; border-bottom: 2px solid var(--primary-light); color: var(--primary-dark); }
+h3 { font-size: 18px; margin: 20px 0 10px; }
+h4 { font-size: 16px; margin: 14px 0 8px; color: var(--primary-dark); }
+p { margin-bottom: 12px; }
+ul, ol { margin: 8px 0 16px 22px; }
+li { margin-bottom: 6px; }
+strong { color: var(--primary-dark); font-weight: 700; }
+em { font-style: normal; color: var(--muted); }
+a { color: var(--primary-dark); }
+a:hover { color: var(--primary); }
+table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 15px; background: var(--card); }
+th, td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; vertical-align: top; }
+th { background: var(--primary-light); color: var(--primary-dark); font-weight: 700; }
+tbody tr:nth-child(even) { background: rgba(0,0,0,0.02); }
+
+.callout { background: var(--primary-light); border-left: 4px solid var(--primary); padding: 14px 18px; border-radius: 8px; margin: 14px 0; }
+.callout.warn { background: var(--warn-bg); border-left-color: var(--warn-border); }
+.callout.danger { background: var(--danger-bg); border-left-color: var(--danger-border); }
+.callout.ok { background: var(--ok-bg); border-left-color: var(--ok-border); }
+.callout h4 { margin-top: 0; }
+.tag { display: inline-block; background: var(--primary-light); color: var(--primary-dark); padding: 3px 10px; border-radius: 12px; font-size: 13px; margin: 2px 4px 2px 0; }
+
+.btn { display: inline-block; background: var(--primary); color: #fff; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-size: 15px; border: 0; cursor: pointer; font-weight: 700; }
+.btn:hover { background: var(--primary-dark); color: #fff; }
+.btn-secondary { background: var(--card); color: var(--primary-dark); border: 2px solid var(--primary); }
+
+.wizard-card { background: linear-gradient(135deg, var(--primary-light) 0%, #fff 100%); border: 2px solid var(--primary); border-radius: 16px; padding: 24px; margin: 16px 0; }
+.wizard-card h2 { margin: 0 0 8px; font-size: 22px; border-bottom: none; padding-bottom: 0; color: var(--primary-dark); }
+.wizard-card .wizard-step { font-size: 13px; color: var(--muted); font-weight: 700; margin-bottom: 4px; }
+.wizard-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-top: 16px; }
+.wizard-opt { background: var(--card); border: 2px solid var(--border); border-radius: 10px; padding: 14px 16px; cursor: pointer; text-align: left; font-size: 16px; font-weight: 600; color: var(--text); }
+.wizard-opt:hover { border-color: var(--primary); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+.wizard-opt .opt-icon { font-size: 22px; margin-right: 8px; }
+.wizard-opt .opt-hint { display: block; font-size: 13px; color: var(--muted); font-weight: 400; margin-top: 4px; }
+.wizard-result-card { background: var(--ok-bg); border: 2px solid var(--ok-border); border-radius: 16px; padding: 20px 24px; margin: 16px 0; }
+.wizard-result-card h2 { margin: 0 0 12px; color: #2d6a4f; border: none; padding: 0; }
+.reset-link { font-size: 13px; color: var(--muted); text-decoration: underline; cursor: pointer; margin-left: 8px; }
+.wizard-action { display: block; background: #fff; border: 1px solid var(--ok-border); border-left: 6px solid var(--ok-border); border-radius: 8px; padding: 12px 16px; margin: 8px 0; text-decoration: none; color: var(--text); }
+.wizard-action:hover { background: #f4f8f6; color: var(--text); }
+.wizard-action .num { display: inline-block; background: var(--ok-border); color: #fff; width: 24px; height: 24px; border-radius: 50%; text-align: center; font-weight: 700; margin-right: 8px; line-height: 24px; font-size: 14px; }
+.wizard-action .why { display: block; font-size: 13px; color: var(--muted); margin-top: 4px; margin-left: 32px; }
+
+.next-step-cta { background: var(--ok-bg); border: 2px solid var(--ok-border); border-radius: 12px; padding: 14px 18px; margin: 30px 0 16px; }
+.next-step-cta h4 { margin: 0 0 8px; color: #2d6a4f; }
+.next-step-cta a { display: inline-block; background: var(--ok-border); color: #fff; padding: 6px 14px; border-radius: 6px; text-decoration: none; margin: 4px 4px 0 0; font-size: 14px; font-weight: 700; }
+.quick-summary { background: #fff8e1; border-left: 4px solid #f0a868; padding: 12px 16px; margin: 16px 0; border-radius: 8px; }
+
+.footer-note { margin-top: 40px; padding: 20px; background: var(--primary-light); border-radius: 12px; font-size: 14px; color: var(--muted); text-align: center; }
+
+@media (max-width: 600px) {
+  body { font-size: 16px; }
+  h1 { font-size: 24px; }
+  h2 { font-size: 20px; }
+  main { padding: 16px 14px; }
+  table { font-size: 13px; }
+  th, td { padding: 6px 8px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a class="brand" onclick="navigateTo('page-home');return false;" href="#"><span class="brand-emoji">🏥</span>長照手冊</a>
+    <button class="nav-toggle" onclick="toggleNav()">☰ 章節</button>
+  </div>
+</header>
+
+<nav id="nav">
+  <div class="nav-inner">
+    <a class="nav-link" data-page="page-home" onclick="navigateTo('page-home');return false;" href="#">🏠 首頁</a>
+    <div class="nav-group-label">📚 認識系統</div>
+    <a class="nav-link" data-page="page-types" onclick="navigateTo('page-types');return false;" href="#">🏥 5 種服務類型</a>
+    <a class="nav-link" data-page="page-subsidy" onclick="navigateTo('page-subsidy');return false;" href="#">💰 補助系統</a>
+    <a class="nav-link" data-page="page-apply" onclick="navigateTo('page-apply');return false;" href="#">📞 申請流程</a>
+    <div class="nav-group-label">🎯 找服務(主要)</div>
+    <a class="nav-link" data-page="page-homecare" onclick="navigateTo('page-homecare');return false;" href="#">👵 居服員</a>
+    <a class="nav-link" data-page="page-daycare" onclick="navigateTo('page-daycare');return false;" href="#">☀️ 日照中心</a>
+    <a class="nav-link" data-page="page-respite" onclick="navigateTo('page-respite');return false;" href="#">😌 喘息服務</a>
+    <a class="nav-link" data-page="page-foreign" onclick="navigateTo('page-foreign');return false;" href="#">🌏 外籍看護工</a>
+    <a class="nav-link" data-page="page-institution" onclick="navigateTo('page-institution');return false;" href="#">🏢 住宿機構</a>
+    <div class="nav-group-label">🛠 工具</div>
+    <a class="nav-link" data-page="page-budget" onclick="navigateTo('page-budget');return false;" href="#">💵 預算試算</a>
+    <a class="nav-link" data-page="page-checklist" onclick="navigateTo('page-checklist');return false;" href="#">📋 觀察 Checklist</a>
+    <a class="nav-link" data-page="page-combo" onclick="navigateTo('page-combo');return false;" href="#">🧩 跨服務組合</a>
+    <a class="nav-link" data-page="page-complain" onclick="navigateTo('page-complain');return false;" href="#">🚨 SOP 沒做怎辦</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- ========== 首頁 ========== -->
+<section class="page active" id="page-home">
+  <h1>🏥 找長照服務的方法論</h1>
+
+  <div id="wizard-container"></div>
+
+  <details style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 18px;margin:24px 0;">
+    <summary style="font-weight:700;color:var(--primary-dark);cursor:pointer;">📚 第一次來?系統性學習路線</summary>
+    <ol style="margin:12px 0 0 22px;">
+      <li><a onclick="navigateTo('page-apply');return false;" href="#">📞 申請流程</a> — 撥 1966 → CMS 評估 → 照管專員 → 服務媒合</li>
+      <li><a onclick="navigateTo('page-types');return false;" href="#">🏥 5 種服務類型</a> — 居家 / 日照 / 喘息 / 看護工 / 機構</li>
+      <li><a onclick="navigateTo('page-subsidy');return false;" href="#">💰 補助系統</a> — 失能等級 → 給付額度</li>
+      <li><a onclick="navigateTo('page-combo');return false;" href="#">🧩 跨服務組合</a> — 居家+日照+喘息怎麼搭</li>
+    </ol>
+  </details>
+
+  <div class="callout warn">
+    <h4>📌 跟 home-handbook 的差別</h4>
+    <p style="margin:0;">本手冊是「<strong>找服務的階段</strong>」(怎麼選 / 比較 / 預算 / 簽約)。已選好服務後每天執行 SOP,看 <a href="../home-handbook/" target="_blank">🏠 home-handbook</a>(居家日 / 日照日 / 緊急狀況)。</p>
+  </div>
+
+  <div class="footer-note">
+    最後更新 2026-04-26 · v1.0 · 補助標準會逐年更新,以衛福部公告為準 · <a href="https://github.com/tm731531/dementia-care" target="_blank">GitHub</a>
+  </div>
+</section>
+
+<!-- ========== 5 種服務類型 ========== -->
+<section class="page" id="page-types">
+  <h1>🏥 5 種長照服務類型對照</h1>
+  <p style="font-size:17px;color:var(--muted);">同一個失智長輩可能同時用 2-3 種(例:居家服務 + 日照 + 喘息),不是互斥。</p>
+
+  <div style="overflow-x:auto;">
+  <table>
+    <thead><tr><th>類型</th><th>地點</th><th>適用</th><th>費用(實付/月,長照給付後)</th><th>申請</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>👵 居家服務(居服員)</strong></td>
+        <td>家裡</td>
+        <td>輕度-中度失智 / 主照顧者白天工作</td>
+        <td>失能等級 2-8 級給付額度不同,自付 16% (一般戶) / 5% (中低收) / 0% (低收)</td>
+        <td>長照 1966 → CMS 評估</td>
+      </tr>
+      <tr>
+        <td><strong>☀️ 日間照顧中心(日照)</strong></td>
+        <td>機構(白天去晚上回)</td>
+        <td>輕度-中度失智 / 需要團體刺激</td>
+        <td>同上,失能等級越高給付越多</td>
+        <td>長照 1966</td>
+      </tr>
+      <tr>
+        <td><strong>😌 喘息服務</strong></td>
+        <td>居家式 / 機構式 / 日間</td>
+        <td>主照顧者需短期休息</td>
+        <td><strong>每年額度有限制</strong>(失能等級 2-6 級 21 天,7-8 級 32 天)</td>
+        <td>長照 1966 / 須事先預約</td>
+      </tr>
+      <tr>
+        <td><strong>🌏 外籍看護工</strong></td>
+        <td>家裡(24 小時同住)</td>
+        <td>中度-重度失智 / 主照顧者無法</td>
+        <td>月薪約 21,000-25,000 + 食宿 + 仲介費(不在長照給付內)</td>
+        <td><strong>巴氏量表評估</strong> → 勞動部許可 → 仲介媒合</td>
+      </tr>
+      <tr>
+        <td><strong>🏢 住宿機構</strong></td>
+        <td>機構(住進去)</td>
+        <td>重度失智 / 主照顧者已撐不住</td>
+        <td>30,000-80,000+ / 月(類型差異大,部分有長照給付)</td>
+        <td>看 <a href="../home-handbook/long-term/" target="_blank">home-handbook 機構章節</a></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="callout warn">
+    <h4>⚠️ 第一個關鍵動作:撥 <strong style="font-size:18px;">1966</strong> 申請評估</h4>
+    <p style="margin:0;">長照服務 99% 都從 <strong>1966 長照專線 → CMS 評估</strong> 開始。沒做評估 = 沒失能等級 = 沒給付額度。<strong>還沒做就先做這個</strong>。</p>
+  </div>
+
+  <div class="next-step-cta">
+    <h4>✅ 看完 5 類型,下一步</h4>
+    <a onclick="navigateTo('page-apply');return false;" href="#">📞 看申請流程</a>
+    <a onclick="navigateTo('page-subsidy');return false;" href="#">💰 看補助系統</a>
+    <a onclick="navigateTo('page-budget');return false;" href="#">💵 預算試算</a>
+  </div>
+</section>
+
+<!-- ========== 申請流程 ========== -->
+<section class="page" id="page-apply">
+  <h1>📞 長照申請流程(0 到開始服務)</h1>
+
+  <div class="quick-summary">
+    <strong>⏱ 5 分鐘版</strong>:撥 <strong>1966</strong> → 縣市照管中心派員到府評估(免費)→ 取得失能等級(2-8 級)→ 照管專員擬「照顧計畫」→ 媒合服務提供者 → 開始服務。<strong>從打電話到開始服務約 2-4 週</strong>。
+  </div>
+
+  <h2>🔢 標準 SOP(7 步驟)</h2>
+  <ol>
+    <li><strong>撥 1966 長照專線</strong>(免費) — 提供長輩姓名 / 身分證 / 戶籍地址 / 主照顧者聯絡</li>
+    <li><strong>等照管中心電話約評估</strong>(1-2 週)</li>
+    <li><strong>照管專員到府評估</strong>(1-1.5 小時)— 用 CMS(Care Management System,長照失能評估量表)+ 失智 CDR 量表</li>
+    <li><strong>取得失能等級</strong> — 2-8 級(8 級最重)。失智長輩多在 2-4 級</li>
+    <li><strong>照管專員擬定「照顧計畫」</strong> — 推薦服務組合 + 給付額度</li>
+    <li><strong>家屬選擇服務提供者</strong>(居服員 / 日照中心 / 喘息) + 簽約</li>
+    <li><strong>開始服務</strong> — 服務提供者上門 / 接送</li>
+  </ol>
+
+  <h2>📋 評估前要準備的</h2>
+  <ul>
+    <li>長輩 <strong>身分證 + 健保卡</strong></li>
+    <li><strong>失智診斷證明書</strong>(神內 / 精神科開的,有 CDR 等級最好)</li>
+    <li><strong>重大傷病卡</strong>(若有,失智可申請)</li>
+    <li><strong>主照顧者描述清單</strong> — 長輩日常自理狀況、行為問題、用藥、特殊需求 → 評估員依此打分</li>
+  </ul>
+
+  <h2>⚠️ 評估的小心機</h2>
+  <div class="callout warn">
+    <p style="margin:0;"><strong>實話實說 + 強調最壞那天</strong>。評估員看 1.5 小時,失智長輩可能那天「狀況好」(failsafe 機制 — 客人來會表現好)。<strong>主照顧者要主動補充「平常她的狀況比今天嚴重」</strong>。否則失能等級評低 = 給付少,未來要重評。</p>
+  </div>
+
+  <h2>🔄 失能等級複評</h2>
+  <p>狀況惡化(失智一定會)時,撥 1966 申請<strong>複評</strong>。等級提升 → 給付額度提升。<strong>每 6 個月可複評一次</strong>。</p>
+
+  <div class="next-step-cta">
+    <h4>✅ 看完申請流程,下一步</h4>
+    <a onclick="navigateTo('page-subsidy');return false;" href="#">💰 看給付額度</a>
+    <a onclick="navigateTo('page-types');return false;" href="#">🏥 5 類型對照</a>
+  </div>
+</section>
+
+<!-- ========== 補助系統 ========== -->
+<section class="page" id="page-subsidy">
+  <h1>💰 長照補助系統</h1>
+
+  <div class="callout warn">
+    <p style="margin:0;"><strong>關鍵概念</strong>:長照 2.0 不是「政府幫你付錢」,是「政府給你<strong>額度</strong>,你選服務在額度內政府支付,超出自己付」。額度依失能等級。</p>
+  </div>
+
+  <h2>📊 失能等級 vs 給付額度(2025-2026)</h2>
+  <p style="font-size:13px;color:var(--muted);"><em>給付額度單位:元/月。實際數字以衛福部公告為準。</em></p>
+  <div style="overflow-x:auto;">
+  <table>
+    <thead><tr><th>失能等級</th><th>BCS 照顧服務</th><th>D 喘息服務</th><th>失智專責</th></tr></thead>
+    <tbody>
+      <tr><td>第 2 級</td><td>10,020 / 月</td><td>32,340 / 年</td><td>需另評</td></tr>
+      <tr><td>第 3 級</td><td>15,460 / 月</td><td>32,340 / 年</td><td>+ 4,000 / 月</td></tr>
+      <tr><td>第 4 級</td><td>18,580 / 月</td><td>32,340 / 年</td><td>+ 5,000 / 月</td></tr>
+      <tr><td>第 5 級</td><td>24,100 / 月</td><td>32,340 / 年</td><td>+ 6,000 / 月</td></tr>
+      <tr><td>第 6 級</td><td>28,070 / 月</td><td>32,340 / 年</td><td>+ 6,500 / 月</td></tr>
+      <tr><td>第 7 級</td><td>32,090 / 月</td><td>48,510 / 年</td><td>+ 7,000 / 月</td></tr>
+      <tr><td>第 8 級</td><td>36,180 / 月</td><td>48,510 / 年</td><td>+ 7,500 / 月</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2>💵 自付比例</h2>
+  <table>
+    <thead><tr><th>身分</th><th>自付</th><th>政府支付</th></tr></thead>
+    <tbody>
+      <tr><td>一般戶</td><td>16%</td><td>84%</td></tr>
+      <tr><td>中低收入戶</td><td>5%</td><td>95%</td></tr>
+      <tr><td>低收入戶 / 福保身分</td><td>0%</td><td>100%</td></tr>
+    </tbody>
+  </table>
+
+  <h2>🎁 其他補助 / 福利</h2>
+  <ul>
+    <li><strong>重大傷病卡</strong>(失智可申請) — 健保部分負擔減免</li>
+    <li><strong>身心障礙手冊 / 證明</strong> — 額外稅務、停車、社會福利</li>
+    <li><strong>輔具補助</strong> — 輪椅 / 氣墊床 / 防走失裝置 等(透過長照申請)</li>
+    <li><strong>無障礙環境改善</strong> — 防跌扶手 / 浴室改造 補助 10,000 / 次,失能 4 級以上每年最高 40,000</li>
+    <li><strong>交通接送補助</strong> — 失能 4 級以上,1,680-2,400 / 月(看就醫)</li>
+  </ul>
+
+  <h2>⚠️ 補助互斥</h2>
+  <div class="callout warn">
+    <ul style="margin:0;">
+      <li><strong>長照給付 vs 外籍看護工 互斥</strong>:有外籍看護工不能領長照 BCS 給付(可申請喘息)</li>
+      <li><strong>住宿機構大部分自費</strong>:長照給付對住宿機構支援有限,要看機構類別</li>
+    </ul>
+  </div>
+
+  <div class="next-step-cta">
+    <h4>✅ 看完補助系統,下一步</h4>
+    <a onclick="navigateTo('page-budget');return false;" href="#">💵 預算試算</a>
+    <a onclick="navigateTo('page-combo');return false;" href="#">🧩 跨服務組合</a>
+  </div>
+</section>
+
+<!-- ========== 居服員 ========== -->
+<section class="page" id="page-homecare">
+  <h1>👵 居家照顧服務員(居服員)</h1>
+
+  <div class="callout">
+    <h4>📌 一句話</h4>
+    <p style="margin:0;"><strong>居服員到家裡來照顧長輩</strong>,主照顧者上班 / 喘息時段使用。失智輕-中度最常用。每次 1-3 小時。</p>
+  </div>
+
+  <h2>🏷 3 種來源</h2>
+  <table>
+    <thead><tr><th>來源</th><th>特點</th><th>找法</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>各縣市居家照顧服務中心</strong>(政府委託)</td>
+        <td>受過訓 + 政府監督 + 走長照給付。<strong>最推薦</strong></td>
+        <td>1966 → 照管專員媒合</td>
+      </tr>
+      <tr>
+        <td><strong>民間居服機構</strong>(連鎖 / 非營利)</td>
+        <td>同樣走長照給付,品質依業者</td>
+        <td>1966 / 各縣市社會局名單</td>
+      </tr>
+      <tr>
+        <td><strong>個人接案</strong>(私人聘僱)</td>
+        <td><strong>不在長照給付內</strong>(全自費)。彈性高但無監督</td>
+        <td>朋友介紹 / 社區公告</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>📋 居服員證照要求</h2>
+  <ul>
+    <li><strong>照顧服務員結業證書</strong>(衛福部認證,90 小時訓練 + 30 小時實習)</li>
+    <li><strong>單一級照顧服務員技術士證</strong>(更高標,含理論考試)</li>
+    <li><strong>失智症照護課程結業證明</strong>(失智專責服務需要)</li>
+  </ul>
+
+  <h2>👁 居服員面試 / 觀察 SOP(關鍵)</h2>
+  <ol>
+    <li><strong>請對方自我介紹 + 照顧過幾位失智長輩</strong>(具體經驗 vs 紙上談兵)</li>
+    <li><strong>問:長輩拒絕洗澡 / 拒絕服藥怎麼辦?</strong> — 聽具體經驗</li>
+    <li><strong>問:長輩攻擊行為怎麼處理?</strong> — 看是否會「降溫」而非衝突</li>
+    <li><strong>問:長輩走失過嗎?怎麼處理?</strong> — 看是否懂得通報</li>
+    <li><strong>觀察跟長輩的互動 5 分鐘</strong>(直接讓他見長輩,看眼神 / 語氣 / 動作)</li>
+    <li><strong>問願不願意拍照 / 寫紀錄給家屬看</strong> — 透明度</li>
+    <li><strong>問交通方式 + 是否準時</strong> — 居服員遲到是常見問題</li>
+    <li><strong>確認簽訂的「照顧計畫」內容</strong> — 每次該做什麼,白紙黑字</li>
+  </ol>
+
+  <h2>📜 簽約該注意的</h2>
+  <ul>
+    <li>每次<strong>服務時段 + 服務內容</strong>明列(避免「來了就坐著」)</li>
+    <li><strong>缺勤替補規則</strong>(居服員生病誰來?)</li>
+    <li><strong>異動通知期</strong>(機構換人要提前通知)</li>
+    <li><strong>監視器同意條款</strong>(可裝在公共空間)</li>
+  </ul>
+
+  <h2>🚨 居服員常見問題(主照顧者抱怨 Top 5)</h2>
+  <ol>
+    <li>遲到 / 早走</li>
+    <li>滑手機不照顧</li>
+    <li>「來了就坐著」沒做該做的活動</li>
+    <li>不寫紀錄 / 不拍照</li>
+    <li>對長輩沒耐心 / 講話大聲</li>
+  </ol>
+  <p style="font-size:14px;"><em>看 <a onclick="navigateTo('page-complain');return false;" href="#">🚨 SOP 沒做怎辦</a> 知道怎麼正式投訴 + 換人。</em></p>
+
+  <div class="next-step-cta">
+    <h4>✅ 看完居服員,下一步</h4>
+    <a onclick="navigateTo('page-checklist');return false;" href="#">📋 觀察 Checklist</a>
+    <a onclick="navigateTo('page-complain');return false;" href="#">🚨 SOP 沒做怎辦</a>
+  </div>
+</section>
+
+<!-- ========== 日照中心 ========== -->
+<section class="page" id="page-daycare">
+  <h1>☀️ 日間照顧中心(日照)</h1>
+
+  <div class="callout">
+    <h4>📌 一句話</h4>
+    <p style="margin:0;"><strong>白天去機構,晚上回家</strong>。像「老人版的幼兒園」。失智輕-中度最常用,提供團體刺激防退化。</p>
+  </div>
+
+  <h2>🏷 2 種類型</h2>
+  <table>
+    <thead><tr><th>類型</th><th>差別</th><th>適用</th></tr></thead>
+    <tbody>
+      <tr><td><strong>失智專責日照</strong></td><td>師資受過失智訓練 / 環境設計防走失 / 活動針對失智設計</td><td>已確診失智的長輩</td></tr>
+      <tr><td><strong>一般日間照顧</strong></td><td>混合長者 / 失能但未失智可參加</td><td>失能但認知尚可</td></tr>
+    </tbody>
+  </table>
+
+  <h2>👁 日照參訪 SOP</h2>
+  <ol>
+    <li><strong>第一印象</strong>:有沒有怪味?長輩們的神情(呆滯 vs 投入)?</li>
+    <li><strong>師生比</strong>(法定 1:8 失智專責)</li>
+    <li><strong>活動安排</strong>:一天時程表(認知活動 / 體能 / 用餐 / 午休 / 才藝)</li>
+    <li><strong>環境</strong>:防走失設計 / 廁所數量 / 緊急按鈕 / 監視器</li>
+    <li><strong>餐食</strong>:看當天午餐 + 點心</li>
+    <li><strong>接送</strong>:有交通車?還是要自送?</li>
+    <li><strong>主照顧者「家訪」</strong>(部分日照會做)</li>
+    <li><strong>體驗日</strong>:多數日照可體驗 1-3 天</li>
+  </ol>
+
+  <h2>📋 失智長輩去日照前要準備</h2>
+  <ul>
+    <li><strong>失智診斷證明</strong> + <strong>身障證明</strong>(若有)</li>
+    <li><strong>用藥清單</strong> + <strong>過敏史</strong></li>
+    <li><strong>照顧計畫書</strong>(從照管專員拿)</li>
+    <li><strong>備品包</strong>:換洗衣物 / 藥盒 / 尿布 / 緊急聯絡卡</li>
+    <li>看 <a href="../home-handbook/" target="_blank">🏠 home-handbook 日照日 SOP</a> 詳細</li>
+  </ul>
+
+  <h2>⚠️ 失智長輩日照適應期</h2>
+  <div class="callout warn">
+    <p style="margin:0;"><strong>頭 2-4 週可能拒絕去 / 鬧情緒</strong>。這是正常的(失智者對新環境敏感)。<strong>漸進入園</strong>:第 1 週半天 → 第 2 週全天 → 第 3 週起穩定。連續 6 週仍拒絕 → 跟日照討論策略。</p>
+  </div>
+
+  <div class="next-step-cta">
+    <h4>✅ 看完日照,下一步</h4>
+    <a onclick="navigateTo('page-checklist');return false;" href="#">📋 觀察 Checklist</a>
+    <a href="../home-handbook/" target="_blank">🏠 home-handbook 日照日 SOP</a>
+  </div>
+</section>
+
+<!-- ========== 喘息服務 ========== -->
+<section class="page" id="page-respite">
+  <h1>😌 喘息服務</h1>
+
+  <div class="callout">
+    <h4>📌 一句話</h4>
+    <p style="margin:0;"><strong>讓主照顧者休息的服務</strong>。每年有額度。<strong>主照顧者一定要用,不用是浪費</strong>。</p>
+  </div>
+
+  <h2>🏷 3 種喘息</h2>
+  <table>
+    <thead><tr><th>類型</th><th>地點</th><th>適用情境</th></tr></thead>
+    <tbody>
+      <tr><td><strong>居家喘息</strong></td><td>家裡(居服員過來)</td><td>主照顧者出門幾小時</td></tr>
+      <tr><td><strong>日間喘息</strong></td><td>日照中心(短期送)</td><td>主照顧者上班 / 看醫生</td></tr>
+      <tr><td><strong>機構喘息</strong></td><td>住宿機構(短住 1-30 天)</td><td>主照顧者旅行 / 自己住院 / 心力耗竭</td></tr>
+    </tbody>
+  </table>
+
+  <h2>📊 額度</h2>
+  <ul>
+    <li>失能 2-6 級:<strong>21 天 / 年</strong>(換算約 32,340 元 / 年)</li>
+    <li>失能 7-8 級:<strong>32 天 / 年</strong>(換算約 48,510 元 / 年)</li>
+    <li><strong>沒用會作廢,不能跨年</strong></li>
+  </ul>
+
+  <h2>⚡ 怎麼預約</h2>
+  <ol>
+    <li>長照 1966 → 提出喘息需求</li>
+    <li>照管專員確認額度</li>
+    <li>家屬選喘息類型 + 服務提供者</li>
+    <li>居家 / 日間 → 較快(1 週);機構 → 要提早 1 個月排</li>
+  </ol>
+
+  <h2>🆘 緊急喘息(主照顧者突然倒下)</h2>
+  <div class="callout danger">
+    <p style="margin:0;"><strong>主照顧者車禍 / 急病住院 → 馬上撥 1966 申請緊急喘息</strong>。失智者可立刻轉到機構式喘息,通常 24-48 小時內安排。<strong>這是「我倒下了長輩怎辦」的核心 backup</strong>。</p>
+  </div>
+
+  <h2>💡 主照顧者排喘息的時機</h2>
+  <ul>
+    <li>每月固定 1-2 次居家喘息(規律,不靠突發)</li>
+    <li>每季 1 次日間喘息(讓自己看牙醫 / 健檢 / 跟朋友聚)</li>
+    <li>每年 1-2 次機構喘息(7 天以上,真的休息)</li>
+  </ul>
+  <p><strong>不要等「我快撐不住」才用</strong> — 預先用,持續性比偶爾大量更可持續。</p>
+
+  <div class="next-step-cta">
+    <h4>✅ 看完喘息,下一步</h4>
+    <a onclick="navigateTo('page-budget');return false;" href="#">💵 預算試算</a>
+    <a onclick="navigateTo('page-combo');return false;" href="#">🧩 跨服務組合</a>
+  </div>
+</section>
+
+<!-- ========== 外籍看護工 ========== -->
+<section class="page" id="page-foreign">
+  <h1>🌏 外籍看護工(俗稱外勞)</h1>
+
+  <div class="callout warn">
+    <p style="margin:0;"><strong>申請流程複雜 + 跟長照給付互斥</strong>。多用於中-重度失智 + 主照顧者完全無法自顧者。</p>
+  </div>
+
+  <h2>📋 申請資格(巴氏量表評估)</h2>
+  <ul>
+    <li>長輩需<strong>巴氏量表評估</strong>(由特約醫院醫師執行)</li>
+    <li><strong>評分 ≤ 35 分</strong>(完全依賴他人)= 符合資格</li>
+    <li>失智症另有「特定身心障礙項目」可申請,不需巴氏量表</li>
+    <li><strong>重大傷病卡</strong>(失智可拿)有助申請</li>
+  </ul>
+
+  <h2>🔢 申請 SOP(8 步驟)</h2>
+  <ol>
+    <li><strong>長輩到特約醫院做巴氏量表評估</strong>(掛號 + 評估費)</li>
+    <li><strong>取得評估證明 / 失智診斷</strong>(若直接走失智路徑)</li>
+    <li><strong>向勞動部申請聘僱許可</strong>(可線上)</li>
+    <li><strong>取得「招募許可函」</strong>(1-2 個月)</li>
+    <li><strong>找仲介公司 / 直聘聯合服務中心</strong> — 直聘較便宜但麻煩</li>
+    <li><strong>媒合外籍看護工</strong>(印尼 / 越南 / 菲律賓 / 泰國)</li>
+    <li><strong>外籍看護工入境 + 體檢 + 報到</strong></li>
+    <li><strong>開始工作</strong> + 雇主有訓練義務</li>
+  </ol>
+
+  <h2>💰 費用</h2>
+  <table>
+    <tbody>
+      <tr><td>月薪(雇主付)</td><td>21,000-25,000 元(法定基本薪資以上)</td></tr>
+      <tr><td>勞健保 / 就業安定費</td><td>約 4,000-5,000 / 月</td></tr>
+      <tr><td>食宿(家裡提供)</td><td>—</td></tr>
+      <tr><td>仲介費(若用仲介)</td><td>初次 60,000-100,000 + 月服務費 1,500-2,000</td></tr>
+      <tr><td>體檢 / 機票 / 簽證</td><td>初次 30,000-50,000</td></tr>
+      <tr><td><strong>總月成本</strong></td><td>約 30,000-35,000 / 月</td></tr>
+    </tbody>
+  </table>
+
+  <h2>⚠️ 重要注意</h2>
+  <ul>
+    <li><strong>跟長照給付互斥</strong>:有外籍看護工 → 失能 BCS 給付不能領(但可領喘息)</li>
+    <li><strong>第一次媒合風險高</strong>:語言 / 文化差異 / 對失智不熟。<strong>3 個月觀察期</strong></li>
+    <li><strong>休假規定</strong>:每 7 天 1 天休假(雇主可選擇加班付雙倍工資)</li>
+    <li><strong>逃逸風險</strong>:仲介公司會處理但仍是主照顧者麻煩</li>
+    <li><strong>失智專責訓練</strong>:好仲介會提供失智照護訓練,要主動問</li>
+  </ul>
+
+  <h2>📚 哪裡查更多</h2>
+  <ul>
+    <li>勞動部勞動力發展署 <a href="https://www.wda.gov.tw/" target="_blank" rel="noopener">wda.gov.tw</a></li>
+    <li>直聘聯合服務中心 0800-085-151(免仲介費)</li>
+    <li>各縣市勞工局</li>
+  </ul>
+
+  <div class="next-step-cta">
+    <h4>✅ 看完外籍看護工,下一步</h4>
+    <a onclick="navigateTo('page-budget');return false;" href="#">💵 預算試算</a>
+    <a onclick="navigateTo('page-combo');return false;" href="#">🧩 跨服務組合</a>
+  </div>
+</section>
+
+<!-- ========== 住宿機構 ========== -->
+<section class="page" id="page-institution">
+  <h1>🏢 住宿型機構</h1>
+
+  <div class="callout warn">
+    <p style="margin:0;"><strong>本章只給概要,完整參訪 SOP / 比較 / 紅旗看 <a href="../home-handbook/long-term/" target="_blank">home-handbook 長期規劃章節</a></strong>(已有完整覆蓋)。</p>
+  </div>
+
+  <h2>🏷 機構類型(衛福部分類)</h2>
+  <table>
+    <thead><tr><th>類型</th><th>主要對象</th><th>費用範圍</th></tr></thead>
+    <tbody>
+      <tr><td><strong>養護型</strong></td><td>失能但無重大醫療需求</td><td>30,000-50,000 / 月</td></tr>
+      <tr><td><strong>長期照護型</strong></td><td>失能 + 慢性病 + 醫療需求</td><td>40,000-60,000 / 月</td></tr>
+      <tr><td><strong>失智專責機構</strong></td><td>失智長輩(中-重度)</td><td>50,000-80,000 / 月</td></tr>
+      <tr><td><strong>護理之家</strong></td><td>需護理級照護</td><td>50,000-90,000 / 月</td></tr>
+    </tbody>
+  </table>
+
+  <h2>⏰ 何時開始考慮機構</h2>
+  <ul>
+    <li>主照顧者出現<strong>身體警訊</strong>(高血壓 / 心律不整 / 抑鬱)</li>
+    <li>長輩<strong>夜間不睡 / 白天嗜睡</strong>導致全家失眠 1 個月以上</li>
+    <li>長輩<strong>大小便失禁無法控管</strong></li>
+    <li><strong>家中無 24 小時陪伴可能</strong></li>
+    <li>跟手足討論後同意</li>
+  </ul>
+  <p>看 <a href="../home-handbook/long-term/" target="_blank">home-handbook 長期規劃</a> 完整評估 + 參訪 SOP + 紅旗清單。</p>
+
+  <div class="next-step-cta">
+    <h4>✅ 看完機構,下一步</h4>
+    <a href="../home-handbook/long-term/" target="_blank">🏠 home-handbook 機構章節(完整)</a>
+    <a onclick="navigateTo('page-budget');return false;" href="#">💵 預算試算</a>
+  </div>
+</section>
+
+<!-- ========== 預算試算 ========== -->
+<section class="page" id="page-budget">
+  <h1>💵 預算試算</h1>
+  <p style="font-size:17px;color:var(--muted);">輸入失能等級 + 收入身分 → 自動算各類服務的家長實付。</p>
+
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;">
+    <div style="margin-bottom:14px;">
+      <label><strong>失能等級</strong></label>
+      <select id="bud-level" style="width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-size:15px;margin-top:6px;">
+        <option value="2">第 2 級(輕度,給付 10,020 / 月)</option>
+        <option value="3">第 3 級</option>
+        <option value="4">第 4 級(中度)</option>
+        <option value="5">第 5 級</option>
+        <option value="6">第 6 級</option>
+        <option value="7">第 7 級(重度)</option>
+        <option value="8">第 8 級(最重)</option>
+      </select>
+    </div>
+    <div style="margin-bottom:14px;">
+      <label><strong>身分</strong></label>
+      <select id="bud-income" style="width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-size:15px;margin-top:6px;">
+        <option value="0.16">一般戶(自付 16%)</option>
+        <option value="0.05">中低收入戶(自付 5%)</option>
+        <option value="0">低收入戶 / 福保(自付 0%)</option>
+      </select>
+    </div>
+    <div style="margin-bottom:14px;">
+      <label><strong>是否聘外籍看護工</strong></label>
+      <select id="bud-foreign" style="width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-size:15px;margin-top:6px;">
+        <option value="no">否(走長照 BCS 給付)</option>
+        <option value="yes">是(BCS 互斥,只能用喘息)</option>
+      </select>
+    </div>
+    <button class="btn" onclick="runCareBudget()">💵 試算</button>
+  </div>
+
+  <div id="budget-result" style="display:none;margin-top:24px;"></div>
+</section>
+
+<!-- ========== 觀察 Checklist ========== -->
+<section class="page" id="page-checklist">
+  <h1>📋 觀察 / 面試 Checklist</h1>
+
+  <h2>👵 居服員每日觀察(SOP 對照)</h2>
+  <ul>
+    <li>☐ 準時到 / 準時離(±10 分鐘)</li>
+    <li>☐ 完成簽到表 + 工作紀錄</li>
+    <li>☐ 拍照 / 寫紀錄給家屬</li>
+    <li>☐ 執行所有「照顧計畫」上列的活動</li>
+    <li>☐ 用藥「<strong>親見入口 + 確認吞下</strong>」(不是放著就走)</li>
+    <li>☐ 餐食按時段(早 / 中 / 晚) + 確認份量</li>
+    <li>☐ 跟長輩有實際互動(不是滑手機)</li>
+    <li>☐ 有狀況立即通知家屬(不是等下班才說)</li>
+  </ul>
+
+  <h2>☀️ 日照中心參訪 Checklist</h2>
+  <ul>
+    <li>☐ 進門 5 秒第一印象(味道 / 整潔 / 長輩神情)</li>
+    <li>☐ 法定師生比 1:8(失智專責)</li>
+    <li>☐ 一天時程表(認知 / 體能 / 用餐 / 午休 / 才藝)</li>
+    <li>☐ 防走失設計(門禁 / 監視器)</li>
+    <li>☐ 廁所數量充足 + 乾淨</li>
+    <li>☐ 廚房可看 + 衛生</li>
+    <li>☐ 看當天午餐 + 點心</li>
+    <li>☐ 體驗日 / 試讀</li>
+    <li>☐ 有護理師駐園</li>
+    <li>☐ 跟在讀家屬聊近期狀況</li>
+  </ul>
+
+  <h2>🌏 外籍看護工面試 / 試用期觀察</h2>
+  <ul>
+    <li>☐ 自我介紹 + 過去照顧失智經驗</li>
+    <li>☐ 中文程度(基本溝通)</li>
+    <li>☐ 失智訓練結業證明</li>
+    <li>☐ 跟長輩第一次見面的態度(微笑 / 主動 / 蹲下)</li>
+    <li>☐ 試用 3 個月觀察(記錄 / 互動 / 情緒)</li>
+    <li>☐ 雇主提供的訓練計畫</li>
+  </ul>
+
+  <h2>🏢 住宿機構參訪</h2>
+  <p>看 <a href="../home-handbook/long-term/" target="_blank">home-handbook 長期規劃</a> 的「機構比較選擇 checklist 15 項」(已完整)。</p>
+</section>
+
+<!-- ========== 跨服務組合 ========== -->
+<section class="page" id="page-combo">
+  <h1>🧩 跨服務組合(怎麼搭配最好)</h1>
+  <p style="font-size:17px;color:var(--muted);">同一個失智長輩通常需要 2-3 種服務搭配,不是單一服務。</p>
+
+  <h2>🏷 常見組合範例</h2>
+
+  <h3>📦 組合 A:居家服務 + 喘息(輕-中度)</h3>
+  <ul>
+    <li><strong>主照顧者上班</strong>:居服員每天上班時段 4 小時(15K 給付夠)</li>
+    <li><strong>主照顧者偶爾休假</strong>:每月 1-2 次居家喘息(週末)</li>
+    <li><strong>主照顧者旅行</strong>:每年 1 次機構喘息 7 天</li>
+    <li><strong>適用</strong>:輕-中度失智 / 主照顧者有工作 / 預算中等</li>
+  </ul>
+
+  <h3>📦 組合 B:日照 + 居家喘息(中度)</h3>
+  <ul>
+    <li><strong>白天</strong>:日照中心(週一-五,有交通車)</li>
+    <li><strong>晚上 / 週末</strong>:主照顧者顧</li>
+    <li><strong>主照顧者休假</strong>:每月居家喘息</li>
+    <li><strong>適用</strong>:中度失智 / 主照顧者有工作 / 長輩需團體刺激</li>
+  </ul>
+
+  <h3>📦 組合 C:外籍看護工 + 喘息(中-重度)</h3>
+  <ul>
+    <li><strong>24 小時</strong>:外籍看護工(月成本 30-35K)</li>
+    <li><strong>看護工休假日</strong>:主照顧者 / 親屬</li>
+    <li><strong>主照顧者休假</strong>:可申請喘息(BCS 不能領但喘息可)</li>
+    <li><strong>適用</strong>:中-重度失智 / 主照顧者完全無法自顧 / 預算寬</li>
+  </ul>
+
+  <h3>📦 組合 D:住宿機構(重度)</h3>
+  <ul>
+    <li><strong>長期住</strong>:失智專責機構</li>
+    <li><strong>家屬探視</strong>:每週 1-2 次</li>
+    <li><strong>適用</strong>:重度失智 / 行為問題嚴重 / 主照顧者已撐不住</li>
+    <li>看 <a href="../home-handbook/long-term/" target="_blank">home-handbook</a> 完整評估</li>
+  </ul>
+
+  <h2>📊 預算對照</h2>
+  <table>
+    <thead><tr><th>組合</th><th>家庭月支出(一般戶)</th><th>適用失能等級</th></tr></thead>
+    <tbody>
+      <tr><td>A 居家+喘息</td><td>3,000-6,000(自付 16%)</td><td>2-4 級</td></tr>
+      <tr><td>B 日照+喘息</td><td>4,000-8,000</td><td>3-5 級</td></tr>
+      <tr><td>C 外籍看護+喘息</td><td>30,000-35,000(無 BCS 給付)</td><td>5-8 級(巴氏量表)</td></tr>
+      <tr><td>D 住宿機構</td><td>30,000-80,000+</td><td>6-8 級</td></tr>
+    </tbody>
+  </table>
+
+  <h2>⏰ 演進時程</h2>
+  <p>失智一定到重度。<strong>從輕度開始就規劃下一階段</strong>:</p>
+  <ol>
+    <li><strong>確診後 0-1 年(輕度)</strong>:組合 A(居家+喘息)— 主照顧者保留工作</li>
+    <li><strong>1-3 年(中度)</strong>:組合 B(日照)或進入 C(看護工)</li>
+    <li><strong>3 年+(重度)</strong>:評估 D(機構)或維持 C</li>
+  </ol>
+
+  <div class="next-step-cta">
+    <h4>✅ 看完組合,下一步</h4>
+    <a onclick="navigateTo('page-budget');return false;" href="#">💵 預算試算</a>
+    <a href="../home-handbook/" target="_blank">🏠 home-handbook 執行 SOP</a>
+  </div>
+</section>
+
+<!-- ========== SOP 沒做怎辦 ========== -->
+<section class="page" id="page-complain">
+  <h1>🚨 SOP 沒做怎辦?投訴 / 換人 / 申訴管道</h1>
+
+  <div class="callout warn">
+    <p style="margin:0;"><strong>本手冊核心價值</strong>:給「有付錢的服務提供者」拿來對照 SOP 用。SOP 沒做就投訴 / 換人。</p>
+  </div>
+
+  <h2>👵 居服員 / 居家照護機構</h2>
+  <table>
+    <thead><tr><th>狀況</th><th>找誰</th></tr></thead>
+    <tbody>
+      <tr><td>居服員<strong>個人問題</strong>(遲到 / 滑手機)</td><td>機構主管 / 個案管理員</td></tr>
+      <tr><td>機構<strong>整體問題</strong>(品質差 / 媒合失誤)</td><td>各縣市<strong>長照管理中心</strong>(透過 1966)</td></tr>
+      <tr><td>機構<strong>違規 / 涉及不當對待</strong></td><td><strong>1966</strong> + 衛福部 + 113 婦幼保護</td></tr>
+      <tr><td>要換居服員 / 換機構</td><td>透過 1966 → 重新媒合</td></tr>
+    </tbody>
+  </table>
+
+  <h2>☀️ 日照中心</h2>
+  <table>
+    <thead><tr><th>狀況</th><th>找誰</th></tr></thead>
+    <tbody>
+      <tr><td>單一事件 / 抱怨</td><td>日照主任 / 個管</td></tr>
+      <tr><td>整體品質差</td><td>各縣市<strong>長照管理中心</strong></td></tr>
+      <tr><td>違規(超收 / 設施不符)</td><td>各縣市<strong>衛生局</strong>(機構主管機關)</td></tr>
+      <tr><td>不當對待</td><td>113 + 1966 + 衛福部</td></tr>
+    </tbody>
+  </table>
+
+  <h2>🌏 外籍看護工</h2>
+  <table>
+    <thead><tr><th>狀況</th><th>找誰</th></tr></thead>
+    <tbody>
+      <tr><td>看護工<strong>工作態度</strong>(不照顧 / 偷懶)</td><td>仲介公司(有合約義務)</td></tr>
+      <tr><td>仲介<strong>不處理</strong></td><td>各縣市<strong>勞工局</strong></td></tr>
+      <tr><td>看護工<strong>逃逸</strong></td><td>仲介 + <strong>1955</strong> 外籍勞工申訴專線</td></tr>
+      <tr><td>不當對待 / 虐待</td><td>113 + 1955 + 警察</td></tr>
+    </tbody>
+  </table>
+
+  <h2>🏢 住宿機構</h2>
+  <table>
+    <thead><tr><th>狀況</th><th>找誰</th></tr></thead>
+    <tbody>
+      <tr><td>單一事件</td><td>機構主管 / 護理師</td></tr>
+      <tr><td>整體品質</td><td>各縣市<strong>衛生局</strong></td></tr>
+      <tr><td>違規 / 不當對待</td><td>衛生局 + 1966 + 113</td></tr>
+    </tbody>
+  </table>
+
+  <h2>📞 緊急 / 通用專線</h2>
+  <ul>
+    <li><strong>1966</strong>:長照服務專線(免費,長照相關第一站)</li>
+    <li><strong>1955</strong>:外籍勞工申訴專線(免費,24 小時)</li>
+    <li><strong>113</strong>:婦幼保護專線(失智長輩受虐通報)</li>
+    <li><strong>1957</strong>:福利諮詢專線(綜合社福)</li>
+    <li><strong>1925</strong>:安心專線(主照顧者心理崩潰)</li>
+  </ul>
+
+  <h2>📋 投訴 SOP</h2>
+  <ol>
+    <li><strong>留證據</strong>:照片 / 影片 / 文字紀錄(時間 / 地點 / 細節)</li>
+    <li><strong>先跟機構主管反映</strong>(口頭 + 書面)</li>
+    <li><strong>機構不處理 → 上層主管機關</strong></li>
+    <li><strong>嚴重 / 涉及違規 → 直接打 1966 / 衛生局 / 113</strong>(留下紀錄)</li>
+    <li><strong>必要時換服務提供者</strong>(透過 1966 重新媒合)</li>
+  </ol>
+
+  <h2>⚠️ 常見「投訴沒效」的原因</h2>
+  <ul>
+    <li>沒留證據 → 變成「你說我說」</li>
+    <li>跳過機構主管 → 主管機關會先要求機構自處理</li>
+    <li>太情緒 / 沒重點 → 對方逃避</li>
+    <li>沒寫書面 → 沒有正式紀錄</li>
+  </ul>
+</section>
+
+</main>
+
+<script>
+// ============ State ============
+const STORAGE_KEY = 'careHandbookState';
+const DEFAULT_STATE = {
+  userProfile: {},
+};
+let STATE = loadState();
+
+function loadState() {
+  try { return {...DEFAULT_STATE, ...JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}')}; }
+  catch(e) { return {...DEFAULT_STATE}; }
+}
+function saveState() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(STATE)); } catch(e) {}
+}
+
+// ============ Navigation ============
+function navigateTo(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(pageId)?.classList.add('active');
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.toggle('active', l.dataset.page === pageId));
+  window.scrollTo({top: 0, behavior: 'smooth'});
+  document.getElementById('nav').classList.remove('open');
+  if (window.location.hash !== '#' + pageId) history.pushState(null, '', '#' + pageId);
+}
+function toggleNav() { document.getElementById('nav').classList.toggle('open'); }
+
+// ============ Wizard ============
+function renderWizard() {
+  const el = document.getElementById('wizard-container');
+  if (!el) return;
+  const p = STATE.userProfile || {};
+  if (p.severity && p.urgency && p.budget) { el.innerHTML = renderWizardResult(p); return; }
+  if (!p.severity) { el.innerHTML = renderWizardQ('severity'); return; }
+  if (!p.urgency) { el.innerHTML = renderWizardQ('urgency'); return; }
+  if (!p.budget) { el.innerHTML = renderWizardQ('budget'); return; }
+}
+
+function renderWizardQ(step) {
+  if (step === 'severity') {
+    return `<div class="wizard-card">
+      <div class="wizard-step">第 1 / 3 題</div>
+      <h2>🧠 失智長輩目前狀況?</h2>
+      <p style="margin:0;color:var(--muted);">幫你推薦該找哪些服務。30 秒答完。</p>
+      <div class="wizard-options">
+        <button class="wizard-opt" onclick="setWizardAnswer('severity','newly')"><span class="opt-icon">🟢</span>剛確診 / 還沒申請<span class="opt-hint">最該做:撥 1966 申請評估</span></button>
+        <button class="wizard-opt" onclick="setWizardAnswer('severity','mild')"><span class="opt-icon">🟡</span>輕-中度<span class="opt-hint">有自理能力但需協助</span></button>
+        <button class="wizard-opt" onclick="setWizardAnswer('severity','moderate')"><span class="opt-icon">🟠</span>中度<span class="opt-hint">夜間問題 / 走失風險</span></button>
+        <button class="wizard-opt" onclick="setWizardAnswer('severity','severe')"><span class="opt-icon">🔴</span>重度<span class="opt-hint">完全依賴 / 行為問題嚴重</span></button>
+      </div>
+    </div>`;
+  }
+  if (step === 'urgency') {
+    return `<div class="wizard-card">
+      <div class="wizard-step">第 2 / 3 題 <a class="reset-link" onclick="setWizardAnswer('severity',null)">← 改第 1 題</a></div>
+      <h2>⏰ 主照顧者狀況?</h2>
+      <div class="wizard-options">
+        <button class="wizard-opt" onclick="setWizardAnswer('urgency','crisis')"><span class="opt-icon">🆘</span>已撐不住 / 健康警訊<span class="opt-hint">需立即喘息或機構</span></button>
+        <button class="wizard-opt" onclick="setWizardAnswer('urgency','working')"><span class="opt-icon">💼</span>有工作 / 白天無法顧<span class="opt-hint">需要居家或日照</span></button>
+        <button class="wizard-opt" onclick="setWizardAnswer('urgency','full')"><span class="opt-icon">🏠</span>全職顧 / 偶爾喘息<span class="opt-hint">需要規律喘息</span></button>
+        <button class="wizard-opt" onclick="setWizardAnswer('urgency','plan')"><span class="opt-icon">📋</span>提前規劃<span class="opt-hint">還沒急但想了解</span></button>
+      </div>
+    </div>`;
+  }
+  if (step === 'budget') {
+    return `<div class="wizard-card">
+      <div class="wizard-step">第 3 / 3 題 <a class="reset-link" onclick="setWizardAnswer('urgency',null)">← 改第 2 題</a></div>
+      <h2>💰 家庭月預算(自付,含補助後)</h2>
+      <div class="wizard-options">
+        <button class="wizard-opt" onclick="setWizardAnswer('budget','low')"><span class="opt-icon">💰</span>10,000 內<span class="opt-hint">主要靠長照給付</span></button>
+        <button class="wizard-opt" onclick="setWizardAnswer('budget','mid')"><span class="opt-icon">💰💰</span>10,000-30,000<span class="opt-hint">居家+日照+喘息組合</span></button>
+        <button class="wizard-opt" onclick="setWizardAnswer('budget','high')"><span class="opt-icon">💰💰💰</span>30,000+<span class="opt-hint">外籍看護工 / 機構可選</span></button>
+        <button class="wizard-opt" onclick="setWizardAnswer('budget','poor')"><span class="opt-icon">🆓</span>中低收 / 低收<span class="opt-hint">自付 5% 或 0%</span></button>
+      </div>
+    </div>`;
+  }
+}
+
+function setWizardAnswer(key, value) {
+  if (!STATE.userProfile) STATE.userProfile = {};
+  if (value === null) {
+    delete STATE.userProfile[key];
+    if (key === 'severity') { delete STATE.userProfile.urgency; delete STATE.userProfile.budget; }
+    if (key === 'urgency') { delete STATE.userProfile.budget; }
+  } else {
+    STATE.userProfile[key] = value;
+  }
+  saveState();
+  renderWizard();
+}
+
+function resetWizard() { STATE.userProfile = {}; saveState(); renderWizard(); }
+
+function renderWizardResult(p) {
+  const sevLabel = {newly:'剛確診',mild:'輕-中度',moderate:'中度',severe:'重度'}[p.severity];
+  const urgLabel = {crisis:'撐不住',working:'有工作',full:'全職顧',plan:'規劃'}[p.urgency];
+  const budLabel = {low:'10K 內',mid:'10-30K',high:'30K+',poor:'中低收/低收'}[p.budget];
+  const actions = [];
+
+  if (p.severity === 'newly') {
+    actions.push({title:'📞 撥 1966 申請評估',body:'剛確診第一件事。沒做評估 = 沒給付額度。',link:'page-apply',linkText:'看申請流程'});
+    actions.push({title:'💰 補助系統',body:'失能等級 → 給付額度。先了解政府給多少。',link:'page-subsidy',linkText:'看補助'});
+  }
+
+  if (p.urgency === 'crisis') {
+    actions.push({title:'🆘 立即喘息 / 機構',body:'主照顧者已撐不住 → 撥 1966 申請緊急喘息(24-48 小時可入)+ 評估住宿機構',link:'page-respite',linkText:'看喘息服務'});
+    actions.push({title:'🏢 住宿機構評估',body:'重度建議考慮。看 home-handbook 機構章節完整參訪 SOP。',link:'page-institution',linkText:'看機構'});
+  }
+
+  if (p.urgency === 'working' && p.severity !== 'newly') {
+    actions.push({title:'☀️ 日照中心',body:'白天上班最佳解。失智專責日照師生比 1:8。',link:'page-daycare',linkText:'看日照'});
+    actions.push({title:'👵 居家服務',body:'居服員到家 1-3 小時。輕-中度可用。',link:'page-homecare',linkText:'看居服員'});
+  }
+
+  if (p.urgency === 'full') {
+    actions.push({title:'😌 規律喘息',body:'**主照顧者一定要用,不用是浪費**。每月 1-2 次居家喘息 + 每年 1-2 次機構喘息。',link:'page-respite',linkText:'看喘息'});
+  }
+
+  if (p.severity === 'severe' && p.budget === 'high') {
+    actions.push({title:'🌏 外籍看護工',body:'24 小時同住,中-重度首選。月成本 30-35K(跟長照 BCS 互斥)。',link:'page-foreign',linkText:'看看護工'});
+  }
+
+  // 永遠加
+  actions.push({title:'💵 預算試算',body:`輸入你的失能等級 + 身分 → 看各類服務實付。${budLabel}`,link:'page-budget',linkText:'去試算'});
+  actions.push({title:'🧩 跨服務組合',body:'單一服務不夠,2-3 種搭配最常見。看 4 種常見組合。',link:'page-combo',linkText:'看組合'});
+
+  if (p.urgency !== 'plan') {
+    actions.push({title:'🚨 SOP 沒做怎辦',body:'手冊核心價值:對服務提供者拿 SOP 對照,沒做就投訴。',link:'page-complain',linkText:'看投訴管道'});
+  }
+
+  let html = `<div class="wizard-result-card">
+    <h2>🎯 給你的下一步(${sevLabel} · ${urgLabel} · ${budLabel}) <a class="reset-link" onclick="resetWizard()">↻ 重新答</a></h2>`;
+  actions.forEach((a, i) => {
+    html += `<a class="wizard-action" onclick="navigateTo('${a.link}');return false;" href="#">
+      <strong><span class="num">${i+1}</span>${a.title}</strong> · <span style="color:var(--primary-dark);">${a.linkText} →</span>
+      <span class="why">${a.body}</span>
+    </a>`;
+  });
+  html += '</div>';
+  return html;
+}
+
+// ============ 預算試算 ============
+const PAYMENT_RATE = {2:10020,3:15460,4:18580,5:24100,6:28070,7:32090,8:36180}; // BCS 月給付
+const RESPITE_YEAR = {2:32340,3:32340,4:32340,5:32340,6:32340,7:48510,8:48510}; // 喘息年額度
+
+function runCareBudget() {
+  const level = parseInt(document.getElementById('bud-level').value);
+  const rate = parseFloat(document.getElementById('bud-income').value);
+  const foreign = document.getElementById('bud-foreign').value === 'yes';
+
+  const bcs = PAYMENT_RATE[level];
+  const respite = RESPITE_YEAR[level];
+  const respiteMonth = respite / 12;
+
+  let html = `<h2>📊 試算結果(失能 ${level} 級)</h2>`;
+
+  if (foreign) {
+    html += `<div class="callout warn"><p style="margin:0;"><strong>有外籍看護工 → BCS 給付互斥</strong>(只能領喘息)</p></div>`;
+    html += `<table>
+      <thead><tr><th>項目</th><th>月支出</th></tr></thead>
+      <tbody>
+        <tr><td>看護工月薪 + 勞健保</td><td>~28,000</td></tr>
+        <tr><td>仲介月服務費</td><td>~2,000</td></tr>
+        <tr><td>喘息(月均額度,自付 ${(rate*100).toFixed(0)}%)</td><td>${Math.round(respiteMonth*rate).toLocaleString()}</td></tr>
+        <tr><td><strong>家庭月支出</strong></td><td><strong>~30,000-32,000</strong></td></tr>
+      </tbody>
+    </table>`;
+  } else {
+    const bcsSelfPay = Math.round(bcs * rate);
+    const respiteSelfPay = Math.round(respiteMonth * rate);
+    html += `<table>
+      <thead><tr><th>選項</th><th>政府支付</th><th>家庭月支出(自付 ${(rate*100).toFixed(0)}%)</th></tr></thead>
+      <tbody>
+        <tr><td>居家服務 / 日照(用滿 BCS)</td><td>${Math.round(bcs*(1-rate)).toLocaleString()}</td><td><strong>${bcsSelfPay.toLocaleString()}</strong></td></tr>
+        <tr><td>+ 喘息(月均)</td><td>${Math.round(respiteMonth*(1-rate)).toLocaleString()}</td><td>+ ${respiteSelfPay.toLocaleString()}</td></tr>
+        <tr><td><strong>合計</strong></td><td>—</td><td><strong>~${(bcsSelfPay+respiteSelfPay).toLocaleString()}</strong></td></tr>
+      </tbody>
+    </table>`;
+  }
+
+  html += `<div class="callout warn" style="margin-top:14px;"><p style="margin:0;font-size:14px;"><strong>免責</strong>:給付額度 / 自付比例以衛福部當年度公告為準。實際金額依各服務提供者收費差異(部分機構自費高於給付額)。本工具僅供參考。</p></div>`;
+
+  document.getElementById('budget-result').innerHTML = html;
+  document.getElementById('budget-result').style.display = 'block';
+}
+
+// ============ Init ============
+document.addEventListener('DOMContentLoaded', () => {
+  renderWizard();
+  const hash = window.location.hash;
+  if (hash && hash.startsWith('#page-')) navigateTo(hash.slice(1));
+});
+
+window.addEventListener('popstate', () => {
+  const hash = window.location.hash;
+  if (hash && hash.startsWith('#page-')) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(hash.slice(1))?.classList.add('active');
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+});
+
+window.navigateTo = navigateTo;
+window.toggleNav = toggleNav;
+window.setWizardAnswer = setWizardAnswer;
+window.resetWizard = resetWizard;
+window.runCareBudget = runCareBudget;
+</script>
+</body>
+</html>
