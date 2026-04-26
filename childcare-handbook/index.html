@@ -526,6 +526,7 @@ details[open] summary { margin-bottom: 8px; }
     <a class="nav-link" data-page="page-sandwich" onclick="navigateTo('page-sandwich');return false;" href="#">👨‍👩‍👧 三明治世代</a>
     <a class="nav-link" data-page="page-aftercare" onclick="navigateTo('page-aftercare');return false;" href="#">🏡 入園後實務</a>
     <a class="nav-link" data-page="page-compare" onclick="navigateTo('page-compare');return false;" href="#">🛒 比較籃</a>
+    <a class="nav-link" data-page="page-calendar" onclick="navigateTo('page-calendar');return false;" href="#">📆 我的幼兒園 Calendar</a>
     <a class="nav-link" data-page="page-cases" onclick="navigateTo('page-cases');return false;" href="#">📖 案例</a>
     <a class="nav-link" data-page="page-knowledge" onclick="navigateTo('page-knowledge');return false;" href="#">📚 縣市資源</a>
     <a class="nav-link" data-page="page-settings" onclick="navigateTo('page-settings');return false;" href="#">⚙️ 設定</a>
@@ -575,9 +576,15 @@ details[open] summary { margin-bottom: 8px; }
     </div>
   </div>
 
-  <div class="callout">
-    <h4>💡 推薦先開「規劃模式」</h4>
-    <p style="margin:0;">到 <a onclick="navigateTo('page-settings');return false;" href="#">⚙️ 設定</a> 把<strong>規劃模式 toggle 打開</strong>(只要 1 鍵),首頁會自動顯示「<strong>本月該做的事</strong>」(例如 4 月底會顯示「非營利缺額公告 / 文件備齊」)。月份過了自動更新,不用記。</p>
+  <div class="callout warn" style="display:flex;align-items:center;gap:14px;">
+    <div style="flex:1;">
+      <h4 style="margin:0 0 4px;">💡 規劃模式 — 自動顯示「本月該做的事」</h4>
+      <p style="margin:0;font-size:14px;">月份過了自動更新,不用記。例如 4 月底會顯示「非營利缺額公告 / 文件備齊」。</p>
+    </div>
+    <label class="switch" style="flex-shrink:0;">
+      <input type="checkbox" id="toggle-planning-home" onchange="togglePlanningModeFromHome()">
+      <span class="slider"></span>
+    </label>
   </div>
 
   <h2>📌 第一次找園所?從這 4 個地方開始</h2>
@@ -611,6 +618,7 @@ details[open] summary { margin-bottom: 8px; }
       <tr><td>1-2 歲 + 預算寬</td><td>私立托嬰 + 育兒津貼 5,000。看 <a onclick="navigateTo('page-types');return false;" href="#">🏫 類型選擇</a></td></tr>
       <tr><td><strong>2 歲 + 雙薪 + 預算緊</strong></td><td>4-6 月一波。看 <a onclick="navigateTo('page-preschool');return false;" href="#">🏫 幼兒園專區</a> + <a onclick="navigateTo('page-timeline');return false;" href="#">📅 時程地圖</a></td></tr>
       <tr><td><strong>2-6 歲 + 想要特定教學風格</strong>(蒙氏/華德福/雙語)</td><td>看 <a onclick="navigateTo('page-preschool');return false;" href="#">🏫 幼兒園專區</a> 教學風格章節</td></tr>
+      <tr><td><strong>從托嬰跨系統升幼兒園(2-3 歲首次入園)</strong></td><td>跟 2 歲班邏輯相同,4-6 月一波,但<strong>注意系統切換</strong>(衛福部 → 教育部、文件不同)。看 <a onclick="navigateTo('page-preschool');return false;" href="#">🏫 幼兒園專區</a> + <a onclick="navigateTo('page-documents');return false;" href="#">📄 文件 SOP</a></td></tr>
       <tr><td><strong>3-6 歲(已在園,想換園或續讀)</strong></td><td>1-2 月辦留園直升;4-5 月看新生缺額。看 <a onclick="navigateTo('page-preschool');return false;" href="#">🏫 幼兒園專區</a></td></tr>
       <tr><td><strong>大班 5-6 歲(準備上小一)</strong></td><td>看 <a onclick="navigateTo('page-aftercare');return false;" href="#">🏡 入園後實務</a> 第 8 節「升小一銜接」</td></tr>
       <tr><td>單親家庭(各年齡)</td><td>低收/中低收身分認定可大幅降費,撥 1957 福利專線 + 看 <a onclick="navigateTo('page-subsidy');return false;" href="#">💰 補助系統</a></td></tr>
@@ -637,7 +645,7 @@ details[open] summary { margin-bottom: 8px; }
   </div>
 
   <div class="footer-note">
-    最後更新 2026-04-26 · v1.4 · 政府補助標準會逐年更新,以官方公告為準
+    最後更新 2026-04-26 · v1.6 · 政府補助標準會逐年更新,以官方公告為準
   </div>
 </section>
 
@@ -1589,7 +1597,12 @@ details[open] summary { margin-bottom: 8px; }
 
   <div class="callout danger">
     <h4>🚨 公幼特別注意 · 公務員廉政規範</h4>
-    <p style="margin:0;"><strong>公立幼兒園教保員(含約聘僱)依法令從事公務</strong>,適用《公務員廉政倫理規範》第 14 條 — <strong>正常社交禮俗市價上限 500 元</strong>,超過應拒收或報告。現金 / 禮卡可能造成老師困擾。<strong>公幼建議改送班級共用耗材</strong>(繪本、美勞材料),或一起辦班級活動,比個人禮金更合規。私立 / 準公共另依各園工作倫理守則,但仍建議低調合資,不送現金。</p>
+    <p style="margin:0;"><strong>公立幼兒園教保員(含約聘僱)依法令從事公務</strong>,適用《公務員廉政倫理規範》:</p>
+    <ul style="margin:8px 0 0 22px;">
+      <li><strong>第 2 條</strong>定義「正常社交禮俗標準」:市價 ≤ <strong>3,000 元</strong>(同年度同來源累計 ≤ 10,000 元)</li>
+      <li><strong>第 4 條但書第(三)款</strong>:對職務利害關係者,<strong>偶發餽贈 ≤ 500 元</strong>(或對機關內多數人合計 ≤ 1,000 元)為例外得受贈</li>
+    </ul>
+    <p style="margin:8px 0 0;">家長作為「服務使用者」屬職務利害關係者,<strong>單次禮金 500 元是務實上限</strong>;現金 / 禮卡仍可能造成老師困擾。<strong>公幼建議改送班級共用耗材</strong>(繪本、美勞材料),或一起辦班級活動,比個人禮金更合規。私立 / 準公共另依各園工作倫理守則,仍建議低調合資不送現金。</p>
   </div>
 
   <h2>🏠 5. 入園前家訪</h2>
@@ -1765,6 +1778,11 @@ details[open] summary { margin-bottom: 8px; }
     <li><strong>把園所「漂亮裝潢」當品質指標</strong> — 漂亮地板 / 大遊戲區 ≠ 好教學。<strong>老師眼神 + 孩子離園神情</strong>比裝潢可信</li>
     <li><strong>太相信「招牌」蒙氏 / 華德福</strong> — 這些名稱沒法律保護,任何園所都能掛。<strong>問實際做法</strong>:教具齊全嗎?老師認證嗎?混齡比例?(看幼兒園專區)</li>
     <li><strong>低估「孩子常生病」對家長作息的衝擊</strong> — 入園 3-6 月免疫洗禮期,雙薪家庭常崩潰。<strong>先準備備援名單</strong>(看入園後實務 § 7)</li>
+    <li><strong>「觀課老師 ≠ 帶班老師」</strong> — 觀課時看到的常是園長 / 主任 / 資深老師,入園後孩子跟的可能是剛進來的助理員。<strong>問清楚「我家孩子的主帶老師會是哪位?她之前帶幾班?」</strong></li>
+    <li><strong>選園前沒確認「放學後誰接」</strong> — 多數園所 17:30 接,雙薪家庭根本接不到。發現時開始找安親 / 求公婆,衍生家庭衝突。<strong>選園前先確認接送方案</strong></li>
+    <li><strong>大班下學期才找安親 / 小一課輔,通常已太晚</strong> — 口碑好的安親班大班上學期就排,甚至更早。大班下學期去問,好位子多半已滿</li>
+    <li><strong>選了特色園(蒙氏 / 雙語)但沒評估孩子氣質</strong> — 花 25,000 / 月送蒙氏,才發現孩子需要老師明確指令,自由選工作就在教室遊蕩;送雙語但孩子母語都還沒穩</li>
+    <li><strong>觀課時忽略孩子的第一反應</strong> — 孩子一進教室就不想留 / 想走,家長卻因裝潢 / 師資 / 費用說服自己「試了會習慣」。<strong>孩子在現場的反應是可靠訊號,不是參考意見</strong></li>
   </ol>
 </section>
 
@@ -2252,13 +2270,31 @@ details[open] summary { margin-bottom: 8px; }
   </table>
 
   <div class="callout warn">
-    <h4>⚠️ 招牌不等於實質</h4>
-    <p style="margin:0;">「蒙特梭利」「華德福」「瑞吉歐」這些名稱<strong>沒有法律保護</strong>,任何園所都能掛。<strong>問實際做法</strong>:</p>
+    <h4>⚠️ 招牌不等於實質 + 假冒辨識</h4>
+    <p style="margin:0;">「蒙特梭利」「華德福」「瑞吉歐」這些名稱<strong>未設認證資格管制</strong>,任何園所都能掛。<strong>問實際做法</strong>:</p>
     <ul style="margin:8px 0 0 22px;">
-      <li>蒙氏:教具齊全嗎?(蒙氏教具一套 5-20 萬)老師有 AMI / AMS 認證嗎?混齡比例多少?</li>
-      <li>華德福:教室有沒有電子產品?教具是天然材質嗎?有沒有節慶儀式?</li>
-      <li>雙語/全美語:每天中文活動幾小時?中文教師是誰?(法規:不得全日外語)</li>
+      <li><strong>蒙氏</strong>(最難假冒):教具齊全?(蒙氏教具一套 5-20 萬)老師 AMI / AMS 認證(可上 AMI 官網查)?混齡比例?</li>
+      <li><strong>華德福</strong>:教室無電子產品?天然教具?節慶儀式?</li>
+      <li><strong>瑞吉歐</strong>(最容易假冒):核心是「精神」非可驗證硬指標,任何有「藝術中心」就自稱。問:<strong>作品紀錄系統怎麼做?能看前 3 個月孩子作品紀錄嗎?</strong></li>
+      <li><strong>主題式</strong>(品質差距大):<strong>問「能看前 3 個月主題紀錄?活動怎麼設計?」</strong> 真主題式整月圍繞一脈絡深挖(例如「水」從浮力到狀態變化),假主題式只換月曆封面</li>
+      <li><strong>遊戲式 / 開放教育</strong>(難辨真假):「自由遊戲」vs「放著沒管」外觀近似。<strong>看老師在旁做什麼</strong>:搭鷹架?還是滑手機?</li>
+      <li><strong>雙語 / 全美語</strong>:每天中文活動幾小時?中文教師是誰?<strong>問:外師是 ESL 認證還是只持簽證?</strong>(法規:不得全日外語)</li>
     </ul>
+  </div>
+
+  <div class="callout danger">
+    <h4>🚨 招牌話術:「歡迎隨時參觀」陷阱</h4>
+    <p style="margin:0;">最常見話術。實際執行差很多:</p>
+    <ul style="margin:8px 0 0 22px;">
+      <li><strong>真有信心的園所</strong>:允許「<strong>預約後隨機時段</strong>」觀課,你想哪天就哪天</li>
+      <li><strong>有問題的園所</strong>:只能「固定時段」(通常是有準備的活動展示)、「只能在門口看」、或「先打電話確認當日適不適合」</li>
+      <li><strong>識破方法</strong>:打電話問「我下週三上午 10 點可以去看嗎?」如果對方推到「下週五下午才有開放日」 — 就是固定時段話術</li>
+    </ul>
+  </div>
+
+  <div class="callout warn">
+    <h4>⚠️ 招牌話術:「我們老師很有愛」確認偏誤</h4>
+    <p style="margin:0;">家長看了一次老師表現很好,就認定這是日常。但「<strong>觀課日的老師</strong>」跟「<strong>週三下午平日的老師</strong>」狀態完全不同。<strong>問近期(最近 1 年)在讀家長感受</strong>(可請園所介紹幾位家長),不要只信你去那天的印象。</p>
   </div>
 
   <h2>📋 2. 觀課 / 面試完整 SOP</h2>
@@ -2278,7 +2314,7 @@ details[open] summary { margin-bottom: 8px; }
     <li><strong>師生比實況</strong>:當下教室真的幾個老師幾個孩子?問:「今天請假幾位老師?」</li>
     <li><strong>教室空間</strong>:擁擠嗎?有沒有「危險角落」(尖銳 / 開放電源 / 易倒物品)?</li>
     <li><strong>廁所</strong>:乾淨嗎?2-3 歲幼幼班廁所應在教室內(法規)</li>
-    <li><strong>廚房</strong>:能不能看?熱水區、利器區是否完全隔離孩子?</li>
+    <li><strong>廚房</strong>(邀請式問法):「可以帶我大概走走廚房旁邊嗎,想感受一下環境?」<em>注意:廚房非法定家長視察空間,園方可婉拒。可改問「廚房最近衛生局稽查結果如何?」並查衛生局網站</em></li>
     <li><strong>戶外活動空間</strong>:有自己的還是要去公園?雨天替代方案?</li>
     <li><strong>離開時孩子的樣子</strong>:剛來的孩子哭著要走 vs 離不開,差很大</li>
   </ol>
@@ -2320,9 +2356,8 @@ details[open] summary { margin-bottom: 8px; }
     <thead><tr><th>時段</th><th>活動</th></tr></thead>
     <tbody>
       <tr><td>7:30-9:00</td><td>陸續到園</td></tr>
-      <tr><td>9:00-9:30</td><td>晨圈(主題討論 / 唱歌)</td></tr>
+      <tr><td>9:00-9:30</td><td>晨圈(主題討論 / 唱歌)+ 點心(主流園所點心安排在晨圈期間)</td></tr>
       <tr><td>9:30-10:30</td><td><strong>主題活動 / 領域學習</strong>(認知 / 語文 / 數學 / 自然)</td></tr>
-      <tr><td>10:30-11:00</td><td>點心</td></tr>
       <tr><td>11:00-12:00</td><td>戶外活動 / 體能</td></tr>
       <tr><td>12:00-12:30</td><td>午餐</td></tr>
       <tr><td>12:30-14:30</td><td>午睡(大班可能縮短到 1.5 小時或不睡)</td></tr>
@@ -2349,7 +2384,7 @@ details[open] summary { margin-bottom: 8px; }
       </tr>
       <tr>
         <td><strong>4-5 歲<br>中班</strong></td>
-        <td>認知發展加速、邏輯思維、創造表達</td>
+        <td><strong>最複雜的一年</strong> — 競爭意識成型、對不公平極度敏感、形成小圈圈、語言能力夠了所以投訴增加、認知發展加速</td>
         <td><strong>學習動機</strong>(主動 vs 被動)、興趣偏好(藝術 / 運動 / 邏輯)</td>
       </tr>
       <tr>
@@ -2416,7 +2451,14 @@ details[open] summary { margin-bottom: 8px; }
   <ul>
     <li><strong>教育部明確「不需要」</strong>。研究顯示提前死記反而在小一時造成干擾</li>
     <li><strong>如果一定要送</strong> → 選「遊戲式」「不寫字」的;避開「填鴨式」「考試式」</li>
-    <li><strong>替代方案</strong>:把先修班學費(約 3,000-12,000 / 期)換成<strong>繪本 / 戶外活動 / 跟朋友玩</strong> — 對小一適應更有幫助</li>
+    <li><strong>先修班費用行情</strong>(雙北 2025-2026):
+      <ul>
+        <li>暑期短期遊戲式 4-8 週:3,000-5,000 元(郊區小型班)</li>
+        <li>學期制注音/數學:8,000-15,000 / 期(主流補習班)</li>
+        <li>外師雙語先修:15,000-20,000+ / 期</li>
+      </ul>
+    </li>
+    <li><strong>替代方案</strong>:把先修班學費換成<strong>繪本(40 本) / 戶外活動 / 跟朋友玩</strong> — 對小一適應更有幫助</li>
     <li><strong>家長壓力</strong>:長輩 / 同儕施壓送先修班時,可用「教育部立場」回應</li>
   </ul>
 
@@ -2427,7 +2469,7 @@ details[open] summary { margin-bottom: 8px; }
     <li><strong>銜接班 vs 安親班 vs 自學</strong>:
       <ul>
         <li><strong>銜接班</strong>(暑假 4-6 週):有的好有的廢,看師資</li>
-        <li><strong>安親班</strong>(平日下午到 18:00):接送幫手 + 寫作業督促,費用 5,000-10,000 / 月</li>
+        <li><strong>安親班</strong>(平日下午到 18:00):接送 + 寫作業督促。<strong>一般型</strong> 5,000-10,000 / 月;<strong>英語/才藝型</strong> 12,000-20,000 / 月。<strong>品質差異極大,要去看,不要只看費用</strong></li>
         <li><strong>自學</strong>(家長自己帶):需要長輩 / 一方家長能配合,免費但體力負擔大</li>
       </ul>
     </li>
@@ -2759,7 +2801,7 @@ details[open] summary { margin-bottom: 8px; }
   </table>
 
   <h2>🏙 各縣市加碼(中央以外多領)</h2>
-  <p><strong>中央補助是「下限」</strong>,多數縣市另有加碼。差距很大。<em>下表為 2025-2026 年度資料,以各縣市社會局/教育局最新公告為準。台北市 +8,000 為 115/7 起預告,以正式公告為準。</em></p>
+  <p><strong>中央補助是「下限」</strong>,多數縣市另有加碼。差距很大。<em>下表為 2025-2026 年度資料,以各縣市社會局/教育局最新公告為準。<strong>台北市 +8,000 已正式公告 115/7 生效</strong>。</em></p>
   <table>
     <thead><tr><th>縣市</th><th>加碼對象</th><th>加碼金額/月</th></tr></thead>
     <tbody>
@@ -2932,6 +2974,94 @@ details[open] summary { margin-bottom: 8px; }
   <textarea id="compare-export-area" style="position:absolute;left:-9999px;"></textarea>
 </section>
 
+<!-- ========== 我的幼兒園 Calendar ========== -->
+<section class="page" id="page-calendar">
+  <h1>📆 我的幼兒園 Calendar</h1>
+  <p style="font-size:17px;color:var(--muted);">輸入你正在跑的幼兒園 + 關鍵日期 → 自動產生<strong>時間軸 + 衝突檢測 + 倒數提醒 + 未做事項提醒</strong>。資料只存你裝置,不上雲端。</p>
+
+  <div class="callout">
+    <h4>📌 跟「比較籃」差別</h4>
+    <ul style="margin:8px 0 0 22px;">
+      <li><strong>🛒 比較籃</strong> = <strong>評估維度</strong>(月費/距離/教學風格)→ 用來決定要報哪幾家</li>
+      <li><strong>📆 Calendar</strong> = <strong>時間維度</strong>(報名期/抽籤日/報到日/備取保留期)→ 決定後跑日程不漏單</li>
+    </ul>
+    <p style="margin:8px 0 0;font-size:14px;">兩者互補:<strong>先用比較籃挑出 3-5 家,再加進 Calendar 跑日程</strong>。</p>
+  </div>
+
+  <h2>➕ 加新園所</h2>
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;">
+    <div class="form-field">
+      <label for="cal-name">園所名稱 *</label>
+      <input type="text" id="cal-name" placeholder="例:○○幼兒園">
+    </div>
+    <div class="form-field">
+      <label for="cal-type">類型</label>
+      <select id="cal-type">
+        <option value="">— 選擇 —</option>
+        <option value="public">公幼</option>
+        <option value="nonprofit">非營利</option>
+        <option value="semi">準公共</option>
+        <option value="private">私立</option>
+        <option value="infant">托嬰中心</option>
+        <option value="nanny">保母</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label for="cal-reg-start">報名開始(yyyy-mm-dd)</label>
+      <input type="date" id="cal-reg-start">
+    </div>
+    <div class="form-field">
+      <label for="cal-reg-end">報名截止(yyyy-mm-dd)</label>
+      <input type="date" id="cal-reg-end">
+    </div>
+    <div class="form-field">
+      <label for="cal-lottery">抽籤日(yyyy-mm-dd)</label>
+      <input type="date" id="cal-lottery">
+    </div>
+    <div class="form-field">
+      <label for="cal-report">報到截止日(yyyy-mm-dd)</label>
+      <input type="date" id="cal-report">
+    </div>
+    <div class="form-field">
+      <label for="cal-retain">備取保留期截止(yyyy-mm-dd)</label>
+      <input type="date" id="cal-retain">
+    </div>
+    <div class="form-field">
+      <label for="cal-notes">備註(特殊規定 / 文件 / 順位)</label>
+      <textarea id="cal-notes" placeholder="例:報名表 5/11 後到大門口取 / 第 3 順位是 XX 里 / 備取保留只到 5/14 ⚠️"></textarea>
+    </div>
+    <button class="btn" onclick="addCalendarRecord()">➕ 加入 Calendar</button>
+    <button class="btn btn-secondary" onclick="clearCalendarForm()" style="margin-left:8px;">清空欄位</button>
+    <button class="btn btn-secondary" onclick="loadFromCompare()" style="margin-left:8px;">📥 從比較籃匯入</button>
+  </div>
+
+  <h2 id="calendar-list-heading">🏫 已加入的園所 (<span id="calendar-count">0</span>)</h2>
+  <div id="calendar-list"></div>
+
+  <div id="calendar-summary-wrap" style="display:none;margin-top:24px;">
+    <h2>📅 時間軸(按日期排序)</h2>
+    <div id="calendar-timeline"></div>
+
+    <h2>⚠️ 衝突檢測 + 注意事項</h2>
+    <div id="calendar-conflicts"></div>
+
+    <h2>⏰ 倒數提醒(最近 30 天)</h2>
+    <div id="calendar-countdown"></div>
+
+    <h2>📋 完整對照表</h2>
+    <div style="overflow-x:auto;">
+      <table id="calendar-table"></table>
+    </div>
+
+    <div style="margin-top:16px;">
+      <button class="btn" onclick="exportCalendarText()">📋 複製純文字行事曆</button>
+      <button class="btn btn-secondary" onclick="clearAllCalendar()" style="margin-left:8px;">↻ 清空全部</button>
+    </div>
+  </div>
+
+  <textarea id="calendar-export-area" style="position:absolute;left:-9999px;"></textarea>
+</section>
+
 <!-- ========== 設定 ========== -->
 <section class="page" id="page-settings">
   <h1>⚙️ 設定</h1>
@@ -2973,7 +3103,7 @@ details[open] summary { margin-bottom: 8px; }
 
   <h2>ℹ️ 關於</h2>
   <ul>
-    <li><strong>版本</strong>:v1.4(2026-04-26)</li>
+    <li><strong>版本</strong>:v1.6(2026-04-26)</li>
     <li><strong>來源</strong>:<a href="https://github.com/tm731531/dementia-care" target="_blank" rel="noopener">tm731531/dementia-care · childcare-handbook</a></li>
     <li><strong>授權</strong>:MIT</li>
     <li><strong>離線</strong>:本頁所有資源 inline,不連外部 CDN</li>
@@ -2993,6 +3123,7 @@ const DEFAULT_STATE = {
   favorites: [],
   checklist: {},
   compareList: [],
+  calendarList: [],
 };
 let STATE = loadState();
 
@@ -3433,6 +3564,241 @@ function escapeHtml(str) {
     .replace(/"/g, '&quot;');
 }
 
+// ============ Calendar (我的幼兒園 Calendar) ============
+function addCalendarRecord() {
+  const name = document.getElementById('cal-name').value.trim();
+  if (!name) { alert('請至少填園所名稱'); return; }
+  const record = {
+    id: Date.now() + '-' + Math.random().toString(36).slice(2,8),
+    name: name,
+    type: document.getElementById('cal-type').value,
+    regStart: document.getElementById('cal-reg-start').value,
+    regEnd: document.getElementById('cal-reg-end').value,
+    lottery: document.getElementById('cal-lottery').value,
+    report: document.getElementById('cal-report').value,
+    retain: document.getElementById('cal-retain').value,
+    notes: document.getElementById('cal-notes').value.trim(),
+  };
+  STATE.calendarList.push(record);
+  saveState();
+  clearCalendarForm();
+  renderCalendarAll();
+}
+
+function clearCalendarForm() {
+  ['cal-name','cal-type','cal-reg-start','cal-reg-end','cal-lottery','cal-report','cal-retain','cal-notes'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+}
+
+function removeCalendarRecord(id) {
+  STATE.calendarList = STATE.calendarList.filter(r => r.id !== id);
+  saveState();
+  renderCalendarAll();
+}
+
+function clearAllCalendar() {
+  if (!confirm('確定要清空整個 Calendar 嗎?')) return;
+  STATE.calendarList = [];
+  saveState();
+  renderCalendarAll();
+}
+
+function loadFromCompare() {
+  if (!STATE.compareList || STATE.compareList.length === 0) {
+    alert('比較籃還沒有園所。請先到 🛒 比較籃 加入。');
+    return;
+  }
+  if (!confirm(`匯入比較籃 ${STATE.compareList.length} 筆?日期欄位需手動補,因比較籃只記月費/距離。`)) return;
+  STATE.compareList.forEach(c => {
+    if (STATE.calendarList.some(x => x.name === c.name)) return; // 去重
+    STATE.calendarList.push({
+      id: Date.now() + '-' + Math.random().toString(36).slice(2,8),
+      name: c.name,
+      type: c.type || '',
+      regStart: '', regEnd: '', lottery: '', report: '', retain: '',
+      notes: c.notes || '',
+    });
+  });
+  saveState();
+  renderCalendarAll();
+  alert('匯入完成。請編輯每筆補日期欄位。');
+}
+
+function renderCalendarAll() {
+  renderCalendarList();
+  renderCalendarTimeline();
+  renderCalendarConflicts();
+  renderCalendarCountdown();
+  renderCalendarTable();
+}
+
+function renderCalendarList() {
+  const listEl = document.getElementById('calendar-list');
+  const wrap = document.getElementById('calendar-summary-wrap');
+  const countEl = document.getElementById('calendar-count');
+  if (!listEl) return;
+  countEl.textContent = STATE.calendarList.length;
+  if (STATE.calendarList.length === 0) {
+    listEl.innerHTML = '<div class="compare-empty">還沒加入任何園所。先在上面填一筆吧。</div>';
+    wrap.style.display = 'none';
+    return;
+  }
+  listEl.innerHTML = STATE.calendarList.map(r => `
+    <div class="compare-record">
+      <div class="name">${escapeHtml(r.name)} ${r.type ? `<span class="tag">${TYPE_LABELS_CAL[r.type] || ''}</span>` : ''}</div>
+      <div class="meta">
+        ${r.regStart || r.regEnd ? `📝 報名 ${escapeHtml(r.regStart || '?')} ~ ${escapeHtml(r.regEnd || '?')} · ` : ''}
+        ${r.lottery ? `🎲 抽籤 ${escapeHtml(r.lottery)} · ` : ''}
+        ${r.report ? `✅ 報到截止 ${escapeHtml(r.report)} · ` : ''}
+        ${r.retain ? `⏳ 備取保留 ${escapeHtml(r.retain)}` : ''}
+      </div>
+      ${r.notes ? `<div class="meta" style="margin-top:6px;">${escapeHtml(r.notes)}</div>` : ''}
+      <div class="actions">
+        <button class="danger" onclick="removeCalendarRecord('${r.id}')">🗑 移除</button>
+      </div>
+    </div>
+  `).join('');
+  wrap.style.display = 'block';
+}
+
+const TYPE_LABELS_CAL = {
+  public: '公幼',
+  nonprofit: '非營利',
+  semi: '準公共',
+  private: '私立',
+  infant: '托嬰中心',
+  nanny: '保母',
+};
+
+function getAllEvents() {
+  const events = [];
+  STATE.calendarList.forEach(r => {
+    if (r.regStart) events.push({date: r.regStart, type: '報名開始', name: r.name, color: '#6b8eaa'});
+    if (r.regEnd) events.push({date: r.regEnd, type: '報名截止 ⚠️', name: r.name, color: '#e07c7c'});
+    if (r.lottery) events.push({date: r.lottery, type: '🎲 抽籤', name: r.name, color: '#e0735c'});
+    if (r.report) events.push({date: r.report, type: '✅ 報到截止 🚨', name: r.name, color: '#e07c7c'});
+    if (r.retain) events.push({date: r.retain, type: '⏳ 備取保留截止', name: r.name, color: '#f0a868'});
+  });
+  return events.sort((a, b) => a.date.localeCompare(b.date));
+}
+
+function renderCalendarTimeline() {
+  const el = document.getElementById('calendar-timeline');
+  if (!el) return;
+  const events = getAllEvents();
+  if (events.length === 0) { el.innerHTML = '<p style="color:var(--muted);">尚未填入任何日期</p>'; return; }
+  el.innerHTML = events.map(e => `
+    <div style="border-left:4px solid ${e.color};padding:10px 14px;margin-bottom:8px;background:var(--card);border-radius:8px;">
+      <div style="font-weight:700;color:${e.color};">${escapeHtml(e.date)} · ${escapeHtml(e.type)}</div>
+      <div style="color:var(--text);">${escapeHtml(e.name)}</div>
+    </div>
+  `).join('');
+}
+
+function renderCalendarConflicts() {
+  const el = document.getElementById('calendar-conflicts');
+  if (!el) return;
+  const events = getAllEvents();
+  // 同日多個事件
+  const byDate = {};
+  events.forEach(e => { (byDate[e.date] = byDate[e.date] || []).push(e); });
+  const conflicts = Object.entries(byDate).filter(([_, arr]) => arr.length >= 2);
+  // 備取保留期太短
+  const shortRetain = STATE.calendarList.filter(r => {
+    if (!r.lottery || !r.retain) return false;
+    const d1 = new Date(r.lottery), d2 = new Date(r.retain);
+    return (d2 - d1) / (1000*60*60*24) <= 14;
+  });
+  let html = '';
+  if (conflicts.length === 0 && shortRetain.length === 0) {
+    html = '<div class="callout ok"><p style="margin:0;">✅ 目前沒有時程衝突,備取保留期都正常。</p></div>';
+  } else {
+    conflicts.forEach(([date, arr]) => {
+      html += `<div class="callout danger"><h4>🚨 ${date} 同日 ${arr.length} 個事件</h4><ul style="margin:8px 0 0 22px;">`;
+      arr.forEach(e => { html += `<li>${escapeHtml(e.name)} · ${escapeHtml(e.type)}</li>`; });
+      html += '</ul><p style="margin:8px 0 0;font-size:14px;"><strong>衝突</strong>:同一天無法跑兩家現場活動。要排優先順序或請家人代跑。</p></div>';
+    });
+    shortRetain.forEach(r => {
+      html += `<div class="callout warn"><h4>⚠️ ${escapeHtml(r.name)} 備取保留期 ≤ 14 天 = 跟沒中差不多</h4><p style="margin:0;font-size:14px;">抽籤 ${r.lottery} → 備取保留只到 ${r.retain}。<strong>沒抽中正取就要當作沒中</strong>,別等。</p></div>`;
+    });
+  }
+  el.innerHTML = html;
+}
+
+function renderCalendarCountdown() {
+  const el = document.getElementById('calendar-countdown');
+  if (!el) return;
+  const events = getAllEvents();
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  const upcoming = events.map(e => {
+    const d = new Date(e.date);
+    d.setHours(0,0,0,0);
+    return {...e, daysLeft: Math.round((d - today) / (1000*60*60*24))};
+  }).filter(e => e.daysLeft >= 0 && e.daysLeft <= 30).sort((a,b) => a.daysLeft - b.daysLeft);
+  if (upcoming.length === 0) { el.innerHTML = '<p style="color:var(--muted);">最近 30 天沒有排定事件。</p>'; return; }
+  el.innerHTML = upcoming.map(e => {
+    let label = e.daysLeft === 0 ? '🔥 今天!' : e.daysLeft <= 3 ? `⚠️ ${e.daysLeft} 天後` : `${e.daysLeft} 天後`;
+    return `<div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--card);border:1px solid var(--border);border-radius:8px;margin-bottom:6px;">
+      <div style="font-weight:700;color:${e.color};min-width:80px;">${label}</div>
+      <div style="flex:1;"><strong>${escapeHtml(e.name)}</strong> — ${escapeHtml(e.type)} · ${escapeHtml(e.date)}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderCalendarTable() {
+  const tbl = document.getElementById('calendar-table');
+  if (!tbl) return;
+  const records = STATE.calendarList;
+  if (records.length === 0) { tbl.innerHTML = ''; return; }
+  let html = '<thead><tr><th>園所</th><th>類型</th><th>報名期</th><th>抽籤</th><th>報到截止</th><th>備取保留</th></tr></thead><tbody>';
+  records.forEach(r => {
+    html += `<tr>
+      <td><strong>${escapeHtml(r.name)}</strong></td>
+      <td>${TYPE_LABELS_CAL[r.type] || '—'}</td>
+      <td>${escapeHtml(r.regStart || '?')} ~ ${escapeHtml(r.regEnd || '?')}</td>
+      <td>${escapeHtml(r.lottery || '—')}</td>
+      <td>${escapeHtml(r.report || '—')}</td>
+      <td>${escapeHtml(r.retain || '—')}</td>
+    </tr>`;
+  });
+  html += '</tbody>';
+  tbl.innerHTML = html;
+}
+
+function exportCalendarText() {
+  const events = getAllEvents();
+  if (events.length === 0) { alert('Calendar 還沒有日期資料'); return; }
+  let text = '【我的幼兒園 Calendar】\n\n';
+  text += '📅 時間軸:\n';
+  events.forEach(e => { text += `${e.date} · ${e.type} · ${e.name}\n`; });
+  text += '\n📋 完整資料:\n';
+  STATE.calendarList.forEach((r, i) => {
+    text += `\n${i+1}. ${r.name}` + (r.type ? ` (${TYPE_LABELS_CAL[r.type] || ''})` : '') + '\n';
+    if (r.regStart || r.regEnd) text += `   報名:${r.regStart || '?'} ~ ${r.regEnd || '?'}\n`;
+    if (r.lottery) text += `   抽籤:${r.lottery}\n`;
+    if (r.report) text += `   報到截止:${r.report}\n`;
+    if (r.retain) text += `   備取保留:${r.retain}\n`;
+    if (r.notes) text += `   備註:${r.notes}\n`;
+  });
+  text += '\n— 整理自托幼手冊 https://tm731531.github.io/dementia-care/childcare-handbook/';
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(() => alert('已複製到剪貼簿。')).catch(() => fallbackCopy(text));
+  } else { fallbackCopy(text); }
+}
+
+function togglePlanningModeFromHome() {
+  const home = document.getElementById('toggle-planning-home');
+  STATE.planningMode = home.checked;
+  saveState();
+  renderPlanningModeBlock();
+  // sync settings page toggle
+  const tp = document.getElementById('toggle-planning');
+  if (tp) tp.checked = STATE.planningMode;
+}
+
 // ============ Settings: Export / Import / Reset ============
 function exportJson() {
   const dataStr = JSON.stringify(STATE, null, 2);
@@ -3478,6 +3844,8 @@ function resetAll() {
 function syncSettingsUI() {
   const tp = document.getElementById('toggle-planning');
   if (tp) tp.checked = !!STATE.planningMode;
+  const tph = document.getElementById('toggle-planning-home');
+  if (tph) tph.checked = !!STATE.planningMode;
   const fm = document.getElementById('family-mode');
   if (fm) fm.value = STATE.familyMode || 'normal';
 }
@@ -3487,6 +3855,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderAllChecklists();
   renderPlanningModeBlock();
   renderCompareList();
+  renderCalendarAll();
   syncSettingsUI();
   applyFamilyMode();
 
@@ -3512,6 +3881,13 @@ window.exportCompareText = exportCompareText;
 window.exportJson = exportJson;
 window.importJson = importJson;
 window.resetAll = resetAll;
+window.addCalendarRecord = addCalendarRecord;
+window.clearCalendarForm = clearCalendarForm;
+window.removeCalendarRecord = removeCalendarRecord;
+window.clearAllCalendar = clearAllCalendar;
+window.loadFromCompare = loadFromCompare;
+window.exportCalendarText = exportCalendarText;
+window.togglePlanningModeFromHome = togglePlanningModeFromHome;
 </script>
 
 </body>
