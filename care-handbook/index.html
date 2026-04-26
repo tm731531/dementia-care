@@ -12,7 +12,7 @@
   --primary-dark: #3e6a85;
   --primary-light: #ecf3f8;
   --accent: #c9826b;
-  --bg: #f7faf c;
+  --bg: #f7fafc;
   --card: #fff;
   --text: #1f2933;
   --muted: #5c6a78;
@@ -173,7 +173,7 @@ tbody tr:nth-child(even) { background: rgba(0,0,0,0.02); }
   </div>
 
   <div class="footer-note">
-    最後更新 2026-04-26 · v1.1 · 補助標準會逐年更新,以衛福部公告為準 · <a href="https://github.com/tm731531/dementia-care" target="_blank">GitHub</a>
+    最後更新 2026-04-26 · v1.2 · 補助標準會逐年更新,以衛福部公告為準 · <a href="https://github.com/tm731531/dementia-care" target="_blank">GitHub</a>
   </div>
 </section>
 
@@ -250,7 +250,7 @@ tbody tr:nth-child(even) { background: rgba(0,0,0,0.02); }
   <ol>
     <li><strong>撥 1966 長照專線</strong>(免費) — 提供長輩姓名 / 身分證 / 戶籍地址 / 主照顧者聯絡</li>
     <li><strong>等照管中心電話約評估</strong>(1-2 週)</li>
-    <li><strong>照管專員到府評估</strong>(1-1.5 小時)— 用 CMS(Care Management System,長照失能評估量表)+ 失智 CDR 量表</li>
+    <li><strong>照管專員到府評估</strong>(1-1.5 小時)— 用 CMS(Care Management System,長照失能評估量表)+ 失智 CDR 量表 · 看 <a href="https://1966.gov.tw/LTC/cp-6572-69948-207.html" target="_blank" rel="noopener">CMS 8 級分級說明(衛福部)</a></li>
     <li><strong>取得失能等級</strong> — 2-8 級(8 級最重)。失智長輩多在 2-4 級</li>
     <li><strong>照管專員擬定「照顧計畫」</strong> — 推薦服務組合 + 給付額度</li>
     <li><strong>家屬選擇服務提供者</strong>(居服員 / 日照中心 / 喘息) + 簽約</li>
@@ -470,6 +470,11 @@ tbody tr:nth-child(even) { background: rgba(0,0,0,0.02); }
 <section class="page" id="page-respite">
   <h1>😌 喘息服務</h1>
 
+  <div class="callout danger">
+    <h4>🆘 緊急 — 主照顧者突然倒下(撐不住 / 急病 / 車禍)</h4>
+    <p style="margin:0;"><strong>馬上撥 1966 申請緊急喘息</strong>。失智者可立刻轉到機構式喘息,通常 <strong>24-48 小時內</strong> 安排。<strong>這是「我倒下了長輩怎辦」的核心 backup,先打再說</strong>。</p>
+  </div>
+
   <div class="callout">
     <h4>📌 一句話</h4>
     <p style="margin:0;"><strong>讓主照顧者休息的服務</strong>。每年有額度。<strong>主照顧者一定要用,不用是浪費</strong>。</p>
@@ -487,7 +492,7 @@ tbody tr:nth-child(even) { background: rgba(0,0,0,0.02); }
 
   <h2>📊 額度</h2>
   <ul>
-    <li>失能 2-6 級 vs 7-8 級 額度不同(具體天數 / 金額逐年公告 — 撥 1966 或看 <a href="https://1966.gov.tw/LTC/lp-6455-207.html" target="_blank" rel="noopener">衛福部喘息服務</a> 最新)</li>
+    <li>失能 2-6 級 vs 7-8 級 額度不同(具體天數 / 金額逐年公告 — 撥 1966 或看 <a href="https://1966.gov.tw/LTC/lp-6455-207.html" target="_blank" rel="noopener">1966 家庭照顧者支持服務(含喘息)</a> 最新)</li>
     <li><strong>沒用會作廢,不能跨年</strong>(這個原則不變)</li>
     <li>📞 申請喘息直接撥 <strong>1966</strong> 或看 <a href="https://www.familycare.org.tw" target="_blank" rel="noopener">家庭照顧者關懷總會</a></li>
   </ul>
@@ -499,11 +504,6 @@ tbody tr:nth-child(even) { background: rgba(0,0,0,0.02); }
     <li>家屬選喘息類型 + 服務提供者</li>
     <li>居家 / 日間 → 較快(1 週);機構 → 要提早 1 個月排</li>
   </ol>
-
-  <h2>🆘 緊急喘息(主照顧者突然倒下)</h2>
-  <div class="callout danger">
-    <p style="margin:0;"><strong>主照顧者車禍 / 急病住院 → 馬上撥 1966 申請緊急喘息</strong>。失智者可立刻轉到機構式喘息,通常 24-48 小時內安排。<strong>這是「我倒下了長輩怎辦」的核心 backup</strong>。</p>
-  </div>
 
   <h2>💡 主照顧者排喘息的時機</h2>
   <ul>
@@ -530,10 +530,10 @@ tbody tr:nth-child(even) { background: rgba(0,0,0,0.02); }
 
   <h2>📋 申請資格(巴氏量表評估)</h2>
   <ul>
-    <li>長輩需<strong>巴氏量表評估</strong>(由特約醫院醫師執行)</li>
+    <li>長輩需<strong>巴氏量表評估</strong>(由特約醫院醫師執行) · 看 <a href="https://www.mohw.gov.tw/cp-16-37796-1.html" target="_blank" rel="noopener">衛福部巴氏量表 ADL 說明</a></li>
     <li><strong>評分 ≤ 35 分</strong>(完全依賴他人)= 符合資格</li>
     <li>失智症另有「特定身心障礙項目」可申請,不需巴氏量表</li>
-    <li><strong>重大傷病卡</strong>(失智可拿)有助申請</li>
+    <li><strong>重大傷病卡</strong>(失智可拿)有助申請 · 看 <a href="https://www.nhi.gov.tw/ch/cp-1719-1f47e-2727-1.html" target="_blank" rel="noopener">健保署重大傷病卡申請</a></li>
   </ul>
 
   <h2>🔢 申請 SOP(8 步驟)</h2>
@@ -659,6 +659,13 @@ tbody tr:nth-child(even) { background: rgba(0,0,0,0.02); }
   </div>
 
   <div id="budget-result" style="display:none;margin-top:24px;"></div>
+
+  <div class="next-step-cta">
+    <h4>✅ 算完預算,下一步</h4>
+    <a onclick="navigateTo('page-combo');return false;" href="#">🧩 看跨服務組合</a>
+    <a onclick="navigateTo('page-checklist');return false;" href="#">📋 觀察 Checklist</a>
+    <a onclick="navigateTo('page-apply');return false;" href="#">📞 撥 1966 申請</a>
+  </div>
 </section>
 
 <!-- ========== 觀察 Checklist ========== -->
@@ -703,6 +710,12 @@ tbody tr:nth-child(even) { background: rgba(0,0,0,0.02); }
 
   <h2>🏢 住宿機構參訪</h2>
   <p>看 <a href="../home-handbook/long-term/" target="_blank">home-handbook 長期規劃</a> 的「機構比較選擇 checklist 15 項」(已完整)。</p>
+
+  <div class="next-step-cta">
+    <h4>✅ Checklist 沒過,下一步</h4>
+    <a onclick="navigateTo('page-complain');return false;" href="#">🚨 SOP 沒做怎辦(投訴 / 換人)</a>
+    <a onclick="navigateTo('page-resources');return false;" href="#">🔗 1966 / 1955 / 113 專線</a>
+  </div>
 </section>
 
 <!-- ========== 跨服務組合 ========== -->
@@ -846,6 +859,13 @@ tbody tr:nth-child(even) { background: rgba(0,0,0,0.02); }
     <li>太情緒 / 沒重點 → 對方逃避</li>
     <li>沒寫書面 → 沒有正式紀錄</li>
   </ul>
+
+  <div class="next-step-cta">
+    <h4>✅ 投訴 / 換人後,下一步</h4>
+    <a onclick="navigateTo('page-checklist');return false;" href="#">📋 重新觀察新人</a>
+    <a onclick="navigateTo('page-apply');return false;" href="#">📞 撥 1966 重新媒合</a>
+    <a onclick="navigateTo('page-resources');return false;" href="#">🔗 專線總表</a>
+  </div>
 </section>
 
 <!-- ========== 官方資源連結 ========== -->
@@ -873,7 +893,7 @@ tbody tr:nth-child(even) { background: rgba(0,0,0,0.02); }
     <thead><tr><th>單位</th><th>連結</th><th>用途</th></tr></thead>
     <tbody>
       <tr><td>衛福部長期照顧司</td><td><a href="https://dep.mohw.gov.tw/DOLTC/mp-123.html" target="_blank" rel="noopener">dep.mohw.gov.tw/DOLTC</a></td><td>22 縣市照管中心清單 / 政策公告</td></tr>
-      <tr><td>家庭照顧者支持服務</td><td><a href="https://1966.gov.tw/LTC/lp-6455-207.html" target="_blank" rel="noopener">1966 喘息服務</a></td><td>喘息服務規範 / 家照據點分布 / 互助喘息</td></tr>
+      <tr><td>家庭照顧者支持服務(含喘息)</td><td><a href="https://1966.gov.tw/LTC/lp-6455-207.html" target="_blank" rel="noopener">1966 家庭照顧者支持服務</a></td><td>喘息服務規範 / 家照據點分布 / 互助喘息</td></tr>
       <tr><td>失智照護服務</td><td><a href="https://1966.gov.tw/LTC/lp-6456-207.html" target="_blank" rel="noopener">1966 失智照護</a></td><td>失智照護計畫 / 失智住宿資源 / 共照中心</td></tr>
       <tr><td>住宿式機構服務</td><td><a href="https://1966.gov.tw/LTC/lp-6457-207.html" target="_blank" rel="noopener">1966 機構服務</a></td><td>機構評鑑 / 補助方案 / 感染管制</td></tr>
       <tr><td>社區整體照顧服務體系(ABC)</td><td><a href="https://1966.gov.tw/LTC/np-6459-207.html" target="_blank" rel="noopener">1966 ABC 體系</a></td><td>A/B/C 三層架構說明</td></tr>
@@ -888,7 +908,7 @@ tbody tr:nth-child(even) { background: rgba(0,0,0,0.02); }
     <thead><tr><th>單位</th><th>連結</th></tr></thead>
     <tbody>
       <tr><td>勞動部勞動力發展署(主入口)</td><td><a href="https://www.wda.gov.tw" target="_blank" rel="noopener">wda.gov.tw</a></td></tr>
-      <tr><td>移工申辦線上系統</td><td><a href="https://fw.wda.gov.tw" target="_blank" rel="noopener">fw.wda.gov.tw</a></td></tr>
+      <tr><td>外籍勞工勞動權益資訊網</td><td><a href="https://fw.wda.gov.tw" target="_blank" rel="noopener">fw.wda.gov.tw</a></td></tr>
       <tr><td><strong>直接聘僱聯合服務中心</strong>(免仲介費)</td><td><a href="https://dhsc.wda.gov.tw/" target="_blank" rel="noopener">dhsc.wda.gov.tw</a> · 0800-085-151</td></tr>
     </tbody>
   </table>
@@ -936,7 +956,7 @@ tbody tr:nth-child(even) { background: rgba(0,0,0,0.02); }
 
   <h2>📋 證件 / 補助(說明文字,不依賴連結)</h2>
   <ul>
-    <li><strong>重大傷病卡</strong>(失智可申請):持<strong>失智診斷書</strong>至各地<strong>健保署分區業務組</strong>申請,或在醫院健保業務部辦理</li>
+    <li><strong>重大傷病卡</strong>(失智可申請):持<strong>失智診斷書</strong>至各地<strong>健保署分區業務組</strong>申請,或在醫院健保業務部辦理 · 看 <a href="https://www.nhi.gov.tw/ch/cp-1719-1f47e-2727-1.html" target="_blank" rel="noopener">健保署重大傷病卡申請說明</a></li>
     <li><strong>身心障礙證明</strong>:至 <a href="https://dpws.sfaa.gov.tw/" target="_blank" rel="noopener">身心障礙服務入口網</a> 申請,需身心障礙鑑定</li>
     <li><strong>無障礙環境改善補助</strong>:撥 1966 → 照管專員可連動申請(屬長照 2.0 輔具服務項目)</li>
     <li><strong>監護宣告 / 輔助宣告</strong>:向<strong>地方法院家事庭</strong>聲請,備醫師診斷書 + 親屬資料,可至法院服務中心索取聲請書表</li>
@@ -945,6 +965,13 @@ tbody tr:nth-child(even) { background: rgba(0,0,0,0.02); }
   <h2>📌 設計原則</h2>
   <div class="callout">
     <p style="margin:0;font-size:14px;">手冊只寫「<strong>怎麼做的方法</strong>」(這個不變)。具體<strong>金額 / 等級 / 機構名單</strong>連到官方(永遠最新)。<strong>不寫死避免落後 + 提醒永遠以官方公告為準</strong>。</p>
+  </div>
+
+  <div class="next-step-cta">
+    <h4>✅ 找到資源,下一步</h4>
+    <a onclick="navigateTo('page-apply');return false;" href="#">📞 撥 1966 申請</a>
+    <a onclick="navigateTo('page-checklist');return false;" href="#">📋 觀察 Checklist</a>
+    <a onclick="navigateTo('page-home');return false;" href="#">🏠 回首頁重做 Wizard</a>
   </div>
 </section>
 
@@ -1017,12 +1044,14 @@ function renderWizardQ(step) {
   if (step === 'budget') {
     return `<div class="wizard-card">
       <div class="wizard-step">第 3 / 3 題 <a class="reset-link" onclick="setWizardAnswer('urgency',null)">← 改第 2 題</a></div>
-      <h2>💰 家庭月預算(自付,含補助後)</h2>
+      <h2>💰 家庭每月可付多少?</h2>
+      <p style="margin:0;color:var(--muted);font-size:14px;">不知道也可以選「不確定」 — 結果會帶你去預算試算。</p>
       <div class="wizard-options">
         <button class="wizard-opt" onclick="setWizardAnswer('budget','low')"><span class="opt-icon">💰</span>10,000 內<span class="opt-hint">主要靠長照給付</span></button>
         <button class="wizard-opt" onclick="setWizardAnswer('budget','mid')"><span class="opt-icon">💰💰</span>10,000-30,000<span class="opt-hint">居家+日照+喘息組合</span></button>
         <button class="wizard-opt" onclick="setWizardAnswer('budget','high')"><span class="opt-icon">💰💰💰</span>30,000+<span class="opt-hint">外籍看護工 / 機構可選</span></button>
         <button class="wizard-opt" onclick="setWizardAnswer('budget','poor')"><span class="opt-icon">🆓</span>中低收 / 低收<span class="opt-hint">自付 5% 或 0%</span></button>
+        <button class="wizard-opt" onclick="setWizardAnswer('budget','unsure')"><span class="opt-icon">❓</span>不確定<span class="opt-hint">先看建議,再去預算試算</span></button>
       </div>
     </div>`;
   }
@@ -1046,7 +1075,7 @@ function resetWizard() { STATE.userProfile = {}; saveState(); renderWizard(); }
 function renderWizardResult(p) {
   const sevLabel = {newly:'剛確診',mild:'輕-中度',moderate:'中度',severe:'重度'}[p.severity];
   const urgLabel = {crisis:'撐不住',working:'有工作',full:'全職顧',plan:'規劃'}[p.urgency];
-  const budLabel = {low:'10K 內',mid:'10-30K',high:'30K+',poor:'中低收/低收'}[p.budget];
+  const budLabel = {low:'10K 內',mid:'10-30K',high:'30K+',poor:'中低收/低收',unsure:'預算待估'}[p.budget];
   const actions = [];
 
   if (p.severity === 'newly') {
@@ -1065,11 +1094,23 @@ function renderWizardResult(p) {
   }
 
   if (p.urgency === 'full') {
-    actions.push({title:'😌 規律喘息',body:'**主照顧者一定要用,不用是浪費**。每月 1-2 次居家喘息 + 每年 1-2 次機構喘息。',link:'page-respite',linkText:'看喘息'});
+    actions.push({title:'😌 規律喘息',body:'<strong>主照顧者一定要用,不用是浪費</strong>。每月 1-2 次居家喘息 + 每年 1-2 次機構喘息。',link:'page-respite',linkText:'看喘息'});
   }
 
   if (p.severity === 'severe' && p.budget === 'high') {
     actions.push({title:'🌏 外籍看護工',body:'24 小時同住,中-重度首選。月成本 30-35K(跟長照 BCS 互斥)。',link:'page-foreign',linkText:'看看護工'});
+  }
+
+  // 重度 + 低預算 / 中低收 / 不確定 → 不能省略,要給最厚的補助路徑
+  if (p.severity === 'severe' && (p.budget === 'low' || p.budget === 'poor' || p.budget === 'unsure')) {
+    actions.push({title:'☀️ 失智專責日照(BCS 給付重)',body:'重度給付 28-36K/月,低收 / 中低收自付 0-5%,可幾乎免費。先撥 1966 申請評估。',link:'page-daycare',linkText:'看日照'});
+    actions.push({title:'😌 喘息額度撐住主照顧者',body:'重度年喘息額度 48,510 元。低收 0% 自付 → 完全免費。每月排居家喘息。',link:'page-respite',linkText:'看喘息'});
+    actions.push({title:'🤝 家照協會 + 1925 安心專線',body:'撐不住時:0800-507-272 家庭照顧者關懷總會,或 1925 安心專線(24h)。',link:'page-resources',linkText:'看支持資源'});
+  }
+
+  // 重度 + 有工作 → 工時 + 重度照顧不可能單打,優先放最重的解
+  if (p.severity === 'severe' && p.urgency === 'working') {
+    actions.push({title:'⚠️ 重度+有工作 = 高風險組合',body:'單靠居服員不夠。一定要組合:日照(白天) + 居家喘息(週末) + 評估外籍看護工或機構。撥 1966 強烈表達需求。',link:'page-combo',linkText:'看跨服務組合'});
   }
 
   // 永遠加
@@ -1146,11 +1187,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 window.addEventListener('popstate', () => {
   const hash = window.location.hash;
-  if (hash && hash.startsWith('#page-')) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById(hash.slice(1))?.classList.add('active');
-    window.scrollTo({top: 0, behavior: 'smooth'});
-  }
+  const pageId = (hash && hash.startsWith('#page-')) ? hash.slice(1) : 'page-home';
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(pageId)?.classList.add('active');
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.toggle('active', l.dataset.page === pageId));
+  window.scrollTo({top: 0, behavior: 'smooth'});
 });
 
 window.navigateTo = navigateTo;
