@@ -514,6 +514,7 @@ details[open] summary { margin-bottom: 8px; }
     <a class="nav-link" data-page="page-home" onclick="navigateTo('page-home');return false;" href="#">🏠 首頁</a>
     <a class="nav-link" data-page="page-types" onclick="navigateTo('page-types');return false;" href="#">🏫 類型選擇</a>
     <a class="nav-link" data-page="page-infant" onclick="navigateTo('page-infant');return false;" href="#">👶 托嬰專區</a>
+    <a class="nav-link" data-page="page-preschool" onclick="navigateTo('page-preschool');return false;" href="#">🏫 幼兒園專區</a>
     <a class="nav-link" data-page="page-nanny" onclick="navigateTo('page-nanny');return false;" href="#">👵 保母系統</a>
     <a class="nav-link" data-page="page-subsidy" onclick="navigateTo('page-subsidy');return false;" href="#">💰 補助系統</a>
     <a class="nav-link" data-page="page-5w1h" onclick="navigateTo('page-5w1h');return false;" href="#">🎯 5W1H 方法論</a>
@@ -574,6 +575,11 @@ details[open] summary { margin-bottom: 8px; }
     </div>
   </div>
 
+  <div class="callout">
+    <h4>💡 推薦先開「規劃模式」</h4>
+    <p style="margin:0;">到 <a onclick="navigateTo('page-settings');return false;" href="#">⚙️ 設定</a> 把<strong>規劃模式 toggle 打開</strong>(只要 1 鍵),首頁會自動顯示「<strong>本月該做的事</strong>」(例如 4 月底會顯示「非營利缺額公告 / 文件備齊」)。月份過了自動更新,不用記。</p>
+  </div>
+
   <h2>📌 第一次找園所?從這 4 個地方開始</h2>
   <ol>
     <li><strong>先讀 <a onclick="navigateTo('page-types');return false;" href="#">🏫 4 種類型</a></strong> — 0-2 歲 vs 2-6 歲是兩套法律。公托 / 公幼 / 非營利 / 準公共 / 私立差在哪。費用差好幾倍,選錯類型一切白搞。</li>
@@ -600,14 +606,16 @@ details[open] summary { margin-bottom: 8px; }
   <table>
     <thead><tr><th>你的情境</th><th>建議路線</th></tr></thead>
     <tbody>
-      <tr><td>0-1 歲 + 預算緊 + 雙薪</td><td>立刻排公托 → 同時找準公共托嬰 / 準公共保母 補位</td></tr>
-      <tr><td>1-2 歲 + 急著送(這個月)</td><td>準公共托嬰 + 準公共保母(熱門排 3-6 月,<strong>現在就動</strong>)</td></tr>
-      <tr><td>1-2 歲 + 預算寬</td><td>私立托嬰 + 補助領育兒津貼 5,000</td></tr>
-      <tr><td>2 歲 + 雙薪 + 預算緊</td><td>4-6 月一波:非營利 + 公幼(統一報) + 準公共補位</td></tr>
-      <tr><td>2 歲 + 想要特定教學風格</td><td>私立(蒙氏 / 華德福 / 雙語) + 準公共補位</td></tr>
-      <tr><td>3-6 歲(已在園)</td><td>每年 1-2 月辦留園直升;想換園看 4-5 月新生缺額</td></tr>
+      <tr><td>0-1 歲 + 預算緊 + 雙薪</td><td>立刻排公托 → 同時找準公共 → 看 <a onclick="navigateTo('page-infant');return false;" href="#">👶 托嬰專區</a> + <a onclick="navigateTo('page-nanny');return false;" href="#">👵 保母</a></td></tr>
+      <tr><td>1-2 歲 + 急著送(這個月)</td><td>熱門排 3-6 月,<strong>現在就動</strong>。看 <a onclick="navigateTo('page-infant');return false;" href="#">👶 托嬰專區</a> + <a onclick="navigateTo('page-nanny');return false;" href="#">👵 保母</a></td></tr>
+      <tr><td>1-2 歲 + 預算寬</td><td>私立托嬰 + 育兒津貼 5,000。看 <a onclick="navigateTo('page-types');return false;" href="#">🏫 類型選擇</a></td></tr>
+      <tr><td><strong>2 歲 + 雙薪 + 預算緊</strong></td><td>4-6 月一波。看 <a onclick="navigateTo('page-preschool');return false;" href="#">🏫 幼兒園專區</a> + <a onclick="navigateTo('page-timeline');return false;" href="#">📅 時程地圖</a></td></tr>
+      <tr><td><strong>2-6 歲 + 想要特定教學風格</strong>(蒙氏/華德福/雙語)</td><td>看 <a onclick="navigateTo('page-preschool');return false;" href="#">🏫 幼兒園專區</a> 教學風格章節</td></tr>
+      <tr><td><strong>3-6 歲(已在園,想換園或續讀)</strong></td><td>1-2 月辦留園直升;4-5 月看新生缺額。看 <a onclick="navigateTo('page-preschool');return false;" href="#">🏫 幼兒園專區</a></td></tr>
+      <tr><td><strong>大班 5-6 歲(準備上小一)</strong></td><td>看 <a onclick="navigateTo('page-aftercare');return false;" href="#">🏡 入園後實務</a> 第 8 節「升小一銜接」</td></tr>
+      <tr><td>單親家庭(各年齡)</td><td>低收/中低收身分認定可大幅降費,撥 1957 福利專線 + 看 <a onclick="navigateTo('page-subsidy');return false;" href="#">💰 補助系統</a></td></tr>
       <tr><td>三明治世代(同時照顧失智長輩)</td><td>看 <a onclick="navigateTo('page-sandwich');return false;" href="#">👨‍👩‍👧 三明治世代</a> 專區</td></tr>
-      <tr><td>住偏遠地區</td><td><strong>先查偏鄉公幼</strong>(設籍 2 年以上免抽籤、優先入學) → 再查最近的「準公共」+ 「私立」</td></tr>
+      <tr><td>住偏遠地區</td><td><strong>先查偏鄉公幼</strong>(設籍 2 年以上免抽籤、優先入學) → 再查最近的「準公共」</td></tr>
     </tbody>
   </table>
   </div>
@@ -708,7 +716,7 @@ details[open] summary { margin-bottom: 8px; }
       <tr>
         <td><strong>非營利幼兒園</strong></td>
         <td>2-6 歲</td>
-        <td>第 1 胎約 2,000-3,000(各縣市協議) / 第 2 胎 1,000-2,000 / 第 3 胎以上免費<br>(中低收 / 低收 免費)</td>
+        <td>第 1 胎 ≤2,000(教育部上限) / 第 2 胎 ≤1,000 / 第 3 胎以上免費<br>(中低收 / 低收 免費)</td>
         <td>新北 kid123 / 各縣市統一網站</td>
         <td>統一電腦抽籤</td>
         <td>中等</td>
@@ -1023,6 +1031,10 @@ details[open] summary { margin-bottom: 8px; }
       <li>「孩子<strong>哭不停</strong>,老師怎麼處理?能舉個最近發生的例子嗎?」(要具體例子)</li>
     </ol>
   </div>
+
+  <h2>🏫 幼兒園專屬(2-6 歲)</h2>
+  <p style="font-size:14px;color:var(--muted);"><em>給找幼兒園的家長(2-6 歲)。0-2 歲跳到下面「👶 托嬰專屬」。</em></p>
+  <div id="cl-preschool"></div>
 
   <h2>👶 托嬰專屬(0-2 歲)</h2>
   <p style="font-size:14px;color:var(--muted);"><em>給找托嬰中心的家長。2 歲以上跳過,直接看下面 6 大維度即可。</em></p>
@@ -1577,7 +1589,7 @@ details[open] summary { margin-bottom: 8px; }
 
   <div class="callout danger">
     <h4>🚨 公幼特別注意 · 公務員廉政規範</h4>
-    <p style="margin:0;"><strong>公立幼兒園教保員屬公務員體系</strong>,適用《公務員廉政倫理規範》— 收受家長餽贈有明確上限,現金 / 禮卡可能造成老師困擾。<strong>公幼建議改送班級共用耗材</strong>(繪本、美勞材料),或一起辦班級活動,比個人禮金更合規。私立 / 準公共另依各園工作倫理守則,但仍建議低調合資,不送現金。</p>
+    <p style="margin:0;"><strong>公立幼兒園教保員(含約聘僱)依法令從事公務</strong>,適用《公務員廉政倫理規範》第 14 條 — <strong>正常社交禮俗市價上限 500 元</strong>,超過應拒收或報告。現金 / 禮卡可能造成老師困擾。<strong>公幼建議改送班級共用耗材</strong>(繪本、美勞材料),或一起辦班級活動,比個人禮金更合規。私立 / 準公共另依各園工作倫理守則,但仍建議低調合資,不送現金。</p>
   </div>
 
   <h2>🏠 5. 入園前家訪</h2>
@@ -1715,15 +1727,22 @@ details[open] summary { margin-bottom: 8px; }
     </tbody>
   </table>
 
-  <h2>👩‍🏫 11. 教保員 / 托育人員職涯資訊(讓家長理解「好老師難留」)</h2>
-  <p>不是同情教保員,而是讓家長知道<strong>為什麼這個工作難留人</strong>,以及家長能做什麼讓老師更願意留。</p>
+  <h2>👩‍🏫 11. 老師流動率影響你孩子的穩定 · 教保員勞動現實</h2>
+  <div class="callout warn">
+    <h4>🎯 你希望孩子穩定 → 那要看老師流動率 → 流動率是這樣形成的</h4>
+    <p style="margin:0;"><strong>家長端的小事,加總起來決定教保員流動率,而流動率直接影響你孩子的穩定</strong>。下面講教保員真實工作條件,不是要家長同情,而是讓你看到「為什麼好老師難留」,然後做出能讓他留下來的小事。</p>
+  </div>
+
   <h3>真實工作條件(2025-2026 雙北)</h3>
   <ul>
-    <li><strong>實領薪資</strong>:助理教保員 28,000-32,000 / 正式教保員 32,000-38,000(含勞健保扣除後)。準公共老師 114 年起政府規定底薪 34,200(任職未滿 3 年)/ 37,200(滿 3 年)/ 40,200(滿 6 年)</li>
-    <li><strong>工時</strong>:7:00-18:30 含延托,午休常被用來備餐 / 寫聯絡簿</li>
-    <li><strong>體力</strong>:0-2 歲一個班平均每天「抱起放下」累積 300+ 次,下背傷害是職業病</li>
-    <li><strong>離職主因排序</strong>:① <strong>家長關係壓力</strong>(群組被截圖、被投訴) → ② 體力負擔 → ③ 薪水 → ④ 升遷有限</li>
+    <li><strong>實領薪資</strong>:助理教保員 28,000-32,000 / 正式教保員 32,000-38,000(扣勞健保後)。準公共老師 114 年起政府規定底薪 34,200(任職未滿 3 年)/ 37,200(滿 3 年)/ 40,200(滿 6 年)<br><em>(來源:雙北人力銀行 2025 行情 + 教育部準公共化政策公告,以各縣市最新為準)</em></li>
+    <li><strong>勞健保保護缺口</strong>:私立 / 非準公共部分機構規避雇主負擔,以「自行投保」「兼職」掛名;<strong>選園時可問:你們教保員勞健保由園所負擔嗎?</strong></li>
+    <li><strong>輪班與午休</strong>:多數公托一班兩位輪早晚班(7:00-15:00 / 10:30-18:30),午休名義有但常用來交班、填記錄、備餐</li>
+    <li><strong>體力</strong>:0-2 歲一個班平均每天「抱起放下」累積 300+ 次,下背傷害是職業病。<strong>職業傷害補償申請困難</strong>,多數老師自己吞</li>
+    <li><strong>年終 / 考績</strong>:私立和準公共多數無年終;公托有公務員年終但教保員常被列「約聘」排除</li>
+    <li><strong>離職主因排序</strong>:① <strong>家長關係壓力</strong>(群組截圖、投訴) → ② 體力負擔 → ③ 薪水 → ④ 升遷有限</li>
   </ul>
+
   <h3>家長能做的(讓好老師願意留下來)</h3>
   <ul>
     <li>用上面「家長端配合 Checklist」的 13 條</li>
@@ -1732,7 +1751,21 @@ details[open] summary { margin-bottom: 8px; }
     <li>了解「老師沒立即回訊」是因為手上有 5 個孩子,不是態度問題</li>
     <li>節慶禮(若送)寫個小卡 + 班級耗材,比現金禮卡讓老師更有溫度</li>
   </ul>
-  <p style="font-size:14px;color:var(--muted);"><em>家長端的小事,加總起來決定教保員流動率 — 而流動率直接影響你孩子的穩定。</em></p>
+
+  <h2>💔 12. 家長最常後悔的決策(園長端真實觀察)</h2>
+  <div class="callout danger">
+    <p style="margin:0;"><strong>選園後最常聽到的回頭話 — 提前讀過,可避開 90%</strong>。</p>
+  </div>
+  <ol class="steps-list">
+    <li><strong>選了近的,不是合的</strong> — 用步行距離 / 費用篩選,入園才發現孩子跟老師個性不合,但因轉園成本高(等候 / 適應)只能硬撐。<strong>孩子氣質 vs 教學風格的適配性</strong>比距離重要。看 <a onclick="navigateTo('page-preschool');return false;" href="#">🏫 幼兒園專區</a> 教學風格章節</li>
+    <li><strong>聽媽媽群推薦,沒自己觀察</strong> — 口碑是<strong>滯後指標</strong>。兩年前口碑最好的園所,主帶老師可能已換過一輪。<strong>問口碑時,問的是「最近一年在讀家長」的感受,不是三年前</strong></li>
+    <li><strong>沒問清楚延托規則,臨時才發現不能配合</strong> — 選園優先看費用環境師資,延托等到入園後才問,才發現給不了你需要的彈性。<strong>選園 Top 10 必問就有「延托規則」這條,務必問</strong></li>
+    <li><strong>抽到了就去,沒有停下來想「這家對不對」</strong> — 抽到的沉沒成本心理 → 抽到後不再評估適合度。<strong>抽到不代表一定要去</strong>。去觀察後覺得不合,放棄才是對孩子負責(讓備取家庭遞補)</li>
+    <li><strong>急著做決定,沒等試讀</strong> — 為了「卡位」直接報到,進去才發現不適合。<strong>有提供試讀務必試</strong>,試讀對 vs 不對的感覺很真</li>
+    <li><strong>把園所「漂亮裝潢」當品質指標</strong> — 漂亮地板 / 大遊戲區 ≠ 好教學。<strong>老師眼神 + 孩子離園神情</strong>比裝潢可信</li>
+    <li><strong>太相信「招牌」蒙氏 / 華德福</strong> — 這些名稱沒法律保護,任何園所都能掛。<strong>問實際做法</strong>:教具齊全嗎?老師認證嗎?混齡比例?(看幼兒園專區)</li>
+    <li><strong>低估「孩子常生病」對家長作息的衝擊</strong> — 入園 3-6 月免疫洗禮期,雙薪家庭常崩潰。<strong>先準備備援名單</strong>(看入園後實務 § 7)</li>
+  </ol>
 </section>
 
 <!-- ========== 案例 ========== -->
@@ -1838,7 +1871,7 @@ details[open] summary { margin-bottom: 8px; }
     <tbody>
       <tr><td>新北市</td><td><a href="https://kid123.ntpc.edu.tw" target="_blank" rel="noopener">kid123.ntpc.edu.tw</a></td><td>統一線上報名,<strong>最多可填 60 個志願</strong>,電腦統一抽</td></tr>
       <tr><td>台北市</td><td><a href="https://kid-online.tp.edu.tw/" target="_blank" rel="noopener">kid-online.tp.edu.tw</a></td><td>統一系統,公幼/非營利各自報名</td></tr>
-      <tr><td>桃園市</td><td><a href="https://kid.tycg.gov.tw/" target="_blank" rel="noopener">kid.tycg.gov.tw</a></td><td>桃園幼兒園招生資訊網。每位幼兒<strong>只能登記一園</strong></td></tr>
+      <tr><td>桃園市</td><td>請至桃園市教育局查當年度招生公告</td><td>每位幼兒<strong>只能登記一園</strong>。無固定子網址,招生季公告於 <a href="https://www.tycg.gov.tw/" target="_blank" rel="noopener">tycg.gov.tw</a></td></tr>
       <tr><td>台中市</td><td><a href="https://kids.tc.edu.tw/" target="_blank" rel="noopener">kids.tc.edu.tw</a></td><td>即時揭示系統,線上 + 現場雙軌</td></tr>
       <tr><td>台南市</td><td><a href="https://kid.tn.edu.tw/" target="_blank" rel="noopener">kid.tn.edu.tw</a></td><td>有統一系統</td></tr>
       <tr><td>高雄市</td><td><a href="https://www.kh.edu.tw/" target="_blank" rel="noopener">高雄市教育局</a></td><td>看「幼兒教育科」</td></tr>
@@ -2149,6 +2182,277 @@ details[open] summary { margin-bottom: 8px; }
   </div>
 </section>
 
+<!-- ========== 幼兒園專區 ========== -->
+<section class="page" id="page-preschool">
+  <h1>🏫 幼兒園專區(2-6 歲)</h1>
+  <p style="font-size:17px;color:var(--muted);"><strong>2-6 歲教育階段</strong>,跟 0-2 歲托嬰邏輯完全不同。重點不再是「替家裡分擔基本照顧」,而是「<strong>孩子第一次進入有結構的群體學習環境</strong>」。教學風格、班級文化、老師個性,影響可能延續到小學。</p>
+
+  <div class="callout">
+    <h4>📌 跟托嬰(0-2 歲)的根本差異</h4>
+    <table style="margin-top:8px;">
+      <thead><tr><th></th><th>幼兒園</th><th>托嬰中心</th></tr></thead>
+      <tbody>
+        <tr><td>主管機關</td><td>教育部(教育局/處)</td><td>衛福部(社會局/處)</td></tr>
+        <tr><td>師生比</td><td>2-3 歲 1:8 / 3-6 歲 1:15</td><td>0-2 歲 1:5</td></tr>
+        <tr><td>每班人數上限</td><td>2-3 歲 16 人 / 3-6 歲 30 人</td><td>不設班級制</td></tr>
+        <tr><td>定位</td><td><strong>教育機構</strong>(課程 + 群體學習)</td><td><strong>照顧機構</strong>(吃飽、睡好、不哭)</td></tr>
+        <tr><td>每日結構</td><td>有主題課程、戶外、才藝</td><td>主要是作息(餵奶、午睡、玩)</td></tr>
+        <tr><td>教師證照</td><td>教保員 / 教師證(大學幼教系)</td><td>托育人員技術士 / 保母證</td></tr>
+        <tr><td>家長端期待</td><td>看孩子「學到什麼、變成什麼樣子」</td><td>看孩子「有沒有被好好顧」</td></tr>
+        <tr><td>適合年齡</td><td>滿 2 足歲(教育部規定)</td><td>滿 2 個月-未滿 3 歲</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>🎨 1. 教學風格深度比較(關鍵!選錯影響 4 年)</h2>
+  <p>各派教學風格差很大,<strong>孩子氣質適配性比學費 / 距離更重要</strong>。下面 6 大主流流派,你要找的是「跟你孩子個性合得來」的那一種。</p>
+
+  <table>
+    <thead>
+      <tr><th>風格</th><th>核心理念</th><th>適合什麼孩子</th><th>不適合什麼孩子</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>蒙特梭利<br>(Montessori)</strong></td>
+        <td>孩子自選工作 / 混齡 / 教具導向<br>強調獨立、專注、秩序</td>
+        <td>內向慢熟 / 喜歡專注做一件事 / 不愛競爭</td>
+        <td>需要結構性指令的孩子(易迷失);好動到無法久坐</td>
+      </tr>
+      <tr>
+        <td><strong>華德福<br>(Waldorf)</strong></td>
+        <td>節奏 / 季節 / 自然材質<br>不接觸電子產品 / 慢學派</td>
+        <td>敏感體質 / 喜歡藝術音樂 / 家長能接受「7 歲前不教讀寫」</td>
+        <td>家長焦慮孩子早早學認字 / 想要明顯成果展示的家庭</td>
+      </tr>
+      <tr>
+        <td><strong>瑞吉歐<br>(Reggio Emilia)</strong></td>
+        <td>專案式學習 / 藝術中心 / 強調對話 / 作品紀錄</td>
+        <td>表達能力強 / 喜歡探索 / 創造力強</td>
+        <td>需要明確規則 / 不善表達的孩子</td>
+      </tr>
+      <tr>
+        <td><strong>主題式<br>(主流)</strong></td>
+        <td>每月或每季一個主題,各種活動圍繞主題</td>
+        <td><strong>多數孩子都適合</strong>,中庸路線</td>
+        <td>需要高度個別化照顧的孩子</td>
+      </tr>
+      <tr>
+        <td><strong>遊戲式 / 開放教育</strong></td>
+        <td>大量自由遊戲時間 / 少結構式上課</td>
+        <td>好動 / 有想法 / 不愛被指揮</td>
+        <td>家長焦慮「沒在學東西」/ 需要團體紀律的孩子</td>
+      </tr>
+      <tr>
+        <td><strong>雙語 / 全美語</strong></td>
+        <td>外語比例高(注意法規:不得全日 / 半日 / 分科外語)</td>
+        <td>家裡有外語環境 / 父母英語好能延續 / 抗壓性強的孩子</td>
+        <td>母語都還沒穩 / 怕陌生語言 / 家長無法配合英語環境</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout warn">
+    <h4>⚠️ 招牌不等於實質</h4>
+    <p style="margin:0;">「蒙特梭利」「華德福」「瑞吉歐」這些名稱<strong>沒有法律保護</strong>,任何園所都能掛。<strong>問實際做法</strong>:</p>
+    <ul style="margin:8px 0 0 22px;">
+      <li>蒙氏:教具齊全嗎?(蒙氏教具一套 5-20 萬)老師有 AMI / AMS 認證嗎?混齡比例多少?</li>
+      <li>華德福:教室有沒有電子產品?教具是天然材質嗎?有沒有節慶儀式?</li>
+      <li>雙語/全美語:每天中文活動幾小時?中文教師是誰?(法規:不得全日外語)</li>
+    </ul>
+  </div>
+
+  <h2>📋 2. 觀課 / 面試完整 SOP</h2>
+  <h3>觀課前準備</h3>
+  <ul>
+    <li><strong>提前預約</strong>:電話/網路問可否觀課,通常 1 週前約</li>
+    <li><strong>選一個「平日上午」</strong>:這時段最能看真實狀況(下午通常午睡,週末沒人)</li>
+    <li><strong><strong>最好帶孩子一起去</strong></strong>:看孩子在現場的反應(有沒有想久留 / 立刻想走)</li>
+    <li><strong>準備問題清單</strong>:看 <a onclick="navigateTo('page-checklist');return false;" href="#">📋 看園所 Checklist</a> 「現場必問 Top 10」</li>
+  </ul>
+
+  <h3>觀課當天看什麼</h3>
+  <ol class="steps-list">
+    <li><strong>進門第一印象</strong>:有沒有怪味(消毒水過重 / 食物異味 / 霉味)?孩子的鞋子整齊嗎?</li>
+    <li><strong>老師眼神</strong>:跟孩子互動時是「眼睛在孩子身上」還是「在看天花板等下班」?</li>
+    <li><strong>孩子的狀態</strong>:活潑 vs 呆滯?有沒有孩子坐在角落沒人管?哭的孩子有沒有人去處理?</li>
+    <li><strong>師生比實況</strong>:當下教室真的幾個老師幾個孩子?問:「今天請假幾位老師?」</li>
+    <li><strong>教室空間</strong>:擁擠嗎?有沒有「危險角落」(尖銳 / 開放電源 / 易倒物品)?</li>
+    <li><strong>廁所</strong>:乾淨嗎?2-3 歲幼幼班廁所應在教室內(法規)</li>
+    <li><strong>廚房</strong>:能不能看?熱水區、利器區是否完全隔離孩子?</li>
+    <li><strong>戶外活動空間</strong>:有自己的還是要去公園?雨天替代方案?</li>
+    <li><strong>離開時孩子的樣子</strong>:剛來的孩子哭著要走 vs 離不開,差很大</li>
+  </ol>
+
+  <h3>面試常見問題</h3>
+  <ul>
+    <li>「你們怎麼處理孩子哭鬧?能舉個最近的例子嗎?」(要具體例子)</li>
+    <li>「孩子打另一個孩子,老師會怎麼做?」(SOP vs 現場應變)</li>
+    <li>「典型一天的時間表是什麼?」(自由 vs 結構的比例)</li>
+    <li>「主帶老師是誰?帶多久了?」(間接探流動率)</li>
+    <li>「全年實際費用大概多少?」(月費 + 隱形費用)</li>
+    <li>「能不能試讀?」(有試讀機會務必試)</li>
+    <li>「典型畢業生會去哪幾所小學?」(看口碑 + 銜接性)</li>
+  </ul>
+
+  <h2>📅 3. 一天的真實時間表(2-6 歲標準範本)</h2>
+  <p>選園時請對方給「典型一天時程表」,對照下面範本評估是否合理:</p>
+
+  <h3>2-3 歲幼幼班(主題活動 + 大量自由遊戲)</h3>
+  <table>
+    <thead><tr><th>時段</th><th>活動</th></tr></thead>
+    <tbody>
+      <tr><td>7:30-9:00</td><td>陸續到園,自由活動</td></tr>
+      <tr><td>9:00-9:30</td><td>晨圈 / 點心</td></tr>
+      <tr><td>9:30-10:00</td><td><strong>主題活動 1</strong>(15-20 分鐘上限,2-3 歲注意力短)</td></tr>
+      <tr><td>10:00-11:00</td><td>戶外或大肢體活動</td></tr>
+      <tr><td>11:00-11:30</td><td>準備午餐</td></tr>
+      <tr><td>11:30-12:00</td><td>午餐</td></tr>
+      <tr><td>12:00-14:30</td><td><strong>午睡</strong>(2-3 歲需要 2 小時+)</td></tr>
+      <tr><td>14:30-15:00</td><td>起床 / 點心</td></tr>
+      <tr><td>15:00-16:00</td><td>主題活動 2 / 自由活動</td></tr>
+      <tr><td>16:00-17:30</td><td>戶外或室內遊戲,陸續離園</td></tr>
+      <tr><td>17:30 後</td><td>延托時段</td></tr>
+    </tbody>
+  </table>
+
+  <h3>3-6 歲(中班 / 大班 — 結構活動比例提高)</h3>
+  <table>
+    <thead><tr><th>時段</th><th>活動</th></tr></thead>
+    <tbody>
+      <tr><td>7:30-9:00</td><td>陸續到園</td></tr>
+      <tr><td>9:00-9:30</td><td>晨圈(主題討論 / 唱歌)</td></tr>
+      <tr><td>9:30-10:30</td><td><strong>主題活動 / 領域學習</strong>(認知 / 語文 / 數學 / 自然)</td></tr>
+      <tr><td>10:30-11:00</td><td>點心</td></tr>
+      <tr><td>11:00-12:00</td><td>戶外活動 / 體能</td></tr>
+      <tr><td>12:00-12:30</td><td>午餐</td></tr>
+      <tr><td>12:30-14:30</td><td>午睡(大班可能縮短到 1.5 小時或不睡)</td></tr>
+      <tr><td>14:30-15:00</td><td>點心</td></tr>
+      <tr><td>15:00-16:30</td><td>才藝課 / 美勞 / 音樂 / 角落探索</td></tr>
+      <tr><td>16:30-17:30</td><td>離園</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:14px;color:var(--muted);"><em><strong>警訊</strong>:如果園所說「2-3 歲一天有 4 節主題課」 → 注意力過度負荷;「3-6 歲都在玩沒上課」 → 結構不足影響升小一銜接。</em></p>
+
+  <h2>🎯 4. 升年級轉換重點(2→3→4→5→6)</h2>
+  <table>
+    <thead><tr><th>年齡</th><th>該年的重點</th><th>家長要關注</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>2-3 歲<br>幼幼班</strong></td>
+        <td>適應團體生活、建立基本作息、語言爆發期</td>
+        <td><strong>入園適應期</strong>(看入園後實務)、語言發展、如廁訓練</td>
+      </tr>
+      <tr>
+        <td><strong>3-4 歲<br>小班</strong></td>
+        <td>社交發展、規則學習、開始參與主題活動</td>
+        <td><strong>朋友關係</strong>(會不會被排擠)、自理能力(吃飯 / 穿衣 / 上廁所)</td>
+      </tr>
+      <tr>
+        <td><strong>4-5 歲<br>中班</strong></td>
+        <td>認知發展加速、邏輯思維、創造表達</td>
+        <td><strong>學習動機</strong>(主動 vs 被動)、興趣偏好(藝術 / 運動 / 邏輯)</td>
+      </tr>
+      <tr>
+        <td><strong>5-6 歲<br>大班</strong></td>
+        <td>銜接小學:書寫準備、注意力延長、責任感</td>
+        <td><strong>升小一銜接</strong>(看入園後實務 § 8)、學區小學選擇、是否需安親</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>🏫 5. 4 類型 vs 教學風格 對照(怎麼搭配)</h2>
+  <p>不同類型的幼兒園,常見的教學風格不同。下面是「找這類型大概率會碰到什麼風格」:</p>
+  <table>
+    <thead><tr><th>類型</th><th>常見教學風格</th><th>家長期待 vs 實況</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>公幼</strong></td>
+        <td>主題式為主,標準化程度高</td>
+        <td>👍 安全穩定 / 👎 教學保守、特色少、難換班</td>
+      </tr>
+      <tr>
+        <td><strong>非營利</strong></td>
+        <td>主題式 / 部分有特色課程(看承辦法人)</td>
+        <td>👍 公辦民營有彈性 / 👎 抽籤難、固定模式</td>
+      </tr>
+      <tr>
+        <td><strong>準公共</strong></td>
+        <td>多元(各園自由發展特色)</td>
+        <td>👍 教學風格多樣 / 👎 各園品質參差、合約期到期可能變私立</td>
+      </tr>
+      <tr>
+        <td><strong>私立</strong></td>
+        <td>蒙氏 / 華德福 / 雙語 / 特色園(費用反映特色)</td>
+        <td>👍 風格選擇多 / 👎 費用高、隱形費用多、行銷話術多</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>🎓 6. 大班升小一銜接(深化版)</h2>
+  <p>5-6 歲家長最焦慮的議題。除了「<a onclick="navigateTo('page-aftercare');return false;" href="#">🏡 入園後實務</a> § 8 大班升小一」的 9 項生活自理,加碼回答家長最在意的 5 個問題:</p>
+
+  <h3>Q1 · 注音真的不用先學嗎?</h3>
+  <ul>
+    <li><strong>教育部立場</strong>:小一前 10 週才正式教,提前死記反而干擾</li>
+    <li><strong>實務</strong>:<strong>孩子主動有興趣 → 用遊戲方式接觸 OK</strong>;沒興趣 → 完全不用學</li>
+    <li><strong>大班該做的</strong>:多看故事書、認自己名字、能聽懂老師指令</li>
+  </ul>
+
+  <h3>Q2 · 認字量要多少才夠?</h3>
+  <ul>
+    <li><strong>沒有官方標準</strong>。能認得「自己 / 家人名字 + 出口 / 入口 / 廁所 / 危險」常見字即可</li>
+    <li><strong>不要強迫認字</strong>:5-6 歲手部小肌肉還在發育,過早握筆姿勢不正確很難改</li>
+    <li><strong>替代做法</strong>:大量繪本親子共讀,孩子自然會在書本中認字</li>
+  </ul>
+
+  <h3>Q3 · 數學要會什麼?</h3>
+  <ul>
+    <li>1-20 認得 + 基本加減(透過實物、玩具、糖果)即可</li>
+    <li><strong>不需要</strong>會 99 乘法表、不需要寫算式</li>
+    <li><strong>實用替代</strong>:逛市場讓孩子算錢、玩桌遊培養數量概念</li>
+  </ul>
+
+  <h3>Q4 · 該不該送注音 / 學科先修班?</h3>
+  <ul>
+    <li><strong>教育部明確「不需要」</strong>。研究顯示提前死記反而在小一時造成干擾</li>
+    <li><strong>如果一定要送</strong> → 選「遊戲式」「不寫字」的;避開「填鴨式」「考試式」</li>
+    <li><strong>替代方案</strong>:把先修班學費(約 3,000-12,000 / 期)換成<strong>繪本 / 戶外活動 / 跟朋友玩</strong> — 對小一適應更有幫助</li>
+    <li><strong>家長壓力</strong>:長輩 / 同儕施壓送先修班時,可用「教育部立場」回應</li>
+  </ul>
+
+  <h3>Q5 · 學區小學選擇怎麼跟幼兒園搭配?</h3>
+  <ul>
+    <li><strong>戶籍學區</strong>:大班下學期(隔年 4-5 月)就要確認學區小學 + 跨區就學流程</li>
+    <li><strong>放學時間衝擊</strong>:小一通常 12:30-13:30 放學,<strong>比幼兒園早接 4 小時</strong> — 雙薪家庭要規劃安親 / 課輔</li>
+    <li><strong>銜接班 vs 安親班 vs 自學</strong>:
+      <ul>
+        <li><strong>銜接班</strong>(暑假 4-6 週):有的好有的廢,看師資</li>
+        <li><strong>安親班</strong>(平日下午到 18:00):接送幫手 + 寫作業督促,費用 5,000-10,000 / 月</li>
+        <li><strong>自學</strong>(家長自己帶):需要長輩 / 一方家長能配合,免費但體力負擔大</li>
+      </ul>
+    </li>
+    <li><strong>大班暑假怎麼過</strong>:6/30 畢業 → 8/30 開學,中間 2 個月空窗;有的園所「續托」到 8 月,有的家長另找暑期營</li>
+  </ul>
+
+  <h2>📌 幼兒園 vs 安親班 vs 才藝班 怎麼搭</h2>
+  <p>大班 / 小一前後家長常問:</p>
+  <ul>
+    <li><strong>幼兒園 + 才藝</strong>:園內才藝(美術 / 音樂 / 體能)通常足夠,不用另送外面</li>
+    <li><strong>幼兒園 + 安親(大班下學期試用)</strong>:讓孩子提前適應「下午有結構式時間」</li>
+    <li><strong>純自由玩</strong>:大班下學期已是「準備上小學」階段,純放鬆不練專注力上小一可能跌跤</li>
+  </ul>
+
+  <h2>💡 找幼兒園「比找托嬰更難」的理由</h2>
+  <ol>
+    <li><strong>影響時間長</strong>:托嬰最多 1-2 年,幼兒園 4 年 — 選錯成本高 4 倍</li>
+    <li><strong>教學風格差異大</strong>:托嬰主要是照顧,幼兒園是教育 + 文化,流派之間差很多</li>
+    <li><strong>家長對「學到什麼」有期待</strong>:托嬰可以無感,幼兒園無感家長會焦慮</li>
+    <li><strong>孩子有意見了</strong>:2-6 歲孩子會表達喜歡 / 不喜歡,要納入考量</li>
+    <li><strong>「銜接小一」隱形壓力</strong>:大班開始就要想下一站,很多家長從這時開始焦慮</li>
+  </ol>
+  <p style="font-size:14px;color:var(--muted);margin-top:8px;"><em><strong>結論</strong>:找幼兒園不要急,<strong>多參觀 3-5 家、各家觀課、最好試讀</strong>。比找托嬰多投入 2 倍的時間都值得。</em></p>
+</section>
+
 <!-- ========== 保母系統 ========== -->
 <section class="page" id="page-nanny">
   <h1>👵 保母系統(居家式托育)</h1>
@@ -2449,7 +2753,7 @@ details[open] summary { margin-bottom: 8px; }
       <tr><td>中低收入戶(準公共)</td><td>同上,中低收身分</td><td>15,000</td><td>—</td><td>—</td></tr>
       <tr><td>低收入戶 / 弱勢(準公共)</td><td>同上,低收身分</td><td>17,000</td><td>—</td><td>—</td></tr>
       <tr><td><strong>幼兒園補助(公幼)</strong></td><td>2-6 歲送公幼</td><td>免學費 + 部分自付</td><td>—</td><td>—</td></tr>
-      <tr><td><strong>幼兒園補助(非營利)</strong></td><td>2-6 歲送非營利幼兒園</td><td>家長月費約 2,000-3,000(各縣市協議,非全國統一)</td><td>1,000-2,000</td><td>免費</td></tr>
+      <tr><td><strong>幼兒園補助(非營利)</strong></td><td>2-6 歲送非營利幼兒園</td><td>家長月費 ≤ 2,000(教育部上限,各縣市協議低於此)</td><td>≤ 1,000</td><td>免費</td></tr>
       <tr><td><strong>幼兒園補助(準公共)</strong></td><td>2-6 歲送準公共幼兒園</td><td>家長月費 3,000 上限<strong>(法定)</strong></td><td>2,000</td><td>1,000</td></tr>
     </tbody>
   </table>
@@ -2747,6 +3051,23 @@ function toggleNav() {
 
 // ============ Checklists ============
 const CHECKLIST_DATA = {
+  preschool: [
+    {id: 'pre-style', label: '教學風格實際做法', hint: '招牌「蒙氏/華德福」是真的嗎?教具齊全/老師認證/混齡比例 — 不要只看招牌'},
+    {id: 'pre-ratio', label: '師生比實況(2-3 歲 1:8 / 3-6 歲 1:15)', hint: '「今天請假幾位老師?」實際當下教室幾個老師幾個孩子'},
+    {id: 'pre-schedule', label: '一天的真實時間表', hint: '結構式上課 vs 自由活動的比例;戶外活動每天有嗎?'},
+    {id: 'pre-language', label: '語言環境(雙語/全美語)', hint: '每天中文活動幾小時?中文教師是誰?(法規:不得全日外語)'},
+    {id: 'pre-discipline', label: '衝突 / 哭鬧處理舉例', hint: '「孩子打人 / 哭不停 → 老師怎麼處理?能舉最近例子嗎?」聽具體情境,不聽 SOP'},
+    {id: 'pre-leave', label: '孩子離開時的樣子', hint: '剛來的孩子哭著要走 vs 離不開,差很大 — 這是現場最真實的指標'},
+    {id: 'pre-grad', label: '畢業生會去哪幾所小學?', hint: '看口碑 + 銜接性。學區小學名額是否夠?'},
+    {id: 'pre-transition', label: '銜接小一的具體做法', hint: '大班是否有銜接國小活動?注音教不教?(教育部明確不教,看實況)'},
+    {id: 'pre-art', label: '才藝 / 音樂 / 體能', hint: '頻率多高?是否外聘老師?另外收費嗎?'},
+    {id: 'pre-screen', label: '電子設備使用', hint: '會用平板 / 看影片?頻率?(部分家長很在意)'},
+    {id: 'pre-outdoor', label: '戶外活動空間', hint: '自己的操場?去公園?多久去一次?雨天替代?'},
+    {id: 'pre-class', label: '混齡 vs 分齡', hint: '蒙氏多混齡;主題式多分齡。確認該班的編制'},
+    {id: 'pre-trial', label: '試讀機制', hint: '有試讀嗎?幾天?免費 / 收費?試讀後決定期'},
+    {id: 'pre-rumor', label: '口碑的「最近一年」家長感受', hint: '不要問三年前的口碑。問近期在讀家長(可請園所介紹幾位家長)'},
+    {id: 'pre-mood', label: '第一次到場直覺', hint: '進門有沒有怪味?孩子鞋子整齊?老師眼神在哪?直覺很重要'},
+  ],
   infant: [
     {id: 'inf-ratio', label: '師生比 1:5(法規 0-2 歲)', hint: '實際比例 vs 法規,有沒有保母證老師,還是只有助理'},
     {id: 'inf-cert', label: '老師證照種類', hint: '保母證 vs 教保員 vs 嬰幼兒組,0-2 歲首選有保母證的'},
@@ -2897,6 +3218,7 @@ function resetChecklist(scope) {
 }
 
 function renderAllChecklists() {
+  renderChecklist('preschool', 'cl-preschool');
   renderChecklist('infant', 'cl-infant');
   renderChecklist('safety', 'cl-safety');
   renderChecklist('teacher', 'cl-teacher');
