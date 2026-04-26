@@ -189,7 +189,7 @@ a { color: var(--accent); }
   </div>
 
   <div class="footer-note">
-    最後更新 2026-04-27 · v1.2 · 全台 22 縣市 126 景點 · 範圍改用車程分鐘(雙北西)/ 鄰近縣市(其他都會圈) · <a href="https://github.com/tm731531/dementia-care" target="_blank">GitHub</a>
+    最後更新 2026-04-27 · v2.0 · 全台 22 縣市 126 景點 · 經緯度+Haversine 算 km(精準到「鄉鎮市區」) · <a href="https://github.com/tm731531/dementia-care" target="_blank">GitHub</a>
   </div>
 </section>
 
@@ -569,22 +569,22 @@ function renderWizard() {
 
 function renderWizardQ(step) {
   if (step === 'home') {
+    const countyOpts = Object.entries(TAIWAN_DISTRICTS).map(([k,v])=>`<option value="${k}">${v.label}</option>`).join('');
     return `<div class="wizard-card">
       <div class="wizard-step">第 1 / 5 題(只問一次,之後記住)</div>
       <h2>🏠 你住哪?</h2>
-      <p style="margin:0;color:var(--muted);">影響「車程範圍」怎麼算。住雙北西區用車程分鐘篩,其他縣市用鄰近縣市篩。</p>
-      <div class="wizard-options">
-        <button class="wizard-opt" onclick="setWizardAnswer('home','metro_tw_west')"><span class="opt-icon">🏙</span>雙北西區<span class="opt-hint">土城/板橋/中和/新莊/三重/新店/三峽/萬華/中正/大安/文山 等</span></button>
-        <button class="wizard-opt" onclick="setWizardAnswer('home','taipei')"><span class="opt-icon">🏙</span>台北市 / 新北東北<span class="opt-hint">內湖/南港/汐止/北投/士林/瑞芳 等</span></button>
-        <button class="wizard-opt" onclick="setWizardAnswer('home','taoyuan')"><span class="opt-icon">🚗</span>桃園市</button>
-        <button class="wizard-opt" onclick="setWizardAnswer('home','hsinchu_city')"><span class="opt-icon">🚗</span>新竹市 / 縣</button>
-        <button class="wizard-opt" onclick="setWizardAnswer('home','taichung')"><span class="opt-icon">🚗</span>台中市</button>
-        <button class="wizard-opt" onclick="setWizardAnswer('home','tainan')"><span class="opt-icon">🚗</span>台南市</button>
-        <button class="wizard-opt" onclick="setWizardAnswer('home','kaohsiung')"><span class="opt-icon">🚗</span>高雄市</button>
-        <button class="wizard-opt" onclick="setWizardAnswer('home','yilan')"><span class="opt-icon">🚗</span>宜蘭縣</button>
-        <button class="wizard-opt" onclick="setWizardAnswer('home','hualien')"><span class="opt-icon">🚗</span>花蓮縣</button>
-        <button class="wizard-opt" onclick="setWizardAnswer('home','taitung')"><span class="opt-icon">🚗</span>臺東縣</button>
-        <button class="wizard-opt" onclick="setWizardAnswer('home','other')"><span class="opt-icon">🚗</span>其他縣市<span class="opt-hint">會去全景點瀏覽選你縣市</span></button>
+      <p style="margin:0 0 12px;color:var(--muted);">用「直線距離 km」算範圍 — 你選的位置 → 每個景點。</p>
+      <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:14px;">
+        <label style="display:block;margin-bottom:6px;font-weight:600;">縣市</label>
+        <select id="home-county" onchange="onHomeCountyChange()" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:6px;font-size:15px;margin-bottom:14px;">
+          <option value="">-- 選縣市 --</option>
+          ${countyOpts}
+        </select>
+        <label style="display:block;margin-bottom:6px;font-weight:600;">鄉鎮市區</label>
+        <select id="home-district" onchange="onHomeDistrictChange()" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:6px;font-size:15px;" disabled>
+          <option value="">-- 先選縣市 --</option>
+        </select>
+        <p style="font-size:13px;color:var(--muted);margin:10px 0 0;">距離級別:近(≤15km)/ 1 小時(≤40km)/ 半日(≤100km)/ 全台(無限)</p>
       </div>
     </div>`;
   }
@@ -629,30 +629,16 @@ function renderWizardQ(step) {
     </div>`;
   }
   if (step === 'range') {
-    const home = STATE.userProfile.home;
-    let nearHint = '住家附近 30 分鐘', mediumHint = '1 小時車程', tripHint = '半日小旅行';
-    if (home === 'metro_tw_west') {
-      nearHint = '土城 / 板橋 / 中和 / 萬華 / 文山 等(車程 ≤ 30 分)';
-      mediumHint = '+ 士林 / 北投 / 內湖 / 林口 / 烏來 / 桃園市區(≤ 60 分)';
-      tripHint = '+ 基隆 / 桃園山區 / 新竹 / 苗栗 / 台中 / 宜蘭(≤ 120 分)';
-    } else if (HOME_CONFIG[home]) {
-      const cfg = HOME_CONFIG[home];
-      nearHint = '同縣市內(' + cfg.primary.map(r=>REGION_LABEL[r]).join(' / ') + ')';
-      mediumHint = '+ 鄰近縣市(' + cfg.neighbors.map(r=>REGION_LABEL[r]).join(' / ') + ')';
-      tripHint = '+ 再遠一點(' + cfg.far.map(r=>REGION_LABEL[r]).join(' / ') + ')';
-    } else if (home === 'other') {
-      nearHint = '不限(其他縣市建議用全景點瀏覽)';
-      mediumHint = '不限';
-      tripHint = '不限';
-    }
+    const p = STATE.userProfile;
+    const homeName = (p.home && p.homeDistrict) ? `${TAIWAN_DISTRICTS[p.home].label}${p.homeDistrict}` : '';
     return `<div class="wizard-card">
       <div class="wizard-step">第 5 / 5 題 <a class="reset-link" onclick="setWizardAnswer('age',null)">← 改第 4 題</a></div>
       <h2>🚗 出門範圍?</h2>
-      <p style="margin:0;color:var(--muted);">範圍以你住的位置為中心算。</p>
+      <p style="margin:0;color:var(--muted);">以${homeName?`<strong>${homeName}</strong>`:'你家'}為中心算直線距離(km),非實際車程。</p>
       <div class="wizard-options">
-        <button class="wizard-opt" onclick="setWizardAnswer('range','near')"><span class="opt-icon">🏠</span>住家附近<span class="opt-hint">${nearHint}</span></button>
-        <button class="wizard-opt" onclick="setWizardAnswer('range','medium')"><span class="opt-icon">🚗</span>1 小時車程<span class="opt-hint">${mediumHint}</span></button>
-        <button class="wizard-opt" onclick="setWizardAnswer('range','trip')"><span class="opt-icon">🛣️</span>半日小旅行<span class="opt-hint">${tripHint}</span></button>
+        <button class="wizard-opt" onclick="setWizardAnswer('range','near')"><span class="opt-icon">🏠</span>住家附近<span class="opt-hint">≤ 15 km(約 30 分車程)</span></button>
+        <button class="wizard-opt" onclick="setWizardAnswer('range','medium')"><span class="opt-icon">🚗</span>1 小時車程<span class="opt-hint">≤ 40 km</span></button>
+        <button class="wizard-opt" onclick="setWizardAnswer('range','trip')"><span class="opt-icon">🛣️</span>半日小旅行<span class="opt-hint">≤ 100 km(約 2-3 小時車程)</span></button>
         <button class="wizard-opt" onclick="setWizardAnswer('range','nationwide')"><span class="opt-icon">🇹🇼</span>全台跨區大旅行<span class="opt-hint">過夜 / 全台 22 縣市</span></button>
       </div>
     </div>`;
@@ -664,13 +650,41 @@ function setWizardAnswer(key, value) {
   if (!STATE.userProfile) STATE.userProfile = {};
   if (value === null) {
     delete STATE.userProfile[key];
-    if (key === 'home') { delete STATE.userProfile.weather; delete STATE.userProfile.season; delete STATE.userProfile.age; delete STATE.userProfile.range; }
+    if (key === 'home') { delete STATE.userProfile.homeDistrict; delete STATE.userProfile.homeLat; delete STATE.userProfile.homeLng; delete STATE.userProfile.weather; delete STATE.userProfile.season; delete STATE.userProfile.age; delete STATE.userProfile.range; }
     if (key === 'weather') { delete STATE.userProfile.season; delete STATE.userProfile.age; delete STATE.userProfile.range; }
     if (key === 'season') { delete STATE.userProfile.age; delete STATE.userProfile.range; }
     if (key === 'age') { delete STATE.userProfile.range; }
   } else {
     STATE.userProfile[key] = value;
   }
+  saveState();
+  renderWizard();
+}
+
+function onHomeCountyChange() {
+  const county = document.getElementById('home-county').value;
+  const distSel = document.getElementById('home-district');
+  if (!county) {
+    distSel.innerHTML = '<option value="">-- 先選縣市 --</option>';
+    distSel.disabled = true;
+    return;
+  }
+  const cfg = TAIWAN_DISTRICTS[county];
+  const opts = Object.keys(cfg.dists).map(d=>`<option value="${d}">${d}</option>`).join('');
+  distSel.innerHTML = '<option value="">-- 選鄉鎮市區 --</option>' + opts;
+  distSel.disabled = false;
+}
+
+function onHomeDistrictChange() {
+  const county = document.getElementById('home-county').value;
+  const district = document.getElementById('home-district').value;
+  if (!county || !district) return;
+  const coords = TAIWAN_DISTRICTS[county].dists[district];
+  if (!coords) return;
+  STATE.userProfile.home = county;
+  STATE.userProfile.homeDistrict = district;
+  STATE.userProfile.homeLat = coords[0];
+  STATE.userProfile.homeLng = coords[1];
   saveState();
   renderWizard();
 }
@@ -684,74 +698,115 @@ function resetWizard() {
 const ALL_REGIONS = ['taipei','newtaipei','keelung','taoyuan','hsinchu_city','hsinchu_county','miaoli','taichung','changhua','nantou','yunlin','chiayi_city','chiayi_county','tainan','kaohsiung','pingtung','yilan','hualien','taitung','penghu','kinmen','lienchiang'];
 const REGION_LABEL = {taipei:'台北市',newtaipei:'新北市',keelung:'基隆市',taoyuan:'桃園市',hsinchu_city:'新竹市',hsinchu_county:'新竹縣',miaoli:'苗栗縣',taichung:'台中市',changhua:'彰化縣',nantou:'南投縣',yunlin:'雲林縣',chiayi_city:'嘉義市',chiayi_county:'嘉義縣',tainan:'台南市',kaohsiung:'高雄市',pingtung:'屏東縣',yilan:'宜蘭縣',hualien:'花蓮縣',taitung:'臺東縣',penghu:'澎湖縣',kinmen:'金門縣',lienchiang:'連江縣(馬祖)'};
 
-// ========== 從新北土城出發的車程分鐘估算(area 字串分類)==========
-// v1.2 改用「實際車程」而非「縣市」— 縣市太粗(新北從鶯歌到瑞芳跨 80 分鐘)
-// area 格式如「台北中正」「新北土城」「基隆中正」 — 必須先 anchor 縣市前綴避免「基隆中正」誤判為 30 分
-function getDriveMinutesFromTucheng(area) {
-  const a = area;
-  const isTaipei = /^台北/.test(a);
-  const isNewTaipei = /^新北/.test(a);
-
-  // 雙北西核心 ≤ 30 分(土城出發開車 30 分內,士林是 Tom 提的「極限」)
-  if ((isTaipei || isNewTaipei) && /土城|板橋|中和|永和|新莊|三重|蘆洲|新店|三峽|鶯歌|樹林|萬華|中正|大安|文山|信義|大同|松山|中山|士林/.test(a)) return 30;
-  // 雙北其他 30-60 分(北投 / 內湖 / 南港 / 林口 / 烏來 等)
-  if ((isTaipei || isNewTaipei) && /北投|內湖|南港|汐止|金山|八里|淡水|林口|深坑|石碇|烏來/.test(a)) return 60;
-  // 雙北東北角 60-90 分(瑞芳 / 平溪 / 貢寮 等)
-  if ((isTaipei || isNewTaipei) && /瑞芳|平溪|雙溪|貢寮|萬里/.test(a)) return 90;
-
-  // 基隆 60-90 分(中正區海科館 60、安樂 / 暖暖 90)
-  if (/^基隆/.test(a)) {
-    if (/中正/.test(a)) return 60;
-    return 90;
-  }
-  // 桃園市區 60 分,復興 90 分
-  if (/^桃園/.test(a)) {
-    if (/復興/.test(a)) return 90;
-    return 60;
-  }
-  // 宜蘭西北 90、東 / 南 120
-  if (/^宜蘭/.test(a)) {
-    if (/頭城|五結|礁溪|員山|宜蘭市/.test(a)) return 90;
-    return 120;
-  }
-  // 新竹 90
-  if (/^新竹/.test(a)) return 90;
-  // 苗栗 / 台中 120
-  if (/^苗栗/.test(a)) return 120;
-  if (/^台中/.test(a)) return 120;
-
-  return 999; // 跨區大旅行
-}
-
-// 各「家」的 region 配置(near/medium/trip 的 region 集合)
-const HOME_CONFIG = {
-  taipei:        {primary:['taipei','newtaipei'], neighbors:['keelung'], far:['taoyuan','yilan']},
-  taoyuan:       {primary:['taoyuan'], neighbors:['taipei','newtaipei','hsinchu_city','hsinchu_county'], far:['miaoli','keelung']},
-  hsinchu_city:  {primary:['hsinchu_city','hsinchu_county'], neighbors:['taoyuan','miaoli'], far:['taichung','taipei','newtaipei']},
-  taichung:      {primary:['taichung'], neighbors:['miaoli','changhua','nantou'], far:['hsinchu_city','hsinchu_county','yunlin']},
-  tainan:        {primary:['tainan'], neighbors:['chiayi_city','chiayi_county','kaohsiung'], far:['nantou','pingtung','yunlin']},
-  kaohsiung:     {primary:['kaohsiung'], neighbors:['tainan','pingtung'], far:['chiayi_city','chiayi_county']},
-  yilan:         {primary:['yilan'], neighbors:['taipei','newtaipei'], far:['hualien','keelung']},
-  hualien:       {primary:['hualien'], neighbors:['yilan','taitung'], far:['nantou']},
-  taitung:       {primary:['taitung'], neighbors:['hualien','pingtung'], far:['kaohsiung']},
-  other:         {primary:ALL_REGIONS, neighbors:[], far:[]},
+// ========== 全台鄉鎮市區中心經緯度(approx district centroids)==========
+// 用於 user home + place coords 推算。精度 ±2km(同個區內噪音不影響 15/40/100km 篩選)
+const TAIWAN_DISTRICTS = {
+  taipei: {label:'台北市', prefix:'台北', dists:{
+    '中正':[25.0418,121.5197],'大同':[25.0631,121.5135],'中山':[25.0683,121.5440],'松山':[25.0497,121.5746],'大安':[25.0263,121.5436],'萬華':[25.0345,121.4994],'信義':[25.0330,121.5654],'士林':[25.0945,121.5215],'北投':[25.1322,121.5018],'內湖':[25.0823,121.5944],'南港':[25.0552,121.6065],'文山':[25.0028,121.5703],
+  }},
+  newtaipei: {label:'新北市', prefix:'新北', dists:{
+    '板橋':[25.0143,121.4670],'三重':[25.0617,121.4848],'中和':[24.9999,121.4978],'永和':[25.0073,121.5145],'新莊':[25.0359,121.4329],'新店':[24.9676,121.5409],'樹林':[24.9942,121.4209],'鶯歌':[24.9555,121.3543],'三峽':[24.9347,121.3681],'土城':[24.9722,121.4448],'蘆洲':[25.0863,121.4732],'五股':[25.0824,121.4385],'泰山':[25.0593,121.4321],'林口':[25.0775,121.3914],'深坑':[25.0019,121.6157],'石碇':[24.9914,121.6413],'坪林':[24.9376,121.7113],'烏來':[24.8651,121.5510],'八里':[25.1463,121.4015],'淡水':[25.1690,121.4406],'三芝':[25.2570,121.5008],'石門':[25.2900,121.5681],'金山':[25.2225,121.6360],'萬里':[25.1797,121.6890],'汐止':[25.0625,121.6443],'瑞芳':[25.1083,121.8093],'平溪':[25.0271,121.7383],'雙溪':[25.0367,121.8651],'貢寮':[25.0212,121.9093],
+  }},
+  keelung: {label:'基隆市', prefix:'基隆', dists:{
+    '中正':[25.1383,121.7704],'中山':[25.1297,121.7370],'仁愛':[25.1284,121.7430],'信義':[25.1290,121.7521],'安樂':[25.1287,121.7261],'暖暖':[25.0962,121.7349],'七堵':[25.0951,121.7129],
+  }},
+  taoyuan: {label:'桃園市', prefix:'桃園', dists:{
+    '桃園':[24.9938,121.3010],'中壢':[24.9536,121.2247],'龜山':[25.0030,121.3382],'八德':[24.9275,121.2805],'大溪':[24.8835,121.2864],'復興':[24.7470,121.3530],'蘆竹':[25.0461,121.2922],'平鎮':[24.9433,121.2188],'楊梅':[24.9081,121.1454],'龍潭':[24.8634,121.2155],'新屋':[24.9764,121.1063],'觀音':[25.0339,121.0762],'大園':[25.0617,121.1973],
+  }},
+  hsinchu_city: {label:'新竹市', prefix:'新竹', dists:{
+    '東區':[24.8019,120.9747],'北區':[24.8060,120.9651],'香山':[24.7656,120.9314],
+  }},
+  hsinchu_county: {label:'新竹縣', prefix:'新竹', dists:{
+    '竹北':[24.8385,121.0117],'湖口':[24.9027,121.0463],'新豐':[24.8930,121.0367],'新埔':[24.8297,121.0747],'關西':[24.7866,121.1771],'芎林':[24.7765,121.0786],'寶山':[24.7649,121.0408],'竹東':[24.7374,121.0911],'五峰':[24.6968,121.0959],'橫山':[24.7220,121.1166],'尖石':[24.7050,121.1959],'北埔':[24.6983,121.0616],'峨眉':[24.6862,121.0152],
+  }},
+  miaoli: {label:'苗栗縣', prefix:'苗栗', dists:{
+    '苗栗市':[24.5600,120.8222],'頭份':[24.6852,120.9091],'竹南':[24.6841,120.8730],'通霄':[24.4885,120.6781],'苑裡':[24.4448,120.6481],'銅鑼':[24.4938,120.7868],'三義':[24.3499,120.7426],'公館':[24.4979,120.8211],'大湖':[24.4225,120.8662],'卓蘭':[24.3088,120.8231],'後龍':[24.6105,120.7857],'造橋':[24.6442,120.8495],'頭屋':[24.5754,120.8466],'西湖':[24.4480,120.7353],'三灣':[24.6499,120.9375],'南庄':[24.5950,120.9979],'獅潭':[24.5571,120.9596],'泰安':[24.3899,121.0440],
+  }},
+  taichung: {label:'台中市', prefix:'台中', dists:{
+    '中區':[24.1437,120.6790],'東區':[24.1414,120.6920],'南區':[24.1227,120.6669],'西區':[24.1437,120.6628],'北區':[24.1604,120.6839],'北屯':[24.1827,120.7124],'西屯':[24.1820,120.6347],'南屯':[24.1379,120.6427],'太平':[24.1262,120.7234],'大里':[24.0998,120.6797],'霧峰':[24.0608,120.7008],'烏日':[24.1052,120.6249],'豐原':[24.2422,120.7173],'后里':[24.3072,120.7124],'石岡':[24.2624,120.7796],'東勢':[24.2547,120.8220],'和平':[24.2843,121.0068],'新社':[24.2308,120.8073],'潭子':[24.2022,120.7058],'大雅':[24.2290,120.6479],'神岡':[24.2536,120.6604],'大肚':[24.1535,120.5407],'沙鹿':[24.2349,120.5571],'龍井':[24.1949,120.5448],'梧棲':[24.2552,120.5311],'清水':[24.2685,120.5618],'大甲':[24.3478,120.6262],'外埔':[24.3349,120.6515],'大安':[24.3497,120.5873],
+  }},
+  changhua: {label:'彰化縣', prefix:'彰化', dists:{
+    '彰化市':[24.0820,120.5414],'員林':[23.9588,120.5740],'和美':[24.1086,120.4998],'鹿港':[24.0570,120.4348],'溪湖':[23.9628,120.4783],'田尾':[23.8908,120.5251],'芳苑':[23.9243,120.3217],'北斗':[23.8716,120.5238],'二林':[23.8995,120.3737],'田中':[23.8612,120.5808],'秀水':[24.0334,120.5005],'花壇':[24.0339,120.5358],'埔心':[23.9530,120.5443],'永靖':[23.9239,120.5462],
+  }},
+  nantou: {label:'南投縣', prefix:'南投', dists:{
+    '南投市':[23.9098,120.6826],'草屯':[23.9755,120.6802],'埔里':[23.9667,120.9655],'仁愛':[24.0249,121.1330],'魚池':[23.8950,120.9407],'國姓':[24.0407,120.8654],'水里':[23.8113,120.8552],'信義':[23.7062,120.8523],'鹿谷':[23.7437,120.7521],'竹山':[23.7559,120.6748],'名間':[23.8453,120.6904],'集集':[23.8290,120.7833],
+  }},
+  yunlin: {label:'雲林縣', prefix:'雲林', dists:{
+    '斗六':[23.7095,120.5460],'斗南':[23.6789,120.4830],'虎尾':[23.7068,120.4310],'西螺':[23.7990,120.4612],'土庫':[23.6772,120.3938],'北港':[23.5749,120.3026],'古坑':[23.6437,120.5589],'林內':[23.7588,120.6115],'莿桐':[23.7619,120.4992],
+  }},
+  chiayi_city: {label:'嘉義市', prefix:'嘉義', dists:{
+    '東區':[23.4807,120.4517],'西區':[23.4852,120.4392],
+  }},
+  chiayi_county: {label:'嘉義縣', prefix:'嘉義', dists:{
+    '太保':[23.4582,120.3325],'朴子':[23.4641,120.2470],'布袋':[23.3789,120.1670],'大林':[23.6035,120.4708],'民雄':[23.5544,120.4271],'六腳':[23.4970,120.3149],'水上':[23.4474,120.4036],'中埔':[23.4209,120.5232],'竹崎':[23.5301,120.5511],'梅山':[23.5851,120.5557],'番路':[23.4641,120.5717],'阿里山':[23.5101,120.7977],'新港':[23.5511,120.3478],
+  }},
+  tainan: {label:'台南市', prefix:'台南', dists:{
+    '中西':[22.9925,120.2049],'東區':[22.9826,120.2273],'南區':[22.9560,120.1954],'北區':[23.0034,120.2059],'安平':[22.9919,120.1751],'安南':[23.0469,120.1846],'永康':[23.0263,120.2526],'歸仁':[22.9663,120.2939],'新化':[23.0376,120.3119],'仁德':[22.9701,120.2519],'關廟':[22.9608,120.3248],'麻豆':[23.1810,120.2483],'佳里':[23.1657,120.1771],'新營':[23.3104,120.3164],'白河':[23.3508,120.4153],'善化':[23.1369,120.2966],'新市':[23.0772,120.2960],
+  }},
+  kaohsiung: {label:'高雄市', prefix:'高雄', dists:{
+    '苓雅':[22.6225,120.3091],'前金':[22.6266,120.2939],'新興':[22.6310,120.3025],'前鎮':[22.5912,120.3192],'三民':[22.6485,120.3025],'左營':[22.6839,120.2942],'鼓山':[22.6376,120.2766],'旗津':[22.6126,120.2832],'鹽埕':[22.6244,120.2868],'楠梓':[22.7281,120.3267],'小港':[22.5654,120.3577],'鳳山':[22.6262,120.3573],'鳥松':[22.6541,120.3623],'大寮':[22.6053,120.3954],'大樹':[22.6932,120.4341],'仁武':[22.6964,120.3473],'岡山':[22.7969,120.2956],'橋頭':[22.7565,120.3074],'路竹':[22.8568,120.2614],'湖內':[22.9070,120.2118],'旗山':[22.8870,120.4831],'美濃':[22.8979,120.5430],
+  }},
+  pingtung: {label:'屏東縣', prefix:'屏東', dists:{
+    '屏東市':[22.6717,120.4880],'潮州':[22.5497,120.5408],'東港':[22.4654,120.4517],'恆春':[22.0027,120.7459],'萬丹':[22.5868,120.4866],'萬巒':[22.5732,120.5660],'內埔':[22.6087,120.5667],'枋寮':[22.3656,120.5950],'車城':[22.0710,120.7106],'里港':[22.7793,120.4946],'長治':[22.6800,120.5275],
+  }},
+  yilan: {label:'宜蘭縣', prefix:'宜蘭', dists:{
+    '宜蘭市':[24.7574,121.7536],'羅東':[24.6770,121.7705],'頭城':[24.8590,121.8232],'礁溪':[24.8265,121.7715],'員山':[24.7448,121.7180],'五結':[24.6875,121.7980],'冬山':[24.6346,121.7926],'三星':[24.6735,121.6624],'蘇澳':[24.5946,121.8520],'大同':[24.6692,121.6044],'南澳':[24.4651,121.7997],'壯圍':[24.7437,121.7793],
+  }},
+  hualien: {label:'花蓮縣', prefix:'花蓮', dists:{
+    '花蓮市':[23.9871,121.6015],'新城':[24.0276,121.6404],'秀林':[24.1593,121.6293],'吉安':[23.9694,121.5811],'壽豐':[23.8703,121.5092],'鳳林':[23.7513,121.4538],'光復':[23.6675,121.4175],'瑞穗':[23.4974,121.3771],'玉里':[23.3354,121.3133],
+  }},
+  taitung: {label:'臺東縣', prefix:'台東', dists:{
+    '台東市':[22.7583,121.1444],'卑南':[22.7884,121.0822],'鹿野':[22.9145,121.1356],'關山':[23.0468,121.1622],'池上':[23.1234,121.2185],'成功':[23.0987,121.3776],'東河':[22.9755,121.3025],'太麻里':[22.6112,120.9874],'長濱':[23.3104,121.4520],
+  }},
+  penghu: {label:'澎湖縣', prefix:'澎湖', dists:{
+    '馬公':[23.5651,119.5786],'湖西':[23.5901,119.6537],'白沙':[23.6612,119.5973],'西嶼':[23.5844,119.5079],'望安':[23.3623,119.5048],'七美':[23.2061,119.4244],
+  }},
+  kinmen: {label:'金門縣', prefix:'金門', dists:{
+    '金城':[24.4321,118.3164],'金沙':[24.4906,118.4151],'金湖':[24.4385,118.4181],'金寧':[24.4470,118.3403],'烈嶼':[24.4220,118.2387],
+  }},
+  lienchiang: {label:'連江縣(馬祖)', prefix:'馬祖', dists:{
+    '南竿':[26.1539,119.9300],'北竿':[26.2233,120.0149],'莒光':[25.9787,119.9474],'東引':[26.3633,120.4878],
+  }},
 };
 
-function passesRange(place, profile) {
-  const home = profile.home || 'metro_tw_west';
-  // 雙北西:用車程分鐘篩(最精準 — 不再讓土城人看到基隆)
-  if (home === 'metro_tw_west') {
-    const min = getDriveMinutesFromTucheng(place.area);
-    if (profile.range === 'near') return min <= 30;
-    if (profile.range === 'medium') return min <= 60;
-    if (profile.range === 'trip') return min <= 120;
-    return true;
+// ========== 從 area 字串推算經緯度 ==========
+// area 格式:「台北中正」「新北土城」「新竹東區」「新竹北埔」 等
+// 「新竹」「嘉義」 ambiguous(市/縣)→ 兩個都試
+function getCoordsFromArea(area) {
+  if (!area) return null;
+  const first = area.split(/\s*\/\s*/)[0]; // 「新北三重 / 八里」→ 取「新北三重」
+  // 兩岸 prefix(2 字)
+  for (const cfg of Object.values(TAIWAN_DISTRICTS)) {
+    if (first.startsWith(cfg.prefix)) {
+      const dist = first.slice(cfg.prefix.length);
+      if (cfg.dists[dist]) return cfg.dists[dist];
+    }
   }
-  // 其他都會圈:用 region 集合
-  const cfg = HOME_CONFIG[home] || HOME_CONFIG.other;
-  if (profile.range === 'near') return cfg.primary.includes(place.region);
-  if (profile.range === 'medium') return [...cfg.primary, ...cfg.neighbors].includes(place.region);
-  if (profile.range === 'trip') return [...cfg.primary, ...cfg.neighbors, ...cfg.far].includes(place.region);
+  return null;
+}
+
+function haversineKm(lat1, lng1, lat2, lng2) {
+  const R = 6371;
+  const toRad = d => d * Math.PI / 180;
+  const dLat = toRad(lat2 - lat1);
+  const dLng = toRad(lng2 - lng1);
+  const a = Math.sin(dLat/2)**2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng/2)**2;
+  return 2 * R * Math.asin(Math.sqrt(a));
+}
+
+function getDistKm(place, profile) {
+  if (!profile.homeLat || !profile.homeLng) return null;
+  const c = getCoordsFromArea(place.area);
+  if (!c) return null;
+  return haversineKm(profile.homeLat, profile.homeLng, c[0], c[1]);
+}
+
+function passesRange(place, profile) {
+  const km = getDistKm(place, profile);
+  if (km === null) return profile.range === 'nationwide'; // 沒座標只在 nationwide 出現
+  if (profile.range === 'near') return km <= 15;     // 約 30 分車程
+  if (profile.range === 'medium') return km <= 40;   // 約 1 小時
+  if (profile.range === 'trip') return km <= 100;    // 約 2-3 小時
   return true; // nationwide
 }
 
@@ -771,8 +826,8 @@ function renderWizardResult(p) {
   const wLabel = {sunny:'晴',rainy:'雨',any:'隨便'}[p.weather];
   const sLabel = {spring:'春',summer:'夏',autumn:'秋',winter:'冬'}[p.season];
   const aLabel = {'0-2':'0-2 歲','2-3':'2-3 歲','3-6':'3-6 歲'}[p.age];
-  const rLabel = {near:'近',medium:'1 小時內',trip:'半日',nationwide:'全台'}[p.range];
-  const hLabel = {metro_tw_west:'雙北西',taipei:'雙北東/北',taoyuan:'桃園',hsinchu_city:'新竹',taichung:'台中',tainan:'台南',kaohsiung:'高雄',yilan:'宜蘭',hualien:'花蓮',taitung:'臺東',other:'其他縣市'}[p.home] || '';
+  const rLabel = {near:'≤15km',medium:'≤40km',trip:'≤100km',nationwide:'全台'}[p.range];
+  const hLabel = (p.home && p.homeDistrict) ? `${TAIWAN_DISTRICTS[p.home].label}${p.homeDistrict}` : '';
 
   let html = `<div class="wizard-result-card">
     <h2>🎯 給你的推薦(${hLabel} · ${wLabel} · ${sLabel} · ${aLabel} · ${rLabel}) <a class="reset-link" onclick="resetWizard()">↻ 重答</a></h2>
@@ -780,17 +835,20 @@ function renderWizardResult(p) {
 
   if (matches.length === 0) {
     html += `<div class="empty">😢 這個組合沒有符合的景點。試試:<br>
-      • 改範圍為「假日小旅行」<br>
+      • 改範圍為「半日小旅行」或「全台」<br>
       • 天氣選「不一定」<br>
       • 在「📖 關於 / 編輯資料」自己加新景點</div>`;
   } else {
-    matches.forEach(pl => { html += renderPlaceCard(pl); });
+    // 依距離排序(近的先)
+    const withDist = matches.map(pl => ({pl, km: getDistKm(pl, p)}));
+    withDist.sort((a,b) => (a.km ?? 999) - (b.km ?? 999));
+    withDist.forEach(({pl, km}) => { html += renderPlaceCard(pl, km); });
   }
   html += `</div>`;
   return html;
 }
 
-function renderPlaceCard(pl) {
+function renderPlaceCard(pl, km) {
   const isFav = STATE.favorites.includes(pl.id);
   const note = STATE.notes[pl.id] || '';
   const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(pl.name + ' ' + pl.area)}`;
@@ -800,13 +858,14 @@ function renderPlaceCard(pl) {
     ...pl.types.map(t => `<span class="tag">${t}</span>`),
     ...pl.ages.map(a => `<span class="tag">${a}</span>`),
   ].filter(Boolean).join('');
+  const kmLabel = (km !== undefined && km !== null) ? `<span style="color:var(--primary-dark);font-weight:700;font-size:13px;">📐 ${km.toFixed(1)} km</span>` : '';
 
   return `<div class="place-card">
     <div class="head">
       <span style="font-size:24px;">${pl.emoji}</span>
       <div style="flex:1;min-width:0;">
         <div class="name">${pl.name}</div>
-        <div class="area">📍 ${pl.area}</div>
+        <div class="area">📍 ${pl.area} ${kmLabel}</div>
       </div>
     </div>
     <div class="tags">${tagsHtml}</div>
@@ -940,6 +999,8 @@ window.saveNote = saveNote;
 window.cancelNote = cancelNote;
 window.renderBrowse = renderBrowse;
 window.resetFilters = resetFilters;
+window.onHomeCountyChange = onHomeCountyChange;
+window.onHomeDistrictChange = onHomeDistrictChange;
 </script>
 
 </body>
