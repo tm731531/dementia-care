@@ -95,6 +95,43 @@ nav.open { display: block; }
   border: 1px solid var(--border);
   cursor: pointer;
 }
+.nav-group-label {
+  width: 100%;
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 700;
+  margin: 8px 0 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.next-step-cta {
+  background: var(--ok-bg);
+  border: 2px solid var(--ok-border);
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin: 30px 0 16px;
+}
+.next-step-cta h4 { margin: 0 0 8px; color: #2d6a4f; }
+.next-step-cta a {
+  display: inline-block;
+  background: var(--ok-border);
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  margin: 4px 4px 0 0;
+  font-size: 14px;
+  font-weight: 700;
+}
+.next-step-cta a:hover { background: #4a8569; color: #fff; }
+.quick-summary {
+  background: #fff8e1;
+  border-left: 4px solid #f0a868;
+  padding: 12px 16px;
+  margin: 16px 0;
+  border-radius: 8px;
+}
+.quick-summary strong { color: #8a5a00; }
 .nav-link:hover { background: var(--primary); color: #fff; }
 .nav-link.active { background: var(--primary); color: #fff; }
 
@@ -157,6 +194,20 @@ th {
   font-weight: 700;
 }
 tbody tr:nth-child(even) { background: rgba(0,0,0,0.02); }
+
+/* sticky 第一欄(對照表手機橫向滑動時鎖左) */
+#compare-table th:first-child, #compare-table td:first-child,
+#calendar-table th:first-child, #calendar-table td:first-child {
+  position: sticky;
+  left: 0;
+  background: var(--card);
+  z-index: 1;
+  border-right: 2px solid var(--primary);
+}
+#compare-table thead th:first-child, #calendar-table thead th:first-child {
+  background: var(--primary-light);
+  z-index: 2;
+}
 
 .callout {
   background: var(--primary-light);
@@ -512,21 +563,26 @@ details[open] summary { margin-bottom: 8px; }
 <nav id="nav">
   <div class="nav-inner">
     <a class="nav-link" data-page="page-home" onclick="navigateTo('page-home');return false;" href="#">🏠 首頁</a>
+    <div class="nav-group-label">📚 認識系統</div>
     <a class="nav-link" data-page="page-types" onclick="navigateTo('page-types');return false;" href="#">🏫 類型選擇</a>
+    <a class="nav-link" data-page="page-subsidy" onclick="navigateTo('page-subsidy');return false;" href="#">💰 補助系統</a>
+    <a class="nav-link" data-page="page-5w1h" onclick="navigateTo('page-5w1h');return false;" href="#">🎯 5W1H 方法論</a>
+    <div class="nav-group-label">🎯 找園所(主要)</div>
     <a class="nav-link" data-page="page-infant" onclick="navigateTo('page-infant');return false;" href="#">👶 托嬰專區</a>
     <a class="nav-link" data-page="page-preschool" onclick="navigateTo('page-preschool');return false;" href="#">🏫 幼兒園專區</a>
     <a class="nav-link" data-page="page-nanny" onclick="navigateTo('page-nanny');return false;" href="#">👵 保母系統</a>
-    <a class="nav-link" data-page="page-subsidy" onclick="navigateTo('page-subsidy');return false;" href="#">💰 補助系統</a>
-    <a class="nav-link" data-page="page-5w1h" onclick="navigateTo('page-5w1h');return false;" href="#">🎯 5W1H 方法論</a>
-    <a class="nav-link" data-page="page-checklist" onclick="navigateTo('page-checklist');return false;" href="#">📋 看園所 Checklist</a>
+    <div class="nav-group-label">🛠 工具(填表追蹤)</div>
+    <a class="nav-link" data-page="page-compare" onclick="navigateTo('page-compare');return false;" href="#">🛒 比較籃</a>
+    <a class="nav-link" data-page="page-calendar" onclick="navigateTo('page-calendar');return false;" href="#">📆 Calendar</a>
+    <a class="nav-link" data-page="page-checklist" onclick="navigateTo('page-checklist');return false;" href="#">📋 Checklist</a>
+    <div class="nav-group-label">📅 流程 SOP</div>
     <a class="nav-link" data-page="page-timeline" onclick="navigateTo('page-timeline');return false;" href="#">📅 時程地圖</a>
     <a class="nav-link" data-page="page-documents" onclick="navigateTo('page-documents');return false;" href="#">📄 文件 SOP</a>
     <a class="nav-link" data-page="page-lottery" onclick="navigateTo('page-lottery');return false;" href="#">🎲 抽籤機制</a>
     <a class="nav-link" data-page="page-traps" onclick="navigateTo('page-traps');return false;" href="#">⚠️ 常見地雷</a>
+    <div class="nav-group-label">📖 深度 + 設定</div>
     <a class="nav-link" data-page="page-sandwich" onclick="navigateTo('page-sandwich');return false;" href="#">👨‍👩‍👧 三明治世代</a>
     <a class="nav-link" data-page="page-aftercare" onclick="navigateTo('page-aftercare');return false;" href="#">🏡 入園後實務</a>
-    <a class="nav-link" data-page="page-compare" onclick="navigateTo('page-compare');return false;" href="#">🛒 比較籃</a>
-    <a class="nav-link" data-page="page-calendar" onclick="navigateTo('page-calendar');return false;" href="#">📆 我的幼兒園 Calendar</a>
     <a class="nav-link" data-page="page-cases" onclick="navigateTo('page-cases');return false;" href="#">📖 案例</a>
     <a class="nav-link" data-page="page-knowledge" onclick="navigateTo('page-knowledge');return false;" href="#">📚 縣市資源</a>
     <a class="nav-link" data-page="page-settings" onclick="navigateTo('page-settings');return false;" href="#">⚙️ 設定</a>
@@ -539,6 +595,10 @@ details[open] summary { margin-bottom: 8px; }
 <section class="page active" id="page-home">
   <h1>🧒 找托嬰/幼兒園的方法論</h1>
   <p style="font-size:18px;color:var(--muted);">給家裡有 <strong>0-6 歲幼兒</strong>、第一次面對托嬰中心 / 幼兒園系統的家長。教你<strong>怎麼看</strong>,不告訴你<strong>選哪家</strong>。</p>
+
+  <div class="quick-summary">
+    <strong>⏱ 沒空全讀?5 分鐘版</strong>:① 點下面年齡卡片定位 → ② 看「對號入座」表找你的情境 → ③ 點對應頁讀關鍵段 → ④ 開「規劃模式」每個月自動提醒。<strong>現在就開規劃模式 ↓</strong>
+  </div>
 
   <div id="planning-mode-block" style="display:none;">
     <div class="planning-block">
@@ -631,7 +691,7 @@ details[open] summary { margin-bottom: 8px; }
 
   <h2>🎯 5 秒總覽</h2>
   <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;">
-    <div class="summary-row"><span class="icon">👤</span><span class="label">Who</span><span class="content">家長:你的家庭結構、預算、接送可行性。<strong>不是</strong>「孩子是誰」</span></div>
+    <div class="summary-row"><span class="icon">👤</span><span class="label">Who</span><span class="content"><strong>孩子</strong>(個性 / 氣質 / 特殊需求)<strong> + 家庭</strong>(結構 / 預算 / 接送)。<strong>孩子的氣質適配性比距離 / 費用都更重要</strong></span></div>
     <div class="summary-row"><span class="icon">🏫</span><span class="label">What</span><span class="content"><strong>0-2 歲</strong>:公托 / 準公共托嬰 / 私托 / 保母 4 條路。<strong>2-6 歲</strong>:公幼 / 非營利 / 準公共 / 私立 4 類型。費用差 5-15 倍</span></div>
     <div class="summary-row"><span class="icon">📅</span><span class="label">When</span><span class="content">公托:出生就排隊。幼兒園:每年 4-6 月。8 月開學</span></div>
     <div class="summary-row"><span class="icon">📍</span><span class="label">Where</span><span class="content">步行 20 分鐘原則(颱風 + 大雨 + 小孩走慢實際是 30+)</span></div>
@@ -645,7 +705,7 @@ details[open] summary { margin-bottom: 8px; }
   </div>
 
   <div class="footer-note">
-    最後更新 2026-04-26 · v1.6 · 政府補助標準會逐年更新,以官方公告為準
+    最後更新 2026-04-26 · v2.0 · 政府補助標準會逐年更新,以官方公告為準
   </div>
 </section>
 
@@ -890,6 +950,13 @@ details[open] summary { margin-bottom: 8px; }
   <div class="callout warn">
     <h4>⚠️ 不要只報一家</h4>
     <p style="margin:0;">即使最想要 A 園,也要報 B、C、D 當保險。<strong>抽籤是運氣</strong>,沒抽中要等下一年(8 月開學前可能補不到位)。<strong>同時報 3-5 家</strong>是常態。</p>
+  </div>
+
+  <div class="next-step-cta">
+    <h4>✅ 看完了 4 種類型,下一步</h4>
+    <a onclick="navigateTo('page-subsidy');return false;" href="#">💰 看補助系統(別選錯每月差 8K)</a>
+    <a onclick="navigateTo('page-timeline');return false;" href="#">📅 確認時程</a>
+    <a onclick="navigateTo('page-traps');return false;" href="#">⚠️ 看常見地雷</a>
   </div>
 </section>
 
@@ -1740,6 +1807,101 @@ details[open] summary { margin-bottom: 8px; }
     </tbody>
   </table>
 
+  <h2>👶 10.5 孩子說「我不要去」· 三層次判斷框架</h2>
+  <div class="callout warn">
+    <p style="margin:0;"><strong>不是所有「不要去」都該換園,也不是所有「不要去」都該硬撐</strong>。先分三層次判斷:</p>
+  </div>
+  <table>
+    <thead><tr><th>時間</th><th>表現</th><th>判斷 + 行動</th></tr></thead>
+    <tbody>
+      <tr><td><strong>前 2 週</strong></td><td>哭著進門 / 抓家長不放</td><td><strong>正常分離焦慮</strong>(幾乎所有孩子都有)。家長:快速告別、不外顯焦慮、不戲劇性回頭</td></tr>
+      <tr><td><strong>3-6 週</strong></td><td>進門哭但白天快樂 / 離園不想走</td><td><strong>適應期延長但進展中</strong>。觀察孩子在家是否有提到老師、同學、活動 → 有就是好訊號</td></tr>
+      <tr><td><strong>3-6 週</strong></td><td>哭整天 / 不吃午餐 / 不睡午覺 / 進不了門</td><td><strong>真實適應困難</strong>。先跟老師討論策略,不要立刻換園</td></tr>
+      <tr><td><strong>6 週後仍每天哭</strong></td><td>+ 家裡退化(已戒尿布又尿床/做惡夢)</td><td><strong>評估換園 + 找專業評估</strong>(早療 / 兒童心理)</td></tr>
+      <tr><td><strong>特定情境恐懼</strong></td><td>怕某個老師 / 某個活動 / 某個時段</td><td>不是園所問題,是針對性問題。跟老師談 + 觀察該情境變化</td></tr>
+    </tbody>
+  </table>
+
+  <h2>🚨 10.6 孩子不快樂的早期警訊(在家觀察)</h2>
+  <p><strong>不是「哭著要走」這種顯眼訊號</strong>(那是分離焦慮,正常)。是以下「在家就觀察得到」的細微訊號:</p>
+  <ul>
+    <li><strong>退化行為</strong>:已完成如廁訓練的孩子重新尿床 / 已戒奶嘴又要奶嘴 / 已戒夜奶又要喝</li>
+    <li><strong>睡眠突然惡化</strong>:夜醒次數增加 / 做惡夢 / 起床後仍疲倦</li>
+    <li><strong>新的攻擊性</strong>:在家對家人 / 寵物 / 玩具突然出現破壞 / 攻擊行為</li>
+    <li><strong>食慾大幅減退</strong>:平常喜歡的食物突然拒吃,連續超過 1 週</li>
+    <li><strong>不願談學校的任何事</strong>:問「今天好嗎?」永遠是「不知道」「忘了」</li>
+    <li><strong>重複扮演「老師」遊戲</strong>:遊戲中充滿命令、懲罰、威脅(這是孩子在處理創傷的方式)</li>
+    <li><strong>對特定老師 / 同學 / 活動有強烈抗拒情緒</strong>(雖然不會解釋原因)</li>
+  </ul>
+  <div class="callout warn">
+    <p style="margin:0;"><strong>看到 2 個以上訊號連續 2 週以上</strong>:跟老師深聊 + 申請查看監視器(法定家長可申請)+ 必要時諮詢兒童心理專業</p>
+  </div>
+
+  <h2>🩺 10.7 嚴重過敏(EpiPen 級)選園 hard filter</h2>
+  <div class="callout danger">
+    <h4>🚨 孩子有嚴重過敏(花生 / 堅果 / 蛋白 / 海鮮,曾有過敏性休克病史)</h4>
+    <p style="margin:0;">這是 hard filter — <strong>不符合條件的園所直接淘汰</strong>:</p>
+    <ul style="margin:8px 0 0 22px;">
+      <li>園內<strong>必須有護理人員</strong>(駐園 / 或有合作醫療單位 5 分鐘到場)</li>
+      <li>教保員<strong>必須受訓可操作 EpiPen</strong>(問:你們老師最近一次 EpiPen 訓練是什麼時候?)</li>
+      <li><strong>必須備有家長提供的 Epi-pen + 緊急聯絡 SOP</strong>(問:會放在哪?誰知道?過期前怎麼通知家長換新?)</li>
+      <li><strong>菜單管理</strong>:過敏食材完全分區?還是只「不放在你孩子盤子」?(交叉污染風險)</li>
+      <li><strong>校外教學</strong>:出門帶 Epi-pen + 過敏卡?</li>
+    </ul>
+  </div>
+  <h3>過敏處置 SOP 三級(問清楚園所怎麼分級)</h3>
+  <table>
+    <thead><tr><th>等級</th><th>表現</th><th>SOP</th></tr></thead>
+    <tbody>
+      <tr><td>🟡 輕度</td><td>皮膚起疹 / 輕微紅腫</td><td>記錄 + 通知家長 + 繼續觀察</td></tr>
+      <tr><td>🟠 中度</td><td>多系統反應(皮膚 + 腸胃 / 呼吸)</td><td>停食 + <strong>立刻通知家長接回</strong> + 評估就診</td></tr>
+      <tr><td>🔴 重度</td><td>過敏性休克(呼吸困難 / 意識變化)</td><td><strong>立刻打 119</strong> + 注射 EpiPen(若已備) + 通知家長</td></tr>
+    </tbody>
+  </table>
+
+  <h2>👶 10.8 早產兒矯正年齡考量</h2>
+  <div class="callout">
+    <p style="margin:0;"><strong>早產 8 週的寶寶</strong>:出生月齡 6 個月,矯正月齡 4 個月。發展里程碑、副食品引入、托嬰送托判斷,<strong>全用矯正月齡</strong>,不用出生月齡。</p>
+  </div>
+  <ul>
+    <li><strong>送托時機</strong>:法規寫滿 2 個月可送,但早產兒常要等矯正月齡滿 2-4 個月。<strong>跟托嬰中心書面溝通用矯正月齡評估</strong></li>
+    <li><strong>副食品</strong>:4-6 個月引入,以矯正月齡為準</li>
+    <li><strong>分班</strong>:依矯正月齡的體型 / 能力評估,不依戶口名簿年齡</li>
+    <li><strong>免疫系統洗禮</strong>:早產兒免疫更弱,送托後生病週期可能更長</li>
+  </ul>
+
+  <h2>📐 10.9 法規 1:5 帳面 vs 第一線現實</h2>
+  <div class="callout warn">
+    <p style="margin:0;"><strong>1:5 是「在場有效照顧」的法定上限,不是「永遠 2 隻眼睛盯著我孩子」的承諾</strong>。以下情境短暫 1 人在場是現實:</p>
+    <ul style="margin:8px 0 0 22px;">
+      <li>老師上廁所(同班其他老師接手 → 短暫 1:10)</li>
+      <li>輪班交接 15-20 分鐘</li>
+      <li>早晚高峰接送(1 名老師同時迎 5 個孩子)</li>
+      <li>備餐 / 填記錄簿時段</li>
+    </ul>
+    <p style="margin:8px 0 0;"><strong>選園時要問</strong>:「另一名老師不在時,標準處置是什麼?誰是候補?」</p>
+  </div>
+
+  <h2>👯 10.10 雙胞胎 / 跨縣市搬家 / 共同監護權</h2>
+  <ul>
+    <li><strong>雙胞胎入園</strong>:各縣市規定不一(有的可同時填報,有的每個孩子算獨立)。<strong>直接打電話問該縣市教育局</strong>。胎次認定:大寶第 N 胎,小寶第 N+1 胎</li>
+    <li><strong>跨縣市搬家</strong>:在 A 縣市已就讀準公共,搬到 B 縣市要重新申請補助。<strong>搬家前先確認新縣市加碼補助 + 新區順位</strong>(可能變一般生)</li>
+    <li><strong>共同監護權 / 離婚家庭</strong>:接送授權單<strong>雙方都要簽</strong>;報名表只能一方填(視該園規定);若對方不配合 → 帶法院監護權判決書影本到園所說明</li>
+  </ul>
+
+  <h2>🆘 10.11 救濟管道(出狀況時找誰)</h2>
+  <table>
+    <thead><tr><th>狀況</th><th>找誰</th></tr></thead>
+    <tbody>
+      <tr><td><strong>不當管教 / 兒虐疑慮</strong></td><td><strong>113</strong> 婦幼保護專線(24 小時)</td></tr>
+      <tr><td><strong>幼兒園違規 / 收費爭議</strong></td><td>各縣市<strong>教育局</strong>幼兒教育科(直撥)</td></tr>
+      <tr><td><strong>托嬰中心違規</strong></td><td>各縣市<strong>社會局</strong>托育服務科</td></tr>
+      <tr><td><strong>保母品質 / 違規</strong></td><td><strong>1957</strong> 福利諮詢專線</td></tr>
+      <tr><td><strong>合約糾紛 / 退費爭議</strong></td><td><strong>1950</strong> 消費者保護專線(消保官)</td></tr>
+      <tr><td><strong>查園所評鑑 + 裁罰紀錄</strong></td><td>教育部全國教保資訊網 <a href="https://www.ece.moe.edu.tw/" target="_blank" rel="noopener">ece.moe.edu.tw</a></td></tr>
+    </tbody>
+  </table>
+
   <h2>👩‍🏫 11. 老師流動率影響你孩子的穩定 · 教保員勞動現實</h2>
   <div class="callout warn">
     <h4>🎯 你希望孩子穩定 → 那要看老師流動率 → 流動率是這樣形成的</h4>
@@ -1764,6 +1926,23 @@ details[open] summary { margin-bottom: 8px; }
     <li>了解「老師沒立即回訊」是因為手上有 5 個孩子,不是態度問題</li>
     <li>節慶禮(若送)寫個小卡 + 班級耗材,比現金禮卡讓老師更有溫度</li>
   </ul>
+
+  <h2>💬 11.5 教保員「想說但不能說」的 10 句話(從現職老師整理)</h2>
+  <div class="callout">
+    <p style="margin:0;">這些是教保員<strong>每天看到但職業倫理上不能直接告訴家長</strong>的事。家長知道後可以更好理解老師,以及主動配合。</p>
+  </div>
+  <ol class="steps-list">
+    <li><strong>你孩子在家發生的事我們都知道</strong> — 昨晚爸媽吵架、今天媽媽有情緒、早餐沒吃好,我們從孩子行為全看得出來。<strong>主動告知家庭重大變動</strong>(搬家 / 弟妹出生 / 家人住院)讓老師能更好幫孩子</li>
+    <li><strong>我同時帶 5-30 個孩子,做不到一對一服務</strong> — 你傳訊「幫我多留意我家孩子今天有沒有蓋被子」,我盡力但無法保證。<strong>理解師生比現實</strong></li>
+    <li><strong>觀課那天我們會準備</strong> — 「歡迎隨時參觀」就算真隨機,只要家長在場,老師和孩子行為都會改變(觀察者效應)。看真實狀況最好的方法是<strong>第三個月後才觀課</strong>(已進入日常節奏)</li>
+    <li><strong>群組截圖是摧毀師生關係的武器</strong> — 截圖傳家長私群討論 → 整件事被放大、斷章取義。老師知道發生了但不知道哪句被截 → 焦慮 → 離職</li>
+    <li><strong>我覺得你孩子可能需要評估,但我不能說</strong> — 通報發展遲緩疑慮怕家長投訴「老師說我孩子有問題」。很多孩子拖到小學才被發現。<strong>家長主動問</strong>「老師覺得孩子發展跟同齡比怎麼樣?」</li>
+    <li><strong>午睡時間是老師唯一喘息</strong>,不是偷懶。要求老師午睡時發更多照片 / 整理紀錄 → 下午老師情緒品質下降,受害的是孩子</li>
+    <li><strong>節慶禮金讓我陷入心理拉扯</strong> — 送禮家長 vs 沒送家長,老師會無意識地對前者更關注。<strong>最好做法是改送班級共用耗材</strong></li>
+    <li><strong>你孩子有持續攻擊行為,但群組不能說</strong> — 告知被打孩子家長會引起恐慌,告知打人孩子家長怕被說「污名化」。<strong>家長主動問</strong>「孩子在班上跟大家互動如何?有沒有要在家配合改善的?」</li>
+    <li><strong>你孩子的問題,有時答案在家裡不在園所</strong> — 情緒失控週期 vs 父母吵架週期、語言發展落後 vs 家裡沒人跟他說話、不合作 vs 家裡被要求「不能輸」</li>
+    <li><strong>我知道你比較喜歡另一個老師,但我才是帶你孩子的人</strong> — 家長偏好特定老師(主任 / 英文老師),冷漠對日常帶班老師。<strong>孩子會感知並複製,影響帶班老師投入度</strong>。對每位老師都給正向回饋</li>
+  </ol>
 
   <h2>💔 12. 家長最常後悔的決策(園長端真實觀察)</h2>
   <div class="callout danger">
@@ -1810,7 +1989,7 @@ details[open] summary { margin-bottom: 8px; }
     <li>準公共補位(費用相同,各園自辦)</li>
   </ul>
 
-  <h3>找到的 11 家(步行 + 2 歲班 + 公費類)</h3>
+  <h3>找到的 13 家(步行 + 2 歲班 + 公費類)</h3>
   <table>
     <thead>
       <tr><th>類型</th><th>數量</th><th>備註</th></tr>
@@ -1818,8 +1997,9 @@ details[open] summary { margin-bottom: 8px; }
     <tbody>
       <tr><td>非營利</td><td>2</td><td>中正、明德(統一網路報名 4/30-5/7,5/19 抽籤)</td></tr>
       <tr><td>準公共(20 分內)</td><td>3</td><td>肯恩土城、樹德、天翔</td></tr>
-      <tr><td>準公共(28-32 分)</td><td>4</td><td>征洋、奇士華、常春藤、廣福、有一天</td></tr>
+      <tr><td>準公共(28-32 分)</td><td>5</td><td>征洋、奇士華、常春藤、廣福、有一天</td></tr>
       <tr><td>準公共(40+ 分)</td><td>2</td><td>全球、詠樂(較遠,當保險)</td></tr>
+      <tr><td>準公共(55 分,長線備援)</td><td>1</td><td>土城名仁(備取保留 10/31 全清單最長)</td></tr>
       <tr><td>排除</td><td>2</td><td>凱樂(99 分)、頂埔(152 分)路程不實際</td></tr>
     </tbody>
   </table>
@@ -2493,6 +2673,13 @@ details[open] summary { margin-bottom: 8px; }
     <li><strong>「銜接小一」隱形壓力</strong>:大班開始就要想下一站,很多家長從這時開始焦慮</li>
   </ol>
   <p style="font-size:14px;color:var(--muted);margin-top:8px;"><em><strong>結論</strong>:找幼兒園不要急,<strong>多參觀 3-5 家、各家觀課、最好試讀</strong>。比找托嬰多投入 2 倍的時間都值得。</em></p>
+
+  <div class="next-step-cta">
+    <h4>✅ 看完幼兒園專區,下一步</h4>
+    <a onclick="navigateTo('page-checklist');return false;" href="#">📋 拿 Checklist 去現場跑</a>
+    <a onclick="navigateTo('page-compare');return false;" href="#">🛒 比較籃載入 13 家範例</a>
+    <a onclick="navigateTo('page-traps');return false;" href="#">⚠️ 常見地雷</a>
+  </div>
 </section>
 
 <!-- ========== 保母系統 ========== -->
@@ -2910,10 +3097,11 @@ details[open] summary { margin-bottom: 8px; }
   </div>
 
   <div class="callout warn" style="margin-bottom:16px;">
-    <h4>📚 第一次用?載入土城 11 家招生章範例</h4>
-    <p style="margin:0 0 8px;"><strong>不知道每欄怎麼填?</strong> 一鍵載入 13 家範例(2 家非營利 + 11 家準公共,2026 / 115 學年度新北土城),看別人怎麼填、欄位怎麼用,然後改成你自己的資料 / 或一鍵清除範例。</p>
+    <h4>📚 第一次用?載入土城 13 家招生章範例</h4>
+    <p style="margin:0 0 8px;"><strong>不知道每欄怎麼填?</strong> 一鍵載入 13 家範例(2 家非營利 + 11 家準公共,2026 / 115 學年度新北土城),看別人怎麼填、欄位怎麼用,然後改成你自己的資料 / 或一鍵清除範例。<strong>非雙北家長</strong>:當作填表示範,<strong>直接改成你縣市的園所資料</strong>。</p>
     <button class="btn" onclick="loadSampleData()">📚 載入土城 13 家範例</button>
     <button class="btn btn-secondary" onclick="clearSamplesOnly()" style="margin-left:8px;">🗑 只清範例(保留你自己加的)</button>
+    <p style="margin:8px 0 0;font-size:13px;color:var(--muted);"><em>📋 範例資料整理自 2026 年各園公開招生章,僅供工具使用示範,<strong>不構成對任何個別園所品質之評估或推薦</strong>。資料以各園當年度實際公告為準。</em></p>
   </div>
 
   <h2>➕ 加新園所(對應招生章完整欄位)</h2>
@@ -3174,7 +3362,7 @@ details[open] summary { margin-bottom: 8px; }
     <h2>⚠️ 衝突檢測 + 注意事項</h2>
     <div id="calendar-conflicts"></div>
 
-    <h2>⏰ 倒數提醒(最近 30 天)</h2>
+    <h2>⏰ 倒數提醒(最近 60 天)</h2>
     <div id="calendar-countdown"></div>
 
     <h2>📋 完整對照表</h2>
@@ -3232,7 +3420,7 @@ details[open] summary { margin-bottom: 8px; }
 
   <h2>ℹ️ 關於</h2>
   <ul>
-    <li><strong>版本</strong>:v1.6(2026-04-26)</li>
+    <li><strong>版本</strong>:v2.0(2026-04-26 · 5 輪 30 視角審查全修)</li>
     <li><strong>來源</strong>:<a href="https://github.com/tm731531/dementia-care" target="_blank" rel="noopener">tm731531/dementia-care · childcare-handbook</a></li>
     <li><strong>授權</strong>:MIT</li>
     <li><strong>離線</strong>:本頁所有資源 inline,不連外部 CDN</li>
@@ -3664,7 +3852,7 @@ const SAMPLE_PRESCHOOLS = [
     myRank: '一般生(第 4 順位:延和里/安和里戶籍)',
     style: '主題式', trial: '',
     extendedCare: '', documents: '',
-    special: '⚠️ 因師資不足正取大幅縮減(全園可招 36 人但僅正取 10),其餘列備取',
+    special: '⚠️ 本學年度正取人數較少(全園可招 36 人但僅正取 10,其餘列備取),家長宜電話確認招生狀況',
     myRating: '', notes: '範例:正取人少,謹慎評估',
     isSample: true,
   },
@@ -3921,6 +4109,7 @@ function renderCompareTable() {
     {key: 'type', label: '類型', mapper: v => TYPE_LABELS[v] || '—'},
     {key: 'address', label: '地址'},
     {key: 'phone', label: '電話'},
+    {key: 'email', label: 'Email'},
     {key: 'walk', label: '步行(分)'},
     {label: '2 歲班', mapper: (_, r) => r.cls2 || '—'},
     {label: '3 歲班', mapper: (_, r) => r.cls3 || '—'},
@@ -4165,27 +4354,48 @@ function renderCalendarConflicts() {
   const el = document.getElementById('calendar-conflicts');
   if (!el) return;
   const events = getAllEvents();
-  // 同日多個事件
-  const byDate = {};
-  events.forEach(e => { (byDate[e.date] = byDate[e.date] || []).push(e); });
-  const conflicts = Object.entries(byDate).filter(([_, arr]) => arr.length >= 2);
-  // 備取保留期太短
-  const shortRetain = STATE.calendarList.filter(r => {
+  // 高危事件:抽籤 / 報到截止(需特定時間行動)
+  const highRiskTypes = ['🎲 抽籤', '✅ 報到截止 🚨'];
+  const highRiskEvents = events.filter(e => highRiskTypes.includes(e.type));
+  const highRiskByDate = {};
+  highRiskEvents.forEach(e => { (highRiskByDate[e.date] = highRiskByDate[e.date] || []).push(e); });
+  const highRisk = Object.entries(highRiskByDate).filter(([_, arr]) => arr.length >= 2);
+  // 提示事件:報名截止(同日多個 = 多份表單要送)
+  const regEndEvents = events.filter(e => e.type === '報名截止 ⚠️');
+  const regEndByDate = {};
+  regEndEvents.forEach(e => { (regEndByDate[e.date] = regEndByDate[e.date] || []).push(e); });
+  const regEndConflicts = Object.entries(regEndByDate).filter(([_, arr]) => arr.length >= 2);
+  // 備取保留期 — 分兩級
+  const veryShort = STATE.calendarList.filter(r => {
     if (!r.lottery || !r.retain) return false;
     const d1 = new Date(r.lottery), d2 = new Date(r.retain);
-    return (d2 - d1) / (1000*60*60*24) <= 14;
+    return (d2 - d1) / (1000*60*60*24) <= 7;
+  });
+  const short = STATE.calendarList.filter(r => {
+    if (!r.lottery || !r.retain) return false;
+    const d1 = new Date(r.lottery), d2 = new Date(r.retain);
+    const diff = (d2 - d1) / (1000*60*60*24);
+    return diff > 7 && diff <= 14;
   });
   let html = '';
-  if (conflicts.length === 0 && shortRetain.length === 0) {
+  if (highRisk.length === 0 && regEndConflicts.length === 0 && veryShort.length === 0 && short.length === 0) {
     html = '<div class="callout ok"><p style="margin:0;">✅ 目前沒有時程衝突,備取保留期都正常。</p></div>';
   } else {
-    conflicts.forEach(([date, arr]) => {
-      html += `<div class="callout danger"><h4>🚨 ${date} 同日 ${arr.length} 個事件</h4><ul style="margin:8px 0 0 22px;">`;
+    highRisk.forEach(([date, arr]) => {
+      html += `<div class="callout danger"><h4>🚨 高危 · ${date} 同日 ${arr.length} 場現場活動</h4><ul style="margin:8px 0 0 22px;">`;
       arr.forEach(e => { html += `<li>${escapeHtml(e.name)} · ${escapeHtml(e.type)}</li>`; });
-      html += '</ul><p style="margin:8px 0 0;font-size:14px;"><strong>衝突</strong>:同一天無法跑兩家現場活動。要排優先順序或請家人代跑。</p></div>';
+      html += '</ul><p style="margin:8px 0 0;font-size:14px;"><strong>無法分身</strong>:抽籤 / 報到須特定時間到場。要排優先順序或請家人代跑。</p></div>';
     });
-    shortRetain.forEach(r => {
-      html += `<div class="callout warn"><h4>⚠️ ${escapeHtml(r.name)} 備取保留期 ≤ 14 天 = 跟沒中差不多</h4><p style="margin:0;font-size:14px;">抽籤 ${r.lottery} → 備取保留只到 ${r.retain}。<strong>沒抽中正取就要當作沒中</strong>,別等。</p></div>`;
+    regEndConflicts.forEach(([date, arr]) => {
+      html += `<div class="callout warn"><h4>🟡 提示 · ${date} 多份報名表同日截止</h4><ul style="margin:8px 0 0 22px;">`;
+      arr.forEach(e => { html += `<li>${escapeHtml(e.name)}</li>`; });
+      html += '</ul><p style="margin:8px 0 0;font-size:14px;">同日可分頭遞,但建議提早 1-2 天完成,避免最後一刻系統塞車。</p></div>';
+    });
+    veryShort.forEach(r => {
+      html += `<div class="callout danger"><h4>🚨 ${escapeHtml(r.name)} 備取保留期 ≤ 7 天 = 等於沒中</h4><p style="margin:0;font-size:14px;">抽籤 ${r.lottery} → 備取保留只到 ${r.retain}。<strong>沒抽中正取就直接 GG</strong>,當作沒這家。</p></div>`;
+    });
+    short.forEach(r => {
+      html += `<div class="callout warn"><h4>🟡 ${escapeHtml(r.name)} 備取保留期 8-14 天 = 機會不大</h4><p style="margin:0;font-size:14px;">抽籤 ${r.lottery} → 備取保留只到 ${r.retain}。前 1-2 名備取有機會,3 名後請當沒中。</p></div>`;
     });
   }
   el.innerHTML = html;
@@ -4201,8 +4411,8 @@ function renderCalendarCountdown() {
     const d = new Date(e.date);
     d.setHours(0,0,0,0);
     return {...e, daysLeft: Math.round((d - today) / (1000*60*60*24))};
-  }).filter(e => e.daysLeft >= 0 && e.daysLeft <= 30).sort((a,b) => a.daysLeft - b.daysLeft);
-  if (upcoming.length === 0) { el.innerHTML = '<p style="color:var(--muted);">最近 30 天沒有排定事件。</p>'; return; }
+  }).filter(e => e.daysLeft >= 0 && e.daysLeft <= 60).sort((a,b) => a.daysLeft - b.daysLeft);
+  if (upcoming.length === 0) { el.innerHTML = '<p style="color:var(--muted);">最近 60 天沒有排定事件。</p>'; return; }
   el.innerHTML = upcoming.map(e => {
     let label = e.daysLeft === 0 ? '🔥 今天!' : e.daysLeft <= 3 ? `⚠️ ${e.daysLeft} 天後` : `${e.daysLeft} 天後`;
     return `<div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--card);border:1px solid var(--border);border-radius:8px;margin-bottom:6px;">
