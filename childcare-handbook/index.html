@@ -755,7 +755,7 @@ details[open] summary { margin-bottom: 8px; }
   <p style="font-size:13px;color:var(--muted);text-align:center;margin-top:24px;">這本手冊是<strong>方法論</strong>,不是「選哪家」的建議。手冊只負責讓你<strong>把該想的都想過、該查的都查過</strong>。</p>
 
   <div class="footer-note">
-    最後更新 2026-04-26 · v2.5 · 政府補助標準會逐年更新,以官方公告為準
+    最後更新 2026-04-26 · v3.0 · 政府補助標準會逐年更新,以官方公告為準
   </div>
 </section>
 
@@ -1128,6 +1128,13 @@ details[open] summary { margin-bottom: 8px; }
     <li><strong>備取等候期</strong>(看各園公告,5/14 ~ 10/31 都有):備取保留期長的有機會</li>
   </ol>
   <p>看 <a onclick="navigateTo('page-lottery');return false;" href="#">🎲 抽籤機制</a>。</p>
+
+  <div class="next-step-cta">
+    <h4>✅ 方法論看完,下一步</h4>
+    <a onclick="navigateTo('page-checklist');return false;" href="#">📋 看園所 Checklist</a>
+    <a onclick="navigateTo('page-compare');return false;" href="#">🛒 比較籃</a>
+    <a onclick="navigateTo('page-types');return false;" href="#">🏷 4 種類型對照</a>
+  </div>
 </section>
 
 <!-- ========== 看園所 Checklist ========== -->
@@ -1201,6 +1208,13 @@ details[open] summary { margin-bottom: 8px; }
   </div>
 
   <button class="btn btn-secondary" onclick="resetChecklist()">↻ 清空所有勾選</button>
+
+  <div class="next-step-cta">
+    <h4>✅ Checklist 跑完,下一步</h4>
+    <a onclick="navigateTo('page-compare');return false;" href="#">🛒 把分數填進比較籃</a>
+    <a onclick="navigateTo('page-aftercare');return false;" href="#">🏡 入園後實務(現場後該做的)</a>
+    <a onclick="navigateTo('page-traps');return false;" href="#">⚠️ 對照常見地雷</a>
+  </div>
 </section>
 
 <!-- ========== 時程地圖 ========== -->
@@ -1250,6 +1264,13 @@ details[open] summary { margin-bottom: 8px; }
   <div class="callout warn">
     <h4>⚠️ 預防接種紀錄影本</h4>
     <p style="margin:0;">這是<strong>所有園所都需要</strong>的文件,但很多家長到報到才發現黃卡找不到 → 衛生所補發要 1-2 週。<strong>現在就先確認在哪、影印 5 份</strong>。看 <a onclick="navigateTo('page-documents');return false;" href="#">📄 文件 SOP</a>。</p>
+  </div>
+
+  <div class="next-step-cta">
+    <h4>✅ 知道時程,下一步</h4>
+    <a onclick="navigateTo('page-documents');return false;" href="#">📄 文件 SOP(備齊不臨時找)</a>
+    <a onclick="navigateTo('page-calendar');return false;" href="#">📆 開 Calendar 設提醒</a>
+    <a onclick="navigateTo('page-subsidy');return false;" href="#">💰 補助系統</a>
   </div>
 </section>
 
@@ -1350,6 +1371,13 @@ details[open] summary { margin-bottom: 8px; }
   <div id="cl-documents"></div>
 
   <button class="btn btn-secondary" onclick="resetChecklist('documents')">↻ 清空文件清單</button>
+
+  <div class="next-step-cta">
+    <h4>✅ 文件備齊,下一步</h4>
+    <a onclick="navigateTo('page-calendar');return false;" href="#">📆 開 Calendar 設提醒</a>
+    <a onclick="navigateTo('page-checklist');return false;" href="#">📋 看園所 Checklist</a>
+    <a onclick="navigateTo('page-lottery');return false;" href="#">🎲 抽籤機制</a>
+  </div>
 </section>
 
 <!-- ========== 抽籤機制 ========== -->
@@ -1412,6 +1440,13 @@ details[open] summary { margin-bottom: 8px; }
   <h2>🤝 留園直升</h2>
   <div class="callout">
     <p style="margin:0;">已經在園的孩子,通常隔年可以「<strong>直升</strong>」上一個年級,不用重抽。直升登記時間各園不同(通常 1-2 月),<strong>錯過就要重新抽籤</strong>。</p>
+  </div>
+
+  <div class="next-step-cta">
+    <h4>✅ 知道抽籤,下一步</h4>
+    <a onclick="navigateTo('page-traps');return false;" href="#">⚠️ 備取保留期短地雷</a>
+    <a onclick="navigateTo('page-calendar');return false;" href="#">📆 設報到提醒</a>
+    <a onclick="navigateTo('page-aftercare');return false;" href="#">🏡 抽中後的入園實務</a>
   </div>
 </section>
 
@@ -1545,6 +1580,11 @@ details[open] summary { margin-bottom: 8px; }
   <h1>👨‍👩‍👧 三明治世代家庭專區</h1>
   <p style="font-size:17px;color:var(--muted);">同時照顧失智長輩 + 幼兒的家庭。<strong>接送動線、認知資源、緊急應變</strong> 三件事要一起想。</p>
 
+  <div class="callout danger">
+    <h4>🆘 緊急 / 撐不住 — 立即可撥的電話</h4>
+    <p style="margin:0;"><strong>1957</strong>(每天 8-22)福利諮詢 / 臨托媒合 · <strong>1966</strong> 失智長照 / 喘息服務 · <strong>0800-507272</strong> 家庭照顧者關懷專線 · <strong>1925</strong> 安心專線(主照顧者心理崩潰,24h)</p>
+  </div>
+
   <div class="callout">
     <h4>📌 為什麼這一頁</h4>
     <p style="margin:0;">主流幼兒園手冊只考慮「夫妻 + 孩子」三人結構。但很多家庭實際是「失智長輩 + 夫妻 + 0-6 歲孩子」四到五人結構,選園的考量完全不同。這一頁專門寫這類家庭。</p>
@@ -1632,6 +1672,13 @@ details[open] summary { margin-bottom: 8px; }
   <div class="callout">
     <h4>📌 跟園所先講白</h4>
     <p style="margin:0;">第一次面談就坦白家裡的狀況(有失智長輩、可能有突發狀況)。<strong>願意配合的園所會欣賞你的誠實,不願意的提早知道也比較好</strong>。</p>
+  </div>
+
+  <div class="next-step-cta">
+    <h4>✅ 三明治家庭規劃完,下一步</h4>
+    <a onclick="navigateTo('page-aftercare');return false;" href="#">🏡 入園後實務 § 7 病假備援</a>
+    <a onclick="navigateTo('page-checklist');return false;" href="#">📋 看園所 Checklist(問接送彈性)</a>
+    <a href="../care-handbook/" target="_blank">🏥 長照手冊(失智長輩端)</a>
   </div>
 </section>
 
@@ -2055,6 +2102,13 @@ details[open] summary { margin-bottom: 8px; }
     <li><strong>選了特色園(蒙氏 / 雙語)但沒評估孩子氣質</strong> — 花 25,000 / 月送蒙氏,才發現孩子需要老師明確指令,自由選工作就在教室遊蕩;送雙語但孩子母語都還沒穩</li>
     <li><strong>觀課時忽略孩子的第一反應</strong> — 孩子一進教室就不想留 / 想走,家長卻因裝潢 / 師資 / 費用說服自己「試了會習慣」。<strong>孩子在現場的反應是可靠訊號,不是參考意見</strong></li>
   </ol>
+
+  <div class="next-step-cta">
+    <h4>✅ 入園後實務看完,下一步</h4>
+    <a onclick="navigateTo('page-cases');return false;" href="#">📖 看真實案例 logs</a>
+    <a onclick="navigateTo('page-traps');return false;" href="#">⚠️ 對照常見地雷</a>
+    <a onclick="navigateTo('page-checklist');return false;" href="#">📋 重新觀察評估</a>
+  </div>
 </section>
 
 <!-- ========== 案例 ========== -->
@@ -2128,6 +2182,18 @@ details[open] summary { margin-bottom: 8px; }
     <li>不留個人姓名</li>
     <li>園所名稱可保留(對在地家長有用),但標明整理日期</li>
   </ul>
+
+  <div class="callout">
+    <h4>🤝 想貢獻你家的案例?</h4>
+    <p style="margin:0;">本手冊在 <a href="https://github.com/tm731531/dementia-care" target="_blank" rel="noopener">GitHub</a> 開源,歡迎 PR 加你縣市的去識別化案例(對照上方 5 步驟)。</p>
+  </div>
+
+  <div class="next-step-cta">
+    <h4>✅ 看完案例,對照下一步</h4>
+    <a onclick="navigateTo('page-checklist');return false;" href="#">📋 用 Checklist 自評</a>
+    <a onclick="navigateTo('page-traps');return false;" href="#">⚠️ 常見地雷(別重蹈覆轍)</a>
+    <a onclick="navigateTo('page-knowledge');return false;" href="#">📚 找你縣市的入口</a>
+  </div>
 </section>
 
 <!-- ========== 縣市資源 ========== -->
@@ -2161,10 +2227,10 @@ details[open] summary { margin-bottom: 8px; }
     <tbody>
       <tr><td>新北市</td><td><a href="https://kid123.ntpc.edu.tw" target="_blank" rel="noopener">kid123.ntpc.edu.tw</a></td><td>統一線上報名,<strong>最多可填 60 個志願</strong>,電腦統一抽</td></tr>
       <tr><td>台北市</td><td><a href="https://kid-online.tp.edu.tw/" target="_blank" rel="noopener">kid-online.tp.edu.tw</a></td><td>統一系統,公幼/非營利各自報名</td></tr>
-      <tr><td>桃園市</td><td>請至桃園市教育局查當年度招生公告</td><td>每位幼兒<strong>只能登記一園</strong>。無固定子網址,招生季公告於 <a href="https://www.tycg.gov.tw/" target="_blank" rel="noopener">tycg.gov.tw</a></td></tr>
+      <tr><td>桃園市</td><td><a href="https://www.tyc.edu.tw/" target="_blank" rel="noopener">桃園市教育局 tyc.edu.tw</a>(招生季有專案網站)</td><td>每位幼兒<strong>只能登記一園</strong>。教育局首頁找「幼兒教育科」/ 招生季 google「桃園市 幼兒園 招生」</td></tr>
       <tr><td>台中市</td><td><a href="https://kids.tc.edu.tw/" target="_blank" rel="noopener">kids.tc.edu.tw</a></td><td>即時揭示系統,線上 + 現場雙軌</td></tr>
       <tr><td>台南市</td><td><a href="https://kid.tn.edu.tw/" target="_blank" rel="noopener">kid.tn.edu.tw</a></td><td>有統一系統</td></tr>
-      <tr><td>高雄市</td><td><a href="https://www.kh.edu.tw/" target="_blank" rel="noopener">高雄市教育局</a></td><td>看「幼兒教育科」</td></tr>
+      <tr><td>高雄市</td><td><a href="https://www.kh.edu.tw/" target="_blank" rel="noopener">高雄市教育局 kh.edu.tw</a></td><td>首頁找「幼兒教育科」/ 招生季 google「高雄市 公幼 / 非營利 招生」</td></tr>
       <tr><td>嘉義縣 / 南投縣 / 彰化縣 / 屏東縣</td><td><strong>各園自行報名</strong></td><td>無統一平台,逐園跑</td></tr>
       <tr><td>金門 / 連江 / 澎湖(離島)</td><td>現場報名為主</td><td>幼兒數少多無需抽籤,設籍優先</td></tr>
       <tr><td>偏鄉(新北 / 新竹縣等偏遠地區)</td><td>設籍優先制</td><td><strong>設籍 2 年以上可優先入學,免抽籤</strong></td></tr>
@@ -2198,7 +2264,7 @@ details[open] summary { margin-bottom: 8px; }
   <ul>
     <li><strong>長照專線 1966</strong> — 居服、日照、喘息服務</li>
     <li><strong>家庭照顧者關懷專線 0800-507272</strong> — 主照顧者支持</li>
-    <li><a href="https://1966.gov.tw/" target="_blank" rel="noopener">長照 2.0 入口網</a> — 完整資源整合</li>
+    <li><a href="https://1966.gov.tw/" target="_blank" rel="noopener">1966 長照入口網(長照 3.0)</a> — 完整資源整合</li>
   </ul>
 
   <h2>📖 詞彙速查</h2>
@@ -2221,6 +2287,13 @@ details[open] summary { margin-bottom: 8px; }
       </tbody>
     </table>
   </details>
+
+  <div class="next-step-cta">
+    <h4>✅ 找到你縣市入口,下一步</h4>
+    <a onclick="navigateTo('page-timeline');return false;" href="#">📅 對照本月該做的事</a>
+    <a onclick="navigateTo('page-subsidy');return false;" href="#">💰 你縣市有哪些加碼補助</a>
+    <a onclick="navigateTo('page-lottery');return false;" href="#">🎲 抽籤機制</a>
+  </div>
 </section>
 
 <!-- ========== 托嬰專區 ========== -->
@@ -2469,6 +2542,13 @@ details[open] summary { margin-bottom: 8px; }
       <li>家長自責、懷疑送托是不是錯誤</li>
     </ul>
     <p style="margin:8px 0 0;">這些<strong>大部分會過去</strong>。如果 3 個月後還是無法適應 → 評估是園所不合還是孩子真的不適合送托(極少數)。</p>
+  </div>
+
+  <div class="next-step-cta">
+    <h4>✅ 看完托嬰,下一步</h4>
+    <a onclick="navigateTo('page-nanny');return false;" href="#">👵 對比保母系統(0-2 另一條路)</a>
+    <a onclick="navigateTo('page-subsidy');return false;" href="#">💰 育兒津貼 vs 托育補助</a>
+    <a onclick="navigateTo('page-budget');return false;" href="#">💵 預算試算</a>
   </div>
 </section>
 
@@ -3031,6 +3111,13 @@ details[open] summary { margin-bottom: 8px; }
     <li>能不能裝 / 開監視器?</li>
     <li>跟之前家長有沒有出過糾紛?(問了她敢不敢答,反映誠實度)</li>
   </ul>
+
+  <div class="next-step-cta">
+    <h4>✅ 看完保母,下一步</h4>
+    <a onclick="navigateTo('page-infant');return false;" href="#">👶 對比托嬰中心(0-2 另一條路)</a>
+    <a onclick="navigateTo('page-subsidy');return false;" href="#">💰 準公共保母補助</a>
+    <a onclick="navigateTo('page-compare');return false;" href="#">🛒 把保母候選人放進比較籃</a>
+  </div>
 </section>
 
 <!-- ========== 補助系統 ========== -->
@@ -3169,8 +3256,15 @@ details[open] summary { margin-bottom: 8px; }
     <li><strong>育兒津貼</strong>:孩子戶籍地公所申請,<strong>不會自動發放</strong>(很多家長不知)</li>
     <li><strong>托育補助</strong>:跟簽約托嬰 / 保母 / 幼兒園 報到時順便申請</li>
     <li><strong>應備文件</strong>:身分證、戶口名簿、孩子健保卡、銀行存摺</li>
-    <li><strong>查詢試算</strong>:<a href="https://lovebaby.sw.ntpc.gov.tw/" target="_blank" rel="noopener">新北 lovebaby</a> / <a href="https://www.mohw.gov.tw/cp-5130-58003-1.html" target="_blank" rel="noopener">衛福部專區</a></li>
+    <li><strong>查詢 / 試算</strong>:<a href="https://lovebaby.sw.ntpc.gov.tw/" target="_blank" rel="noopener">新北 lovebaby(可線上試算)</a> / <a href="https://www.mohw.gov.tw/cp-5130-58003-1.html" target="_blank" rel="noopener">衛福部育兒津貼/托育補助政策說明</a></li>
   </ul>
+
+  <div class="next-step-cta">
+    <h4>✅ 知道補助規則,下一步</h4>
+    <a onclick="navigateTo('page-budget');return false;" href="#">💵 預算試算(套你家數字)</a>
+    <a onclick="navigateTo('page-types');return false;" href="#">🏷 4 種類型對照</a>
+    <a onclick="navigateTo('page-knowledge');return false;" href="#">📚 你縣市的加碼</a>
+  </div>
 </section>
 
 <!-- ========== 預算試算 ========== -->
@@ -3597,7 +3691,7 @@ details[open] summary { margin-bottom: 8px; }
 
   <h2>ℹ️ 關於</h2>
   <ul>
-    <li><strong>版本</strong>:v2.5(2026-04-26 · 5 輪 30 視角審查全修)</li>
+    <li><strong>版本</strong>:v3.0(2026-04-26 · 連結全審 + UIUX 心智圖審 · Wizard 4 題 + 多胎/family mode + urgent 收斂 + 11 dead-end 全補 CTA)</li>
     <li><strong>來源</strong>:<a href="https://github.com/tm731531/dementia-care" target="_blank" rel="noopener">tm731531/dementia-care · childcare-handbook</a></li>
     <li><strong>授權</strong>:MIT</li>
     <li><strong>離線</strong>:本頁所有資源 inline,不連外部 CDN</li>
@@ -3610,7 +3704,9 @@ details[open] summary { margin-bottom: 8px; }
 <script>
 // ============ State ============
 const STORAGE_KEY = 'childcareHandbookState';
+const STATE_VERSION = 2; // bump 時 loadState 會丟棄舊資料
 const DEFAULT_STATE = {
+  _v: STATE_VERSION,
   childAge: null,
   familyMode: 'normal',
   planningMode: true, // 預設啟用 — 新使用者第一次進來就看到「本月該做的事」
@@ -3618,7 +3714,7 @@ const DEFAULT_STATE = {
   checklist: {},
   compareList: [],
   calendarList: [],
-  userProfile: {}, // wizard 答案:{age, urgency, city}
+  userProfile: {}, // wizard 答案:{age, urgency, city, familyMode}
 };
 let STATE = loadState();
 
@@ -3626,7 +3722,9 @@ function loadState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return {...DEFAULT_STATE};
-    return {...DEFAULT_STATE, ...JSON.parse(raw)};
+    const parsed = JSON.parse(raw);
+    if (parsed._v !== STATE_VERSION) return {...DEFAULT_STATE}; // schema 變動丟棄
+    return {...DEFAULT_STATE, ...parsed};
   } catch(e) {
     return {...DEFAULT_STATE};
   }
@@ -3774,7 +3872,7 @@ const CHECKLIST_DATA = {
 };
 
 const DOCUMENTS_CHECKLIST = [
-  {id: 'doc-account', label: '統一報名網站帳號註冊', hint: '提前到該縣市網站(新北 kid123 / 台北 kids.gov.taipei)註冊好'},
+  {id: 'doc-account', label: '統一報名網站帳號註冊', hint: '提前到該縣市網站(新北 kid123 / 台北 kid-online.tp.edu.tw)註冊好'},
   {id: 'doc-household', label: '孩子戶口名簿掃描檔', hint: '非營利網路報名要,系統查調失敗時上傳'},
   {id: 'doc-vaccine-find', label: '找到預防接種卡(健兒手冊黃卡)', hint: '⚠️ 找不到去衛生所補發要 1-2 週'},
   {id: 'doc-vaccine-copy', label: '預防接種紀錄影本 5 份', hint: '入園必備'},
@@ -3858,18 +3956,18 @@ function renderAllChecklists() {
 // ============ Planning Mode ============
 // 當月最重要的一件事(一句話行動,不是步驟)
 const MONTHLY_QUICK_ACTION = {
-  1: '🟢 留園直升登記月。已在園的孩子辦直升,**錯過要重抽**。',
-  2: '🟢 文件整理月。**現在就翻出預防接種卡**(沒有要去衛生所補,1-2 週)。',
-  3: '🟡 報名前最後一個月。**到該縣市報名網站註冊帳號**(別等到 4 月底才註冊)。',
-  4: '🔴 月底非營利缺額公告。**今天就把想報的 3-5 家報名截止日加進手機行事曆**。',
-  5: '🔴🔴 地獄週。今天就動,**所有要報的園所表單填好提早 2 天送出**。',
-  6: '🟡 抽籤+報到+備取期。**每天看簡訊**(報到通知都靠簡訊)。',
-  7: '🟡 備取等遞補 + 私立補位。**沒抽到的家庭立刻找私立 plan B**。',
-  8: '🟢 月初開學。**備齊文件 + 確認接送名單 + 跟祖父母對齊**。',
-  9: '🟢 適應期觀察。**頭 3 週孩子哭著去是正常的**,別退縮但也別硬撐到 6 週後仍崩潰。',
-  10: '🟢 流感/腸病毒高峰前。**確認接種卡更新 + 病假備援名單**(看入園後實務 §7)。',
-  11: '🟢 年度檢視。**評估孩子適不適合園所**;不適合的早決定明年換園(1-2 月直升前)。',
-  12: '🟢 寒假到來。**問園所有沒有寒假托育**(沒有的話祖父母 / 暫托規劃)。',
+  1: '🟢 留園直升登記月。已在園的孩子辦直升,<strong>錯過要重抽</strong>。',
+  2: '🟢 文件整理月。<strong>現在就翻出預防接種卡</strong>(沒有要去衛生所補,1-2 週)。',
+  3: '🟡 報名前最後一個月。<strong>到該縣市報名網站註冊帳號</strong>(別等到 4 月底才註冊)。',
+  4: '🔴 月底非營利缺額公告。<strong>今天就把想報的 3-5 家報名截止日加進手機行事曆</strong>。',
+  5: '🔴🔴 地獄週。今天就動,<strong>所有要報的園所表單填好提早 2 天送出</strong>。',
+  6: '🟡 抽籤+報到+備取期。<strong>每天看簡訊</strong>(報到通知都靠簡訊)。',
+  7: '🟡 備取等遞補 + 私立補位。<strong>沒抽到的家庭立刻找私立 plan B</strong>。',
+  8: '🟢 月初開學。<strong>備齊文件 + 確認接送名單 + 跟祖父母對齊</strong>。',
+  9: '🟢 適應期觀察。<strong>頭 3 週孩子哭著去是正常的</strong>,別退縮但也別硬撐到 6 週後仍崩潰。',
+  10: '🟢 流感/腸病毒高峰前。<strong>確認接種卡更新 + 病假備援名單</strong>(看入園後實務 §7)。',
+  11: '🟢 年度檢視。<strong>評估孩子適不適合園所</strong>;不適合的早決定明年換園(1-2 月直升前)。',
+  12: '🟢 寒假到來。<strong>問園所有沒有寒假托育</strong>(沒有的話祖父母 / 暫托規劃)。',
 };
 
 const MONTHLY_ACTIONS = {
@@ -4822,41 +4920,40 @@ function syncSettingsUI() {
 }
 
 // ============ Init ============
-// ============ 首頁 Wizard:3 個問題 → 個人化推薦 ============
+// ============ 首頁 Wizard:4 個問題 → 個人化推薦 ============
 function renderWizard() {
   const el = document.getElementById('wizard-container');
   if (!el) return;
   const profile = STATE.userProfile || {};
 
-  // 已答完 → 顯示推薦
-  if (profile.age && profile.urgency && profile.city) {
+  if (profile.age && profile.urgency && profile.city && profile.fmode) {
     el.innerHTML = renderWizardResult(profile);
     return;
   }
-  // 還沒答 → 顯示下一題
   if (!profile.age) { el.innerHTML = renderWizardQ('age'); return; }
   if (!profile.urgency) { el.innerHTML = renderWizardQ('urgency'); return; }
   if (!profile.city) { el.innerHTML = renderWizardQ('city'); return; }
+  if (!profile.fmode) { el.innerHTML = renderWizardQ('fmode'); return; }
 }
 
 function renderWizardQ(step) {
-  const profile = STATE.userProfile || {};
   if (step === 'age') {
     return `<div class="wizard-card">
-      <div class="wizard-step">第 1 / 3 題</div>
+      <div class="wizard-step">第 1 / 4 題</div>
       <h2>👶 你的孩子幾歲?</h2>
-      <p style="margin:0;color:var(--muted);">幫你推薦該做什麼。30 秒答完。</p>
+      <p style="margin:0;color:var(--muted);">幫你推薦該做什麼。1 分鐘答完。</p>
       <div class="wizard-options">
         <button class="wizard-opt" onclick="setWizardAnswer('age','0-2')"><span class="opt-icon">👶</span>0-2 歲<span class="opt-hint">找托嬰中心 / 保母</span></button>
         <button class="wizard-opt" onclick="setWizardAnswer('age','2-3')"><span class="opt-icon">🧒</span>2-3 歲<span class="opt-hint">找幼兒園 2 歲班</span></button>
         <button class="wizard-opt" onclick="setWizardAnswer('age','3-6')"><span class="opt-icon">🎒</span>3-6 歲<span class="opt-hint">已在園 / 想換園 / 大班</span></button>
         <button class="wizard-opt" onclick="setWizardAnswer('age','pregnant')"><span class="opt-icon">🤰</span>還沒出生 / 0-3 月<span class="opt-hint">提前規劃</span></button>
+        <button class="wizard-opt" onclick="setWizardAnswer('age','multi')"><span class="opt-icon">👨‍👩‍👧‍👦</span>多胎(同時規劃)<span class="opt-hint">大寶+二寶不同年齡</span></button>
       </div>
     </div>`;
   }
   if (step === 'urgency') {
     return `<div class="wizard-card">
-      <div class="wizard-step">第 2 / 3 題 <a class="reset-link" onclick="setWizardAnswer('age',null)">← 改第 1 題</a></div>
+      <div class="wizard-step">第 2 / 4 題 <a class="reset-link" onclick="setWizardAnswer('age',null)">← 改第 1 題</a></div>
       <h2>⏰ 什麼時候要送托?</h2>
       <div class="wizard-options">
         <button class="wizard-opt" onclick="setWizardAnswer('urgency','urgent')"><span class="opt-icon">🔥</span>這個月就要<span class="opt-hint">已經有壓力,馬上要排</span></button>
@@ -4867,14 +4964,32 @@ function renderWizardQ(step) {
   }
   if (step === 'city') {
     return `<div class="wizard-card">
-      <div class="wizard-step">第 3 / 3 題 <a class="reset-link" onclick="setWizardAnswer('urgency',null)">← 改第 2 題</a></div>
+      <div class="wizard-step">第 3 / 4 題 <a class="reset-link" onclick="setWizardAnswer('urgency',null)">← 改第 2 題</a></div>
       <h2>📍 你住哪個縣市?</h2>
       <p style="margin:0;color:var(--muted);">影響補助加碼跟報名系統。</p>
       <div class="wizard-options">
         <button class="wizard-opt" onclick="setWizardAnswer('city','taipei')"><span class="opt-icon">🏙</span>台北市<span class="opt-hint">+5,000 加碼(115/7 起 +8,000)</span></button>
         <button class="wizard-opt" onclick="setWizardAnswer('city','newtaipei')"><span class="opt-icon">🏙</span>新北市<span class="opt-hint">+2,000 加碼</span></button>
         <button class="wizard-opt" onclick="setWizardAnswer('city','taoyuan')"><span class="opt-icon">🏙</span>桃園市<span class="opt-hint">+1,000 加碼</span></button>
-        <button class="wizard-opt" onclick="setWizardAnswer('city','other')"><span class="opt-icon">🏙</span>其他縣市<span class="opt-hint">中央補助為主</span></button>
+        <button class="wizard-opt" onclick="setWizardAnswer('city','taichung')"><span class="opt-icon">🏙</span>台中市<span class="opt-hint">中央補助 + 縣市加碼查 page-knowledge</span></button>
+        <button class="wizard-opt" onclick="setWizardAnswer('city','tainan')"><span class="opt-icon">🏙</span>台南市<span class="opt-hint">中央補助 + 縣市加碼查 page-knowledge</span></button>
+        <button class="wizard-opt" onclick="setWizardAnswer('city','kaohsiung')"><span class="opt-icon">🏙</span>高雄市<span class="opt-hint">中央補助 + 縣市加碼查 page-knowledge</span></button>
+        <button class="wizard-opt" onclick="setWizardAnswer('city','other')"><span class="opt-icon">🏙</span>其他縣市<span class="opt-hint">中央補助 + 看 page-knowledge 查你縣市加碼</span></button>
+      </div>
+    </div>`;
+  }
+  if (step === 'fmode') {
+    return `<div class="wizard-card">
+      <div class="wizard-step">第 4 / 4 題 <a class="reset-link" onclick="setWizardAnswer('city',null)">← 改第 3 題</a></div>
+      <h2>🏠 家庭狀況?(影響推薦路徑)</h2>
+      <p style="margin:0;color:var(--muted);">不確定就選「跳過」。</p>
+      <div class="wizard-options">
+        <button class="wizard-opt" onclick="setWizardAnswer('fmode','normal')"><span class="opt-icon">👪</span>一般雙親<span class="opt-hint">主流情境</span></button>
+        <button class="wizard-opt" onclick="setWizardAnswer('fmode','dual_income')"><span class="opt-icon">💼</span>雙薪<span class="opt-hint">需重視接送 / 病假備援</span></button>
+        <button class="wizard-opt" onclick="setWizardAnswer('fmode','sandwich')"><span class="opt-icon">🥪</span>三明治(失智長輩+幼兒)<span class="opt-hint">推 sandwich 專區 + 1957/1966</span></button>
+        <button class="wizard-opt" onclick="setWizardAnswer('fmode','single_parent')"><span class="opt-icon">🧑‍🍼</span>單親 / 隔代<span class="opt-hint">推 1957 + 優先入園資格</span></button>
+        <button class="wizard-opt" onclick="setWizardAnswer('fmode','low_income')"><span class="opt-icon">🆓</span>中低收 / 低收<span class="opt-hint">補助優先,部分 0 自付</span></button>
+        <button class="wizard-opt" onclick="setWizardAnswer('fmode','none')"><span class="opt-icon">⏭</span>跳過<span class="opt-hint">不影響推薦</span></button>
       </div>
     </div>`;
   }
@@ -4885,9 +5000,10 @@ function setWizardAnswer(key, value) {
   if (!STATE.userProfile) STATE.userProfile = {};
   if (value === null) {
     delete STATE.userProfile[key];
-    // 也清掉之後的答案(避免不一致)
-    if (key === 'age') { delete STATE.userProfile.urgency; delete STATE.userProfile.city; }
-    if (key === 'urgency') { delete STATE.userProfile.city; }
+    // 清掉之後的答案(避免不一致)
+    if (key === 'age') { delete STATE.userProfile.urgency; delete STATE.userProfile.city; delete STATE.userProfile.fmode; }
+    if (key === 'urgency') { delete STATE.userProfile.city; delete STATE.userProfile.fmode; }
+    if (key === 'city') { delete STATE.userProfile.fmode; }
   } else {
     STATE.userProfile[key] = value;
   }
@@ -4903,69 +5019,169 @@ function resetWizard() {
 
 function renderWizardResult(p) {
   const month = (new Date()).getMonth() + 1;
-  const ageLabel = {'0-2':'0-2 歲','2-3':'2-3 歲','3-6':'3-6 歲','pregnant':'還沒出生 / 新生兒'}[p.age];
-  const cityLabel = {taipei:'台北',newtaipei:'新北',taoyuan:'桃園',other:'其他縣市'}[p.city];
+  const ageLabel = {'0-2':'0-2 歲','2-3':'2-3 歲','3-6':'3-6 歲','pregnant':'孕期/新生','multi':'多胎'}[p.age];
+  const cityLabel = {taipei:'台北',newtaipei:'新北',taoyuan:'桃園',taichung:'台中',tainan:'台南',kaohsiung:'高雄',other:'其他縣市'}[p.city];
   const urgencyLabel = {urgent:'這個月急著送',soon:'2026/8 月開學',plan:'明年再說'}[p.urgency];
+  const fmodeLabel = {normal:'',dual_income:'雙薪',sandwich:'三明治',single_parent:'單親/隔代',low_income:'中低收',none:''}[p.fmode] || '';
+  const isUrgent = p.urgency === 'urgent';
 
-  // 動態算出 3-5 個推薦行動
   const actions = [];
 
-  // 1. 永遠先看本月該做的事
-  if (p.urgency !== 'plan') {
+  // === 多胎家庭:同時推 infant + preschool + timeline ===
+  if (p.age === 'multi') {
+    actions.push({title:'👶 托嬰專區(0-2 那個小孩)',body:'0-2 歲三條路 + 保母系統。',link:'page-infant',linkText:'看托嬰專區'});
+    actions.push({title:'🏫 幼兒園專區(2+ 那個小孩)',body:'4-6 月一波 + 教學風格 6 派 + 觀課 SOP。',link:'page-preschool',linkText:'看幼兒園專區'});
+    actions.push({title:'📅 雙線時程地圖',body:'同時跑兩條時程,別漏其中一邊的關鍵月。',link:'page-timeline',linkText:'看時程地圖'});
+  }
+
+  // === 一般單胎 ===
+  if (p.age !== 'multi' && p.urgency !== 'plan') {
     const monthAction = (typeof MONTHLY_QUICK_ACTION !== 'undefined') ? MONTHLY_QUICK_ACTION[month] : '';
     if (monthAction) {
-      actions.push({title: '⏱ 本月最重要', body: monthAction, link: 'page-timeline', linkText: '看完整時程地圖'});
+      actions.push({title:'⏱ 本月最重要',body:monthAction,link:'page-timeline',linkText:'看完整時程地圖'});
     }
   }
 
-  // 2. 預算試算
-  actions.push({
-    title: '💵 1 分鐘預算試算',
-    body: `輸入縣市 + 胎次 → 看 ${p.age === '0-2' ? '托嬰 / 保母' : '幼兒園'} 各類型實付多少。`,
-    link: 'page-budget', linkText: '去試算'
-  });
+  // 預算試算
+  actions.push({title:'💵 1 分鐘預算試算',body:`輸入縣市 + 胎次 → 看 ${p.age==='0-2'?'托嬰 / 保母':'幼兒園'} 各類型實付多少。`,link:'page-budget',linkText:'去試算'});
 
-  // 3. 依年齡 / 急迫性給建議
   if (p.age === '0-2' || p.age === 'pregnant') {
     if (p.urgency === 'urgent') {
-      actions.push({title: '🔥 急著送的 plan', body: '熱門托嬰排 3-6 月,**現在同時找準公共保母**(媒合快)。看托嬰專區 + 保母系統。', link: 'page-nanny', linkText: '👵 保母系統'});
-      actions.push({title: '👶 托嬰專區', body: '0-2 歲機構式托育的完整指南。', link: 'page-infant', linkText: '看托嬰專區'});
+      actions.push({title:'🔥 急著送的 plan',body:'熱門托嬰排 3-6 月,<strong>現在同時找準公共保母</strong>(媒合快)。',link:'page-nanny',linkText:'👵 保母系統'});
+      actions.push({title:'👶 托嬰專區',body:'0-2 歲機構式托育的完整指南。',link:'page-infant',linkText:'看托嬰專區'});
     } else {
-      actions.push({title: '👶 0-2 歲三條路', body: '公托(等久但便宜)/ 準公共托嬰(中等)/ 保母(彈性)。各自看清楚。', link: 'page-infant', linkText: '看托嬰專區'});
-      actions.push({title: '👵 保母系統', body: '4 種保母類型 / 證照 / 找法 / 面談 15 問。', link: 'page-nanny', linkText: '看保母系統'});
+      actions.push({title:'👶 0-2 歲三條路',body:'公托(等久但便宜)/ 準公共托嬰(中等)/ 保母(彈性)。各自看清楚。',link:'page-infant',linkText:'看托嬰專區'});
+      actions.push({title:'👵 保母系統',body:'4 種保母類型 / 證照 / 找法 / 面談 15 問。',link:'page-nanny',linkText:'看保母系統'});
     }
   } else if (p.age === '2-3') {
     if (p.urgency === 'urgent' || p.urgency === 'soon') {
-      actions.push({title: '🏫 幼兒園專區', body: '4-6 月一波。教學風格 6 派 + 觀課 SOP + 升年級重點。', link: 'page-preschool', linkText: '看幼兒園專區'});
-      actions.push({title: '🛒 比較籃(13 家土城範例)', body: '看別人怎麼填欄位,改成你的縣市的園所。', link: 'page-compare', linkText: '開比較籃'});
-      actions.push({title: '⚠️ 常見地雷', body: '備取保留期短 = 沒抽中 GG / 文件沒備齊 / 距離評估太樂觀。', link: 'page-traps', linkText: '看地雷'});
+      actions.push({title:'🏫 幼兒園專區',body:'4-6 月一波。教學風格 6 派 + 觀課 SOP + 升年級重點。',link:'page-preschool',linkText:'看幼兒園專區'});
+      actions.push({title:'🛒 比較籃(13 家土城範例)',body:'看別人怎麼填欄位,改成你的縣市的園所。',link:'page-compare',linkText:'開比較籃'});
+      actions.push({title:'⚠️ 常見地雷',body:'備取保留期短 / 文件沒備齊 / 距離評估太樂觀。',link:'page-traps',linkText:'看地雷'});
     } else {
-      actions.push({title: '🏫 幼兒園專區', body: '先了解教學風格 6 派,選風格再選園所。', link: 'page-preschool', linkText: '看幼兒園專區'});
+      actions.push({title:'🏫 幼兒園專區',body:'先了解教學風格 6 派,選風格再選園所。',link:'page-preschool',linkText:'看幼兒園專區'});
     }
   } else if (p.age === '3-6') {
-    actions.push({title: '🏫 幼兒園專區', body: '已在園 → 1-2 月辦留園直升;想換園 → 4-5 月看缺額。', link: 'page-preschool', linkText: '看幼兒園專區'});
-    actions.push({title: '🏡 入園後實務', body: '試讀 / 適應 / Line 群 / 病假備援 / 升小一銜接。', link: 'page-aftercare', linkText: '看入園後'});
+    actions.push({title:'🏫 幼兒園專區',body:'已在園 → 1-2 月辦留園直升;想換園 → 4-5 月看缺額。',link:'page-preschool',linkText:'看幼兒園專區'});
+    actions.push({title:'🏡 入園後實務',body:'試讀 / 適應 / Line 群 / 病假備援 / 升小一銜接。',link:'page-aftercare',linkText:'看入園後'});
+    if (p.urgency === 'plan') {
+      actions.push({title:'📅 大班升小一規劃',body:'明年再說 = 大班用戶。aftercare § 8 有完整 timeline。',link:'page-aftercare',linkText:'看升小一規劃'});
+      actions.push({title:'⏱ 本月時程地圖',body:'各月幼兒園關鍵事件,提前掌握。',link:'page-timeline',linkText:'看時程地圖'});
+    }
   }
 
-  // 4. 補助
-  const cityExtra = {taipei:'台北 +5,000 / 115/7 起 +8,000',newtaipei:'新北 +2,000',taoyuan:'桃園 +1,000',other:'中央補助為主'}[p.city];
-  actions.push({title: `💰 ${cityLabel} 補助系統`, body: `三選一互斥,選錯每月差 8K。${cityLabel}: ${cityExtra}`, link: 'page-subsidy', linkText: '看補助系統'});
+  // plan 模式推方法論(時間多可消化)
+  if (p.urgency === 'plan' && p.age !== 'multi') {
+    actions.push({title:'🧭 方法論 5W1H',body:'時間還夠,先學系統評估法。Who/What/When/Where/Why/How 6 維度。',link:'page-5w1h',linkText:'看方法論'});
+  }
 
-  // 5. Calendar(若 urgent / soon)
+  // 補助
+  const cityExtra = {taipei:'台北 +5,000 / 115/7 起 +8,000',newtaipei:'新北 +2,000',taoyuan:'桃園 +1,000',taichung:'查 page-knowledge',tainan:'查 page-knowledge',kaohsiung:'查 page-knowledge',other:'查 page-knowledge'}[p.city];
+  actions.push({title:`💰 ${cityLabel} 補助系統`,body:`三選一互斥,選錯每月差 8K。${cityLabel}: ${cityExtra}`,link:'page-subsidy',linkText:'看補助系統'});
+
+  // 非雙北桃 → 推 knowledge 查縣市加碼
+  if (['taichung','tainan','kaohsiung','other'].includes(p.city)) {
+    actions.push({title:'📚 找你縣市的入口',body:'各縣市的官方查詢 / 報名入口在這頁(含台中/南/高雄主要連結)。',link:'page-knowledge',linkText:'看縣市資源'});
+  }
+
+  // family mode 動態加 CTA
+  if (p.fmode === 'sandwich') {
+    actions.unshift({title:'🆘 三明治家庭專區',body:'失智長輩 + 幼兒,接送動線 / 緊急應變 / 1957 / 1966 都在這。',link:'page-sandwich',linkText:'看三明治專區'});
+  }
+  if (p.fmode === 'single_parent') {
+    actions.push({title:'🏛 單親 / 隔代支援',body:'撥 1957 福利諮詢:單親優先入園資格 / 家庭照顧者支持。',link:'page-subsidy',linkText:'查補助 / 撥 1957'});
+  }
+  if (p.fmode === 'low_income') {
+    actions.unshift({title:'💰 中低收 / 低收 → 補助優先',body:'公托 / 準公共托育補助加碼,部分縣市 0 自付。先確認補助再算預算。',link:'page-subsidy',linkText:'看補助系統'});
+  }
+  if (p.fmode === 'dual_income') {
+    actions.push({title:'💼 雙薪家庭重點',body:'入園後實務 § 7 病假備援名單 +「放學後誰接」這兩件事。',link:'page-aftercare',linkText:'看入園後實務'});
+  }
+
+  // Calendar
   if (p.urgency !== 'plan') {
-    actions.push({title: '📆 我的行事曆', body: '加入園所報名期 / 抽籤日 / 報到日 → 自動衝突檢測 + 倒數提醒。', link: 'page-calendar', linkText: '開行事曆'});
+    actions.push({title:'📆 我的行事曆',body:'加入園所報名期 / 抽籤日 / 報到日 → 自動衝突檢測 + 倒數提醒。',link:'page-calendar',linkText:'開行事曆'});
   }
 
-  let html = `<div class="wizard-result-card">
-    <h2>🎯 給你的下一步(${ageLabel} · ${urgencyLabel} · ${cityLabel}) <a class="reset-link" onclick="resetWizard()">↻ 重新答</a></h2>`;
-  actions.forEach((a, i) => {
-    html += `<a class="wizard-action" onclick="navigateTo('${a.link}');return false;" href="#">
-      <strong><span class="num">${i+1}</span>${a.title}</strong> · <span style="color:var(--primary-dark);">${a.linkText} →</span>
-      <span class="why">${a.body}</span>
+  // === 渲染 ===
+  const labelParts = [ageLabel, urgencyLabel, cityLabel, fmodeLabel].filter(Boolean);
+  let html = `<div class="wizard-result-card">`;
+
+  // 緊急 callout(urgent) — 最上面放電話
+  if (isUrgent) {
+    html += `<div class="callout danger" style="margin-bottom:16px;">
+      <h4>🆘 急著送 → 現在馬上可撥的電話</h4>
+      <p style="margin:0;"><strong>1957</strong>(每天 8-22)福利諮詢 / 臨托媒合 · ${p.fmode==='sandwich'?'<strong>1966</strong> 失智長照 · ':''}各縣市居家托育服務中心(查 <a onclick="navigateTo('page-knowledge');return false;" href="#">縣市資源</a>)</p>
+    </div>`;
+  }
+
+  html += `<h2>🎯 給你的下一步(${labelParts.join(' · ')}) <a class="reset-link" onclick="resetWizard()">↻ 重新答</a></h2>`;
+
+  if (isUrgent && actions.length > 0) {
+    // urgent → Top 1 大按鈕,其他收合
+    const top = actions[0];
+    html += `<a class="wizard-action" style="border-width:3px;background:#fff8f0;" onclick="navigateTo('${top.link}');return false;" href="#">
+      <strong><span class="num">1</span>${top.title}</strong> · <span style="color:var(--primary-dark);">${top.linkText} →</span>
+      <span class="why">${top.body}</span>
     </a>`;
-  });
+    if (actions.length > 1) {
+      html += `<details style="margin-top:12px;"><summary style="cursor:pointer;font-weight:600;color:var(--muted);padding:8px;">+ 其他 ${actions.length - 1} 個建議(看完最重要的再展開)</summary>`;
+      actions.slice(1).forEach((a, i) => {
+        html += `<a class="wizard-action" onclick="navigateTo('${a.link}');return false;" href="#">
+          <strong><span class="num">${i+2}</span>${a.title}</strong> · <span style="color:var(--primary-dark);">${a.linkText} →</span>
+          <span class="why">${a.body}</span>
+        </a>`;
+      });
+      html += `</details>`;
+    }
+  } else {
+    actions.forEach((a, i) => {
+      html += `<a class="wizard-action" onclick="navigateTo('${a.link}');return false;" href="#">
+        <strong><span class="num">${i+1}</span>${a.title}</strong> · <span style="color:var(--primary-dark);">${a.linkText} →</span>
+        <span class="why">${a.body}</span>
+      </a>`;
+    });
+  }
+
+  // 複製清單按鈕(可貼到家庭群組討論)
+  html += `<div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;">
+    <button class="btn btn-secondary" onclick="copyWizardActions()">📋 複製清單(貼到 LINE / 家庭群)</button>
+  </div>`;
   html += `</div>`;
+  // 把 actions 暫存到 window 給複製功能
+  window.__wizardActions = actions;
+  window.__wizardLabels = labelParts;
   return html;
+}
+
+function copyWizardActions() {
+  const acts = window.__wizardActions || [];
+  const labels = window.__wizardLabels || [];
+  if (!acts.length) return;
+  const lines = [`【托育/幼兒園 — 我的下一步】(${labels.join(' · ')})`];
+  acts.forEach((a, i) => {
+    const body = a.body.replace(/<[^>]+>/g, '');
+    lines.push(`${i+1}. ${a.title} — ${body}`);
+  });
+  lines.push('');
+  lines.push('來源:childcare-handbook(離線手冊)');
+  const text = lines.join('\n');
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(
+      () => alert('已複製,可貼到 LINE 或家庭群組'),
+      () => fallbackCopy(text)
+    );
+  } else {
+    fallbackCopy(text);
+  }
+}
+function fallbackCopy(text) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); alert('已複製'); } catch(e) { alert('複製失敗,請手動選取'); }
+  document.body.removeChild(ta);
 }
 
 function renderMonthlyQuickAction() {
@@ -5020,6 +5236,7 @@ window.runBudgetCalc = runBudgetCalc;
 window.resetBudget = resetBudget;
 window.setWizardAnswer = setWizardAnswer;
 window.resetWizard = resetWizard;
+window.copyWizardActions = copyWizardActions;
 </script>
 
 </body>
