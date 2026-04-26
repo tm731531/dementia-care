@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>週末帶小孩去哪 · 天氣 / 季節 / 年齡 一鍵推薦</title>
+<meta name="description" content="北台灣親子景點推薦工具。輸入天氣 + 季節 + 孩子年齡 + 範圍,推薦適合的景點,每筆附 Google Maps 直接導航。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='52' font-size='52'%3E🗺️%3C/text%3E%3C/svg%3E">
+<style>
+:root {
+  --primary: #ff8c42;
+  --primary-dark: #d36a25;
+  --primary-light: #fff4eb;
+  --accent: #4a8fb8;
+  --bg: #fffaf5;
+  --card: #fff;
+  --text: #2d2a26;
+  --muted: #6b6258;
+  --border: #f0d9c4;
+  --warn-bg: #fff4e6;
+  --warn-border: #f0a868;
+  --danger-bg: #fde8e8;
+  --danger-border: #e07c7c;
+  --ok-bg: #e8f4ec;
+  --ok-border: #6ba88a;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Microsoft JhengHei", sans-serif;
+  background: var(--bg); color: var(--text); line-height: 1.7;
+  font-size: 16px;
+}
+header {
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: #fff; padding: 14px 18px; position: sticky; top: 0; z-index: 100;
+  display: flex; align-items: center; gap: 12px;
+}
+header h1 { font-size: 20px; font-weight: 700; flex: 1; }
+header .menu-toggle {
+  background: rgba(255,255,255,0.2); border: 0; color: #fff; padding: 8px 12px;
+  border-radius: 8px; font-size: 16px; cursor: pointer;
+}
+nav#nav {
+  position: sticky; top: 56px; background: #fff; z-index: 99;
+  padding: 10px 16px; border-bottom: 1px solid var(--border);
+  display: none; flex-wrap: wrap; gap: 6px;
+}
+nav#nav.open { display: flex; }
+.nav-link {
+  background: var(--primary-light); color: var(--primary-dark); padding: 8px 14px;
+  border-radius: 20px; font-size: 14px; text-decoration: none; border: 1px solid var(--border); cursor: pointer;
+}
+.nav-link:hover, .nav-link.active { background: var(--primary); color: #fff; }
+main { max-width: 940px; margin: 0 auto; padding: 18px; }
+.page { display: none; }
+.page.active { display: block; }
+h1 { font-size: 26px; margin-bottom: 14px; color: var(--primary-dark); }
+h2 { font-size: 20px; margin: 22px 0 10px; color: var(--text); border-left: 4px solid var(--primary); padding-left: 10px; }
+h3 { font-size: 17px; margin: 16px 0 8px; color: var(--primary-dark); }
+p { margin-bottom: 10px; }
+ul, ol { margin: 0 0 10px 22px; }
+li { margin-bottom: 4px; }
+a { color: var(--accent); }
+
+.callout {
+  background: var(--primary-light); border-left: 4px solid var(--primary);
+  padding: 14px 16px; border-radius: 8px; margin: 14px 0;
+}
+.callout.warn { background: var(--warn-bg); border-left-color: var(--warn-border); }
+.callout.danger { background: var(--danger-bg); border-left-color: var(--danger-border); }
+.callout h4 { font-size: 16px; margin-bottom: 6px; }
+
+.wizard-card {
+  background: var(--card); border: 2px solid var(--primary);
+  border-radius: 14px; padding: 22px; margin: 20px 0;
+}
+.wizard-card h2 { border: 0; padding: 0; margin: 6px 0 8px; font-size: 22px; }
+.wizard-step { font-size: 13px; color: var(--muted); margin-bottom: 4px; }
+.wizard-options { display: grid; gap: 10px; margin-top: 14px; }
+.wizard-opt {
+  display: block; width: 100%; text-align: left; background: #fff;
+  border: 2px solid var(--border); border-radius: 10px; padding: 14px 16px;
+  font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.15s;
+}
+.wizard-opt:hover { border-color: var(--primary); background: var(--primary-light); }
+.wizard-opt .opt-icon { font-size: 22px; margin-right: 8px; }
+.wizard-opt .opt-hint { display: block; font-size: 13px; color: var(--muted); font-weight: 400; margin-top: 4px; }
+.reset-link { font-size: 13px; color: var(--accent); cursor: pointer; text-decoration: underline; }
+
+.wizard-result-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+  padding: 18px; margin: 14px 0;
+}
+.place-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+  padding: 14px 16px; margin: 10px 0; transition: all 0.15s;
+}
+.place-card:hover { border-color: var(--primary); }
+.place-card .head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.place-card .name { font-size: 17px; font-weight: 700; flex: 1; min-width: 0; }
+.place-card .area { font-size: 13px; color: var(--muted); }
+.place-card .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.tag {
+  display: inline-block; font-size: 12px; padding: 2px 8px; border-radius: 12px;
+  background: var(--primary-light); color: var(--primary-dark); border: 1px solid var(--border);
+}
+.tag.indoor { background: #eaf3fa; color: #2c5d80; border-color: #c2d9eb; }
+.tag.outdoor { background: #eaf6e8; color: #3a7a36; border-color: #c5e0bf; }
+.tag.water { background: #e8f4f8; color: #2c7290; border-color: #b8dde8; }
+.tag.warn { background: var(--warn-bg); color: #8a4a0a; border-color: var(--warn-border); }
+.place-card .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+.btn {
+  background: var(--primary); color: #fff; border: 0; padding: 10px 16px;
+  border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer;
+  text-decoration: none; display: inline-block;
+}
+.btn:hover { background: var(--primary-dark); color: #fff; }
+.btn-secondary { background: #fff; color: var(--primary-dark); border: 1px solid var(--primary); }
+.btn-secondary:hover { background: var(--primary-light); }
+.btn-small { padding: 6px 10px; font-size: 13px; }
+.btn-fav { background: #fff; color: var(--accent); border: 1px solid var(--accent); }
+.btn-fav.active { background: var(--accent); color: #fff; }
+
+.filters {
+  background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+  padding: 14px; margin-bottom: 14px;
+}
+.filter-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; align-items: center; }
+.filter-row label { font-size: 14px; color: var(--muted); margin-right: 4px; }
+.filter-row select {
+  padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 14px;
+  background: #fff;
+}
+
+.empty {
+  text-align: center; padding: 40px 16px; color: var(--muted); font-size: 15px;
+  background: var(--card); border-radius: 10px; border: 1px dashed var(--border);
+}
+
+.next-step-cta {
+  background: #f0f8f4; border: 1px solid #c8e3d4; border-radius: 12px;
+  padding: 14px 16px; margin: 18px 0;
+}
+.next-step-cta h4 { margin: 0 0 8px; color: #2d6a4f; font-size: 15px; }
+.next-step-cta a {
+  display: inline-block; margin: 4px 8px 4px 0; padding: 8px 14px;
+  background: #fff; color: #2d6a4f; border: 1px solid #6ba88a; border-radius: 8px;
+  text-decoration: none; font-weight: 600; font-size: 14px;
+}
+.next-step-cta a:hover { background: #4a8569; color: #fff; }
+
+.footer-note { font-size: 13px; color: var(--muted); text-align: center; margin: 24px 0 12px; }
+.note-edit textarea {
+  width: 100%; min-height: 60px; padding: 8px; border: 1px solid var(--border);
+  border-radius: 6px; font-size: 14px; font-family: inherit; resize: vertical;
+}
+
+@media (max-width: 600px) {
+  h1 { font-size: 22px; }
+  h2 { font-size: 18px; }
+  .place-card { padding: 12px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🗺️ 週末帶小孩去哪</h1>
+  <button class="menu-toggle" onclick="toggleNav()">☰</button>
+</header>
+
+<nav id="nav">
+  <a class="nav-link active" data-page="page-home" onclick="navigateTo('page-home');return false;" href="#">🏠 首頁推薦</a>
+  <a class="nav-link" data-page="page-browse" onclick="navigateTo('page-browse');return false;" href="#">🔍 全景點瀏覽</a>
+  <a class="nav-link" data-page="page-favorites" onclick="navigateTo('page-favorites');return false;" href="#">❤️ 我的口袋</a>
+  <a class="nav-link" data-page="page-about" onclick="navigateTo('page-about');return false;" href="#">📖 關於 / 編輯資料</a>
+</nav>
+
+<main>
+
+<!-- ========== 首頁 Wizard ========== -->
+<section class="page active" id="page-home">
+  <div id="wizard-container"></div>
+
+  <div class="callout">
+    <h4>💡 用法</h4>
+    <p style="margin:0;">回答 4 題 → 推薦適合的景點(室內外、年齡、季節都符合) → 點 <strong>📍 Google Maps</strong> 直接打開導航。<strong>覺得景點漏了或我家評語不對</strong>,看「📖 關於 / 編輯資料」自己加。</p>
+  </div>
+
+  <div class="footer-note">
+    最後更新 2026-04-27 · v1.0 · seed 20 個北台灣親子景點 · <a href="https://github.com/tm731531/dementia-care" target="_blank">GitHub</a>
+  </div>
+</section>
+
+<!-- ========== 全景點瀏覽 ========== -->
+<section class="page" id="page-browse">
+  <h1>🔍 全景點瀏覽</h1>
+  <p style="font-size:15px;color:var(--muted);">全部景點清單,可用篩選找。<strong>覺得有遺漏</strong>,看「📖 關於 / 編輯資料」自己加(資料寫死在 HTML,改起來很容易)。</p>
+
+  <div class="filters">
+    <div class="filter-row">
+      <label>天氣</label>
+      <select id="filter-weather" onchange="renderBrowse()">
+        <option value="">不限</option>
+        <option value="sunny">晴天</option>
+        <option value="rainy">下雨</option>
+      </select>
+      <label>季節</label>
+      <select id="filter-season" onchange="renderBrowse()">
+        <option value="">不限</option>
+        <option value="spring">春</option>
+        <option value="summer">夏</option>
+        <option value="autumn">秋</option>
+        <option value="winter">冬</option>
+      </select>
+      <label>年齡</label>
+      <select id="filter-age" onchange="renderBrowse()">
+        <option value="">不限</option>
+        <option value="0-2">0-2 歲</option>
+        <option value="2-3">2-3 歲</option>
+        <option value="3-6">3-6 歲</option>
+      </select>
+    </div>
+    <div class="filter-row">
+      <label>類型</label>
+      <select id="filter-type" onchange="renderBrowse()">
+        <option value="">不限</option>
+        <option value="室內">室內</option>
+        <option value="戶外">戶外</option>
+        <option value="教育">教育</option>
+        <option value="玩水">玩水</option>
+        <option value="動物">動物</option>
+        <option value="公園">公園</option>
+        <option value="親子館">親子館</option>
+        <option value="文化">文化</option>
+        <option value="海邊">海邊</option>
+        <option value="山林">山林</option>
+        <option value="購物">購物</option>
+      </select>
+      <label>區域</label>
+      <select id="filter-area" onchange="renderBrowse()">
+        <option value="">不限</option>
+        <option value="taipei">台北</option>
+        <option value="newtaipei">新北</option>
+        <option value="taoyuan">桃園</option>
+        <option value="yilan">宜蘭</option>
+      </select>
+      <button class="btn btn-secondary btn-small" onclick="resetFilters()">↻ 清除篩選</button>
+    </div>
+  </div>
+
+  <div id="browse-list"></div>
+</section>
+
+<!-- ========== 我的口袋 ========== -->
+<section class="page" id="page-favorites">
+  <h1>❤️ 我的口袋</h1>
+  <p style="font-size:15px;color:var(--muted);">收藏的景點。每筆可寫「我家評語」(例如:「2025 年去過,小孩很喜歡親水池」),會存在 localStorage,本機保留。</p>
+  <div id="favorites-list"></div>
+</section>
+
+<!-- ========== 關於 / 編輯資料 ========== -->
+<section class="page" id="page-about">
+  <h1>📖 關於 / 編輯資料</h1>
+
+  <div class="callout">
+    <h4>📌 這個工具是什麼</h4>
+    <p style="margin:0;">週末帶小孩出門前的決策工具。每次煩惱「今天天氣這樣 / 這個季節 / 小孩這個年紀,該去哪?」時打開來看。<strong>方法 + 資料</strong> 各半 — 方法(Wizard 推薦邏輯)寫死在程式,資料(20+ 景點)放在程式開頭可以改。</p>
+  </div>
+
+  <h2>📝 怎麼加新景點</h2>
+  <ol>
+    <li>用文字編輯器打開 <code>kids-weekend/index.html</code></li>
+    <li>找到 <code>const PLACES = [</code> 那行(用 Ctrl+F 搜「PLACES」)</li>
+    <li>複製一筆景點,改裡面的內容,記得 <strong>每筆 object 後面要有逗號</strong>,最後一筆可不要</li>
+    <li>儲存,推到 GitHub 自動部署</li>
+  </ol>
+
+  <h3>景點欄位說明</h3>
+  <ul>
+    <li><code>name</code>:景點名(用來 Google Maps 搜尋,要打全名)</li>
+    <li><code>emoji</code>:1 個 emoji</li>
+    <li><code>area</code>:行政區(會顯示在卡片上)</li>
+    <li><code>region</code>:<code>'taipei' / 'newtaipei' / 'taoyuan' / 'yilan' / 'other'</code></li>
+    <li><code>indoor / outdoor</code>:<code>true / false</code>(可同時 true,代表室內外都有)</li>
+    <li><code>ages</code>:<code>['0-2', '2-3', '3-6']</code> 任選</li>
+    <li><code>seasons</code>:<code>['spring', 'summer', 'autumn', 'winter']</code> 任選</li>
+    <li><code>weathers</code>:<code>['sunny', 'rainy']</code> — 都可選的話兩個都填</li>
+    <li><code>types</code>:類型 tag,自由文字陣列(會出現在篩選下拉)</li>
+    <li><code>note</code>:好處 / 簡介 1-2 句</li>
+    <li><code>warning</code>:注意事項(可省略)</li>
+  </ul>
+
+  <h2>📍 Google Maps 連結</h2>
+  <p>每個景點的 Google Maps 按鈕用 <code>name + area</code> 組成搜尋字串,直接打開 Google Maps 搜尋。手機點會直接進 Google Maps app。<strong>不用記座標,改名稱就好</strong>。</p>
+
+  <h2>🛡 隱私</h2>
+  <ul>
+    <li><strong>0 CDN</strong>:沒外部字型 / 沒分析 / 沒追蹤</li>
+    <li><strong>所有資料本機</strong>:收藏跟評語都在 localStorage,沒上雲</li>
+    <li>點 Google Maps 按鈕後 = 你主動連 google.com,該行為走你裝置(跟手冊本身的隱私分開)</li>
+  </ul>
+
+  <div class="next-step-cta">
+    <h4>✅ 看完關於,下一步</h4>
+    <a onclick="navigateTo('page-home');return false;" href="#">🏠 回首頁推薦</a>
+    <a onclick="navigateTo('page-browse');return false;" href="#">🔍 全景點瀏覽</a>
+    <a href="https://github.com/tm731531/dementia-care" target="_blank">🐙 GitHub PR 加你的景點</a>
+  </div>
+</section>
+
+</main>
+
+<script>
+// ============ Data ============
+const PLACES = [
+  // ===== 台北市 室內 =====
+  {id:'sci-museum', name:'國立臺灣科學教育館', emoji:'🔬', area:'台北士林', region:'taipei', indoor:true, outdoor:false, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny','rainy'], types:['室內','教育','文化'], note:'7 樓有 0-6 歲幼兒區,下雨天首選。3-6 歲可看科學動手做', warning:'假日人多,週六日 9 點開門進場排隊'},
+  {id:'fine-arts', name:'臺北市立美術館', emoji:'🎨', area:'台北中山', region:'taipei', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny','rainy'], types:['室內','文化','教育'], note:'兒美館有專屬 3-12 歲展覽,旁邊圓山花博公園可放電'},
+  {id:'taipei-kids-mall', name:'臺北市立兒童新樂園', emoji:'🎡', area:'台北士林', region:'taipei', indoor:false, outdoor:true, ages:['2-3','3-6'], seasons:['spring','autumn'], weathers:['sunny'], types:['戶外','遊樂'], note:'13 種遊樂設施,2 歲以上可玩很多項。便宜票價', warning:'夏天太熱不建議,假日排隊久'},
+  {id:'4-4-south', name:'四四南村 / 信義親子廣場', emoji:'🏘️', area:'台北信義', region:'taipei', indoor:true, outdoor:true, ages:['0-2','2-3','3-6'], seasons:['spring','autumn','winter'], weathers:['sunny'], types:['戶外','文化','親子館'], note:'文創園區 + 大草地放電,旁邊就是親子廣場有溜滑梯'},
+  {id:'taipei-zoo', name:'臺北市立動物園', emoji:'🐘', area:'台北文山', region:'taipei', indoor:true, outdoor:true, ages:['2-3','3-6'], seasons:['spring','autumn','winter'], weathers:['sunny'], types:['戶外','動物','教育'], note:'貓纜直達 + 熊貓 + 多種動物。室內館多,微雨也能玩', warning:'夏天熱、暴雨天還是不太行;走路多'},
+  {id:'beitou-library', name:'北投親子館 / 北投圖書館', emoji:'📚', area:'台北北投', region:'taipei', indoor:true, outdoor:false, ages:['0-2','2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy'], types:['室內','親子館','文化'], note:'親子館要預約,圖書館是綠建築。雨天首選', warning:'親子館每場 90 分鐘,要先預約'},
+  {id:'shipinkun', name:'士林官邸 / 雙溪公園', emoji:'🌹', area:'台北士林', region:'taipei', indoor:false, outdoor:true, ages:['0-2','2-3','3-6'], seasons:['spring','autumn'], weathers:['sunny'], types:['戶外','公園'], note:'花季(2-4 月)賞玫瑰、鬱金香,腹地大可放電'},
+
+  // ===== 新北市 =====
+  {id:'13hang-museum', name:'十三行博物館 / 八里左岸', emoji:'⛵', area:'新北八里', region:'newtaipei', indoor:true, outdoor:true, ages:['2-3','3-6'], seasons:['spring','autumn','winter'], weathers:['sunny','rainy'], types:['戶外','文化','教育','海邊'], note:'博物館看考古 + 出來租協力車沿河岸騎,玩到吃飯', warning:'夏天紫外線強,建議春秋'},
+  {id:'tucheng-park', name:'土城兒童公園 / 中央路公園', emoji:'🛝', area:'新北土城', region:'newtaipei', indoor:false, outdoor:true, ages:['0-2','2-3','3-6'], seasons:['spring','autumn'], weathers:['sunny'], types:['戶外','公園'], note:'土城在地家庭近距離選擇,溜滑梯+沙坑+遊具'},
+  {id:'sanchong-water', name:'三重幸福水漾公園 / 八里水管公園', emoji:'💦', area:'新北三重 / 八里', region:'newtaipei', indoor:false, outdoor:true, ages:['2-3','3-6'], seasons:['summer'], weathers:['sunny'], types:['戶外','玩水','公園'], note:'夏天玩水首選,免費。免衣服免泳池,水深安全', warning:'7-9 月開放,記得帶替換衣物'},
+  {id:'gold-mountain', name:'金山溫泉 / 中角灣衝浪基地', emoji:'🏖️', area:'新北金山', region:'newtaipei', indoor:false, outdoor:true, ages:['3-6'], seasons:['summer','winter'], weathers:['sunny'], types:['戶外','海邊','玩水'], note:'夏天玩衝浪、冬天泡溫泉。一次滿足兩種家長想法'},
+  {id:'tucheng-chenten', name:'土城承天禪寺 / 桐花公園', emoji:'🌸', area:'新北土城', region:'newtaipei', indoor:false, outdoor:true, ages:['2-3','3-6'], seasons:['spring'], weathers:['sunny'], types:['戶外','山林','文化'], note:'4-5 月油桐花季賞花,平緩步道可推娃娃車'},
+  {id:'mitsui-outlet', name:'林口三井 Outlet Park', emoji:'🛍️', area:'新北林口', region:'newtaipei', indoor:true, outdoor:true, ages:['0-2','2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy'], types:['室內','購物','親子館'], note:'有摩天輪 + 親子廁所 + 美食街。雨天保險選項', warning:'假日下午人多,建議早上去'},
+  {id:'shenkeng', name:'深坑老街', emoji:'🏮', area:'新北深坑', region:'newtaipei', indoor:false, outdoor:true, ages:['3-6'], seasons:['spring','autumn'], weathers:['sunny','rainy'], types:['戶外','文化'], note:'豆腐老街吃小吃,大樹下廣場可玩'},
+  {id:'wulai-cherry', name:'烏來 / 福山', emoji:'🌸', area:'新北烏來', region:'newtaipei', indoor:false, outdoor:true, ages:['3-6'], seasons:['spring','winter'], weathers:['sunny'], types:['戶外','山林','文化'], note:'2-3 月櫻花季 + 冬天泡溫泉。坐烏來台車'},
+
+  // ===== 桃園市 =====
+  {id:'taoyuan-rabbits', name:'桃園可口可樂博物館 / 國父紀念館', emoji:'🥤', area:'桃園龜山', region:'taoyuan', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy'], types:['室內','教育'], note:'免費觀光工廠,雨天備案'},
+  {id:'xiao-wulai', name:'小烏來天空步道 / 角板山', emoji:'🌲', area:'桃園復興', region:'taoyuan', indoor:false, outdoor:true, ages:['3-6'], seasons:['spring','autumn'], weathers:['sunny'], types:['戶外','山林'], note:'天空步道刺激 + 角板山看雲海,半日小旅行'},
+  {id:'damxi-old-street', name:'大溪老街 / 大溪老茶廠', emoji:'🍵', area:'桃園大溪', region:'taoyuan', indoor:true, outdoor:true, ages:['2-3','3-6'], seasons:['spring','autumn','winter'], weathers:['sunny','rainy'], types:['戶外','室內','文化'], note:'老街吃豆干 + 老茶廠看製茶。室內外都有'},
+
+  // ===== 宜蘭(假日小旅行) =====
+  {id:'yilan-traditional', name:'宜蘭傳統藝術中心', emoji:'🎭', area:'宜蘭五結', region:'yilan', indoor:true, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny','rainy'], types:['室內','戶外','文化','教育'], note:'室內外都有,DIY 體驗多。雨天還是能玩', warning:'假日整日行程,記得帶水壺午餐'},
+  {id:'luodong-park', name:'羅東運動公園 / 羅東林場', emoji:'🌳', area:'宜蘭羅東', region:'yilan', indoor:false, outdoor:true, ages:['0-2','2-3','3-6'], seasons:['spring','autumn'], weathers:['sunny'], types:['戶外','公園'], note:'巨大草地 + 林場舊鐵道。腹地超大,小孩跑不完'},
+  {id:'toucheng-beach', name:'頭城海水浴場 / 蘭陽博物館', emoji:'🌊', area:'宜蘭頭城', region:'yilan', indoor:true, outdoor:true, ages:['2-3','3-6'], seasons:['summer'], weathers:['sunny','rainy'], types:['戶外','海邊','玩水','文化'], note:'夏天玩水 + 旁邊就是蘭陽博物館。一日雙地點', warning:'夏季紫外線強,記得帶遮陽 + 替換衣物'},
+];
+
+// ============ State ============
+const STORAGE_KEY = 'kidsWeekendState';
+const STATE_VERSION = 1;
+const DEFAULT_STATE = {
+  _v: STATE_VERSION,
+  userProfile: {}, // {weather, season, age, range}
+  favorites: [],   // [placeId]
+  notes: {},       // {placeId: text}
+};
+let STATE = loadState();
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return {...DEFAULT_STATE};
+    const parsed = JSON.parse(raw);
+    if (parsed._v !== STATE_VERSION) return {...DEFAULT_STATE};
+    return {...DEFAULT_STATE, ...parsed};
+  } catch(e) { return {...DEFAULT_STATE}; }
+}
+function saveState() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(STATE)); } catch(e) {}
+}
+
+// ============ Navigation ============
+function navigateTo(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(pageId)?.classList.add('active');
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.toggle('active', l.dataset.page === pageId));
+  window.scrollTo({top: 0, behavior: 'smooth'});
+  document.getElementById('nav').classList.remove('open');
+  if (window.location.hash !== '#' + pageId) history.pushState(null, '', '#' + pageId);
+  if (pageId === 'page-browse') renderBrowse();
+  if (pageId === 'page-favorites') renderFavorites();
+}
+function toggleNav() { document.getElementById('nav').classList.toggle('open'); }
+
+// ============ Wizard ============
+function renderWizard() {
+  const el = document.getElementById('wizard-container');
+  if (!el) return;
+  const p = STATE.userProfile || {};
+  if (p.weather && p.season && p.age && p.range) {
+    el.innerHTML = renderWizardResult(p);
+    return;
+  }
+  if (!p.weather) { el.innerHTML = renderWizardQ('weather'); return; }
+  if (!p.season) { el.innerHTML = renderWizardQ('season'); return; }
+  if (!p.age) { el.innerHTML = renderWizardQ('age'); return; }
+  if (!p.range) { el.innerHTML = renderWizardQ('range'); return; }
+}
+
+function renderWizardQ(step) {
+  if (step === 'weather') {
+    return `<div class="wizard-card">
+      <div class="wizard-step">第 1 / 4 題</div>
+      <h2>☀️ 今天的天氣?</h2>
+      <p style="margin:0;color:var(--muted);">影響推薦室內外景點。</p>
+      <div class="wizard-options">
+        <button class="wizard-opt" onclick="setWizardAnswer('weather','sunny')"><span class="opt-icon">☀️</span>晴天 / 多雲<span class="opt-hint">戶外為主</span></button>
+        <button class="wizard-opt" onclick="setWizardAnswer('weather','rainy')"><span class="opt-icon">🌧️</span>下雨 / 陰雨<span class="opt-hint">室內為主</span></button>
+        <button class="wizard-opt" onclick="setWizardAnswer('weather','any')"><span class="opt-icon">🌤️</span>不一定 / 隨便<span class="opt-hint">什麼都看看</span></button>
+      </div>
+    </div>`;
+  }
+  if (step === 'season') {
+    const m = (new Date()).getMonth() + 1;
+    const auto = m>=3&&m<=5 ? 'spring' : m>=6&&m<=8 ? 'summer' : m>=9&&m<=11 ? 'autumn' : 'winter';
+    const autoLabel = {spring:'春',summer:'夏',autumn:'秋',winter:'冬'}[auto];
+    return `<div class="wizard-card">
+      <div class="wizard-step">第 2 / 4 題 <a class="reset-link" onclick="setWizardAnswer('weather',null)">← 改第 1 題</a></div>
+      <h2>🍂 季節?(系統判斷:${autoLabel})</h2>
+      <p style="margin:0;color:var(--muted);">不同季節有不同好景點(花季 / 海邊 / 溫泉)。</p>
+      <div class="wizard-options">
+        <button class="wizard-opt" onclick="setWizardAnswer('season','spring')"><span class="opt-icon">🌸</span>春(3-5 月)<span class="opt-hint">櫻花、桐花、玫瑰</span></button>
+        <button class="wizard-opt" onclick="setWizardAnswer('season','summer')"><span class="opt-icon">☀️</span>夏(6-8 月)<span class="opt-hint">海邊、玩水、避暑</span></button>
+        <button class="wizard-opt" onclick="setWizardAnswer('season','autumn')"><span class="opt-icon">🍁</span>秋(9-11 月)<span class="opt-hint">郊遊最舒服</span></button>
+        <button class="wizard-opt" onclick="setWizardAnswer('season','winter')"><span class="opt-icon">❄️</span>冬(12-2 月)<span class="opt-hint">溫泉、室內、櫻花前哨</span></button>
+      </div>
+    </div>`;
+  }
+  if (step === 'age') {
+    return `<div class="wizard-card">
+      <div class="wizard-step">第 3 / 4 題 <a class="reset-link" onclick="setWizardAnswer('season',null)">← 改第 2 題</a></div>
+      <h2>👶 孩子年齡?</h2>
+      <p style="margin:0;color:var(--muted);">影響推薦的活動類型。</p>
+      <div class="wizard-options">
+        <button class="wizard-opt" onclick="setWizardAnswer('age','0-2')"><span class="opt-icon">👶</span>0-2 歲<span class="opt-hint">推娃娃車 / 親子館 / 短時程</span></button>
+        <button class="wizard-opt" onclick="setWizardAnswer('age','2-3')"><span class="opt-icon">🧒</span>2-3 歲<span class="opt-hint">自己走 / 公園 / 玩水</span></button>
+        <button class="wizard-opt" onclick="setWizardAnswer('age','3-6')"><span class="opt-icon">🎒</span>3-6 歲<span class="opt-hint">教育 / 動物 / 文化 / 動手做</span></button>
+      </div>
+    </div>`;
+  }
+  if (step === 'range') {
+    return `<div class="wizard-card">
+      <div class="wizard-step">第 4 / 4 題 <a class="reset-link" onclick="setWizardAnswer('age',null)">← 改第 3 題</a></div>
+      <h2>🚗 出門範圍?</h2>
+      <p style="margin:0;color:var(--muted);">影響推薦距離。預設以新北土城為中心。</p>
+      <div class="wizard-options">
+        <button class="wizard-opt" onclick="setWizardAnswer('range','near')"><span class="opt-icon">🏠</span>住家附近 30 分鐘<span class="opt-hint">雙北市內</span></button>
+        <button class="wizard-opt" onclick="setWizardAnswer('range','medium')"><span class="opt-icon">🚗</span>1 小時車程<span class="opt-hint">雙北 + 桃園</span></button>
+        <button class="wizard-opt" onclick="setWizardAnswer('range','trip')"><span class="opt-icon">🛣️</span>假日小旅行<span class="opt-hint">含宜蘭 / 桃園山區</span></button>
+      </div>
+    </div>`;
+  }
+  return '';
+}
+
+function setWizardAnswer(key, value) {
+  if (!STATE.userProfile) STATE.userProfile = {};
+  if (value === null) {
+    delete STATE.userProfile[key];
+    if (key === 'weather') { delete STATE.userProfile.season; delete STATE.userProfile.age; delete STATE.userProfile.range; }
+    if (key === 'season') { delete STATE.userProfile.age; delete STATE.userProfile.range; }
+    if (key === 'age') { delete STATE.userProfile.range; }
+  } else {
+    STATE.userProfile[key] = value;
+  }
+  saveState();
+  renderWizard();
+}
+
+function resetWizard() {
+  STATE.userProfile = {};
+  saveState();
+  renderWizard();
+}
+
+function rangeToRegions(range) {
+  if (range === 'near') return ['taipei','newtaipei'];
+  if (range === 'medium') return ['taipei','newtaipei','taoyuan'];
+  return ['taipei','newtaipei','taoyuan','yilan']; // trip
+}
+
+function filterPlaces(p) {
+  const regions = rangeToRegions(p.range);
+  return PLACES.filter(pl => {
+    if (!regions.includes(pl.region)) return false;
+    if (!pl.ages.includes(p.age)) return false;
+    if (!pl.seasons.includes(p.season)) return false;
+    if (p.weather === 'sunny' && !pl.weathers.includes('sunny') && !pl.outdoor) return false;
+    if (p.weather === 'rainy' && !pl.weathers.includes('rainy') && !pl.indoor) return false;
+    return true;
+  });
+}
+
+function renderWizardResult(p) {
+  const matches = filterPlaces(p);
+  const wLabel = {sunny:'晴',rainy:'雨',any:'隨便'}[p.weather];
+  const sLabel = {spring:'春',summer:'夏',autumn:'秋',winter:'冬'}[p.season];
+  const aLabel = {'0-2':'0-2 歲','2-3':'2-3 歲','3-6':'3-6 歲'}[p.age];
+  const rLabel = {near:'30 分鐘內',medium:'1 小時內',trip:'假日小旅行'}[p.range];
+
+  let html = `<div class="wizard-result-card">
+    <h2>🎯 給你的推薦(${wLabel} · ${sLabel} · ${aLabel} · ${rLabel}) <a class="reset-link" onclick="resetWizard()">↻ 重答</a></h2>
+    <p style="color:var(--muted);font-size:14px;margin:0 0 12px;">符合條件的景點 <strong>${matches.length}</strong> 個。點 <strong>📍 Google Maps</strong> 直接導航。</p>`;
+
+  if (matches.length === 0) {
+    html += `<div class="empty">😢 這個組合沒有符合的景點。試試:<br>
+      • 改範圍為「假日小旅行」<br>
+      • 天氣選「不一定」<br>
+      • 在「📖 關於 / 編輯資料」自己加新景點</div>`;
+  } else {
+    matches.forEach(pl => { html += renderPlaceCard(pl); });
+  }
+  html += `</div>`;
+  return html;
+}
+
+function renderPlaceCard(pl) {
+  const isFav = STATE.favorites.includes(pl.id);
+  const note = STATE.notes[pl.id] || '';
+  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(pl.name + ' ' + pl.area)}`;
+  const tagsHtml = [
+    pl.indoor ? '<span class="tag indoor">🏠 室內</span>' : '',
+    pl.outdoor ? '<span class="tag outdoor">🌳 戶外</span>' : '',
+    ...pl.types.map(t => `<span class="tag">${t}</span>`),
+    ...pl.ages.map(a => `<span class="tag">${a}</span>`),
+  ].filter(Boolean).join('');
+
+  return `<div class="place-card">
+    <div class="head">
+      <span style="font-size:24px;">${pl.emoji}</span>
+      <div style="flex:1;min-width:0;">
+        <div class="name">${pl.name}</div>
+        <div class="area">📍 ${pl.area}</div>
+      </div>
+    </div>
+    <div class="tags">${tagsHtml}</div>
+    <p style="font-size:14px;margin:8px 0 4px;">${pl.note}</p>
+    ${pl.warning ? `<p style="font-size:13px;color:#8a4a0a;background:var(--warn-bg);padding:6px 10px;border-radius:6px;margin:6px 0;">⚠️ ${pl.warning}</p>` : ''}
+    ${note ? `<p style="font-size:14px;background:#f0f8f4;padding:8px 12px;border-radius:6px;margin:8px 0;border-left:3px solid #6ba88a;"><strong>📝 我家評語:</strong> ${escapeHtml(note)}</p>` : ''}
+    <div class="actions">
+      <a class="btn" href="${mapsUrl}" target="_blank" rel="noopener">📍 Google Maps</a>
+      <button class="btn btn-fav ${isFav?'active':''}" onclick="toggleFav('${pl.id}')">${isFav?'❤️ 已收藏':'🤍 加入口袋'}</button>
+      <button class="btn btn-secondary btn-small" onclick="editNote('${pl.id}')">📝 ${note?'改評語':'寫評語'}</button>
+    </div>
+    <div id="note-edit-${pl.id}" style="display:none;margin-top:8px;">
+      <textarea placeholder="例如:2025/3 去過,小孩很喜歡親水池,夏天最佳" oninput="this.dataset.dirty='1'">${escapeHtml(note)}</textarea>
+      <div style="margin-top:6px;display:flex;gap:6px;">
+        <button class="btn btn-small" onclick="saveNote('${pl.id}')">💾 存</button>
+        <button class="btn btn-secondary btn-small" onclick="cancelNote('${pl.id}')">✗ 取消</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function escapeHtml(s) {
+  return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+// ============ Favorites & Notes ============
+function toggleFav(id) {
+  const i = STATE.favorites.indexOf(id);
+  if (i >= 0) STATE.favorites.splice(i, 1);
+  else STATE.favorites.push(id);
+  saveState();
+  // re-render whatever's visible
+  renderWizard();
+  if (document.getElementById('page-browse').classList.contains('active')) renderBrowse();
+  if (document.getElementById('page-favorites').classList.contains('active')) renderFavorites();
+}
+
+function editNote(id) {
+  const div = document.getElementById('note-edit-'+id);
+  if (div) div.style.display = 'block';
+}
+function saveNote(id) {
+  const div = document.getElementById('note-edit-'+id);
+  const ta = div.querySelector('textarea');
+  const val = ta.value.trim();
+  if (val) STATE.notes[id] = val;
+  else delete STATE.notes[id];
+  saveState();
+  renderWizard();
+  if (document.getElementById('page-browse').classList.contains('active')) renderBrowse();
+  if (document.getElementById('page-favorites').classList.contains('active')) renderFavorites();
+}
+function cancelNote(id) {
+  const div = document.getElementById('note-edit-'+id);
+  if (div) div.style.display = 'none';
+}
+
+// ============ Browse ============
+function renderBrowse() {
+  const el = document.getElementById('browse-list');
+  if (!el) return;
+  const w = document.getElementById('filter-weather').value;
+  const s = document.getElementById('filter-season').value;
+  const a = document.getElementById('filter-age').value;
+  const t = document.getElementById('filter-type').value;
+  const r = document.getElementById('filter-area').value;
+
+  let matches = PLACES.filter(pl => {
+    if (w === 'sunny' && !pl.weathers.includes('sunny') && !pl.outdoor) return false;
+    if (w === 'rainy' && !pl.weathers.includes('rainy') && !pl.indoor) return false;
+    if (s && !pl.seasons.includes(s)) return false;
+    if (a && !pl.ages.includes(a)) return false;
+    if (t && !pl.types.includes(t)) return false;
+    if (r && pl.region !== r) return false;
+    return true;
+  });
+
+  let html = `<p style="font-size:14px;color:var(--muted);margin-bottom:8px;">符合條件 <strong>${matches.length}</strong> 個 / 共 ${PLACES.length} 個</p>`;
+  if (matches.length === 0) {
+    html += `<div class="empty">沒有符合條件的景點,試試清除篩選</div>`;
+  } else {
+    matches.forEach(pl => { html += renderPlaceCard(pl); });
+  }
+  el.innerHTML = html;
+}
+function resetFilters() {
+  ['filter-weather','filter-season','filter-age','filter-type','filter-area'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  renderBrowse();
+}
+
+// ============ Favorites Page ============
+function renderFavorites() {
+  const el = document.getElementById('favorites-list');
+  if (!el) return;
+  const matches = PLACES.filter(pl => STATE.favorites.includes(pl.id));
+  let html = `<p style="font-size:14px;color:var(--muted);margin-bottom:8px;">收藏 <strong>${matches.length}</strong> 個</p>`;
+  if (matches.length === 0) {
+    html += `<div class="empty">還沒收藏任何景點。<br>到 <a onclick="navigateTo('page-home');return false;" href="#">🏠 首頁推薦</a> 或 <a onclick="navigateTo('page-browse');return false;" href="#">🔍 全景點瀏覽</a> 加入。</div>`;
+  } else {
+    matches.forEach(pl => { html += renderPlaceCard(pl); });
+  }
+  el.innerHTML = html;
+}
+
+// ============ Init ============
+document.addEventListener('DOMContentLoaded', () => {
+  renderWizard();
+  const hash = window.location.hash;
+  if (hash && hash.startsWith('#page-')) navigateTo(hash.slice(1));
+});
+
+window.addEventListener('popstate', () => {
+  const hash = window.location.hash;
+  const pageId = (hash && hash.startsWith('#page-')) ? hash.slice(1) : 'page-home';
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(pageId)?.classList.add('active');
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.toggle('active', l.dataset.page === pageId));
+  window.scrollTo({top: 0, behavior: 'smooth'});
+});
+
+// Expose
+window.navigateTo = navigateTo;
+window.toggleNav = toggleNav;
+window.setWizardAnswer = setWizardAnswer;
+window.resetWizard = resetWizard;
+window.toggleFav = toggleFav;
+window.editNote = editNote;
+window.saveNote = saveNote;
+window.cancelNote = cancelNote;
+window.renderBrowse = renderBrowse;
+window.resetFilters = resetFilters;
+</script>
+
+</body>
+</html>
