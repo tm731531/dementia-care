@@ -2377,12 +2377,12 @@ function onCorridorWidthChange(val) {
 function onRangeSliderInput(val) {
   const v = parseInt(val);
   const lbl = document.getElementById('range-slider-label');
-  if (lbl) lbl.textContent = (v >= 200) ? '全台' : `${v} km`;
+  if (lbl) lbl.textContent = (v >= 400) ? '全台' : `${v} km`;
 }
 function onRangeSliderChange(val) {
   const v = parseInt(val);
   if (!STATE.userProfile) STATE.userProfile = {};
-  if (v >= 200) {
+  if (v >= 400) {
     delete STATE.userProfile.customRangeKm;
     STATE.userProfile.range = 'nationwide';
   } else {
@@ -2676,7 +2676,7 @@ function renderWizardResult(p) {
   const dest = destId ? getAllPlaces().find(pl => pl.id === destId) : null;
   const destCoord = dest ? getPlaceCoords(dest) : null;
   const curLimit = getRangeKm(p);
-  const sliderVal = curLimit ?? 200;
+  const sliderVal = curLimit ?? 400;
 
   let html = `<div class="wizard-result-card">
     <div style="background:var(--primary-light);border-left:4px solid var(--primary);padding:10px 14px;border-radius:6px;margin-bottom:14px;font-size:14px;">
@@ -2735,7 +2735,7 @@ function renderWizardResult(p) {
   html += `<div class="sticky-filter-bar" style="display:flex;flex-direction:column;gap:8px;background:#f0f8f4;border:1px solid #c8e3d4;padding:8px 14px;border-radius:8px;margin-bottom:14px;font-size:14px;">
       <div style="display:flex;align-items:center;gap:10px;">
         <span style="font-weight:700;white-space:nowrap;">📏 範圍</span>
-        <input type="range" min="5" max="200" step="5" value="${sliderVal}" oninput="onRangeSliderInput(this.value)" onchange="onRangeSliderChange(this.value)" style="flex:1;cursor:pointer;">
+        <input type="range" min="5" max="400" step="5" value="${sliderVal}" oninput="onRangeSliderInput(this.value)" onchange="onRangeSliderChange(this.value)" style="flex:1;cursor:pointer;">
         <span id="range-slider-label" style="font-weight:700;color:var(--primary-dark);min-width:60px;text-align:right;">${curLimit ? curLimit + ' km' : '全台'}</span>
       </div>
       <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
