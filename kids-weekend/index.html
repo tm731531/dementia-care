@@ -2206,6 +2206,14 @@ function toggleAvoidCrowds() {
   if (document.getElementById('page-browse').classList.contains('active')) renderBrowse();
 }
 
+function toggleGroupByArea() {
+  if (!STATE.preferences) STATE.preferences = {};
+  STATE.preferences.groupByArea = !STATE.preferences.groupByArea;
+  saveState();
+  renderWizard();
+  if (document.getElementById('page-browse').classList.contains('active')) renderBrowse();
+}
+
 // ===== Tag 三態(必選 / 排除 / 不限)=====
 function cycleTag(tag) {
   if (!STATE.preferences) STATE.preferences = {};
@@ -2445,14 +2453,19 @@ function renderWizardResult(p) {
   const hLabel = (p.home && p.homeDistrict) ? (p.homeIsGps ? `📍 ${TAIWAN_DISTRICTS[p.home]?.label || ''}${p.homeDistrict}` : (p.home === 'gps' ? `📍 ${p.homeDistrict}` : `${TAIWAN_DISTRICTS[p.home]?.label || ''}${p.homeDistrict}`)) : '';
 
   const avoid = STATE.preferences && STATE.preferences.avoidCrowds;
+  const groupBy = STATE.preferences && STATE.preferences.groupByArea;
   let html = `<div class="wizard-result-card">
     <div style="background:var(--primary-light);border-left:4px solid var(--primary);padding:10px 14px;border-radius:6px;margin-bottom:14px;font-size:14px;">
       📍 你的位置:<strong>${hLabel}</strong> <a class="reset-link" onclick="useGeolocation()" style="margin-left:8px;">📡 GPS 重抓</a> <a class="reset-link" onclick="resetHome()" style="margin-left:8px;">✏️ 改地點</a>
     </div>
-    <div class="sticky-filter-bar" style="display:flex;align-items:center;gap:10px;background:#f0f8f4;border:1px solid #c8e3d4;padding:8px 14px;border-radius:8px;margin-bottom:14px;font-size:14px;">
-      <label style="display:flex;align-items:center;gap:6px;cursor:pointer;flex:1;">
+    <div class="sticky-filter-bar" style="display:flex;flex-direction:column;gap:6px;background:#f0f8f4;border:1px solid #c8e3d4;padding:8px 14px;border-radius:8px;margin-bottom:14px;font-size:14px;">
+      <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
         <input type="checkbox" ${avoid?'checked':''} onchange="toggleAvoidCrowds()" style="width:16px;height:16px;cursor:pointer;">
         <span>🤧 <strong>避開人多景點</strong>(怕感冒 / 太太 friendly)</span>
+      </label>
+      <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+        <input type="checkbox" ${groupBy?'checked':''} onchange="toggleGroupByArea()" style="width:16px;height:16px;cursor:pointer;">
+        <span>🗺️ <strong>依區域分組</strong>(順路規劃,一天串多點用)</span>
       </label>
     </div>
     ${renderActiveTagFilters()}
@@ -2466,13 +2479,54 @@ function renderWizardResult(p) {
       • 天氣選「不一定」<br>
       • 在「📖 關於 / 編輯資料」自己加新景點</div>`;
   } else {
-    // 依距離排序(近的先)
     const withDist = matches.map(pl => ({pl, km: getDistKm(pl, p)}));
-    withDist.sort((a,b) => (a.km ?? 999) - (b.km ?? 999));
-    withDist.forEach(({pl, km}) => { html += renderPlaceCard(pl, km); });
+    if (groupBy) {
+      html += renderGroupedByArea(withDist);
+    } else {
+      withDist.sort((a,b) => (a.km ?? 999) - (b.km ?? 999));
+      withDist.forEach(({pl, km}) => { html += renderPlaceCard(pl, km); });
+    }
   }
   html += `</div>`;
   return html;
+}
+
+// 依區域分組:area 為 key,以群內最近距離排序群,群內再依距離 ASC
+function renderGroupedByArea(withDist) {
+  const groups = {};
+  for (const item of withDist) {
+    const key = item.pl.area || '其他';
+    if (!groups[key]) groups[key] = [];
+    groups[key].push(item);
+  }
+  // 每群算最小距離 + 平均
+  const groupArr = Object.entries(groups).map(([area, items]) => {
+    items.sort((a,b) => (a.km ?? 999) - (b.km ?? 999));
+    const kms = items.map(i => i.km).filter(k => k != null);
+    const minKm = kms.length ? Math.min(...kms) : null;
+    const maxKm = kms.length ? Math.max(...kms) : null;
+    return {area, items, minKm, maxKm, count: items.length};
+  });
+  // 依群最小距離排序(近的群在上)
+  groupArr.sort((a,b) => (a.minKm ?? 999) - (b.minKm ?? 999));
+
+  let out = '';
+  for (const g of groupArr) {
+    const distLabel = (g.minKm != null) ?
+      (g.minKm === g.maxKm ? `${g.minKm.toFixed(1)} km` : `${g.minKm.toFixed(1)}–${g.maxKm.toFixed(1)} km`)
+      : '';
+    out += `<details open class="area-group" style="margin-bottom:14px;border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+      <summary style="cursor:pointer;background:var(--primary-light);padding:10px 14px;font-weight:600;font-size:15px;display:flex;justify-content:space-between;align-items:center;gap:10px;">
+        <span>📍 ${g.area} <span style="color:var(--muted);font-weight:400;font-size:13px;">(${g.count} 個)</span></span>
+        <span style="color:var(--primary-dark);font-weight:700;font-size:13px;">${distLabel}</span>
+      </summary>
+      <div style="padding:10px;">`;
+    for (const {pl, km} of g.items) {
+      out += renderPlaceCard(pl, km);
+    }
+    out += `</div></details>`;
+  }
+  return out;
 }
 
 function renderPlaceCard(pl, km) {
@@ -2607,11 +2661,22 @@ function renderBrowse() {
     return true;
   });
 
-  let html = renderActiveTagFilters();
+  const groupBy = prefs.groupByArea;
+  let html = `<div class="sticky-filter-bar" style="display:flex;align-items:center;gap:10px;background:#f0f8f4;border:1px solid #c8e3d4;padding:8px 14px;border-radius:8px;margin-bottom:10px;font-size:14px;">
+    <label style="display:flex;align-items:center;gap:6px;cursor:pointer;flex:1;">
+      <input type="checkbox" ${groupBy?'checked':''} onchange="toggleGroupByArea()" style="width:16px;height:16px;cursor:pointer;">
+      <span>🗺️ <strong>依區域分組</strong>(順路規劃)</span>
+    </label>
+  </div>`;
+  html += renderActiveTagFilters();
   html += renderTagOverview(matches);
   html += `<p style="font-size:14px;color:var(--muted);margin-bottom:8px;">符合條件 <strong>${matches.length}</strong> 個 / 共 ${allPlaces.length} 個${blocked.length?` (已排除 ${blocked.length} 個「不再去」)`:''}</p>`;
   if (matches.length === 0) {
     html += `<div class="empty">沒有符合條件的景點,試試清除篩選</div>`;
+  } else if (groupBy) {
+    const profile = STATE.userProfile || {};
+    const withDist = matches.map(pl => ({pl, km: getDistKm(pl, profile)}));
+    html += renderGroupedByArea(withDist);
   } else {
     matches.forEach(pl => { html += renderPlaceCard(pl); });
   }
@@ -2667,6 +2732,7 @@ window.cancelNote = cancelNote;
 window.renderBrowse = renderBrowse;
 window.resetFilters = resetFilters;
 window.toggleAvoidCrowds = toggleAvoidCrowds;
+window.toggleGroupByArea = toggleGroupByArea;
 window.cycleTag = cycleTag;
 window.clearTagFilters = clearTagFilters;
 window.quickExcludeTag = quickExcludeTag;
