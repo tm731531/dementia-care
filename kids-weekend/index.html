@@ -47,6 +47,10 @@ nav#nav {
   display: none; flex-wrap: wrap; gap: 6px;
 }
 nav#nav.open { display: flex; }
+.sticky-filter-bar {
+  position: sticky; top: 56px; z-index: 50;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
 .nav-link {
   background: var(--primary-light); color: var(--primary-dark); padding: 8px 14px;
   border-radius: 20px; font-size: 14px; text-decoration: none; border: 1px solid var(--border); cursor: pointer;
@@ -2342,7 +2346,7 @@ function renderWizardResult(p) {
     <div style="background:var(--primary-light);border-left:4px solid var(--primary);padding:10px 14px;border-radius:6px;margin-bottom:14px;font-size:14px;">
       📍 你的位置:<strong>${hLabel}</strong> <a class="reset-link" onclick="useGeolocation()" style="margin-left:8px;">📡 GPS 重抓</a> <a class="reset-link" onclick="resetHome()" style="margin-left:8px;">✏️ 改地點</a>
     </div>
-    <div style="display:flex;align-items:center;gap:10px;background:#f0f8f4;border:1px solid #c8e3d4;padding:8px 14px;border-radius:8px;margin-bottom:14px;font-size:14px;">
+    <div class="sticky-filter-bar" style="display:flex;align-items:center;gap:10px;background:#f0f8f4;border:1px solid #c8e3d4;padding:8px 14px;border-radius:8px;margin-bottom:14px;font-size:14px;">
       <label style="display:flex;align-items:center;gap:6px;cursor:pointer;flex:1;">
         <input type="checkbox" ${avoid?'checked':''} onchange="toggleAvoidCrowds()" style="width:16px;height:16px;cursor:pointer;">
         <span>🤧 <strong>避開人多景點</strong>(怕感冒 / 太太 friendly)</span>
