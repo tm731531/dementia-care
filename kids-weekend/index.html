@@ -2191,6 +2191,62 @@ function describeRangeEdge(homeLat, homeLng, kmLimit, kmMin) {
   nearBound.sort((a,b) => b.d - a.d);
   return nearBound.slice(0, 3).map(x => x.name).join('、');
 }
+// 景點搜尋:在 PLACES 內 substring match by name + area
+function searchPlaces(query, limit) {
+  if (!query) return [];
+  const q = query.trim().toLowerCase();
+  if (!q) return [];
+  const all = getAllPlaces();
+  const blocked = new Set(((STATE.preferences && STATE.preferences.blockedPlaces) || []));
+  const hits = [];
+  for (const pl of all) {
+    if (blocked.has(pl.id)) continue;
+    const score = scoreSearch(pl, q);
+    if (score > 0) hits.push({pl, score});
+  }
+  hits.sort((a,b) => b.score - a.score);
+  return hits.slice(0, limit || 8).map(x => x.pl);
+}
+function scoreSearch(pl, q) {
+  const name = (pl.name || '').toLowerCase();
+  const area = (pl.area || '').toLowerCase();
+  const types = (pl.types || []).join(' ').toLowerCase();
+  if (name === q) return 100;
+  if (name.startsWith(q)) return 80;
+  if (name.includes(q)) return 60;
+  if (area.includes(q)) return 30;
+  if (types.includes(q)) return 10;
+  return 0;
+}
+function onSearchInput(val) {
+  const list = searchPlaces(val, 8);
+  const el = document.getElementById('search-results');
+  if (!el) return;
+  if (!list.length) {
+    el.innerHTML = val.trim() ? '<p style="color:var(--muted);font-size:13px;margin:8px 0;">沒符合的景點</p>' : '';
+    return;
+  }
+  const destId = (STATE.preferences && STATE.preferences.destinationId) || null;
+  const wpIds = (STATE.preferences && STATE.preferences.waypointIds) || [];
+  el.innerHTML = list.map(pl => {
+    const isDest = pl.id === destId;
+    const isWp = wpIds.includes(pl.id);
+    let btn;
+    if (isDest) btn = '<span class="btn btn-secondary btn-small" style="background:#fff4e6;color:#ff8c42;border-color:#ff8c42;cursor:default;">🎯 已是目的地</span>';
+    else if (isWp) btn = `<button class="btn btn-secondary btn-small" onclick="removeWaypoint('${pl.id}')" style="background:#fff4e6;color:#ff8c42;border-color:#ff8c42;">✓ 已加入(移除)</button>`;
+    else if (destId) btn = `<button class="btn btn-secondary btn-small" onclick="addWaypoint('${pl.id}')">➕ 加入路線</button>`;
+    else btn = `<button class="btn btn-secondary btn-small" onclick="setDestination('${pl.id}')">🛣️ 設目的地</button>`;
+    return `<div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:#fff;border:1px solid var(--border);border-radius:6px;margin:4px 0;font-size:14px;">
+      <span style="font-size:20px;">${pl.emoji}</span>
+      <div style="flex:1;min-width:0;">
+        <div style="font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${pl.name}</div>
+        <div style="color:var(--muted);font-size:12px;">${pl.area}</div>
+      </div>
+      ${btn}
+    </div>`;
+  }).join('');
+}
+
 function describeRangeStart(homeLat, homeLng, kmMin) {
   if (!homeLat || !homeLng || !kmMin || kmMin <= 0) return '';
   const dists = [];
@@ -2859,6 +2915,11 @@ function renderWizardResult(p) {
         <span>🗺️ <strong>依區域分組</strong>(順路規劃,一天串多點用)</span>
       </label>
     </div>
+    <details style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:8px 14px;margin-bottom:14px;">
+      <summary style="cursor:pointer;font-weight:600;font-size:14px;">🔍 找特定景點(直接搜尋名稱)</summary>
+      <input type="text" placeholder="例如:九份、奇美、觀音山…" oninput="onSearchInput(this.value)" style="width:100%;padding:8px 10px;font-size:14px;margin-top:8px;border:1px solid var(--border);border-radius:6px;box-sizing:border-box;">
+      <div id="search-results" style="margin-top:8px;"></div>
+    </details>
     ${renderActiveTagFilters()}
     ${renderTagOverview(matches)}
     <h2>🎯 給你的推薦(${wLabel} · ${rLabel}) <a class="reset-link" onclick="resetWizard()">↻ 改條件</a></h2>
@@ -3164,6 +3225,8 @@ window.onRangeMinSliderInput = onRangeMinSliderInput;
 window.onRangeMinSliderChange = onRangeMinSliderChange;
 window.syncRangeLabels = syncRangeLabels;
 window.updateRangeEdgeHint = updateRangeEdgeHint;
+window.onSearchInput = onSearchInput;
+window.searchPlaces = searchPlaces;
 window.setDestination = setDestination;
 window.clearDestination = clearDestination;
 window.addWaypoint = addWaypoint;
