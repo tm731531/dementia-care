@@ -2172,6 +2172,41 @@ function getRangeMinKm(profile) {
   return profile.customRangeMinKm || 0;
 }
 
+// 從家位置算「半徑 km 範圍」邊緣的代表區域(用 TAIWAN_DISTRICTS 中心)
+// 回傳 string: 「中和、樹林、板橋」這種,給滑桿邊上提示用
+function describeRangeEdge(homeLat, homeLng, kmLimit, kmMin) {
+  if (!homeLat || !homeLng) return '';
+  if (kmLimit >= 400 && (!kmMin || kmMin === 0)) return '';
+  const dists = [];
+  for (const cfg of Object.values(TAIWAN_DISTRICTS)) {
+    for (const [name, [lat, lng]] of Object.entries(cfg.dists)) {
+      const d = haversineKm(homeLat, homeLng, lat, lng);
+      dists.push({name: cfg.prefix + name, d});
+    }
+  }
+  // 找邊緣(在 [kmLimit * 0.85, kmLimit] 區間)取最近 3 個區域
+  const upper = kmLimit >= 400 ? Infinity : kmLimit;
+  const lowerEdge = kmLimit >= 400 ? 300 : kmLimit * 0.85;
+  const nearBound = dists.filter(x => x.d >= lowerEdge && x.d <= upper);
+  nearBound.sort((a,b) => b.d - a.d);
+  return nearBound.slice(0, 3).map(x => x.name).join('、');
+}
+function describeRangeStart(homeLat, homeLng, kmMin) {
+  if (!homeLat || !homeLng || !kmMin || kmMin <= 0) return '';
+  const dists = [];
+  for (const cfg of Object.values(TAIWAN_DISTRICTS)) {
+    for (const [name, [lat, lng]] of Object.entries(cfg.dists)) {
+      const d = haversineKm(homeLat, homeLng, lat, lng);
+      dists.push({name: cfg.prefix + name, d});
+    }
+  }
+  const lower = kmMin;
+  const upper = kmMin * 1.15;
+  const near = dists.filter(x => x.d >= lower && x.d <= upper);
+  near.sort((a,b) => a.d - b.d);
+  return near.slice(0, 3).map(x => x.name).join('、');
+}
+
 // ===== 沿路 corridor 規劃 =====
 // 把 (lat,lng) 用簡單投影映射到平面(km),近距離計算用,精度足夠台灣範圍
 function projLatLng(lat, lng, refLat) {
@@ -2387,6 +2422,7 @@ function onRangeSliderInput(val) {
   const lbl = document.getElementById('range-slider-label');
   if (lbl) lbl.textContent = (v >= 400) ? '全台' : `${v} km`;
   syncRangeLabels();
+  updateRangeEdgeHint();
 }
 function onRangeSliderChange(val) {
   let v = parseInt(val);
@@ -2412,6 +2448,26 @@ function onRangeMinSliderInput(val) {
   const lbl = document.getElementById('range-min-slider-label');
   if (lbl) lbl.textContent = v === 0 ? '不限' : `${v} km`;
   syncRangeLabels();
+  updateRangeEdgeHint();
+}
+function updateRangeEdgeHint() {
+  const p = STATE.userProfile || {};
+  if (!p.homeLat || !p.homeLng) return;
+  const minEl = document.getElementById('range-min-slider');
+  const maxEl = document.getElementById('range-max-slider');
+  if (!minEl || !maxEl) return;
+  const minV = parseInt(minEl.value);
+  const maxV = parseInt(maxEl.value);
+  const startEl = document.getElementById('range-min-edge');
+  const endEl = document.getElementById('range-max-edge');
+  if (startEl) {
+    const txt = describeRangeStart(p.homeLat, p.homeLng, minV);
+    startEl.textContent = txt ? `≈ ${txt}` : '';
+  }
+  if (endEl) {
+    const txt = describeRangeEdge(p.homeLat, p.homeLng, maxV, minV);
+    endEl.textContent = txt ? `≈ ${txt}` : '';
+  }
 }
 function onRangeMinSliderChange(val) {
   let v = parseInt(val);
@@ -2777,15 +2833,21 @@ function renderWizardResult(p) {
   }
 
   html += `<div class="sticky-filter-bar" style="display:flex;flex-direction:column;gap:8px;background:#f0f8f4;border:1px solid #c8e3d4;padding:8px 14px;border-radius:8px;margin-bottom:14px;font-size:14px;">
-      <div style="display:flex;align-items:center;gap:10px;">
-        <span style="font-weight:700;white-space:nowrap;width:54px;">📏 最近</span>
-        <input id="range-min-slider" type="range" min="0" max="400" step="5" value="${curMin}" oninput="onRangeMinSliderInput(this.value)" onchange="onRangeMinSliderChange(this.value)" style="flex:1;cursor:pointer;">
-        <span id="range-min-slider-label" style="font-weight:700;color:var(--primary-dark);min-width:60px;text-align:right;">${curMin === 0 ? '不限' : curMin + ' km'}</span>
+      <div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-weight:700;white-space:nowrap;width:54px;">📏 最近</span>
+          <input id="range-min-slider" type="range" min="0" max="400" step="5" value="${curMin}" oninput="onRangeMinSliderInput(this.value)" onchange="onRangeMinSliderChange(this.value)" style="flex:1;cursor:pointer;">
+          <span id="range-min-slider-label" style="font-weight:700;color:var(--primary-dark);min-width:60px;text-align:right;">${curMin === 0 ? '不限' : curMin + ' km'}</span>
+        </div>
+        <div id="range-min-edge" style="font-size:11px;color:var(--muted);margin-left:64px;min-height:14px;">${curMin > 0 ? '≈ ' + describeRangeStart(p.homeLat, p.homeLng, curMin) : ''}</div>
       </div>
-      <div style="display:flex;align-items:center;gap:10px;">
-        <span style="font-weight:700;white-space:nowrap;width:54px;">📏 最遠</span>
-        <input id="range-max-slider" type="range" min="5" max="400" step="5" value="${sliderVal}" oninput="onRangeSliderInput(this.value)" onchange="onRangeSliderChange(this.value)" style="flex:1;cursor:pointer;">
-        <span id="range-slider-label" style="font-weight:700;color:var(--primary-dark);min-width:60px;text-align:right;">${curLimit ? curLimit + ' km' : '全台'}</span>
+      <div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-weight:700;white-space:nowrap;width:54px;">📏 最遠</span>
+          <input id="range-max-slider" type="range" min="5" max="400" step="5" value="${sliderVal}" oninput="onRangeSliderInput(this.value)" onchange="onRangeSliderChange(this.value)" style="flex:1;cursor:pointer;">
+          <span id="range-slider-label" style="font-weight:700;color:var(--primary-dark);min-width:60px;text-align:right;">${curLimit ? curLimit + ' km' : '全台'}</span>
+        </div>
+        <div id="range-max-edge" style="font-size:11px;color:var(--muted);margin-left:64px;min-height:14px;">${curLimit ? '≈ ' + describeRangeEdge(p.homeLat, p.homeLng, curLimit, curMin) : ''}</div>
       </div>
       <div id="range-hint" style="font-size:12px;text-align:right;min-height:14px;"></div>
       <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
@@ -3101,6 +3163,7 @@ window.onRangeSliderChange = onRangeSliderChange;
 window.onRangeMinSliderInput = onRangeMinSliderInput;
 window.onRangeMinSliderChange = onRangeMinSliderChange;
 window.syncRangeLabels = syncRangeLabels;
+window.updateRangeEdgeHint = updateRangeEdgeHint;
 window.setDestination = setDestination;
 window.clearDestination = clearDestination;
 window.addWaypoint = addWaypoint;
