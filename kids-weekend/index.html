@@ -1448,6 +1448,22 @@ const PLACES = [
 
     {id:'matsu-folk', name:'馬祖民俗文物館', emoji:'🏛️', area:'馬祖南竿', region:'lienchiang', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','文化','博物館','戰地'], note:'閩東文化 + 戰地史料', crowd:'mid'},
 
+  // ===== Wave 1: 新北雨天室內 (v3.11) =====
+  {id:'yangsanlang-art', name:'楊三郎美術館', emoji:'🎨', area:'新北永和', region:'newtaipei', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','文化','美術館'], note:'台灣前輩畫家紀念美術館,雨天小展場', crowd:'low'},
+  {id:'lapopole', name:'LAPOPO 拉波波村', emoji:'🦄', area:'新北汐止', region:'newtaipei', indoor:true, outdoor:false, ages:['0-2','2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','親子館','遊樂'], note:'汐止大型親子室內樂園,沙坑 + 球池 + 角色扮演', crowd:'mid'},
+  {id:'luzhou-li-mansion', name:'國定古蹟 蘆洲李宅', emoji:'🏯', area:'新北蘆洲', region:'newtaipei', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','文化','歷史','古蹟'], note:'清代三進九包五傳統合院,部分室內可避雨', crowd:'low'},
+  {id:'yonglian-temple', name:'蘆洲湧蓮寺', emoji:'🛐', area:'新北蘆洲', region:'newtaipei', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','文化','廟宇'], note:'蘆洲信仰中心,雨天可進殿參拜', crowd:'mid'},
+  {id:'wugu-junyuan', name:'準休閒農場', emoji:'🌾', area:'新北五股', region:'newtaipei', indoor:true, outdoor:true, ages:['0-2','2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','戶外','親子館','農場'], note:'室內溫室 + 戶外農莊,雨天有室內活動', crowd:'mid'},
+  {id:'taishan-temple', name:'頂泰山巖', emoji:'🛐', area:'新北泰山', region:'newtaipei', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','文化','廟宇'], note:'泰山信仰中心,雨天可進殿', crowd:'low'},
+  {id:'dharma-drum-mountain', name:'法鼓山世界佛教教育園區', emoji:'☸️', area:'新北金山', region:'newtaipei', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','文化','寺院'], note:'法鼓山主寺院,大殿 + 簡介館 + 圖書館,雨天大型室內空間', crowd:'low'},
+  {id:'pinglin-tea-museum', name:'新北市坪林茶業博物館', emoji:'🍵', area:'新北坪林', region:'newtaipei', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','文化','博物館','教育'], note:'茶葉文化展示館 + 兒童體驗區', crowd:'low'},
+  {id:'truth-college', name:'理學堂大書院', emoji:'🏛️', area:'新北淡水', region:'newtaipei', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','文化','歷史','古蹟'], note:'馬偕博士創立的台灣第一所西式學堂,室內展示', crowd:'low'},
+  {id:'sanxia-hakka', name:'新北市客家文化園區', emoji:'🏘️', area:'新北三峽', region:'newtaipei', indoor:true, outdoor:true, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','戶外','文化','客家'], note:'客家美食 + 文物展示 + 親子體驗', crowd:'low'},
+  {id:'sanxia-history', name:'三峽歷史文物館', emoji:'📜', area:'新北三峽', region:'newtaipei', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','文化','博物館'], note:'三峽舊役場改建,展示三峽歷史', crowd:'low'},
+  {id:'xinzhuang-arts', name:'新莊文化藝術中心', emoji:'🎵', area:'新北新莊', region:'newtaipei', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','文化','劇場'], note:'音樂表演 + 展覽 + 兒童活動', crowd:'mid'},
+  {id:'yelliu-ocean', name:'野柳海洋世界', emoji:'🐬', area:'新北萬里', region:'newtaipei', indoor:true, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','戶外','海洋','動物'], note:'海豚表演 + 海洋生物館,室內可看', crowd:'high'},
+  {id:'jiufen-tea', name:'阿妹茶樓', emoji:'🍵', area:'新北瑞芳', region:'newtaipei', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','文化','茶館'], note:'九份知名茶樓,室內品茶看夜景', crowd:'high'},
+
   ];
 
 // ============ State ============
@@ -1782,6 +1798,21 @@ function findNearestDistrict(lat, lng) {
 
 // 知名廣域景點的精確座標(蓋過 area 中心的粗估)
 const PRECISE_COORDS = {
+  // ===== Wave 1 座標 (v3.11) =====
+  'yangsanlang-art': [25.0159,121.5167],
+  'lapopole': [25.0769,121.7550],
+  'luzhou-li-mansion': [25.0854,121.4667],
+  'yonglian-temple': [25.0832,121.4715],
+  'wugu-junyuan': [25.0734,121.4373],
+  'taishan-temple': [25.0438,121.4238],
+  'dharma-drum-mountain': [25.2398,121.6149],
+  'pinglin-tea-museum': [24.9345,121.7128],
+  'truth-college': [25.1760,121.4345],
+  'sanxia-hakka': [24.9417,121.3598],
+  'sanxia-history': [24.9345,121.3693],
+  'xinzhuang-arts': [25.0472,121.4442],
+  'yelliu-ocean': [25.2052,121.6914],
+  'jiufen-tea': [25.1086,121.8436],
   // ===== Playwright 校正 + Tom ground truth (v3.8) =====
   '13hang-museum': [25.1577,121.4049], '17km-coast': [24.7950,120.9089], '1895-anti': [24.0786,120.5458],
   '18peaks': [24.7678,120.9465], '228-mem': [25.0360,121.5147], '228-park': [25.0415,121.5150],
