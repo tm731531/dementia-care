@@ -196,7 +196,7 @@ a { color: var(--accent); }
   </div>
 
   <div class="footer-note">
-    最後更新 2026-04-27 · v3.5 · 768 景點 · 5 agent 並行掃部落格 +157 個(觀光工廠/特色公園/農場/秘境/室內樂園,5 大主題各 27-38 個) · <a href="https://github.com/tm731531/dementia-care" target="_blank">GitHub</a>
+    最後更新 2026-04-27 · v3.6 · 加 GPS 自動定位(瀏覽器抓你當下位置算距離) · <a href="https://github.com/tm731531/dementia-care" target="_blank">GitHub</a>
   </div>
 </section>
 
@@ -1506,6 +1506,11 @@ function renderWizardQ(step) {
       <div class="wizard-step">第 1 / 5 題(只問一次,之後記住)</div>
       <h2>🏠 你住哪?</h2>
       <p style="margin:0 0 12px;color:var(--muted);">用「直線距離 km」算範圍 — 你選的位置 → 每個景點。</p>
+      <div style="background:#fff8f0;border:2px solid var(--primary);border-radius:8px;padding:14px;margin-bottom:12px;">
+        <button id="gps-btn" class="btn" onclick="useGeolocation()" style="width:100%;font-size:16px;padding:12px;">📍 用 GPS 自動定位(精準到當下位置)</button>
+        <p style="font-size:13px;color:var(--muted);margin:8px 0 0;text-align:center;">第一次需允許瀏覽器定位權限</p>
+      </div>
+      <div style="text-align:center;color:var(--muted);font-size:13px;margin:8px 0;">— 或手動選 —</div>
       <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:14px;">
         <label style="display:block;margin-bottom:6px;font-weight:600;">縣市</label>
         <select id="home-county" onchange="onHomeCountyChange()" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:6px;font-size:15px;margin-bottom:14px;">
@@ -1591,6 +1596,31 @@ function setWizardAnswer(key, value) {
   }
   saveState();
   renderWizard();
+}
+
+function useGeolocation() {
+  if (!navigator.geolocation) {
+    alert('您的瀏覽器不支援定位功能');
+    return;
+  }
+  const btn = document.getElementById('gps-btn');
+  if (btn) { btn.disabled = true; btn.textContent = '📍 定位中…'; }
+  navigator.geolocation.getCurrentPosition(
+    (pos) => {
+      STATE.userProfile.home = 'gps';
+      STATE.userProfile.homeDistrict = `GPS (${pos.coords.latitude.toFixed(3)}, ${pos.coords.longitude.toFixed(3)})`;
+      STATE.userProfile.homeLat = pos.coords.latitude;
+      STATE.userProfile.homeLng = pos.coords.longitude;
+      saveState();
+      renderWizard();
+    },
+    (err) => {
+      const msgs = {1:'請允許瀏覽器使用定位權限(網址列旁的鎖頭圖示)', 2:'無法取得位置(GPS 可能關閉)', 3:'定位逾時'};
+      alert(msgs[err.code] || ('定位失敗:' + err.message));
+      if (btn) { btn.disabled = false; btn.textContent = '📍 用 GPS 自動定位'; }
+    },
+    {timeout: 15000, enableHighAccuracy: true, maximumAge: 60000}
+  );
 }
 
 function onHomeCountyChange() {
@@ -2321,7 +2351,7 @@ function renderWizardResult(p) {
   const avoid = STATE.preferences && STATE.preferences.avoidCrowds;
   let html = `<div class="wizard-result-card">
     <div style="background:var(--primary-light);border-left:4px solid var(--primary);padding:10px 14px;border-radius:6px;margin-bottom:14px;font-size:14px;">
-      📍 你的位置:<strong>${hLabel}</strong> <a class="reset-link" onclick="resetHome()" style="margin-left:8px;">✏️ 改地點</a>
+      📍 你的位置:<strong>${hLabel}</strong> <a class="reset-link" onclick="useGeolocation()" style="margin-left:8px;">📡 GPS 重抓</a> <a class="reset-link" onclick="resetHome()" style="margin-left:8px;">✏️ 改地點</a>
     </div>
     <div style="display:flex;align-items:center;gap:10px;background:#f0f8f4;border:1px solid #c8e3d4;padding:8px 14px;border-radius:8px;margin-bottom:14px;font-size:14px;">
       <label style="display:flex;align-items:center;gap:6px;cursor:pointer;flex:1;">
@@ -2546,6 +2576,7 @@ window.onAddCountyChange = onAddCountyChange;
 window.deleteUserPlace = deleteUserPlace;
 window.renderBlockedList = renderBlockedList;
 window.onHomeCountyChange = onHomeCountyChange;
+window.useGeolocation = useGeolocation;
 window.onHomeDistrictChange = onHomeDistrictChange;
 </script>
 
