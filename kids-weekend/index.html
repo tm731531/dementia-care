@@ -2165,6 +2165,31 @@ function getRangeKm(profile) {
   if (profile.range === 'trip') return 100;
   return null; // nationwide / 無
 }
+
+// ===== 沿路 corridor 規劃 =====
+// 把 (lat,lng) 用簡單投影映射到平面(km),近距離計算用,精度足夠台灣範圍
+function projLatLng(lat, lng, refLat) {
+  const R = 6371;
+  const x = lng * Math.PI/180 * Math.cos(refLat * Math.PI/180) * R;
+  const y = lat * Math.PI/180 * R;
+  return [x, y];
+}
+
+// 點 P 到線段 AB 的最短距離(km)+ 投影位置 t (0=A, 1=B)
+// 沿線排序用 t,corridor 篩選用 dist
+function pointToSegment(plat, plng, alat, alng, blat, blng) {
+  const refLat = (alat + blat) / 2;
+  const [ax, ay] = projLatLng(alat, alng, refLat);
+  const [bx, by] = projLatLng(blat, blng, refLat);
+  const [px, py] = projLatLng(plat, plng, refLat);
+  const dx = bx - ax, dy = by - ay;
+  const lenSq = dx*dx + dy*dy;
+  if (lenSq < 1e-9) return {dist: Math.hypot(px-ax, py-ay), t: 0};
+  let t = ((px-ax)*dx + (py-ay)*dy) / lenSq;
+  t = Math.max(0, Math.min(1, t));  // clamp 到線段內
+  const cx = ax + t*dx, cy = ay + t*dy;
+  return {dist: Math.hypot(px-cx, py-cy), t};
+}
 function passesRange(place, profile) {
   const km = getDistKm(place, profile);
   const limit = getRangeKm(profile);
@@ -2202,6 +2227,35 @@ function toggleAvoidCrowds() {
 function toggleGroupByArea() {
   if (!STATE.preferences) STATE.preferences = {};
   STATE.preferences.groupByArea = !STATE.preferences.groupByArea;
+  saveState();
+  renderWizard();
+  if (document.getElementById('page-browse').classList.contains('active')) renderBrowse();
+}
+
+// 沿路規劃:設目的地
+function setDestination(placeId) {
+  if (!STATE.preferences) STATE.preferences = {};
+  STATE.preferences.destinationId = placeId;
+  if (STATE.preferences.corridorWidthKm == null) STATE.preferences.corridorWidthKm = 5;
+  saveState();
+  renderWizard();
+  if (document.getElementById('page-browse').classList.contains('active')) renderBrowse();
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+function clearDestination() {
+  if (!STATE.preferences) STATE.preferences = {};
+  delete STATE.preferences.destinationId;
+  saveState();
+  renderWizard();
+  if (document.getElementById('page-browse').classList.contains('active')) renderBrowse();
+}
+function onCorridorWidthInput(val) {
+  const lbl = document.getElementById('corridor-width-label');
+  if (lbl) lbl.textContent = `${val} km`;
+}
+function onCorridorWidthChange(val) {
+  if (!STATE.preferences) STATE.preferences = {};
+  STATE.preferences.corridorWidthKm = parseInt(val);
   saveState();
   renderWizard();
   if (document.getElementById('page-browse').classList.contains('active')) renderBrowse();
@@ -2502,15 +2556,41 @@ function renderWizardResult(p) {
   const rLabel = curLimitForLabel ? `≤${curLimitForLabel}km` : '全台';
   const hLabel = (p.home && p.homeDistrict) ? (p.homeIsGps ? `📍 ${TAIWAN_DISTRICTS[p.home]?.label || ''}${p.homeDistrict}` : (p.home === 'gps' ? `📍 ${p.homeDistrict}` : `${TAIWAN_DISTRICTS[p.home]?.label || ''}${p.homeDistrict}`)) : '';
 
-  const avoid = STATE.preferences && STATE.preferences.avoidCrowds;
-  const groupBy = STATE.preferences && STATE.preferences.groupByArea;
-  const curLimit = getRangeKm(p); // null = 全台無上限
-  const sliderVal = curLimit ?? 200; // 全台時滑桿放最右
+  const prefs = STATE.preferences || {};
+  const avoid = prefs.avoidCrowds;
+  const groupBy = prefs.groupByArea;
+  const destId = prefs.destinationId;
+  const corridorWidth = prefs.corridorWidthKm ?? 5;
+  const dest = destId ? getAllPlaces().find(pl => pl.id === destId) : null;
+  const destCoord = dest ? getPlaceCoords(dest) : null;
+  const curLimit = getRangeKm(p);
+  const sliderVal = curLimit ?? 200;
+
   let html = `<div class="wizard-result-card">
     <div style="background:var(--primary-light);border-left:4px solid var(--primary);padding:10px 14px;border-radius:6px;margin-bottom:14px;font-size:14px;">
       📍 你的位置:<strong>${hLabel}</strong> <a class="reset-link" onclick="useGeolocation()" style="margin-left:8px;">📡 GPS 重抓</a> <a class="reset-link" onclick="resetHome()" style="margin-left:8px;">✏️ 改地點</a>
-    </div>
-    <div class="sticky-filter-bar" style="display:flex;flex-direction:column;gap:8px;background:#f0f8f4;border:1px solid #c8e3d4;padding:8px 14px;border-radius:8px;margin-bottom:14px;font-size:14px;">
+    </div>`;
+
+  // 沿路規劃 banner(目的地已設)
+  if (dest && destCoord && p.homeLat && p.homeLng) {
+    const totalKm = haversineKm(p.homeLat, p.homeLng, destCoord[0], destCoord[1]);
+    html += `<div style="background:#fff4e6;border:2px solid #ff8c42;border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:14px;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;">
+        <div style="flex:1;">
+          <strong style="font-size:15px;">🛣️ 沿路規劃中</strong><br>
+          <span style="color:var(--muted);">家 → <strong>${dest.emoji} ${dest.name}</strong>(直線 ${totalKm.toFixed(1)} km)</span>
+        </div>
+        <button class="btn btn-secondary btn-small" onclick="clearDestination()" style="white-space:nowrap;">✗ 取消規劃</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;margin-top:10px;">
+        <span style="white-space:nowrap;">↔ 路線寬度</span>
+        <input type="range" min="1" max="15" step="1" value="${corridorWidth}" oninput="onCorridorWidthInput(this.value)" onchange="onCorridorWidthChange(this.value)" style="flex:1;cursor:pointer;">
+        <span id="corridor-width-label" style="font-weight:700;color:var(--primary-dark);min-width:50px;text-align:right;">${corridorWidth} km</span>
+      </div>
+    </div>`;
+  }
+
+  html += `<div class="sticky-filter-bar" style="display:flex;flex-direction:column;gap:8px;background:#f0f8f4;border:1px solid #c8e3d4;padding:8px 14px;border-radius:8px;margin-bottom:14px;font-size:14px;">
       <div style="display:flex;align-items:center;gap:10px;">
         <span style="font-weight:700;white-space:nowrap;">📏 範圍</span>
         <input type="range" min="5" max="200" step="5" value="${sliderVal}" oninput="onRangeSliderInput(this.value)" onchange="onRangeSliderChange(this.value)" style="flex:1;cursor:pointer;">
@@ -2532,9 +2612,35 @@ function renderWizardResult(p) {
 
   if (matches.length === 0) {
     html += `<div class="empty">😢 這個組合沒有符合的景點。試試:<br>
-      • 改範圍為「半日小旅行」或「全台」<br>
+      • 把範圍滑桿拉大<br>
       • 天氣選「不一定」<br>
       • 在「📖 關於 / 編輯資料」自己加新景點</div>`;
+  } else if (dest && destCoord && p.homeLat && p.homeLng) {
+    // 沿路 corridor 模式:點到線段距離 < width 視為順路;依投影 t 排序
+    const corridor = [];
+    for (const pl of matches) {
+      if (pl.id === destId) continue; // 目的地不出現在沿路列表
+      const c = getPlaceCoords(pl);
+      if (!c) continue;
+      const r = pointToSegment(c[0], c[1], p.homeLat, p.homeLng, destCoord[0], destCoord[1]);
+      if (r.dist <= corridorWidth) {
+        corridor.push({pl, km: getDistKm(pl, p), corridorDist: r.dist, t: r.t});
+      }
+    }
+    corridor.sort((a,b) => a.t - b.t);
+    const total = haversineKm(p.homeLat, p.homeLng, destCoord[0], destCoord[1]);
+    html += `<p style="color:var(--muted);font-size:13px;margin:0 0 10px;">沿路 <strong>${corridor.length}</strong> 個順路景點(corridor ${corridorWidth} km)</p>`;
+    if (corridor.length === 0) {
+      html += `<div class="empty">😶 路線兩側 ${corridorWidth} km 內沒符合條件的景點,把寬度滑桿拉大試試</div>`;
+    }
+    corridor.forEach(({pl, km, corridorDist, t}) => {
+      const fromHomeKm = (t * total).toFixed(1);
+      const sideLabel = `<span style="color:var(--primary-dark);font-weight:700;font-size:12px;">🚗 離家約 ${fromHomeKm} km · 距路線 ${corridorDist.toFixed(1)} km</span>`;
+      html += `<div style="margin-bottom:4px;">${sideLabel}</div>` + renderPlaceCard(pl, km);
+    });
+    // 在最後顯示目的地卡片
+    html += `<div style="margin-top:18px;padding:8px 12px;background:#fff4e6;border-left:4px solid #ff8c42;border-radius:6px;font-weight:700;">🎯 目的地</div>`;
+    html += renderPlaceCard(dest, getDistKm(dest, p));
   } else {
     const withDist = matches.map(pl => ({pl, km: getDistKm(pl, p)}));
     if (groupBy) {
@@ -2636,6 +2742,7 @@ function renderPlaceCard(pl, km) {
       <div class="actions-row actions-secondary">
         <button class="btn btn-secondary btn-small" onclick="editNote('${pl.id}')">📝 ${note?'改評語':'寫評語'}</button>
         <button class="btn btn-secondary btn-small ${isVisited?'active':''}" onclick="toggleVisited('${pl.id}')" title="標記去過">${isVisited?'✅ 去過':'☐ 標去過'}</button>
+        <button class="btn btn-secondary btn-small" onclick="setDestination('${pl.id}')" title="設為目的地,看「家 → 這裡」沿路有什麼">🛣️ 設目的地</button>
       </div>
       <div class="actions-row actions-danger">
         <button class="btn-danger-link" onclick="toggleBlocked('${pl.id}')" title="${isBlocked?'取消封存':'之後不再顯示這個景點'}">${isBlocked?'↩ 取消封存':'🚫 不再去'}</button>
@@ -2792,6 +2899,10 @@ window.toggleAvoidCrowds = toggleAvoidCrowds;
 window.toggleGroupByArea = toggleGroupByArea;
 window.onRangeSliderInput = onRangeSliderInput;
 window.onRangeSliderChange = onRangeSliderChange;
+window.setDestination = setDestination;
+window.clearDestination = clearDestination;
+window.onCorridorWidthInput = onCorridorWidthInput;
+window.onCorridorWidthChange = onCorridorWidthChange;
 window.cycleTag = cycleTag;
 window.clearTagFilters = clearTagFilters;
 window.quickExcludeTag = quickExcludeTag;
