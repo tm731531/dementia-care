@@ -1492,6 +1492,16 @@ const PLACES = [
   {id:'yangmingshan-natpark', name:'陽明山國家公園遊客中心', emoji:'🌋', area:'台北北投', region:'taipei', indoor:true, outdoor:true, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','戶外','自然','國家公園'], note:'陽明山遊客中心 + 火山地質館', crowd:'mid'},
   {id:'shei-pa-park', name:'雪霸國家公園管理處汶水遊客中心', emoji:'🏔️', area:'苗栗大湖', region:'miaoli', indoor:true, outdoor:true, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','戶外','自然','國家公園','教育'], note:'雪霸入口遊客中心 + 兒童生態展', crowd:'low'},
 
+  // ===== Wave 3: 雲嘉南高屏 (v3.15) =====
+  {id:'chiayi-science', name:'科學168', emoji:'🧪', area:'嘉義東區', region:'chiayi_city', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','教育','博物館'], note:'互動科學展館', crowd:'low'},
+  {id:'blueprint-tainan', name:'藍晒圖文創園區', emoji:'🎨', area:'台南南區', region:'tainan', indoor:false, outdoor:true, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','文化','文創','打卡'], note:'舊宿舍改建文創園區 + 藍晒圖網美點', crowd:'mid'},
+  {id:'national-cheng-kung', name:'國立成功大學博物館', emoji:'🎓', area:'台南東區', region:'tainan', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','教育','博物館','大學'], note:'成大百年校史 + 兒童學習活動', crowd:'low'},
+  {id:'takao-railway-museum', name:'舊打狗驛故事館', emoji:'🚂', area:'高雄鼓山', region:'kaohsiung', indoor:true, outdoor:true, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','戶外','文化','鐵道'], note:'高雄港車站舊址 + 鐵道文化展', crowd:'mid'},
+  {id:'takao-music', name:'高雄流行音樂中心', emoji:'🎵', area:'高雄鹽埕', region:'kaohsiung', indoor:true, outdoor:true, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','戶外','文化'], note:'海邊音樂中心 + 海音館 + 散步港邊', crowd:'mid'},
+  {id:'jiaping-tunnel', name:'佳冬蕭屋伙房', emoji:'🏯', area:'屏東佳冬', region:'pingtung', indoor:false, outdoor:true, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','文化','古蹟','歷史'], note:'清代五進大宅 + 客家文化', crowd:'low'},
+  {id:'hualien-7star', name:'七星潭海岸風景特定區', emoji:'🌊', area:'花蓮新城', region:'hualien', indoor:false, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','海邊','自然'], note:'月牙形礫石海灘 + 看海散步', crowd:'high'},
+  {id:'taimali-sea', name:'千禧曙光紀念園區', emoji:'🌅', area:'台東太麻里', region:'taitung', indoor:false, outdoor:true, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','海邊','觀景'], note:'台灣最早曙光點 + 海景平台', crowd:'mid'},
+
   ];
 
 // ============ State ============
@@ -1826,6 +1836,15 @@ function findNearestDistrict(lat, lng) {
 
 // 知名廣域景點的精確座標(蓋過 area 中心的粗估)
 const PRECISE_COORDS = {
+  // ===== Wave 3 座標 (v3.15) =====
+  'chiayi-science': [23.4770,120.4221],
+  'blueprint-tainan': [22.9871,120.1973],
+  'national-cheng-kung': [22.9967,120.2195],
+  'takao-railway-museum': [22.6217,120.2755],
+  'takao-music': [22.6174,120.2884],
+  'jiaping-tunnel': [22.4179,120.5503],
+  'hualien-7star': [24.0314,121.6272],
+  'taimali-sea': [22.6168,121.0107],
   // ===== Wave 3 座標 (v3.14) =====
   'forest-camping': [24.3474,120.8320],
   'snake-valley': [23.5516,119.5476],
