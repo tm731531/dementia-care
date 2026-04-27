@@ -196,7 +196,7 @@ a { color: var(--accent); }
   </div>
 
   <div class="footer-note">
-    最後更新 2026-04-27 · v2.7 · 每個標籤 3 態切換(✓必選 / ✗排除 / 不限),點 place card 上的標籤即時過濾 · <a href="https://github.com/tm731531/dementia-care" target="_blank">GitHub</a>
+    最後更新 2026-04-27 · v2.8 · 頂部加「標籤總覽」一排,點任何標籤 → 排除該類,結果立刻過濾 · <a href="https://github.com/tm731531/dementia-care" target="_blank">GitHub</a>
   </div>
 </section>
 
@@ -1355,10 +1355,50 @@ function renderActiveTagFilters() {
   const mustChips = must.map(t => `<span class="tag must clickable" onclick="cycleTag('${escapeJs(t)}');cycleTag('${escapeJs(t)}');" title="點一下取消">✓ ${t} ×</span>`).join(' ');
   const excChips = exc.map(t => `<span class="tag excluded clickable" onclick="cycleTag('${escapeJs(t)}');" title="點一下取消">✗ ${t} ×</span>`).join(' ');
   return `<div class="active-filters">
-    <span class="label">標籤篩選:</span>
+    <span class="label">已套用篩選:</span>
     ${mustChips}${excChips}
     <button class="btn btn-secondary btn-small" style="margin-left:8px;" onclick="clearTagFilters()">清除全部</button>
   </div>`;
+}
+
+// 結果中出現的 tag 總覽(點一下排除該類)
+function quickExcludeTag(tag) {
+  if (!STATE.preferences) STATE.preferences = {};
+  const prefs = STATE.preferences;
+  prefs.exclude = prefs.exclude || [];
+  prefs.mustHave = prefs.mustHave || [];
+  prefs.mustHave = prefs.mustHave.filter(t => t !== tag);
+  if (prefs.exclude.includes(tag)) {
+    prefs.exclude = prefs.exclude.filter(t => t !== tag);
+  } else {
+    prefs.exclude.push(tag);
+  }
+  saveState();
+  renderWizard();
+  if (document.getElementById('page-browse').classList.contains('active')) renderBrowse();
+  if (document.getElementById('page-favorites').classList.contains('active')) renderFavorites();
+}
+function renderTagOverview(matches) {
+  const counter = {};
+  for (const pl of matches) {
+    for (const t of pl.types) {
+      if (t === '室內' || t === '戶外') continue;
+      counter[t] = (counter[t] || 0) + 1;
+    }
+  }
+  // 已排除的就算結果中沒有也要顯示(可取消)
+  const excluded = (STATE.preferences && STATE.preferences.exclude) || [];
+  for (const t of excluded) if (!(t in counter)) counter[t] = 0;
+  if (!Object.keys(counter).length) return '';
+  const sorted = Object.entries(counter).sort((a,b) => b[1] - a[1]);
+  const chips = sorted.map(([t, count]) => {
+    const isExc = excluded.includes(t);
+    return `<span class="tag clickable ${isExc?'excluded':''}" onclick="quickExcludeTag('${escapeJs(t)}')" title="${isExc?'點一下取消排除':'點一下排除這類'}">${isExc?'✗ ':''}${t}${count?` (${count})`:''}</span>`;
+  }).join(' ');
+  return `<details open style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:14px;">
+    <summary style="cursor:pointer;font-weight:600;font-size:14px;">🏷️ 結果出現的標籤(點 ✗ 排除這類)</summary>
+    <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:6px;">${chips}</div>
+  </details>`;
 }
 function escapeJs(s) { return String(s).replace(/'/g, "\\'"); }
 
@@ -1382,7 +1422,7 @@ function renderWizardResult(p) {
       </label>
     </div>
     ${renderActiveTagFilters()}
-    <p style="font-size:13px;color:var(--muted);margin:0 0 8px;">💡 點下方任何標籤 → ✓必選 → ✗排除 → 取消(三態切換)</p>
+    ${renderTagOverview(matches)}
     <h2>🎯 給你的推薦(${wLabel} · ${sLabel} · ${aLabel} · ${rLabel}) <a class="reset-link" onclick="resetWizard()">↻ 改條件</a></h2>
     <p style="color:var(--muted);font-size:14px;margin:0 0 12px;">符合條件 <strong>${matches.length}</strong> 個${avoid?'(已過濾人多)':''}。點 <strong>📍 Google Maps</strong> 直接導航。</p>`;
 
@@ -1510,7 +1550,8 @@ function renderBrowse() {
   });
 
   let html = renderActiveTagFilters();
-  html += `<p style="font-size:14px;color:var(--muted);margin-bottom:8px;">符合條件 <strong>${matches.length}</strong> 個 / 共 ${PLACES.length} 個 · 💡 點標籤 → ✓必選 → ✗排除</p>`;
+  html += renderTagOverview(matches);
+  html += `<p style="font-size:14px;color:var(--muted);margin-bottom:8px;">符合條件 <strong>${matches.length}</strong> 個 / 共 ${PLACES.length} 個</p>`;
   if (matches.length === 0) {
     html += `<div class="empty">沒有符合條件的景點,試試清除篩選</div>`;
   } else {
@@ -1570,6 +1611,7 @@ window.resetFilters = resetFilters;
 window.toggleAvoidCrowds = toggleAvoidCrowds;
 window.cycleTag = cycleTag;
 window.clearTagFilters = clearTagFilters;
+window.quickExcludeTag = quickExcludeTag;
 window.onHomeCountyChange = onHomeCountyChange;
 window.onHomeDistrictChange = onHomeDistrictChange;
 </script>
