@@ -196,7 +196,7 @@ a { color: var(--accent); }
   </div>
 
   <div class="footer-note">
-    最後更新 2026-04-27 · v3.6 · 加 GPS 自動定位(瀏覽器抓你當下位置算距離) · <a href="https://github.com/tm731531/dementia-care" target="_blank">GitHub</a>
+    最後更新 2026-04-27 · v3.7 · Wizard 從 5 題變 4 題(移除季節 — 已用標籤如「賞花」「玩水」隱含季節)+ 標籤總覽不重複顯示已排除 · <a href="https://github.com/tm731531/dementia-care" target="_blank">GitHub</a>
   </div>
 </section>
 
@@ -673,7 +673,7 @@ const PLACES = [
   {id:'xinzhuang-kids', name:'新莊親子館', emoji:'🧸', area:'新北新莊', region:'newtaipei', indoor:true, outdoor:false, ages:['0-2','2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','親子館'], note:'市府免費親子館', warning:'需預約', crowd:'mid'},
   {id:'shulin-kids', name:'樹林親子館', emoji:'🧸', area:'新北樹林', region:'newtaipei', indoor:true, outdoor:false, ages:['0-2','2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','親子館'], note:'市府免費親子館', warning:'需預約', crowd:'mid'},
   {id:'linkou-kids', name:'林口親子館', emoji:'🧸', area:'新北林口', region:'newtaipei', indoor:true, outdoor:false, ages:['0-2','2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','親子館'], note:'市府免費親子館', warning:'需預約', crowd:'mid'},
-  {id:'tucheng-kids', name:'土城親子館', emoji:'🧸', area:'新北土城', region:'newtaipei', indoor:true, outdoor:false, ages:['0-2','2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','親子館'], note:'市府免費親子館,土城在地家庭近距離', warning:'需預約', crowd:'mid'},
+  {id:'tucheng-kids', name:'廣福親子館', emoji:'🧸', area:'新北土城', region:'newtaipei', indoor:true, outdoor:false, ages:['0-2','2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','親子館'], note:'土城在地家庭近距離,新北市府免費親子館', warning:'需預約', crowd:'mid'},
   {id:'xindian-kids', name:'新店親子館', emoji:'🧸', area:'新北新店', region:'newtaipei', indoor:true, outdoor:false, ages:['0-2','2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','親子館'], note:'市府免費親子館', warning:'需預約', crowd:'mid'},
   {id:'xizhi-kids', name:'汐止親子館', emoji:'🧸', area:'新北汐止', region:'newtaipei', indoor:true, outdoor:false, ages:['0-2','2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','親子館'], note:'市府免費親子館', warning:'需預約', crowd:'mid'},
   {id:'banqiao-music-park', name:'板橋音樂公園', emoji:'🎶', area:'新北板橋', region:'newtaipei', indoor:false, outdoor:true, ages:['0-2','2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','公園','親子公園','親水公園'], note:'音樂主題遊戲區 + 夏天戲水池', warning:'戲水池夏季開放', crowd:'low'},
@@ -1488,13 +1488,12 @@ function renderWizard() {
   const el = document.getElementById('wizard-container');
   if (!el) return;
   const p = STATE.userProfile || {};
-  if (p.home && p.weather && p.season && p.age && p.range) {
+  if (p.home && p.weather && p.age && p.range) {
     el.innerHTML = renderWizardResult(p);
     return;
   }
   if (!p.home) { el.innerHTML = renderWizardQ('home'); return; }
   if (!p.weather) { el.innerHTML = renderWizardQ('weather'); return; }
-  if (!p.season) { el.innerHTML = renderWizardQ('season'); return; }
   if (!p.age) { el.innerHTML = renderWizardQ('age'); return; }
   if (!p.range) { el.innerHTML = renderWizardQ('range'); return; }
 }
@@ -1503,7 +1502,7 @@ function renderWizardQ(step) {
   if (step === 'home') {
     const countyOpts = Object.entries(TAIWAN_DISTRICTS).map(([k,v])=>`<option value="${k}">${v.label}</option>`).join('');
     return `<div class="wizard-card">
-      <div class="wizard-step">第 1 / 5 題(只問一次,之後記住)</div>
+      <div class="wizard-step">第 1 / 4 題(只問一次,之後記住)</div>
       <h2>🏠 你住哪?</h2>
       <p style="margin:0 0 12px;color:var(--muted);">用「直線距離 km」算範圍 — 你選的位置 → 每個景點。</p>
       <div style="background:#fff8f0;border:2px solid var(--primary);border-radius:8px;padding:14px;margin-bottom:12px;">
@@ -1527,7 +1526,7 @@ function renderWizardQ(step) {
   }
   if (step === 'weather') {
     return `<div class="wizard-card">
-      <div class="wizard-step">第 2 / 5 題 <a class="reset-link" onclick="setWizardAnswer('home',null)">← 改第 1 題</a></div>
+      <div class="wizard-step">第 2 / 4 題 <a class="reset-link" onclick="setWizardAnswer('home',null)">← 改第 1 題</a></div>
       <h2>☀️ 今天的天氣?</h2>
       <p style="margin:0;color:var(--muted);">影響推薦室內外景點。</p>
       <div class="wizard-options">
@@ -1537,25 +1536,9 @@ function renderWizardQ(step) {
       </div>
     </div>`;
   }
-  if (step === 'season') {
-    const m = (new Date()).getMonth() + 1;
-    const auto = m>=3&&m<=5 ? 'spring' : m>=6&&m<=8 ? 'summer' : m>=9&&m<=11 ? 'autumn' : 'winter';
-    const autoLabel = {spring:'春',summer:'夏',autumn:'秋',winter:'冬'}[auto];
-    return `<div class="wizard-card">
-      <div class="wizard-step">第 3 / 5 題 <a class="reset-link" onclick="setWizardAnswer('weather',null)">← 改第 2 題</a></div>
-      <h2>🍂 季節?(系統判斷:${autoLabel})</h2>
-      <p style="margin:0;color:var(--muted);">不同季節有不同好景點(花季 / 海邊 / 溫泉)。</p>
-      <div class="wizard-options">
-        <button class="wizard-opt" onclick="setWizardAnswer('season','spring')"><span class="opt-icon">🌸</span>春(3-5 月)<span class="opt-hint">櫻花、桐花、玫瑰</span></button>
-        <button class="wizard-opt" onclick="setWizardAnswer('season','summer')"><span class="opt-icon">☀️</span>夏(6-8 月)<span class="opt-hint">海邊、玩水、避暑</span></button>
-        <button class="wizard-opt" onclick="setWizardAnswer('season','autumn')"><span class="opt-icon">🍁</span>秋(9-11 月)<span class="opt-hint">郊遊最舒服</span></button>
-        <button class="wizard-opt" onclick="setWizardAnswer('season','winter')"><span class="opt-icon">❄️</span>冬(12-2 月)<span class="opt-hint">溫泉、室內、櫻花前哨</span></button>
-      </div>
-    </div>`;
-  }
   if (step === 'age') {
     return `<div class="wizard-card">
-      <div class="wizard-step">第 4 / 5 題 <a class="reset-link" onclick="setWizardAnswer('season',null)">← 改第 3 題</a></div>
+      <div class="wizard-step">第 3 / 4 題 <a class="reset-link" onclick="setWizardAnswer('weather',null)">← 改第 2 題</a></div>
       <h2>👶 孩子年齡?</h2>
       <p style="margin:0;color:var(--muted);">影響推薦的活動類型。</p>
       <div class="wizard-options">
@@ -1569,7 +1552,7 @@ function renderWizardQ(step) {
     const p = STATE.userProfile;
     const homeName = (p.home && p.homeDistrict) ? (p.home === 'gps' ? `📍 ${p.homeDistrict}` : `${TAIWAN_DISTRICTS[p.home]?.label || ''}${p.homeDistrict}`) : '';
     return `<div class="wizard-card">
-      <div class="wizard-step">第 5 / 5 題 <a class="reset-link" onclick="setWizardAnswer('age',null)">← 改第 4 題</a></div>
+      <div class="wizard-step">第 4 / 4 題 <a class="reset-link" onclick="setWizardAnswer('age',null)">← 改第 3 題</a></div>
       <h2>🚗 出門範圍?</h2>
       <p style="margin:0;color:var(--muted);">以${homeName?`<strong>${homeName}</strong>`:'你家'}為中心算直線距離(km),非實際車程。</p>
       <div class="wizard-options">
@@ -1587,8 +1570,8 @@ function setWizardAnswer(key, value) {
   if (!STATE.userProfile) STATE.userProfile = {};
   if (value === null) {
     delete STATE.userProfile[key];
-    if (key === 'home') { delete STATE.userProfile.homeDistrict; delete STATE.userProfile.homeLat; delete STATE.userProfile.homeLng; delete STATE.userProfile.weather; delete STATE.userProfile.season; delete STATE.userProfile.age; delete STATE.userProfile.range; }
-    if (key === 'weather') { delete STATE.userProfile.season; delete STATE.userProfile.age; delete STATE.userProfile.range; }
+    if (key === 'home') { delete STATE.userProfile.homeDistrict; delete STATE.userProfile.homeLat; delete STATE.userProfile.homeLng; delete STATE.userProfile.weather; delete STATE.userProfile.age; delete STATE.userProfile.range; }
+    if (key === 'weather') { delete STATE.userProfile.age; delete STATE.userProfile.range; }
     if (key === 'season') { delete STATE.userProfile.age; delete STATE.userProfile.range; }
     if (key === 'age') { delete STATE.userProfile.range; }
   } else {
@@ -2088,7 +2071,6 @@ function filterPlaces(p) {
     if (blocked.includes(pl.id)) return false;
     if (!passesRange(pl, p)) return false;
     if (!pl.ages.includes(p.age)) return false;
-    if (!pl.seasons.includes(p.season)) return false;
     if (p.weather === 'sunny' && !pl.weathers.includes('sunny') && !pl.outdoor) return false;
     if (p.weather === 'rainy' && !pl.weathers.includes('rainy') && !pl.indoor) return false;
     if (avoid && pl.crowd === 'high') return false;
@@ -2340,7 +2322,6 @@ function renderBlockedList() {
 function renderWizardResult(p) {
   const matches = filterPlaces(p);
   const wLabel = {sunny:'晴',rainy:'雨',any:'隨便'}[p.weather];
-  const sLabel = {spring:'春',summer:'夏',autumn:'秋',winter:'冬'}[p.season];
   const aLabel = {'0-2':'0-2 歲','2-3':'2-3 歲','3-6':'3-6 歲'}[p.age];
   const rLabel = {near:'≤15km',medium:'≤40km',trip:'≤100km',nationwide:'全台'}[p.range];
   const hLabel = (p.home && p.homeDistrict) ? (p.home === 'gps' ? `📍 ${p.homeDistrict}` : `${TAIWAN_DISTRICTS[p.home]?.label || ''}${p.homeDistrict}`) : '';
@@ -2358,7 +2339,7 @@ function renderWizardResult(p) {
     </div>
     ${renderActiveTagFilters()}
     ${renderTagOverview(matches)}
-    <h2>🎯 給你的推薦(${wLabel} · ${sLabel} · ${aLabel} · ${rLabel}) <a class="reset-link" onclick="resetWizard()">↻ 改條件</a></h2>
+    <h2>🎯 給你的推薦(${wLabel} · ${aLabel} · ${rLabel}) <a class="reset-link" onclick="resetWizard()">↻ 改條件</a></h2>
     <p style="color:var(--muted);font-size:14px;margin:0 0 12px;">符合條件 <strong>${matches.length}</strong> 個${avoid?'(已過濾人多)':''}。點 <strong>📍 Google Maps</strong> 直接導航。</p>`;
 
   if (matches.length === 0) {
