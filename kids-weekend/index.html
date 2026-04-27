@@ -1562,13 +1562,12 @@ function renderWizard() {
   const el = document.getElementById('wizard-container');
   if (!el) return;
   const p = STATE.userProfile || {};
-  if (p.home && p.weather && p.age && p.range) {
+  if (p.home && p.weather && p.range) {
     el.innerHTML = renderWizardResult(p);
     return;
   }
   if (!p.home) { el.innerHTML = renderWizardQ('home'); return; }
   if (!p.weather) { el.innerHTML = renderWizardQ('weather'); return; }
-  if (!p.age) { el.innerHTML = renderWizardQ('age'); return; }
   if (!p.range) { el.innerHTML = renderWizardQ('range'); return; }
 }
 
@@ -1600,7 +1599,7 @@ function renderWizardQ(step) {
   }
   if (step === 'weather') {
     return `<div class="wizard-card">
-      <div class="wizard-step">第 2 / 4 題 <a class="reset-link" onclick="setWizardAnswer('home',null)">← 改第 1 題</a></div>
+      <div class="wizard-step">第 2 / 3 題 <a class="reset-link" onclick="setWizardAnswer('home',null)">← 改第 1 題</a></div>
       <h2>☀️ 今天的天氣?</h2>
       <p style="margin:0;color:var(--muted);">影響推薦室內外景點。</p>
       <div class="wizard-options">
@@ -1610,30 +1609,18 @@ function renderWizardQ(step) {
       </div>
     </div>`;
   }
-  if (step === 'age') {
-    return `<div class="wizard-card">
-      <div class="wizard-step">第 3 / 4 題 <a class="reset-link" onclick="setWizardAnswer('weather',null)">← 改第 2 題</a></div>
-      <h2>👶 孩子年齡?</h2>
-      <p style="margin:0;color:var(--muted);">影響推薦的活動類型。</p>
-      <div class="wizard-options">
-        <button class="wizard-opt" onclick="setWizardAnswer('age','0-2')"><span class="opt-icon">👶</span>0-2 歲<span class="opt-hint">推娃娃車 / 親子館 / 短時程</span></button>
-        <button class="wizard-opt" onclick="setWizardAnswer('age','2-3')"><span class="opt-icon">🧒</span>2-3 歲<span class="opt-hint">自己走 / 公園 / 玩水</span></button>
-        <button class="wizard-opt" onclick="setWizardAnswer('age','3-6')"><span class="opt-icon">🎒</span>3-6 歲<span class="opt-hint">教育 / 動物 / 文化 / 動手做</span></button>
-      </div>
-    </div>`;
-  }
   if (step === 'range') {
     const p = STATE.userProfile;
     const homeName = (p.home && p.homeDistrict) ? (p.homeIsGps ? `📍 ${TAIWAN_DISTRICTS[p.home]?.label || ''}${p.homeDistrict}` : (p.home === 'gps' ? `📍 ${p.homeDistrict}` : `${TAIWAN_DISTRICTS[p.home]?.label || ''}${p.homeDistrict}`)) : '';
     return `<div class="wizard-card">
-      <div class="wizard-step">第 4 / 4 題 <a class="reset-link" onclick="setWizardAnswer('age',null)">← 改第 3 題</a></div>
-      <h2>🚗 出門範圍?</h2>
-      <p style="margin:0;color:var(--muted);">以${homeName?`<strong>${homeName}</strong>`:'你家'}為中心算直線距離(km),非實際車程。</p>
+      <div class="wizard-step">第 3 / 3 題 <a class="reset-link" onclick="setWizardAnswer('weather',null)">← 改第 2 題</a></div>
+      <h2>📏 出門範圍?</h2>
+      <p style="margin:0;color:var(--muted);">以${homeName?`<strong>${homeName}</strong>`:'你家'}為中心的直線距離。後續還可拉滑桿微調。</p>
       <div class="wizard-options">
-        <button class="wizard-opt" onclick="setWizardAnswer('range','near')"><span class="opt-icon">🏠</span>住家附近<span class="opt-hint">≤ 15 km(約 30 分車程)</span></button>
-        <button class="wizard-opt" onclick="setWizardAnswer('range','medium')"><span class="opt-icon">🚗</span>1 小時車程<span class="opt-hint">≤ 40 km</span></button>
-        <button class="wizard-opt" onclick="setWizardAnswer('range','trip')"><span class="opt-icon">🛣️</span>半日小旅行<span class="opt-hint">≤ 100 km(約 2-3 小時車程)</span></button>
-        <button class="wizard-opt" onclick="setWizardAnswer('range','nationwide')"><span class="opt-icon">🇹🇼</span>全台跨區大旅行<span class="opt-hint">過夜 / 全台 22 縣市</span></button>
+        <button class="wizard-opt" onclick="setWizardAnswer('range','near')"><span class="opt-icon">🏠</span>近<span class="opt-hint">≤ 15 km</span></button>
+        <button class="wizard-opt" onclick="setWizardAnswer('range','medium')"><span class="opt-icon">🛵</span>中<span class="opt-hint">≤ 40 km</span></button>
+        <button class="wizard-opt" onclick="setWizardAnswer('range','trip')"><span class="opt-icon">🛣️</span>遠<span class="opt-hint">≤ 100 km</span></button>
+        <button class="wizard-opt" onclick="setWizardAnswer('range','nationwide')"><span class="opt-icon">🇹🇼</span>全台<span class="opt-hint">過夜 / 不限</span></button>
       </div>
     </div>`;
   }
@@ -1644,10 +1631,8 @@ function setWizardAnswer(key, value) {
   if (!STATE.userProfile) STATE.userProfile = {};
   if (value === null) {
     delete STATE.userProfile[key];
-    if (key === 'home') { delete STATE.userProfile.homeDistrict; delete STATE.userProfile.homeLat; delete STATE.userProfile.homeLng; delete STATE.userProfile.weather; delete STATE.userProfile.age; delete STATE.userProfile.range; }
-    if (key === 'weather') { delete STATE.userProfile.age; delete STATE.userProfile.range; }
-    if (key === 'season') { delete STATE.userProfile.age; delete STATE.userProfile.range; }
-    if (key === 'age') { delete STATE.userProfile.range; }
+    if (key === 'home') { delete STATE.userProfile.homeDistrict; delete STATE.userProfile.homeLat; delete STATE.userProfile.homeLng; delete STATE.userProfile.weather; delete STATE.userProfile.range; }
+    if (key === 'weather') { delete STATE.userProfile.range; }
   } else {
     STATE.userProfile[key] = value;
     // 改 range 預設 → 清掉 customRangeKm(滑桿覆蓋,選 preset 等於要回 preset)
@@ -2197,7 +2182,6 @@ function filterPlaces(p) {
   return getAllPlaces().filter(pl => {
     if (blocked.includes(pl.id)) return false;
     if (!passesRange(pl, p)) return false;
-    if (!pl.ages.includes(p.age)) return false;
     if (p.weather === 'sunny' && !pl.weathers.includes('sunny') && !pl.outdoor) return false;
     if (p.weather === 'rainy' && !pl.weathers.includes('rainy') && !pl.indoor) return false;
     if (avoid && pl.crowd === 'high') return false;
@@ -2481,8 +2465,8 @@ function renderBlockedList() {
 function renderWizardResult(p) {
   const matches = filterPlaces(p);
   const wLabel = {sunny:'晴',rainy:'雨',any:'隨便'}[p.weather];
-  const aLabel = {'0-2':'0-2 歲','2-3':'2-3 歲','3-6':'3-6 歲'}[p.age];
-  const rLabel = {near:'≤15km',medium:'≤40km',trip:'≤100km',nationwide:'全台'}[p.range];
+  const curLimitForLabel = getRangeKm(p);
+  const rLabel = curLimitForLabel ? `≤${curLimitForLabel}km` : '全台';
   const hLabel = (p.home && p.homeDistrict) ? (p.homeIsGps ? `📍 ${TAIWAN_DISTRICTS[p.home]?.label || ''}${p.homeDistrict}` : (p.home === 'gps' ? `📍 ${p.homeDistrict}` : `${TAIWAN_DISTRICTS[p.home]?.label || ''}${p.homeDistrict}`)) : '';
 
   const avoid = STATE.preferences && STATE.preferences.avoidCrowds;
@@ -2510,7 +2494,7 @@ function renderWizardResult(p) {
     </div>
     ${renderActiveTagFilters()}
     ${renderTagOverview(matches)}
-    <h2>🎯 給你的推薦(${wLabel} · ${aLabel} · ${rLabel}) <a class="reset-link" onclick="resetWizard()">↻ 改條件</a></h2>
+    <h2>🎯 給你的推薦(${wLabel} · ${rLabel}) <a class="reset-link" onclick="resetWizard()">↻ 改條件</a></h2>
     <p style="color:var(--muted);font-size:14px;margin:0 0 12px;">符合條件 <strong>${matches.length}</strong> 個${avoid?'(已過濾人多)':''}。點 <strong>📍 Google Maps</strong> 直接導航。</p>`;
 
   if (matches.length === 0) {
