@@ -1482,6 +1482,16 @@ const PLACES = [
   {id:'lions-head-mountain', name:'獅頭山勸化堂', emoji:'🛐', area:'苗栗南庄', region:'miaoli', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','文化','廟宇','古蹟'], note:'獅頭山主寺院 + 山林古道', crowd:'low'},
   {id:'xinpu-persimmon', name:'味衛佳柿餅教育農園', emoji:'🍂', area:'新竹新埔', region:'hsinchu_county', indoor:false, outdoor:true, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','觀光工廠','農場','美食'], note:'柿餅曬製景觀 (10-12 月最美)', crowd:'high'},
 
+  // ===== Wave 3: Glamping 露營區 (v3.14) =====
+  {id:'forest-camping', name:'老官道休閒農場', emoji:'🏕️', area:'苗栗大湖', region:'miaoli', indoor:false, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','露營','農場'], note:'苗栗高海拔農場露營區', crowd:'low'},
+  {id:'snake-valley', name:'蛇頭山遊憩區', emoji:'🐍', area:'南投埔里', region:'nantou', indoor:false, outdoor:true, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','露營','農場'], note:'南投山中農場 + 螢火蟲季 + 露營', crowd:'low'},
+  {id:'yilan-natural', name:'宜農牧場', emoji:'🐑', area:'宜蘭冬山', region:'yilan', indoor:false, outdoor:true, ages:['0-2','2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','農場','動物'], note:'羊咩咩餵食 + 平緩,推車 OK', crowd:'mid'},
+  {id:'carnival-camping', name:'崙埤河濱公園', emoji:'🌳', area:'宜蘭三星', region:'yilan', indoor:false, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','公園','露營'], note:'宜蘭免費露營公園 + 草地放電', crowd:'mid'},
+  {id:'paliling', name:'池南國家森林遊樂區', emoji:'🌲', area:'花蓮壽豐', region:'hualien', indoor:false, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','自然','國家森林','親子步道'], note:'鯉魚潭旁森林園區 + 林業展示館 + 親子步道', crowd:'low'},
+  {id:'hsiapingshan', name:'霞喀羅古道(霞喀羅生態旅遊)', emoji:'🍂', area:'新竹尖石', region:'hsinchu_county', indoor:false, outdoor:true, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','步道','自然','賞楓'], note:'台灣百岳區大霸尖山附近 + 楓紅季', crowd:'low'},
+  {id:'yangmingshan-natpark', name:'陽明山國家公園遊客中心', emoji:'🌋', area:'台北北投', region:'taipei', indoor:true, outdoor:true, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','戶外','自然','國家公園'], note:'陽明山遊客中心 + 火山地質館', crowd:'mid'},
+  {id:'shei-pa-park', name:'雪霸國家公園管理處汶水遊客中心', emoji:'🏔️', area:'苗栗大湖', region:'miaoli', indoor:true, outdoor:true, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','戶外','自然','國家公園','教育'], note:'雪霸入口遊客中心 + 兒童生態展', crowd:'low'},
+
   ];
 
 // ============ State ============
@@ -1816,6 +1826,15 @@ function findNearestDistrict(lat, lng) {
 
 // 知名廣域景點的精確座標(蓋過 area 中心的粗估)
 const PRECISE_COORDS = {
+  // ===== Wave 3 座標 (v3.14) =====
+  'forest-camping': [24.3474,120.8320],
+  'snake-valley': [23.5516,119.5476],
+  'yilan-natural': [24.6886,121.7355],
+  'carnival-camping': [24.6775,121.6106],
+  'paliling': [23.9184,121.5012],
+  'hsiapingshan': [24.5889,121.2540],
+  'yangmingshan-natpark': [25.1554,121.5467],
+  'shei-pa-park': [24.4502,120.8786],
   // ===== Wave 3 座標 (v3.13) =====
   'jade-rabbit-pencil': [24.6926,121.7649],
   'woodroot-magic': [24.1788,120.5730],
