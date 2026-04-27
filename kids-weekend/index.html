@@ -2251,18 +2251,40 @@ function clearDestination() {
   renderWizard();
   if (document.getElementById('page-browse').classList.contains('active')) renderBrowse();
 }
-// 加入 / 移除路線中繼站 — 自動依沿線位置 t 排序
+// 加入 / 移除路線中繼站
+// 加入:依沿線 t 插入正確位置(初始順序)
+// 之後使用者可拖拉 / 按 ↑ ↓ 自訂順序
 function addWaypoint(placeId) {
   if (!STATE.preferences) STATE.preferences = {};
-  if (!STATE.preferences.destinationId) return; // 沒目的地不能加 waypoint
+  if (!STATE.preferences.destinationId) return;
   if (placeId === STATE.preferences.destinationId) return;
   if (!STATE.preferences.waypointIds) STATE.preferences.waypointIds = [];
-  if (!STATE.preferences.waypointIds.includes(placeId)) {
+  if (STATE.preferences.waypointIds.includes(placeId)) return;
+
+  // 算 t 找適合插入位置
+  const p = STATE.userProfile || {};
+  const all = getAllPlaces();
+  const dest = all.find(pl => pl.id === STATE.preferences.destinationId);
+  const destC = dest ? getPlaceCoords(dest) : null;
+  const newPl = all.find(pl => pl.id === placeId);
+  const newC = newPl ? getPlaceCoords(newPl) : null;
+  if (!destC || !newC || !p.homeLat) {
     STATE.preferences.waypointIds.push(placeId);
-    saveState();
-    renderWizard();
-    if (document.getElementById('page-browse').classList.contains('active')) renderBrowse();
+  } else {
+    const newT = pointToSegment(newC[0], newC[1], p.homeLat, p.homeLng, destC[0], destC[1]).t;
+    const wpTs = STATE.preferences.waypointIds.map(id => {
+      const pl2 = all.find(x => x.id === id);
+      const c = pl2 ? getPlaceCoords(pl2) : null;
+      if (!c) return 999;
+      return pointToSegment(c[0], c[1], p.homeLat, p.homeLng, destC[0], destC[1]).t;
+    });
+    let insertAt = wpTs.findIndex(t => t > newT);
+    if (insertAt === -1) insertAt = STATE.preferences.waypointIds.length;
+    STATE.preferences.waypointIds.splice(insertAt, 0, placeId);
   }
+  saveState();
+  renderWizard();
+  if (document.getElementById('page-browse').classList.contains('active')) renderBrowse();
 }
 function removeWaypoint(placeId) {
   if (!STATE.preferences || !STATE.preferences.waypointIds) return;
@@ -2270,6 +2292,44 @@ function removeWaypoint(placeId) {
   saveState();
   renderWizard();
   if (document.getElementById('page-browse').classList.contains('active')) renderBrowse();
+}
+function moveWaypoint(placeId, direction) {
+  // direction: -1 = 往上 / 往前;+1 = 往下 / 往後
+  if (!STATE.preferences || !STATE.preferences.waypointIds) return;
+  const arr = STATE.preferences.waypointIds;
+  const i = arr.indexOf(placeId);
+  if (i < 0) return;
+  const j = i + direction;
+  if (j < 0 || j >= arr.length) return;
+  [arr[i], arr[j]] = [arr[j], arr[i]];
+  saveState();
+  renderWizard();
+  if (document.getElementById('page-browse').classList.contains('active')) renderBrowse();
+}
+function reorderWaypoints(fromIdx, toIdx) {
+  if (!STATE.preferences || !STATE.preferences.waypointIds) return;
+  const arr = STATE.preferences.waypointIds;
+  if (fromIdx === toIdx || fromIdx < 0 || fromIdx >= arr.length || toIdx < 0 || toIdx >= arr.length) return;
+  const [item] = arr.splice(fromIdx, 1);
+  arr.splice(toIdx, 0, item);
+  saveState();
+  renderWizard();
+  if (document.getElementById('page-browse').classList.contains('active')) renderBrowse();
+}
+// HTML5 drag handlers
+let _dragWpIdx = null;
+function onWpDragStart(idx, ev) {
+  _dragWpIdx = idx;
+  ev.dataTransfer.effectAllowed = 'move';
+  // Some browsers need data set
+  try { ev.dataTransfer.setData('text/plain', String(idx)); } catch(e) {}
+}
+function onWpDragOver(ev) { ev.preventDefault(); ev.dataTransfer.dropEffect = 'move'; }
+function onWpDrop(toIdx, ev) {
+  ev.preventDefault();
+  if (_dragWpIdx == null) return;
+  reorderWaypoints(_dragWpIdx, toIdx);
+  _dragWpIdx = null;
 }
 // 開啟 Google Maps 多點導航 URL
 function openGoogleMapsRoute() {
@@ -2284,18 +2344,15 @@ function openGoogleMapsRoute() {
   const destC = dest ? getPlaceCoords(dest) : null;
   if (!destC) { alert('找不到目的地座標'); return; }
 
-  // waypoints 沿線排序(by t)
+  // 保留使用者定義順序(不再 sort by t)
   const wpIds = prefs.waypointIds || [];
-  const refLat = (p.homeLat + destC[0]) / 2;
   const wpData = wpIds.map(id => {
     const pl = all.find(x => x.id === id);
     if (!pl) return null;
     const c = getPlaceCoords(pl);
     if (!c) return null;
-    const r = pointToSegment(c[0], c[1], p.homeLat, p.homeLng, destC[0], destC[1]);
-    return {pl, c, t: r.t};
+    return {pl, c};
   }).filter(Boolean);
-  wpData.sort((a,b) => a.t - b.t);
 
   const origin = `${p.homeLat},${p.homeLng}`;
   const destination = `${destC[0]},${destC[1]}`;
@@ -2629,31 +2686,44 @@ function renderWizardResult(p) {
   // 沿路規劃 banner(目的地已設)
   if (dest && destCoord && p.homeLat && p.homeLng) {
     const totalKm = haversineKm(p.homeLat, p.homeLng, destCoord[0], destCoord[1]);
-    // 計算 waypoints 排序(沿線 t)
+    // 保留使用者定義順序
     const wpIds = prefs.waypointIds || [];
     const wpData = wpIds.map(id => {
       const pl2 = getAllPlaces().find(x => x.id === id);
-      const c = pl2 ? getPlaceCoords(pl2) : null;
-      if (!pl2 || !c) return null;
-      const r = pointToSegment(c[0], c[1], p.homeLat, p.homeLng, destCoord[0], destCoord[1]);
-      return {pl: pl2, t: r.t};
-    }).filter(Boolean).sort((a,b) => a.t - b.t);
+      return pl2 ? {pl: pl2} : null;
+    }).filter(Boolean);
 
-    // 路徑鏈式呈現:🏠 → wp1 → wp2 → 🎯
-    const chain = ['<span style="display:inline-flex;align-items:center;gap:4px;background:#fff;padding:4px 10px;border-radius:14px;border:1px solid var(--border);font-size:13px;">🏠 你家</span>'];
-    for (const w of wpData) {
-      chain.push(`<span style="display:inline-flex;align-items:center;gap:4px;background:#fff;padding:4px 10px;border-radius:14px;border:1px solid var(--primary);font-size:13px;">${w.pl.emoji} ${w.pl.name.length > 10 ? w.pl.name.slice(0,10)+'…' : w.pl.name} <button onclick="removeWaypoint('${w.pl.id}')" style="background:none;border:0;color:#a55;cursor:pointer;padding:0 2px;font-size:14px;line-height:1;" title="移除">✗</button></span>`);
-    }
-    chain.push(`<span style="display:inline-flex;align-items:center;gap:4px;background:#ff8c42;color:#fff;padding:4px 10px;border-radius:14px;font-size:13px;font-weight:700;">🎯 ${dest.name.length > 10 ? dest.name.slice(0,10)+'…' : dest.name}</span>`);
+    // 路徑列表:每筆一行,有 ↑↓ ✗ 按鈕 + 桌機可拖
+    const homeRow = `<div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:#fff;border-radius:8px;border:1px solid var(--border);font-size:14px;">
+      <span style="color:var(--muted);font-weight:700;font-size:12px;width:24px;">🏠</span>
+      <span style="flex:1;">你家</span>
+    </div>`;
+    const destRow = `<div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:#ff8c42;color:#fff;border-radius:8px;font-size:14px;font-weight:700;">
+      <span style="width:24px;">🎯</span>
+      <span style="flex:1;">${dest.emoji} ${dest.name}</span>
+    </div>`;
+    const wpRows = wpData.map((w, i) => {
+      const upDis = (i === 0) ? 'opacity:0.3;pointer-events:none;' : '';
+      const downDis = (i === wpData.length - 1) ? 'opacity:0.3;pointer-events:none;' : '';
+      return `<div draggable="true" ondragstart="onWpDragStart(${i}, event)" ondragover="onWpDragOver(event)" ondrop="onWpDrop(${i}, event)"
+        style="display:flex;align-items:center;gap:6px;padding:8px 10px;background:#fff;border-radius:8px;border:1px solid var(--primary);font-size:14px;cursor:grab;">
+        <span style="color:var(--muted);font-size:14px;cursor:grab;" title="拖拉換序">⋮⋮</span>
+        <span style="color:var(--primary-dark);font-weight:700;font-size:12px;width:24px;">#${i+1}</span>
+        <span style="flex:1;">${w.pl.emoji} ${w.pl.name}</span>
+        <button onclick="moveWaypoint('${w.pl.id}', -1)" style="${upDis}background:none;border:1px solid var(--border);border-radius:4px;width:26px;height:26px;cursor:pointer;font-size:14px;" title="往前">↑</button>
+        <button onclick="moveWaypoint('${w.pl.id}', 1)" style="${downDis}background:none;border:1px solid var(--border);border-radius:4px;width:26px;height:26px;cursor:pointer;font-size:14px;" title="往後">↓</button>
+        <button onclick="removeWaypoint('${w.pl.id}')" style="background:none;border:1px solid #e07c7c;color:#a55;border-radius:4px;width:26px;height:26px;cursor:pointer;font-size:14px;" title="移除">✗</button>
+      </div>`;
+    }).join('');
 
     html += `<div style="background:#fff4e6;border:2px solid #ff8c42;border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:14px;">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px;">
-        <strong style="font-size:15px;">🛣️ 路線規劃(直線 ${totalKm.toFixed(1)} km)</strong>
+        <strong style="font-size:15px;">🛣️ 路線規劃(直線 ${totalKm.toFixed(1)} km · ${wpData.length + 2} 站)</strong>
         <button class="btn btn-secondary btn-small" onclick="clearDestination()" style="white-space:nowrap;">✗ 取消</button>
       </div>
-      <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:10px;">${chain.join('<span style="color:var(--muted);">→</span>')}</div>
+      <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px;">${homeRow}${wpRows}${destRow}</div>
       <button class="btn" onclick="openGoogleMapsRoute()" style="width:100%;margin-bottom:10px;background:#1a73e8;">🗺️ 開啟 Google Maps 規劃路線(${wpData.length + 2} 站)</button>
-      <p style="margin:0 0 6px;font-size:12px;color:var(--muted);">點下面任一景點的「➕ 加入路線」加中繼站 — 自動沿路排序。</p>
+      <p style="margin:0 0 6px;font-size:12px;color:var(--muted);">桌機可拖 ⋮⋮ 換序,手機用 ↑ ↓。新加入會自動插到沿路位置。</p>
       <div style="display:flex;align-items:center;gap:10px;">
         <span style="white-space:nowrap;">↔ 路線寬度</span>
         <input type="range" min="1" max="15" step="1" value="${corridorWidth}" oninput="onCorridorWidthInput(this.value)" onchange="onCorridorWidthChange(this.value)" style="flex:1;cursor:pointer;">
@@ -2982,6 +3052,11 @@ window.setDestination = setDestination;
 window.clearDestination = clearDestination;
 window.addWaypoint = addWaypoint;
 window.removeWaypoint = removeWaypoint;
+window.moveWaypoint = moveWaypoint;
+window.reorderWaypoints = reorderWaypoints;
+window.onWpDragStart = onWpDragStart;
+window.onWpDragOver = onWpDragOver;
+window.onWpDrop = onWpDrop;
 window.openGoogleMapsRoute = openGoogleMapsRoute;
 window.onCorridorWidthInput = onCorridorWidthInput;
 window.onCorridorWidthChange = onCorridorWidthChange;
