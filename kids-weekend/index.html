@@ -1650,6 +1650,8 @@ function setWizardAnswer(key, value) {
     if (key === 'age') { delete STATE.userProfile.range; }
   } else {
     STATE.userProfile[key] = value;
+    // 改 range 預設 → 清掉 customRangeKm(滑桿覆蓋,選 preset 等於要回 preset)
+    if (key === 'range') delete STATE.userProfile.customRangeKm;
   }
   saveState();
   renderWizard();
@@ -2170,13 +2172,20 @@ function getDistKm(place, profile) {
   return haversineKm(profile.homeLat, profile.homeLng, c[0], c[1]);
 }
 
+function getRangeKm(profile) {
+  // customRangeKm 優先(滑桿覆蓋預設)
+  if (profile.customRangeKm) return profile.customRangeKm;
+  if (profile.range === 'near') return 15;
+  if (profile.range === 'medium') return 40;
+  if (profile.range === 'trip') return 100;
+  return null; // nationwide / 無
+}
 function passesRange(place, profile) {
   const km = getDistKm(place, profile);
-  if (km === null) return profile.range === 'nationwide'; // 沒座標只在 nationwide 出現
-  if (profile.range === 'near') return km <= 15;     // 約 30 分車程
-  if (profile.range === 'medium') return km <= 40;   // 約 1 小時
-  if (profile.range === 'trip') return km <= 100;    // 約 2-3 小時
-  return true; // nationwide
+  const limit = getRangeKm(profile);
+  if (km === null) return limit === null; // 沒座標只在 nationwide 出現
+  if (limit === null) return true;          // nationwide 無上限
+  return km <= limit;
 }
 
 function filterPlaces(p) {
@@ -2212,6 +2221,30 @@ function toggleGroupByArea() {
   saveState();
   renderWizard();
   if (document.getElementById('page-browse').classList.contains('active')) renderBrowse();
+}
+
+// 範圍滑桿:input 時只更新文字標籤(不重排,避免拖動卡頓);change 時才重新 filter
+function onRangeSliderInput(val) {
+  const v = parseInt(val);
+  const lbl = document.getElementById('range-slider-label');
+  if (lbl) lbl.textContent = (v >= 200) ? '全台' : `${v} km`;
+}
+function onRangeSliderChange(val) {
+  const v = parseInt(val);
+  if (!STATE.userProfile) STATE.userProfile = {};
+  if (v >= 200) {
+    delete STATE.userProfile.customRangeKm;
+    STATE.userProfile.range = 'nationwide';
+  } else {
+    STATE.userProfile.customRangeKm = v;
+    // 順帶把 preset 對齊(使用者下次重來 wizard 時不會錯亂)
+    if (v <= 15) STATE.userProfile.range = 'near';
+    else if (v <= 40) STATE.userProfile.range = 'medium';
+    else if (v <= 100) STATE.userProfile.range = 'trip';
+    else STATE.userProfile.range = 'nationwide';
+  }
+  saveState();
+  renderWizard();
 }
 
 // ===== Tag 三態(必選 / 排除 / 不限)=====
@@ -2454,11 +2487,18 @@ function renderWizardResult(p) {
 
   const avoid = STATE.preferences && STATE.preferences.avoidCrowds;
   const groupBy = STATE.preferences && STATE.preferences.groupByArea;
+  const curLimit = getRangeKm(p); // null = 全台無上限
+  const sliderVal = curLimit ?? 200; // 全台時滑桿放最右
   let html = `<div class="wizard-result-card">
     <div style="background:var(--primary-light);border-left:4px solid var(--primary);padding:10px 14px;border-radius:6px;margin-bottom:14px;font-size:14px;">
       📍 你的位置:<strong>${hLabel}</strong> <a class="reset-link" onclick="useGeolocation()" style="margin-left:8px;">📡 GPS 重抓</a> <a class="reset-link" onclick="resetHome()" style="margin-left:8px;">✏️ 改地點</a>
     </div>
-    <div class="sticky-filter-bar" style="display:flex;flex-direction:column;gap:6px;background:#f0f8f4;border:1px solid #c8e3d4;padding:8px 14px;border-radius:8px;margin-bottom:14px;font-size:14px;">
+    <div class="sticky-filter-bar" style="display:flex;flex-direction:column;gap:8px;background:#f0f8f4;border:1px solid #c8e3d4;padding:8px 14px;border-radius:8px;margin-bottom:14px;font-size:14px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-weight:700;white-space:nowrap;">📏 範圍</span>
+        <input type="range" min="5" max="200" step="5" value="${sliderVal}" oninput="onRangeSliderInput(this.value)" onchange="onRangeSliderChange(this.value)" style="flex:1;cursor:pointer;">
+        <span id="range-slider-label" style="font-weight:700;color:var(--primary-dark);min-width:60px;text-align:right;">${curLimit ? curLimit + ' km' : '全台'}</span>
+      </div>
       <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
         <input type="checkbox" ${avoid?'checked':''} onchange="toggleAvoidCrowds()" style="width:16px;height:16px;cursor:pointer;">
         <span>🤧 <strong>避開人多景點</strong>(怕感冒 / 太太 friendly)</span>
@@ -2733,6 +2773,8 @@ window.renderBrowse = renderBrowse;
 window.resetFilters = resetFilters;
 window.toggleAvoidCrowds = toggleAvoidCrowds;
 window.toggleGroupByArea = toggleGroupByArea;
+window.onRangeSliderInput = onRangeSliderInput;
+window.onRangeSliderChange = onRangeSliderChange;
 window.cycleTag = cycleTag;
 window.clearTagFilters = clearTagFilters;
 window.quickExcludeTag = quickExcludeTag;
