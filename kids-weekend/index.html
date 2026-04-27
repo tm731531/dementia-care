@@ -109,6 +109,13 @@ a { color: var(--accent); }
 .tag.outdoor { background: #eaf6e8; color: #3a7a36; border-color: #c5e0bf; }
 .tag.water { background: #e8f4f8; color: #2c7290; border-color: #b8dde8; }
 .tag.warn { background: var(--warn-bg); color: #8a4a0a; border-color: var(--warn-border); }
+.tag.clickable { cursor: pointer; user-select: none; }
+.tag.clickable:hover { filter: brightness(0.95); }
+.tag.must { background: #c5e0bf; color: #2d6a4f; border-color: #6ba88a; font-weight: 700; }
+.tag.excluded { background: #fde8e8; color: #8a2d2d; border-color: #e07c7c; text-decoration: line-through; opacity: 0.7; }
+.active-filters { background: #fffaf0; border: 1px dashed var(--primary); padding: 10px 14px; border-radius: 8px; margin-bottom: 12px; }
+.active-filters .label { font-size: 13px; color: var(--muted); margin-right: 8px; }
+.active-filters .tag { margin: 2px; }
 .place-card .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
 .btn {
   background: var(--primary); color: #fff; border: 0; padding: 10px 16px;
@@ -189,7 +196,7 @@ a { color: var(--accent); }
   </div>
 
   <div class="footer-note">
-    最後更新 2026-04-27 · v2.6 · 加「人潮」標籤(🟢人少 / 🟡普通 / 🔴人多)+ 「避開人多」toggle(怕感冒 friendly) · <a href="https://github.com/tm731531/dementia-care" target="_blank">GitHub</a>
+    最後更新 2026-04-27 · v2.7 · 每個標籤 3 態切換(✓必選 / ✗排除 / 不限),點 place card 上的標籤即時過濾 · <a href="https://github.com/tm731531/dementia-care" target="_blank">GitHub</a>
   </div>
 </section>
 
@@ -1281,7 +1288,10 @@ function passesRange(place, profile) {
 }
 
 function filterPlaces(p) {
-  const avoid = STATE.preferences && STATE.preferences.avoidCrowds;
+  const prefs = STATE.preferences || {};
+  const avoid = prefs.avoidCrowds;
+  const must = prefs.mustHave || [];
+  const exc = prefs.exclude || [];
   return PLACES.filter(pl => {
     if (!passesRange(pl, p)) return false;
     if (!pl.ages.includes(p.age)) return false;
@@ -1289,6 +1299,8 @@ function filterPlaces(p) {
     if (p.weather === 'sunny' && !pl.weathers.includes('sunny') && !pl.outdoor) return false;
     if (p.weather === 'rainy' && !pl.weathers.includes('rainy') && !pl.indoor) return false;
     if (avoid && pl.crowd === 'high') return false;
+    if (must.length && !must.every(t => pl.types.includes(t))) return false;
+    if (exc.length && exc.some(t => pl.types.includes(t))) return false;
     return true;
   });
 }
@@ -1300,6 +1312,55 @@ function toggleAvoidCrowds() {
   renderWizard();
   if (document.getElementById('page-browse').classList.contains('active')) renderBrowse();
 }
+
+// ===== Tag 三態(必選 / 排除 / 不限)=====
+function cycleTag(tag) {
+  if (!STATE.preferences) STATE.preferences = {};
+  const prefs = STATE.preferences;
+  prefs.mustHave = prefs.mustHave || [];
+  prefs.exclude = prefs.exclude || [];
+  if (!prefs.mustHave.includes(tag) && !prefs.exclude.includes(tag)) {
+    prefs.mustHave.push(tag); // 不限 → 必選
+  } else if (prefs.mustHave.includes(tag)) {
+    prefs.mustHave = prefs.mustHave.filter(t => t !== tag);
+    prefs.exclude.push(tag); // 必選 → 排除
+  } else {
+    prefs.exclude = prefs.exclude.filter(t => t !== tag); // 排除 → 不限
+  }
+  saveState();
+  renderWizard();
+  if (document.getElementById('page-browse').classList.contains('active')) renderBrowse();
+  if (document.getElementById('page-favorites').classList.contains('active')) renderFavorites();
+}
+function getTagState(tag) {
+  const prefs = STATE.preferences;
+  if (!prefs) return 'neutral';
+  if ((prefs.mustHave || []).includes(tag)) return 'must';
+  if ((prefs.exclude || []).includes(tag)) return 'excluded';
+  return 'neutral';
+}
+function clearTagFilters() {
+  if (!STATE.preferences) return;
+  STATE.preferences.mustHave = [];
+  STATE.preferences.exclude = [];
+  saveState();
+  renderWizard();
+  if (document.getElementById('page-browse').classList.contains('active')) renderBrowse();
+  if (document.getElementById('page-favorites').classList.contains('active')) renderFavorites();
+}
+function renderActiveTagFilters() {
+  const must = (STATE.preferences && STATE.preferences.mustHave) || [];
+  const exc = (STATE.preferences && STATE.preferences.exclude) || [];
+  if (!must.length && !exc.length) return '';
+  const mustChips = must.map(t => `<span class="tag must clickable" onclick="cycleTag('${escapeJs(t)}');cycleTag('${escapeJs(t)}');" title="點一下取消">✓ ${t} ×</span>`).join(' ');
+  const excChips = exc.map(t => `<span class="tag excluded clickable" onclick="cycleTag('${escapeJs(t)}');" title="點一下取消">✗ ${t} ×</span>`).join(' ');
+  return `<div class="active-filters">
+    <span class="label">標籤篩選:</span>
+    ${mustChips}${excChips}
+    <button class="btn btn-secondary btn-small" style="margin-left:8px;" onclick="clearTagFilters()">清除全部</button>
+  </div>`;
+}
+function escapeJs(s) { return String(s).replace(/'/g, "\\'"); }
 
 function renderWizardResult(p) {
   const matches = filterPlaces(p);
@@ -1320,6 +1381,8 @@ function renderWizardResult(p) {
         <span>🤧 <strong>避開人多景點</strong>(怕感冒 / 太太 friendly)</span>
       </label>
     </div>
+    ${renderActiveTagFilters()}
+    <p style="font-size:13px;color:var(--muted);margin:0 0 8px;">💡 點下方任何標籤 → ✓必選 → ✗排除 → 取消(三態切換)</p>
     <h2>🎯 給你的推薦(${wLabel} · ${sLabel} · ${aLabel} · ${rLabel}) <a class="reset-link" onclick="resetWizard()">↻ 改條件</a></h2>
     <p style="color:var(--muted);font-size:14px;margin:0 0 12px;">符合條件 <strong>${matches.length}</strong> 個${avoid?'(已過濾人多)':''}。點 <strong>📍 Google Maps</strong> 直接導航。</p>`;
 
@@ -1346,7 +1409,11 @@ function renderPlaceCard(pl, km) {
   const tagsHtml = [
     pl.indoor ? '<span class="tag indoor">🏠 室內</span>' : '',
     pl.outdoor ? '<span class="tag outdoor">🌳 戶外</span>' : '',
-    ...pl.types.map(t => `<span class="tag">${t}</span>`),
+    ...pl.types.map(t => {
+      const st = getTagState(t);
+      const cls = st === 'must' ? 'must' : st === 'excluded' ? 'excluded' : '';
+      return `<span class="tag clickable ${cls}" onclick="cycleTag('${escapeJs(t)}');event.stopPropagation();" title="點一下:必選 / 再點:排除 / 再點:取消">${t}</span>`;
+    }),
     ...pl.ages.map(a => `<span class="tag">${a}</span>`),
   ].filter(Boolean).join('');
   const kmLabel = (km !== undefined && km !== null) ? `<span style="color:var(--primary-dark);font-weight:700;font-size:13px;">📐 ${km.toFixed(1)} km</span>` : '';
@@ -1425,6 +1492,9 @@ function renderBrowse() {
   const t = document.getElementById('filter-type').value;
   const r = document.getElementById('filter-area').value;
   const c = document.getElementById('filter-crowd').value;
+  const prefs = STATE.preferences || {};
+  const must = prefs.mustHave || [];
+  const exc = prefs.exclude || [];
 
   let matches = PLACES.filter(pl => {
     if (w === 'sunny' && !pl.weathers.includes('sunny') && !pl.outdoor) return false;
@@ -1434,10 +1504,13 @@ function renderBrowse() {
     if (t && !pl.types.includes(t)) return false;
     if (r && pl.region !== r) return false;
     if (c && pl.crowd !== c) return false;
+    if (must.length && !must.every(t => pl.types.includes(t))) return false;
+    if (exc.length && exc.some(t => pl.types.includes(t))) return false;
     return true;
   });
 
-  let html = `<p style="font-size:14px;color:var(--muted);margin-bottom:8px;">符合條件 <strong>${matches.length}</strong> 個 / 共 ${PLACES.length} 個</p>`;
+  let html = renderActiveTagFilters();
+  html += `<p style="font-size:14px;color:var(--muted);margin-bottom:8px;">符合條件 <strong>${matches.length}</strong> 個 / 共 ${PLACES.length} 個 · 💡 點標籤 → ✓必選 → ✗排除</p>`;
   if (matches.length === 0) {
     html += `<div class="empty">沒有符合條件的景點,試試清除篩選</div>`;
   } else {
@@ -1495,6 +1568,8 @@ window.cancelNote = cancelNote;
 window.renderBrowse = renderBrowse;
 window.resetFilters = resetFilters;
 window.toggleAvoidCrowds = toggleAvoidCrowds;
+window.cycleTag = cycleTag;
+window.clearTagFilters = clearTagFilters;
 window.onHomeCountyChange = onHomeCountyChange;
 window.onHomeDistrictChange = onHomeDistrictChange;
 </script>
