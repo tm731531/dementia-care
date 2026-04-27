@@ -2296,23 +2296,56 @@ function quickExcludeTag(tag) {
   if (document.getElementById('page-browse').classList.contains('active')) renderBrowse();
   if (document.getElementById('page-favorites').classList.contains('active')) renderFavorites();
 }
-function renderTagOverview(matches) {
+// 計算「全部 PLACES」的 tag 出現次數(每次 render 重算,user-added 也算進去)
+function computeAllTagCounts() {
   const counter = {};
-  for (const pl of matches) {
-    for (const t of pl.types) {
+  for (const pl of getAllPlaces()) {
+    for (const t of (pl.types || [])) {
       if (t === '室內' || t === '戶外') continue;
       counter[t] = (counter[t] || 0) + 1;
     }
   }
-  // 不顯示已排除的(已在「已套用篩選」bar 列出可取消,避免重複)
-  if (!Object.keys(counter).length) return '';
-  const sorted = Object.entries(counter).sort((a,b) => b[1] - a[1]);
-  const chips = sorted.map(([t, count]) => {
-    return `<span class="tag clickable" onclick="quickExcludeTag('${escapeJs(t)}')" title="點一下排除這類">${t} (${count})</span>`;
+  return counter;
+}
+
+// 全部標籤總覽 — 三態點選(必選/排除/取消)
+// 顯示全部標籤,不限現結果。Tom 可以從這裡挑要的條件
+function renderTagOverview(matches) {
+  const matchedCounter = {};
+  for (const pl of matches) {
+    for (const t of (pl.types || [])) {
+      if (t === '室內' || t === '戶外') continue;
+      matchedCounter[t] = (matchedCounter[t] || 0) + 1;
+    }
+  }
+  const allCounts = computeAllTagCounts();
+  if (!Object.keys(allCounts).length) return '';
+
+  const prefs = STATE.preferences || {};
+  const must = prefs.mustHave || [];
+  const exc = prefs.exclude || [];
+
+  // 排序:當前有結果的優先,再按全資料庫頻次
+  const sorted = Object.entries(allCounts).sort((a,b) => {
+    const ma = matchedCounter[a[0]] || 0;
+    const mb = matchedCounter[b[0]] || 0;
+    if (ma !== mb) return mb - ma;
+    return b[1] - a[1];
+  });
+
+  const chips = sorted.map(([t, total]) => {
+    const matched = matchedCounter[t] || 0;
+    const state = must.includes(t) ? 'must' : exc.includes(t) ? 'excluded' : '';
+    const dim = matched === 0 ? 'opacity:0.45;' : '';
+    const countLabel = matched === total ? `(${total})` : `(${matched}/${total})`;
+    return `<span class="tag clickable ${state}" style="${dim}" onclick="cycleTag('${escapeJs(t)}')" title="點一下:必選 / 再點:排除 / 再點:取消">${t} ${countLabel}</span>`;
   }).join(' ');
+
+  const totalTags = sorted.length;
   return `<details open style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:14px;">
-    <summary style="cursor:pointer;font-weight:600;font-size:14px;">🏷️ 結果出現的標籤(點任一個 → 排除該類)</summary>
-    <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:6px;">${chips}</div>
+    <summary style="cursor:pointer;font-weight:600;font-size:14px;">🏷️ 全部標籤 ${totalTags} 個 — 點選 必選 / 排除 / 取消</summary>
+    <p style="margin:8px 0 6px;font-size:12px;color:var(--muted);">數字格式:當前結果 / 全資料庫。淡色 = 當前無此標籤景點。</p>
+    <div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:6px;">${chips}</div>
   </details>`;
 }
 function escapeJs(s) { return String(s).replace(/'/g, "\\'"); }
