@@ -2236,6 +2236,7 @@ function toggleGroupByArea() {
 function setDestination(placeId) {
   if (!STATE.preferences) STATE.preferences = {};
   STATE.preferences.destinationId = placeId;
+  STATE.preferences.waypointIds = []; // 切換目的地清空 waypoints
   if (STATE.preferences.corridorWidthKm == null) STATE.preferences.corridorWidthKm = 5;
   saveState();
   renderWizard();
@@ -2245,9 +2246,63 @@ function setDestination(placeId) {
 function clearDestination() {
   if (!STATE.preferences) STATE.preferences = {};
   delete STATE.preferences.destinationId;
+  STATE.preferences.waypointIds = [];
   saveState();
   renderWizard();
   if (document.getElementById('page-browse').classList.contains('active')) renderBrowse();
+}
+// 加入 / 移除路線中繼站 — 自動依沿線位置 t 排序
+function addWaypoint(placeId) {
+  if (!STATE.preferences) STATE.preferences = {};
+  if (!STATE.preferences.destinationId) return; // 沒目的地不能加 waypoint
+  if (placeId === STATE.preferences.destinationId) return;
+  if (!STATE.preferences.waypointIds) STATE.preferences.waypointIds = [];
+  if (!STATE.preferences.waypointIds.includes(placeId)) {
+    STATE.preferences.waypointIds.push(placeId);
+    saveState();
+    renderWizard();
+    if (document.getElementById('page-browse').classList.contains('active')) renderBrowse();
+  }
+}
+function removeWaypoint(placeId) {
+  if (!STATE.preferences || !STATE.preferences.waypointIds) return;
+  STATE.preferences.waypointIds = STATE.preferences.waypointIds.filter(id => id !== placeId);
+  saveState();
+  renderWizard();
+  if (document.getElementById('page-browse').classList.contains('active')) renderBrowse();
+}
+// 開啟 Google Maps 多點導航 URL
+function openGoogleMapsRoute() {
+  const p = STATE.userProfile || {};
+  const prefs = STATE.preferences || {};
+  if (!p.homeLat || !p.homeLng || !prefs.destinationId) {
+    alert('需要先設家位置 + 目的地');
+    return;
+  }
+  const all = getAllPlaces();
+  const dest = all.find(pl => pl.id === prefs.destinationId);
+  const destC = dest ? getPlaceCoords(dest) : null;
+  if (!destC) { alert('找不到目的地座標'); return; }
+
+  // waypoints 沿線排序(by t)
+  const wpIds = prefs.waypointIds || [];
+  const refLat = (p.homeLat + destC[0]) / 2;
+  const wpData = wpIds.map(id => {
+    const pl = all.find(x => x.id === id);
+    if (!pl) return null;
+    const c = getPlaceCoords(pl);
+    if (!c) return null;
+    const r = pointToSegment(c[0], c[1], p.homeLat, p.homeLng, destC[0], destC[1]);
+    return {pl, c, t: r.t};
+  }).filter(Boolean);
+  wpData.sort((a,b) => a.t - b.t);
+
+  const origin = `${p.homeLat},${p.homeLng}`;
+  const destination = `${destC[0]},${destC[1]}`;
+  const waypoints = wpData.map(w => `${w.c[0]},${w.c[1]}`).join('|');
+  let url = `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}&travelmode=driving`;
+  if (waypoints) url += `&waypoints=${encodeURIComponent(waypoints)}`;
+  window.open(url, '_blank', 'noopener');
 }
 function onCorridorWidthInput(val) {
   const lbl = document.getElementById('corridor-width-label');
@@ -2574,15 +2629,32 @@ function renderWizardResult(p) {
   // 沿路規劃 banner(目的地已設)
   if (dest && destCoord && p.homeLat && p.homeLng) {
     const totalKm = haversineKm(p.homeLat, p.homeLng, destCoord[0], destCoord[1]);
+    // 計算 waypoints 排序(沿線 t)
+    const wpIds = prefs.waypointIds || [];
+    const wpData = wpIds.map(id => {
+      const pl2 = getAllPlaces().find(x => x.id === id);
+      const c = pl2 ? getPlaceCoords(pl2) : null;
+      if (!pl2 || !c) return null;
+      const r = pointToSegment(c[0], c[1], p.homeLat, p.homeLng, destCoord[0], destCoord[1]);
+      return {pl: pl2, t: r.t};
+    }).filter(Boolean).sort((a,b) => a.t - b.t);
+
+    // 路徑鏈式呈現:🏠 → wp1 → wp2 → 🎯
+    const chain = ['<span style="display:inline-flex;align-items:center;gap:4px;background:#fff;padding:4px 10px;border-radius:14px;border:1px solid var(--border);font-size:13px;">🏠 你家</span>'];
+    for (const w of wpData) {
+      chain.push(`<span style="display:inline-flex;align-items:center;gap:4px;background:#fff;padding:4px 10px;border-radius:14px;border:1px solid var(--primary);font-size:13px;">${w.pl.emoji} ${w.pl.name.length > 10 ? w.pl.name.slice(0,10)+'…' : w.pl.name} <button onclick="removeWaypoint('${w.pl.id}')" style="background:none;border:0;color:#a55;cursor:pointer;padding:0 2px;font-size:14px;line-height:1;" title="移除">✗</button></span>`);
+    }
+    chain.push(`<span style="display:inline-flex;align-items:center;gap:4px;background:#ff8c42;color:#fff;padding:4px 10px;border-radius:14px;font-size:13px;font-weight:700;">🎯 ${dest.name.length > 10 ? dest.name.slice(0,10)+'…' : dest.name}</span>`);
+
     html += `<div style="background:#fff4e6;border:2px solid #ff8c42;border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:14px;">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;">
-        <div style="flex:1;">
-          <strong style="font-size:15px;">🛣️ 沿路規劃中</strong><br>
-          <span style="color:var(--muted);">家 → <strong>${dest.emoji} ${dest.name}</strong>(直線 ${totalKm.toFixed(1)} km)</span>
-        </div>
-        <button class="btn btn-secondary btn-small" onclick="clearDestination()" style="white-space:nowrap;">✗ 取消規劃</button>
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px;">
+        <strong style="font-size:15px;">🛣️ 路線規劃(直線 ${totalKm.toFixed(1)} km)</strong>
+        <button class="btn btn-secondary btn-small" onclick="clearDestination()" style="white-space:nowrap;">✗ 取消</button>
       </div>
-      <div style="display:flex;align-items:center;gap:10px;margin-top:10px;">
+      <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:10px;">${chain.join('<span style="color:var(--muted);">→</span>')}</div>
+      <button class="btn" onclick="openGoogleMapsRoute()" style="width:100%;margin-bottom:10px;background:#1a73e8;">🗺️ 開啟 Google Maps 規劃路線(${wpData.length + 2} 站)</button>
+      <p style="margin:0 0 6px;font-size:12px;color:var(--muted);">點下面任一景點的「➕ 加入路線」加中繼站 — 自動沿路排序。</p>
+      <div style="display:flex;align-items:center;gap:10px;">
         <span style="white-space:nowrap;">↔ 路線寬度</span>
         <input type="range" min="1" max="15" step="1" value="${corridorWidth}" oninput="onCorridorWidthInput(this.value)" onchange="onCorridorWidthChange(this.value)" style="flex:1;cursor:pointer;">
         <span id="corridor-width-label" style="font-weight:700;color:var(--primary-dark);min-width:50px;text-align:right;">${corridorWidth} km</span>
@@ -2696,6 +2768,10 @@ function renderPlaceCard(pl, km) {
   const isFav = STATE.favorites.includes(pl.id);
   const isVisited = (STATE.visited || []).includes(pl.id);
   const isBlocked = ((STATE.preferences && STATE.preferences.blockedPlaces) || []).includes(pl.id);
+  const destId = (STATE.preferences && STATE.preferences.destinationId) || null;
+  const wpIds = (STATE.preferences && STATE.preferences.waypointIds) || [];
+  const isDestination = pl.id === destId;
+  const isWaypoint = wpIds.includes(pl.id);
   const note = STATE.notes[pl.id] || '';
   // Maps URL:景點主名(去掉 / 別名)+ 縣市;若有精確座標額外帶 lat,lng 鎖定
   const primaryName = pl.name.split(/\s*\/\s*/)[0];
@@ -2742,7 +2818,10 @@ function renderPlaceCard(pl, km) {
       <div class="actions-row actions-secondary">
         <button class="btn btn-secondary btn-small" onclick="editNote('${pl.id}')">📝 ${note?'改評語':'寫評語'}</button>
         <button class="btn btn-secondary btn-small ${isVisited?'active':''}" onclick="toggleVisited('${pl.id}')" title="標記去過">${isVisited?'✅ 去過':'☐ 標去過'}</button>
-        <button class="btn btn-secondary btn-small" onclick="setDestination('${pl.id}')" title="設為目的地,看「家 → 這裡」沿路有什麼">🛣️ 設目的地</button>
+        ${isDestination ? `<span class="btn btn-secondary btn-small" style="background:#fff4e6;color:#ff8c42;border-color:#ff8c42;cursor:default;">🎯 目的地</span>`
+          : isWaypoint ? `<button class="btn btn-secondary btn-small" onclick="removeWaypoint('${pl.id}')" style="background:#fff4e6;color:#ff8c42;border-color:#ff8c42;" title="從路線移除">✓ 已加入路線(移除)</button>`
+          : destId ? `<button class="btn btn-secondary btn-small" onclick="addWaypoint('${pl.id}')" title="加入路線中繼站">➕ 加入路線</button>`
+          : `<button class="btn btn-secondary btn-small" onclick="setDestination('${pl.id}')" title="設為目的地">🛣️ 設目的地</button>`}
       </div>
       <div class="actions-row actions-danger">
         <button class="btn-danger-link" onclick="toggleBlocked('${pl.id}')" title="${isBlocked?'取消封存':'之後不再顯示這個景點'}">${isBlocked?'↩ 取消封存':'🚫 不再去'}</button>
@@ -2901,6 +2980,9 @@ window.onRangeSliderInput = onRangeSliderInput;
 window.onRangeSliderChange = onRangeSliderChange;
 window.setDestination = setDestination;
 window.clearDestination = clearDestination;
+window.addWaypoint = addWaypoint;
+window.removeWaypoint = removeWaypoint;
+window.openGoogleMapsRoute = openGoogleMapsRoute;
 window.onCorridorWidthInput = onCorridorWidthInput;
 window.onCorridorWidthChange = onCorridorWidthChange;
 window.cycleTag = cycleTag;
