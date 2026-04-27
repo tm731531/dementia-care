@@ -196,7 +196,7 @@ a { color: var(--accent); }
   </div>
 
   <div class="footer-note">
-    最後更新 2026-04-27 · v2.8 · 頂部加「標籤總覽」一排,點任何標籤 → 排除該類,結果立刻過濾 · <a href="https://github.com/tm731531/dementia-care" target="_blank">GitHub</a>
+    最後更新 2026-04-27 · v2.9 · 修 Google Maps 連結(用景點主名+縣市,有精確座標再 zoom)+ 80+ 廣域景點精確座標 · <a href="https://github.com/tm731531/dementia-care" target="_blank">GitHub</a>
   </div>
 </section>
 
@@ -1262,6 +1262,68 @@ function getCoordsFromArea(area) {
   return null;
 }
 
+// 知名廣域景點的精確座標(蓋過 area 中心的粗估)
+const PRECISE_COORDS = {
+  // 雙北山林(area 大,需精確)
+  'wulai-neidong': [24.8253,121.5500], 'sanxia-manyueyuan': [24.8260,121.4173],
+  'sanxia-yuanshan': [24.9434,121.3672], 'sanxia-wuliaojian': [24.8979,121.3933],
+  'hongludi': [24.9806,121.4904], 'xindian-hemei': [24.9540,121.5340],
+  'xindian-yinhedong': [24.9347,121.5752], 'guanyinshan': [25.1003,121.4327],
+  'datongshan': [24.9990,121.4143], 'tucheng-tianshang': [24.9609,121.4172],
+  'tucheng-chenten': [24.9526,121.4214], 'tucheng-yantianxue': [24.9716,121.4311],
+  'jinguashi': [25.1093,121.8625], 'pingxi-xiaozishan': [25.0265,121.7402],
+  'shifen-fall': [25.0420,121.7758], 'jiufen': [25.1095,121.8439],
+  'beitou-thermal': [25.1359,121.5089], 'yangmingshan-qingtian': [25.1740,121.5765],
+  'yangmingshan-lengshui': [25.1645,121.5639], 'yangmingshan-erziping': [25.1755,121.5413],
+  'qixingshan': [25.1740,121.5475], 'shamashan': [25.1454,121.5253],
+  'mientianshan': [25.1769,121.5260], 'maokong': [24.9692,121.5871],
+  'zhinan-temple': [24.9692,121.5872], 'muzha-zhangshan': [24.9893,121.5727],
+  'xianjiyan': [24.9926,121.5479], 'xiangshan': [25.0255,121.5750],
+  'taipei-zoo': [24.9982,121.5805], 'sci-museum': [25.0980,121.5163],
+  'fine-arts': [25.0726,121.5249], 'taipei-101': [25.0330,121.5654],
+  'longshan-temple': [25.0371,121.4998], 'zhuzihu': [25.1742,121.5400],
+  'guandu-temple': [25.1218,121.4647], 'xingtian': [25.0581,121.5341],
+  'nationalpalace': [25.1024,121.5485], 'liberty-square': [25.0356,121.5197],
+  'sun-yatsen': [25.0400,121.5602], 'dahu-park': [25.0838,121.6022],
+  'bihu-park': [25.0822,121.5858], 'dajia-riverside': [25.0762,121.5390],
+  'meidi-river': [25.0701,121.5529], 'guting-river': [25.0205,121.5283],
+  'shilin-night': [25.0881,121.5240], 'raohe-night': [25.0510,121.5772],
+  'shenkeng': [25.0014,121.6168], 'tamsui-fisherman': [25.1825,121.4111],
+  'fulong': [25.0177,121.9506], 'goldenheart': [25.0420,121.7758],
+  'gold-mountain': [25.2226,121.6378], 'mitsui-outlet': [25.0613,121.3879],
+  // 桃竹苗
+  'xiao-wulai': [24.7820,121.3527], 'lalashan': [24.6855,121.4233],
+  'damxi-old-street': [24.8807,121.2876], 'leofoo-village': [24.8352,121.1768],
+  'doraemon-park': [24.8943,121.0319], 'green-world': [24.6967,121.0672],
+  'longteng-bridge': [24.3611,120.7770], 'flying-cow': [24.4729,120.7026],
+  // 中部
+  'sci-natural': [24.1582,120.6685], 'gaomei-wetland': [24.3158,120.5450],
+  'lihpao-land': [24.3247,120.7488], 'opera-house': [24.1626,120.6437],
+  'xitou': [23.6739,120.7900], 'sun-moon-lake': [23.8569,120.9152],
+  'cingjing': [24.0584,121.1584], 'shanlinxi': [23.6489,120.7919],
+  // 南部
+  'aquarium-pingtung': [21.9919,120.7034], 'kenting': [21.9477,120.7969],
+  'kenting-yuanhai': [21.9006,120.8526], 'sci-tech-museum': [22.6427,120.3252],
+  'eda-world': [22.7314,120.4112], 'pier2': [22.6209,120.2810],
+  'cijin-beach': [22.6126,120.2853], 'chikan': [22.9974,120.2024],
+  // 東部
+  'taroko': [24.1946,121.6225], 'shakadang': [24.1759,121.6200],
+  'qingshui-cliff': [24.2184,121.6912], 'yanzikou': [24.1748,121.5841],
+  'qixingtan': [24.0275,121.6234], 'sanxiantai': [23.1233,121.4135],
+  'duoliang': [22.6262,121.0036], 'baxian-cave': [23.4012,121.5198],
+  // 離島
+  'dongju-lighthouse': [25.9631,119.9776],
+  // 阿里山 / 玉山
+  'alishan': [23.5101,120.7977],
+  // 觀光工廠 / 主題
+  'xpark': [25.0541,121.2189], 'global-mall-zhongli': [25.0541,121.2189],
+};
+
+function getPlaceCoords(place) {
+  if (PRECISE_COORDS[place.id]) return PRECISE_COORDS[place.id];
+  return getCoordsFromArea(place.area);
+}
+
 function haversineKm(lat1, lng1, lat2, lng2) {
   const R = 6371;
   const toRad = d => d * Math.PI / 180;
@@ -1273,7 +1335,7 @@ function haversineKm(lat1, lng1, lat2, lng2) {
 
 function getDistKm(place, profile) {
   if (!profile.homeLat || !profile.homeLng) return null;
-  const c = getCoordsFromArea(place.area);
+  const c = getPlaceCoords(place);
   if (!c) return null;
   return haversineKm(profile.homeLat, profile.homeLng, c[0], c[1]);
 }
@@ -1444,7 +1506,14 @@ function renderWizardResult(p) {
 function renderPlaceCard(pl, km) {
   const isFav = STATE.favorites.includes(pl.id);
   const note = STATE.notes[pl.id] || '';
-  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(pl.name + ' ' + pl.area)}`;
+  // Maps URL:景點主名(去掉 / 別名)+ 縣市;若有精確座標額外帶 lat,lng 鎖定
+  const primaryName = pl.name.split(/\s*\/\s*/)[0];
+  const cityLabel = (REGION_LABEL[pl.region] || '').replace('連江縣(馬祖)', '連江縣');
+  const queryStr = `${primaryName} ${cityLabel}`;
+  const precise = PRECISE_COORDS[pl.id];
+  const mapsUrl = precise
+    ? `https://www.google.com/maps/search/${encodeURIComponent(queryStr)}/@${precise[0]},${precise[1]},16z`
+    : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(queryStr)}`;
   const crowdLabel = {low:'🟢 人少', mid:'🟡 普通', high:'🔴 人多'}[pl.crowd] || '';
   const tagsHtml = [
     pl.indoor ? '<span class="tag indoor">🏠 室內</span>' : '',
