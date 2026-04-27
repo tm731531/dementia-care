@@ -116,7 +116,17 @@ a { color: var(--accent); }
 .active-filters { background: #fffaf0; border: 1px dashed var(--primary); padding: 10px 14px; border-radius: 8px; margin-bottom: 12px; }
 .active-filters .label { font-size: 13px; color: var(--muted); margin-right: 8px; }
 .active-filters .tag { margin: 2px; }
-.place-card .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+.place-card .actions { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
+.place-card .actions-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.place-card .actions-primary .btn { flex: 1; min-width: 130px; }
+.place-card .actions-secondary { gap: 6px; }
+.place-card .actions-danger { justify-content: flex-end; padding-top: 4px; border-top: 1px dashed #e8e8e8; margin-top: 2px; }
+.btn-danger-link {
+  background: transparent; color: #a55; border: 0;
+  padding: 4px 8px; font-size: 12px; cursor: pointer;
+  text-decoration: underline; opacity: 0.65;
+}
+.btn-danger-link:hover { opacity: 1; color: #8a2d2d; }
 .btn {
   background: var(--primary); color: #fff; border: 0; padding: 10px 16px;
   border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer;
@@ -1556,7 +1566,7 @@ function renderWizardQ(step) {
   }
   if (step === 'range') {
     const p = STATE.userProfile;
-    const homeName = (p.home && p.homeDistrict) ? (p.home === 'gps' ? `📍 ${p.homeDistrict}` : `${TAIWAN_DISTRICTS[p.home]?.label || ''}${p.homeDistrict}`) : '';
+    const homeName = (p.home && p.homeDistrict) ? (p.homeIsGps ? `📍 ${TAIWAN_DISTRICTS[p.home]?.label || ''}${p.homeDistrict}` : (p.home === 'gps' ? `📍 ${p.homeDistrict}` : `${TAIWAN_DISTRICTS[p.home]?.label || ''}${p.homeDistrict}`)) : '';
     return `<div class="wizard-card">
       <div class="wizard-step">第 4 / 4 題 <a class="reset-link" onclick="setWizardAnswer('age',null)">← 改第 3 題</a></div>
       <h2>🚗 出門範圍?</h2>
@@ -1596,10 +1606,14 @@ function useGeolocation() {
   if (btn) { btn.disabled = true; btn.textContent = '📍 定位中…'; }
   navigator.geolocation.getCurrentPosition(
     (pos) => {
-      STATE.userProfile.home = 'gps';
-      STATE.userProfile.homeDistrict = `GPS (${pos.coords.latitude.toFixed(3)}, ${pos.coords.longitude.toFixed(3)})`;
-      STATE.userProfile.homeLat = pos.coords.latitude;
-      STATE.userProfile.homeLng = pos.coords.longitude;
+      const lat = pos.coords.latitude, lng = pos.coords.longitude;
+      // 反查最近的縣市/區域 — 落在台灣本島就用「縣市 + 區」,離島或太遠就 fallback 經緯度
+      const nearest = findNearestDistrict(lat, lng);
+      STATE.userProfile.home = nearest ? nearest.region : 'gps';
+      STATE.userProfile.homeDistrict = nearest ? nearest.district : `GPS (${lat.toFixed(3)}, ${lng.toFixed(3)})`;
+      STATE.userProfile.homeLat = lat;
+      STATE.userProfile.homeLng = lng;
+      STATE.userProfile.homeIsGps = true; // 標記:即使 region 是 newtaipei,還是顯示「📍」icon
       saveState();
       renderWizard();
     },
@@ -1636,6 +1650,7 @@ function onHomeDistrictChange() {
   STATE.userProfile.homeDistrict = district;
   STATE.userProfile.homeLat = coords[0];
   STATE.userProfile.homeLng = coords[1];
+  delete STATE.userProfile.homeIsGps;
   saveState();
   renderWizard();
 }
@@ -1743,6 +1758,22 @@ function getCoordsFromArea(area) {
     }
   }
   return null;
+}
+
+// GPS 反查最近的縣市/區域 — Haversine 距離,選最近的一個
+// 回傳 {region, district, distKm} 或 null(超過 30 km 視為太遠,fallback 經緯度)
+function findNearestDistrict(lat, lng) {
+  let best = null;
+  for (const [region, cfg] of Object.entries(TAIWAN_DISTRICTS)) {
+    for (const [dist, [dLat, dLng]] of Object.entries(cfg.dists)) {
+      const km = haversineKm(lat, lng, dLat, dLng);
+      if (!best || km < best.distKm) {
+        best = {region, district: dist, distKm: km};
+      }
+    }
+  }
+  if (!best || best.distKm > 30) return null;
+  return best;
 }
 
 // 知名廣域景點的精確座標(蓋過 area 中心的粗估)
@@ -2304,7 +2335,7 @@ function renderWizardResult(p) {
   const wLabel = {sunny:'晴',rainy:'雨',any:'隨便'}[p.weather];
   const aLabel = {'0-2':'0-2 歲','2-3':'2-3 歲','3-6':'3-6 歲'}[p.age];
   const rLabel = {near:'≤15km',medium:'≤40km',trip:'≤100km',nationwide:'全台'}[p.range];
-  const hLabel = (p.home && p.homeDistrict) ? (p.home === 'gps' ? `📍 ${p.homeDistrict}` : `${TAIWAN_DISTRICTS[p.home]?.label || ''}${p.homeDistrict}`) : '';
+  const hLabel = (p.home && p.homeDistrict) ? (p.homeIsGps ? `📍 ${TAIWAN_DISTRICTS[p.home]?.label || ''}${p.homeDistrict}` : (p.home === 'gps' ? `📍 ${p.homeDistrict}` : `${TAIWAN_DISTRICTS[p.home]?.label || ''}${p.homeDistrict}`)) : '';
 
   const avoid = STATE.preferences && STATE.preferences.avoidCrowds;
   let html = `<div class="wizard-result-card">
@@ -2380,12 +2411,18 @@ function renderPlaceCard(pl, km) {
     ${pl.warning ? `<p style="font-size:13px;color:#8a4a0a;background:var(--warn-bg);padding:6px 10px;border-radius:6px;margin:6px 0;">⚠️ ${pl.warning}</p>` : ''}
     ${note ? `<p style="font-size:14px;background:#f0f8f4;padding:8px 12px;border-radius:6px;margin:8px 0;border-left:3px solid #6ba88a;"><strong>📝 我家評語:</strong> ${escapeHtml(note)}</p>` : ''}
     <div class="actions">
-      <a class="btn" href="${mapsUrl}" target="_blank" rel="noopener">📍 Google Maps</a>
-      <button class="btn btn-fav ${isFav?'active':''}" onclick="toggleFav('${pl.id}')">${isFav?'❤️ 已收藏':'🤍 加入口袋'}</button>
-      <button class="btn btn-secondary btn-small" onclick="editNote('${pl.id}')">📝 ${note?'改評語':'寫評語'}</button>
-      <button class="btn btn-secondary btn-small ${isVisited?'active':''}" onclick="toggleVisited('${pl.id}')" title="標記去過">${isVisited?'✅ 去過':'☐ 標去過'}</button>
-      <button class="btn btn-secondary btn-small" onclick="toggleBlocked('${pl.id}')" title="標記不再去,以後不顯示" style="${isBlocked?'background:#fde8e8;color:#8a2d2d;border-color:#e07c7c;':''}">${isBlocked?'🚫 已封存(取消)':'🚫 不再去'}</button>
-      ${pl.id.startsWith('user-') ? `<button class="btn btn-secondary btn-small" onclick="deleteUserPlace('${pl.id}')" title="刪除自加景點" style="background:#fde8e8;color:#8a2d2d;border-color:#e07c7c;">🗑️ 刪除</button>` : ''}
+      <div class="actions-row actions-primary">
+        <a class="btn" href="${mapsUrl}" target="_blank" rel="noopener">📍 Google Maps</a>
+        <button class="btn btn-fav ${isFav?'active':''}" onclick="toggleFav('${pl.id}')">${isFav?'❤️ 已收藏':'🤍 加入口袋'}</button>
+      </div>
+      <div class="actions-row actions-secondary">
+        <button class="btn btn-secondary btn-small" onclick="editNote('${pl.id}')">📝 ${note?'改評語':'寫評語'}</button>
+        <button class="btn btn-secondary btn-small ${isVisited?'active':''}" onclick="toggleVisited('${pl.id}')" title="標記去過">${isVisited?'✅ 去過':'☐ 標去過'}</button>
+      </div>
+      <div class="actions-row actions-danger">
+        <button class="btn-danger-link" onclick="toggleBlocked('${pl.id}')" title="${isBlocked?'取消封存':'之後不再顯示這個景點'}">${isBlocked?'↩ 取消封存':'🚫 不再去'}</button>
+        ${pl.id.startsWith('user-') ? `<button class="btn-danger-link" onclick="deleteUserPlace('${pl.id}')" title="刪除自加景點">🗑️ 刪除</button>` : ''}
+      </div>
     </div>
     <div id="note-edit-${pl.id}" style="display:none;margin-top:8px;">
       <textarea placeholder="例如:2025/3 去過,小孩很喜歡親水池,夏天最佳" oninput="this.dataset.dirty='1'">${escapeHtml(note)}</textarea>
