@@ -1635,8 +1635,11 @@ function setWizardAnswer(key, value) {
     if (key === 'weather') { delete STATE.userProfile.range; }
   } else {
     STATE.userProfile[key] = value;
-    // 改 range 預設 → 清掉 customRangeKm(滑桿覆蓋,選 preset 等於要回 preset)
-    if (key === 'range') delete STATE.userProfile.customRangeKm;
+    // 改 range 預設 → 清掉 custom 上下限(選 preset 等於要回 preset)
+    if (key === 'range') {
+      delete STATE.userProfile.customRangeKm;
+      delete STATE.userProfile.customRangeMinKm;
+    }
   }
   saveState();
   renderWizard();
@@ -2165,6 +2168,9 @@ function getRangeKm(profile) {
   if (profile.range === 'trip') return 100;
   return null; // nationwide / 無
 }
+function getRangeMinKm(profile) {
+  return profile.customRangeMinKm || 0;
+}
 
 // ===== 沿路 corridor 規劃 =====
 // 把 (lat,lng) 用簡單投影映射到平面(km),近距離計算用,精度足夠台灣範圍
@@ -2193,8 +2199,10 @@ function pointToSegment(plat, plng, alat, alng, blat, blng) {
 function passesRange(place, profile) {
   const km = getDistKm(place, profile);
   const limit = getRangeKm(profile);
-  if (km === null) return limit === null; // 沒座標只在 nationwide 出現
-  if (limit === null) return true;          // nationwide 無上限
+  const minLimit = getRangeMinKm(profile);
+  if (km === null) return limit === null && minLimit === 0; // 沒座標只在 nationwide + min=0 出現
+  if (km < minLimit) return false;          // 太近,排除
+  if (limit === null) return true;          // 全台無上限
   return km <= limit;
 }
 
@@ -2378,16 +2386,19 @@ function onRangeSliderInput(val) {
   const v = parseInt(val);
   const lbl = document.getElementById('range-slider-label');
   if (lbl) lbl.textContent = (v >= 400) ? '全台' : `${v} km`;
+  syncRangeLabels();
 }
 function onRangeSliderChange(val) {
-  const v = parseInt(val);
+  let v = parseInt(val);
   if (!STATE.userProfile) STATE.userProfile = {};
+  // 確保 max >= min
+  const minV = STATE.userProfile.customRangeMinKm || 0;
+  if (v < minV) v = minV;
   if (v >= 400) {
     delete STATE.userProfile.customRangeKm;
     STATE.userProfile.range = 'nationwide';
   } else {
     STATE.userProfile.customRangeKm = v;
-    // 順帶把 preset 對齊(使用者下次重來 wizard 時不會錯亂)
     if (v <= 15) STATE.userProfile.range = 'near';
     else if (v <= 40) STATE.userProfile.range = 'medium';
     else if (v <= 100) STATE.userProfile.range = 'trip';
@@ -2395,6 +2406,38 @@ function onRangeSliderChange(val) {
   }
   saveState();
   renderWizard();
+}
+function onRangeMinSliderInput(val) {
+  const v = parseInt(val);
+  const lbl = document.getElementById('range-min-slider-label');
+  if (lbl) lbl.textContent = v === 0 ? '不限' : `${v} km`;
+  syncRangeLabels();
+}
+function onRangeMinSliderChange(val) {
+  let v = parseInt(val);
+  if (!STATE.userProfile) STATE.userProfile = {};
+  // min 不能超過 max
+  const maxV = getRangeKm(STATE.userProfile);
+  if (maxV !== null && v > maxV) v = maxV;
+  if (v <= 0) delete STATE.userProfile.customRangeMinKm;
+  else STATE.userProfile.customRangeMinKm = v;
+  saveState();
+  renderWizard();
+}
+// 同步顯示「範圍提示」(若 min/max 衝突警告)
+function syncRangeLabels() {
+  const minEl = document.getElementById('range-min-slider');
+  const maxEl = document.getElementById('range-max-slider');
+  const hint = document.getElementById('range-hint');
+  if (!minEl || !maxEl || !hint) return;
+  const minV = parseInt(minEl.value);
+  const maxV = parseInt(maxEl.value);
+  if (minV >= maxV && maxV < 400) {
+    hint.textContent = '⚠️ 最近 ≥ 最遠,放手後會自動修正';
+    hint.style.color = '#a55';
+  } else {
+    hint.textContent = '';
+  }
 }
 
 // ===== Tag 三態(必選 / 排除 / 不限)=====
@@ -2676,6 +2719,7 @@ function renderWizardResult(p) {
   const dest = destId ? getAllPlaces().find(pl => pl.id === destId) : null;
   const destCoord = dest ? getPlaceCoords(dest) : null;
   const curLimit = getRangeKm(p);
+  const curMin = getRangeMinKm(p);
   const sliderVal = curLimit ?? 400;
 
   let html = `<div class="wizard-result-card">
@@ -2734,10 +2778,16 @@ function renderWizardResult(p) {
 
   html += `<div class="sticky-filter-bar" style="display:flex;flex-direction:column;gap:8px;background:#f0f8f4;border:1px solid #c8e3d4;padding:8px 14px;border-radius:8px;margin-bottom:14px;font-size:14px;">
       <div style="display:flex;align-items:center;gap:10px;">
-        <span style="font-weight:700;white-space:nowrap;">📏 範圍</span>
-        <input type="range" min="5" max="400" step="5" value="${sliderVal}" oninput="onRangeSliderInput(this.value)" onchange="onRangeSliderChange(this.value)" style="flex:1;cursor:pointer;">
+        <span style="font-weight:700;white-space:nowrap;width:54px;">📏 最近</span>
+        <input id="range-min-slider" type="range" min="0" max="400" step="5" value="${curMin}" oninput="onRangeMinSliderInput(this.value)" onchange="onRangeMinSliderChange(this.value)" style="flex:1;cursor:pointer;">
+        <span id="range-min-slider-label" style="font-weight:700;color:var(--primary-dark);min-width:60px;text-align:right;">${curMin === 0 ? '不限' : curMin + ' km'}</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-weight:700;white-space:nowrap;width:54px;">📏 最遠</span>
+        <input id="range-max-slider" type="range" min="5" max="400" step="5" value="${sliderVal}" oninput="onRangeSliderInput(this.value)" onchange="onRangeSliderChange(this.value)" style="flex:1;cursor:pointer;">
         <span id="range-slider-label" style="font-weight:700;color:var(--primary-dark);min-width:60px;text-align:right;">${curLimit ? curLimit + ' km' : '全台'}</span>
       </div>
+      <div id="range-hint" style="font-size:12px;text-align:right;min-height:14px;"></div>
       <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
         <input type="checkbox" ${avoid?'checked':''} onchange="toggleAvoidCrowds()" style="width:16px;height:16px;cursor:pointer;">
         <span>🤧 <strong>避開人多景點</strong>(怕感冒 / 太太 friendly)</span>
@@ -3048,6 +3098,9 @@ window.toggleAvoidCrowds = toggleAvoidCrowds;
 window.toggleGroupByArea = toggleGroupByArea;
 window.onRangeSliderInput = onRangeSliderInput;
 window.onRangeSliderChange = onRangeSliderChange;
+window.onRangeMinSliderInput = onRangeMinSliderInput;
+window.onRangeMinSliderChange = onRangeMinSliderChange;
+window.syncRangeLabels = syncRangeLabels;
 window.setDestination = setDestination;
 window.clearDestination = clearDestination;
 window.addWaypoint = addWaypoint;
