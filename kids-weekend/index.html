@@ -196,7 +196,7 @@ a { color: var(--accent); }
   </div>
 
   <div class="footer-note">
-    最後更新 2026-04-27 · v3.2 · 加「✅ 去過」「🚫 不再去」+ 自己加景點 form(本機保留,不需改程式)· <a href="https://github.com/tm731531/dementia-care" target="_blank">GitHub</a>
+    最後更新 2026-04-27 · v3.3 · 528 景點 · 文旅 part 2(博物館 67 / 文創 23 / 老街 32 / 古蹟 46 / 廟宇 30 / 戰地 8) · <a href="https://github.com/tm731531/dementia-care" target="_blank">GitHub</a>
   </div>
 </section>
 
@@ -561,6 +561,11 @@ const PLACES = [
   {id:'ntsec-art', name:'北師美術館', emoji:'🎨', area:'台北大安', region:'taipei', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','文化','美術館'], note:'國立台北教育大學美術館 + 親子展', crowd:'mid'},
   {id:'museum-of-drinking-water', name:'自來水博物館 / 公館水岸', emoji:'💧', area:'台北中正', region:'taipei', indoor:true, outdoor:true, ages:['2-3','3-6'], seasons:['summer'], weathers:['sunny'], types:['戶外','室內','教育','博物館','玩水','親水公園'], note:'夏天玩水 + 古蹟博物館。每年 7-9 月開放戲水池', warning:'戲水池夏季限定', crowd:'mid'},
 
+    {id:'jizhouan', name:'紀州庵文學森林', emoji:'📚', area:'台北中正', region:'taipei', indoor:true, outdoor:true, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','戶外','文化','文創','古蹟','博物館'], note:'日式古蹟改文學森林 + 親子閱讀空間 + 庭園', crowd:'mid'},
+  {id:'caoshan', name:'草山行館', emoji:'🏯', area:'台北士林', region:'taipei', indoor:true, outdoor:true, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['戶外','室內','文化','古蹟'], note:'蔣中正在臺第一處避暑住所 + 陽明山中', crowd:'mid'},
+  {id:'guling-theater', name:'牯嶺街小劇場', emoji:'🎭', area:'台北中正', region:'taipei', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','文化','文創'], note:'古蹟改實驗劇場 + 親子戲劇展演', crowd:'mid'},
+  {id:'zhongshanhall', name:'中山堂', emoji:'🏛️', area:'台北中正', region:'taipei', indoor:true, outdoor:true, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','戶外','文化','古蹟','博物館'], note:'國定古蹟 + 表演廳 + 屋頂咖啡 + 旁邊西門町', crowd:'mid'},
+
   // ===== 新北市 =====
   {id:'13hang-museum', name:'十三行博物館 / 八里左岸', emoji:'⛵', area:'新北八里', region:'newtaipei', indoor:true, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny','rainy'], types:['戶外','文化','教育','海邊','博物館'], note:'博物館看考古 + 出來租協力車沿河岸騎,玩到吃飯', warning:'夏天紫外線強,建議春秋', crowd:'mid'},
   {id:'tucheng-park', name:'土城兒童公園 / 中央路公園', emoji:'🛝', area:'新北土城', region:'newtaipei', indoor:false, outdoor:true, ages:['0-2','2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','公園'], note:'土城在地家庭近距離選擇,溜滑梯+沙坑+遊具', crowd:'mid'},
@@ -661,6 +666,10 @@ const PLACES = [
     {id:'yingge-ceramics-museum', name:'新北市立鶯歌陶瓷博物館', emoji:'🏺', area:'新北鶯歌', region:'newtaipei', indoor:true, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','戶外','文化','博物館','教育'], note:'陶瓷 DIY + 大草坪 + 旁邊老街。雨天 OK', crowd:'mid'},
   {id:'forest-museum-banqiao', name:'板橋音樂工廠 / 林家花園藝文中心', emoji:'🎵', area:'新北板橋', region:'newtaipei', indoor:true, outdoor:true, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny','rainy'], types:['室內','文化','文創'], note:'音樂藝文展演 + 旁邊林家花園', crowd:'mid'},
 
+    {id:'wulai-atayal', name:'烏來泰雅民族博物館', emoji:'🪶', area:'新北烏來', region:'newtaipei', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','文化','博物館','教育'], note:'免費,泰雅族文化文物 + 老街旁', crowd:'mid'},
+  {id:'pingxi-old', name:'平溪老街 / 平溪車站', emoji:'🏮', area:'新北平溪', region:'newtaipei', indoor:false, outdoor:true, ages:['2-3','3-6'], seasons:['spring','autumn','winter'], weathers:['sunny','rainy'], types:['戶外','文化','老街'], note:'鐵道穿過老街 + 放天燈起點 + 山城風情', crowd:'mid'},
+  {id:'makay-museum', name:'馬偕博物館 / 滬尾偕醫館', emoji:'⛪', area:'新北淡水', region:'newtaipei', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','autumn','winter'], weathers:['sunny','rainy'], types:['室內','文化','古蹟','博物館'], note:'百年偕醫館 + 馬偕生平 + 真理街古蹟群', crowd:'mid'},
+
   // ===== 基隆市 =====
   {id:'noaa-museum', name:'國立海洋科技博物館', emoji:'🌊', area:'基隆中正', region:'keelung', indoor:true, outdoor:false, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny','rainy'], types:['室內','教育','文化','博物館'], note:'海洋科學主題,3-6 歲必看。下雨天首選', crowd:'mid'},
   {id:'chaojing-park', name:'潮境公園 / 潮境海洋中心', emoji:'🐚', area:'基隆中正', region:'keelung', indoor:false, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','海邊','公園'], note:'看海 + 大草地。海科館旁邊', crowd:'mid'},
@@ -711,6 +720,10 @@ const PLACES = [
     {id:'taoyuan-art-museum', name:'桃園市立美術館 / 兒童美術館', emoji:'🎨', area:'桃園中壢', region:'taoyuan', indoor:true, outdoor:false, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','文化','美術館','教育'], note:'新建大型美術館 + 兒美館', crowd:'mid'},
   {id:'longtan-pen-museum', name:'桃園 LATTE 博物館 / 大溪木藝', emoji:'🪵', area:'桃園大溪', region:'taoyuan', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','文化','博物館'], note:'大溪木藝生態博物館群,免費', crowd:'mid'},
 
+    {id:'taoyuan-shrine', name:'桃園神社 / 桃園忠烈祠', emoji:'⛩️', area:'桃園桃園', region:'taoyuan', indoor:true, outdoor:true, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['戶外','文化','古蹟'], note:'全台保存最完整日式神社', crowd:'mid'},
+  {id:'daxi-wude', name:'大溪武德殿', emoji:'🥋', area:'桃園大溪', region:'taoyuan', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','文化','古蹟','博物館'], note:'日治武道館 + 大溪木藝生態博物館群', crowd:'mid'},
+  {id:'guishan-village', name:'龜山眷村故事館', emoji:'🏘️', area:'桃園龜山', region:'taoyuan', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','文化','博物館','文創'], note:'舊憲光二村改文化館', crowd:'mid'},
+
   // ===== 新竹市 =====
   {id:'hsinchu-zoo', name:'新竹市立動物園', emoji:'🦁', area:'新竹東區', region:'hsinchu_city', indoor:false, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','動物','教育','動物園'], note:'最迷你動物園,90 年老園子。便宜票價', warning:'規模小,1.5 小時逛完', crowd:'mid'},
   {id:'glass-museum', name:'新竹玻璃工藝博物館', emoji:'💎', area:'新竹東區', region:'hsinchu_city', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy'], types:['室內','文化','教育','博物館'], note:'玻璃工藝 + DIY,雨天備案。在公園旁', crowd:'mid'},
@@ -724,6 +737,8 @@ const PLACES = [
 
     {id:'xinzhu-park-zoo', name:'新竹公園 / 麗池公園', emoji:'🦢', area:'新竹東區', region:'hsinchu_city', indoor:false, outdoor:true, ages:['0-2','2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','公園','親子公園','湖泊'], note:'湖畔散步 + 動物園旁 + 兒童遊戲', crowd:'low'},
   {id:'xinzhu-night', name:'城隍廟夜市 / 摸頭祭', emoji:'🍢', area:'新竹東區', region:'hsinchu_city', indoor:true, outdoor:true, ages:['3-6'], seasons:['spring','autumn','winter'], weathers:['sunny','rainy'], types:['戶外','文化','夜市','廟宇'], note:'新竹必逛 + 米粉貢丸', crowd:'high'},
+
+    {id:'image-museum', name:'新竹市影像博物館', emoji:'🎬', area:'新竹東區', region:'hsinchu_city', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','文化','博物館','文創'], note:'古蹟戲院改影像博物館 + 親子電影', crowd:'mid'},
 
   // ===== 新竹縣 =====
   {id:'beipu-old', name:'北埔老街', emoji:'🍵', area:'新竹北埔', region:'hsinchu_county', indoor:false, outdoor:true, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny','rainy'], types:['戶外','文化','老街'], note:'客家文化,擂茶 DIY,慈天宮古蹟', crowd:'mid'},
@@ -749,6 +764,8 @@ const PLACES = [
 
     {id:'zhubei-cultural', name:'新竹縣文化中心 / 美術館', emoji:'🎨', area:'新竹竹北', region:'hsinchu_county', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','文化','美術館','博物館'], note:'縣府文化中心,展覽常駐', crowd:'mid'},
 
+    {id:'jin-guang-fu', name:'北埔金廣福公館', emoji:'🏯', area:'新竹北埔', region:'hsinchu_county', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','autumn','winter'], weathers:['sunny','rainy'], types:['室內','文化','古蹟','博物館'], note:'國定古蹟客家拓墾總部 + 北埔老街', crowd:'mid'},
+
   // ===== 苗栗縣 =====
   {id:'flying-cow', name:'飛牛牧場', emoji:'🐄', area:'苗栗通霄', region:'miaoli', indoor:false, outdoor:true, ages:['0-2','2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','動物','自然','牧場'], note:'乳牛 / 羊 / 鴨 + DIY 體驗。腹地大,小孩跑不完', crowd:'low'},
   {id:'xihu-resort', name:'西湖渡假村', emoji:'🎠', area:'苗栗三義', region:'miaoli', indoor:false, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','遊樂','湖泊'], note:'安徒生童話主題,溫和遊樂設施。適合 2-6 歲', crowd:'mid'},
@@ -770,6 +787,9 @@ const PLACES = [
 
     {id:'hakka-roundhouse', name:'苗栗客家圓樓 + 銅鑼園區', emoji:'🏠', area:'苗栗銅鑼', region:'miaoli', indoor:true, outdoor:true, ages:['2-3','3-6'], seasons:['spring','autumn','winter'], weathers:['sunny','rainy'], types:['室內','戶外','文化','博物館'], note:'客家圓樓 + 銅鑼茶園 + 杭菊季(11 月)', crowd:'mid'},
   {id:'miaoli-county-museum', name:'苗栗縣立陶瓷博物館 / 木雕博物館', emoji:'🏺', area:'苗栗三義', region:'miaoli', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','文化','博物館'], note:'木雕主題 + 親子 DIY', crowd:'mid'},
+
+    {id:'zhunan-railway', name:'苗栗鐵道文物展示館', emoji:'🚂', area:'苗栗竹南', region:'miaoli', indoor:true, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','戶外','文化','博物館','教育'], note:'蒸汽火車頭展示 + 親子拍照', crowd:'mid'},
+  {id:'gongguan-wenshui', name:'公館汶水老街', emoji:'🏮', area:'苗栗公館', region:'miaoli', indoor:false, outdoor:true, ages:['3-6'], seasons:['spring','autumn','winter'], weathers:['sunny','rainy'], types:['戶外','文化','老街'], note:'客家老街 + 紅棗季 + 客家小吃', crowd:'mid'},
 
   // ===== 台中市 =====
   {id:'sci-natural', name:'國立自然科學博物館', emoji:'🦖', area:'台中北區', region:'taichung', indoor:true, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny','rainy'], types:['室內','教育','文化','博物館'], note:'恐龍展 + 太空劇場 + 植物園。中部首選博物館,一整天', crowd:'mid'},
@@ -810,6 +830,8 @@ const PLACES = [
   {id:'taichung-folk-park', name:'台中民俗公園 / 民俗文物館', emoji:'🏯', area:'台中北屯', region:'taichung', indoor:true, outdoor:true, ages:['2-3','3-6'], seasons:['spring','autumn','winter'], weathers:['sunny','rainy'], types:['戶外','室內','文化','博物館','古蹟'], note:'閩南三合院 + 民俗文物展', crowd:'mid'},
   {id:'yiyou-museum', name:'亞洲大學現代美術館', emoji:'🎨', area:'台中霧峰', region:'taichung', indoor:true, outdoor:true, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','戶外','文化','美術館'], note:'安藤忠雄三角形建築 + 校園', crowd:'mid'},
 
+    {id:'taichung-lit', name:'台中文學館', emoji:'📚', area:'台中西區', region:'taichung', indoor:true, outdoor:true, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','戶外','文化','文創','博物館','古蹟'], note:'日式宿舍改文學館 + 老樹庭園,免費', crowd:'mid'},
+
   // ===== 彰化縣 =====
   {id:'lukang-old', name:'鹿港老街', emoji:'🏮', area:'彰化鹿港', region:'changhua', indoor:false, outdoor:true, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny','rainy'], types:['戶外','文化','老街'], note:'歷史老街 + 龍山寺 + 摸乳巷。傳統小吃多', crowd:'high'},
   {id:'baguashan', name:'八卦山天空步道 / 大佛', emoji:'🙏', area:'彰化彰化市', region:'changhua', indoor:false, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','文化','步道'], note:'空中步道 + 大佛文物館。腹地大可放電', crowd:'low'},
@@ -826,6 +848,9 @@ const PLACES = [
 
     {id:'lugang-tianhou', name:'鹿港天后宮', emoji:'🏯', area:'彰化鹿港', region:'changhua', indoor:true, outdoor:true, ages:['3-6'], seasons:['spring','autumn','winter'], weathers:['sunny','rainy'], types:['戶外','文化','廟宇','古蹟'], note:'三百年媽祖廟 + 必逛老街', crowd:'high'},
   {id:'yuanlin-night', name:'員林夜市', emoji:'🍢', area:'彰化員林', region:'changhua', indoor:false, outdoor:true, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['戶外','文化','夜市'], note:'中部在地夜市', crowd:'high'},
+
+    {id:'1895-anti', name:'1895 八卦山抗日保台史蹟館', emoji:'🪖', area:'彰化彰化市', region:'changhua', indoor:true, outdoor:true, ages:['3-6'], seasons:['spring','autumn','winter'], weathers:['sunny','rainy'], types:['室內','戶外','文化','博物館','戰地','古蹟'], note:'1895 抗日歷史 + 八卦山大佛旁', crowd:'mid'},
+  {id:'brand-monkey', name:'白蘭氏雞精博物館', emoji:'🐔', area:'彰化鹿港', region:'changhua', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','觀光工廠','教育'], note:'雞精觀光工廠 + DIY 體驗', warning:'需預約', crowd:'mid'},
 
   // ===== 南投縣 =====
   {id:'sun-moon-lake', name:'日月潭', emoji:'🌅', area:'南投魚池', region:'nantou', indoor:false, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','自然','湖泊'], note:'坐船 + 騎單車 + 看日出。中部最知名景點', crowd:'high'},
@@ -863,6 +888,9 @@ const PLACES = [
     {id:'beigang-temple2', name:'北港武德宮', emoji:'🏯', area:'雲林北港', region:'yunlin', indoor:true, outdoor:true, ages:['3-6'], seasons:['spring','autumn','winter'], weathers:['sunny','rainy'], types:['戶外','文化','廟宇','古蹟'], note:'財神信仰中心 + 旁邊朝天宮', crowd:'mid'},
 
     {id:'xiluo-rice', name:'西螺米糧博覽館 / 醬油觀光工廠', emoji:'🍚', area:'雲林西螺', region:'yunlin', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','autumn','winter'], weathers:['rainy','sunny'], types:['室內','文化','觀光工廠','博物館'], note:'稻米文化 + 醬油 DIY', crowd:'mid'},
+
+    {id:'huwei-sugar', name:'虎尾糖廠 / 同心公園', emoji:'🍦', area:'雲林虎尾', region:'yunlin', indoor:true, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['戶外','室內','文化','古蹟'], note:'百年糖廠 + 五分仔小火車 + 糖廠冰', crowd:'mid'},
+  {id:'zhenmin-school', name:'拯民國小老樹屋', emoji:'🌳', area:'雲林虎尾', region:'yunlin', indoor:false, outdoor:true, ages:['2-3','3-6'], seasons:['spring','autumn','winter'], weathers:['sunny'], types:['戶外','文化'], note:'廢校改公園 + 老樹樹屋', crowd:'mid'},
 
   // ===== 嘉義市 =====
   {id:'chiayi-park', name:'嘉義公園 / 射日塔', emoji:'🏯', area:'嘉義東區', region:'chiayi_city', indoor:true, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','公園','文化'], note:'大公園 + 射日塔登高 + 史蹟資料館', crowd:'mid'},
@@ -923,6 +951,12 @@ const PLACES = [
   {id:'ten-drum-cultural', name:'十鼓糖廠藝術園區', emoji:'🥁', area:'台南仁德', region:'tainan', indoor:true, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny','rainy'], types:['戶外','室內','文化','文創','觀光工廠','遊樂'], note:'糖廠改文創 + 鼓樂表演 + 兒童遊樂區 + 高空滑梯', crowd:'mid'},
   {id:'yujing', name:'玉井白色教堂 / 噍吧哖事件紀念園區', emoji:'⛪', area:'台南玉井', region:'tainan', indoor:true, outdoor:true, ages:['3-6'], seasons:['spring','autumn','winter'], weathers:['sunny','rainy'], types:['戶外','文化','古蹟','博物館'], note:'山上白色教堂 + 歷史紀念', crowd:'mid'},
 
+    {id:'shennong-st', name:'神農街', emoji:'🏮', area:'台南中西', region:'tainan', indoor:false, outdoor:true, ages:['3-6'], seasons:['spring','autumn','winter'], weathers:['sunny','rainy'], types:['戶外','文化','老街','古蹟'], note:'百年清代街屋 + 文創小店 + 五條港歷史區', crowd:'mid'},
+  {id:'tainan-confucius', name:'台南孔廟 / 府中街', emoji:'🏯', area:'台南中西', region:'tainan', indoor:true, outdoor:true, ages:['3-6'], seasons:['spring','autumn','winter'], weathers:['sunny','rainy'], types:['戶外','室內','文化','廟宇','古蹟','博物館'], note:'全台首學 + 旁邊府中街文創', crowd:'mid'},
+  {id:'xiaolong', name:'蕭壠文化園區', emoji:'🎪', area:'台南佳里', region:'tainan', indoor:true, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny','rainy'], types:['室內','戶外','文化','文創','博物館'], note:'舊糖廠改文創 + 兒童藝術中心 + 西拉雅文化', crowd:'mid'},
+  {id:'wushantou', name:'烏山頭水庫 / 八田與一紀念園區', emoji:'💧', area:'台南官田', region:'tainan', indoor:true, outdoor:true, ages:['3-6'], seasons:['spring','autumn','winter'], weathers:['sunny'], types:['戶外','室內','文化','博物館','古蹟','湖泊'], note:'嘉南大圳之父 + 水庫風景 + 紀念博物館', crowd:'mid'},
+  {id:'haian-art', name:'海安路藝術街 / 五條港文化區', emoji:'🎨', area:'台南中西', region:'tainan', indoor:false, outdoor:true, ages:['3-6'], seasons:['spring','autumn','winter'], weathers:['sunny','rainy'], types:['戶外','文化','文創','街區'], note:'彩繪牆 + 老屋文創 + 旁邊神農街', crowd:'mid'},
+
   // ===== 高雄市 =====
   {id:'sci-tech-museum', name:'國立科學工藝博物館', emoji:'⚙️', area:'高雄三民', region:'kaohsiung', indoor:true, outdoor:false, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny','rainy'], types:['室內','教育','文化','博物館'], note:'南部最大科博館,3-6 歲互動展超多。一整天', crowd:'high'},
   {id:'kaohsiung-museum', name:'高雄市立美術館 / 兒童美術館', emoji:'🎨', area:'高雄鼓山', region:'kaohsiung', indoor:true, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny','rainy'], types:['室內','戶外','文化','教育','美術館'], note:'兒美館專門 3-12 歲 + 大草地內惟埤', crowd:'mid'},
@@ -955,6 +989,11 @@ const PLACES = [
   {id:'crystal-art', name:'佛光山佛陀紀念館', emoji:'🪷', area:'高雄大樹', region:'kaohsiung', indoor:true, outdoor:true, ages:['3-6'], seasons:['spring','autumn','winter'], weathers:['sunny','rainy'], types:['戶外','室內','文化','廟宇','博物館','古蹟'], note:'佛教博物館 + 大佛 + 大草地', crowd:'mid'},
   {id:'kaohsiung-history', name:'高雄市歷史博物館', emoji:'🏛️', area:'高雄鹽埕', region:'kaohsiung', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','文化','博物館','古蹟'], note:'舊市政府改博物館', crowd:'mid'},
 
+    {id:'qishan-old', name:'旗山老街 / 旗山車站', emoji:'🏮', area:'高雄旗山', region:'kaohsiung', indoor:true, outdoor:true, ages:['2-3','3-6'], seasons:['spring','autumn','winter'], weathers:['sunny','rainy'], types:['戶外','室內','文化','老街','古蹟'], note:'百年香蕉重鎮 + 仿巴洛克街屋 + 老車站', crowd:'mid'},
+  {id:'fengyi-academy', name:'鳳儀書院', emoji:'📖', area:'高雄鳳山', region:'kaohsiung', indoor:true, outdoor:true, ages:['3-6'], seasons:['spring','autumn','winter'], weathers:['sunny','rainy'], types:['戶外','室內','文化','古蹟','博物館'], note:'全台最大書院古蹟 + 兒童體驗', crowd:'mid'},
+  {id:'qijin-old', name:'旗津老街 / 天后宮', emoji:'🏮', area:'高雄旗津', region:'kaohsiung', indoor:false, outdoor:true, ages:['2-3','3-6'], seasons:['spring','autumn','winter'], weathers:['sunny','rainy'], types:['戶外','文化','老街','廟宇','海邊'], note:'渡輪 + 海鮮老街 + 媽祖廟 + 旗後燈塔', crowd:'mid'},
+  {id:'meinong-hakka', name:'美濃客家文物館 / 美濃湖', emoji:'🏘️', area:'高雄美濃', region:'kaohsiung', indoor:true, outdoor:true, ages:['2-3','3-6'], seasons:['spring','autumn','winter'], weathers:['sunny','rainy'], types:['室內','戶外','文化','博物館','湖泊'], note:'客家文物 + 旁邊美濃湖 + 油紙傘文化', crowd:'mid'},
+
   // ===== 屏東縣 =====
   {id:'aquarium-pingtung', name:'國立海洋生物博物館', emoji:'🐬', area:'屏東車城', region:'pingtung', indoor:true, outdoor:true, ages:['0-2','2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny','rainy'], types:['室內','戶外','動物','教育','博物館'], note:'三大主題館 + 海底隧道 + 餵企鵝。南台必訪', crowd:'mid'},
   {id:'kenting', name:'墾丁國家公園', emoji:'🏝️', area:'屏東恆春', region:'pingtung', indoor:false, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','海邊','玩水','自然','燈塔'], note:'白沙灣 + 墾丁大街 + 鵝鑾鼻燈塔。3 天行程', crowd:'high'},
@@ -977,6 +1016,8 @@ const PLACES = [
 
     {id:'victory-village', name:'勝利星村創意生活園區', emoji:'🏘️', area:'屏東屏東市', region:'pingtung', indoor:true, outdoor:true, ages:['2-3','3-6'], seasons:['spring','autumn','winter'], weathers:['sunny','rainy'], types:['戶外','室內','文化','文創','古蹟'], note:'眷村改文創 + 漫畫基地 + 親子展', crowd:'mid'},
   {id:'longluan-pond', name:'龍鑾潭自然中心', emoji:'🦆', area:'屏東恆春', region:'pingtung', indoor:true, outdoor:true, ages:['2-3','3-6'], seasons:['spring','autumn','winter'], weathers:['sunny'], types:['戶外','室內','自然','植物園','賞鳥','教育','湖泊'], note:'墾丁旁,賞水鳥 + 望遠鏡免費借', crowd:'low'},
+
+    {id:'pingtung-lib', name:'屏東縣立圖書館總館', emoji:'📚', area:'屏東屏東市', region:'pingtung', indoor:true, outdoor:true, ages:['0-2','2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','戶外','親子館','教育','文創'], note:'獲獎建築 + 兒童閱覽室 + 大草地', crowd:'mid'},
 
   // ===== 宜蘭縣 =====
   {id:'yilan-traditional', name:'宜蘭傳統藝術中心', emoji:'🎭', area:'宜蘭五結', region:'yilan', indoor:true, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny','rainy'], types:['室內','戶外','文化','教育'], note:'室內外都有,DIY 體驗多。雨天還是能玩', warning:'假日整日行程,記得帶水壺午餐', crowd:'mid'},
@@ -1010,6 +1051,11 @@ const PLACES = [
     {id:'yilan-museum', name:'宜蘭蘭陽博物館', emoji:'⛰️', area:'宜蘭頭城', region:'yilan', indoor:true, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','戶外','文化','博物館','教育','海邊'], note:'單面山造型建築 + 噶瑪蘭文化 + 烏石港', crowd:'mid'},
   {id:'yilan-ji-mi', name:'員山宜蘭酒廠 / 紅露酒文化館', emoji:'🍶', area:'宜蘭員山', region:'yilan', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','文化','觀光工廠','博物館'], note:'百年酒廠 + 紅露酒 DIY', crowd:'mid'},
 
+    {id:'lize-theater', name:'利澤老戲院', emoji:'🎬', area:'宜蘭五結', region:'yilan', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','autumn','winter'], weathers:['rainy','sunny'], types:['室內','文化','古蹟','文創'], note:'日治戲院古蹟修復 + 利澤老街', crowd:'mid'},
+  {id:'erjie-silos', name:'二結穀倉稻農文化館', emoji:'🌾', area:'宜蘭五結', region:'yilan', indoor:true, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','戶外','文化','博物館'], note:'日治穀倉 + 稻米文化展', crowd:'mid'},
+  {id:'yilan-pancake', name:'宜蘭餅發明館', emoji:'🥞', area:'宜蘭羅東', region:'yilan', indoor:true, outdoor:false, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','觀光工廠'], note:'牛舌餅觀光工廠 + DIY', crowd:'mid'},
+  {id:'suao-confit', name:'蘇澳蜜餞 / 老媽祖宮蜜餞工廠', emoji:'🍑', area:'宜蘭蘇澳', region:'yilan', indoor:true, outdoor:false, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','觀光工廠'], note:'蜜餞 DIY + 製程展示', crowd:'mid'},
+
   // ===== 花蓮縣 =====
   {id:'taroko', name:'太魯閣國家公園', emoji:'⛰️', area:'花蓮秀林', region:'hualien', indoor:false, outdoor:true, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','山林','自然'], note:'峽谷地形 + 砂卡礑步道 + 燕子口。台灣國寶', warning:'山路彎多;夏季易落石封路', crowd:'mid'},
   {id:'qixingtan', name:'七星潭', emoji:'🌊', area:'花蓮新城', region:'hualien', indoor:false, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','海邊','湖泊'], note:'月牙海岸 + 撿石頭 + 看日出。免費', crowd:'low'},
@@ -1033,6 +1079,9 @@ const PLACES = [
 
     {id:'dafudaji', name:'大農大富平地森林園區', emoji:'🌳', area:'花蓮鳳林', region:'hualien', indoor:false, outdoor:true, ages:['2-3','3-6'], seasons:['spring','autumn','winter'], weathers:['sunny'], types:['戶外','森林','植物園','自然','賞螢'], note:'全國最大平地森林 + 4-5 月賞螢 + 騎單車', crowd:'low'},
   {id:'hualien-stone-museum', name:'花蓮石雕博物館 / 七星柴魚', emoji:'🪨', area:'花蓮花蓮市', region:'hualien', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','文化','博物館','觀光工廠'], note:'石雕 + 柴魚 DIY', crowd:'mid'},
+
+    {id:'fenglin-hakka', name:'鳳林客家文物館', emoji:'🏘️', area:'花蓮鳳林', region:'hualien', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','autumn','winter'], weathers:['sunny','rainy'], types:['室內','文化','博物館'], note:'客家文物 + 鳳林菸樓群', crowd:'mid'},
+  {id:'yuli-bridge', name:'玉里客城吊橋 / 客城自行車道', emoji:'🌉', area:'花蓮玉里', region:'hualien', indoor:false, outdoor:true, ages:['2-3','3-6'], seasons:['spring','autumn'], weathers:['sunny'], types:['戶外','文化','自然'], note:'紅色客城吊橋 + 沿溪單車道', crowd:'mid'},
 
   // ===== 台東縣 =====
   {id:'taitung-forest', name:'台東森林公園 / 琵琶湖', emoji:'🌳', area:'台東台東市', region:'taitung', indoor:false, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','公園','自然','森林','湖泊'], note:'超大公園 + 三個湖泊 + 騎單車', crowd:'mid'},
@@ -1058,6 +1107,8 @@ const PLACES = [
 
     {id:'chishang-rice', name:'池上穀倉藝術館 / 大坡池', emoji:'📚', area:'台東池上', region:'taitung', indoor:true, outdoor:true, ages:['3-6'], seasons:['spring','autumn','winter'], weathers:['sunny','rainy'], types:['室內','戶外','文化','美術館','文創','湖泊'], note:'舊穀倉改藝術館 + 大坡池環湖步道', crowd:'mid'},
   {id:'taitung-art-museum', name:'臺東美術館', emoji:'🎨', area:'台東台東市', region:'taitung', indoor:true, outdoor:true, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','戶外','文化','美術館'], note:'森林公園旁 + 兒童美術活動', crowd:'mid'},
+
+    {id:'luye-shrine', name:'鹿野神社 / 龍田綠色隧道', emoji:'⛩️', area:'台東鹿野', region:'taitung', indoor:false, outdoor:true, ages:['2-3','3-6'], seasons:['spring','autumn','winter'], weathers:['sunny'], types:['戶外','文化','古蹟','自然'], note:'重建日式神社 + 龍田綠隧道騎車', crowd:'mid'},
 
   // ===== 澎湖縣 =====
   {id:'guanyinting', name:'馬公觀音亭', emoji:'🌅', area:'澎湖馬公', region:'penghu', indoor:false, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','海邊'], note:'看夕陽 + 西瀛虹橋 + 海邊散步', crowd:'mid'},
@@ -1085,6 +1136,9 @@ const PLACES = [
 
     {id:'zhaishan-tunnel', name:'翟山坑道 / 戰備港', emoji:'🚣', area:'金門金城', region:'kinmen', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny','rainy'], types:['室內','文化','戰地'], note:'戰備坑道 + 地下水道', warning:'走階梯多,3 歲以下不建議', crowd:'mid'},
   {id:'babadong', name:'馬山觀測所', emoji:'🔭', area:'金門金沙', region:'kinmen', indoor:true, outdoor:true, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny','rainy'], types:['戶外','文化','戰地','古蹟'], note:'看大陸最近處 + 心戰播音', crowd:'mid'},
+
+    {id:'823-museum', name:'八二三戰史館', emoji:'🪖', area:'金門金湖', region:'kinmen', indoor:true, outdoor:true, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','戶外','文化','博物館','戰地','古蹟'], note:'823 砲戰歷史 + 戶外戰備展示', crowd:'mid'},
+  {id:'qionglin', name:'瓊林聚落 / 戰鬥坑道', emoji:'🏘️', area:'金門金湖', region:'kinmen', indoor:true, outdoor:true, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['戶外','室內','文化','古蹟','戰地'], note:'閩南古厝聚落 + 戰備坑道', crowd:'mid'},
 
   // ===== 連江縣 / 馬祖 =====
   {id:'beihai-tunnel', name:'北海坑道', emoji:'🚣', area:'馬祖南竿', region:'lienchiang', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny','rainy'], types:['室內','文化'], note:'戰備坑道 + 退潮可步行 + 漲潮可搖櫓', crowd:'mid'},
@@ -1454,6 +1508,20 @@ const PRECISE_COORDS = {
   'xpark': [25.0541,121.2189], 'global-mall-zhongli': [25.0541,121.2189],
   // ===== v3.0 補完所有景點精確座標 =====
   // ===== v3.1 文旅 / 博物館 / 植物園 補景點座標 =====
+  // ===== v3.3 文旅 part2 補景點座標 =====
+  'jizhouan': [25.0298,121.5191], 'caoshan': [25.1626,121.5482], 'guling-theater': [25.0290,121.5180],
+  'zhongshanhall': [25.0427,121.5102], 'wulai-atayal': [24.8651,121.5510], 'pingxi-old': [25.0254,121.7396],
+  'makay-museum': [25.1714,121.4406], 'taoyuan-shrine': [24.9938,121.3010], 'daxi-wude': [24.8807,121.2876],
+  'guishan-village': [25.0030,121.3382], 'image-museum': [24.8043,120.9657], 'jin-guang-fu': [24.6990,121.0613],
+  'zhunan-railway': [24.6841,120.8730], 'gongguan-wenshui': [24.4979,120.8211], 'taichung-lit': [24.1437,120.6628],
+  '1895-anti': [24.0817,120.5430], 'brand-monkey': [24.0570,120.4348], 'huwei-sugar': [23.7068,120.4310],
+  'zhenmin-school': [23.7068,120.4310], 'shennong-st': [22.9974,120.2024], 'tainan-confucius': [22.9904,120.2057],
+  'xiaolong': [23.1657,120.1771], 'wushantou': [23.2030,120.3210], 'haian-art': [22.9974,120.1990],
+  'qishan-old': [22.8870,120.4831], 'fengyi-academy': [22.6262,120.3573], 'qijin-old': [22.6126,120.2832],
+  'meinong-hakka': [22.8979,120.5430], 'pingtung-lib': [22.6717,120.4880], 'lize-theater': [24.6884,121.8082],
+  'erjie-silos': [24.6884,121.8082], 'yilan-pancake': [24.6770,121.7705], 'suao-confit': [24.5946,121.8520],
+  'fenglin-hakka': [23.7513,121.4538], 'yuli-bridge': [23.3354,121.3133], 'luye-shrine': [22.9145,121.1356],
+  '823-museum': [24.4385,118.4181], 'qionglin': [24.4385,118.4181],
   'moca-taipei': [25.0497,121.5197], 'paper-museum': [25.0500,121.5388], 'shungye': [25.1015,121.5479],
   'lin-yutang': [25.1190,121.5483], 'treasure-hill': [25.0091,121.5333], 'ntsec-art': [25.0244,121.5403],
   'museum-of-drinking-water': [25.0148,121.5285], 'yingge-ceramics-museum': [24.9542,121.3506], 'forest-museum-banqiao': [25.0107,121.4517],
