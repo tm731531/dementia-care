@@ -1470,6 +1470,18 @@ const PLACES = [
   {id:'kaohsiung-shouwan', name:'高雄市立兒童美術館', emoji:'🎨', area:'高雄鼓山', region:'kaohsiung', indoor:true, outdoor:false, ages:['0-2','2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','文化','美術館'], note:'專屬兒童美術館 + 0-3 歲爬行區', crowd:'mid'},
   {id:'kaohsiung-libmain-kids', name:'高雄市立圖書館總館', emoji:'📚', area:'高雄前鎮', region:'kaohsiung', indoor:true, outdoor:false, ages:['0-2','2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','圖書館','教育'], note:'兒童書區 + 嬰兒爬行區', crowd:'mid'},
 
+  // ===== Wave 3: 觀光工廠 + 農場 (v3.13) =====
+  {id:'jade-rabbit-pencil', name:'玉兔鉛筆學校觀光工廠', emoji:'✏️', area:'宜蘭五結', region:'yilan', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','觀光工廠','教育','DIY'], note:'台灣老牌鉛筆觀光工廠 + 製鉛筆 DIY,需預約', crowd:'mid'},
+  {id:'woodroot-magic', name:'台中木工坊', emoji:'🪵', area:'台中南屯', region:'taichung', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','觀光工廠','DIY','教育'], note:'木工 DIY 觀光工廠 + 雨天首選', crowd:'low'},
+  {id:'likang-herb', name:'立康中草藥產業文化館', emoji:'🌿', area:'台中南屯', region:'taichung', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','觀光工廠','博物館','教育'], note:'中藥文化展館 + 兒童體驗', crowd:'low'},
+  {id:'miso-museum', name:'台灣味噌釀造文化館', emoji:'🥢', area:'台中豐原', region:'taichung', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','觀光工廠','美食'], note:'味噌 DIY + 試吃 + 文化展示', crowd:'low'},
+  {id:'dasi-flower-farm', name:'大溪花海休閒農場', emoji:'🌹', area:'桃園大溪', region:'taoyuan', indoor:false, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','農場','賞花','遊樂'], note:'15 公頃花海 + 兒童遊樂區 + 動物互動', crowd:'high'},
+  {id:'peach-source-fairy-valley', name:'桃源仙谷', emoji:'🌷', area:'桃園復興', region:'taoyuan', indoor:false, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','農場','賞花','自然'], note:'50 公頃森林花園 + 鬱金香 + 親子步道', crowd:'mid'},
+  {id:'cingjing-swiss-garden', name:'清境農場小瑞士花園', emoji:'🇨🇭', area:'南投仁愛', region:'nantou', indoor:false, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','農場','賞花'], note:'高山瑞士風花園 + 紙風車 + 兒童區', crowd:'high'},
+  {id:'linkou-formosa-life', name:'台塑企業文物館', emoji:'🏭', area:'新北林口', region:'newtaipei', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','觀光工廠','文化'], note:'臺塑王永慶紀念館 + 企業歷史', crowd:'low'},
+  {id:'lions-head-mountain', name:'獅頭山勸化堂', emoji:'🛐', area:'苗栗南庄', region:'miaoli', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','文化','廟宇','古蹟'], note:'獅頭山主寺院 + 山林古道', crowd:'low'},
+  {id:'xinpu-persimmon', name:'味衛佳柿餅教育農園', emoji:'🍂', area:'新竹新埔', region:'hsinchu_county', indoor:false, outdoor:true, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','觀光工廠','農場','美食'], note:'柿餅曬製景觀 (10-12 月最美)', crowd:'high'},
+
   ];
 
 // ============ State ============
@@ -1804,6 +1816,17 @@ function findNearestDistrict(lat, lng) {
 
 // 知名廣域景點的精確座標(蓋過 area 中心的粗估)
 const PRECISE_COORDS = {
+  // ===== Wave 3 座標 (v3.13) =====
+  'jade-rabbit-pencil': [24.6926,121.7649],
+  'woodroot-magic': [24.1788,120.5730],
+  'likang-herb': [23.0460,120.2742],
+  'miso-museum': [24.2342,120.7006],
+  'dasi-flower-farm': [24.8423,121.2912],
+  'peach-source-fairy-valley': [24.7877,121.2785],
+  'cingjing-swiss-garden': [24.0440,121.1564],
+  'linkou-formosa-life': [25.0347,121.3881],
+  'lions-head-mountain': [24.6420,121.0102],
+  'xinpu-persimmon': [24.8406,121.0763],
   // ===== Wave 2 座標 (v3.12) =====
   'huaxi-toilet-park': [25.0464,121.5271],
   'xindianbing-kids': [24.9736,121.5438],
