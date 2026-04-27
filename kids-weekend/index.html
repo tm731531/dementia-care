@@ -1464,6 +1464,12 @@ const PLACES = [
   {id:'yelliu-ocean', name:'野柳海洋世界', emoji:'🐬', area:'新北萬里', region:'newtaipei', indoor:true, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','戶外','海洋','動物'], note:'海豚表演 + 海洋生物館,室內可看', crowd:'high'},
   {id:'jiufen-tea', name:'阿妹茶樓', emoji:'🍵', area:'新北瑞芳', region:'newtaipei', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','文化','茶館'], note:'九份知名茶樓,室內品茶看夜景', crowd:'high'},
 
+  // ===== Wave 2: 0-2 歲友善 (v3.12) =====
+  {id:'huaxi-toilet-park', name:'中央藝文公園共融遊戲場', emoji:'🛝', area:'台北中正', region:'taipei', indoor:false, outdoor:true, ages:['0-2','2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','公園','親子公園','文創'], note:'華山藝文特區內大草原 + 滑梯 + 水沙池', crowd:'mid'},
+  {id:'xindianbing-kids', name:'新北市新店北新公共托育中心（托嬰中心）', emoji:'🧸', area:'新北新店', region:'newtaipei', indoor:true, outdoor:false, ages:['0-2'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','親子館'], note:'0-2 歲專屬,需預約,免費', crowd:'low'},
+  {id:'kaohsiung-shouwan', name:'高雄市立兒童美術館', emoji:'🎨', area:'高雄鼓山', region:'kaohsiung', indoor:true, outdoor:false, ages:['0-2','2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','文化','美術館'], note:'專屬兒童美術館 + 0-3 歲爬行區', crowd:'mid'},
+  {id:'kaohsiung-libmain-kids', name:'高雄市立圖書館總館', emoji:'📚', area:'高雄前鎮', region:'kaohsiung', indoor:true, outdoor:false, ages:['0-2','2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','圖書館','教育'], note:'兒童書區 + 嬰兒爬行區', crowd:'mid'},
+
   ];
 
 // ============ State ============
@@ -1798,6 +1804,11 @@ function findNearestDistrict(lat, lng) {
 
 // 知名廣域景點的精確座標(蓋過 area 中心的粗估)
 const PRECISE_COORDS = {
+  // ===== Wave 2 座標 (v3.12) =====
+  'huaxi-toilet-park': [25.0464,121.5271],
+  'xindianbing-kids': [24.9736,121.5438],
+  'kaohsiung-shouwan': [22.6578,120.2830],
+  'kaohsiung-libmain-kids': [22.6104,120.3018],
   // ===== Wave 1 座標 (v3.11) =====
   'yangsanlang-art': [25.0159,121.5167],
   'lapopole': [25.0769,121.7550],
