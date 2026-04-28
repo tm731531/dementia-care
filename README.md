@@ -1,15 +1,17 @@
 # Dementia Care Tools
 
-**一個失智主照顧者 + 育兒爸爸的個人工具集 + 經驗分享**。
+**一個 solo 失智照護者(配偶/手足無援)的自家工具集 + 經驗分享**。
 
-照顧失智媽媽 5 年 + 育兒 2023 年出生的女兒,過程中每天遇到 friction 就寫一個小工具來處理。後來朋友(藥師)、藥師客戶、社區照護者也用得上,放上來公開。
+**結構上設計給:白天只有你跟長輩、家屬 backup 0、商業 app 都假設你有時間引導**。
 
-**這是 personal toolkit,不是 community product**。
+照顧失智媽媽(2 年急速進展)+ 育兒 2023 年出生女兒,前面有 15 年照爸爸 stroke 失能 secondary 經驗,過程中每天遇到 friction 就寫一個小工具。後來朋友(藥師)、社區照護者也用得上,放上來公開。
+
+**這是 personal toolkit,不是 community product**:
 - 自家用為主,維護優先順序看 Tom 當下需要
 - 不主動推廣給陌生使用者(避免讓人對「會被維護」產生錯誤期待)
 - **方法資訊** 透過 [blog.tomting.com](https://blog.tomting.com/) 分享(那是擴散渠道,工具不是)
 
-> **上位 mission**:「**讓整個家忙起來**」—— 工具、植物、寵物、結構化紀錄,讓家裡每天有事在發生、有生命陪伴。對失智長輩尤其重要 —— 不是被照顧的對象,是還有事可做的家人。
+> **上位 mission**:「**讓整個家忙起來**」 — 對應的循證概念是 **ambient engagement**(Marx & Cohen-Mansfield 2010 "Engagement of Persons with Dementia"):環境引發 vs 人引發,失智長輩參與有意義活動的「量」與認知衰退斜率負相關。這個 repo 的工具不是治療,是**降低照護者啟動活動的 friction**,讓 engagement 在沒人陪伴的疲累照護日實際發生。
 
 技術細節(給工程師朋友看):純前端、單一 HTML 檔為主、零伺服器、零廣告、零追蹤、零外部 CDN、完全離線可用、0 build step、localStorage 持久化。
 
