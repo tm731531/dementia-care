@@ -8,21 +8,42 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='52' font-size='52'%3E🗺️%3C/text%3E%3C/svg%3E">
 <style>
 :root {
+  /* 主色 — CTA / 品牌 */
   --primary: #ff8c42;
   --primary-dark: #d36a25;
   --primary-light: #fff4eb;
   --accent: #4a8fb8;
+  /* 中性 */
   --bg: #fffaf5;
   --card: #fff;
   --text: #2d2a26;
   --muted: #6b6258;
   --border: #f0d9c4;
+  /* 語意色 — 警告 / 危險 / OK / 路線 / 已關閉(closed != danger) */
   --warn-bg: #fff4e6;
   --warn-border: #f0a868;
+  --warn-text: #8a4a0a;
   --danger-bg: #fde8e8;
   --danger-border: #e07c7c;
+  --danger-text: #8a2d2d;
   --ok-bg: #e8f4ec;
   --ok-border: #6ba88a;
+  --ok-text: #1a7a3e;
+  --route-bg: #fff8f0;          /* 路線規劃專用,跟 primary 區隔 */
+  --route-border: #ff8c42;
+  --closed-bg: #f0eeec;          /* 已打烊 != danger,中性灰 */
+  --closed-text: #6b6258;
+  /* Focus indicator(WCAG 2.2 AA) */
+  --focus-ring: 0 0 0 3px rgba(255, 140, 66, 0.55);
+}
+/* a11y: 全域 focus-visible — 鍵盤使用者必看 */
+*:focus { outline: none; }
+button:focus-visible, a:focus-visible, select:focus-visible, input:focus-visible,
+textarea:focus-visible, summary:focus-visible, [role="button"]:focus-visible,
+.tag.clickable:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
@@ -106,17 +127,21 @@ a { color: var(--accent); }
 .place-card .area { font-size: 13px; color: var(--muted); }
 .place-card .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
 .tag {
-  display: inline-block; font-size: 12px; padding: 2px 8px; border-radius: 12px;
+  /* a11y: chip 14px + padding 8x10,touch target ~ 32px(垂直含 line-height) */
+  display: inline-block; font-size: 14px; padding: 6px 12px; border-radius: 999px;
   background: var(--primary-light); color: var(--primary-dark); border: 1px solid var(--border);
+  line-height: 1.2;
 }
 .tag.indoor { background: #eaf3fa; color: #2c5d80; border-color: #c2d9eb; }
 .tag.outdoor { background: #eaf6e8; color: #3a7a36; border-color: #c5e0bf; }
 .tag.water { background: #e8f4f8; color: #2c7290; border-color: #b8dde8; }
-.tag.warn { background: var(--warn-bg); color: #8a4a0a; border-color: var(--warn-border); }
-.tag.clickable { cursor: pointer; user-select: none; }
+.tag.warn { background: var(--warn-bg); color: var(--warn-text); border-color: var(--warn-border); }
+.tag.age { background: transparent; color: var(--muted); border: 1px dashed var(--border); }
+.tag.clickable { cursor: pointer; user-select: none; min-height: 32px; display: inline-flex; align-items: center; }
 .tag.clickable:hover { filter: brightness(0.95); }
+.tag.clickable:active { filter: brightness(0.85); }
 .tag.must { background: #c5e0bf; color: #2d6a4f; border-color: #6ba88a; font-weight: 700; }
-.tag.excluded { background: #fde8e8; color: #8a2d2d; border-color: #e07c7c; text-decoration: line-through; opacity: 0.7; }
+.tag.excluded { background: var(--danger-bg); color: var(--danger-text); border-color: var(--danger-border); text-decoration: line-through; opacity: 0.7; }
 .active-filters { background: #fffaf0; border: 1px dashed var(--primary); padding: 10px 14px; border-radius: 8px; margin-bottom: 12px; }
 .active-filters .label { font-size: 13px; color: var(--muted); margin-right: 8px; }
 .active-filters .tag { margin: 2px; }
@@ -126,11 +151,43 @@ a { color: var(--accent); }
 .place-card .actions-secondary { gap: 6px; }
 .place-card .actions-danger { justify-content: flex-end; padding-top: 4px; border-top: 1px dashed #e8e8e8; margin-top: 2px; }
 .btn-danger-link {
-  background: transparent; color: #a55; border: 0;
-  padding: 4px 8px; font-size: 12px; cursor: pointer;
-  text-decoration: underline; opacity: 0.65;
+  /* a11y: 對比改 var(--danger-text) #8a2d2d 達 4.5:1 AA;移除 opacity 0.65 避免複合對比失敗 */
+  /* touch target: padding 10x14 + font 14 → ~ 40px,接近 44 */
+  background: transparent; color: var(--danger-text); border: 1px solid transparent;
+  padding: 10px 14px; font-size: 14px; cursor: pointer;
+  text-decoration: underline; min-height: 40px;
+  border-radius: 6px;
 }
-.btn-danger-link:hover { opacity: 1; color: #8a2d2d; }
+.btn-danger-link:hover { background: var(--danger-bg); border-color: var(--danger-border); }
+.btn-danger-link:active { background: #fbd5d5; }
+/* Waypoint reorder buttons — touch target 40px(WCAG 2.2 AA target size) */
+.wp-btn {
+  background: #fff; border: 1px solid var(--border); border-radius: 6px;
+  width: 40px; height: 40px; cursor: pointer; font-size: 16px;
+  display: inline-flex; align-items: center; justify-content: center;
+  flex: 0 0 40px;
+}
+.wp-btn:hover { background: var(--primary-light); border-color: var(--primary); }
+.wp-btn:active { background: #ffe0c8; }
+.wp-btn-danger { color: var(--danger-text); border-color: var(--danger-border); }
+.wp-btn-danger:hover { background: var(--danger-bg); }
+.wp-btn[style*="opacity:0.3"], .wp-btn[disabled] { pointer-events: none; opacity: 0.3; }
+/* Toast 系統(替代 alert + 提供 undo) */
+.toast-container { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); z-index: 200; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
+.toast {
+  background: var(--text); color: #fff; padding: 12px 16px; border-radius: 8px; font-size: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2); pointer-events: auto;
+  display: flex; align-items: center; gap: 12px; min-width: 240px; max-width: 360px;
+  animation: toast-in 0.2s ease-out;
+}
+.toast.danger { background: var(--danger-text); }
+.toast.success { background: var(--ok-text); }
+.toast button {
+  background: rgba(255,255,255,0.2); color: #fff; border: 0; border-radius: 4px;
+  padding: 6px 12px; font-size: 13px; cursor: pointer; font-weight: 600;
+}
+.toast button:hover { background: rgba(255,255,255,0.3); }
+@keyframes toast-in { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 .btn {
   background: var(--primary); color: #fff; border: 0; padding: 10px 16px;
   border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer;
@@ -596,9 +653,15 @@ a { color: var(--accent); }
     <li><strong>不用註冊</strong>,沒帳號密碼,打開就用</li>
     <li><strong>沒有廣告</strong>,沒有彈跳視窗,不會被追蹤</li>
     <li><strong>你的資料只在你的手機</strong>(收藏、評語、路線),不會上傳到任何伺服器</li>
-    <li>點「📍 Google Maps」按鈕 = 你主動連去 google.com,那次連線是你的裝置直接連</li>
+    <li>點「📍 Google Maps」按鈕 = 你主動連去 google.com,**會把家位置和路線傳給 Google**(這部分是 Google 的隱私政策)</li>
+    <li>📡 GPS 定位:座標只精確到 ~100m(用區中心而非房號級),不會精確到你家門口</li>
     <li>(技術細節:純前端、零外部 CDN、localStorage 持久化。給工程師朋友看的)</li>
   </ul>
+  <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:14px;margin-top:14px;">
+    <h4 style="margin:0 0 8px;">🗑️ 想清掉所有本機資料?</h4>
+    <p style="font-size:14px;color:var(--muted);margin:0 0 10px;">收藏、評語、自加景點、路線、家位置、偏好設定 — 全部清掉。等同 GDPR「被遺忘權」。</p>
+    <button class="btn-danger-link" onclick="clearLocalData()" style="font-size:14px;">🗑️ 清掉本機所有資料</button>
+  </div>
 
   <div class="next-step-cta">
     <h4>✅ 看完關於,下一步</h4>
@@ -2847,12 +2910,62 @@ function toggleBlocked(id) {
   if (!STATE.preferences) STATE.preferences = {};
   STATE.preferences.blockedPlaces = STATE.preferences.blockedPlaces || [];
   const i = STATE.preferences.blockedPlaces.indexOf(id);
-  if (i >= 0) STATE.preferences.blockedPlaces.splice(i, 1);
+  const wasBlocked = i >= 0;
+  if (wasBlocked) STATE.preferences.blockedPlaces.splice(i, 1);
   else STATE.preferences.blockedPlaces.push(id);
   saveState();
   renderWizard();
   if (document.getElementById('page-browse').classList.contains('active')) renderBrowse();
   if (document.getElementById('page-favorites').classList.contains('active')) renderFavorites();
+  // Toast undo:防誤點(行動裝置一手操作)
+  const pl = getAllPlaces().find(p => p.id === id);
+  const name = pl ? pl.name : id;
+  if (wasBlocked) {
+    showToast(`已恢復「${name}」`, {type: 'success'});
+  } else {
+    showToast(`已標「不再去」「${name}」`, {
+      type: 'danger',
+      action: {label: '↩ 取消', fn: () => toggleBlocked(id)},
+      duration: 6000,
+    });
+  }
+}
+
+// ===== Toast 系統 =====
+function showToast(msg, opts) {
+  opts = opts || {};
+  let container = document.getElementById('toast-container');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'toast-container';
+    container.className = 'toast-container';
+    container.setAttribute('aria-live', 'polite');
+    container.setAttribute('aria-atomic', 'true');
+    document.body.appendChild(container);
+  }
+  const toast = document.createElement('div');
+  toast.className = 'toast' + (opts.type ? ' ' + opts.type : '');
+  toast.setAttribute('role', opts.type === 'danger' ? 'alert' : 'status');
+  const text = document.createElement('span');
+  text.style.flex = '1';
+  text.textContent = msg;
+  toast.appendChild(text);
+  if (opts.action) {
+    const btn = document.createElement('button');
+    btn.textContent = opts.action.label;
+    btn.onclick = () => { opts.action.fn(); toast.remove(); };
+    toast.appendChild(btn);
+  }
+  container.appendChild(toast);
+  setTimeout(() => toast.remove(), opts.duration || 3500);
+}
+
+// 清掉本機所有資料(GDPR 第 17 條基礎)
+function clearLocalData() {
+  if (!confirm('確定清掉本機所有資料?\n\n包含:收藏、評語、自加景點、路線、家位置、所有偏好設定。\n\n清掉後無法復原。')) return;
+  localStorage.removeItem('kidsWeekendState');
+  showToast('✓ 本機資料已清除,1 秒後重新載入', {type: 'success'});
+  setTimeout(() => location.reload(), 1000);
 }
 
 // ===== 手動新增景點 =====
@@ -3027,9 +3140,9 @@ function renderWizardResult(p) {
         <span style="color:var(--muted);font-size:14px;cursor:grab;" title="拖拉換序">⋮⋮</span>
         <span style="color:var(--primary-dark);font-weight:700;font-size:12px;width:24px;">#${i+1}</span>
         <span style="flex:1;">${w.pl.emoji} ${w.pl.name}</span>
-        <button onclick="moveWaypoint('${w.pl.id}', -1)" style="${upDis}background:none;border:1px solid var(--border);border-radius:4px;width:26px;height:26px;cursor:pointer;font-size:14px;" title="往前">↑</button>
-        <button onclick="moveWaypoint('${w.pl.id}', 1)" style="${downDis}background:none;border:1px solid var(--border);border-radius:4px;width:26px;height:26px;cursor:pointer;font-size:14px;" title="往後">↓</button>
-        <button onclick="removeWaypoint('${w.pl.id}')" style="background:none;border:1px solid #e07c7c;color:#a55;border-radius:4px;width:26px;height:26px;cursor:pointer;font-size:14px;" title="移除">✗</button>
+        <button class="wp-btn" onclick="moveWaypoint('${w.pl.id}', -1)" style="${upDis}" title="往前移一格" aria-label="第 ${i+1} 站 ${w.pl.name},往前移">↑</button>
+        <button class="wp-btn" onclick="moveWaypoint('${w.pl.id}', 1)" style="${downDis}" title="往後移一格" aria-label="第 ${i+1} 站 ${w.pl.name},往後移">↓</button>
+        <button class="wp-btn wp-btn-danger" onclick="removeWaypoint('${w.pl.id}')" title="從路線移除" aria-label="從路線移除 ${w.pl.name}">✗</button>
       </div>`;
     }).join('');
 
@@ -3227,7 +3340,7 @@ function renderPlaceCard(pl, km) {
       const cls = st === 'must' ? 'must' : st === 'excluded' ? 'excluded' : '';
       return `<span class="tag clickable ${cls}" onclick="cycleTag('${escapeJs(t)}');event.stopPropagation();" title="點一下:必選 / 再點:排除 / 再點:取消">${t}</span>`;
     }),
-    ...pl.ages.map(a => `<span class="tag">${a}</span>`),
+    ...pl.ages.map(a => `<span class="tag age">${a}</span>`),
   ].filter(Boolean).join('');
   const kmLabel = (km !== undefined && km !== null) ? `<span style="color:var(--primary-dark);font-weight:700;font-size:13px;">📐 ${km.toFixed(1)} km</span>` : '';
   const crowdSpan = crowdLabel ? `<span style="font-size:12px;margin-left:8px;">${crowdLabel}</span>` : '';
@@ -3477,6 +3590,8 @@ window.clearTagFilters = clearTagFilters;
 window.quickExcludeTag = quickExcludeTag;
 window.toggleVisited = toggleVisited;
 window.toggleBlocked = toggleBlocked;
+window.showToast = showToast;
+window.clearLocalData = clearLocalData;
 window.addUserPlace = addUserPlace;
 window.resetAddForm = resetAddForm;
 window.onAddCountyChange = onAddCountyChange;
