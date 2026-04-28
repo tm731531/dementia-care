@@ -2356,6 +2356,37 @@ function scoreSearch(pl, q) {
   if (types.includes(q)) return 10;
   return 0;
 }
+// 回報景點問題:用 mailto 開使用者 mail app,預填 to/subject/body
+// 不需要 API key、不需要後台、不離開 0-CDN 規則
+const REPORT_TO_EMAIL = 'tonic16888@gmail.com';
+function reportPlaceIssue(placeId) {
+  const pl = getAllPlaces().find(p => p.id === placeId);
+  if (!pl) return;
+  const subject = `[kids-weekend] 景點回報:${pl.name}`;
+  const lat = pl.lat || (PRECISE_COORDS[pl.id] ? PRECISE_COORDS[pl.id][0] : '?');
+  const lng = pl.lng || (PRECISE_COORDS[pl.id] ? PRECISE_COORDS[pl.id][1] : '?');
+  const body = [
+    `景點 ID:${pl.id}`,
+    `名稱:${pl.name}`,
+    `地區:${pl.area}`,
+    `座標:${lat}, ${lng}`,
+    '',
+    '問題類型(請保留 1 個):',
+    '  □ 已停業 / 永久關閉',
+    '  □ 改名了',
+    '  □ 座標不對(實際在 ___)',
+    '  □ 預約方式變了',
+    '  □ 不適合親子(體驗差)',
+    '  □ 其他',
+    '',
+    '說明(歡迎附資料):',
+    '',
+  ].join('\n');
+  // mailto URL — encodeURIComponent 處理中文與換行
+  const url = `mailto:${REPORT_TO_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  window.location.href = url;
+}
+
 function onSearchInput(val) {
   const list = searchPlaces(val, 8);
   const el = document.getElementById('search-results');
@@ -3205,6 +3236,7 @@ function renderPlaceCard(pl, km) {
           : `<button class="btn btn-secondary btn-small" onclick="setDestination('${pl.id}')" title="設為目的地">🛣️ 設目的地</button>`}
       </div>
       <div class="actions-row actions-danger">
+        <button class="btn-danger-link" onclick="reportPlaceIssue('${pl.id}')" title="這筆資料有錯 / 已停業 / 名字改了?寫信告訴 Tom">❗ 回報問題</button>
         <button class="btn-danger-link" onclick="toggleBlocked('${pl.id}')" title="${isBlocked?'取消封存':'之後不再顯示這個景點'}">${isBlocked?'↩ 取消封存':'🚫 不再去'}</button>
         ${pl.id.startsWith('user-') ? `<button class="btn-danger-link" onclick="deleteUserPlace('${pl.id}')" title="刪除自加景點">🗑️ 刪除</button>` : ''}
       </div>
@@ -3365,6 +3397,7 @@ window.syncRangeLabels = syncRangeLabels;
 window.updateRangeEdgeHint = updateRangeEdgeHint;
 window.onSearchInput = onSearchInput;
 window.searchPlaces = searchPlaces;
+window.reportPlaceIssue = reportPlaceIssue;
 window.setDestination = setDestination;
 window.clearDestination = clearDestination;
 window.addWaypoint = addWaypoint;
