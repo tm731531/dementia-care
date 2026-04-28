@@ -1702,22 +1702,20 @@ function renderWizard() {
   const el = document.getElementById('wizard-container');
   if (!el) return;
   const p = STATE.userProfile || {};
-  if (p.home && p.weather && p.range) {
+  if (p.home) {
     el.innerHTML = renderWizardResult(p);
     return;
   }
-  if (!p.home) { el.innerHTML = renderWizardQ('home'); return; }
-  if (!p.weather) { el.innerHTML = renderWizardQ('weather'); return; }
-  if (!p.range) { el.innerHTML = renderWizardQ('range'); return; }
+  el.innerHTML = renderWizardQ('home');
 }
 
 function renderWizardQ(step) {
   if (step === 'home') {
     const countyOpts = Object.entries(TAIWAN_DISTRICTS).map(([k,v])=>`<option value="${k}">${v.label}</option>`).join('');
     return `<div class="wizard-card">
-      <div class="wizard-step">第 1 / 3 題(只問一次,之後記住)</div>
+      <div class="wizard-step">只問 1 題 · 之後永遠記住</div>
       <h2>🏠 你住哪?</h2>
-      <p style="margin:0 0 12px;color:var(--muted);">用「直線距離 km」算範圍 — 你選的位置 → 每個景點。</p>
+      <p style="margin:0 0 12px;color:var(--muted);">設定後直接看推薦,**預設 20 km 範圍**(後面可拉滑桿改 5-400 km)。天氣晴雨家長自己看,工具不問。</p>
       <div style="background:#fff8f0;border:2px solid var(--primary);border-radius:8px;padding:14px;margin-bottom:12px;">
         <button id="gps-btn" class="btn" onclick="useGeolocation()" style="width:100%;font-size:16px;padding:12px;">📍 用 GPS 自動定位(精準到當下位置)</button>
         <p style="font-size:13px;color:var(--muted);margin:8px 0 0;text-align:center;">第一次需允許瀏覽器定位權限</p>
@@ -2306,7 +2304,8 @@ function getRangeKm(profile) {
   if (profile.range === 'near') return 15;
   if (profile.range === 'medium') return 40;
   if (profile.range === 'trip') return 100;
-  return null; // nationwide / 無
+  if (profile.range === 'nationwide') return null;
+  return 20; // 預設 20 km(沒選 preset 也沒拉滑桿時)
 }
 function getRangeMinKm(profile) {
   return profile.customRangeMinKm || 0;
@@ -2477,8 +2476,7 @@ function filterPlaces(p) {
   return getAllPlaces().filter(pl => {
     if (blocked.includes(pl.id)) return false;
     if (!passesRange(pl, p)) return false;
-    if (p.weather === 'sunny' && !pl.weathers.includes('sunny') && !pl.outdoor) return false;
-    if (p.weather === 'rainy' && !pl.weathers.includes('rainy') && !pl.indoor) return false;
+    // 天氣不再做 hard filter — 家長自己看景點 indoor/outdoor 標籤決定(v3.29)
     if (avoid && pl.crowd === 'high') return false;
     if (must.length && !must.every(t => pl.types.includes(t))) return false;
     if (exc.length && exc.some(t => pl.types.includes(t))) return false;
@@ -3030,7 +3028,7 @@ function renderBlockedList() {
 
 function renderWizardResult(p) {
   const matches = filterPlaces(p);
-  const wLabel = {sunny:'晴',rainy:'雨',any:'隨便'}[p.weather];
+  const wLabel = p.weather ? ({sunny:'☀️ 晴',rainy:'☔ 雨',any:'隨便'}[p.weather] || '') : '';
   const curLimitForLabel = getRangeKm(p);
   const rLabel = curLimitForLabel ? `≤${curLimitForLabel}km` : '全台';
   const hLabel = (p.home && p.homeDistrict) ? (p.homeIsGps ? `📍 ${TAIWAN_DISTRICTS[p.home]?.label || ''}${p.homeDistrict}` : (p.home === 'gps' ? `📍 ${p.homeDistrict}` : `${TAIWAN_DISTRICTS[p.home]?.label || ''}${p.homeDistrict}`)) : '';
@@ -3137,7 +3135,7 @@ function renderWizardResult(p) {
     </details>
     ${renderActiveTagFilters()}
     ${renderTagOverview(matches)}
-    <h2>🎯 給你的推薦(${wLabel} · ${rLabel}) <a class="reset-link" onclick="resetWizard()">↻ 改條件</a></h2>
+    <h2>🎯 給你的推薦(${rLabel}${wLabel ? ' · ' + wLabel : ''}) <a class="reset-link" onclick="resetWizard()">↻ 改條件</a></h2>
     <p style="color:var(--muted);font-size:14px;margin:0 0 12px;">符合條件 <strong>${matches.length}</strong> 個${avoid?'(已過濾人多)':''}。點 <strong>📍 Google Maps</strong> 直接導航。</p>`;
 
   if (matches.length === 0) {
