@@ -1,14 +1,50 @@
 # dementia-care monorepo — 開發指引
 
 ## 這個 repo 是什麼
-6 個互相關聯的 HTML/Python 小工具，圍繞「家人照顧」這件事：
-- **失智長輩照護**（v1 / v2 / 就診 / OCR 白板）
-- **兒童學習**（kids-companion）
-- **營養飲品比較**（health-drinks）
+**Tier 2 Personal toolkit**(自家用為主,不是 community product):14 個 HTML/Python 工具,圍繞「家人照顧」這件事:
+- **失智長輩照護**(v1 / v2 / 就診 / OCR 白板)
+- **兒童**(kids-companion / kids-weekend / childcare-handbook)
+- **生活方法論手冊**(garden / pet / care / home / mindset)
+- **營養飲品比較**(health-drinks)
 
-全部走同一路線：**純前端、單檔 HTML、離線可用、零廣告、GitHub Pages 部署**（Python 專案是例外：whiteboard-ocr-bot 需要 server）。
+全部走同一路線:**純前端、單檔 HTML、離線可用、零廣告、零 CDN、GitHub Pages 部署**(Python 專案是例外:whiteboard-ocr-bot 需要 server)。
 
-起源：Tom 自己用。後來朋友（藥師）要類似的東西。再延伸到社區其他照護者也可以用。
+起源:Tom 自己用。後來朋友(藥師)用,再延伸到社區照護者也可以用。**方法資訊** 透過 [blog.tomting.com](https://blog.tomting.com/) 分享(那是擴散渠道,工具不是)。
+
+---
+
+## 🛑 Tom 自我約束規則(2026-04-28 後加)
+
+跨 6 domain expert review 共識項。寫進 CLAUDE.md 變強制規則,Tom 自己做時也守。
+
+### 規則 1:凍結新 sub-project 60 天(到 2026-06-30)
+**禁止建第 15 個 sub-project**,直到 2026-06-30。理由:
+- PM 評估:14 個已過載,主軸佔比 < 35%
+- wellbeing 評估:6 個月 441 commit,「持續產出 = 情緒迴避」紅旗
+- 品牌評估:訪客看到 7 個 hat 找不到主軸
+
+例外:**只允許 archive / 整併 / 刪除**(縮小 portfolio)。
+解凍後若仍想開新工具,先在 blog 寫一篇「為什麼這值得開一個工具」,沒寫完不開。
+
+### 規則 2:Commit cap 20 / 天(soft warning)
+任何一天 commit 數超過 20:
+- pre-commit hook 跳出對話框問「今天你媽吃幾餐、女兒抱了你幾次、你笑了幾次」
+- 不是 hard block,但提醒。失智照護者 burnout 是 monorepo 結構性 SPOF
+- **Tom 倒下 = mom-clinic 朋友家屬可能誤診 = 整個生態系凍結**
+
+### 規則 3:每週一個下午全關
+不寫 code、不寫 blog、不規劃 feature。陪女兒、發呆、睡覺都行。
+「讓整個家忙起來」mission 不該包含 Tom 自己一刻不停。
+
+### 規則 4:0 CDN 機器化守門
+`.github/workflows/monorepo-cdn-ban.yml` 自動掃所有 *.html。違反即擋 push。
+不再靠人記得。
+
+### 規則 5:不主動推工具,只分享方法
+- 工具是 personal toolkit,維護優先順序看 Tom 當下需要
+- 不主動推給陌生使用者(避免讓人對「會被維護」產生錯誤期待)
+- 朋友(藥師)是「資訊交流」不是「使用者」,不發配工具帳號
+- 方法寫成 blog,blog 才是擴散渠道
 
 ## 子專案一覽
 
