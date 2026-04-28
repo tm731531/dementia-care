@@ -1,0 +1,92 @@
+name: monorepo CDN ban + JS syntax
+
+# 0 CDN 是 monorepo 級規則(寫在 CLAUDE.md),這個 workflow 是機器化守門
+# 觸發:任何 push / PR 動到 *.html
+
+on:
+  push:
+    paths:
+      - '**/*.html'
+      - '.github/workflows/monorepo-cdn-ban.yml'
+  pull_request:
+    paths:
+      - '**/*.html'
+
+jobs:
+  cdn-ban:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 0 CDN check — 禁止外連 fonts/CDN/Analytics
+        run: |
+          # 掃所有 *.html(排除 _template / 第三方 / node_modules)
+          BANNED_PATTERN='https?://[^"]*\.(googleapis\.com|cdnjs\.com|unpkg\.com|jsdelivr\.net|googletagmanager\.com|google-analytics\.com|gstatic\.com)/'
+          ALLOWED_DOMAINS='(github\.com|github\.io|tomting\.com|google\.com/maps|schema\.org|w3\.org|edu\.tw|gov\.tw)'
+
+          FOUND=0
+          for f in $(find . -name "*.html" ! -path "./_template/*" ! -path "./node_modules/*"); do
+            HITS=$(grep -nE "$BANNED_PATTERN" "$f" || true)
+            if [ -n "$HITS" ]; then
+              echo "❌ CDN 違規 in $f:"
+              echo "$HITS"
+              FOUND=1
+            fi
+          done
+
+          if [ $FOUND -eq 1 ]; then
+            echo ""
+            echo "⛔ Build failed: 違反 0 CDN 規則。"
+            echo "規則出處:CLAUDE.md「外部 CDN 依賴禁止」段。"
+            echo "修法:把該資源 inline(SVG / base64)或用系統 fallback。"
+            exit 1
+          fi
+
+          echo "✓ 0 CDN check passed for all HTML files"
+
+  js-syntax:
+    runs-on: ubuntu-latest
+    needs: cdn-ban
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Inline JS syntax check — 全 monorepo
+        run: |
+          node << 'SCRIPT'
+          const fs = require('fs');
+          const { execSync } = require('child_process');
+
+          // 找所有 HTML 檔(排 _template / node_modules)
+          const files = execSync('find . -name "*.html" ! -path "./_template/*" ! -path "./node_modules/*"', {encoding: 'utf-8'})
+            .trim().split('\n').filter(Boolean);
+
+          let totalChecked = 0;
+          let totalErrors = 0;
+
+          for (const f of files) {
+            const html = fs.readFileSync(f, 'utf8');
+            // 排除 application/ld+json 類 schema(那不是 JS)
+            const scripts = [...html.matchAll(/<script(?![^>]*type=["']application\/ld)[^>]*>([\s\S]*?)<\/script>/g)];
+            for (const m of scripts) {
+              if (m[1].length < 200) continue; // skip 小 inline
+              totalChecked++;
+              try {
+                new Function(m[1]);
+              } catch (e) {
+                console.error(`❌ ${f}: ${e.message}`);
+                totalErrors++;
+              }
+            }
+          }
+
+          console.log(`Checked ${totalChecked} script blocks across ${files.length} files`);
+          if (totalErrors > 0) {
+            console.error(`⛔ ${totalErrors} JS syntax errors`);
+            process.exit(1);
+          }
+          console.log('✓ All inline JS parses cleanly');
+          SCRIPT
