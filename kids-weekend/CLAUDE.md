@@ -12,7 +12,7 @@
 - 太太級用戶優先(藥師朋友的太太是測試者)
 
 ## 技術架構
-- **單一 HTML**(`index.html`,~10 MB,含 800+ 景點 + 座標 + JS + CSS)
+- **單一 HTML**(`index.html`,~540 KB,含 800+ 景點 + 座標 + JS + CSS)
 - **0 CDN**(隱私要求 — 字型用系統 fallback)
 - localStorage key: `kidsWeekendState`(版本 schema 在 `STATE_VERSION`)
 - Favicon: 🗺️

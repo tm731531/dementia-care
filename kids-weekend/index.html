@@ -222,29 +222,6 @@ a { color: var(--accent); }
 
   <div class="filters">
     <div class="filter-row">
-      <label>天氣</label>
-      <select id="filter-weather" onchange="renderBrowse()">
-        <option value="">不限</option>
-        <option value="sunny">晴天</option>
-        <option value="rainy">下雨</option>
-      </select>
-      <label>季節</label>
-      <select id="filter-season" onchange="renderBrowse()">
-        <option value="">不限</option>
-        <option value="spring">春</option>
-        <option value="summer">夏</option>
-        <option value="autumn">秋</option>
-        <option value="winter">冬</option>
-      </select>
-      <label>年齡</label>
-      <select id="filter-age" onchange="renderBrowse()">
-        <option value="">不限</option>
-        <option value="0-2">0-2 歲</option>
-        <option value="2-3">2-3 歲</option>
-        <option value="3-6">3-6 歲</option>
-      </select>
-    </div>
-    <div class="filter-row">
       <label>類型</label>
       <select id="filter-type" onchange="renderBrowse()">
         <option value="">不限</option>
@@ -502,7 +479,7 @@ a { color: var(--accent); }
   </details>
 
   <p style="text-align:center;margin-top:30px;color:var(--muted);font-size:13px;">
-    完整版手冊在 GitHub:<a href="https://github.com/tm731531/dementia-care/blob/main/kids-weekend/docs/使用手冊.md" target="_blank" rel="noopener">docs/使用手冊.md</a>
+    完整版手冊在 GitHub:<a href="https://github.com/tm731531/dementia-care/blob/main/kids-weekend/docs/使用手冊.md" target="_blank" rel="noopener noreferrer">docs/使用手冊.md</a>
   </p>
 </section>
 
@@ -1735,33 +1712,6 @@ function renderWizardQ(step) {
       </div>
     </div>`;
   }
-  if (step === 'weather') {
-    return `<div class="wizard-card">
-      <div class="wizard-step">第 2 / 3 題 <a class="reset-link" onclick="setWizardAnswer('home',null)">← 改第 1 題</a></div>
-      <h2>☀️ 今天的天氣?</h2>
-      <p style="margin:0;color:var(--muted);">影響推薦室內外景點。</p>
-      <div class="wizard-options">
-        <button class="wizard-opt" onclick="setWizardAnswer('weather','sunny')"><span class="opt-icon">☀️</span>晴天 / 多雲<span class="opt-hint">戶外為主</span></button>
-        <button class="wizard-opt" onclick="setWizardAnswer('weather','rainy')"><span class="opt-icon">🌧️</span>下雨 / 陰雨<span class="opt-hint">室內為主</span></button>
-        <button class="wizard-opt" onclick="setWizardAnswer('weather','any')"><span class="opt-icon">🌤️</span>不一定 / 隨便<span class="opt-hint">什麼都看看</span></button>
-      </div>
-    </div>`;
-  }
-  if (step === 'range') {
-    const p = STATE.userProfile;
-    const homeName = (p.home && p.homeDistrict) ? (p.homeIsGps ? `📍 ${TAIWAN_DISTRICTS[p.home]?.label || ''}${p.homeDistrict}` : (p.home === 'gps' ? `📍 ${p.homeDistrict}` : `${TAIWAN_DISTRICTS[p.home]?.label || ''}${p.homeDistrict}`)) : '';
-    return `<div class="wizard-card">
-      <div class="wizard-step">第 3 / 3 題 <a class="reset-link" onclick="setWizardAnswer('weather',null)">← 改第 2 題</a></div>
-      <h2>📏 出門範圍?</h2>
-      <p style="margin:0;color:var(--muted);">以${homeName?`<strong>${homeName}</strong>`:'你家'}為中心的直線距離。後續還可拉滑桿微調。</p>
-      <div class="wizard-options">
-        <button class="wizard-opt" onclick="setWizardAnswer('range','near')"><span class="opt-icon">🏠</span>近<span class="opt-hint">≤ 15 km</span></button>
-        <button class="wizard-opt" onclick="setWizardAnswer('range','medium')"><span class="opt-icon">🛵</span>中<span class="opt-hint">≤ 40 km</span></button>
-        <button class="wizard-opt" onclick="setWizardAnswer('range','trip')"><span class="opt-icon">🛣️</span>遠<span class="opt-hint">≤ 100 km</span></button>
-        <button class="wizard-opt" onclick="setWizardAnswer('range','nationwide')"><span class="opt-icon">🇹🇼</span>全台<span class="opt-hint">過夜 / 不限</span></button>
-      </div>
-    </div>`;
-  }
   return '';
 }
 
@@ -1797,8 +1747,9 @@ function useGeolocation() {
       const nearest = findNearestDistrict(lat, lng);
       STATE.userProfile.home = nearest ? nearest.region : 'gps';
       STATE.userProfile.homeDistrict = nearest ? nearest.district : `GPS (${lat.toFixed(3)}, ${lng.toFixed(3)})`;
-      STATE.userProfile.homeLat = lat;
-      STATE.userProfile.homeLng = lng;
+      // 精度降到 3 位小數(~100m)— 範圍 5-400 km 篩選夠用,避免存到房號級座標
+      STATE.userProfile.homeLat = Math.round(lat * 1000) / 1000;
+      STATE.userProfile.homeLng = Math.round(lng * 1000) / 1000;
       STATE.userProfile.homeIsGps = true; // 標記:即使 region 是 newtaipei,還是顯示「📍」icon
       saveState();
       renderWizard();
@@ -3341,8 +3292,8 @@ function renderPlaceCard(pl, km) {
     ${note ? `<p style="font-size:14px;background:#f0f8f4;padding:8px 12px;border-radius:6px;margin:8px 0;border-left:3px solid #6ba88a;"><strong>📝 我家評語:</strong> ${escapeHtml(note)}</p>` : ''}
     <div class="actions">
       <div class="actions-row actions-primary">
-        <a class="btn" href="${mapsUrl}" target="_blank" rel="noopener">📍 Google Maps</a>
-        ${pl.website ? `<a class="btn btn-secondary" href="${pl.website}" target="_blank" rel="noopener" title="官網(預約 / 票價 / 公告)">🔗 官網</a>` : ''}
+        <a class="btn" href="${mapsUrl}" target="_blank" rel="noopener noreferrer">📍 Google Maps</a>
+        ${pl.website ? `<a class="btn btn-secondary" href="${pl.website}" target="_blank" rel="noopener noreferrer" title="官網(預約 / 票價 / 公告)">🔗 官網</a>` : ''}
         <button class="btn btn-fav ${isFav?'active':''}" onclick="toggleFav('${pl.id}')">${isFav?'❤️ 已收藏':'🤍 加入口袋'}</button>
       </div>
       <div class="actions-row actions-secondary">
@@ -3409,9 +3360,6 @@ function cancelNote(id) {
 function renderBrowse() {
   const el = document.getElementById('browse-list');
   if (!el) return;
-  const w = document.getElementById('filter-weather').value;
-  const s = document.getElementById('filter-season').value;
-  const a = document.getElementById('filter-age').value;
   const t = document.getElementById('filter-type').value;
   const r = document.getElementById('filter-area').value;
   const c = document.getElementById('filter-crowd').value;
@@ -3423,10 +3371,6 @@ function renderBrowse() {
   const allPlaces = getAllPlaces();
   let matches = allPlaces.filter(pl => {
     if (blocked.includes(pl.id)) return false;
-    if (w === 'sunny' && !pl.weathers.includes('sunny') && !pl.outdoor) return false;
-    if (w === 'rainy' && !pl.weathers.includes('rainy') && !pl.indoor) return false;
-    if (s && !pl.seasons.includes(s)) return false;
-    if (a && !pl.ages.includes(a)) return false;
     if (t && !pl.types.includes(t)) return false;
     if (r && pl.region !== r) return false;
     if (c && pl.crowd !== c) return false;
@@ -3457,7 +3401,7 @@ function renderBrowse() {
   el.innerHTML = html;
 }
 function resetFilters() {
-  ['filter-weather','filter-season','filter-age','filter-type','filter-area','filter-crowd'].forEach(id => {
+  ['filter-type','filter-area','filter-crowd'].forEach(id => {
     document.getElementById(id).value = '';
   });
   renderBrowse();

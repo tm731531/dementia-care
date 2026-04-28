@@ -96,7 +96,7 @@
 
 ## 技術
 
-- **單一 HTML 檔**(~9 MB,含所有 800+ 景點 + 座標 + JS + CSS)
+- **單一 HTML 檔**(~540 KB,含所有 800+ 景點 + 座標 + JS + CSS)
 - **0 build step**:打開 `index.html` 就能跑
 - **0 framework**:Vanilla JS + CSS
 - 部署:GitHub Pages(push main 自動上線)
