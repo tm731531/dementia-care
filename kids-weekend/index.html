@@ -185,30 +185,47 @@ a { color: var(--accent); }
 .card-chip-ok { background: var(--ok-bg); color: var(--ok-text); border-color: var(--ok-border); }
 .card-chip-closed { background: var(--closed-bg); color: var(--closed-text); border-color: var(--border); }
 .card-chip-route { background: var(--route-bg); color: var(--primary-dark); border-color: var(--route-border); }
-/* 卡片折疊式設計 — 預設收起,點 header 展開 */
+/* 卡片折疊式設計 — 3 行:名 / 地方+距離+原因 / 標籤+按鈕 */
 .place-card { padding: 0; overflow: hidden; }
 .card-toggle {
-  width: 100%; background: transparent; border: 0; padding: 14px 16px;
+  width: 100%; background: transparent; border: 0; padding: 12px 14px 4px;
   cursor: pointer; text-align: left; font: inherit; color: inherit;
   display: block;
 }
 .card-toggle:hover { background: var(--primary-light); }
-.card-summary-head { display: flex; align-items: center; gap: 10px; }
-.card-emoji { font-size: 28px; flex-shrink: 0; }
-.card-summary-text { flex: 1; min-width: 0; }
-.card-name { font-size: 17px; font-weight: 700; color: var(--text); display: flex; align-items: center; }
-.card-area { font-size: 13px; color: var(--muted); margin-top: 2px; display: flex; align-items: center; gap: 8px; }
+/* Line 1: emoji + name + 展開 icon */
+.card-line-1 { display: flex; align-items: center; gap: 10px; min-height: 32px; }
+.card-emoji { font-size: 24px; flex-shrink: 0; }
+.card-name { flex: 1; min-width: 0; font-size: 17px; font-weight: 700; color: var(--text); display: flex; align-items: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .card-expand-icon {
-  flex-shrink: 0; color: var(--muted); font-size: 20px;
+  flex-shrink: 0; color: var(--muted); font-size: 18px;
   transition: transform 0.2s; padding: 4px;
 }
 .place-card[data-expanded="true"] .card-expand-icon { transform: rotate(180deg); }
-.place-card[data-expanded="true"] .card-toggle { border-bottom: 1px solid var(--border); }
-.card-summary-row { padding: 0 16px 12px; display: flex; gap: 8px; }
-.card-summary-row .route-btn { flex: 1; }
-.card-summary-row-tags { padding-bottom: 8px; flex-wrap: wrap; }
-.route-btn-active { background: var(--warn-bg); color: var(--primary-dark); border-color: var(--route-border); }
-.card-expanded { display: none; padding: 0 16px 14px; }
+/* Line 2: 📍 area + km + reason chips inline wrap */
+.card-line-2 {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px;
+  margin-top: 4px; font-size: 13px; color: var(--muted);
+  padding-left: 34px;  /* 對齊 name 起始位置(emoji + gap) */
+}
+.card-line-2 .card-area { font-weight: 600; color: var(--muted); }
+.reason-chip {
+  background: var(--primary-light); color: var(--primary-dark);
+  padding: 2px 8px; border-radius: 999px; font-size: 12px; font-weight: 600;
+  white-space: nowrap;
+}
+/* Line 3: types tags + route 按鈕(同性質,都是可點 chip) */
+.card-line-3 {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+  padding: 4px 14px 12px 48px;  /* 對齊 line-2 縮排 */
+}
+.tag-route {
+  background: var(--warn-bg); color: var(--primary-dark); border-color: var(--route-border);
+  font-weight: 700;
+}
+.tag-route.clickable:hover { background: #ffe4cd; }
+.place-card[data-expanded="true"] .card-toggle { border-bottom: 1px dashed var(--border); }
+.card-expanded { display: none; padding: 8px 14px 14px; }
 .place-card[data-expanded="true"] .card-expanded { display: block; }
 /* Toast 系統(替代 alert + 提供 undo) */
 .toast-container { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); z-index: 200; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
@@ -3418,11 +3435,11 @@ function renderPlaceCard(pl, km) {
     const others = filtered.filter(t => !must.includes(t));
     return [...mustHits, ...others].slice(0, 3);
   })();
-  const topTypesHtml = topTypes.length ? `<div style="display:flex;flex-wrap:wrap;gap:4px;margin:0 0 4px;">${topTypes.map(t => {
+  const topTypesHtml = topTypes.map(t => {
     const st = getTagState(t);
     const cls = st === 'must' ? 'must' : st === 'excluded' ? 'excluded' : '';
     return `<span class="tag clickable ${cls}" onclick="cycleTag('${escapeJs(t)}');event.stopPropagation();" title="點一下:必選 / 再點:排除 / 再點:取消">${escapeHtml(t)}</span>`;
-  }).join('')}</div>` : '';
+  }).join('');
 
   // ⏰ booking + ⚠️ jam + 🟢 營業中 警告/狀態 chip
   const flags = [];
@@ -3459,23 +3476,33 @@ function renderPlaceCard(pl, km) {
         ? `<button class="btn btn-secondary btn-small route-btn" onclick="addWaypoint('${escapeJs(pl.id)}');event.stopPropagation();" title="加入路線中繼站">➕ 加入路線</button>`
         : `<button class="btn btn-secondary btn-small route-btn" onclick="setDestination('${escapeJs(pl.id)}');event.stopPropagation();" title="設為目的地,看順路景點">🛣️ 設為目的地</button>`;
 
+  // Reason chip 改 inline span(不獨立一列,跟 area/km 同行 wrap)
+  const reasonInline = reasonParts.length ? reasonParts.map(r =>
+    `<span class="reason-chip">${escapeHtml(r)}</span>`).join('') : '';
+
+  // 行程按鈕縮小版(跟 tag 同列,當作可點 chip)
+  const tripChipBtn = isDestination
+    ? `<span class="tag tag-route" style="cursor:default;">🎯 目的地</span>`
+    : isWaypoint
+      ? `<button class="tag tag-route clickable" onclick="removeWaypoint('${escapeJs(pl.id)}');event.stopPropagation();" title="從路線移除">✓ 已加入</button>`
+      : destId
+        ? `<button class="tag tag-route clickable" onclick="addWaypoint('${escapeJs(pl.id)}');event.stopPropagation();" title="加入路線中繼站">➕ 加路線</button>`
+        : `<button class="tag tag-route clickable" onclick="setDestination('${escapeJs(pl.id)}');event.stopPropagation();" title="設為目的地,看順路景點">🛣️ 設目的地</button>`;
+
   return `<div class="place-card" data-expanded="false">
     <button class="card-toggle" onclick="toggleCardExpand(this)" aria-expanded="false">
-      <div class="card-summary-head">
+      <div class="card-line-1">
         <span class="card-emoji" aria-hidden="true">${pl.emoji}</span>
-        <div class="card-summary-text">
-          <div class="card-name">${escapeHtml(pl.name)}${visitedIcon}${userIcon}</div>
-          <div class="card-area">📍 ${escapeHtml(pl.area)} ${kmLabel}</div>
-        </div>
+        <span class="card-name">${escapeHtml(pl.name)}${visitedIcon}${userIcon}</span>
         <span class="card-expand-icon" aria-hidden="true">▾</span>
       </div>
-      ${reasonChip}
+      <div class="card-line-2">
+        <span class="card-area">📍 ${escapeHtml(pl.area)} ${kmLabel}</span>
+        ${reasonInline}
+      </div>
     </button>
-    <div class="card-summary-row card-summary-row-tags">
-      ${topTypesHtml}
-    </div>
-    <div class="card-summary-row">
-      ${tripButton}
+    <div class="card-line-3">
+      ${topTypesHtml}${tripChipBtn}
     </div>
     <div class="card-expanded">
       ${flagsHtml}
