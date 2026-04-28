@@ -50,6 +50,11 @@
     .card-desc { font-size: 14px; color: #888; line-height: 1.5; }
     .card-when { display: inline-block; margin-top: 8px; padding: 2px 8px; background: #fff8ed; color: #b7491f; border: 1px solid #f0d8b5; border-radius: 4px; font-size: 11px; }
     .card-warn { display: inline-block; margin-top: 6px; padding: 2px 8px; background: #fef3c7; color: #92400e; border-radius: 4px; font-size: 11px; }
+    .card-layer { display: inline-block; margin-top: 6px; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+    .card-layer.lf-self { background: #e8f5ee; color: #1a7a3e; border: 1px solid #6ba88a; }    /* L1 自動跑 */
+    .card-layer.lf-occ  { background: #fff4e6; color: #8a4a0a; border: 1px solid #f0a868; }    /* L3 偶爾陪 */
+    .card-layer.lf-act  { background: #fde8e8; color: #8a2d2d; border: 1px solid #e07c7c; }    /* L4 全程陪 */
+    .card-layer.lf-tom  { background: #eaf3fa; color: #2c5d80; border: 1px solid #c2d9eb; }    /* Tom 自己用 */
     .archive-link { font-size: 12px; color: #aaa; margin-top: 20px; text-align: center; max-width: 1280px; width: 100%; }
     .archive-link a { color: #888; text-decoration: underline; }
     .footer { margin-top: 40px; font-size: 13px; color: #aaa; text-align: center; }
@@ -93,74 +98,77 @@
   <h1>🫶 Dementia Care Tools</h1>
   <div class="subtitle">
     一位失智照護者為家人打造的免費工具集<br>
-    <strong>從剛確診那週的法律醫療 P0,到讓全家忙起來的日常活動 — 一個家庭的需求地圖</strong><br>
-    純前端・零廣告・完全離線
+    <strong>結構上設計給:白天只有你跟長輩、家屬 backup 0、商業 app 都假設你有時間引導</strong><br>
+    純前端・零廣告・完全離線・不用註冊
   </div>
 
-  <nav class="quick-nav" aria-label="快速導覽">
-    <strong>⚡ 5 秒看這裡</strong>
+  <nav class="quick-nav" aria-label="我是誰 - persona 索引" id="who-am-i">
+    <strong>🧍 我是誰?直接跳:</strong>
+    <a href="#environmental">solo + 沒人能陪 → 環境改造類</a>
     <a href="#main-line">剛確診 / 找方向</a>
-    <a href="#main-line">日常陪伴</a>
     <a href="#main-line">準備回診</a>
-    <a href="#daily-life">全家活動</a>
+    <a href="#daily-life">全家活動 / 喘息</a>
+    <a href="#screen-based">週末 / 三代陪玩</a>
     <a href="#kids">給孩子</a>
   </nav>
 
   <h2 class="section-title" id="main-line">🔴 失智照護主線(時間順序)</h2>
-  <div class="section-hint">從剛確診 → 日常照護 → 每月回診的時間軸串接</div>
+  <div class="section-hint">從剛確診 → 日常照護 → 每月回診的時間軸串接<br>
+    每張卡有 facilitator 標記:🏠 自動跑 · 🤝 偶爾陪一下 · 🪑 全程陪 · 🛠️ Tom 自己用
+  </div>
   <div class="cards">
-    <a class="card" href="./home-handbook/">
+    <a class="card" id="environmental" href="./home-handbook/">
       <span class="card-icon">🏠</span>
       <div class="card-title">家中照護手冊</div>
-      <div class="card-desc">剛確診那週的法律醫療 P0 + 物理改造 13 項<br>+ 4 頁拆分(主入口 / 急性 / 長期 / 照護者)<br><span class="card-when">⏱️ 確診後 → 第一個月</span></div>
+      <div class="card-desc">剛確診那週的法律醫療 P0 + 物理改造 13 項<br>+ 4 頁拆分(主入口 / 急性 / 長期 / 照護者)<br><span class="card-when">⏱️ 確診後 → 第一個月</span><br><span class="card-layer lf-self">🏠 自動跑 · solo 也能 deploy</span></div>
     </a>
     <a class="card" href="./care-handbook/">
       <span class="card-icon">🏥</span>
       <div class="card-title">長照手冊(找服務)</div>
-      <div class="card-desc">居服員 / 日照 / 喘息 / 看護工 / 機構 5 種服務找法<br>Wizard 3 問 → 個人化推薦<br>+ 預算試算 + 投訴管道<br><span class="card-when">⏱️ 找服務階段(配 home-handbook 用)</span></div>
+      <div class="card-desc">居服員 / 日照 / 喘息 / 看護工 / 機構 5 種服務找法<br>Wizard 3 問 → 個人化推薦<br>+ 預算試算 + 投訴管道<br><span class="card-when">⏱️ 找服務階段(配 home-handbook 用)</span><br><span class="card-layer lf-tom">🛠️ Tom 自己用</span></div>
     </a>
-    <a class="card" href="./dementia-companion-v2/">
+    <a class="card" id="screen-based" href="./dementia-companion-v2/">
       <span class="card-icon">💭</span>
       <div class="card-title">陪伴小幫手 v2</div>
-      <div class="card-desc">推薦式首頁・一鍵開始<br>15 個認知遊戲<br>+ 45 條陪伴指南 + 今日摘要<br><span class="card-when">⏱️ 日常陪伴(每天)</span></div>
+      <div class="card-desc">推薦式首頁・一鍵開始<br>15 個認知遊戲<br>+ 45 條陪伴指南 + 今日摘要<br><span class="card-when">⏱️ 週末 / 三代陪玩 / Tom 路過 5 分鐘</span><br><span class="card-layer lf-act">🪑 需有人陪(L3-L4)</span></div>
     </a>
     <a class="card" href="./mindset/">
       <span class="card-icon">🧠</span>
       <div class="card-title">心法手冊</div>
-      <div class="card-desc">面對新事件的判斷視角<br>失智 vs 失能 / 加法 vs 減法<br>6 條主觀經驗 · 可採可不採<br><span class="card-when">⏱️ 行有餘力時(進階閱讀)</span></div>
+      <div class="card-desc">面對新事件的判斷視角<br>失智 vs 失能 / 加法 vs 減法<br>6 條主觀經驗 · 可採可不採<br><span class="card-when">⏱️ 行有餘力時(進階閱讀)</span><br><span class="card-layer lf-tom">🛠️ Tom 自己用</span></div>
     </a>
     <a class="card" href="./mom-clinic-companion/">
       <span class="card-icon">🩺</span>
       <div class="card-title">就診小幫手</div>
-      <div class="card-desc">回診區間異常自動偵測<br>症狀分類 · 問題清單 · 診間錄音<br><span class="card-when">⏱️ 每月回診前</span><br><span class="card-warn">⚠ 需自架 iDempiere(技術門檻)</span></div>
+      <div class="card-desc">回診區間異常自動偵測<br>症狀分類 · 問題清單 · 診間錄音<br><span class="card-when">⏱️ 每月回診前</span><br><span class="card-warn">⚠ 需自架 iDempiere(技術門檻)</span><br><span class="card-layer lf-tom">🛠️ Tom 自己用</span></div>
     </a>
     <a class="card" href="./whiteboard-ocr-bot/">
       <span class="card-icon">📋</span>
       <div class="card-title">白板 OCR 紀錄 Bot</div>
-      <div class="card-desc">照護員交班白板自動化<br>拍照 → Gemini OCR → iDempiere<br><span class="card-when">⏱️ 每日記錄(自動)</span><br><span class="card-warn">⚠ 需 Python 部署 + Gemini API</span></div>
+      <div class="card-desc">照護員交班白板自動化<br>拍照 → Gemini OCR → iDempiere<br><span class="card-when">⏱️ 每日記錄(自動)</span><br><span class="card-warn">⚠ 需 Python 部署 + Gemini API</span><br><span class="card-layer lf-tom">🛠️ Tom 自己用</span></div>
     </a>
   </div>
   <div class="archive-link">
     想試 2025-12 之前的原版?→ <a href="./dementia-companion/">陪伴小幫手 v1(經典模式 archive)</a>
   </div>
 
-  <h2 class="section-title" id="daily-life">🌱 讓整個家忙起來</h2>
-  <div class="section-hint">behavior redirection · 全家共活動 · 失智長輩的日常錨點</div>
+  <h2 class="section-title" id="daily-life">🌱 讓整個家忙起來 — ambient engagement(自動跑)</h2>
+  <div class="section-hint">環境引發 vs 人引發 · 失智長輩的日常錨點 · solo caregiver 沒人陪也能 deploy</div>
   <div class="cards">
     <a class="card" href="./garden-handbook/">
       <span class="card-icon">🌱</span>
       <div class="card-title">家庭園藝手冊</div>
-      <div class="card-desc">陽台種菜 · 32+ 種植物<br>規劃模式 + 購物籃匯入<br>失智 3 級活動建議</div>
+      <div class="card-desc">陽台種菜 · 32+ 種植物<br>規劃模式 + 購物籃匯入<br>失智 3 級活動建議<br><span class="card-layer lf-self">🏠 自動跑(low-maintenance 植物)</span></div>
     </a>
     <a class="card" href="./pet-handbook/">
       <span class="card-icon">🐾</span>
       <div class="card-title">寵物手冊</div>
-      <div class="card-desc">會主動靠近你的家人<br>失智照護 × 寵物選擇指南<br>(目前貓 6 個 topics)</div>
+      <div class="card-desc">會主動靠近你的家人<br>失智照護 × 寵物選擇指南<br>(目前貓 6 個 topics)<br><span class="card-layer lf-self">🏠 自動跑(寵物主動互動)</span></div>
     </a>
     <a class="card" href="./health-drinks/docs/">
       <span class="card-icon">🥤</span>
       <div class="card-title">健康飲品成分分析</div>
-      <div class="card-desc">醫療營養品成分比較<br>安素・葡勝納・倍速益・補體素<br>(失智長輩中後期吞嚥退化用)</div>
+      <div class="card-desc">醫療營養品成分比較<br>安素・葡勝納・倍速益・補體素<br>(失智長輩中後期吞嚥退化用)<br><span class="card-layer lf-tom">🛠️ Tom 自己查貨架用</span></div>
     </a>
   </div>
 
@@ -170,17 +178,17 @@
     <a class="card" href="./kids-companion/">
       <span class="card-icon">🎨</span>
       <div class="card-title">小朋友學習樂園</div>
-      <div class="card-desc">2-6 歲幼兒親子學前教育<br>25+ 種互動活動<br>中文 / 英文 / 數學 / 生活</div>
+      <div class="card-desc">2-6 歲幼兒親子學前教育<br>25+ 種互動活動<br>中文 / 英文 / 數學 / 生活<br><span class="card-layer lf-act">🪑 需有人陪</span></div>
     </a>
     <a class="card" href="./childcare-handbook/">
       <span class="card-icon">🧒</span>
       <div class="card-title">托幼手冊</div>
-      <div class="card-desc">0-6 歲托嬰/幼兒園選擇方法論<br>4 類型對照 + 看園 checklist<br>抽籤機制 + 三明治世代專區</div>
+      <div class="card-desc">0-6 歲托嬰/幼兒園選擇方法論<br>4 類型對照 + 看園 checklist<br>抽籤機制 + 三明治世代專區<br><span class="card-layer lf-tom">🛠️ Tom 自己用</span></div>
     </a>
     <a class="card" href="./kids-weekend/">
       <span class="card-icon">🗺️</span>
       <div class="card-title">週末帶小孩去哪</div>
-      <div class="card-desc">天氣 / 季節 / 年齡 / 範圍 → 推薦景點<br>20+ 個北台灣親子景點<br>每筆 Google Maps 一鍵導航</div>
+      <div class="card-desc">800+ 全台親子景點 + 路線規劃<br>1 題 wizard → 設目的地組多點路線<br>一鍵丟 Google Maps 多段導航<br><span class="card-layer lf-tom">🛠️ Tom 自己用</span></div>
     </a>
   </div>
   <div style="text-align:center;margin:30px auto;padding:20px;max-width:360px;background:#fff;border-radius:20px;box-shadow:0 2px 8px rgba(0,0,0,0.08)">

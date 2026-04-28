@@ -23,7 +23,7 @@ IDEMPIERE_CLIENT = config.IDEMPIERE_CLIENT_ID
 IDEMPIERE_ROLE = config.IDEMPIERE_ROLE_ID
 TABLE = config.TARGET_TABLE
 
-PENDING_NOTES_FILE = Path("/home/tom/tapo-caregiver/pending_notes.json")
+PENDING_NOTES_FILE = Path(__file__).parent / "pending_notes.json"
 
 def get_shift_tag(hour=None):
     """DAY (早班) / NIGHT (晚班) / GRAVEYARD (大夜)."""

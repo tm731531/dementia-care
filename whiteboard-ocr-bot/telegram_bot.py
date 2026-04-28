@@ -12,9 +12,10 @@ import config
 BOT_TOKEN = config.TELEGRAM_BOT_TOKEN
 ALLOWED_USER_IDS = set(config.ALLOWED_USER_IDS)
 
-INBOX = Path("/home/tom/tapo-caregiver/inbox")
+_HERE = Path(__file__).parent
+INBOX = _HERE / "inbox"
 INBOX.mkdir(parents=True, exist_ok=True)
-OFFSET_FILE = Path("/home/tom/tapo-caregiver/telegram_offset.txt")
+OFFSET_FILE = _HERE / "telegram_offset.txt"
 BASE = f"https://api.telegram.org/bot{BOT_TOKEN}"
 
 def tg(method, **params):
