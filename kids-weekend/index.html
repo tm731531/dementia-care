@@ -121,7 +121,7 @@ a { color: var(--accent); }
 }
 .place-card {
   background: var(--card); border: 1px solid var(--border); border-radius: 12px;
-  padding: 14px 16px; margin: 10px 0; transition: all 0.15s;
+  margin: 10px 0; transition: border-color 0.15s;
 }
 .place-card:hover { border-color: var(--primary); }
 .place-card .head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
@@ -185,6 +185,30 @@ a { color: var(--accent); }
 .card-chip-ok { background: var(--ok-bg); color: var(--ok-text); border-color: var(--ok-border); }
 .card-chip-closed { background: var(--closed-bg); color: var(--closed-text); border-color: var(--border); }
 .card-chip-route { background: var(--route-bg); color: var(--primary-dark); border-color: var(--route-border); }
+/* 卡片折疊式設計 — 預設收起,點 header 展開 */
+.place-card { padding: 0; overflow: hidden; }
+.card-toggle {
+  width: 100%; background: transparent; border: 0; padding: 14px 16px;
+  cursor: pointer; text-align: left; font: inherit; color: inherit;
+  display: block;
+}
+.card-toggle:hover { background: var(--primary-light); }
+.card-summary-head { display: flex; align-items: center; gap: 10px; }
+.card-emoji { font-size: 28px; flex-shrink: 0; }
+.card-summary-text { flex: 1; min-width: 0; }
+.card-name { font-size: 17px; font-weight: 700; color: var(--text); display: flex; align-items: center; }
+.card-area { font-size: 13px; color: var(--muted); margin-top: 2px; display: flex; align-items: center; gap: 8px; }
+.card-expand-icon {
+  flex-shrink: 0; color: var(--muted); font-size: 20px;
+  transition: transform 0.2s; padding: 4px;
+}
+.place-card[data-expanded="true"] .card-expand-icon { transform: rotate(180deg); }
+.place-card[data-expanded="true"] .card-toggle { border-bottom: 1px solid var(--border); }
+.card-summary-row { padding: 0 16px 12px; display: flex; gap: 8px; }
+.card-summary-row .route-btn { flex: 1; }
+.route-btn-active { background: var(--warn-bg); color: var(--primary-dark); border-color: var(--route-border); }
+.card-expanded { display: none; padding: 0 16px 14px; }
+.place-card[data-expanded="true"] .card-expanded { display: block; }
 /* Toast 系統(替代 alert + 提供 undo) */
 .toast-container { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); z-index: 200; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
 .toast {
@@ -3409,47 +3433,60 @@ function renderPlaceCard(pl, km) {
     return `<details style="margin:4px 0;font-size:12px;"><summary style="cursor:pointer;color:var(--muted);">📅 看完整時間</summary><table style="margin-top:4px;">${rows}</table></details>`;
   })() : '';
 
-  return `<div class="place-card">
-    <div class="head">
-      <span style="font-size:24px;">${pl.emoji}</span>
-      <div style="flex:1;min-width:0;">
-        <div class="name">${escapeHtml(pl.name)}${visitedIcon}${userIcon}${crowdSpan}</div>
-        <div class="area">📍 ${escapeHtml(pl.area)} ${kmLabel}</div>
+  // 行程主按鈕(根據狀態 4 變)— 預設收起時也露這顆
+  const tripButton = isDestination
+    ? `<span class="btn btn-secondary btn-small route-btn route-btn-active" style="cursor:default;">🎯 目的地</span>`
+    : isWaypoint
+      ? `<button class="btn btn-secondary btn-small route-btn route-btn-active" onclick="removeWaypoint('${escapeJs(pl.id)}');event.stopPropagation();" title="從路線移除">✓ 已加入(移除)</button>`
+      : destId
+        ? `<button class="btn btn-secondary btn-small route-btn" onclick="addWaypoint('${escapeJs(pl.id)}');event.stopPropagation();" title="加入路線中繼站">➕ 加入路線</button>`
+        : `<button class="btn btn-secondary btn-small route-btn" onclick="setDestination('${escapeJs(pl.id)}');event.stopPropagation();" title="設為目的地,看順路景點">🛣️ 設為目的地</button>`;
+
+  return `<div class="place-card" data-expanded="false">
+    <button class="card-toggle" onclick="toggleCardExpand(this)" aria-expanded="false">
+      <div class="card-summary-head">
+        <span class="card-emoji" aria-hidden="true">${pl.emoji}</span>
+        <div class="card-summary-text">
+          <div class="card-name">${escapeHtml(pl.name)}${visitedIcon}${userIcon}</div>
+          <div class="card-area">📍 ${escapeHtml(pl.area)} ${kmLabel}</div>
+        </div>
+        <span class="card-expand-icon" aria-hidden="true">▾</span>
       </div>
+      ${reasonChip}
+    </button>
+    <div class="card-summary-row">
+      ${tripButton}
     </div>
-    ${reasonChip}
-    ${flagsHtml}
-    <div class="tags">${tagsHtml}</div>
-    ${hoursDetailHtml}
-    <p style="font-size:14px;margin:8px 0 4px;">${escapeHtml(pl.note)}</p>
-    ${pl.warning ? `<p style="font-size:14px;color:var(--warn-text);background:var(--warn-bg);padding:8px 12px;border-radius:6px;margin:6px 0;border:1px solid var(--warn-border);">⚠️ ${escapeHtml(pl.warning)}</p>` : ''}
-    ${pl.last_verified ? `<p style="font-size:12px;color:var(--muted);margin:4px 0;">📅 資料驗證:${pl.last_verified}</p>` : ''}
-    ${note ? `<p style="font-size:14px;background:#f0f8f4;padding:8px 12px;border-radius:6px;margin:8px 0;border-left:3px solid #6ba88a;"><strong>📝 我家評語:</strong> ${escapeHtml(note)}</p>` : ''}
-    <div class="actions">
-      <div class="actions-row actions-primary">
-        <a class="btn" href="${mapsUrl}" target="_blank" rel="noopener noreferrer">📍 Google Maps</a>
-        ${pl.website ? `<a class="btn btn-secondary" href="${pl.website}" target="_blank" rel="noopener noreferrer" title="官網(預約 / 票價 / 公告)">🔗 官網</a>` : ''}
-        <button class="btn btn-fav ${isFav?'active':''}" onclick="toggleFav('${pl.id}')">${isFav?'❤️ 已收藏':'🤍 加入口袋'}</button>
+    <div class="card-expanded">
+      ${flagsHtml}
+      <div class="tags">${tagsHtml}</div>
+      ${hoursDetailHtml}
+      <p style="font-size:14px;margin:8px 0 4px;">${escapeHtml(pl.note)}</p>
+      ${pl.warning ? `<p style="font-size:14px;color:var(--warn-text);background:var(--warn-bg);padding:8px 12px;border-radius:6px;margin:6px 0;border:1px solid var(--warn-border);">⚠️ ${escapeHtml(pl.warning)}</p>` : ''}
+      ${pl.last_verified ? `<p style="font-size:12px;color:var(--muted);margin:4px 0;">📅 資料驗證:${pl.last_verified}</p>` : ''}
+      ${note ? `<p style="font-size:14px;background:#f0f8f4;padding:8px 12px;border-radius:6px;margin:8px 0;border-left:3px solid #6ba88a;"><strong>📝 我家評語:</strong> ${escapeHtml(note)}</p>` : ''}
+      <div class="actions">
+        <div class="actions-row actions-primary">
+          <a class="btn" href="${mapsUrl}" target="_blank" rel="noopener noreferrer">📍 Google Maps</a>
+          ${pl.website ? `<a class="btn btn-secondary" href="${pl.website}" target="_blank" rel="noopener noreferrer" title="官網(預約 / 票價 / 公告)">🔗 官網</a>` : ''}
+          <button class="btn btn-fav ${isFav?'active':''}" onclick="toggleFav('${escapeJs(pl.id)}')">${isFav?'❤️ 已收藏':'🤍 加入口袋'}</button>
+        </div>
+        <div class="actions-row actions-secondary">
+          <button class="btn btn-secondary btn-small" onclick="editNote('${escapeJs(pl.id)}')">📝 ${note?'改評語':'寫評語'}</button>
+          <button class="btn btn-secondary btn-small ${isVisited?'active':''}" onclick="toggleVisited('${escapeJs(pl.id)}')" title="標記去過">${isVisited?'✅ 去過':'☐ 標去過'}</button>
+        </div>
+        <div class="actions-row actions-danger">
+          <button class="btn-danger-link" onclick="reportPlaceIssue('${escapeJs(pl.id)}')" title="這筆資料有錯 / 已停業 / 名字改了?寫信告訴 Tom">❗ 回報問題</button>
+          <button class="btn-danger-link" onclick="toggleBlocked('${escapeJs(pl.id)}')" title="${isBlocked?'取消封存':'之後不再顯示這個景點'}">${isBlocked?'↩ 取消封存':'🚫 不再去'}</button>
+          ${pl.id.startsWith('user-') ? `<button class="btn-danger-link" onclick="deleteUserPlace('${escapeJs(pl.id)}')" title="刪除自加景點">🗑️ 刪除</button>` : ''}
+        </div>
       </div>
-      <div class="actions-row actions-secondary">
-        <button class="btn btn-secondary btn-small" onclick="editNote('${pl.id}')">📝 ${note?'改評語':'寫評語'}</button>
-        <button class="btn btn-secondary btn-small ${isVisited?'active':''}" onclick="toggleVisited('${pl.id}')" title="標記去過">${isVisited?'✅ 去過':'☐ 標去過'}</button>
-        ${isDestination ? `<span class="btn btn-secondary btn-small" style="background:#fff4e6;color:#ff8c42;border-color:#ff8c42;cursor:default;">🎯 目的地</span>`
-          : isWaypoint ? `<button class="btn btn-secondary btn-small" onclick="removeWaypoint('${pl.id}')" style="background:#fff4e6;color:#ff8c42;border-color:#ff8c42;" title="從路線移除">✓ 已加入路線(移除)</button>`
-          : destId ? `<button class="btn btn-secondary btn-small" onclick="addWaypoint('${pl.id}')" title="加入路線中繼站">➕ 加入路線</button>`
-          : `<button class="btn btn-secondary btn-small" onclick="setDestination('${pl.id}')" title="設為目的地">🛣️ 設目的地</button>`}
-      </div>
-      <div class="actions-row actions-danger">
-        <button class="btn-danger-link" onclick="reportPlaceIssue('${pl.id}')" title="這筆資料有錯 / 已停業 / 名字改了?寫信告訴 Tom">❗ 回報問題</button>
-        <button class="btn-danger-link" onclick="toggleBlocked('${pl.id}')" title="${isBlocked?'取消封存':'之後不再顯示這個景點'}">${isBlocked?'↩ 取消封存':'🚫 不再去'}</button>
-        ${pl.id.startsWith('user-') ? `<button class="btn-danger-link" onclick="deleteUserPlace('${pl.id}')" title="刪除自加景點">🗑️ 刪除</button>` : ''}
-      </div>
-    </div>
-    <div id="note-edit-${pl.id}" style="display:none;margin-top:8px;">
-      <textarea placeholder="例如:2025/3 去過,小孩很喜歡親水池,夏天最佳" oninput="this.dataset.dirty='1'">${escapeHtml(note)}</textarea>
-      <div style="margin-top:6px;display:flex;gap:6px;">
-        <button class="btn btn-small" onclick="saveNote('${pl.id}')">💾 存</button>
-        <button class="btn btn-secondary btn-small" onclick="cancelNote('${pl.id}')">✗ 取消</button>
+      <div id="note-edit-${pl.id}" style="display:none;margin-top:8px;">
+        <textarea placeholder="例如:2025/3 去過,小孩很喜歡親水池,夏天最佳" oninput="this.dataset.dirty='1'">${escapeHtml(note)}</textarea>
+        <div style="margin-top:6px;display:flex;gap:6px;">
+          <button class="btn btn-small" onclick="saveNote('${escapeJs(pl.id)}')">💾 存</button>
+          <button class="btn btn-secondary btn-small" onclick="cancelNote('${escapeJs(pl.id)}')">✗ 取消</button>
+        </div>
       </div>
     </div>
   </div>`;
@@ -3457,6 +3494,15 @@ function renderPlaceCard(pl, km) {
 
 function escapeHtml(s) {
   return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+// 卡片摺疊切換 — 點 header 展開/收起所有細節
+function toggleCardExpand(toggleEl) {
+  const card = toggleEl.closest('.place-card');
+  if (!card) return;
+  const isOpen = card.dataset.expanded === 'true';
+  card.dataset.expanded = isOpen ? 'false' : 'true';
+  toggleEl.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
 }
 
 // ============ Favorites & Notes ============
@@ -3623,6 +3669,7 @@ window.onHomeCountyChange = onHomeCountyChange;
 window.useGeolocation = useGeolocation;
 window.onHomeDistrictChange = onHomeDistrictChange;
 window.shareRouteUrl = shareRouteUrl;
+window.toggleCardExpand = toggleCardExpand;
 
 // Init:處理 #route= hash(從朋友 LINE 連結進來)
 applyRouteHash();
