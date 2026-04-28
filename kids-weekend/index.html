@@ -637,7 +637,7 @@ a { color: var(--accent); }
 // ============ Data ============
 const PLACES = [
   // ===== 台北市 =====
-  {id:'sci-museum', name:'國立臺灣科學教育館', emoji:'🔬', area:'台北士林', region:'taipei', indoor:true, outdoor:false, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny','rainy'], types:['室內','教育','文化'], note:'7 樓有 0-6 歲幼兒區,下雨天首選。3-6 歲可看科學動手做', warning:'假日人多,週六日 9 點開門進場排隊', crowd:'mid'},
+  {id:'sci-museum', name:'國立臺灣科學教育館', emoji:'🔬', area:'台北士林', region:'taipei', indoor:true, outdoor:false, ages:['0-2','2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny','rainy'], types:['室內','教育','文化'], note:'7 樓有 0-6 歲幼兒區,下雨天首選。3-6 歲可看科學動手做', warning:'假日人多,週六日 9 點開門進場排隊', crowd:'mid'},
   {id:'fine-arts', name:'臺北市立美術館', emoji:'🎨', area:'台北中山', region:'taipei', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny','rainy'], types:['室內','文化','教育','美術館'], note:'兒美館有專屬 3-12 歲展覽,旁邊圓山花博公園可放電', crowd:'mid'},
   {id:'taipei-kids-mall', name:'臺北市立兒童新樂園', emoji:'🎡', area:'台北士林', region:'taipei', indoor:false, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','遊樂'], note:'13 種遊樂設施,2 歲以上可玩很多項。便宜票價', warning:'夏天太熱不建議,假日排隊久', crowd:'high'},
   {id:'4-4-south', name:'四四南村 / 信義親子廣場', emoji:'🏘️', area:'台北信義', region:'taipei', indoor:true, outdoor:true, ages:['0-2','2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','文化','親子館'], note:'文創園區 + 大草地放電,旁邊就是親子廣場有溜滑梯', crowd:'mid'},
@@ -963,7 +963,7 @@ const PLACES = [
   // ===== 新竹市 =====
   {id:'hsinchu-zoo', name:'新竹市立動物園', emoji:'🦁', area:'新竹東區', region:'hsinchu_city', indoor:false, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','動物','教育','動物園'], note:'最迷你動物園,90 年老園子。便宜票價', warning:'規模小,1.5 小時逛完', crowd:'mid'},
   {id:'glass-museum', name:'新竹市玻璃工藝博物館', emoji:'💎', area:'新竹東區', region:'hsinchu_city', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy'], types:['室內','文化','教育','博物館'], note:'玻璃工藝 + DIY,雨天備案。在公園旁', crowd:'mid'},
-  {id:'hsinchu-leftbank', name:'頭前溪河濱公園', emoji:'🚲', area:'新竹北區', region:'hsinchu_city', indoor:false, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','公園'], note:'河堤腳踏車道,可推車或騎滑步車', crowd:'mid'},
+  {id:'hsinchu-leftbank', name:'頭前溪河濱公園', emoji:'🚲', area:'新竹北區', region:'hsinchu_city', indoor:false, outdoor:true, ages:['0-2','2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','公園'], note:'河堤腳踏車道,可推車或騎滑步車', crowd:'mid'},
   {id:'18peaks', name:'十八尖山', emoji:'🥾', area:'新竹東區', region:'hsinchu_city', indoor:false, outdoor:true, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','山林','公園'], note:'平緩登山步道 + 賞花。新竹的陽明山', crowd:'mid'},
   {id:'xiangshan-wetland', name:'香山溼地 / 海山漁港', emoji:'🦀', area:'新竹香山', region:'hsinchu_city', indoor:false, outdoor:true, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','海邊','自然'], note:'看夕陽 + 螃蟹生態 + 漁港吃海鮮', crowd:'mid'},
 
@@ -1397,10 +1397,10 @@ const PLACES = [
   {id:'mingquan-pineapple', name:'銘泉生態休閒農場', emoji:'🍍', area:'屏東瑪家', region:'pingtung', indoor:false, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer'], weathers:['sunny'], types:['戶外','農場','賞花'], note:'鳳梨田農場+鳳梨花隧道+玻璃咖啡屋,採果 3-6 月,鄰魯凱族部落', crowd:'low'},
   {id:'lujing-deer', name:'鹿境梅花鹿生態園區', emoji:'🦌', area:'屏東恆春', region:'pingtung', indoor:false, outdoor:true, ages:['0-2','2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','農場','動物'], note:'台版小奈良,專門復育梅花鹿,環境整潔鹿群溫馴,IG 熱點(跟鹿ㄦ島是不同景點)', crowd:'mid'},
   {id:'axin-chocolate', name:'阿信巧克力農場', emoji:'🍫', area:'屏東恆春', region:'pingtung', indoor:false, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','農場','動物'], note:'可可豆原始樣貌+梅花鹿/小兔互動餵食,農業教育+動物接觸', crowd:'low'},
-  {id:'hengchun-castle-park', name:'恆春共融遊戲場', emoji:'🎻', area:'屏東恆春', region:'pingtung', indoor:false, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','公園','親子公園','親水公園'], note:'全台最南方,城牆馬道攻城塔+六角樹屋+月琴噴泉戲水', warning:'免費', crowd:'low'},
+  {id:'hengchun-castle-park', name:'恆春共融遊戲場', emoji:'🎻', area:'屏東恆春', region:'pingtung', indoor:false, outdoor:true, ages:['0-2','2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','公園','親子公園','親水公園'], note:'全台最南方,城牆馬道攻城塔+六角樹屋+月琴噴泉戲水', warning:'免費', crowd:'low'},
   {id:'checheng-onion-park', name:'洋蔥大福遊戲場', emoji:'🧅', area:'屏東車城', region:'pingtung', indoor:false, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','公園','親子公園'], note:'9m 洋蔥大福造型溜滑梯+蟲洞攀爬網,鄰海生館,5000 平方', warning:'免費', crowd:'low'},
-  {id:'zhutian-hakka-maze', name:'竹田共融遊戲場', emoji:'🌀', area:'屏東竹田', region:'pingtung', indoor:false, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','公園','親子公園'], note:'8m 大型客家迷宮遊具+6.5m 高溜滑梯,竹田火車站可達', warning:'免費', crowd:'low'},
-  {id:'linbian-train-park', name:'林邊共融遊戲場', emoji:'🚂', area:'屏東林邊', region:'pingtung', indoor:false, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','公園','親子公園'], note:'飛天火車主題,超長車身可從車頭玩到車尾+蓮霧森林遊戲區', warning:'免費', crowd:'low'},
+  {id:'zhutian-hakka-maze', name:'竹田共融遊戲場', emoji:'🌀', area:'屏東竹田', region:'pingtung', indoor:false, outdoor:true, ages:['0-2','2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','公園','親子公園'], note:'8m 大型客家迷宮遊具+6.5m 高溜滑梯,竹田火車站可達', warning:'免費', crowd:'low'},
+  {id:'linbian-train-park', name:'林邊共融遊戲場', emoji:'🚂', area:'屏東林邊', region:'pingtung', indoor:false, outdoor:true, ages:['0-2','2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','公園','親子公園'], note:'飛天火車主題,超長車身可從車頭玩到車尾+蓮霧森林遊戲區', warning:'免費', crowd:'low'},
   {id:'pingtung-distillery', name:'臺灣菸酒股份有限公司', emoji:'🍶', area:'屏東內埔', region:'pingtung', indoor:true, outdoor:true, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny','rainy'], types:['室內','戶外','觀光工廠'], note:'台菸酒屏東酒廠,免費入場,米酒製程+米酒料理 DIY,寬敞園區', warning:'免費', crowd:'low'},
   {id:'xianzhuandao-seafood', name:'鮮饌道海洋食品文化館 | 鱈魚香絲觀光工廠', emoji:'🐟', area:'屏東林邊', region:'pingtung', indoor:true, outdoor:false, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny','rainy'], types:['室內','觀光工廠'], note:'鱈魚香絲主題海洋食品館,免費,自烤鱈魚香絲 DIY+水產加工教育', warning:'免費', crowd:'low'},
 
@@ -3136,7 +3136,10 @@ function renderWizardResult(p) {
     ${renderActiveTagFilters()}
     ${renderTagOverview(matches)}
     <h2>🎯 給你的推薦(${rLabel}${wLabel ? ' · ' + wLabel : ''}) <a class="reset-link" onclick="resetWizard()">↻ 改條件</a></h2>
-    <p style="color:var(--muted);font-size:14px;margin:0 0 12px;">符合條件 <strong>${matches.length}</strong> 個${avoid?'(已過濾人多)':''}。點 <strong>📍 Google Maps</strong> 直接導航。</p>`;
+    <p style="color:var(--muted);font-size:14px;margin:0 0 12px;">符合條件 <strong>${matches.length}</strong> 個${avoid?'(已過濾人多)':''}。點 <strong>📍 Google Maps</strong> 直接導航。</p>
+    <div style="background:#f8f3eb;border-left:3px solid var(--primary);padding:8px 12px;border-radius:6px;margin-bottom:12px;font-size:13px;color:var(--text);">
+      💡 <strong>帶小孩節奏</strong>:0-3 歲一個點玩 1.5-2 小時就疲乏,一個半天 1 個點剛好;3-6 歲一天 2 個點是極限,塞 3 個必崩潰
+    </div>`;
 
   if (matches.length === 0) {
     html += `<div class="empty">😢 這個組合沒有符合的景點。試試:<br>
