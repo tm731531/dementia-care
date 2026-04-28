@@ -2434,8 +2434,8 @@ function onSearchInput(val) {
     return `<div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:#fff;border:1px solid var(--border);border-radius:6px;margin:4px 0;font-size:14px;">
       <span style="font-size:20px;">${pl.emoji}</span>
       <div style="flex:1;min-width:0;">
-        <div style="font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${pl.name}</div>
-        <div style="color:var(--muted);font-size:12px;">${pl.area}</div>
+        <div style="font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(pl.name)}</div>
+        <div style="color:var(--muted);font-size:13px;">${escapeHtml(pl.area)}</div>
       </div>
       ${btn}
     </div>`;
@@ -3141,7 +3141,7 @@ function renderWizardResult(p) {
     </div>`;
     const destRow = `<div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:#ff8c42;color:#fff;border-radius:8px;font-size:14px;font-weight:700;">
       <span style="width:24px;">🎯</span>
-      <span style="flex:1;">${dest.emoji} ${dest.name}</span>
+      <span style="flex:1;">${dest.emoji} ${escapeHtml(dest.name)}</span>
     </div>`;
     const wpRows = wpData.map((w, i) => {
       const upDis = (i === 0) ? 'opacity:0.3;pointer-events:none;' : '';
@@ -3150,10 +3150,10 @@ function renderWizardResult(p) {
         style="display:flex;align-items:center;gap:6px;padding:8px 10px;background:#fff;border-radius:8px;border:1px solid var(--primary);font-size:14px;cursor:grab;">
         <span style="color:var(--muted);font-size:14px;cursor:grab;" title="拖拉換序">⋮⋮</span>
         <span style="color:var(--primary-dark);font-weight:700;font-size:12px;width:24px;">#${i+1}</span>
-        <span style="flex:1;">${w.pl.emoji} ${w.pl.name}</span>
-        <button class="wp-btn" onclick="moveWaypoint('${w.pl.id}', -1)" style="${upDis}" title="往前移一格" aria-label="第 ${i+1} 站 ${w.pl.name},往前移">↑</button>
-        <button class="wp-btn" onclick="moveWaypoint('${w.pl.id}', 1)" style="${downDis}" title="往後移一格" aria-label="第 ${i+1} 站 ${w.pl.name},往後移">↓</button>
-        <button class="wp-btn wp-btn-danger" onclick="removeWaypoint('${w.pl.id}')" title="從路線移除" aria-label="從路線移除 ${w.pl.name}">✗</button>
+        <span style="flex:1;">${w.pl.emoji} ${escapeHtml(w.pl.name)}</span>
+        <button class="wp-btn" onclick="moveWaypoint('${escapeJs(w.pl.id)}', -1)" style="${upDis}" title="往前移一格" aria-label="第 ${i+1} 站 ${escapeHtml(w.pl.name)},往前移">↑</button>
+        <button class="wp-btn" onclick="moveWaypoint('${escapeJs(w.pl.id)}', 1)" style="${downDis}" title="往後移一格" aria-label="第 ${i+1} 站 ${escapeHtml(w.pl.name)},往後移">↓</button>
+        <button class="wp-btn wp-btn-danger" onclick="removeWaypoint('${escapeJs(w.pl.id)}')" title="從路線移除" aria-label="從路線移除 ${escapeHtml(w.pl.name)}">✗</button>
       </div>`;
     }).join('');
 
@@ -3406,16 +3406,16 @@ function renderPlaceCard(pl, km) {
     <div class="head">
       <span style="font-size:24px;">${pl.emoji}</span>
       <div style="flex:1;min-width:0;">
-        <div class="name">${pl.name}${visitedIcon}${userIcon}${crowdSpan}</div>
-        <div class="area">📍 ${pl.area} ${kmLabel}</div>
+        <div class="name">${escapeHtml(pl.name)}${visitedIcon}${userIcon}${crowdSpan}</div>
+        <div class="area">📍 ${escapeHtml(pl.area)} ${kmLabel}</div>
       </div>
     </div>
     ${reasonChip}
     ${flagsHtml}
     <div class="tags">${tagsHtml}</div>
     ${hoursDetailHtml}
-    <p style="font-size:14px;margin:8px 0 4px;">${pl.note}</p>
-    ${pl.warning ? `<p style="font-size:14px;color:var(--warn-text);background:var(--warn-bg);padding:8px 12px;border-radius:6px;margin:6px 0;border:1px solid var(--warn-border);">⚠️ ${pl.warning}</p>` : ''}
+    <p style="font-size:14px;margin:8px 0 4px;">${escapeHtml(pl.note)}</p>
+    ${pl.warning ? `<p style="font-size:14px;color:var(--warn-text);background:var(--warn-bg);padding:8px 12px;border-radius:6px;margin:6px 0;border:1px solid var(--warn-border);">⚠️ ${escapeHtml(pl.warning)}</p>` : ''}
     ${pl.last_verified ? `<p style="font-size:12px;color:var(--muted);margin:4px 0;">📅 資料驗證:${pl.last_verified}</p>` : ''}
     ${note ? `<p style="font-size:14px;background:#f0f8f4;padding:8px 12px;border-radius:6px;margin:8px 0;border-left:3px solid #6ba88a;"><strong>📝 我家評語:</strong> ${escapeHtml(note)}</p>` : ''}
     <div class="actions">
