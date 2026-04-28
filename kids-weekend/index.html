@@ -255,11 +255,11 @@ a { color: var(--accent); }
 <body>
 
 <header>
-  <h1>🗺️ 週末帶小孩去哪</h1>
-  <button class="menu-toggle" onclick="toggleNav()">☰</button>
+  <h1><span aria-hidden="true">🗺️ </span>週末帶小孩去哪</h1>
+  <button class="menu-toggle" onclick="toggleNav()" aria-expanded="false" aria-controls="nav" aria-label="開啟選單">☰</button>
 </header>
 
-<nav id="nav">
+<nav id="nav" aria-label="主選單">
   <a class="nav-link active" data-page="page-home" onclick="navigateTo('page-home');return false;" href="#">🏠 首頁推薦</a>
   <a class="nav-link" data-page="page-browse" onclick="navigateTo('page-browse');return false;" href="#">🔍 全景點瀏覽</a>
   <a class="nav-link" data-page="page-favorites" onclick="navigateTo('page-favorites');return false;" href="#">❤️ 我的口袋</a>
@@ -271,7 +271,7 @@ a { color: var(--accent); }
 
 <!-- ========== 首頁 Wizard ========== -->
 <section class="page active" id="page-home">
-  <div id="wizard-container"></div>
+  <div id="wizard-container" aria-live="polite" aria-busy="false"></div>
 
   <div class="callout">
     <h4>💡 用法</h4>
@@ -404,14 +404,14 @@ a { color: var(--accent); }
     </div>
   </div>
 
-  <div id="browse-list"></div>
+  <div id="browse-list" aria-live="polite" aria-busy="false"></div>
 </section>
 
 <!-- ========== 我的口袋 ========== -->
 <section class="page" id="page-favorites">
   <h1>❤️ 我的口袋</h1>
   <p style="font-size:15px;color:var(--muted);">收藏的景點。每筆可寫「我家評語」(例如:「2025 年去過,小孩很喜歡親水池」),會存在 localStorage,本機保留。</p>
-  <div id="favorites-list"></div>
+  <div id="favorites-list" aria-live="polite" aria-busy="false"></div>
 </section>
 
 <!-- ========== 使用說明 ========== -->
@@ -1383,7 +1383,7 @@ const PLACES = [
   {id:'shoushan-trail', name:'壽山步道 / 龍泉寺', emoji:'🏔️', area:'高雄鼓山', region:'kaohsiung', indoor:false, outdoor:true, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','山林','廟宇','步道'], note:'都會型登山,看高雄港全景', crowd:'low', dementia_caution:true, last_verified:'2026-04-28'},
 
     {id:'rinari', name:'燕巢月世界', emoji:'🌋', area:'高雄燕巢', region:'kaohsiung', indoor:false, outdoor:true, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','自然'], note:'泥火山地形奇景', crowd:'mid', last_verified:'2026-04-28'},
-  {id:'dapeng-bay', name:'大鵬灣 / 鵬灣跨海大橋', emoji:'🌉', area:'屏東東港', region:'kaohsiung', indoor:false, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','海邊','自然'], note:'潟湖風景區 + 跨海大橋', crowd:'mid', website:'https://www.dbnsa.gov.tw/', last_verified:'2026-04-28'},
+  {id:'dapeng-bay', name:'大鵬灣 / 鵬灣跨海大橋', emoji:'🌉', area:'屏東東港', region:'pingtung', indoor:false, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','海邊','自然'], note:'潟湖風景區 + 跨海大橋', crowd:'mid', website:'https://www.dbnsa.gov.tw/', last_verified:'2026-04-28'},
   {id:'gushan-walk', name:'壽山國家自然公園', emoji:'🐒', area:'高雄鼓山', region:'kaohsiung', indoor:false, outdoor:true, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','山林','步道','親子步道'], note:'都會步道 + 看獼猴 + 萬壽山', warning:'獼猴會搶食', crowd:'low', dementia_caution:true, last_verified:'2026-04-28'},
 
     {id:'liuhe-night', name:'六合觀光夜市', emoji:'🍢', area:'高雄新興', region:'kaohsiung', indoor:false, outdoor:true, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['戶外','文化','夜市'], note:'高雄最知名夜市 + 國際觀光客必訪', crowd:'high', dementia_caution:true, last_verified:'2026-04-28'},
@@ -1746,7 +1746,12 @@ function navigateTo(pageId) {
   if (pageId === 'page-favorites') renderFavorites();
   if (pageId === 'page-about') { renderUserPlacesList(); renderBlockedList(); }
 }
-function toggleNav() { document.getElementById('nav').classList.toggle('open'); }
+function toggleNav() {
+  const nav = document.getElementById('nav');
+  const btn = document.querySelector('.menu-toggle');
+  const opened = nav.classList.toggle('open');
+  if (btn) btn.setAttribute('aria-expanded', opened ? 'true' : 'false');
+}
 
 // ============ Wizard ============
 function renderWizard() {

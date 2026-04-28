@@ -1,0 +1,46 @@
+name: kids-weekend lint
+
+on:
+  push:
+    paths:
+      - 'kids-weekend/index.html'
+      - 'kids-weekend/scripts/**'
+      - '.github/workflows/kids-weekend-lint.yml'
+  pull_request:
+    paths:
+      - 'kids-weekend/**'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Set up Node(用來檢查 inline JS 語法)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run PLACES lint(8 條 PLACE_SPEC 規則)
+        run: python3 kids-weekend/scripts/lint_places.py
+
+      - name: Verify inline JS syntax
+        run: |
+          node -e "
+            const fs = require('fs');
+            const html = fs.readFileSync('kids-weekend/index.html', 'utf8');
+            const scripts = [...html.matchAll(/<script(?![^>]*type=[\"']application\/ld)[^>]*>([\s\S]*?)<\/script>/g)];
+            let ok = true;
+            for (const m of scripts) {
+              if (m[1].length < 200) continue;
+              try { new Function(m[1]); }
+              catch (e) { console.error('JS syntax FAIL:', e.message); ok = false; }
+            }
+            if (!ok) process.exit(1);
+            console.log('✓ inline JS syntax OK');
+          "
