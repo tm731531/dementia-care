@@ -6,6 +6,8 @@
 <title>週末帶小孩去哪 · 天氣 / 季節 / 年齡 一鍵推薦</title>
 <meta name="description" content="北台灣親子景點推薦工具。輸入天氣 + 季節 + 孩子年齡 + 範圍,推薦適合的景點,每筆附 Google Maps 直接導航。">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='52' font-size='52'%3E🗺️%3C/text%3E%3C/svg%3E">
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#ff8c42">
 <style>
 :root {
   /* 主色 — CTA / 品牌 */
@@ -3624,6 +3626,13 @@ window.shareRouteUrl = shareRouteUrl;
 
 // Init:處理 #route= hash(從朋友 LINE 連結進來)
 applyRouteHash();
+
+// Service Worker 註冊 — 失敗不阻 app(單檔哲學)
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  });
+}
 </script>
 
 </body>
