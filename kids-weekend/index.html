@@ -206,6 +206,7 @@ a { color: var(--accent); }
 .place-card[data-expanded="true"] .card-toggle { border-bottom: 1px solid var(--border); }
 .card-summary-row { padding: 0 16px 12px; display: flex; gap: 8px; }
 .card-summary-row .route-btn { flex: 1; }
+.card-summary-row-tags { padding-bottom: 8px; flex-wrap: wrap; }
 .route-btn-active { background: var(--warn-bg); color: var(--primary-dark); border-color: var(--route-border); }
 .card-expanded { display: none; padding: 0 16px 14px; }
 .place-card[data-expanded="true"] .card-expanded { display: block; }
@@ -3405,7 +3406,23 @@ function renderPlaceCard(pl, km) {
     const hit = must.filter(t => pl.types.includes(t));
     if (hit.length) reasonParts.push('🏷️ ' + hit.slice(0,2).join('+'));
   }
-  const reasonChip = reasonParts.length ? `<div style="display:flex;flex-wrap:wrap;gap:4px;margin:4px 0 6px;font-size:12px;color:var(--primary-dark);">${reasonParts.map(r => `<span style="background:var(--primary-light);padding:2px 8px;border-radius:10px;">${r}</span>`).join('')}</div>` : '';
+  const reasonChip = reasonParts.length ? `<div style="display:flex;flex-wrap:wrap;gap:4px;margin:4px 0 6px;font-size:13px;color:var(--primary-dark);">${reasonParts.map(r => `<span style="background:var(--primary-light);padding:3px 10px;border-radius:999px;">${r}</span>`).join('')}</div>` : '';
+
+  // 收起時露出的前 3 個 types tag(挑最具代表性的;命中 must filter 的優先排前面)
+  const topTypes = (() => {
+    const types = pl.types || [];
+    // 排除 indoor/outdoor(已在 reason chip 暗示)
+    const filtered = types.filter(t => t !== '室內' && t !== '戶外');
+    // must 命中的優先
+    const mustHits = filtered.filter(t => must.includes(t));
+    const others = filtered.filter(t => !must.includes(t));
+    return [...mustHits, ...others].slice(0, 3);
+  })();
+  const topTypesHtml = topTypes.length ? `<div style="display:flex;flex-wrap:wrap;gap:4px;margin:0 0 4px;">${topTypes.map(t => {
+    const st = getTagState(t);
+    const cls = st === 'must' ? 'must' : st === 'excluded' ? 'excluded' : '';
+    return `<span class="tag clickable ${cls}" onclick="cycleTag('${escapeJs(t)}');event.stopPropagation();" title="點一下:必選 / 再點:排除 / 再點:取消">${escapeHtml(t)}</span>`;
+  }).join('')}</div>` : '';
 
   // ⏰ booking + ⚠️ jam + 🟢 營業中 警告/狀態 chip
   const flags = [];
@@ -3454,6 +3471,9 @@ function renderPlaceCard(pl, km) {
       </div>
       ${reasonChip}
     </button>
+    <div class="card-summary-row card-summary-row-tags">
+      ${topTypesHtml}
+    </div>
     <div class="card-summary-row">
       ${tripButton}
     </div>
