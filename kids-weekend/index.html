@@ -195,6 +195,7 @@ a { color: var(--accent); }
   <a class="nav-link active" data-page="page-home" onclick="navigateTo('page-home');return false;" href="#">🏠 首頁推薦</a>
   <a class="nav-link" data-page="page-browse" onclick="navigateTo('page-browse');return false;" href="#">🔍 全景點瀏覽</a>
   <a class="nav-link" data-page="page-favorites" onclick="navigateTo('page-favorites');return false;" href="#">❤️ 我的口袋</a>
+  <a class="nav-link" data-page="page-help" onclick="navigateTo('page-help');return false;" href="#">📚 使用說明</a>
   <a class="nav-link" data-page="page-about" onclick="navigateTo('page-about');return false;" href="#">📖 關於 / 編輯資料</a>
 </nav>
 
@@ -366,6 +367,143 @@ a { color: var(--accent); }
   <h1>❤️ 我的口袋</h1>
   <p style="font-size:15px;color:var(--muted);">收藏的景點。每筆可寫「我家評語」(例如:「2025 年去過,小孩很喜歡親水池」),會存在 localStorage,本機保留。</p>
   <div id="favorites-list"></div>
+</section>
+
+<!-- ========== 使用說明 ========== -->
+<section class="page" id="page-help">
+  <h1>📚 使用說明</h1>
+
+  <div class="callout">
+    <h4>30 秒上手</h4>
+    <ol style="margin:6px 0;padding-left:20px;">
+      <li><strong>3 題 wizard</strong>:你家在哪 → 今天天氣 → 出門範圍</li>
+      <li>結果頁:景點按距離排序,點 <strong>📍 Google Maps</strong> 直接導航</li>
+      <li>進階:設目的地 → 加 waypoints → 一鍵丟 Google Maps 多段導航</li>
+    </ol>
+  </div>
+
+  <h2>🎯 推薦核心</h2>
+  <details open style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:12px;">
+    <summary style="cursor:pointer;font-weight:600;">家位置設定 + 範圍滑桿</summary>
+    <ul style="margin-top:10px;line-height:1.7;">
+      <li><strong>家位置</strong>:Wizard Q1 選縣市 + 區,或點 <strong>📡 GPS 自動定位</strong>(會反查最近的縣市/區顯示「📍 新北土城」)</li>
+      <li><strong>範圍上下限</strong>:結果頁 sticky bar 兩條滑桿
+        <ul>
+          <li>📏 <strong>最近</strong> 0-400 km(預設 0 = 不限)— 想去遠一點的時候排掉家附近</li>
+          <li>📏 <strong>最遠</strong> 5-400 km(400 = 全台)</li>
+          <li>拉的時候滑桿下面顯示「≈ 邊緣對應的區域」(例:50 km ≈ 桃園楊梅、宜蘭頭城),知道大概多遠</li>
+        </ul>
+      </li>
+      <li><strong>怕感冒模式</strong>:勾「🤧 避開人多景點」剔除 crowd=high 的(動物園、九份、Xpark...)</li>
+    </ul>
+  </details>
+
+  <h2>🏷️ 標籤系統</h2>
+  <details open style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:12px;">
+    <summary style="cursor:pointer;font-weight:600;">63 個標籤三態點選</summary>
+    <ul style="margin-top:10px;line-height:1.7;">
+      <li>「🏷️ 全部標籤」摺疊區點任一標籤:第一次 = ✓ <strong>必選</strong>(綠);再點 = ✗ <strong>排除</strong>(紅);再點 = 取消</li>
+      <li>標籤旁的 <code>(當前/全資料庫)</code> 數字:當前篩選結果 / 全 800+ 景點</li>
+      <li>多必選 = AND(必須全部都有);多排除 = OR(任一個有就剔)</li>
+    </ul>
+  </details>
+
+  <h2>🛣️ 路線規劃(最有用)</h2>
+  <details open style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:12px;">
+    <summary style="cursor:pointer;font-weight:600;">設目的地 → 加 waypoints → 丟 Google Maps</summary>
+    <ol style="margin-top:10px;line-height:1.7;">
+      <li>找到目的地景點(例:觀音山)→ 卡片上點 <strong>🛣️ 設目的地</strong></li>
+      <li>結果頁切到「沿路 corridor」模式:只顯示家→目的地兩側 5 km 內的景點</li>
+      <li>看到順路的(IKEA / 五股農場)→ 點 <strong>➕ 加入路線</strong>,自動依沿線位置排序</li>
+      <li>路線清單(banner):<code>🏠 你家 → ⋮⋮ #1 IKEA → ⋮⋮ #2 五股 → 🎯 觀音山</code></li>
+      <li><strong>換序</strong>:桌機抓 <code>⋮⋮</code> 拖、手機按 <code>↑</code> <code>↓</code></li>
+      <li><strong>Corridor 寬度</strong>:預設 5 km,拉 banner 上滑桿可調 1-15 km(寬一點抓到更多順路景點)</li>
+      <li>藍色大按鈕 <strong>🗺️ 開啟 Google Maps 規劃路線</strong> → 跳 Google Maps app/網頁,多段導航</li>
+      <li>手機點按鈕 = 直接開 Google Maps app(若有安裝);桌機 = 開網頁版,可「傳送至手機」(同 Google 帳號)</li>
+    </ol>
+    <p style="background:#fff4e6;padding:8px 12px;border-radius:6px;margin-top:10px;font-size:13px;">💡 取消規劃 → banner 右上「✗ 取消」回到一般推薦</p>
+  </details>
+
+  <h2>🗺️ 順路規劃 vs 區域分組</h2>
+  <details style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:12px;">
+    <summary style="cursor:pointer;font-weight:600;">兩種瀏覽角度</summary>
+    <ul style="margin-top:10px;line-height:1.7;">
+      <li><strong>路線規劃</strong>(設目的地):從家畫一條線到目的地,看沿路有什麼。適合「我要去 X,中途可以順道哪裡」</li>
+      <li><strong>依區域分組</strong>(checkbox):結果按 area 分群,板橋一群、中和一群,群依距家排序。適合「我今天要在 Y 區待一整天,有什麼可以串」</li>
+    </ul>
+  </details>
+
+  <h2>🔍 搜尋特定景點</h2>
+  <details style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:12px;">
+    <summary style="cursor:pointer;font-weight:600;">直接打名字找</summary>
+    <ul style="margin-top:10px;line-height:1.7;">
+      <li>結果頁「🔍 找特定景點」摺疊區 → 打名字(九份 / 奇美 / 觀音山...)</li>
+      <li>即時跳前 8 筆候選,每筆有「設目的地」「加路線」按鈕</li>
+      <li>不受當前篩選限制 — 全 800+ 景點都搜得到(被「不再去」封存的不出現)</li>
+    </ul>
+  </details>
+
+  <h2>💾 個人化功能</h2>
+  <details style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:12px;">
+    <summary style="cursor:pointer;font-weight:600;">收藏 / 評語 / 去過 / 不再去 / 自加景點</summary>
+    <ul style="margin-top:10px;line-height:1.7;">
+      <li>❤️ <strong>加入口袋</strong>:收藏到「❤️ 我的口袋」頁</li>
+      <li>📝 <strong>寫我家評語</strong>:私人筆記(「2025/3 去過,小孩很喜歡」)</li>
+      <li>✅ <strong>標去過</strong>:卡片 name 旁顯示 ✅,提醒已造訪</li>
+      <li>🚫 <strong>不再去</strong>:永久封存,不再出現在推薦/瀏覽</li>
+      <li>➕ <strong>自加景點</strong>(在「📖 關於」頁):阿婆家、私房咖啡 都能加,跟系統景點一起篩</li>
+      <li><strong>所有資料只存本機</strong>(localStorage)— 不上雲、零追蹤</li>
+    </ul>
+  </details>
+
+  <h2>📖 4 個情境範例</h2>
+  <div style="display:grid;gap:10px;margin-bottom:14px;">
+    <div style="background:#fff;border-left:4px solid #ff8c42;padding:10px 14px;border-radius:6px;">
+      <strong>情境 A · 土城晴天找雙北公園</strong><br>
+      <small>Wizard 答土城 + 晴天 + 中(40 km)→ 標籤點「公園」必選 + 勾「避開人多」 → 結果是中和員山公園、土城樂活生態園這種人少社區公園</small>
+    </div>
+    <div style="background:#fff;border-left:4px solid #ff8c42;padding:10px 14px;border-radius:6px;">
+      <strong>情境 B · 想去台中,排除雙北</strong><br>
+      <small>結果頁範圍滑桿:最近 100 km / 最遠 200 km → 雙北景點全濾掉,只剩中部 → 找到台中木工坊設目的地 → 加味噌博物館 waypoint → 一鍵丟 Google Maps</small>
+    </div>
+    <div style="background:#fff;border-left:4px solid #ff8c42;padding:10px 14px;border-radius:6px;">
+      <strong>情境 C · 觀音山順路規劃整天</strong><br>
+      <small>搜尋「觀音山」設目的地 → IKEA 新莊距路線 0.44 km ➕ 加入 → 五股 ➕ 加入 → 想加林口三井但 5.13 km 擦邊,corridor 拉到 6 km → 拖 ⋮⋮ 把林口移到第 1 站 → 一鍵 Google Maps</small>
+    </div>
+    <div style="background:#fff;border-left:4px solid #ff8c42;padding:10px 14px;border-radius:6px;">
+      <strong>情境 D · 雨天想看廟</strong><br>
+      <small>Wizard 任意 + 雨天 + 任意範圍 → 標籤「廟宇」必選 → 室外只標 sunny 的會被天氣剔掉,留下室內可參拜的廟</small>
+    </div>
+  </div>
+
+  <h2>❓ 常見問題</h2>
+  <details style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:12px;">
+    <summary style="cursor:pointer;font-weight:600;">為什麼某景點沒出現?</summary>
+    <ul style="margin-top:10px;line-height:1.7;">
+      <li>範圍卡住 → 拉「最遠」滑桿到更大值</li>
+      <li>天氣卡住 → 試「不一定」</li>
+      <li>標籤排除卡住 → 看頁面上方「已套用篩選」bar,按 ✗ 取消</li>
+      <li>資料庫真的沒有 → 「📖 關於」自加</li>
+    </ul>
+  </details>
+
+  <details style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:12px;">
+    <summary style="cursor:pointer;font-weight:600;">收藏會丟嗎?</summary>
+    <p style="margin-top:10px;">所有資料(收藏 / 評語 / 路線 / 自加)都存在 localStorage,換瀏覽器或清快取會沒。可以在 GitHub Pages 同網域不同分頁仍共用。</p>
+  </details>
+
+  <details style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:12px;">
+    <summary style="cursor:pointer;font-weight:600;">怎麼把規劃好的路線傳到手機?</summary>
+    <ol style="margin-top:10px;line-height:1.7;">
+      <li>桌機點藍色「🗺️ 開啟 Google Maps」 → 開網頁版 Google Maps directions(已有所有 waypoints)</li>
+      <li>網頁版 Google Maps 上點「傳送至你的手機」(需同 Google 帳號)</li>
+      <li>或手機直接打開這個工具網頁 → 點藍色按鈕 → 系統直接跳 Google Maps app</li>
+    </ol>
+  </details>
+
+  <p style="text-align:center;margin-top:30px;color:var(--muted);font-size:13px;">
+    完整版手冊在 GitHub:<a href="https://github.com/tm731531/dementia-care/blob/main/kids-weekend/docs/使用手冊.md" target="_blank" rel="noopener">docs/使用手冊.md</a>
+  </p>
 </section>
 
 <!-- ========== 關於 / 編輯資料 ========== -->
