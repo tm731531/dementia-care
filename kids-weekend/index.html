@@ -3223,6 +3223,30 @@ function renderGroupedByArea(withDist) {
   return out;
 }
 
+// 計算「今天是否營業」+ hours 字串(基於 pl.hours)
+function getOpenStatus(pl) {
+  if (!pl.hours) return null;
+  const days = ['sun','mon','tue','wed','thu','fri','sat'];
+  const now = new Date();
+  const today = days[now.getDay()];
+  const todayHours = pl.hours[today];
+  if (!todayHours) return null;
+  if (todayHours === 'closed') return {label: '🔴 今日休息', state: 'closed'};
+  if (todayHours === '24h') return {label: '🟢 24 小時營業', state: 'open', hoursStr: '24h'};
+  const m = todayHours.match(/^(\d{1,2}):(\d{2})-(\d{1,2}):(\d{2})$/);
+  if (!m) return {label: `🕐 ${todayHours}`, state: 'unknown', hoursStr: todayHours};
+  const startMin = parseInt(m[1])*60 + parseInt(m[2]);
+  let endMin = parseInt(m[3])*60 + parseInt(m[4]);
+  if (endMin <= startMin) endMin += 24*60;
+  const nowMin = now.getHours()*60 + now.getMinutes();
+  const nowMinAdj = nowMin < startMin ? nowMin + 24*60 : nowMin;
+  if (nowMinAdj >= startMin && nowMinAdj < endMin) {
+    if (endMin - nowMinAdj <= 30) return {label: `🟡 即將打烊(${todayHours})`, state: 'closing', hoursStr: todayHours};
+    return {label: `🟢 營業中 · ${todayHours}`, state: 'open', hoursStr: todayHours};
+  }
+  return {label: `🔴 已打烊(${todayHours})`, state: 'closed', hoursStr: todayHours};
+}
+
 function renderPlaceCard(pl, km) {
   const isFav = STATE.favorites.includes(pl.id);
   const isVisited = (STATE.visited || []).includes(pl.id);
@@ -3277,11 +3301,28 @@ function renderPlaceCard(pl, km) {
   }
   const reasonChip = reasonParts.length ? `<div style="display:flex;flex-wrap:wrap;gap:4px;margin:4px 0 6px;font-size:12px;color:var(--primary-dark);">${reasonParts.map(r => `<span style="background:var(--primary-light);padding:2px 8px;border-radius:10px;">${r}</span>`).join('')}</div>` : '';
 
-  // ⏰ booking + ⚠️ jam 警告 chip(在 reason 下方)
+  // ⏰ booking + ⚠️ jam + 🟢 營業中 警告/狀態 chip
   const flags = [];
+  const openSt = getOpenStatus(pl);
+  if (openSt) {
+    const bgColor = openSt.state === 'open' ? '#e8f5ee' : openSt.state === 'closing' ? '#fff4e6' : '#fde8e8';
+    const fgColor = openSt.state === 'open' ? '#1a7a3e' : openSt.state === 'closing' ? '#a55' : '#8a2d2d';
+    flags.push(`<span style="background:${bgColor};color:${fgColor};padding:3px 8px;border-radius:10px;font-size:12px;border:1px solid ${fgColor}33;">${openSt.label}</span>`);
+  }
   if (pl.booking) flags.push('<span style="background:#fff4e6;color:#a55;padding:3px 8px;border-radius:10px;font-size:12px;border:1px solid #ffd9b3;">⏰ 需預約 · 別撲空</span>');
   if (pl.weekend_jam) flags.push('<span style="background:#fff4e6;color:#a55;padding:3px 8px;border-radius:10px;font-size:12px;border:1px solid #ffd9b3;">🚦 假日 10-15 點塞車</span>');
   const flagsHtml = flags.length ? `<div style="display:flex;flex-wrap:wrap;gap:4px;margin:4px 0;">${flags.join('')}</div>` : '';
+
+  // 完整 hours 摺疊(若有 hours)
+  const hoursDetailHtml = pl.hours ? (() => {
+    const dayLabel = {mon:'一',tue:'二',wed:'三',thu:'四',fri:'五',sat:'六',sun:'日'};
+    const rows = ['mon','tue','wed','thu','fri','sat','sun'].map(d => {
+      const v = pl.hours[d] || '?';
+      const today = ['sun','mon','tue','wed','thu','fri','sat'][new Date().getDay()] === d;
+      return `<tr style="${today?'font-weight:700;background:#fff8f0;':''}"><td style="padding:2px 8px;">${dayLabel[d]}</td><td style="padding:2px 8px;">${v === 'closed' ? '休息' : v === '24h' ? '24 小時' : v}</td></tr>`;
+    }).join('');
+    return `<details style="margin:4px 0;font-size:12px;"><summary style="cursor:pointer;color:var(--muted);">📅 看完整時間</summary><table style="margin-top:4px;">${rows}</table></details>`;
+  })() : '';
 
   return `<div class="place-card">
     <div class="head">
@@ -3294,12 +3335,14 @@ function renderPlaceCard(pl, km) {
     ${reasonChip}
     ${flagsHtml}
     <div class="tags">${tagsHtml}</div>
+    ${hoursDetailHtml}
     <p style="font-size:14px;margin:8px 0 4px;">${pl.note}</p>
     ${pl.warning ? `<p style="font-size:13px;color:#8a4a0a;background:var(--warn-bg);padding:6px 10px;border-radius:6px;margin:6px 0;">⚠️ ${pl.warning}</p>` : ''}
     ${note ? `<p style="font-size:14px;background:#f0f8f4;padding:8px 12px;border-radius:6px;margin:8px 0;border-left:3px solid #6ba88a;"><strong>📝 我家評語:</strong> ${escapeHtml(note)}</p>` : ''}
     <div class="actions">
       <div class="actions-row actions-primary">
         <a class="btn" href="${mapsUrl}" target="_blank" rel="noopener">📍 Google Maps</a>
+        ${pl.website ? `<a class="btn btn-secondary" href="${pl.website}" target="_blank" rel="noopener" title="官網(預約 / 票價 / 公告)">🔗 官網</a>` : ''}
         <button class="btn btn-fav ${isFav?'active':''}" onclick="toggleFav('${pl.id}')">${isFav?'❤️ 已收藏':'🤍 加入口袋'}</button>
       </div>
       <div class="actions-row actions-secondary">
