@@ -69,6 +69,16 @@
 - **大字 + 大按鈕**：觸控友善，最小點擊區 48×48px
 - **SVG data URL emoji favicon**：離線也有 tab icon
 
+> ⚠️ **「純黑底 + 純白字 = 適合低視力長輩」是錯的 frame**(2026-04-28 27-domain review 校正)
+>
+> 既有 14 個工具沿用「純黑底 + 純白字」,實際對**中度白內障**(monorepo 主場景)會因 forward light scatter 引發 **halation/glare**,可讀性反而下降(WAI-Aging Guideline §4 + 眼科 evidence)。21:1 是 over-shoot,不是越高越好。
+>
+> Evidence-based 替代:**米白底深字**(#222 on #f5f5f5)/ **深底淺字**(#e8e8e8 on #1a1a1a)/ 字級 ≥ 24px / line-height ≥ 1.6。維持 WCAG AAA(7:1+)但消除極端 glare。
+>
+> **新工具請用 evidence-based 對比**;**既有 14 個工具不擅自改 CSS**(等 Tom 決定)。詳細 evidence:`~/.claude/projects/-home-tom/memory/brain/design-principles.md` 「最大對比 = 最適合低視力對白內障是錯的 frame」。
+>
+> 同類陷阱:**Web Speech API pitch > 1.0** 對老年聽力(presbycusis 高頻損失)反而降辨識率,應 ≤ 1.0。
+
 ### 每次動工必跑的 CDN 檢查
 ```bash
 grep -n -E 'https?://[^"]*\.(com|net|org|io|co)/' index.html | grep -v 'github.io\|tomting.com\|data:'
