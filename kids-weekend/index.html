@@ -1737,6 +1737,14 @@ const PLACES = [
   {id:'hualien-7star', name:'七星潭海岸風景特定區', emoji:'🌊', area:'花蓮新城', region:'hualien', indoor:false, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','海邊','自然'], note:'月牙形礫石海灘 + 看海散步', crowd:'high', dementia_caution:true, last_verified:'2026-04-28'},
   {id:'taimali-sea', name:'千禧曙光紀念園區', emoji:'🌅', area:'台東太麻里', region:'taitung', indoor:false, outdoor:true, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','海邊','觀景'], note:'台灣最早曙光點 + 海景平台', crowd:'mid', hours:{tue:'24h',wed:'24h',thu:'24h',fri:'24h',sat:'24h',sun:'24h',mon:'24h', last_verified:'2026-04-28'}, website:'http://tour.taitung.gov.tw/zh-tw/Travel/ScenicSpot/347/%E5%8D%83%E7%A6%A7%E6%9B%99%E5%85%89%E7%B4%80%E5%BF%B5%E5%9C%92%E5%8D%80'},
 
+  // ===== Wave A 縣市總館(libstat + OSM strict verified)=====
+  {id:'taipei-wangguan-lib', name:'臺北市立圖書館王貫英先生紀念圖書館', emoji:'📚', area:'台北中正', region:'taipei', indoor:true, outdoor:false, ages:['0-2','2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','圖書館','文化'], note:'臺北市立圖書館總館,中正區汀州路,兒童室 + 主題館', crowd:'mid', elder_friendly:true, last_verified:'2026-04-30'},
+  {id:'taiwan-nat-lib', name:'國立臺灣圖書館', emoji:'📚', area:'新北中和', region:'newtaipei', indoor:true, outdoor:true, ages:['0-2','2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','戶外','圖書館','文化'], note:'中和四號公園內,台灣最大公共圖書館之一,大片公園 + 兒童閱覽區', crowd:'mid', elder_friendly:true, last_verified:'2026-04-30'},
+  {id:'tainan-newmain-lib', name:'臺南市立圖書館', emoji:'📚', area:'台南永康', region:'tainan', indoor:true, outdoor:true, ages:['0-2','2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','戶外','圖書館','文化'], note:'2021 開幕新總館,永康區康橋大道,獲多項建築獎,兒童閱覽 + 戶外草坪', crowd:'mid', elder_friendly:true, last_verified:'2026-04-30'},
+  {id:'tainan-park-lib', name:'臺南市立圖書館公園總館', emoji:'📖', area:'台南北區', region:'tainan', indoor:true, outdoor:true, ages:['0-2','2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','戶外','圖書館','文化'], note:'北區公園北路舊總館,公園綠地圍繞', crowd:'low', elder_friendly:true, last_verified:'2026-04-30'},
+  {id:'miaoli-cnty-lib', name:'苗栗縣立圖書館', emoji:'📚', area:'苗栗苗栗市', region:'miaoli', indoor:true, outdoor:false, ages:['0-2','2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','圖書館','文化'], note:'苗栗市自治路總館', crowd:'low', elder_friendly:true, last_verified:'2026-04-30'},
+  {id:'hualien-cult-lib', name:'花蓮縣文化局圖書館', emoji:'📚', area:'花蓮花蓮市', region:'hualien', indoor:true, outdoor:false, ages:['0-2','2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','圖書館','文化'], note:'花蓮市文復路總館', crowd:'low', elder_friendly:true, last_verified:'2026-04-30'},
+
   // ===== Wave 圖書館 親子/兒童(libstat + OSM verified)=====
   {id:'wuqi-kids-lib', name:'臺中市立圖書館梧棲親子館', emoji:'📚', area:'台中梧棲', region:'taichung', indoor:true, outdoor:false, ages:['0-2','2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','圖書館','親子館'], note:'梧棲區民生街,0-6 歲兒童閱覽 + 親子共讀區', crowd:'low', elder_friendly:true, last_verified:'2026-04-30'},
   {id:'taimei-kids-lib', name:'泰美親子圖書館', emoji:'📚', area:'屏東竹田', region:'pingtung', indoor:true, outdoor:false, ages:['0-2','2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','圖書館','親子館'], note:'竹田火車站前,財團法人運營,免費,0-6 歲繪本 + 故事屋', crowd:'low', elder_friendly:true, last_verified:'2026-04-30'},
@@ -2354,6 +2362,14 @@ const PRECISE_COORDS = {
   'zhunan-shisan-park': [24.6778,120.8703], 'zhutian-hakka-maze': [22.5862,120.5429], 'zhuzihu': [25.1755,121.5367],
   'zhuzihu-flower': [25.1776,121.5444], 'zoo-tainan': [23.2810,120.2095], 'zoumalai': [23.1372,120.4299],
   'zuojhen-fossil': [23.0643,120.3891],
+
+  // Wave A 縣市總館(libstat + OSM strict verified)
+  'taipei-wangguan-lib': [25.0226,121.5238],
+  'taiwan-nat-lib': [25.0014,121.5129],
+  'tainan-newmain-lib': [23.0245,120.2377],
+  'tainan-park-lib': [23.0037,120.2122],
+  'miaoli-cnty-lib': [24.5661,120.8205],
+  'hualien-cult-lib': [23.9902,121.6289],
 
   // Wave 圖書館 親子/兒童(libstat + OSM verified)
   'wuqi-kids-lib': [24.2517,120.5331],
