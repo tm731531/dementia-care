@@ -132,6 +132,8 @@ tbody tr:nth-child(even) { background: rgba(0,0,0,0.02); }
     <a class="nav-link" data-page="page-respite" onclick="navigateTo('page-respite');return false;" href="#">😌 喘息服務</a>
     <a class="nav-link" data-page="page-foreign" onclick="navigateTo('page-foreign');return false;" href="#">🌏 外籍看護工</a>
     <a class="nav-link" data-page="page-institution" onclick="navigateTo('page-institution');return false;" href="#">🏢 住宿機構</a>
+    <div class="nav-group-label">🧠 失智專屬(給家屬)</div>
+    <a class="nav-link" data-page="page-dementia-support" onclick="navigateTo('page-dementia-support');return false;" href="#">🤝 援手系統(共照中心 / GA07 / 巷弄據點)</a>
     <div class="nav-group-label">🛠 工具</div>
     <a class="nav-link" data-page="page-budget" onclick="navigateTo('page-budget');return false;" href="#">💵 預算試算</a>
     <a class="nav-link" data-page="page-checklist" onclick="navigateTo('page-checklist');return false;" href="#">📋 觀察 Checklist</a>
@@ -515,7 +517,133 @@ tbody tr:nth-child(even) { background: rgba(0,0,0,0.02); }
 
   <div class="next-step-cta">
     <h4>✅ 看完喘息,下一步</h4>
+    <a onclick="navigateTo('page-dementia-support');return false;" href="#">🤝 援手系統(失智專屬 · 給家屬)</a>
     <a onclick="navigateTo('page-budget');return false;" href="#">💵 預算試算</a>
+    <a onclick="navigateTo('page-combo');return false;" href="#">🧩 跨服務組合</a>
+  </div>
+</section>
+
+<!-- ========== 失智專屬支援系統 ========== -->
+<section class="page" id="page-dementia-support">
+  <h1>🧠 失智專屬支援系統(給家屬的援手)</h1>
+
+  <div class="callout">
+    <p style="margin:0;">前面 5 大類(居服員 / 日照 / 喘息 / 看護工 / 機構)收件人是<strong>失能者</strong>。失智症另有 3 條獨立系統,**收件人是<strong>家屬本人</strong>**,很多人不知道,所以 under-utilize。</p>
+  </div>
+
+  <h2>📞 失智症共照中心 + A 級個案管理師</h2>
+
+  <div class="card">
+  <p><strong>📌 一句話</strong>:衛生局指定醫院/機構設「失智症共照中心」,確診後可申請,**會配一個 A 級個管師長期跟你的個案**。</p>
+
+  <h4>🏷 跟 1966 / 照管專員的差別</h4>
+  <ul>
+    <li><strong>1966 + 照管專員</strong>:處理「申請長照給付」的初次轉介。媽媽病情變化你打去,對方第一次聽你的個案。</li>
+    <li><strong>共照中心 + A 個管師</strong>:**長期跟你**。媽媽行為突變 / 拒食 / 夜遊 / 家屬撐不住,打給她不是打 1966。</li>
+  </ul>
+
+  <h4>🎯 A 個管師的實質功能</h4>
+  <ul>
+    <li>串接神經科 / 精神科 / 復健 — 你不用各科自己跑</li>
+    <li>家屬支援團體月聚 / 個別諮詢 / 失智照護課</li>
+    <li>媽媽病程變化的非急診應對(行為突變應該換藥嗎 / 拒食是吞嚥退化嗎 / 跌倒怎處理)</li>
+    <li>協助銜接其他資源(GA07 / 巷弄據點 / 機構)</li>
+  </ul>
+
+  <h4>⚡ 怎麼接觸</h4>
+  <ol>
+    <li>1966(長照專線)→ 報「我要找<strong>失智症共照中心</strong>」+ 縣市</li>
+    <li>或上 <a href="https://ltcgis.mohw.gov.tw/" target="_blank" rel="noopener">長照地圖</a> → 篩「失智共照」→ 看附近</li>
+    <li>共照中心打電話來安排首次評估(通常 1-2 週內)</li>
+    <li>媽媽 + 主照顧者一起去做評估(CDR / 家屬支援需求)</li>
+    <li>個管師指派,後續變成 single point of contact</li>
+  </ol>
+
+  <h4>⚠ 注意</h4>
+  <ul>
+    <li>不需要等到中-重度才申請,輕度確診就可以,**越早個管師越熟你的個案**</li>
+    <li>跟長照給付**不互斥**,可同時用</li>
+    <li>個管師本人會換(離職 / 轉調),所以重要對話留紀錄(LINE / Email)</li>
+  </ul>
+  </div>
+
+  <h2>💰 GA07 家屬訓練 / 諮商給付碼</h2>
+
+  <div class="card">
+  <p><strong>📌 一句話</strong>:長照給付碼大家熟的是 BA(居服)、CA(復能)、GA01-06(交通 / 輔具 / 居家無障礙)— 全部給<strong>失能者</strong>。**GA07 收件人是家屬本人**。</p>
+
+  <h4>🎯 GA07 涵蓋什麼</h4>
+  <ul>
+    <li>**家屬訓練課**(失智照護技巧 / 行為應對 / 法律 / 財務 / 用藥) — 給付</li>
+    <li>**家屬個別心理諮商** — 給付</li>
+    <li>**家屬支援團體** — 給付</li>
+  </ul>
+
+  <h4>💡 為什麼這個給付重要</h4>
+  <p>照顧者 burnout / 預期性悲傷 / 持續性憂鬱 / Prolonged Grief Disorder 不是「自己想開點」的事 — 有 evidence、有對應服務、**有給付碼**。GA07 是「<strong>該領的東西</strong>」,不是「該不該用」。</p>
+
+  <h4>⚡ 怎麼用</h4>
+  <ol>
+    <li>已經有 A 個管師(共照中心配的) → 直接跟個管師說「我要 GA07 家屬諮商 / 訓練」</li>
+    <li>還沒有個管師 → 1966 報「我要 GA07 家屬訓練 / 諮商」+ 失智症</li>
+    <li>個管師 / 照管專員排課或媒合在地有 GA07 認證的諮商師</li>
+    <li>給付額度依失能等級(媽媽的失能等級)而定,自付額度低</li>
+  </ol>
+
+  <h4>⚠ 注意</h4>
+  <ul>
+    <li>GA07 跟 BA / CA 不互斥,額度獨立(不會吃掉媽媽的居服員時數)</li>
+    <li>家屬訓練課常滿,**先報名候補**,不要等需要才報</li>
+    <li>諮商師不是 24h 急診線,撐不住的當下還是打 <strong>1925 安心專線</strong></li>
+  </ul>
+  </div>
+
+  <h2>🏘️ 巷弄失智據點(失智社區服務據點)</h2>
+
+  <div class="card">
+  <p><strong>📌 一句話</strong>:全台 500+ 處,衛福部建置,**免費**,長輩 + 家屬可一起去。</p>
+
+  <h4>🏷 跟日照的差別</h4>
+  <ul>
+    <li><strong>日照中心</strong>:全日 8 小時,失智中-重度為主,需失能等級評估,有自付額</li>
+    <li><strong>巷弄失智據點</strong>:**一週 2-5 次,每次 2-3 小時**,輕-中度失智為主,**免費**,離家通常 1-2 公里內</li>
+  </ul>
+
+  <h4>🎯 對誰最有用</h4>
+  <ul>
+    <li>**輕-中度初期媽媽** — 還能社交但全日日照負擔太重 → 據點是「中間態」</li>
+    <li>**家屬** — 媽媽在據點 2-3 小時,你能喘口氣 / 處理事情 / 買菜 / 洗澡睡個覺</li>
+    <li>**抗 isolation** — 失智長輩躲在家 → 退化加速(literature 一致)。據點強迫出門 + 接觸人</li>
+  </ul>
+
+  <h4>📋 據點通常提供</h4>
+  <ul>
+    <li>認知訓練(益智遊戲 / 記憶遊戲)</li>
+    <li>手工 / 音樂 / 簡單運動</li>
+    <li>共餐(部分據點)</li>
+    <li>家屬支援團體(部分據點月聚)</li>
+  </ul>
+
+  <h4>⚡ 怎麼找</h4>
+  <ol>
+    <li><a href="https://ltcgis.mohw.gov.tw/" target="_blank" rel="noopener">長照地圖</a> → 篩「失智社區服務據點」→ 輸入地址</li>
+    <li>或打 1966 問「家附近的巷弄失智據點」</li>
+    <li>**直接打據點電話**約參訪(不用透過個管師)</li>
+    <li>媽媽 + 你一起去試一次,觀察她有沒有抗拒</li>
+  </ol>
+
+  <h4>⚠ 注意</h4>
+  <ul>
+    <li>據點品質差異大(有的偏老人共餐 + 卡拉 OK,有的真有失智 program),**親自去看**</li>
+    <li>失智中-重度通常不適合(需要 1:1 照看,據點是團體)</li>
+    <li>**第一次去媽媽抗拒很正常**,給 2-3 次適應期</li>
+  </ul>
+  </div>
+
+  <div class="next-step-cta">
+    <h4>✅ 看完失智專屬支援,下一步</h4>
+    <a onclick="navigateTo('page-foreign');return false;" href="#">🌏 外籍看護工</a>
+    <a onclick="navigateTo('page-institution');return false;" href="#">🏢 住宿機構</a>
     <a onclick="navigateTo('page-combo');return false;" href="#">🧩 跨服務組合</a>
   </div>
 </section>
