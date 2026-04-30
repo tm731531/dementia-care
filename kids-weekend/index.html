@@ -1737,6 +1737,11 @@ const PLACES = [
   {id:'hualien-7star', name:'七星潭海岸風景特定區', emoji:'🌊', area:'花蓮新城', region:'hualien', indoor:false, outdoor:true, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','海邊','自然'], note:'月牙形礫石海灘 + 看海散步', crowd:'high', dementia_caution:true, last_verified:'2026-04-28'},
   {id:'taimali-sea', name:'千禧曙光紀念園區', emoji:'🌅', area:'台東太麻里', region:'taitung', indoor:false, outdoor:true, ages:['3-6'], seasons:['spring','summer','autumn','winter'], weathers:['sunny'], types:['戶外','海邊','觀景'], note:'台灣最早曙光點 + 海景平台', crowd:'mid', hours:{tue:'24h',wed:'24h',thu:'24h',fri:'24h',sat:'24h',sun:'24h',mon:'24h', last_verified:'2026-04-28'}, website:'http://tour.taitung.gov.tw/zh-tw/Travel/ScenicSpot/347/%E5%8D%83%E7%A6%A7%E6%9B%99%E5%85%89%E7%B4%80%E5%BF%B5%E5%9C%92%E5%8D%80'},
 
+  // ===== Wave C 文學/繪本(libstat + Google Maps geocode)=====
+  {id:'kaohsiung-literature-museum', name:'高雄市立圖書館高雄文學館', emoji:'📖', area:'高雄前金', region:'kaohsiung', indoor:true, outdoor:false, ages:['2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','圖書館','文化','文學'], note:'前金區民生二路文學主題館,典藏作家手稿 + 兒童閱讀區', crowd:'low', elder_friendly:true, last_verified:'2026-04-30'},
+  {id:'douliu-picture-lib', name:'雲林縣斗六市繪本圖書館', emoji:'📖', area:'雲林斗六', region:'yunlin', indoor:true, outdoor:false, ages:['0-2','2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','圖書館','親子館'], note:'斗六市莊敬路繪本專屬館,0-6 歲取向強', crowd:'low', elder_friendly:true, last_verified:'2026-04-30'},
+  {id:'hualien-xinxiang-picture-lib', name:'財團法人花蓮新象社區交流協會繪本圖書館', emoji:'📖', area:'花蓮花蓮市', region:'hualien', indoor:true, outdoor:false, ages:['0-2','2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','圖書館','親子館'], note:'花蓮市鎮國街社區協會繪本館,免費,0-6 歲取向', crowd:'low', elder_friendly:true, last_verified:'2026-04-30'},
+
   // ===== Wave B 縣市總館 + 新北 親子閱覽室 + 各縣市親子兒童(libstat + Google Maps geocode 政府 address verified)=====
   {id:'taoyuan-newmain-lib', name:'桃園市立圖書館新總館', emoji:'📚', area:'桃園桃園區', region:'taoyuan', indoor:true, outdoor:false, ages:['0-2','2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','圖書館','文化'], note:'2022 開幕新總館,桃園區南平路,大型新建築,兒童閱覽區', crowd:'low', elder_friendly:true, last_verified:'2026-04-30'},
   {id:'taichung-main-lib', name:'臺中市立圖書館總館', emoji:'📚', area:'台中北屯', region:'taichung', indoor:true, outdoor:false, ages:['0-2','2-3','3-6'], seasons:['spring','summer','autumn','winter'], weathers:['rainy','sunny'], types:['室內','圖書館','文化'], note:'北屯區豐樂路總館,兒童閱覽 + 親子共讀區', crowd:'low', elder_friendly:true, last_verified:'2026-04-30'},
@@ -2384,6 +2389,11 @@ const PRECISE_COORDS = {
   'zhunan-shisan-park': [24.6778,120.8703], 'zhutian-hakka-maze': [22.5862,120.5429], 'zhuzihu': [25.1755,121.5367],
   'zhuzihu-flower': [25.1776,121.5444], 'zoo-tainan': [23.2810,120.2095], 'zoumalai': [23.1372,120.4299],
   'zuojhen-fossil': [23.0643,120.3891],
+
+  // Wave C 文學/繪本(libstat + Google Maps geocode)
+  'kaohsiung-literature-museum': [22.6256,120.2980],
+  'douliu-picture-lib': [23.7038,120.5497],
+  'hualien-xinxiang-picture-lib': [23.9759,121.6013],
 
   // Wave B 縣市總館 + 親子閱覽室 + 各縣市親子兒童(libstat + Google Maps geocode)
   'taoyuan-newmain-lib': [25.0179,121.3000],
