@@ -2624,6 +2624,58 @@ function projLatLng(lat, lng, refLat) {
   return [x, y];
 }
 
+// ========== Directional info — 對「家→目的地」線判斷景點方向關係 ==========
+// 純 info 不引導:user 自己決定要不要加 / swap / 跳過
+function computePlaceDirectional(plCoord, homeLat, homeLng, destCoord) {
+  if (!plCoord || homeLat == null || homeLng == null || !destCoord) return null;
+  // detour 計算(獨立於 t)
+  const dHomeDest = haversineKm(homeLat, homeLng, destCoord[0], destCoord[1]);
+  const dHomePl = haversineKm(homeLat, homeLng, plCoord[0], plCoord[1]);
+  const dPlDest = haversineKm(plCoord[0], plCoord[1], destCoord[0], destCoord[1]);
+  const detourKm = (dHomePl + dPlDest) - dHomeDest;
+  // unclamped t — 抓「過站 / 反向」
+  const refLat = (homeLat + destCoord[0]) / 2;
+  const [hx, hy] = projLatLng(homeLat, homeLng, refLat);
+  const [dx, dy] = projLatLng(destCoord[0], destCoord[1], refLat);
+  const [px, py] = projLatLng(plCoord[0], plCoord[1], refLat);
+  const lineX = dx - hx, lineY = dy - hy;
+  const lenSq = lineX*lineX + lineY*lineY;
+  const tRaw = lenSq < 1e-9 ? 0 : ((px-hx)*lineX + (py-hy)*lineY) / lenSq;
+  // 分類
+  let badge, color, label;
+  if (tRaw < -0.05) {
+    badge = '↩'; color = '#c62828';
+    label = '反向(在家後方)';
+  } else if (tRaw > 1.05) {
+    badge = '↪'; color = '#c62828';
+    label = `過站 +${detourKm.toFixed(1)}km`;
+  } else if (detourKm < 1) {
+    badge = '✓'; color = '#2e7d32';
+    label = '順路';
+  } else if (detourKm < 3) {
+    badge = '🟡'; color = '#f9a825';
+    label = `微繞 +${detourKm.toFixed(1)}km`;
+  } else {
+    badge = '⚠'; color = '#e65100';
+    label = `繞路 +${detourKm.toFixed(1)}km`;
+  }
+  return {detourKm, tRaw, badge, color, label};
+}
+
+function renderDirectionalBadge(pl, p) {
+  if (!p || p.homeLat == null || p.homeLng == null) return '';
+  const prefs = STATE.preferences || {};
+  const destId = prefs.destinationId;
+  if (!destId || pl.id === destId) return ''; // 沒目的地或自己是目的地就不顯示
+  const all = getAllPlaces();
+  const dest = all.find(x => x.id === destId);
+  const destC = dest ? getPlaceCoords(dest) : null;
+  const plC = getPlaceCoords(pl);
+  const info = computePlaceDirectional(plC, p.homeLat, p.homeLng, destC);
+  if (!info) return '';
+  return `<span style="display:inline-block;padding:2px 8px;border-radius:10px;background:${info.color}1a;color:${info.color};font-size:12px;font-weight:600;margin-left:6px;" title="相對於目的地的方向關係(純 info,你自己判斷)">${info.badge} ${info.label}</span>`;
+}
+
 // 點 P 到線段 AB 的最短距離(km)+ 投影位置 t (0=A, 1=B)
 // 沿線排序用 t,corridor 篩選用 dist
 function pointToSegment(plat, plng, alat, alng, blat, blng) {
@@ -3671,11 +3723,12 @@ function renderWizardResult(p) {
     const wpRows = wpData.map((w, i) => {
       const upDis = (i === 0) ? 'opacity:0.3;pointer-events:none;' : '';
       const downDis = (i === wpData.length - 1) ? 'opacity:0.3;pointer-events:none;' : '';
+      const wpBadge = renderDirectionalBadge(w.pl, p);
       return `<div draggable="true" ondragstart="onWpDragStart(${i}, event)" ondragover="onWpDragOver(event)" ondrop="onWpDrop(${i}, event)"
-        style="display:flex;align-items:center;gap:6px;padding:8px 10px;background:#fff;border-radius:8px;border:1px solid var(--primary);font-size:14px;cursor:grab;">
+        style="display:flex;align-items:center;gap:6px;padding:8px 10px;background:#fff;border-radius:8px;border:1px solid var(--primary);font-size:14px;cursor:grab;flex-wrap:wrap;">
         <span style="color:var(--muted);font-size:14px;cursor:grab;" title="拖拉換序">⋮⋮</span>
         <span style="color:var(--primary-dark);font-weight:700;font-size:12px;width:24px;">#${i+1}</span>
-        <span style="flex:1;">${w.pl.emoji} ${escapeHtml(w.pl.name)}</span>
+        <span style="flex:1;min-width:0;">${w.pl.emoji} ${escapeHtml(w.pl.name)}${wpBadge}</span>
         <button class="wp-btn" onclick="swapDestination('${escapeJs(w.pl.id)}')" title="升級為目的地(原目的地降為 waypoint)" aria-label="把 ${escapeHtml(w.pl.name)} 升級為目的地" style="background:#ff8c42;color:#fff;">🎯</button>
         <button class="wp-btn" onclick="moveWaypoint('${escapeJs(w.pl.id)}', -1)" style="${upDis}" title="往前移一格" aria-label="第 ${i+1} 站 ${escapeHtml(w.pl.name)},往前移">↑</button>
         <button class="wp-btn" onclick="moveWaypoint('${escapeJs(w.pl.id)}', 1)" style="${downDis}" title="往後移一格" aria-label="第 ${i+1} 站 ${escapeHtml(w.pl.name)},往後移">↓</button>
@@ -3883,6 +3936,7 @@ function renderPlaceCard(pl, km) {
     ...pl.ages.map(a => `<span class="tag age">${a}</span>`),
   ].filter(Boolean).join('');
   const kmLabel = (km !== undefined && km !== null) ? `<span style="color:var(--primary-dark);font-weight:700;font-size:13px;">📐 ${km.toFixed(1)} km</span>` : '';
+  const directionBadge = renderDirectionalBadge(pl, STATE.userProfile || {});
   const crowdSpan = crowdLabel ? `<span style="font-size:12px;margin-left:8px;">${crowdLabel}</span>` : '';
 
   // ✨ Reason chip:為什麼推這個 — 距離 + 主要 filter 命中
@@ -3977,7 +4031,7 @@ function renderPlaceCard(pl, km) {
         <span class="card-expand-icon" aria-hidden="true">▾</span>
       </div>
       <div class="card-line-2">
-        <span class="card-area">📍 ${escapeHtml(pl.area)} ${kmLabel}</span>
+        <span class="card-area">📍 ${escapeHtml(pl.area)} ${kmLabel}${directionBadge}</span>
         ${reasonInline}
       </div>
     </button>
