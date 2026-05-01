@@ -1782,14 +1782,16 @@ const PLACES = [
 
 // ============ State ============
 const STORAGE_KEY = 'kidsWeekendState';
-const STATE_VERSION = 3;
+const STATE_VERSION = 4;
 const DEFAULT_STATE = {
   _v: STATE_VERSION,
   userProfile: {}, // {home, homeDistrict, homeLat, homeLng, weather, season, age, range}
   favorites: [],   // [placeId]
   notes: {},       // {placeId: text}
   preferences: {}, // {avoidCrowds, mustHave[], exclude[], blockedPlaces[]}
-  visited: [],     // [placeId] 標 ✅ 去過(只標記不 filter)
+  visited: [],     // [placeId] 標 ✅ 去過(單點)
+  pendingPlaces: [], // [{id, plannedAt, fromTripId}] — 敗部清單(規劃了但跳過,下次補)
+  trips: [],       // [{id, date, plannedIds, visitedIds, skippedIds, totalKm, note}] — trip log
   userPlaces: [],  // 使用者自加的景點
 };
 let STATE = loadState();
@@ -1804,7 +1806,12 @@ function loadState() {
       parsed._v = 3;
       parsed.visited = parsed.visited || [];
       parsed.userPlaces = parsed.userPlaces || [];
-      return {...DEFAULT_STATE, ...parsed};
+    }
+    // v3 → v4 migration:加 trip / pending 紀錄
+    if (parsed._v === 3) {
+      parsed._v = 4;
+      parsed.pendingPlaces = parsed.pendingPlaces || [];
+      parsed.trips = parsed.trips || [];
     }
     if (parsed._v !== STATE_VERSION) return {...DEFAULT_STATE};
     return {...DEFAULT_STATE, ...parsed};
@@ -2819,12 +2826,118 @@ function openGoogleMapsRoute() {
     return {pl, c};
   }).filter(Boolean);
 
+  // 記住規劃內容,讓使用者回來可打卡
+  const plannedIds = [prefs.destinationId, ...wpIds];
+  STATE.currentTrip = {
+    id: 'trip_' + Date.now(),
+    date: new Date().toISOString().slice(0, 10),
+    plannedIds: plannedIds,
+    startedAt: Date.now()
+  };
+  saveState();
+
   const origin = `${p.homeLat},${p.homeLng}`;
   const destination = `${destC[0]},${destC[1]}`;
   const waypoints = wpData.map(w => `${w.c[0]},${w.c[1]}`).join('|');
   let url = `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}&travelmode=driving`;
   if (waypoints) url += `&waypoints=${encodeURIComponent(waypoints)}`;
   window.open(url, '_blank', 'noopener');
+}
+
+// ========== 打卡 / Trip Checkin ==========
+function openTripCheckin() {
+  const trip = STATE.currentTrip;
+  const all = getAllPlaces();
+
+  // 沒進行中的 trip:讓 user 從歷史 trip 補打卡 / 或從比較籃直接記
+  let plannedIds, fromCurrent;
+  if (trip && trip.plannedIds && trip.plannedIds.length) {
+    plannedIds = trip.plannedIds;
+    fromCurrent = true;
+  } else {
+    const prefs = STATE.preferences || {};
+    plannedIds = [prefs.destinationId, ...(prefs.waypointIds || [])].filter(Boolean);
+    fromCurrent = false;
+    if (!plannedIds.length) {
+      showToast('還沒規劃路線,先設目的地', {type:'warn'});
+      return;
+    }
+  }
+
+  const items = plannedIds.map(id => {
+    const pl = all.find(x => x.id === id);
+    return pl ? {id, name: pl.name, emoji: pl.emoji} : null;
+  }).filter(Boolean);
+
+  if (!items.length) { showToast('找不到景點資料', {type:'danger'}); return; }
+
+  const html = `
+    <div style="padding:16px;">
+      <h3 style="margin:0 0 8px;font-size:18px;">🚗 這次實際去了哪幾個?</h3>
+      <p style="font-size:14px;color:var(--muted);margin:0 0 12px;">沒勾的會進「敗部清單」,下次經過會 surface 在頂部提醒。</p>
+      <div id="checkin-list" style="display:flex;flex-direction:column;gap:8px;">
+        ${items.map(it => `
+          <label style="display:flex;align-items:center;gap:10px;padding:12px;border:1px solid var(--border);border-radius:8px;cursor:pointer;">
+            <input type="checkbox" data-pid="${it.id}" checked style="width:20px;height:20px;cursor:pointer;">
+            <span style="font-size:18px;">${it.emoji||'📍'}</span>
+            <span style="flex:1;font-size:15px;">${it.name}</span>
+          </label>
+        `).join('')}
+      </div>
+      <div style="display:flex;gap:8px;margin-top:16px;">
+        <button class="action-btn" onclick="closeModal()">取消</button>
+        <button class="primary-btn" onclick="submitTripCheckin()" style="flex:1;">✅ 完成打卡</button>
+      </div>
+    </div>
+  `;
+  showModal(html);
+}
+
+function submitTripCheckin() {
+  const checks = document.querySelectorAll('#checkin-list input[type=checkbox]');
+  const visitedIds = [];
+  const skippedIds = [];
+  const allPlannedIds = [];
+  checks.forEach(cb => {
+    const id = cb.dataset.pid;
+    allPlannedIds.push(id);
+    (cb.checked ? visitedIds : skippedIds).push(id);
+  });
+
+  const trip = STATE.currentTrip || {};
+  const tripRecord = {
+    id: trip.id || 'trip_' + Date.now(),
+    date: trip.date || new Date().toISOString().slice(0, 10),
+    plannedIds: allPlannedIds,
+    visitedIds: visitedIds,
+    skippedIds: skippedIds,
+    note: ''
+  };
+  if (!STATE.trips) STATE.trips = [];
+  STATE.trips.push(tripRecord);
+
+  // 標 visited
+  if (!STATE.visited) STATE.visited = [];
+  visitedIds.forEach(id => {
+    if (!STATE.visited.includes(id)) STATE.visited.push(id);
+  });
+
+  // 跳過的進敗部清單(不重複)
+  if (!STATE.pendingPlaces) STATE.pendingPlaces = [];
+  skippedIds.forEach(id => {
+    if (!STATE.pendingPlaces.find(p => p.id === id)) {
+      STATE.pendingPlaces.push({id, plannedAt: tripRecord.date, fromTripId: tripRecord.id});
+    }
+  });
+
+  // 已打卡 → 移除 currentTrip
+  STATE.currentTrip = null;
+  saveState();
+  closeModal();
+  showToast(`✅ 紀錄完成:去了 ${visitedIds.length},跳過 ${skippedIds.length}`, {type:'success'});
+
+  // 重 render 看到敗部
+  if (document.getElementById('page-wizard').classList.contains('active')) renderWizard();
 }
 function onCorridorWidthInput(val) {
   const lbl = document.getElementById('corridor-width-label');
@@ -3073,6 +3186,24 @@ function toggleBlocked(id) {
   }
 }
 
+// ===== Modal 系統(打卡 / trip 紀錄)=====
+function showModal(htmlContent) {
+  closeModal();
+  const overlay = document.createElement('div');
+  overlay.id = 'modal-overlay';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:300;display:flex;align-items:center;justify-content:center;padding:16px;';
+  overlay.onclick = (e) => { if (e.target === overlay) closeModal(); };
+  const box = document.createElement('div');
+  box.style.cssText = 'background:var(--bg);color:var(--text);max-width:480px;width:100%;max-height:85vh;overflow:auto;border-radius:12px;box-shadow:0 12px 40px rgba(0,0,0,0.35);';
+  box.innerHTML = htmlContent;
+  overlay.appendChild(box);
+  document.body.appendChild(overlay);
+}
+function closeModal() {
+  const o = document.getElementById('modal-overlay');
+  if (o) o.remove();
+}
+
 // ===== Toast 系統 =====
 function showToast(msg, opts) {
   opts = opts || {};
@@ -3232,6 +3363,55 @@ function renderBlockedList() {
   `).join('');
 }
 
+// ========== 敗部清單 widget ==========
+function renderPendingWidget(p) {
+  const pending = STATE.pendingPlaces || [];
+  if (!pending.length) return '';
+  if (!p || !p.homeLat || !p.homeLng) return '';
+  const all = getAllPlaces();
+  const curLimit = getRangeKm(p) || 400;
+  // 計算每個敗部點距離,過濾範圍內
+  const items = pending.map(pen => {
+    const pl = all.find(x => x.id === pen.id);
+    if (!pl) return null;
+    const c = getPlaceCoords(pl);
+    if (!c) return null;
+    const km = haversineKm(p.homeLat, p.homeLng, c[0], c[1]);
+    if (km > curLimit) return null;
+    return {pl, km, pen};
+  }).filter(Boolean).sort((a, b) => a.km - b.km);
+
+  if (!items.length) return '';
+  const top = items.slice(0, 5);
+  return `<div style="background:#fff4e6;border:2px solid #ff8c42;border-radius:8px;padding:12px 14px;margin-bottom:14px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+      <strong style="color:#cc6600;">⏪ 上次規劃但跳過的(離家 ≤ ${curLimit}km)</strong>
+      <span style="font-size:12px;color:#999;">敗部 ${pending.length} 個</span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px;">
+      ${top.map(it => `
+        <div style="display:flex;align-items:center;gap:8px;padding:8px;background:#fff;border-radius:6px;">
+          <span style="font-size:18px;">${it.pl.emoji||'📍'}</span>
+          <div style="flex:1;min-width:0;">
+            <div style="font-weight:600;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${it.pl.name}</div>
+            <div style="font-size:11px;color:#888;">${it.pl.area} · ${it.km.toFixed(1)} km · ${it.pen.plannedAt}</div>
+          </div>
+          <button class="btn btn-small btn-secondary" onclick="setDestination('${it.pl.id}')" title="設為目的地">設目的地</button>
+          <button class="btn btn-small" onclick="dismissPendingPlace('${it.pl.id}')" title="移除敗部清單(不再提醒)" style="background:#eee;color:#666;">✗</button>
+        </div>
+      `).join('')}
+    </div>
+    ${items.length > 5 ? `<div style="font-size:12px;color:#888;margin-top:6px;">還有 ${items.length - 5} 個範圍內的敗部點未顯示</div>` : ''}
+  </div>`;
+}
+
+function dismissPendingPlace(id) {
+  if (!STATE.pendingPlaces) return;
+  STATE.pendingPlaces = STATE.pendingPlaces.filter(p => p.id !== id);
+  saveState();
+  if (document.getElementById('page-wizard').classList.contains('active')) renderWizard();
+}
+
 function renderWizardResult(p) {
   const matches = filterPlaces(p);
   const wLabel = p.weather ? ({sunny:'☀️ 晴',rainy:'☔ 雨',any:'隨便'}[p.weather] || '') : '';
@@ -3253,7 +3433,8 @@ function renderWizardResult(p) {
   let html = `<div class="wizard-result-card">
     <div style="background:var(--primary-light);border-left:4px solid var(--primary);padding:10px 14px;border-radius:6px;margin-bottom:14px;font-size:14px;">
       📍 你的位置:<strong>${hLabel}</strong> <a class="reset-link" onclick="useGeolocation()" style="margin-left:8px;">📡 GPS 重抓</a> <a class="reset-link" onclick="resetHome()" style="margin-left:8px;">✏️ 改地點</a>
-    </div>`;
+    </div>
+    ${renderPendingWidget(p)}`;
 
   // 沿路規劃 banner(目的地已設)
   if (dest && destCoord && p.homeLat && p.homeLng) {
@@ -3294,9 +3475,12 @@ function renderWizardResult(p) {
         <button class="btn btn-secondary btn-small" onclick="clearDestination()" style="white-space:nowrap;">✗ 取消</button>
       </div>
       <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px;">${homeRow}${wpRows}${destRow}</div>
-      <div style="display:flex;gap:6px;margin-bottom:10px;">
+      <div style="display:flex;gap:6px;margin-bottom:6px;">
         <button class="btn" onclick="openGoogleMapsRoute()" style="flex:2;background:#1a73e8;">🗺️ 開啟 Google Maps(${wpData.length + 2} 站)</button>
         <button class="btn btn-secondary" onclick="shareRouteUrl()" style="flex:1;" title="複製連結貼給朋友,他們打開就看到同一條路線">📤 分享</button>
+      </div>
+      <div style="display:flex;gap:6px;margin-bottom:10px;">
+        <button class="btn btn-secondary" onclick="openTripCheckin()" style="flex:1;background:#f5f5f5;color:#333;" title="回家後點這裡告訴 app 實際去了哪幾個,沒去的會進敗部清單下次提醒">✅ 回來打卡(實際去了哪幾個)</button>
       </div>
       <p style="margin:0 0 6px;font-size:12px;color:var(--muted);">桌機可拖 ⋮⋮ 換序,手機用 ↑ ↓。新加入會自動插到沿路位置。</p>
       <div style="display:flex;align-items:center;gap:10px;">
@@ -3780,6 +3964,11 @@ window.onWpDragStart = onWpDragStart;
 window.onWpDragOver = onWpDragOver;
 window.onWpDrop = onWpDrop;
 window.openGoogleMapsRoute = openGoogleMapsRoute;
+window.openTripCheckin = openTripCheckin;
+window.submitTripCheckin = submitTripCheckin;
+window.showModal = showModal;
+window.closeModal = closeModal;
+window.dismissPendingPlace = dismissPendingPlace;
 window.onCorridorWidthInput = onCorridorWidthInput;
 window.onCorridorWidthChange = onCorridorWidthChange;
 window.cycleTag = cycleTag;
