@@ -307,6 +307,7 @@ a { color: var(--accent); }
   <a class="nav-link active" data-page="page-home" onclick="navigateTo('page-home');return false;" href="#">🏠 首頁推薦</a>
   <a class="nav-link" data-page="page-browse" onclick="navigateTo('page-browse');return false;" href="#">🔍 全景點瀏覽</a>
   <a class="nav-link" data-page="page-favorites" onclick="navigateTo('page-favorites');return false;" href="#">❤️ 我的口袋</a>
+  <a class="nav-link" data-page="page-trips" onclick="navigateTo('page-trips');return false;" href="#">📅 我去過 / 敗部</a>
   <a class="nav-link" data-page="page-help" onclick="navigateTo('page-help');return false;" href="#">📚 使用說明</a>
   <a class="nav-link" data-page="page-about" onclick="navigateTo('page-about');return false;" href="#">📖 關於 / 編輯資料</a>
 </nav>
@@ -456,6 +457,13 @@ a { color: var(--accent); }
   <h1>❤️ 我的口袋</h1>
   <p style="font-size:15px;color:var(--muted);">收藏的景點。每筆可寫「我家評語」(例如:「2025 年去過,小孩很喜歡親水池」),會存在 localStorage,本機保留。</p>
   <div id="favorites-list" aria-live="polite" aria-busy="false"></div>
+</section>
+
+<!-- ========== Trip Timeline / 敗部清單 ========== -->
+<section class="page" id="page-trips">
+  <h1>📅 我去過 / 敗部清單</h1>
+  <p style="font-size:15px;color:var(--muted);">每次規劃完路線、實際去完後點「✅ 回來打卡」記錄這次組合(去了哪幾個 / 跳過哪幾個)。跳過的進敗部清單,下次經過時推薦頁頂部會 surface。</p>
+  <div id="trips-content" aria-live="polite"></div>
 </section>
 
 <!-- ========== 使用說明 ========== -->
@@ -1836,6 +1844,7 @@ function navigateTo(pageId) {
   if (window.location.hash !== '#' + pageId) history.pushState(null, '', '#' + pageId);
   if (pageId === 'page-browse') renderBrowse();
   if (pageId === 'page-favorites') renderFavorites();
+  if (pageId === 'page-trips') renderTrips();
   if (pageId === 'page-about') { renderUserPlacesList(); renderBlockedList(); }
 }
 function toggleNav() {
@@ -3410,6 +3419,105 @@ function dismissPendingPlace(id) {
   STATE.pendingPlaces = STATE.pendingPlaces.filter(p => p.id !== id);
   saveState();
   if (document.getElementById('page-wizard').classList.contains('active')) renderWizard();
+  if (document.getElementById('page-trips').classList.contains('active')) renderTrips();
+}
+
+// ========== Trip Timeline View ==========
+function renderTrips() {
+  const el = document.getElementById('trips-content');
+  if (!el) return;
+  const trips = (STATE.trips || []).slice().reverse(); // newest first
+  const pending = STATE.pendingPlaces || [];
+  const all = getAllPlaces();
+  const findPlace = (id) => all.find(x => x.id === id);
+  const fmtPlace = (id) => {
+    const pl = findPlace(id);
+    return pl ? `${pl.emoji||'📍'} ${pl.name}` : `(已刪除景點 ${id})`;
+  };
+
+  let html = '';
+
+  // 敗部清單區塊(顯眼,因為 actionable)
+  if (pending.length) {
+    html += `<div style="background:#fff4e6;border:2px solid #ff8c42;border-radius:8px;padding:14px;margin-bottom:18px;">
+      <h2 style="margin:0 0 10px;color:#cc6600;font-size:18px;">⏪ 敗部清單(${pending.length})</h2>
+      <p style="margin:0 0 10px;font-size:14px;color:#666;">規劃了但沒去到的景點。下次設家後,推薦頁頂部會 surface 範圍內的點。</p>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        ${pending.map(pen => {
+          const pl = findPlace(pen.id);
+          if (!pl) return '';
+          return `<div style="display:flex;align-items:center;gap:10px;padding:10px;background:#fff;border-radius:6px;">
+            <span style="font-size:18px;">${pl.emoji||'📍'}</span>
+            <div style="flex:1;min-width:0;">
+              <div style="font-weight:600;font-size:14px;">${pl.name}</div>
+              <div style="font-size:12px;color:#888;">${pl.area} · 規劃於 ${pen.plannedAt}</div>
+            </div>
+            <button class="btn btn-small" onclick="setDestination('${pl.id}'); navigateTo('page-home');" title="設為下次目的地">🎯 設目的地</button>
+            <button class="btn btn-small" onclick="markPendingVisited('${pl.id}')" title="補打卡(已去過)" style="background:#a5d6a7;color:#1a4d22;">✅ 補去過</button>
+            <button class="btn btn-small btn-secondary" onclick="dismissPendingPlace('${pl.id}')" title="不再提醒" style="background:#eee;color:#666;">✗</button>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  } else {
+    html += `<div style="background:#f0f8f0;border:1px solid #c8e6c9;border-radius:8px;padding:14px;margin-bottom:18px;text-align:center;color:#2d7a31;">
+      ✅ 敗部清單空空 — 你規劃的點都去到了
+    </div>`;
+  }
+
+  // Trip 統計
+  if (trips.length) {
+    const totalPlanned = trips.reduce((s, t) => s + (t.plannedIds?.length || 0), 0);
+    const totalVisited = trips.reduce((s, t) => s + (t.visitedIds?.length || 0), 0);
+    const totalSkipped = trips.reduce((s, t) => s + (t.skippedIds?.length || 0), 0);
+    html += `<div style="display:flex;gap:8px;margin-bottom:14px;font-size:13px;">
+      <div style="flex:1;padding:10px;background:#e3f2fd;border-radius:6px;text-align:center;"><div style="font-size:22px;font-weight:700;color:#1565c0;">${trips.length}</div>趟 trip</div>
+      <div style="flex:1;padding:10px;background:#e8f5e9;border-radius:6px;text-align:center;"><div style="font-size:22px;font-weight:700;color:#2e7d32;">${totalVisited}</div>實際去</div>
+      <div style="flex:1;padding:10px;background:#fff3e0;border-radius:6px;text-align:center;"><div style="font-size:22px;font-weight:700;color:#e65100;">${totalSkipped}</div>跳過</div>
+    </div>`;
+
+    html += `<h2 style="font-size:18px;margin:0 0 10px;">📅 Trip 紀錄</h2>`;
+    html += `<div style="display:flex;flex-direction:column;gap:10px;">`;
+    trips.forEach(t => {
+      const visitedList = (t.visitedIds || []).map(fmtPlace).join(' · ') || '(無)';
+      const skippedList = (t.skippedIds || []).map(fmtPlace).join(' · ') || '';
+      html += `<div style="border:1px solid var(--border);border-radius:8px;padding:12px;background:var(--bg);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <strong style="font-size:15px;">📅 ${t.date || '?'}</strong>
+          <button class="btn btn-small btn-secondary" onclick="deleteTrip('${t.id}')" title="刪除這筆紀錄" style="background:#eee;color:#666;font-size:12px;">🗑</button>
+        </div>
+        <div style="font-size:14px;margin-bottom:6px;"><span style="color:#2e7d32;">✅ 去:</span> ${visitedList}</div>
+        ${skippedList ? `<div style="font-size:14px;color:#999;"><span style="color:#e65100;">⏭ 跳過:</span> ${skippedList}</div>` : ''}
+      </div>`;
+    });
+    html += `</div>`;
+  } else {
+    html += `<div style="background:var(--bg);border:1px dashed var(--border);border-radius:8px;padding:24px;text-align:center;color:#888;">
+      <p style="margin:0;font-size:15px;">還沒打卡過 trip</p>
+      <p style="margin:8px 0 0;font-size:13px;">設目的地 → 開 Google Maps 多段導航 → 回家點「✅ 回來打卡」</p>
+    </div>`;
+  }
+
+  el.innerHTML = html;
+}
+
+function markPendingVisited(id) {
+  if (!STATE.visited) STATE.visited = [];
+  if (!STATE.visited.includes(id)) STATE.visited.push(id);
+  if (STATE.pendingPlaces) {
+    STATE.pendingPlaces = STATE.pendingPlaces.filter(p => p.id !== id);
+  }
+  saveState();
+  showToast('✅ 標記為已去過', {type:'success'});
+  renderTrips();
+}
+
+function deleteTrip(tripId) {
+  if (!STATE.trips) return;
+  if (!confirm('刪除這筆 trip 紀錄?(不會還原敗部 / visited)')) return;
+  STATE.trips = STATE.trips.filter(t => t.id !== tripId);
+  saveState();
+  renderTrips();
 }
 
 function renderWizardResult(p) {
@@ -3969,6 +4077,9 @@ window.submitTripCheckin = submitTripCheckin;
 window.showModal = showModal;
 window.closeModal = closeModal;
 window.dismissPendingPlace = dismissPendingPlace;
+window.renderTrips = renderTrips;
+window.markPendingVisited = markPendingVisited;
+window.deleteTrip = deleteTrip;
 window.onCorridorWidthInput = onCorridorWidthInput;
 window.onCorridorWidthChange = onCorridorWidthChange;
 window.cycleTag = cycleTag;
