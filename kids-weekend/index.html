@@ -609,7 +609,17 @@ a { color: var(--accent); }
 
   <div class="callout">
     <h4>📌 這個工具是什麼</h4>
-    <p style="margin:0;">週末帶小孩出門前的決策工具。每次煩惱「今天天氣這樣 / 這個季節 / 小孩這個年紀,該去哪?」時打開來看。<strong>方法 + 資料</strong> 各半 — 方法(Wizard 推薦邏輯)寫死在程式,資料(490+ 景點)放在程式開頭可以改。</p>
+    <p style="margin:0;">週末帶小孩出門前的決策工具。每次煩惱「今天天氣這樣 / 這個季節 / 小孩這個年紀,該去哪?」時打開來看。<strong>方法 + 資料</strong> 各半 — 方法(Wizard 推薦邏輯)寫死在程式,資料(850+ 景點)放在程式開頭可以改。</p>
+  </div>
+
+  <h2>📲 跨裝置同步(電腦 ↔ 手機)</h2>
+  <div class="callout" style="background:#e3f2fd;border-left:4px solid #1565c0;">
+    <p style="margin:0 0 6px;"><strong>單檔 HTML 沒後端,沒辦法自動同步</strong>。但你可以匯出 JSON 字串貼 LINE / Email,另一台裝置打開貼回 → 套用同一份資料(規劃中行程 + 收藏 + 敗部 + trips 紀錄)。</p>
+    <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
+      <button class="btn" onclick="openExportDialog()" style="background:#1565c0;color:#fff;">📤 匯出全資料(複製字串)</button>
+      <button class="btn btn-secondary" onclick="openImportDialog()">📥 貼字串匯入</button>
+    </div>
+    <p style="margin:8px 0 0;font-size:13px;color:#666;">💡 只要傳「**現在規劃的路線**」(輕量,只有目的地+waypoints),用首頁的「📤 分享」按鈕產生 URL。**整體資料同步**(收藏/敗部/trips)用上面 JSON 匯出。</p>
   </div>
 
   <h2>➕ 自己加景點(本機保留,不需改程式)</h2>
@@ -2683,6 +2693,28 @@ function setDestination(placeId) {
   if (document.getElementById('page-browse').classList.contains('active')) renderBrowse();
   window.scrollTo({top: 0, behavior: 'smooth'});
 }
+
+// 把 waypoint 升級為目的地;原目的地降為 waypoint(保留所有 waypoints)
+function swapDestination(newDestId) {
+  if (!STATE.preferences) STATE.preferences = {};
+  const oldDestId = STATE.preferences.destinationId;
+  if (!oldDestId) {
+    // 沒原目的地就直接 setDestination
+    return setDestination(newDestId);
+  }
+  if (newDestId === oldDestId) return;
+  let wps = STATE.preferences.waypointIds || [];
+  // 把 newDestId 從 waypoints 拿掉(它要升級)
+  wps = wps.filter(id => id !== newDestId);
+  // 把舊 destination 加到 waypoints 開頭
+  wps = [oldDestId, ...wps];
+  STATE.preferences.destinationId = newDestId;
+  STATE.preferences.waypointIds = wps;
+  saveState();
+  renderWizard();
+  if (document.getElementById('page-browse').classList.contains('active')) renderBrowse();
+  showToast('🎯 目的地已換 — 原目的地變 waypoint', {type:'success'});
+}
 function clearDestination() {
   if (!STATE.preferences) STATE.preferences = {};
   delete STATE.preferences.destinationId;
@@ -3520,6 +3552,79 @@ function deleteTrip(tripId) {
   renderTrips();
 }
 
+// ========== 跨裝置同步 — JSON export/import ==========
+function openExportDialog() {
+  const payload = JSON.stringify(STATE);
+  const html = `<div style="padding:16px;">
+    <h3 style="margin:0 0 8px;">📤 匯出全資料</h3>
+    <p style="font-size:14px;color:var(--muted);margin:0 0 10px;">複製下面字串,貼到 LINE / Email 給另一台裝置,在那邊用「📥 貼字串匯入」貼回。</p>
+    <textarea id="export-text" readonly style="width:100%;height:160px;padding:10px;border:1px solid var(--border);border-radius:6px;font-family:monospace;font-size:11px;">${payload.replace(/&/g,'&amp;').replace(/</g,'&lt;')}</textarea>
+    <div style="display:flex;gap:8px;margin-top:10px;">
+      <button class="btn" onclick="copyExportText()" style="flex:1;">📋 複製到剪貼簿</button>
+      <button class="btn btn-secondary" onclick="closeModal()">關閉</button>
+    </div>
+    <p style="margin:8px 0 0;font-size:12px;color:#888;">字串長度:${payload.length} chars。LINE 對話可以貼這麼長,但若太大可考慮先清一些舊 trips。</p>
+  </div>`;
+  showModal(html);
+}
+
+function copyExportText() {
+  const ta = document.getElementById('export-text');
+  if (!ta) return;
+  ta.select();
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(ta.value).then(() => showToast('✓ 已複製,貼到 LINE / Email', {type:'success'}));
+  } else {
+    document.execCommand('copy');
+    showToast('✓ 已複製', {type:'success'});
+  }
+}
+
+function openImportDialog() {
+  const html = `<div style="padding:16px;">
+    <h3 style="margin:0 0 8px;">📥 貼字串匯入</h3>
+    <p style="font-size:14px;color:var(--muted);margin:0 0 10px;"><strong>會覆蓋當前資料</strong>(目的地 / 收藏 / 敗部 / trips / preferences 全部換)。先匯出當前資料當 backup 才能還原。</p>
+    <textarea id="import-text" placeholder="貼上 JSON 字串(從另一台裝置匯出的)" style="width:100%;height:160px;padding:10px;border:1px solid var(--border);border-radius:6px;font-family:monospace;font-size:11px;"></textarea>
+    <div style="display:flex;gap:8px;margin-top:10px;">
+      <button class="btn" onclick="submitImport()" style="flex:1;background:#cc6600;color:#fff;">⚠ 確認匯入(覆蓋當前)</button>
+      <button class="btn btn-secondary" onclick="closeModal()">取消</button>
+    </div>
+  </div>`;
+  showModal(html);
+}
+
+function submitImport() {
+  const ta = document.getElementById('import-text');
+  if (!ta) return;
+  const raw = ta.value.trim();
+  if (!raw) { showToast('字串是空的', {type:'danger'}); return; }
+  let parsed;
+  try {
+    parsed = JSON.parse(raw);
+  } catch(e) {
+    showToast('JSON 解析失敗:' + e.message.slice(0, 60), {type:'danger'});
+    return;
+  }
+  if (typeof parsed !== 'object' || parsed === null) {
+    showToast('字串格式不對(不是 object)', {type:'danger'});
+    return;
+  }
+  // 套用 — 走 loadState 的 migration 邏輯確保 schema 對
+  STATE = {...DEFAULT_STATE, ...parsed};
+  // 強制 _v 對齊(免得 import 舊版本後不更新)
+  if (STATE._v !== STATE_VERSION) {
+    STATE.pendingPlaces = STATE.pendingPlaces || [];
+    STATE.trips = STATE.trips || [];
+    STATE.visited = STATE.visited || [];
+    STATE.userPlaces = STATE.userPlaces || [];
+    STATE._v = STATE_VERSION;
+  }
+  saveState();
+  closeModal();
+  showToast('✓ 匯入完成,重新載入頁面', {type:'success'});
+  setTimeout(() => location.reload(), 800);
+}
+
 function renderWizardResult(p) {
   const matches = filterPlaces(p);
   const wLabel = p.weather ? ({sunny:'☀️ 晴',rainy:'☔ 雨',any:'隨便'}[p.weather] || '') : '';
@@ -3571,6 +3676,7 @@ function renderWizardResult(p) {
         <span style="color:var(--muted);font-size:14px;cursor:grab;" title="拖拉換序">⋮⋮</span>
         <span style="color:var(--primary-dark);font-weight:700;font-size:12px;width:24px;">#${i+1}</span>
         <span style="flex:1;">${w.pl.emoji} ${escapeHtml(w.pl.name)}</span>
+        <button class="wp-btn" onclick="swapDestination('${escapeJs(w.pl.id)}')" title="升級為目的地(原目的地降為 waypoint)" aria-label="把 ${escapeHtml(w.pl.name)} 升級為目的地" style="background:#ff8c42;color:#fff;">🎯</button>
         <button class="wp-btn" onclick="moveWaypoint('${escapeJs(w.pl.id)}', -1)" style="${upDis}" title="往前移一格" aria-label="第 ${i+1} 站 ${escapeHtml(w.pl.name)},往前移">↑</button>
         <button class="wp-btn" onclick="moveWaypoint('${escapeJs(w.pl.id)}', 1)" style="${downDis}" title="往後移一格" aria-label="第 ${i+1} 站 ${escapeHtml(w.pl.name)},往後移">↓</button>
         <button class="wp-btn wp-btn-danger" onclick="removeWaypoint('${escapeJs(w.pl.id)}')" title="從路線移除" aria-label="從路線移除 ${escapeHtml(w.pl.name)}">✗</button>
@@ -4080,6 +4186,11 @@ window.dismissPendingPlace = dismissPendingPlace;
 window.renderTrips = renderTrips;
 window.markPendingVisited = markPendingVisited;
 window.deleteTrip = deleteTrip;
+window.swapDestination = swapDestination;
+window.openExportDialog = openExportDialog;
+window.openImportDialog = openImportDialog;
+window.copyExportText = copyExportText;
+window.submitImport = submitImport;
 window.onCorridorWidthInput = onCorridorWidthInput;
 window.onCorridorWidthChange = onCorridorWidthChange;
 window.cycleTag = cycleTag;
