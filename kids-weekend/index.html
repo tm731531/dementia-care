@@ -3805,17 +3805,23 @@ function renderWizardResult(p) {
       • 在「📖 關於 / 編輯資料」自己加新景點</div>`;
   } else if (dest && destCoord && p.homeLat && p.homeLng) {
     // 沿路 corridor 模式:點到線段距離 < width 視為順路;依投影 t 排序
+    // 同時收集 corridor 外但 range 內的景點,放 collapsible「範圍內但不沿路」
     const corridor = [];
+    const outsideCorridor = [];
     for (const pl of matches) {
-      if (pl.id === destId) continue; // 目的地不出現在沿路列表
+      if (pl.id === destId) continue; // 目的地不出現在列表
       const c = getPlaceCoords(pl);
       if (!c) continue;
       const r = pointToSegment(c[0], c[1], p.homeLat, p.homeLng, destCoord[0], destCoord[1]);
+      const km = getDistKm(pl, p);
       if (r.dist <= corridorWidth) {
-        corridor.push({pl, km: getDistKm(pl, p), corridorDist: r.dist, t: r.t});
+        corridor.push({pl, km, corridorDist: r.dist, t: r.t});
+      } else {
+        outsideCorridor.push({pl, km, corridorDist: r.dist});
       }
     }
     corridor.sort((a,b) => a.t - b.t);
+    outsideCorridor.sort((a,b) => (a.km ?? 999) - (b.km ?? 999));
     const total = haversineKm(p.homeLat, p.homeLng, destCoord[0], destCoord[1]);
     html += `<p style="color:var(--muted);font-size:13px;margin:0 0 10px;">沿路 <strong>${corridor.length}</strong> 個順路景點(corridor ${corridorWidth} km)</p>`;
     if (corridor.length === 0) {
@@ -3826,9 +3832,22 @@ function renderWizardResult(p) {
       const sideLabel = `<span style="color:var(--primary-dark);font-weight:700;font-size:12px;">🚗 離家約 ${fromHomeKm} km · 距路線 ${corridorDist.toFixed(1)} km</span>`;
       html += `<div style="margin-bottom:4px;">${sideLabel}</div>` + renderPlaceCard(pl, km);
     });
-    // 在最後顯示目的地卡片
+    // 在沿路後顯示目的地卡片
     html += `<div style="margin-top:18px;padding:8px 12px;background:#fff4e6;border-left:4px solid #ff8c42;border-radius:6px;font-weight:700;">🎯 目的地</div>`;
     html += renderPlaceCard(dest, getDistKm(dest, p));
+
+    // collapsible「範圍內但不沿路」— 不阻止 user 加,讓 directional badge 自己說明
+    if (outsideCorridor.length) {
+      html += `<details style="margin-top:18px;background:#fff8f0;border:1px solid #ffd6a0;border-radius:8px;padding:10px 14px;">
+        <summary style="cursor:pointer;font-weight:600;color:#cc6600;">⏬ 範圍內但不在沿路 corridor (${outsideCorridor.length} 個 — 會繞路)</summary>
+        <p style="margin:8px 0;font-size:13px;color:#666;">這些在你 ${curLimit ? curLimit + ' km' : '全台'} 範圍內,但離「家→目的地」連線超過 ${corridorWidth} km。每個有方向 badge(↩ 反向 / ↪ 過站 / ⚠ 繞路) — 你自己判要不要加。</p>
+        <div style="display:flex;flex-direction:column;gap:6px;">`;
+      outsideCorridor.forEach(({pl, km, corridorDist}) => {
+        const sideLabel = `<span style="color:#999;font-weight:600;font-size:12px;">📐 距家 ${km != null ? km.toFixed(1) : '?'} km · 離路線 ${corridorDist.toFixed(1)} km</span>`;
+        html += `<div style="margin-bottom:4px;">${sideLabel}</div>` + renderPlaceCard(pl, km);
+      });
+      html += `</div></details>`;
+    }
   } else {
     const withDist = matches.map(pl => ({pl, km: getDistKm(pl, p)}));
     if (groupBy) {
