@@ -88,11 +88,63 @@ nav.toc {
   margin: 20px 16px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
-nav.toc h2 { font-size: 16px; margin-bottom: 10px; color: var(--primary-dark); }
+nav.toc h2 { font-size: 16px; margin-bottom: 10px; color: var(--primary-dark); cursor: pointer; user-select: none; padding: 0; background: none; border: none; }
+nav.toc h2::before { content: '▼ '; font-size: 12px; }
+nav.toc.collapsed h2::before { content: '▶ '; }
+nav.toc.collapsed ol { display: none; }
 nav.toc ol { padding-left: 20px; font-size: 15px; }
 nav.toc ol li { margin: 4px 0; }
 nav.toc a { color: var(--primary-dark); text-decoration: none; }
 nav.toc a:hover { text-decoration: underline; }
+.sticky-mini-nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(212, 121, 106, 0.95);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  padding: 10px 14px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+.sticky-mini-nav button {
+  background: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+}
+.sticky-mini-nav button:hover { background: rgba(255,255,255,0.3); }
+.sticky-mini-nav .progress-text { margin-left: auto; font-weight: 600; }
+.back-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  display: none;
+  z-index: 100;
+}
+.back-to-top.visible { display: block; }
+.back-to-top:hover { background: var(--primary-dark); }
+.checklist-summary {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 4px;
+  font-weight: 600;
+}
 h2 {
   font-size: 22px;
   margin: 30px 0 12px;
@@ -181,6 +233,12 @@ footer a { color: var(--primary-dark); }
   <h1>👶 新成員計畫 · 細胞分裂計畫</h1>
   <p>從備孕到新生兒的完整實戰 SOP · 給三明治世代家庭(失智長輩 + 育兒)</p>
 </header>
+
+<div class="sticky-mini-nav">
+  <button onclick="document.querySelector('nav.toc').scrollIntoView({behavior:'smooth'})">📑 目錄</button>
+  <button onclick="resetChecklist()" title="清空所有打勾紀錄">🔄 重置</button>
+  <span class="progress-text" id="progress-text">0/64</span>
+</div>
 
 <div class="container">
 
@@ -281,20 +339,36 @@ footer a { color: var(--primary-dark); }
 
 <h2 id="prenatal-checks">🩺 孕中:14 次產檢時程表</h2>
 
+<div class="callout warn" style="margin-bottom: 14px;">
+  <strong>⚠ 產檢次數 / 補助金額會異動</strong> — 國健署 2021 後將公費產檢從 10 次擴到 **14 次**(含配偶出席給付)。下表是 Tom 家 2023 經驗 + 國健署常見項目綜合。**以你回診醫院 + 國健署當年公告為準**:<a href="https://www.hpa.gov.tw/" target="_blank" rel="noopener noreferrer">衛福部國民健康署</a>。
+</div>
+
 <table>
-  <thead><tr><th>週數</th><th>例行檢查</th><th>補充檢查 / 補助</th></tr></thead>
+  <thead><tr><th>次數</th><th>週數</th><th>例行 + 補充檢查</th></tr></thead>
   <tbody>
-    <tr><td>8</td><td>例行 + 流產徵兆 + 高危險妊娠衛教</td><td>高危險群篩檢</td></tr>
-    <tr><td>12</td><td>例行 + 第 2 次檢查項目</td><td>羊膜穿刺(高齡產婦補助 5,000 元)</td></tr>
-    <tr><td>20</td><td>例行 + 早產防治衛教</td><td>中期胎兒超音波(健保給付)</td></tr>
-    <tr><td>24</td><td>例行 + 早產防治衛教</td><td>高層次超音波</td></tr>
-    <tr><td>28</td><td>例行</td><td>妊娠糖尿病 + 貧血檢驗</td></tr>
-    <tr><td>30</td><td>例行</td><td>梅毒檢查</td></tr>
-    <tr><td>32</td><td>例行 + VDRL 等實驗室檢驗</td><td>後期胎兒超音波</td></tr>
-    <tr><td>34</td><td>例行</td><td>後期胎兒超音波</td></tr>
-    <tr><td>36-40</td><td>例行</td><td>37 週做乙型鏈球菌篩檢(自然產才需)</td></tr>
+    <tr><td>1</td><td>未滿 17 週</td><td>初次檢查 + 病史 + 體重血壓 + 高危險群篩檢</td></tr>
+    <tr><td>2</td><td>17-19 週</td><td>例行 + B 型 / C 型肝炎 / HIV 篩檢</td></tr>
+    <tr><td>3</td><td>20 週</td><td>中期胎兒超音波 + 早產防治衛教</td></tr>
+    <tr><td>4</td><td>22 週</td><td>例行 + 高層次超音波(自費)</td></tr>
+    <tr><td>5</td><td>24 週</td><td>妊娠糖尿病篩檢 + 貧血檢驗</td></tr>
+    <tr><td>6</td><td>28 週</td><td>例行</td></tr>
+    <tr><td>7</td><td>30 週</td><td>例行</td></tr>
+    <tr><td>8</td><td>31-32 週</td><td>梅毒(VDRL)+ 後期胎兒超音波</td></tr>
+    <tr><td>9</td><td>34 週</td><td>例行 + 後期胎兒超音波</td></tr>
+    <tr><td>10</td><td>35-37 週</td><td>乙型鏈球菌篩檢(自然產媽咪才需)</td></tr>
+    <tr><td>11</td><td>36 週</td><td>例行</td></tr>
+    <tr><td>12</td><td>38 週</td><td>例行</td></tr>
+    <tr><td>13</td><td>39 週</td><td>例行</td></tr>
+    <tr><td>14</td><td>40 週</td><td>例行 + 預估生產時程</td></tr>
   </tbody>
 </table>
+
+<p><strong>常見補助(以當年國健署公告為準,不寫具體金額避免 stale)</strong>:</p>
+<ul>
+  <li><strong>羊膜穿刺</strong>:高齡產婦 / 高風險孕婦補助(34 歲以上 / 唐氏症陽性)</li>
+  <li><strong>高層次超音波</strong>:部分縣市補助</li>
+  <li><strong>配偶出席產檢給付</strong>:1 次(2021 後新政策)</li>
+</ul>
 
 <p><strong>例行檢查內容</strong>:本胎不適症狀(出血 / 腹痛 / 頭痛 / 痙攣)+ 體重 / 血壓 / 胎心音 / 胎位 / 水腫 / 靜脈曲張 + 尿蛋白 / 尿糖。</p>
 
@@ -342,6 +416,8 @@ footer a { color: var(--primary-dark); }
   <p>山藥、豆芽、果汁 / 果乾、大蒜、黑芝麻、亞麻籽、葵花籽油、漿果、月見草油、蜂王乳、紫河車、雪蛤、甲魚、豆類。</p>
   <p><strong>豆漿</strong>:控制每日 ≤ 600cc。</p>
   <p><strong>減少</strong>:牛肉、全脂牛奶、鮭魚、雞皮、蝦卵、魚卵、雞蛋、蟹黃。</p>
+  <hr style="margin: 10px 0; border: 0; border-top: 1px solid var(--warn-border);">
+  <p style="font-size: 13px; margin-top: 8px;"><strong>📖 來源 + 校正</strong>:以上飲食建議綜合民間流傳 + 中醫觀點 + Tom 家經驗。**婦科醫師意見不一致**(部分認為山藥 / 豆漿安全劑量不影響,部分認為敏感體質要避)。**請與你的婦產科醫師 / 中醫師確認你的肌瘤類型(漿膜下 / 肌壁間 / 黏膜下)+ 飲食方案**,不要僅依此手冊調整。</p>
 </div>
 
 <p><strong>原則</strong>:均衡 > 完全避開。可吃的也不要過多;避開的少吃即可。</p>
@@ -616,13 +692,15 @@ footer a { color: var(--primary-dark); }
 
 <div class="callout warn">
   <strong>👶 寶寶體重問題</strong>
-  <p>小孩體重跟超音波有 ~20% 誤差,出生後又會降體重。</p>
+  <p>小孩體重跟超音波有 <strong>10-20% 誤差</strong>,出生後 3-5 天又會降生理性體重(約 5-10%)。</p>
+  <p><strong>WHO / 國健署 早產兒分類</strong>(供參考,各醫院實際標準會略不同):</p>
   <ul>
-    <li>醫院低於 2,300g → 可能進加護或中重症</li>
-    <li>月中低於 2,200g → 怕失溫不好處理</li>
-    <li>醫院只養到 2,000g 就停</li>
+    <li>**極低體重兒**:< 1,500g(通常進新生兒加護)</li>
+    <li>**低體重兒**:1,500-2,500g(評估觀察,部分需保溫箱)</li>
+    <li>**正常足月**:≥ 2,500g</li>
   </ul>
-  <p><strong>結論:小孩盡量養到 50% 以上(足月)比較不麻煩</strong>。</p>
+  <p><strong>月中收住標準</strong>:多數月子中心要求 ≥ 2,200-2,500g 且體溫穩定,**各家差異大,訂房前確認**。</p>
+  <p><strong>結論</strong>:孕期維持均衡飲食 + 規律產檢,**體重落在足月區間最不麻煩**。具體標準以你的婦產科 / 兒科醫師為準。</p>
 </div>
 
 <h3>水奶 vs 配方奶差異</h3>
@@ -642,14 +720,25 @@ footer a { color: var(--primary-dark); }
 </div>
 </div>
 
+<button class="back-to-top" id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到頁首" aria-label="回到頁首">↑</button>
+
 <script>
-// 簡單 checkbox 進度持久化(localStorage)
+// Checkbox 進度持久化 + 進度顯示 + 重置
 (function(){
   const KEY = 'newbornHandbookState';
   let state = {};
   try { state = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch(e) {}
 
-  document.querySelectorAll('input[type="checkbox"][data-key]').forEach(cb => {
+  const checkboxes = document.querySelectorAll('input[type="checkbox"][data-key]');
+  const total = checkboxes.length;
+  const progressText = document.getElementById('progress-text');
+
+  function updateProgress() {
+    const done = Array.from(checkboxes).filter(c => c.checked).length;
+    if (progressText) progressText.textContent = `${done}/${total}`;
+  }
+
+  checkboxes.forEach(cb => {
     const k = cb.dataset.key;
     if (state[k]) {
       cb.checked = true;
@@ -659,8 +748,37 @@ footer a { color: var(--primary-dark); }
       state[k] = cb.checked;
       cb.parentElement.classList.toggle('done', cb.checked);
       try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e) {}
+      updateProgress();
     });
   });
+  updateProgress();
+
+  // Reset
+  window.resetChecklist = function() {
+    if (!confirm('確定清空所有打勾紀錄?(無法還原)')) return;
+    state = {};
+    try { localStorage.removeItem(KEY); } catch(e) {}
+    checkboxes.forEach(cb => {
+      cb.checked = false;
+      cb.parentElement.classList.remove('done');
+    });
+    updateProgress();
+  };
+
+  // Back to top button visibility
+  const btnTop = document.getElementById('back-to-top');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) btnTop.classList.add('visible');
+    else btnTop.classList.remove('visible');
+  });
+
+  // TOC 折疊
+  const toc = document.querySelector('nav.toc');
+  if (toc) {
+    toc.querySelector('h2').addEventListener('click', () => {
+      toc.classList.toggle('collapsed');
+    });
+  }
 })();
 </script>
 </body>
