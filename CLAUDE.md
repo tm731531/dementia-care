@@ -26,6 +26,12 @@
 例外:**只允許 archive / 整併 / 刪除**(縮小 portfolio)。
 解凍後若仍想開新工具,先在 blog 寫一篇「為什麼這值得開一個工具」,沒寫完不開。
 
+> **2026-05-02 footnote**:Tom 主動 override 規則 1 + sub-rule(先 blog),
+> 開第 15 個 sub-project `newborn-handbook`(從 HackMD 個人筆記轉)。
+> 規則保留不刪 — 此次 override 是 explicit + ack risk。後續開 sub-project
+> 仍應對齊原規則(凍結期到 2026-06-30 結束 + 之後解凍仍要 先寫 blog)。
+> 已建 sub-project 累計:15 → 不得再開新的(規則 1 仍 active)。
+
 ### 規則 2:Commit cap 20 / 天(soft warning)
 任何一天 commit 數超過 20:
 - pre-commit hook 跳出對話框問「今天你媽吃幾餐、女兒抱了你幾次、你笑了幾次」
@@ -56,7 +62,8 @@
 | 🦊 小朋友學習樂園 | `kids-companion/` | 1-6 歲 23 個活動，4 年齡層自適應深度 | 單檔 HTML（9MB）| `/dementia-care/kids-companion/` |
 | 🩺 就診小幫手 | `mom-clinic-companion/` | 回診前 prep 工具，從 iDempiere 抓歸納 | HTML + iDempiere REST | `/dementia-care/mom-clinic-companion/` |
 | 📋 白板 OCR Bot | `whiteboard-ocr-bot/` | Telegram bot 拍白板 → iDempiere | Python + Gemini | (不部署，自己跑) |
-| 🧃 健康飲品比較 | `health-drinks/` | 21 款市售飲品成分對照 | 單檔 HTML | `/dementia-care/health-drinks/` |
+| 🧃 健康飲品比較 | `health-drinks/` | 19 款醫療營養品 + 嬰幼兒配方 + 高蛋白補充品比較 | 單檔 HTML(Chart.js CDN 例外) | `/dementia-care/health-drinks/` |
+| 👶 新成員計畫 | `newborn-handbook/` | 從備孕到新生兒實戰 SOP(2026-05-02 規則 1 override 開) | 單檔 HTML | `/dementia-care/newborn-handbook/` |
 
 ## 共用設計原則
 
