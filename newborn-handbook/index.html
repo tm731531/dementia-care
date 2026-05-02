@@ -80,22 +80,6 @@ header {
 }
 header h1 { font-size: 26px; margin-bottom: 6px; }
 header p { font-size: 15px; opacity: 0.95; }
-nav.toc {
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 12px 16px;
-  margin: 20px 16px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-}
-nav.toc h2 { font-size: 16px; margin-bottom: 10px; color: var(--primary-dark); cursor: pointer; user-select: none; padding: 0; background: none; border: none; }
-nav.toc h2::before { content: '▼ '; font-size: 12px; }
-nav.toc.collapsed h2::before { content: '▶ '; }
-nav.toc.collapsed ol { display: none; }
-nav.toc ol { padding-left: 20px; font-size: 15px; }
-nav.toc ol li { margin: 4px 0; }
-nav.toc a { color: var(--primary-dark); text-decoration: none; }
-nav.toc a:hover { text-decoration: underline; }
 .sticky-mini-nav {
   position: sticky;
   top: 0;
@@ -146,65 +130,94 @@ nav.toc a:hover { text-decoration: underline; }
   font-weight: 600;
 }
 
-/* === 心智地圖:phase nav === */
-.phase-nav {
-  background: var(--primary-light);
-  border-bottom: 2px solid var(--primary);
-  padding: 12px 14px 10px;
-  position: sticky;
-  top: 44px; /* 留 sticky-mini-nav 高度 */
-  z-index: 49;
+/* === 心智總表 mind-matrix === */
+.mind-matrix-section {
+  background: #fff;
+  border: 2px solid var(--primary);
+  border-radius: 8px;
+  padding: 14px;
+  margin: 16px 0 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
-.phase-tabs {
-  display: flex;
-  gap: 6px;
+.mind-matrix-section h2.matrix-title {
+  margin: 0 0 8px;
+  padding: 0;
+  font-size: 18px;
+  background: none;
+  color: var(--primary-dark);
+  cursor: default;
+  border: 0;
+}
+.mind-matrix-section h2.matrix-title::before { content: ''; margin: 0; }
+.matrix-hint {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 0 0 12px;
+}
+.mind-matrix-wrap {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  padding-bottom: 6px;
-  scrollbar-width: thin;
 }
-.phase-tabs button {
-  flex: 0 0 auto;
-  padding: 8px 14px;
+table.mind-matrix {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 560px;
+  font-size: 13px;
+}
+table.mind-matrix th,
+table.mind-matrix td {
+  border: 1px solid var(--border);
+  padding: 8px 6px;
+  text-align: center;
+  vertical-align: middle;
   background: #fff;
-  border: 1.5px solid var(--border);
-  border-radius: 20px;
-  font-size: 14px;
+}
+table.mind-matrix thead th {
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  font-weight: 700;
+  font-size: 13px;
+  white-space: nowrap;
+}
+table.mind-matrix tbody th {
+  background: #fef9f5;
+  color: var(--primary-dark);
+  font-weight: 700;
+  white-space: nowrap;
+  font-size: 13px;
+  text-align: left;
+  padding-left: 10px;
+}
+table.mind-matrix td[data-target] {
+  cursor: pointer;
   font-weight: 600;
   color: var(--text);
-  cursor: pointer;
-  white-space: nowrap;
   transition: all 0.15s;
 }
-.phase-tabs button:hover { border-color: var(--primary); }
-.phase-tabs button.active {
-  background: var(--primary);
-  color: #fff;
-  border-color: var(--primary-dark);
-  box-shadow: 0 2px 6px rgba(184, 93, 79, 0.3);
+table.mind-matrix td[data-target]:hover {
+  background: var(--primary-light);
+  transform: scale(1.02);
 }
-.week-input {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 8px;
+table.mind-matrix td.money {
+  background: #fff8e7;
+  color: #b8860b;
+  border: 2px solid #f5c542;
+  font-weight: 700;
+}
+table.mind-matrix td.money:hover {
+  background: #fde9a3;
+}
+table.mind-matrix td.empty {
+  color: #ccc;
   font-size: 14px;
+}
+.matrix-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
   flex-wrap: wrap;
 }
-.week-input input {
-  width: 56px;
-  padding: 6px 8px;
-  border: 1.5px solid var(--border);
-  border-radius: 6px;
-  font-size: 16px;
-  text-align: center;
-  font-weight: 600;
-}
-.week-input input:focus {
-  outline: none;
-  border-color: var(--primary);
-}
-.week-input button {
+.matrix-actions button {
   padding: 6px 12px;
   background: var(--secondary);
   color: #fff;
@@ -214,23 +227,36 @@ nav.toc a:hover { text-decoration: underline; }
   font-weight: 600;
   cursor: pointer;
 }
-.week-input button:hover { opacity: 0.9; }
-.week-hint {
-  font-size: 13px;
-  color: var(--primary-dark);
-  font-weight: 600;
-  margin-left: 4px;
+.matrix-actions button:hover { opacity: 0.9; }
+.matrix-actions button.outline {
+  background: #fff;
+  color: var(--text);
+  border: 1.5px solid var(--border);
 }
-.phase-section-hidden { display: none !important; }
-.phase-banner {
-  background: var(--primary-light);
-  border-left: 4px solid var(--primary);
-  padding: 10px 14px;
-  margin: 16px 0;
-  border-radius: 4px;
-  font-size: 14px;
-  color: var(--primary-dark);
-  font-weight: 600;
+
+/* H2 collapsible */
+h2[id] {
+  cursor: pointer;
+  user-select: none;
+}
+h2[id]::before {
+  content: '▶';
+  font-size: 0.65em;
+  margin-right: 8px;
+  color: var(--primary);
+  display: inline-block;
+  width: 14px;
+}
+h2[id].expanded::before { content: '▼'; }
+.section-body-hidden { display: none !important; }
+
+/* 高亮被矩陣指向的 H2 */
+h2[id].highlight {
+  animation: pulse-bg 1.4s ease-out;
+}
+@keyframes pulse-bg {
+  0% { background: #fde9a3; }
+  100% { background: var(--primary-light); }
 }
 h2 {
   font-size: 22px;
@@ -322,58 +348,91 @@ footer a { color: var(--primary-dark); }
 </header>
 
 <div class="sticky-mini-nav">
-  <button onclick="document.querySelector('nav.toc').scrollIntoView({behavior:'smooth'})">📑 目錄</button>
+  <button onclick="document.getElementById('mind-matrix').scrollIntoView({behavior:'smooth'})">🧠 心智總表</button>
   <button onclick="resetChecklist()" title="清空所有打勾紀錄">🔄 重置</button>
   <span class="progress-text" id="progress-text">0/64</span>
 </div>
 
-<nav class="phase-nav" aria-label="心智地圖 phase 切換">
-  <div class="phase-tabs">
-    <button data-phase="all" class="active" onclick="showPhase('all')">🗺️ 全部</button>
-    <button data-phase="preconception" onclick="showPhase('preconception')">🌱 孕前</button>
-    <button data-phase="early" onclick="showPhase('early')">🤰 0-12w 早期</button>
-    <button data-phase="mid" onclick="showPhase('mid')">🌸 13-27w 中期</button>
-    <button data-phase="late" onclick="showPhase('late')">🍼 28-40w 待產</button>
-    <button data-phase="postpartum" onclick="showPhase('postpartum')">💪 產後 0-1m</button>
-    <button data-phase="infant" onclick="showPhase('infant')">👶 1-3m+</button>
-  </div>
-  <div class="week-input">
-    <label for="week-input">我目前第</label>
-    <input type="number" min="0" max="42" id="week-input" placeholder="?" inputmode="numeric">
-    <label for="week-input">週</label>
-    <button onclick="goToWeek()">→ 自動定位</button>
-    <span id="week-hint" class="week-hint"></span>
-  </div>
-</nav>
-
-<div class="container">
-
-<nav class="toc">
-  <h2>📑 目錄</h2>
-  <ol>
-    <li><a href="#flow">總流程地圖</a></li>
-    <li><a href="#preconception">孕前準備</a></li>
-    <li><a href="#prenatal-edu">孕中:10 種胎教</a></li>
-    <li><a href="#prenatal-checks">孕中:14 次產檢時程</a></li>
-    <li><a href="#good-pregnancy-shuttle">孕中:好孕專車 / 計程車補助(NT$5,000-8,800 別漏領)</a></li>
-    <li><a href="#prenatal-diet">孕中:飲食指南(肌瘤患者特別注意)</a></li>
-    <li><a href="#postpartum-plan">孕中:月中 / 後援規劃</a></li>
-    <li><a href="#preparation">產前:家中物品 + 待產包</a></li>
-    <li><a href="#recovery-natural">產後恢復:自然產</a></li>
-    <li><a href="#recovery-c-section">產後恢復:剖腹產</a></li>
-    <li><a href="#dad-checklist">出生後:爸爸 5 步政府表單</a></li>
-    <li><a href="#mom-checklist">出生後:媽媽動作清單(母乳 / 配方乳)</a></li>
-    <li><a href="#daycare">托嬰中心比較(土城範例)</a></li>
-    <li><a href="#resources">育兒資源(教具 / 親子館 / 圖書)</a></li>
-    <li><a href="#troubleshoot">疑難雜症</a></li>
-  </ol>
-</nav>
 
 <div class="container">
 
 <div class="callout warn">
   <strong>⚠ 權責聲明</strong>:本手冊是 Tom 家 2023 出生女兒的實戰整理 + 跨平台資料彙總,**不是醫療建議**。所有產檢、用藥、特殊體質(如肌瘤)請與婦產科醫師確認。補助金額 / 政府表單流程**會逐年異動**,以衛福部 / 戶政事務所 / 區公所**現場公告為準**。
 </div>
+
+<section class="mind-matrix-section" id="mind-matrix">
+  <h2 class="matrix-title">🧠 心智總表 — 點哪格看哪格</h2>
+  <p class="matrix-hint">真的在忙的時候,**少就是多**。下面 14 章預設全部收合,點下面表格任一格就只展開那一章。<strong style="color: #b8860b;">💰 黃格 = 漏領就沒錢</strong>。</p>
+  <div class="mind-matrix-wrap">
+    <table class="mind-matrix">
+      <thead>
+        <tr>
+          <th></th>
+          <th>🩺 醫療</th>
+          <th>📋 錢 / 政府</th>
+          <th>📦 採買</th>
+          <th>🏠 後援</th>
+          <th>🧠 心理 / 教養</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>🌱 孕前</th>
+          <td data-target="preconception">健檢 + 肌瘤</td>
+          <td class="empty">—</td>
+          <td data-target="preconception">懷孕日記</td>
+          <td data-target="preconception">後援評估</td>
+          <td data-target="preconception">三明治評估</td>
+        </tr>
+        <tr>
+          <th>🤰 0-12w 早期</th>
+          <td data-target="prenatal-checks">產檢 1-2</td>
+          <td data-target="good-pregnancy-shuttle" class="money">💰 好孕專車<br>NT$8,800</td>
+          <td class="empty">—</td>
+          <td class="empty">—</td>
+          <td data-target="prenatal-diet">飲食禁忌</td>
+        </tr>
+        <tr>
+          <th>🌸 13-27w 中期</th>
+          <td data-target="prenatal-checks">產檢 3-7<br>高層次</td>
+          <td class="empty">—</td>
+          <td data-target="prenatal-edu">媽媽禮 / 二手</td>
+          <td data-target="postpartum-plan">月中打聽</td>
+          <td data-target="prenatal-edu">10 種胎教</td>
+        </tr>
+        <tr>
+          <th>🍼 28-40w 待產</th>
+          <td data-target="prenatal-checks">產檢 8-14</td>
+          <td class="empty">—</td>
+          <td data-target="preparation">待產包 4 類</td>
+          <td data-target="postpartum-plan">確認月中</td>
+          <td data-target="prenatal-diet">飲食複習</td>
+        </tr>
+        <tr>
+          <th>💪 產後 0-1m</th>
+          <td data-target="recovery-natural,recovery-c-section">恢復<br>(自/剖)</td>
+          <td data-target="dad-checklist" class="money">💰 爸爸 5 步<br>戶政 / 留停</td>
+          <td data-target="mom-checklist">媽媽動作<br>母乳 / 配方</td>
+          <td class="empty">—</td>
+          <td data-target="troubleshoot">寶寶體重<br>水奶 / 配方</td>
+        </tr>
+        <tr>
+          <th>👶 1-3m+</th>
+          <td class="empty">—</td>
+          <td class="empty">—</td>
+          <td data-target="resources">教具 / 圖書</td>
+          <td data-target="daycare">托嬰比較</td>
+          <td data-target="resources">教養 / kids-weekend</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="matrix-actions">
+    <button onclick="expandAll()">📖 全部展開</button>
+    <button onclick="collapseAllSections()" class="outline">📕 全部收合</button>
+    <button onclick="expandTarget('flow', {single:true})" class="outline">🗺️ 看總流程地圖</button>
+  </div>
+</section>
 
 <h2 id="flow">🗺️ 總流程地圖</h2>
 
@@ -874,7 +933,6 @@ footer a { color: var(--primary-dark); }
 </footer>
 
 </div>
-</div>
 
 <button class="back-to-top" id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到頁首" aria-label="回到頁首">↑</button>
 
@@ -928,143 +986,82 @@ footer a { color: var(--primary-dark); }
     else btnTop.classList.remove('visible');
   });
 
-  // TOC 折疊
-  const toc = document.querySelector('nav.toc');
-  if (toc) {
-    toc.querySelector('h2').addEventListener('click', () => {
-      toc.classList.toggle('collapsed');
-    });
-  }
-
-  // === 心智地圖:phase 切換 ===
-  // 每個 H2 section 屬於哪些 phase(可多)
-  const PHASE_LABELS = {
-    'all': '🗺️ 全部',
-    'preconception': '🌱 孕前',
-    'early': '🤰 0-12w 早期',
-    'mid': '🌸 13-27w 中期',
-    'late': '🍼 28-40w 待產',
-    'postpartum': '💪 產後 0-1m',
-    'infant': '👶 1-3m+'
-  };
-  const SECTION_PHASES = {
-    'flow':                    ['all'],  // 總流程地圖,所有 phase 都看得到
-    'preconception':           ['preconception'],
-    'prenatal-edu':            ['mid', 'late'],          // 第 4 個月開始(13w+)
-    'prenatal-checks':         ['early', 'mid', 'late'], // 跨整個孕期
-    'good-pregnancy-shuttle':  ['early', 'mid', 'late', 'postpartum'], // 領媽媽手冊起,寶寶 1 歲前
-    'prenatal-diet':           ['early', 'mid', 'late'],
-    'postpartum-plan':         ['mid', 'late'],          // 中期開始規劃月中
-    'preparation':             ['late'],
-    'recovery-natural':        ['postpartum'],
-    'recovery-c-section':      ['postpartum'],
-    'dad-checklist':           ['postpartum'],
-    'mom-checklist':           ['postpartum'],
-    'daycare':                 ['late', 'postpartum', 'infant'], // 待產期就要看,產後決定
-    'resources':               ['postpartum', 'infant'],
-    'troubleshoot':            ['postpartum', 'infant']
-  };
-
-  function collectSection(h2) {
-    const els = [h2];
+  // === 心智總表 — 14 H2 全 collapsed,點 cell 展開 ===
+  function collectSectionBody(h2) {
+    // 取 H2 之後到下一個 H2 之前的所有 sibling(不含 H2 自己)
+    const body = [];
     let next = h2.nextElementSibling;
     while (next && next.tagName !== 'H2') {
-      els.push(next);
+      body.push(next);
       next = next.nextElementSibling;
     }
-    return els;
+    return body;
   }
 
-  // 預先 cache 每個 section 的 elements
-  const sectionsCache = {};
+  const sectionBodies = {};
   document.querySelectorAll('h2[id]').forEach(h2 => {
-    if (SECTION_PHASES[h2.id]) {
-      sectionsCache[h2.id] = collectSection(h2);
-    }
+    sectionBodies[h2.id] = collectSectionBody(h2);
   });
 
-  // 為了在 phase 模式下顯示「這階段該做什麼」banner,動態插
-  let phaseBanner = null;
-  function ensureBanner() {
-    if (phaseBanner) return phaseBanner;
-    phaseBanner = document.createElement('div');
-    phaseBanner.className = 'phase-banner';
-    phaseBanner.id = 'phase-banner';
-    const container = document.querySelector('.container');
-    if (container) container.insertBefore(phaseBanner, container.firstChild.nextSibling);
-    return phaseBanner;
+  function setSection(id, expanded) {
+    const h2 = document.getElementById(id);
+    if (!h2) return;
+    h2.classList.toggle('expanded', expanded);
+    (sectionBodies[id] || []).forEach(el => {
+      el.classList.toggle('section-body-hidden', !expanded);
+    });
   }
 
-  const PHASE_FOCUS = {
-    'preconception': '🌱 <strong>孕前重點</strong>:雙方健檢 + 後援評估(三明治世代特別重要)+ 開懷孕日記',
-    'early':         '🤰 <strong>0-12w 早期重點</strong>:領媽媽手冊 → <strong>立刻申請好孕專車</strong>(NT$8,800 別漏領)+ 第 1-2 次產檢 + 注意飲食禁忌',
-    'mid':           '🌸 <strong>13-27w 中期重點</strong>:10 種胎教開始(第 4 個月)+ 高層次超音波(22w 自費)+ 開始打聽月中 / 後援',
-    'late':          '🍼 <strong>28-40w 待產重點</strong>:打包待產包(資料/日常/媽媽/可有可無 4 類)+ 確認月中收住標準 + 男方上產婦課',
-    'postpartum':    '💪 <strong>產後 0-1m 重點</strong>:自然產 / 剖腹產恢復 + 爸爸 5 步政府表單(2 個月內)+ 媽媽哺乳 / 配方乳選擇',
-    'infant':        '👶 <strong>1-3m+ 重點</strong>:托嬰中心比較(現場參觀)+ 育兒資源(教具 / 親子館 / 圖書)+ kids-weekend 看週末出遊'
-  };
-
-  window.showPhase = function(phase) {
-    // toggle section visibility
-    Object.keys(SECTION_PHASES).forEach(id => {
-      const phases = SECTION_PHASES[id];
-      const visible = phase === 'all' || phases.includes(phase) || phases.includes('all');
-      const section = sectionsCache[id] || [];
-      section.forEach(el => el.classList.toggle('phase-section-hidden', !visible));
-    });
-    // tab active state
-    document.querySelectorAll('.phase-tabs button').forEach(b => {
-      b.classList.toggle('active', b.dataset.phase === phase);
-    });
-    // banner
-    if (phase === 'all') {
-      if (phaseBanner) phaseBanner.style.display = 'none';
-    } else {
-      const b = ensureBanner();
-      b.innerHTML = PHASE_FOCUS[phase] || '';
-      b.style.display = '';
-    }
-    // progress 改成只算 visible
-    updateProgressForPhase();
-    // scroll 回頂部不被 sticky 蓋住
-    if (phase !== 'all') {
-      const container = document.querySelector('.container');
-      if (container) window.scrollTo({top: container.offsetTop - 100, behavior: 'smooth'});
-    }
-  };
-
-  function updateProgressForPhase() {
-    const visible = Array.from(checkboxes).filter(c => {
-      let p = c.parentElement;
-      while (p && !p.classList.contains('phase-section-hidden') && p.tagName !== 'BODY') p = p.parentElement;
-      return !p || p.tagName === 'BODY';
-    });
-    const done = visible.filter(c => c.checked).length;
-    if (progressText) progressText.textContent = `${done}/${visible.length}`;
+  function isExpanded(id) {
+    const h2 = document.getElementById(id);
+    return h2 && h2.classList.contains('expanded');
   }
 
-  // override updateProgress 讓打勾後也走 phase 版
-  const _orig = updateProgress;
-  updateProgress = function() { updateProgressForPhase(); };
-  updateProgress();
-
-  // 「我第幾週」自動定位 phase
-  window.goToWeek = function() {
-    const w = parseInt(document.getElementById('week-input').value, 10);
-    const hint = document.getElementById('week-hint');
-    if (isNaN(w) || w < 0 || w > 42) {
-      if (hint) hint.textContent = '⚠ 請填 0-42';
-      return;
-    }
-    let phase = 'preconception';
-    if (w === 0) phase = 'preconception';
-    else if (w <= 12) phase = 'early';
-    else if (w <= 27) phase = 'mid';
-    else if (w <= 40) phase = 'late';
-    else phase = 'postpartum';
-    if (hint) hint.textContent = `→ ${PHASE_LABELS[phase]}`;
-    showPhase(phase);
+  window.collapseAllSections = function() {
+    Object.keys(sectionBodies).forEach(id => setSection(id, false));
   };
+
+  window.expandAll = function() {
+    Object.keys(sectionBodies).forEach(id => setSection(id, true));
+  };
+
+  window.expandTarget = function(targetStr, opts) {
+    opts = opts || {};
+    const ids = targetStr.split(',').map(s => s.trim()).filter(Boolean);
+    if (opts.single) collapseAllSections();
+    ids.forEach(id => setSection(id, true));
+    // scroll + highlight 第一個
+    const first = document.getElementById(ids[0]);
+    if (first) {
+      setTimeout(() => {
+        const offset = first.getBoundingClientRect().top + window.scrollY - 100;
+        window.scrollTo({top: offset, behavior: 'smooth'});
+        first.classList.remove('highlight');
+        // 強制 reflow 讓 animation re-trigger
+        void first.offsetWidth;
+        first.classList.add('highlight');
+      }, 50);
+    }
+  };
+
+  // 預設:全部 collapsed
+  collapseAllSections();
+
+  // 點 cell → single-focus 展開
+  document.querySelectorAll('table.mind-matrix td[data-target]').forEach(cell => {
+    cell.addEventListener('click', () => {
+      window.expandTarget(cell.dataset.target, {single: true});
+    });
+  });
+
+  // 點 H2 → 自由 toggle(不影響其他)
+  document.querySelectorAll('h2[id]').forEach(h2 => {
+    // 排除 matrix-title 內的 H2
+    if (h2.classList.contains('matrix-title')) return;
+    h2.addEventListener('click', () => {
+      setSection(h2.id, !isExpanded(h2.id));
+    });
+  });
 })();
 </script>
 </body>
