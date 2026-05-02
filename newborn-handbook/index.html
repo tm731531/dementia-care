@@ -145,6 +145,93 @@ nav.toc a:hover { text-decoration: underline; }
   margin-bottom: 4px;
   font-weight: 600;
 }
+
+/* === 心智地圖:phase nav === */
+.phase-nav {
+  background: var(--primary-light);
+  border-bottom: 2px solid var(--primary);
+  padding: 12px 14px 10px;
+  position: sticky;
+  top: 44px; /* 留 sticky-mini-nav 高度 */
+  z-index: 49;
+}
+.phase-tabs {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 6px;
+  scrollbar-width: thin;
+}
+.phase-tabs button {
+  flex: 0 0 auto;
+  padding: 8px 14px;
+  background: #fff;
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+.phase-tabs button:hover { border-color: var(--primary); }
+.phase-tabs button.active {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary-dark);
+  box-shadow: 0 2px 6px rgba(184, 93, 79, 0.3);
+}
+.week-input {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  font-size: 14px;
+  flex-wrap: wrap;
+}
+.week-input input {
+  width: 56px;
+  padding: 6px 8px;
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  font-size: 16px;
+  text-align: center;
+  font-weight: 600;
+}
+.week-input input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+.week-input button {
+  padding: 6px 12px;
+  background: var(--secondary);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.week-input button:hover { opacity: 0.9; }
+.week-hint {
+  font-size: 13px;
+  color: var(--primary-dark);
+  font-weight: 600;
+  margin-left: 4px;
+}
+.phase-section-hidden { display: none !important; }
+.phase-banner {
+  background: var(--primary-light);
+  border-left: 4px solid var(--primary);
+  padding: 10px 14px;
+  margin: 16px 0;
+  border-radius: 4px;
+  font-size: 14px;
+  color: var(--primary-dark);
+  font-weight: 600;
+}
 h2 {
   font-size: 22px;
   margin: 30px 0 12px;
@@ -239,6 +326,25 @@ footer a { color: var(--primary-dark); }
   <button onclick="resetChecklist()" title="清空所有打勾紀錄">🔄 重置</button>
   <span class="progress-text" id="progress-text">0/64</span>
 </div>
+
+<nav class="phase-nav" aria-label="心智地圖 phase 切換">
+  <div class="phase-tabs">
+    <button data-phase="all" class="active" onclick="showPhase('all')">🗺️ 全部</button>
+    <button data-phase="preconception" onclick="showPhase('preconception')">🌱 孕前</button>
+    <button data-phase="early" onclick="showPhase('early')">🤰 0-12w 早期</button>
+    <button data-phase="mid" onclick="showPhase('mid')">🌸 13-27w 中期</button>
+    <button data-phase="late" onclick="showPhase('late')">🍼 28-40w 待產</button>
+    <button data-phase="postpartum" onclick="showPhase('postpartum')">💪 產後 0-1m</button>
+    <button data-phase="infant" onclick="showPhase('infant')">👶 1-3m+</button>
+  </div>
+  <div class="week-input">
+    <label for="week-input">我目前第</label>
+    <input type="number" min="0" max="42" id="week-input" placeholder="?" inputmode="numeric">
+    <label for="week-input">週</label>
+    <button onclick="goToWeek()">→ 自動定位</button>
+    <span id="week-hint" class="week-hint"></span>
+  </div>
+</nav>
 
 <div class="container">
 
@@ -829,6 +935,136 @@ footer a { color: var(--primary-dark); }
       toc.classList.toggle('collapsed');
     });
   }
+
+  // === 心智地圖:phase 切換 ===
+  // 每個 H2 section 屬於哪些 phase(可多)
+  const PHASE_LABELS = {
+    'all': '🗺️ 全部',
+    'preconception': '🌱 孕前',
+    'early': '🤰 0-12w 早期',
+    'mid': '🌸 13-27w 中期',
+    'late': '🍼 28-40w 待產',
+    'postpartum': '💪 產後 0-1m',
+    'infant': '👶 1-3m+'
+  };
+  const SECTION_PHASES = {
+    'flow':                    ['all'],  // 總流程地圖,所有 phase 都看得到
+    'preconception':           ['preconception'],
+    'prenatal-edu':            ['mid', 'late'],          // 第 4 個月開始(13w+)
+    'prenatal-checks':         ['early', 'mid', 'late'], // 跨整個孕期
+    'good-pregnancy-shuttle':  ['early', 'mid', 'late', 'postpartum'], // 領媽媽手冊起,寶寶 1 歲前
+    'prenatal-diet':           ['early', 'mid', 'late'],
+    'postpartum-plan':         ['mid', 'late'],          // 中期開始規劃月中
+    'preparation':             ['late'],
+    'recovery-natural':        ['postpartum'],
+    'recovery-c-section':      ['postpartum'],
+    'dad-checklist':           ['postpartum'],
+    'mom-checklist':           ['postpartum'],
+    'daycare':                 ['late', 'postpartum', 'infant'], // 待產期就要看,產後決定
+    'resources':               ['postpartum', 'infant'],
+    'troubleshoot':            ['postpartum', 'infant']
+  };
+
+  function collectSection(h2) {
+    const els = [h2];
+    let next = h2.nextElementSibling;
+    while (next && next.tagName !== 'H2') {
+      els.push(next);
+      next = next.nextElementSibling;
+    }
+    return els;
+  }
+
+  // 預先 cache 每個 section 的 elements
+  const sectionsCache = {};
+  document.querySelectorAll('h2[id]').forEach(h2 => {
+    if (SECTION_PHASES[h2.id]) {
+      sectionsCache[h2.id] = collectSection(h2);
+    }
+  });
+
+  // 為了在 phase 模式下顯示「這階段該做什麼」banner,動態插
+  let phaseBanner = null;
+  function ensureBanner() {
+    if (phaseBanner) return phaseBanner;
+    phaseBanner = document.createElement('div');
+    phaseBanner.className = 'phase-banner';
+    phaseBanner.id = 'phase-banner';
+    const container = document.querySelector('.container');
+    if (container) container.insertBefore(phaseBanner, container.firstChild.nextSibling);
+    return phaseBanner;
+  }
+
+  const PHASE_FOCUS = {
+    'preconception': '🌱 <strong>孕前重點</strong>:雙方健檢 + 後援評估(三明治世代特別重要)+ 開懷孕日記',
+    'early':         '🤰 <strong>0-12w 早期重點</strong>:領媽媽手冊 → <strong>立刻申請好孕專車</strong>(NT$8,800 別漏領)+ 第 1-2 次產檢 + 注意飲食禁忌',
+    'mid':           '🌸 <strong>13-27w 中期重點</strong>:10 種胎教開始(第 4 個月)+ 高層次超音波(22w 自費)+ 開始打聽月中 / 後援',
+    'late':          '🍼 <strong>28-40w 待產重點</strong>:打包待產包(資料/日常/媽媽/可有可無 4 類)+ 確認月中收住標準 + 男方上產婦課',
+    'postpartum':    '💪 <strong>產後 0-1m 重點</strong>:自然產 / 剖腹產恢復 + 爸爸 5 步政府表單(2 個月內)+ 媽媽哺乳 / 配方乳選擇',
+    'infant':        '👶 <strong>1-3m+ 重點</strong>:托嬰中心比較(現場參觀)+ 育兒資源(教具 / 親子館 / 圖書)+ kids-weekend 看週末出遊'
+  };
+
+  window.showPhase = function(phase) {
+    // toggle section visibility
+    Object.keys(SECTION_PHASES).forEach(id => {
+      const phases = SECTION_PHASES[id];
+      const visible = phase === 'all' || phases.includes(phase) || phases.includes('all');
+      const section = sectionsCache[id] || [];
+      section.forEach(el => el.classList.toggle('phase-section-hidden', !visible));
+    });
+    // tab active state
+    document.querySelectorAll('.phase-tabs button').forEach(b => {
+      b.classList.toggle('active', b.dataset.phase === phase);
+    });
+    // banner
+    if (phase === 'all') {
+      if (phaseBanner) phaseBanner.style.display = 'none';
+    } else {
+      const b = ensureBanner();
+      b.innerHTML = PHASE_FOCUS[phase] || '';
+      b.style.display = '';
+    }
+    // progress 改成只算 visible
+    updateProgressForPhase();
+    // scroll 回頂部不被 sticky 蓋住
+    if (phase !== 'all') {
+      const container = document.querySelector('.container');
+      if (container) window.scrollTo({top: container.offsetTop - 100, behavior: 'smooth'});
+    }
+  };
+
+  function updateProgressForPhase() {
+    const visible = Array.from(checkboxes).filter(c => {
+      let p = c.parentElement;
+      while (p && !p.classList.contains('phase-section-hidden') && p.tagName !== 'BODY') p = p.parentElement;
+      return !p || p.tagName === 'BODY';
+    });
+    const done = visible.filter(c => c.checked).length;
+    if (progressText) progressText.textContent = `${done}/${visible.length}`;
+  }
+
+  // override updateProgress 讓打勾後也走 phase 版
+  const _orig = updateProgress;
+  updateProgress = function() { updateProgressForPhase(); };
+  updateProgress();
+
+  // 「我第幾週」自動定位 phase
+  window.goToWeek = function() {
+    const w = parseInt(document.getElementById('week-input').value, 10);
+    const hint = document.getElementById('week-hint');
+    if (isNaN(w) || w < 0 || w > 42) {
+      if (hint) hint.textContent = '⚠ 請填 0-42';
+      return;
+    }
+    let phase = 'preconception';
+    if (w === 0) phase = 'preconception';
+    else if (w <= 12) phase = 'early';
+    else if (w <= 27) phase = 'mid';
+    else if (w <= 40) phase = 'late';
+    else phase = 'postpartum';
+    if (hint) hint.textContent = `→ ${PHASE_LABELS[phase]}`;
+    showPhase(phase);
+  };
 })();
 </script>
 </body>
