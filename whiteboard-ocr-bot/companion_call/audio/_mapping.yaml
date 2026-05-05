@@ -1,0 +1,16 @@
+# Mapping from Tom's recordings (~/Desktop/recordings) to prompt slot wav names.
+# Assumption: Tom recorded in spec §6 order — file connection number ascending = prompt order.
+# Override here if 結尾語不在 472125。
+mapping:
+  voice_472115.aac: prompt_01.wav   # 開場
+  voice_472116.aac: prompt_02.wav   # 輪播
+  voice_472117.aac: prompt_03.wav   # 輪播
+  voice_472118.aac: prompt_04.wav   # 輪播
+  voice_472119.aac: prompt_05.wav   # 輪播
+  voice_472120.aac: prompt_06.wav   # 輪播
+  voice_472121.aac: prompt_07.wav   # 輪播
+  voice_472122.aac: prompt_08.wav   # 輪播
+  voice_472123.aac: prompt_09.wav   # 輪播
+  voice_472124.aac: prompt_10.wav   # 輪播
+  voice_472125.aac: prompt_11.wav   # 結束（媽 我先去忙）
+  voice_472126.aac: prompt_12.wav   # 輪播
