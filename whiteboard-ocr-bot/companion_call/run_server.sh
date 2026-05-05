@@ -16,5 +16,5 @@ set +a
 
 exec uvicorn companion_call.twilio_app:app \
     --host 0.0.0.0 \
-    --port 8001 \
+    --port "${COMPANION_CALL_PORT:-8004}" \
     --log-level "${LOG_LEVEL,,}"
