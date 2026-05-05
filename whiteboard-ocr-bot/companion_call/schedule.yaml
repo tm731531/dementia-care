@@ -1,0 +1,41 @@
+# Companion call schedule — Tom 可隨時編輯，systemd service 每分鐘 reload
+# 為什麼是週二/四/日：媽媽生活節奏 — 一三五日照、週六兒子陪、二四日獨自在家
+# 為什麼是 09-11 + 15-16：早上 + 下午醒著的時段，避開午睡 (12-14:30) 跟黃昏躁動高峰
+
+weekly:
+  tuesday:
+    - "09:00"
+    - "10:00"
+    - "11:00"
+    - "15:00"
+    - "16:00"
+  thursday:
+    - "09:00"
+    - "10:00"
+    - "11:00"
+    - "15:00"
+    - "16:00"
+  sunday:
+    - "09:00"
+    - "10:00"
+    - "11:00"
+    - "15:00"
+    - "16:00"
+  monday: []     # 空陣列 = 不打
+  wednesday: []
+  friday: []
+  saturday: []
+
+# 例外日 (蓋過 weekly 規則，例如媽媽住院期間)
+exceptions:
+  # "2026-05-12":
+  #   skip: true        # 整天不打
+  # "2026-05-15":
+  #   override:         # 改成這天打這幾通
+  #     - "10:00"
+  #     - "14:00"
+
+defaults:
+  call_duration_sec: 90        # 每通通話上限
+  retry_after_no_answer: false # 預設關閉 (schedule 密集故)
+  timezone: "Asia/Taipei"
