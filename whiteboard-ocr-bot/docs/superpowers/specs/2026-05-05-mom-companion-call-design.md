@@ -58,63 +58,53 @@
 
 ## 3. 架構
 
+> **2026-05-05 重寫**：原本「mini PC FastAPI + cloudflared tunnel + Twilio webhook」架構，重做成 **Twilio Functions（cloud serverless）+ mini PC poll-only**。砍掉 cloudflared、systemd 從 3 個降到 1 個、port 衝突問題消失。Tom 端 setup 從 ~30 分鐘降到 ~10 分鐘。
+
 ### 3.1 資料流
 
 ```
-[mini PC: companion_scheduler.service (systemd, 常駐)]
+[mini PC: systemd service: companion_scheduler.py (daemon)]
          │
-         │ 每分鐘檢查 schedule.yaml
-         │ 「現在時間在 schedule 裡嗎？」
+         │ 每分鐘讀 schedule.yaml
          ▼
-[hit → 觸發 scheduled_call.py]
+[hit slot → scheduled_call.run_one_call()]
          │
+         │ Twilio API: POST /Calls
          ▼
-[Twilio Programmable Voice API]
+[Twilio Programmable Voice]
          │
-         │ POST /Calls (撥媽媽號碼)
+         │ 撥媽媽電話
          ▼
    📞 媽媽家 4G 桌上型市話響起
          │
-         │ 媽媽接起
+         │ 媽媽接起 → Twilio fetch TwiML
          ▼
-[Twilio webhook → mini PC FastAPI]
+[Twilio Functions (cloud serverless)]   ← 12 wav 在 Twilio Assets
+   /voice → /next → ... /next → 結束句 + Hangup
+   (state via URL query params: start ts + recent picks)
          │
-         │ GET /voice
+         │ 通話結束
          ▼
-[twilio_app.py 回 TwiML]
-   <Play>...prompt_01.wav</Play>
-   <Pause length="auto"/>
-   <Redirect>/next</Redirect>
-         │
-         │ Twilio 播音 → 偵測媽媽講完 → 跳 /next
-         ▼
-[輪播 12 句中的 1 句，累計時間檢查]
-         │
-         │ 累計 ≥ 80 秒 → 切換結束語（讓結束語播完 ≈ 90s 掛斷）
-         ▼
-[<Play>prompt_11.wav (媽，我先去忙喔)</Play>]
-         │
-         │ 掛斷
-         ▼
-[Twilio webhook → /call-ended]
+[scheduled_call.py 從 Twilio API poll status + duration]
          │
          ▼
-[log_to_idempiere.py 寫 Z_momSystem.Description]
+[upsert_zmomsystem_description() → iDempiere REST]
    "[2026-05-05|15:03] 陪聊 87s"
 ```
+
+**關鍵差異**：mini PC 完全沒有 inbound endpoint。所有 TwiML 邏輯都在 Twilio cloud。Mini PC 只 outbound (place call) + poll status。
 
 ### 3.2 元件對應
 
 | 層 | 元件 | 角色 |
 |---|---|---|
-| 觸發 | `companion_scheduler.py` (systemd service) | 常駐 daemon，每分鐘讀 `schedule.yaml`，命中時段就發 call |
-| 設定 | `schedule.yaml` | Tom 直接編輯，改完即時生效（service 每分鐘 reload） |
-| 觸發 | `scheduled_call.py` | 用 Twilio SDK 發起 outbound call |
-| 中介 | Twilio Voice | 電信橋樑 + TwiML 執行引擎 + VAD |
-| 後端 | `twilio_app.py` (FastAPI) | 回 TwiML 指令、輪播邏輯、累計時間 |
-| 後端 | cloudflared tunnel | 把 mini PC FastAPI 暴露給 Twilio |
-| 資源 | `audio/prompt_*.wav` | 12 句 Tom 自己錄音 |
-| 落地 | `log_to_idempiere.py` | 通話結束寫 Z_momSystem |
+| 觸發 | `companion_scheduler.py` (systemd) | 常駐 daemon，每分鐘讀 `schedule.yaml` 命中即觸發 |
+| 設定 | `schedule.yaml` | Tom 直接編輯，改完即時生效 |
+| 編排 | `scheduled_call.py::run_one_call()` | place → wait → fetch → log |
+| 中介 | Twilio Voice | 電信橋樑 |
+| TwiML | Twilio Functions (`voice.js` / `next.js` / `inbound.js`) | 對話流程，state via URL params |
+| 資源 | Twilio Assets | 12 句 wav，由 `deploy_functions.sh` 上傳 |
+| 落地 | `companion_call.shared.upsert_zmomsystem_description()` | 通話結束寫 Z_momSystem |
 
 ### 3.3 排程設定（Tom 可隨時調）
 
@@ -197,17 +187,23 @@ whiteboard-ocr-bot/
 │       └── specs/
 │           └── 2026-05-05-mom-companion-call-design.md   ← 本文件
 └── companion_call/              ← 🆕 新增子模組
-    ├── audio/
-    │   ├── prompt_01.wav        ~ prompt_12.wav
-    │   └── README.md            （錄音指引）
-    ├── twilio_app.py            （FastAPI server，回 TwiML）
-    ├── companion_scheduler.py   （systemd service，常駐讀 schedule.yaml）
-    ├── scheduled_call.py        （被 scheduler 觸發，發 Twilio call）
-    ├── log_to_idempiere.py      （寫 Z_momSystem）
-    ├── shared.py                （共用：iDempiere auth、Z_momSystem helper）
+    ├── audio/                   （12 句 Tom 錄音的 mu-law wav）
+    ├── twilio_functions/        （Twilio Functions cloud 部署）
+    │   ├── functions/
+    │   │   ├── voice.js
+    │   │   ├── next.js
+    │   │   └── inbound.js
+    │   ├── assets/              （部署時 deploy_functions.sh 拷貝 audio/*.wav）
+    │   ├── package.json
+    │   └── .twilioserverlessrc
+    ├── companion_scheduler.py   （systemd daemon，讀 schedule.yaml）
+    ├── scheduled_call.py        （place → wait → fetch → log Z_momSystem）
+    ├── shared.py                （iDempiere auth + upsert helper）
     ├── schedule.yaml            （Tom 可編輯的排程表）
-    ├── companion-call.service   （systemd unit 檔）
-    └── README.md                （啟動 / 部署 / 調整指引）
+    ├── companion-call.service   （systemd unit）
+    ├── deploy_functions.sh      （部署 Functions 到 Twilio cloud）
+    ├── install_systemd.sh       （安裝 systemd unit）
+    └── README.md
 ```
 
 **保證**：既有 3 個 .py（`telegram_bot.py` / `ocr_pipeline.py` / `whiteboard_layout.py`）零變動。`git diff` 在那 3 支應該完全空。
@@ -230,7 +226,7 @@ TWILIO_ACCOUNT_SID = "AC..."
 TWILIO_AUTH_TOKEN = "..."
 TWILIO_FROM_NUMBER = "+1..."        # Twilio 美國號碼
 MOM_PHONE_NUMBER = "+886..."        # 媽媽家 4G 桌上電話 SIM
-COMPANION_CALL_PUBLIC_URL = "https://your-tunnel.cfargotunnel.com"
+TWILIO_FUNCTIONS_BASE_URL = "https://companion-call-XXXX-dev.twil.io"
 COMPANION_CALL_DURATION_SEC = 90    # 通話總時長上限
 ```
 

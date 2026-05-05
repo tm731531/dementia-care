@@ -13,7 +13,7 @@ def fake_env(monkeypatch):
     monkeypatch.setenv("TWILIO_AUTH_TOKEN", "test_token")
     monkeypatch.setenv("TWILIO_FROM_NUMBER", "+15551234567")
     monkeypatch.setenv("MOM_PHONE_NUMBER", "+886912345678")
-    monkeypatch.setenv("COMPANION_CALL_PUBLIC_URL", "https://test.cfargotunnel.com")
+    monkeypatch.setenv("TWILIO_FUNCTIONS_BASE_URL", "https://test-deploy.twil.io")
     monkeypatch.setenv("IDEMPIERE_URL", "http://test.example/api/v1")
     monkeypatch.setenv("IDEMPIERE_USER", "test")
     monkeypatch.setenv("IDEMPIERE_PASS", "test")
