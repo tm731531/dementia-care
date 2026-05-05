@@ -3,6 +3,13 @@ config.py
 apikey
 allowed_users.txt
 
+# companion-call secrets / personal data
+companion-call/.env
+companion-call/*.env
+companion-call/audio/*.wav
+companion-call/audio/*.mp3
+companion-call/failed_writes.log
+
 # Runtime state
 telegram_offset.txt
 pending_notes.json
