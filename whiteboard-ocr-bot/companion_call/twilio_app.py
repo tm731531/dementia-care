@@ -136,3 +136,11 @@ async def inbound(CallSid: str = Form(...)) -> Response:
     body = '<Say language="zh-TW" voice="Polly.Hui">我先去忙，先這樣喔。</Say>'
     body += "<Hangup/>"
     return _twiml_response(body)
+
+
+# Mount audio directory for Twilio to fetch (production deploy)
+from fastapi.staticfiles import StaticFiles  # noqa: E402
+
+_audio_dir = Path(__file__).resolve().parent / "audio"
+if _audio_dir.exists():
+    app.mount("/audio", StaticFiles(directory=str(_audio_dir)), name="audio")
