@@ -297,7 +297,7 @@ Tom 親自錄音，**自然口氣不要播報腔**，安靜環境。
 | Twilio API 錯誤 | log 錯誤碼，不 retry，等下個 schedule slot | `陪聊失敗(twilio_xxx)` |
 | mini PC 沒網路 | systemd service 偵測到 → 寫 local log + 寄 email 給 Tom | 無 iDempiere 紀錄 |
 | iDempiere 寫入失敗 | log 到 `companion_call/failed_writes.log`，下次成功時補寫 | local file |
-| cloudflared tunnel 斷線 | Twilio webhook timeout → Twilio 會自動掛 | `陪聊失敗(webhook_timeout)` |
+| poll Twilio 超時 | scheduled_call wait 150s 還沒終態 → 記 `陪聊失敗(timeout)` | iDempiere |
 | 媽媽嘗試回撥 Twilio 號碼 | TwiML 回「我有事忙先這樣」直接掛斷（避免 inbound 留言費） | inbound log |
 
 **重要**：因為 schedule slot 已經密（半小時一次），**不做 retry**。沒接就放下，下個 slot 再來。失智長者不該被「同一通沒接連環打 3 次」轟炸。
