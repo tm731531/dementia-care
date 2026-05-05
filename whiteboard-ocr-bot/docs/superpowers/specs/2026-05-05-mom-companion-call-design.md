@@ -3,7 +3,7 @@
 **日期**: 2026-05-05
 **作者**: Tom (with Claude brainstorming)
 **狀態**: Draft（待 Tom 審核）
-**位置**: `whiteboard-ocr-bot/companion-call/`（既有 sub-project 內擴充）
+**位置**: `whiteboard-ocr-bot/companion_call/`（既有 sub-project 內擴充）
 
 ---
 
@@ -118,7 +118,7 @@
 
 ### 3.3 排程設定（Tom 可隨時調）
 
-`companion-call/schedule.yaml`（Tom 用文字編輯器改）：
+`companion_call/schedule.yaml`（Tom 用文字編輯器改）：
 
 ```yaml
 # 每週固定排程（24h 制，依台灣時區 Asia/Taipei）
@@ -196,7 +196,7 @@ whiteboard-ocr-bot/
 │       ├── plans/               ← 既有
 │       └── specs/
 │           └── 2026-05-05-mom-companion-call-design.md   ← 本文件
-└── companion-call/              ← 🆕 新增子模組
+└── companion_call/              ← 🆕 新增子模組
     ├── audio/
     │   ├── prompt_01.wav        ~ prompt_12.wav
     │   └── README.md            （錄音指引）
@@ -300,7 +300,7 @@ Tom 親自錄音，**自然口氣不要播報腔**，安靜環境。
 | 通話中她拍掛斷 | 不 retry，照樣寫紀錄 | `陪聊 23s` |
 | Twilio API 錯誤 | log 錯誤碼，不 retry，等下個 schedule slot | `陪聊失敗(twilio_xxx)` |
 | mini PC 沒網路 | systemd service 偵測到 → 寫 local log + 寄 email 給 Tom | 無 iDempiere 紀錄 |
-| iDempiere 寫入失敗 | log 到 `companion-call/failed_writes.log`，下次成功時補寫 | local file |
+| iDempiere 寫入失敗 | log 到 `companion_call/failed_writes.log`，下次成功時補寫 | local file |
 | cloudflared tunnel 斷線 | Twilio webhook timeout → Twilio 會自動掛 | `陪聊失敗(webhook_timeout)` |
 | 媽媽嘗試回撥 Twilio 號碼 | TwiML 回「我有事忙先這樣」直接掛斷（避免 inbound 留言費） | inbound log |
 
@@ -396,7 +396,7 @@ Tom 親自錄音，**自然口氣不要播報腔**，安靜環境。
 
 全部已決定 ✅（2026-05-05 確認）：
 
-- [x] **媽媽號碼**：Phase 1 用 Tom 自己手機測試。**號碼絕對不進 git**（透過 `companion-call/.env` + `.gitignore`，見 §15）。Phase 2 切換時 Tom 把假媽媽號碼填進 `.env`
+- [x] **媽媽號碼**：Phase 1 用 Tom 自己手機測試。**號碼絕對不進 git**（透過 `companion_call/.env` + `.gitignore`，見 §15）。Phase 2 切換時 Tom 把假媽媽號碼填進 `.env`
 - [x] **時段**：週二/四/日 09:00 / 10:00 / 11:00 / 15:00 / 16:00 共 5 通/天（1 小時間隔）
 - [x] **時段 reason**：週二/四/日 = 媽媽獨自在家的日子（一三五日照、週六兒子陪）。Phase 2 觀察聚焦「她獨處時的接聽行為趨勢」
 - [x] **間隔密度**：1 小時間隔（5 通/天）
@@ -435,14 +435,14 @@ Tom 親自錄音，**自然口氣不要播報腔**，安靜環境。
 任何**真實電話號碼**（媽媽號碼、Tom 測試號碼、Twilio token、cloudflared tunnel URL 帶 token 的版本）**絕對不進 git**。
 
 ### 15.2 實作
-- 所有 secrets 放 `companion-call/.env`（python-dotenv 讀）
+- 所有 secrets 放 `companion_call/.env`（python-dotenv 讀）
 - `whiteboard-ocr-bot/.gitignore` 已加：
   ```
-  companion-call/.env
-  companion-call/*.env
-  companion-call/audio/*.wav
-  companion-call/audio/*.mp3
-  companion-call/failed_writes.log
+  companion_call/.env
+  companion_call/*.env
+  companion_call/audio/*.wav
+  companion_call/audio/*.mp3
+  companion_call/failed_writes.log
   ```
 - Spec 文件、`.env.example`、README 只放 placeholder（`+886-XXX-XXX-XXX`、`AC_xxx`），不放真值
 - `audio/*.wav` 也不進 git：Tom 個人錄音雖非 PII，但 public repo 不該有
