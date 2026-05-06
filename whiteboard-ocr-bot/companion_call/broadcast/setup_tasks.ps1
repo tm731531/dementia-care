@@ -1,5 +1,8 @@
 # Setup Windows Task Scheduler entries for companion broadcast.
 #
+# 預設模式：book (Tom 念給女兒的睡前故事，repurpose 給媽媽聽，每段 5-15 分鐘隨機抽)
+# 替代模式：chat (1 分鐘陪聊問句，原本的 12 段 prompt) — 改 $Mode 變數即可
+#
 # Run once on i3 Windows:
 #   powershell -ExecutionPolicy Bypass -File C:\companion-broadcast\setup_tasks.ps1
 #
@@ -7,13 +10,29 @@
 
 $ErrorActionPreference = "Stop"
 
-$scriptPath = "C:\companion-broadcast\play_session.ps1"
-$taskBaseName = "CompanionBroadcast"
+# === 模式選擇 ===
+$Mode = "book"   # "book" | "chat"
+
+if ($Mode -eq "book") {
+    $scriptPath = "C:\companion-broadcast\play_book.ps1"
+    $taskBaseName = "CompanionBook"
+    $description = "Companion broadcast - Tom 睡前故事章節隨機"
+    $execTimeLimitMin = 25     # book 章節最長 ~15 分鐘 + buffer
+} elseif ($Mode -eq "chat") {
+    $scriptPath = "C:\companion-broadcast\play_session.ps1"
+    $taskBaseName = "CompanionChat"
+    $description = "Companion broadcast - 1 分鐘陪聊問句"
+    $execTimeLimitMin = 5
+} else {
+    Write-Error "Unknown Mode: $Mode (must be 'book' or 'chat')"
+    exit 1
+}
+
 $daysOfWeek = "Tuesday", "Thursday", "Sunday"
 $times = @("09:00", "10:00", "11:00", "15:00", "16:00")
 
 if (-not (Test-Path $scriptPath)) {
-    Write-Error "play_session.ps1 not found at $scriptPath. Place it there first."
+    Write-Error "$scriptPath not found. Place it there first."
     exit 1
 }
 
@@ -26,12 +45,17 @@ $settings = New-ScheduledTaskSettingsSet `
     -DontStopIfGoingOnBatteries `
     -WakeToRun `
     -StartWhenAvailable `
-    -ExecutionTimeLimit (New-TimeSpan -Minutes 5)
+    -ExecutionTimeLimit (New-TimeSpan -Minutes $execTimeLimitMin)
 
+# 先清掉同 base name 的舊 task (避免重裝時殘留)
 foreach ($time in $times) {
     $taskName = "$taskBaseName-$time"
-
     Unregister-ScheduledTask -TaskName $taskName -Confirm:$false -ErrorAction SilentlyContinue
+}
+
+# Register new tasks
+foreach ($time in $times) {
+    $taskName = "$taskBaseName-$time"
 
     $trigger = New-ScheduledTaskTrigger `
         -Weekly `
@@ -43,18 +67,15 @@ foreach ($time in $times) {
         -Action $action `
         -Trigger $trigger `
         -Settings $settings `
-        -Description "Companion broadcast session at $time on Tue/Thu/Sun" `
+        -Description $description `
         -RunLevel Limited | Out-Null
 
     Write-Host "✓ Registered: $taskName"
 }
 
 Write-Host ""
-Write-Host "All 5 tasks installed. View them:"
-Write-Host "  Get-ScheduledTask -TaskName 'CompanionBroadcast-*'"
+Write-Host "All 5 tasks installed for mode: $Mode"
 Write-Host ""
-Write-Host "Test play right now (don't wait for schedule):"
-Write-Host "  powershell -ExecutionPolicy Bypass -File $scriptPath"
-Write-Host ""
-Write-Host "Remove all tasks if you want:"
-Write-Host "  Get-ScheduledTask -TaskName 'CompanionBroadcast-*' | Unregister-ScheduledTask -Confirm:`$false"
+Write-Host "View them: Get-ScheduledTask -TaskName '$taskBaseName-*'"
+Write-Host "Test now: powershell -ExecutionPolicy Bypass -File $scriptPath"
+Write-Host "Remove all: Get-ScheduledTask -TaskName '$taskBaseName-*' | Unregister-ScheduledTask -Confirm:`$false"
