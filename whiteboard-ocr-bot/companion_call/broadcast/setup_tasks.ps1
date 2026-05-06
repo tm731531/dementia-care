@@ -36,9 +36,10 @@ if (-not (Test-Path $scriptPath)) {
     exit 1
 }
 
+# 不用 -WindowStyle Hidden — hidden window 在 Task Scheduler 跑 SoundPlayer 不出聲
 $action = New-ScheduledTaskAction `
     -Execute "powershell.exe" `
-    -Argument "-ExecutionPolicy Bypass -WindowStyle Hidden -File `"$scriptPath`""
+    -Argument "-ExecutionPolicy Bypass -File `"$scriptPath`""
 
 $settings = New-ScheduledTaskSettingsSet `
     -AllowStartIfOnBatteries `

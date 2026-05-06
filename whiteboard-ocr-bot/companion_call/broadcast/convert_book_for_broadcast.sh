@@ -43,9 +43,12 @@ for i, src in enumerate(m4a_files, start=1):
     dst_name = f'book_{i:03d}.wav'
     dst = out_dir / dst_name
 
+    # loudnorm = EBU R128 podcast-standard 響度 (-14 LUFS)
+    # 解決 Tom 念睡前故事用悄悄話音量的問題
     subprocess.run([
         'ffmpeg', '-loglevel', 'error',
         '-i', str(src),
+        '-af', 'loudnorm=I=-14:LRA=11:TP=-1.5',
         '-ar', '44100',
         '-ac', '1',
         '-c:a', 'pcm_s16le',

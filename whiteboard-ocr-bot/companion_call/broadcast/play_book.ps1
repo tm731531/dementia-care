@@ -1,7 +1,8 @@
 # Companion Broadcast — 播放一章 Tom 的睡前故事 (5-15 分鐘)
-# 隨機從 C:\companion-broadcast\book\ 抽一個 book_*.wav 完整播放。
+# 隨機從 book/ 抽一個 book_*.wav 完整播放。
 #
-# 跟 play_session.ps1 (1 分鐘陪聊問句) 是兩種模式，視 Task Scheduler 接哪個而定。
+# 不用 WMP COM (在 hidden window / Task Scheduler 不出聲)。
+# 改用 .NET SoundPlayer + 必要時 fallback 到 wmplayer.exe。
 #
 # 部署位置：C:\companion-broadcast\play_book.ps1
 # 章節位置：C:\companion-broadcast\book\book_001.wav ~ book_NNN.wav
@@ -9,8 +10,9 @@
 
 $ErrorActionPreference = "Stop"
 
-$bookDir = "C:\companion-broadcast\book"
-$logFile = "C:\companion-broadcast\session.log"
+# 路徑可由環境變數 override (e.g. $env:BOOK_DIR = "D:\book")
+$bookDir = if ($env:BOOK_DIR) { $env:BOOK_DIR } else { "C:\companion-broadcast\book" }
+$logFile = if ($env:BOOK_LOG)  { $env:BOOK_LOG } else { "C:\companion-broadcast\session.log" }
 
 if (-not (Test-Path $bookDir)) {
     Write-Error "Book directory not found: $bookDir"
@@ -25,25 +27,52 @@ if ($wavs.Count -eq 0) {
 
 $pick = $wavs | Get-Random
 $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-Add-Content -Path $logFile -Value "$timestamp  book start: $($pick.Name) ($([math]::Round($pick.Length/1MB,1)) MB)"
+$msg = "$timestamp  book start: $($pick.Name) ($([math]::Round($pick.Length/1MB,1)) MB)"
+Add-Content -Path $logFile -Value $msg
+Write-Host $msg
 
-# 用 Windows Media Player COM 而非 SoundPlayer (後者對 5-15 分鐘長檔不穩)
-$wmp = New-Object -ComObject WMPlayer.OCX
-$wmp.URL = $pick.FullName
-$wmp.settings.autoStart = $true
-$wmp.controls.play()
-
-# Wait for playback to finish (with safety timeout 20 min)
-$timeout = (Get-Date).AddMinutes(20)
-while ((Get-Date) -lt $timeout) {
-    Start-Sleep -Seconds 5
-    # playState: 1=stopped, 3=playing, 6=buffering, 8=mediaEnded
-    $state = $wmp.playState
-    if ($state -in @(1, 8)) { break }
+# === 試 1: System.Media.SoundPlayer (.NET 標準，PCM wav 直接支援) ===
+try {
+    Add-Type -AssemblyName System.Windows.Forms -ErrorAction SilentlyContinue
+    $player = New-Object System.Media.SoundPlayer $pick.FullName
+    $player.Load()
+    $player.PlaySync()   # blocking, 完整播完才 return
+    $msg = "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')  book end (SoundPlayer): $($pick.Name)"
+    Add-Content -Path $logFile -Value $msg
+    Write-Host $msg
+    exit 0
+} catch {
+    $msg = "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')  SoundPlayer failed: $_"
+    Add-Content -Path $logFile -Value $msg
+    Write-Warning $msg
 }
 
-$wmp.close()
-[System.Runtime.InteropServices.Marshal]::ReleaseComObject($wmp) | Out-Null
+# === 試 2: Fallback — Start-Process wmplayer.exe ===
+try {
+    $wmpExe = $null
+    foreach ($p in @(
+        "${env:ProgramFiles(x86)}\Windows Media Player\wmplayer.exe",
+        "${env:ProgramFiles}\Windows Media Player\wmplayer.exe"
+    )) {
+        if (Test-Path $p) { $wmpExe = $p; break }
+    }
 
-$timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-Add-Content -Path $logFile -Value "$timestamp  book end: $($pick.Name)"
+    if ($wmpExe) {
+        $proc = Start-Process -FilePath $wmpExe -ArgumentList "`"$($pick.FullName)`"" -PassThru
+        # 等播完 (用檔案 duration 推估，加 buffer)
+        $estSec = [math]::Min(1200, [math]::Round($pick.Length / 88200) + 30)
+        Start-Sleep -Seconds $estSec
+        if (-not $proc.HasExited) { $proc.Kill() }
+        $msg = "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')  book end (wmplayer): $($pick.Name)"
+        Add-Content -Path $logFile -Value $msg
+        Write-Host $msg
+    } else {
+        $msg = "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')  ERR: 兩種播放方式都失敗"
+        Add-Content -Path $logFile -Value $msg
+        Write-Error $msg
+    }
+} catch {
+    $msg = "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')  wmplayer fallback err: $_"
+    Add-Content -Path $logFile -Value $msg
+    Write-Error $msg
+}
