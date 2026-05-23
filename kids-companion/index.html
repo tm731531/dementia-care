@@ -16485,9 +16485,71 @@ function showMole(idx) {
   }, whackState.cfg.moleStayMs);
 }
 
-// onHit 在 task 5 實作(這 task 先佔位)
 function onWhackHit(idx) {
-  // task 5 補完
+  var hole = whackState.holes[idx];
+  if (!hole.active) return;  // 沒有地鼠不算
+  if (Date.now() < hole.cooldownUntil) return;  // cooldown 內
+
+  hole.active = false;
+  clearTimeout(hole.timeoutTimer);
+  hole.cooldownUntil = Date.now() + WHACK_TUNING.COOLDOWN_MS;
+  hole.el.classList.remove('active');
+  hole.el.classList.add('hit');
+
+  // 塵土特效
+  var dust = document.createElement('span');
+  dust.className = 'whack-dust';
+  dust.textContent = '💨';
+  hole.el.appendChild(dust);
+  setTimeout(function() {
+    if (dust.parentNode) dust.parentNode.removeChild(dust);
+    hole.el.classList.remove('hit');
+  }, 400);
+
+  whackState.hits++;
+  updateWhackHud();
+
+  if (whackState.hits >= whackState.cfg.target) {
+    finishWhack();
+  }
+}
+
+function finishWhack() {
+  whackState.active = false;
+  clearTimeout(whackState.spawnTimer);
+
+  // 全部地鼠收起來
+  whackState.holes.forEach(function(h) {
+    clearTimeout(h.timeoutTimer);
+    h.active = false;
+    h.el.classList.remove('active');
+  });
+
+  // 顯示慶祝畫面
+  var isEn = (APP.language === 'en');
+  var target = whackState.cfg.target;
+  document.getElementById('whack-complete-title').textContent =
+    isEn ? 'Awesome!' : '太厲害!';
+  document.getElementById('whack-complete-sub').textContent =
+    isEn ? ('You got ' + target + ' moles!') : ('打到了 ' + target + ' 隻!');
+  document.getElementById('whack-back-btn').textContent = isEn ? 'Back home' : '回首頁';
+  document.getElementById('whack-again-btn').textContent = isEn ? 'Play again' : '再玩一次';
+
+  // 隱藏遊戲區
+  document.getElementById('whack-game-area').style.display = 'none';
+  document.getElementById('whack-hud').style.display = 'none';
+
+  // 顯示慶祝
+  var complete = document.getElementById('whack-complete');
+  complete.classList.add('show');
+
+  // 接 app 既有獎勵系統
+  completeActivity('page-whack-mole');
+
+  // Web Speech 朗讀(沿用既有 speak)
+  if (typeof speak === 'function') {
+    speak(isEn ? ('Awesome! You got ' + target + '!') : ('太厲害!打到了 ' + target + '隻!'));
+  }
 }
 
 // exit 在 task 7 實作(這 task 先佔位)
