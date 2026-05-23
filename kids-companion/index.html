@@ -16486,6 +16486,7 @@ function showMole(idx) {
 }
 
 function onWhackHit(idx) {
+  if (!whackState.active) return;  // 達標後/退出後不再計入
   var hole = whackState.holes[idx];
   if (!hole.active) return;  // 沒有地鼠不算
   if (Date.now() < hole.cooldownUntil) return;  // cooldown 內
