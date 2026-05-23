@@ -3733,6 +3733,60 @@ body {
 </div>
 <!-- #END:PAGE-MONEY -->
 
+<!-- #SECTION:PAGE-WHACK-MOLE -->
+<div class="page" id="page-whack-mole">
+  <!-- ❌ 結束按鈕 -->
+  <button class="back-btn whack-exit-btn" onclick="exitWhack()">❌</button>
+
+  <!-- 🔴 LIVE 指示(只體感模式顯示) -->
+  <div class="whack-live" id="whack-live" style="display:none">
+    <span class="live-dot"></span> LIVE
+  </div>
+
+  <!-- Mode 選擇 modal(首次進入) -->
+  <div class="whack-modal" id="whack-modal">
+    <div class="whack-modal-card">
+      <h2 id="whack-modal-title">準備好玩打地鼠了嗎?</h2>
+      <button class="whack-mode-btn" id="whack-mode-motion" onclick="selectWhackMode('motion')">
+        📷 <span id="whack-mode-motion-label">用相機體感玩</span>
+      </button>
+      <button class="whack-mode-btn" id="whack-mode-tap" onclick="selectWhackMode('tap')">
+        👆 <span id="whack-mode-tap-label">用手指點</span>
+      </button>
+      <div class="whack-privacy" id="whack-privacy-text">
+        相機畫面只在你裝置上,完全不會傳出去
+      </div>
+    </div>
+  </div>
+
+  <!-- Video feed(只體感模式可見,鋪滿背景) -->
+  <video id="whack-video" autoplay muted playsinline style="display:none"></video>
+  <canvas id="whack-canvas" width="160" height="120" style="display:none"></canvas>
+
+  <!-- HUD -->
+  <div class="whack-hud" id="whack-hud" style="display:none">
+    <span class="whack-progress" id="whack-progress">🐹 已打: 0 / 0</span>
+  </div>
+
+  <!-- 遊戲區(holes grid) -->
+  <div class="whack-game-area" id="whack-game-area" style="display:none">
+    <div class="whack-grid" id="whack-grid"></div>
+    <div class="whack-distance-hint" id="whack-distance-hint" style="display:none"></div>
+  </div>
+
+  <!-- 達標慶祝畫面 -->
+  <div class="complete-screen" id="whack-complete">
+    <div class="complete-content">
+      <div style="font-size:80px">🐹</div>
+      <h2 id="whack-complete-title">太厲害!</h2>
+      <p id="whack-complete-sub" style="font-size:20px;color:#666"></p>
+      <button class="btn btn-primary" onclick="navigateTo('page-home')" id="whack-back-btn">回首頁</button>
+      <button class="btn btn-secondary" onclick="startWhackGame()" id="whack-again-btn">再玩一次</button>
+    </div>
+  </div>
+</div>
+<!-- #END:PAGE-WHACK-MOLE -->
+
 <!-- Time banner -->
 <div class="time-banner" id="time-banner">
   再玩 5 分鐘就要讓眼睛休息一下喔 👀
@@ -3857,7 +3911,8 @@ const APP = {
   timerEnabled: true,
   chestOpenedToday: false,
   favorites: [],  // [{id, icon, label}] — 長按活動拖進最愛區塊
-  parentCompanionMode: false  // 開啟後互動活動退化成「家長帶著做」模式
+  parentCompanionMode: false,  // 開啟後互動活動退化成「家長帶著做」模式
+  whackMode: null  // 'motion' | 'tap' | null(尚未選過)
 };
 
 function today() {
