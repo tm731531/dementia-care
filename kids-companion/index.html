@@ -2793,6 +2793,8 @@ body {
 }
 .whack-grid.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .whack-grid.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.whack-grid.cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+/* 5 洞橫排:gap 縮一點讓手機畫面不擠;洞口字體在 .mole 已用 clamp 自適應 */
 
 /* 洞口 */
 .whack-hole {
@@ -16287,11 +16289,12 @@ document.addEventListener('DOMContentLoaded', function() {
 // <!-- #SECTION:WHACK-LOGIC -->
 
 // 各年齡組設定(grid / 達標 / 地鼠停留 / 同時上限)
+// 2026-05-24 三調(Tom):固定 5 洞,年齡差異移到「速度 + 同時數」
 var WHACK_CONFIG = {
-  toddler: { cols: 2, rows: 1, holes: 2, target: 5, moleStayMs: 4000, maxSimultaneous: 1, distHint: null },
-  small:   { cols: 3, rows: 1, holes: 3, target: 8, moleStayMs: 3000, maxSimultaneous: 2, distHint: '60cm' },
-  middle:  { cols: 3, rows: 2, holes: 6, target: 12, moleStayMs: 2500, maxSimultaneous: 3, distHint: '100cm' },
-  large:   { cols: 3, rows: 3, holes: 9, target: 20, moleStayMs: 2000, maxSimultaneous: 4, distHint: '1.8m' }
+  toddler: { cols: 5, rows: 1, holes: 5, target: 5, moleStayMs: 4000, maxSimultaneous: 1, distHint: null },
+  small:   { cols: 5, rows: 1, holes: 5, target: 8, moleStayMs: 3000, maxSimultaneous: 2, distHint: '60cm' },
+  middle:  { cols: 5, rows: 1, holes: 5, target: 12, moleStayMs: 2500, maxSimultaneous: 3, distHint: '100cm' },
+  large:   { cols: 5, rows: 1, holes: 5, target: 20, moleStayMs: 2000, maxSimultaneous: 4, distHint: '1.8m' }
 };
 
 // pixel-diff 調參(體感模式 — 2026-05-24 二調:Tom 反映遲鈍,降一半)
@@ -16304,9 +16307,13 @@ var WHACK_TUNING = {
   DEBUG_OVERLAY: false    // 開啟顯示每格 diff% 即時數值(調參用)
 };
 
-// 出現間隔(2026-05-24 二調:加快讓畫面更熱鬧)
-var WHACK_SPAWN_MIN_MS = 700;
-var WHACK_SPAWN_MAX_MS = 1300;
+// 出現間隔(2026-05-24 三調:固定 5 洞後,速度差異拉開到年齡組)
+var WHACK_SPAWN_INTERVAL = {
+  toddler: { min: 1200, max: 2000 },  // 慢,空一陣才出
+  small:   { min: 900,  max: 1500 },
+  middle:  { min: 700,  max: 1200 },
+  large:   { min: 500,  max: 900 }    // 快,連發
+};
 
 // Multi-mole 機率(by age)— 2026-05-24 二調:Tom 反映多隻同時感不夠
 var WHACK_MULTI_PROB = {
@@ -16456,7 +16463,8 @@ function updateWhackHud() {
 // 排下一隻地鼠
 function scheduleNextSpawn() {
   if (!whackState.active) return;
-  var delay = WHACK_SPAWN_MIN_MS + Math.random() * (WHACK_SPAWN_MAX_MS - WHACK_SPAWN_MIN_MS);
+  var iv = WHACK_SPAWN_INTERVAL[APP.ageGroup] || WHACK_SPAWN_INTERVAL.small;
+  var delay = iv.min + Math.random() * (iv.max - iv.min);
   whackState.spawnTimer = setTimeout(spawnMole, delay);
 }
 
