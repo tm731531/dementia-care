@@ -2633,6 +2633,226 @@ body {
   
 /* Accessibility: keyboard focus ring (WCAG 2.4.7) */
 :focus-visible { outline: 3px solid #ff8800; outline-offset: 2px; border-radius: 4px; }
+
+/* <!-- #SECTION:WHACK-STYLES --> */
+
+/* tab bar overflow(6 個 tab 可能擠手機) */
+.tab-bar {
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tab-bar::-webkit-scrollbar { display: none; }
+
+/* page-whack-mole 整頁 */
+#page-whack-mole {
+  position: relative;
+  background: #FFF8F0;
+  min-height: 100vh;
+  overflow: hidden;
+}
+#page-whack-mole #whack-video {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0.35;
+  transform: scaleX(-1);  /* 鏡像翻轉,動左手螢幕左邊動 */
+  z-index: 0;
+}
+
+/* ❌ 結束按鈕 */
+.whack-exit-btn {
+  position: absolute;
+  top: 12px; left: 12px;
+  font-size: 28px;
+  background: rgba(255,255,255,0.9);
+  border-radius: 50%;
+  width: 48px; height: 48px;
+  z-index: 10;
+}
+
+/* 🔴 LIVE 指示 */
+.whack-live {
+  position: absolute;
+  top: 16px; right: 16px;
+  background: rgba(0,0,0,0.7);
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: bold;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.whack-live .live-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: #ff3b30;
+  animation: whackLivePulse 1.5s ease-in-out infinite;
+}
+@keyframes whackLivePulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* Mode 選擇 modal */
+.whack-modal {
+  position: absolute;
+  inset: 0;
+  background: rgba(255,248,240,0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+}
+.whack-modal-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 32px 24px;
+  max-width: 360px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+.whack-modal-card h2 {
+  font-size: 24px;
+  margin: 0 0 24px;
+  color: #222;
+}
+.whack-mode-btn {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  margin: 12px 0;
+  font-size: 20px;
+  border: 3px solid #E8724A;
+  border-radius: 16px;
+  background: #fff;
+  color: #E8724A;
+  cursor: pointer;
+  min-height: 64px;
+}
+.whack-mode-btn:hover, .whack-mode-btn.recommended {
+  background: #E8724A;
+  color: #fff;
+}
+.whack-privacy {
+  font-size: 13px;
+  color: #888;
+  margin-top: 16px;
+  line-height: 1.5;
+}
+
+/* HUD */
+.whack-hud {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255,255,255,0.9);
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #E8724A;
+  z-index: 5;
+}
+
+/* 距離提示 */
+.whack-distance-hint {
+  text-align: center;
+  color: #888;
+  font-size: 16px;
+  margin-top: 16px;
+  position: relative;
+  z-index: 5;
+}
+
+/* 遊戲區 */
+.whack-game-area {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  padding: 80px 20px 60px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 1;
+}
+.whack-grid {
+  display: grid;
+  gap: 20px;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  place-content: center;
+}
+.whack-grid.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.whack-grid.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+/* 洞口 */
+.whack-hole {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background: radial-gradient(ellipse at 50% 70%, #4a3520 30%, #2a1d10 60%, transparent 80%);
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.whack-hole .mole {
+  font-size: clamp(48px, 12vw, 96px);
+  transform: scale(0);
+  transition: transform 0.2s cubic-bezier(.34,1.56,.64,1);
+  user-select: none;
+  pointer-events: none;
+}
+.whack-hole.active .mole {
+  transform: scale(1);
+  animation: whackMoleIdle 0.6s ease-in-out infinite alternate;
+}
+.whack-hole.hit .mole {
+  animation: whackMoleHit 0.3s ease-out forwards;
+}
+.whack-hole.timeout .mole {
+  animation: whackMoleTimeout 0.4s ease-out forwards;
+}
+@keyframes whackMoleIdle {
+  from { transform: scale(1) translateY(0); }
+  to { transform: scale(1) translateY(-6px); }
+}
+@keyframes whackMoleHit {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.3); }
+  100% { transform: scale(0); opacity: 0; }
+}
+@keyframes whackMoleTimeout {
+  0%, 100% { transform: scale(1) translateX(0); }
+  25% { transform: scale(1) translateX(-6px); }
+  75% { transform: scale(1) translateX(6px); }
+  to { transform: scale(0); }
+}
+
+/* 塵土效果 */
+.whack-dust {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 40px;
+  animation: whackDust 0.4s ease-out forwards;
+  pointer-events: none;
+}
+@keyframes whackDust {
+  0% { opacity: 1; transform: translate(-50%, -50%) scale(0.5); }
+  100% { opacity: 0; transform: translate(-50%, -150%) scale(1.5); }
+}
+
+/* <!-- #END:WHACK-STYLES --> */
 </style>
 <script type="application/ld+json">
 {
