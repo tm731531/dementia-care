@@ -2760,6 +2760,7 @@ body {
     <button class="tab-btn" data-tab="tab-think" onclick="switchTab('tab-think', this)">🧩<br><span class="tab-label">動腦</span></button>
     <button class="tab-btn" data-tab="tab-story" onclick="switchTab('tab-story', this)">📖<br><span class="tab-label">故事</span></button>
     <button class="tab-btn" data-tab="tab-explore" onclick="switchTab('tab-explore', this)">🔭<br><span class="tab-label">探索</span></button>
+    <button class="tab-btn" data-tab="tab-move" onclick="switchTab('tab-move', this)">💪<br><span class="tab-label">動一動</span></button>
   </div>
 
   <!-- Tab: Language -->
@@ -2900,6 +2901,16 @@ body {
     </div>
   </div>
 
+  <!-- Tab: Move (動一動) -->
+  <div class="tab-content" id="tab-move">
+    <div class="activity-grid" style="place-content:center">
+      <div class="activity-card" onclick="navigateTo('page-whack-mole')">
+        <span class="icon">🐹</span>
+        <span class="label">打地鼠</span>
+      </div>
+    </div>
+  </div>
+
   <!-- Today's progress summary (for parents/caregivers) -->
   <div id="today-progress" style="display:none; background:#fff; border-radius:16px; padding:14px 18px; margin:0 0 12px; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
     <div style="font-size:13px; font-weight:700; color:#888; margin-bottom:8px; letter-spacing:0.5px;">今日學習紀錄</div>
@@ -2942,6 +2953,7 @@ body {
     <div class="sticker-slot locked" data-sticker="page-plate">🍽️</div>
     <div class="sticker-slot locked" data-sticker="page-scene">🎨</div>
     <div class="sticker-slot locked" data-sticker="page-story-build">📖</div>
+    <div class="sticker-slot locked" data-sticker="page-whack-mole">💪</div>
   </div>
 </div>
 <!-- #END:PAGE-STICKERS -->
