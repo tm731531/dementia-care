@@ -1,0 +1,18 @@
+[Unit]
+Description=Companion Call scheduler daemon
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=tom
+WorkingDirectory=/home/tom/Desktop/dementia-care/whiteboard-ocr-bot
+EnvironmentFile=/home/tom/Desktop/dementia-care/whiteboard-ocr-bot/companion_call/.env
+ExecStart=/home/tom/Desktop/dementia-care/whiteboard-ocr-bot/venv/bin/python -m companion_call.companion_scheduler
+Restart=on-failure
+RestartSec=30
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

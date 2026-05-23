@@ -3,6 +3,23 @@ config.py
 apikey
 allowed_users.txt
 
+# companion-call secrets / personal data
+companion_call/.env
+companion_call/*.env
+companion_call/audio/*.wav
+companion_call/audio/*.mp3
+companion_call/broadcast/audio/*.wav
+companion_call/broadcast/audio/*.mp3
+companion_call/broadcast/book/*.wav
+companion_call/broadcast/book/*.mp3
+companion_call/book/*.m4a
+companion_call/book/*.mp3
+companion_call/twilio_functions/assets/*.wav
+companion_call/twilio_functions/assets/*.mp3
+companion_call/twilio_functions/.twiliodeployinfo
+companion_call/twilio_functions/node_modules/
+companion_call/failed_writes.log
+
 # Runtime state
 telegram_offset.txt
 pending_notes.json

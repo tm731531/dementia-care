@@ -130,6 +130,7 @@ body {
 }
 .tab-btn {
   flex: 1;
+  min-width: 64px;
   padding: 8px 4px;
   border: none;
   background: transparent;
@@ -2633,6 +2634,226 @@ body {
   
 /* Accessibility: keyboard focus ring (WCAG 2.4.7) */
 :focus-visible { outline: 3px solid #ff8800; outline-offset: 2px; border-radius: 4px; }
+
+/* <!-- #SECTION:WHACK-STYLES --> */
+
+/* tab bar overflow(6 個 tab 可能擠手機) */
+.tab-bar {
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tab-bar::-webkit-scrollbar { display: none; }
+
+/* page-whack-mole 整頁 */
+#page-whack-mole {
+  position: relative;
+  background: #FFF8F0;
+  min-height: 100vh;
+  overflow: hidden;
+}
+#page-whack-mole #whack-video {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0.35;
+  transform: scaleX(-1);  /* 鏡像翻轉,動左手螢幕左邊動 */
+  z-index: 0;
+}
+
+/* ❌ 結束按鈕 */
+.whack-exit-btn {
+  position: absolute;
+  top: 12px; left: 12px;
+  font-size: 28px;
+  background: rgba(255,255,255,0.9);
+  border-radius: 50%;
+  width: 48px; height: 48px;
+  z-index: 10;
+}
+
+/* 🔴 LIVE 指示 */
+.whack-live {
+  position: absolute;
+  top: 16px; right: 16px;
+  background: rgba(0,0,0,0.7);
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: bold;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.whack-live .live-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: #ff3b30;
+  animation: whackLivePulse 1.5s ease-in-out infinite;
+}
+@keyframes whackLivePulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* Mode 選擇 modal */
+.whack-modal {
+  position: absolute;
+  inset: 0;
+  background: rgba(255,248,240,0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+}
+.whack-modal-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 32px 24px;
+  max-width: 360px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+.whack-modal-card h2 {
+  font-size: 24px;
+  margin: 0 0 24px;
+  color: #222;
+}
+.whack-mode-btn {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  margin: 12px 0;
+  font-size: 20px;
+  border: 3px solid #E8724A;
+  border-radius: 16px;
+  background: #fff;
+  color: #E8724A;
+  cursor: pointer;
+  min-height: 64px;
+}
+.whack-mode-btn:hover, .whack-mode-btn.recommended {
+  background: #E8724A;
+  color: #fff;
+}
+.whack-privacy {
+  font-size: 13px;
+  color: #888;
+  margin-top: 16px;
+  line-height: 1.5;
+}
+
+/* HUD */
+.whack-hud {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255,255,255,0.9);
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #E8724A;
+  z-index: 5;
+}
+
+/* 距離提示 */
+.whack-distance-hint {
+  text-align: center;
+  color: #888;
+  font-size: 16px;
+  margin-top: 16px;
+  position: relative;
+  z-index: 5;
+}
+
+/* 遊戲區 */
+.whack-game-area {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  padding: 80px 20px 60px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 1;
+}
+.whack-grid {
+  display: grid;
+  gap: 20px;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  place-content: center;
+}
+.whack-grid.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.whack-grid.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+/* 洞口 */
+.whack-hole {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background: radial-gradient(ellipse at 50% 70%, #4a3520 30%, #2a1d10 60%, transparent 80%);
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.whack-hole .mole {
+  font-size: clamp(48px, 12vw, 96px);
+  transform: scale(0);
+  transition: transform 0.2s cubic-bezier(.34,1.56,.64,1);
+  user-select: none;
+  pointer-events: none;
+}
+.whack-hole.active .mole {
+  transform: scale(1);
+  animation: whackMoleIdle 0.6s ease-in-out infinite alternate;
+}
+.whack-hole.hit .mole {
+  animation: whackMoleHit 0.3s ease-out forwards;
+}
+.whack-hole.timeout .mole {
+  animation: whackMoleTimeout 0.4s ease-out forwards;
+}
+@keyframes whackMoleIdle {
+  from { transform: scale(1) translateY(0); }
+  to { transform: scale(1) translateY(-6px); }
+}
+@keyframes whackMoleHit {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.3); }
+  100% { transform: scale(0); opacity: 0; }
+}
+@keyframes whackMoleTimeout {
+  0% { transform: scale(1) translateX(0); }
+  25% { transform: scale(1) translateX(-6px); }
+  75% { transform: scale(1) translateX(6px); }
+  to { transform: scale(0); }
+}
+
+/* 塵土效果 */
+.whack-dust {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 40px;
+  animation: whackDust 0.4s ease-out forwards;
+  pointer-events: none;
+}
+@keyframes whackDust {
+  0% { opacity: 1; transform: translate(-50%, -50%) scale(0.5); }
+  100% { opacity: 0; transform: translate(-50%, -150%) scale(1.5); }
+}
+
+/* <!-- #END:WHACK-STYLES --> */
 </style>
 <script type="application/ld+json">
 {
@@ -2760,6 +2981,7 @@ body {
     <button class="tab-btn" data-tab="tab-think" onclick="switchTab('tab-think', this)">🧩<br><span class="tab-label">動腦</span></button>
     <button class="tab-btn" data-tab="tab-story" onclick="switchTab('tab-story', this)">📖<br><span class="tab-label">故事</span></button>
     <button class="tab-btn" data-tab="tab-explore" onclick="switchTab('tab-explore', this)">🔭<br><span class="tab-label">探索</span></button>
+    <button class="tab-btn" data-tab="tab-move" onclick="switchTab('tab-move', this)">💪<br><span class="tab-label">動一動</span></button>
   </div>
 
   <!-- Tab: Language -->
@@ -2900,6 +3122,16 @@ body {
     </div>
   </div>
 
+  <!-- Tab: Move (動一動) -->
+  <div class="tab-content" id="tab-move">
+    <div class="activity-grid" style="place-content:center">
+      <div class="activity-card" onclick="navigateTo('page-whack-mole')">
+        <span class="icon">🐹</span>
+        <span class="label">打地鼠</span>
+      </div>
+    </div>
+  </div>
+
   <!-- Today's progress summary (for parents/caregivers) -->
   <div id="today-progress" style="display:none; background:#fff; border-radius:16px; padding:14px 18px; margin:0 0 12px; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
     <div style="font-size:13px; font-weight:700; color:#888; margin-bottom:8px; letter-spacing:0.5px;">今日學習紀錄</div>
@@ -2942,6 +3174,7 @@ body {
     <div class="sticker-slot locked" data-sticker="page-plate">🍽️</div>
     <div class="sticker-slot locked" data-sticker="page-scene">🎨</div>
     <div class="sticker-slot locked" data-sticker="page-story-build">📖</div>
+    <div class="sticker-slot locked" data-sticker="page-whack-mole">💪</div>
   </div>
 </div>
 <!-- #END:PAGE-STICKERS -->
@@ -3721,6 +3954,60 @@ body {
 </div>
 <!-- #END:PAGE-MONEY -->
 
+<!-- #SECTION:PAGE-WHACK-MOLE -->
+<div class="page" id="page-whack-mole">
+  <!-- ❌ 結束按鈕 -->
+  <button class="back-btn whack-exit-btn" onclick="exitWhack()">❌</button>
+
+  <!-- 🔴 LIVE 指示(只體感模式顯示) -->
+  <div class="whack-live" id="whack-live" style="display:none">
+    <span class="live-dot"></span> LIVE
+  </div>
+
+  <!-- Mode 選擇 modal(首次進入) -->
+  <div class="whack-modal" id="whack-modal">
+    <div class="whack-modal-card">
+      <h2 id="whack-modal-title">準備好玩打地鼠了嗎?</h2>
+      <button class="whack-mode-btn" id="whack-mode-motion" onclick="selectWhackMode('motion')">
+        📷 <span id="whack-mode-motion-label">用相機體感玩</span>
+      </button>
+      <button class="whack-mode-btn" id="whack-mode-tap" onclick="selectWhackMode('tap')">
+        👆 <span id="whack-mode-tap-label">用手指點</span>
+      </button>
+      <div class="whack-privacy" id="whack-privacy-text">
+        相機畫面只在你裝置上,完全不會傳出去
+      </div>
+    </div>
+  </div>
+
+  <!-- Video feed(只體感模式可見,鋪滿背景) -->
+  <video id="whack-video" autoplay muted playsinline style="display:none"></video>
+  <canvas id="whack-canvas" width="160" height="120" style="display:none"></canvas>
+
+  <!-- HUD -->
+  <div class="whack-hud" id="whack-hud" style="display:none">
+    <span class="whack-progress" id="whack-progress">🐹 已打: 0 / 0</span>
+  </div>
+
+  <!-- 遊戲區(holes grid) -->
+  <div class="whack-game-area" id="whack-game-area" style="display:none">
+    <div class="whack-grid" id="whack-grid"></div>
+    <div class="whack-distance-hint" id="whack-distance-hint" style="display:none"></div>
+  </div>
+
+  <!-- 達標慶祝畫面 -->
+  <div class="complete-screen" id="whack-complete">
+    <div class="complete-content">
+      <div style="font-size:80px">🐹</div>
+      <h2 id="whack-complete-title">太厲害!</h2>
+      <p id="whack-complete-sub" style="font-size:20px;color:#666"></p>
+      <button class="btn btn-primary" onclick="navigateTo('page-home')" id="whack-back-btn">回首頁</button>
+      <button class="btn btn-secondary" onclick="startWhackGame()" id="whack-again-btn">再玩一次</button>
+    </div>
+  </div>
+</div>
+<!-- #END:PAGE-WHACK-MOLE -->
+
 <!-- Time banner -->
 <div class="time-banner" id="time-banner">
   再玩 5 分鐘就要讓眼睛休息一下喔 👀
@@ -3799,6 +4086,16 @@ body {
     <button class="setting-option" data-lang="en" onclick="setLanguage('en')">English</button>
   </div>
 
+  <!-- 打地鼠玩法 -->
+  <div class="settings-group">
+    <h3>🐹 打地鼠玩法</h3>
+    <button class="setting-option" id="whack-mode-setting-motion" onclick="setWhackMode('motion')">📷 體感</button>
+    <button class="setting-option" id="whack-mode-setting-tap" onclick="setWhackMode('tap')">👆 手指</button>
+    <div style="font-size:12px;color:#888;margin-top:6px;line-height:1.5">
+      下次玩打地鼠用哪種輸入。可隨時切換。
+    </div>
+  </div>
+
   <!-- 陪伴模式 -->
   <div class="settings-group">
     <h3>陪伴模式</h3>
@@ -3845,7 +4142,8 @@ const APP = {
   timerEnabled: true,
   chestOpenedToday: false,
   favorites: [],  // [{id, icon, label}] — 長按活動拖進最愛區塊
-  parentCompanionMode: false  // 開啟後互動活動退化成「家長帶著做」模式
+  parentCompanionMode: false,  // 開啟後互動活動退化成「家長帶著做」模式
+  whackMode: null  // 'motion' | 'tap' | null(尚未選過)
 };
 
 function today() {
@@ -4214,6 +4512,8 @@ function autoReadForAge(question, options) {
 // <!-- #SECTION:NAV -->
 
 function navigateTo(pageId) {
+  // Stop whack game (release camera + timers) if leaving page-whack-mole
+  if (typeof stopWhackGame === 'function') stopWhackGame();
   // Stop any ongoing speech when navigating away
   if ('speechSynthesis' in window) speechSynthesis.cancel();
   if (typeof stopRhymeMelody === 'function') stopRhymeMelody();
@@ -4269,6 +4569,7 @@ function navigateTo(pageId) {
   if (pageId === 'page-weather') { clearTimeout(weatherTimer); startWeatherGame(); }
   if (pageId === 'page-social') { clearTimeout(socialTimer); startSocialGame(); }
   if (pageId === 'page-money') startMoneyGame();
+  if (pageId === 'page-whack-mole') startWhackGame();
 }
 
 function switchTab(tabId, btnEl) {
@@ -4703,6 +5004,7 @@ function openSettings() {
   document.getElementById('settings-panel')?.classList.add('show');
   document.getElementById('settings-backdrop')?.classList.add('show');
   refreshSettingsUI();
+  updateWhackModeSettingUI();
 }
 
 function closeSettings() {
@@ -4718,6 +5020,20 @@ function toggleCompanionMode() {
   if (label) label.textContent = APP.parentCompanionMode ? '開啟' : '關閉';
   saveState();
   updateCompanionQuickBtns();
+}
+
+function setWhackMode(mode) {
+  APP.whackMode = mode;
+  saveState();
+  updateWhackModeSettingUI();
+}
+
+function updateWhackModeSettingUI() {
+  var m = document.getElementById('whack-mode-setting-motion');
+  var t = document.getElementById('whack-mode-setting-tap');
+  if (!m || !t) return;
+  m.classList.toggle('selected', APP.whackMode === 'motion');
+  t.classList.toggle('selected', APP.whackMode === 'tap');
 }
 
 // 快捷切換陪伴模式(從活動頁直接開關,省得跑去設定)
@@ -4990,7 +5306,8 @@ var ACTIVITY_LABELS = {
   'page-draw': '塗鴉畫板 ✏️',
   'page-sound-match': '聲音配對 🎧',
   'page-body': '認識身體 🧍',
-  'page-zhuyin': '注音符號 ㄅ'
+  'page-zhuyin': '注音符號 ㄅ',
+  'page-whack-mole': '打地鼠 🐹'
 };
 
 // 幼兒園 6 大領域:語文 / 認知 / 美感 / 身體動作 / 社會 / 情緒
@@ -5022,7 +5339,8 @@ var ACTIVITY_DOMAINS = {
   'page-scene':         '美感',
   'page-story-build':   '語文',
   'page-body':          '身體動作',
-  'page-zhuyin':        '語文'
+  'page-zhuyin':        '語文',
+  'page-whack-mole':    '身體動作'
 };
 
 function applyActivityDomains() {
@@ -15965,6 +16283,463 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // <!-- #END:PAGE-MONEY-JS -->
+
+// <!-- #SECTION:WHACK-LOGIC -->
+
+// 各年齡組設定(grid / 達標 / 地鼠停留 / 同時上限)
+var WHACK_CONFIG = {
+  toddler: { cols: 2, rows: 1, holes: 2, target: 5, moleStayMs: 4000, maxSimultaneous: 1, distHint: null },
+  small:   { cols: 3, rows: 1, holes: 3, target: 8, moleStayMs: 3000, maxSimultaneous: 1, distHint: '60cm' },
+  middle:  { cols: 3, rows: 2, holes: 6, target: 12, moleStayMs: 2500, maxSimultaneous: 2, distHint: '100cm' },
+  large:   { cols: 3, rows: 3, holes: 9, target: 20, moleStayMs: 2000, maxSimultaneous: 3, distHint: '1.8m' }
+};
+
+// pixel-diff 調參(體感模式)
+var WHACK_TUNING = {
+  THRESHOLD_PIXEL: 25,    // 灰階差 > 25 算 changed (out of 255)
+  THRESHOLD_CELL: 0.08,   // cell 內 > 8% pixels changed 算動了
+  COOLDOWN_MS: 600,       // 打中後 cell 冷卻
+  CANVAS_W: 160,
+  CANVAS_H: 120,
+  DEBUG_OVERLAY: false    // 開啟顯示每格 diff% 即時數值(調參用)
+};
+
+// 出現間隔
+var WHACK_SPAWN_MIN_MS = 1000;
+var WHACK_SPAWN_MAX_MS = 1800;
+
+// Multi-mole 機率(by age)
+var WHACK_MULTI_PROB = {
+  toddler: { two: 0, three: 0 },
+  small:   { two: 0, three: 0 },
+  middle:  { two: 0.20, three: 0 },
+  large:   { two: 0.30, three: 0.10 }
+};
+
+// Game state(non-persisted,只跟單局)
+var whackState = {
+  active: false,
+  mode: null,          // 'tap' | 'motion'
+  cfg: null,           // 當前 ageGroup 對應 config
+  hits: 0,
+  holes: [],           // [{el, active, moleEl, spawnedAt, cooldownUntil}]
+  spawnTimer: null,
+  videoStream: null,
+  videoEl: null,
+  canvasEl: null,
+  canvasCtx: null,
+  prevFrame: null,
+  diffRafId: null,
+  lastSpawnedIdx: -1
+};
+
+// 進入頁面入口(由 navigateTo 觸發)
+function startWhackGame() {
+  whackState.cfg = WHACK_CONFIG[APP.ageGroup] || WHACK_CONFIG.small;
+  whackState.hits = 0;
+  whackState.active = false;
+  whackState.lastSpawnedIdx = -1;
+
+  // 顯示 modal,隱藏遊戲區/HUD/LIVE/慶祝畫面
+  document.getElementById('whack-modal').style.display = 'flex';
+  document.getElementById('whack-hud').style.display = 'none';
+  document.getElementById('whack-game-area').style.display = 'none';
+  document.getElementById('whack-live').style.display = 'none';
+  document.getElementById('whack-complete').classList.remove('show');
+
+  // i18n: modal 文字(沿用 APP.language 模式)
+  var isEn = (APP.language === 'en');
+  document.getElementById('whack-modal-title').textContent =
+    isEn ? 'Ready to play whack-a-mole?' : '準備好玩打地鼠了嗎?';
+  document.getElementById('whack-mode-motion-label').textContent =
+    isEn ? 'Play with camera' : '用相機體感玩';
+  document.getElementById('whack-mode-tap-label').textContent =
+    isEn ? 'Tap to play' : '用手指點';
+  document.getElementById('whack-privacy-text').textContent =
+    isEn ? 'Camera stays on your device, never uploaded' : '相機畫面只在你裝置上,完全不會傳出去';
+
+  // 預設高亮(依年齡)
+  var defaultIsMotion = (APP.ageGroup === 'middle' || APP.ageGroup === 'large');
+  document.getElementById('whack-mode-motion').classList.toggle('recommended', defaultIsMotion);
+  document.getElementById('whack-mode-tap').classList.toggle('recommended', !defaultIsMotion);
+
+  // 若已記住模式,直接套用(跳過 modal)
+  if (APP.whackMode) {
+    selectWhackMode(APP.whackMode);
+  }
+}
+
+// 使用者選了模式
+function selectWhackMode(mode) {
+  APP.whackMode = mode;
+  saveState();
+  whackState.mode = mode;
+  document.getElementById('whack-modal').style.display = 'none';
+
+  if (mode === 'motion') {
+    startWhackMotion();  // task 6 實作
+  } else {
+    startWhackPlay();
+  }
+}
+
+// 啟動遊戲畫面(共用,motion/tap 都會經過)
+function startWhackPlay() {
+  whackState.active = true;
+  document.getElementById('whack-hud').style.display = 'block';
+  document.getElementById('whack-game-area').style.display = 'flex';
+  renderWhackGrid();
+  updateWhackHud();
+
+  // 距離提示(只體感模式)
+  var hint = document.getElementById('whack-distance-hint');
+  if (whackState.mode === 'motion' && whackState.cfg.distHint) {
+    var isEn = (APP.language === 'en');
+    hint.textContent = (isEn ? '📏 About ' : '📏 大約 ') + whackState.cfg.distHint;
+    hint.style.display = 'block';
+  } else {
+    hint.style.display = 'none';
+  }
+
+  // 開始 spawn loop
+  scheduleNextSpawn();
+}
+
+// 渲染 grid + holes(initial state: 全空)
+function renderWhackGrid() {
+  var grid = document.getElementById('whack-grid');
+  var cfg = whackState.cfg;
+  grid.className = 'whack-grid cols-' + cfg.cols;
+  grid.innerHTML = '';
+  whackState.holes = [];
+
+  for (var i = 0; i < cfg.holes; i++) {
+    var hole = document.createElement('div');
+    hole.className = 'whack-hole';
+    hole.setAttribute('data-idx', i);
+    hole.innerHTML = '<span class="mole">🐹</span>';
+
+    // tap mode: pointerdown 直接觸發 onHit
+    (function(idx) {
+      hole.addEventListener('pointerdown', function() {
+        if (whackState.mode === 'tap') {
+          onWhackHit(idx);
+        }
+      });
+    })(i);
+
+    grid.appendChild(hole);
+    whackState.holes.push({
+      el: hole,
+      active: false,
+      moleEl: hole.querySelector('.mole'),
+      spawnedAt: 0,
+      timeoutTimer: null,
+      cooldownUntil: 0
+    });
+  }
+}
+
+// HUD 顯示
+function updateWhackHud() {
+  var isEn = (APP.language === 'en');
+  var label = isEn ? 'Hit: ' : '已打: ';
+  document.getElementById('whack-progress').textContent =
+    '🐹 ' + label + whackState.hits + ' / ' + whackState.cfg.target;
+}
+
+// 排下一隻地鼠
+function scheduleNextSpawn() {
+  if (!whackState.active) return;
+  var delay = WHACK_SPAWN_MIN_MS + Math.random() * (WHACK_SPAWN_MAX_MS - WHACK_SPAWN_MIN_MS);
+  whackState.spawnTimer = setTimeout(spawnMole, delay);
+}
+
+function spawnMole() {
+  if (!whackState.active) return;
+
+  // 算當前活著的數量,以及該 age 同時上限
+  var activeCount = whackState.holes.filter(function(h) { return h.active; }).length;
+  var probs = WHACK_MULTI_PROB[APP.ageGroup] || WHACK_MULTI_PROB.small;
+  var spawnCount = 1;
+  var r = Math.random();
+  if (r < probs.three) spawnCount = 3;
+  else if (r < probs.three + probs.two) spawnCount = 2;
+
+  // 上限約束
+  spawnCount = Math.min(spawnCount, whackState.cfg.maxSimultaneous - activeCount);
+  if (spawnCount <= 0) {
+    scheduleNextSpawn();
+    return;
+  }
+
+  // 找空著的洞,排除上次同一洞
+  var candidates = [];
+  for (var i = 0; i < whackState.holes.length; i++) {
+    if (!whackState.holes[i].active && i !== whackState.lastSpawnedIdx) {
+      candidates.push(i);
+    }
+  }
+  // 沒有候選(全活著)就讓 lastSpawnedIdx 也可用
+  if (candidates.length === 0) {
+    for (var j = 0; j < whackState.holes.length; j++) {
+      if (!whackState.holes[j].active) candidates.push(j);
+    }
+  }
+
+  for (var s = 0; s < spawnCount && candidates.length > 0; s++) {
+    var pick = Math.floor(Math.random() * candidates.length);
+    var idx = candidates.splice(pick, 1)[0];
+    showMole(idx);
+    whackState.lastSpawnedIdx = idx;
+  }
+
+  scheduleNextSpawn();
+}
+
+function showMole(idx) {
+  var hole = whackState.holes[idx];
+  hole.active = true;
+  hole.spawnedAt = Date.now();
+  hole.el.classList.remove('hit', 'timeout');
+  hole.el.classList.add('active');
+
+  // 超時自動縮回(沒被打中)
+  hole.timeoutTimer = setTimeout(function() {
+    if (!hole.active) return;
+    hole.active = false;
+    hole.el.classList.remove('active');
+    hole.el.classList.add('timeout');
+    setTimeout(function() { hole.el.classList.remove('timeout'); }, 400);
+  }, whackState.cfg.moleStayMs);
+}
+
+function onWhackHit(idx) {
+  if (!whackState.active) return;  // 達標後/退出後不再計入
+  var hole = whackState.holes[idx];
+  if (!hole.active) return;  // 沒有地鼠不算
+  if (Date.now() < hole.cooldownUntil) return;  // cooldown 內
+
+  hole.active = false;
+  clearTimeout(hole.timeoutTimer);
+  hole.cooldownUntil = Date.now() + WHACK_TUNING.COOLDOWN_MS;
+  hole.el.classList.remove('active');
+  hole.el.classList.add('hit');
+
+  // 塵土特效
+  var dust = document.createElement('span');
+  dust.className = 'whack-dust';
+  dust.textContent = '💨';
+  hole.el.appendChild(dust);
+  setTimeout(function() {
+    if (dust.parentNode) dust.parentNode.removeChild(dust);
+    hole.el.classList.remove('hit');
+  }, 400);
+
+  whackState.hits++;
+  updateWhackHud();
+
+  if (whackState.hits >= whackState.cfg.target) {
+    finishWhack();
+  }
+}
+
+function finishWhack() {
+  whackState.active = false;
+  clearTimeout(whackState.spawnTimer);
+
+  // 全部地鼠收起來
+  whackState.holes.forEach(function(h) {
+    clearTimeout(h.timeoutTimer);
+    h.active = false;
+    h.el.classList.remove('active');
+  });
+
+  // 顯示慶祝畫面
+  var isEn = (APP.language === 'en');
+  var target = whackState.cfg.target;
+  document.getElementById('whack-complete-title').textContent =
+    isEn ? 'Awesome!' : '太厲害!';
+  document.getElementById('whack-complete-sub').textContent =
+    isEn ? ('You got ' + target + ' moles!') : ('打到了 ' + target + ' 隻!');
+  document.getElementById('whack-back-btn').textContent = isEn ? 'Back home' : '回首頁';
+  document.getElementById('whack-again-btn').textContent = isEn ? 'Play again' : '再玩一次';
+
+  // 隱藏遊戲區
+  document.getElementById('whack-game-area').style.display = 'none';
+  document.getElementById('whack-hud').style.display = 'none';
+
+  // 顯示慶祝
+  var complete = document.getElementById('whack-complete');
+  complete.classList.add('show');
+
+  // 接 app 既有獎勵系統
+  completeActivity('page-whack-mole');
+
+  // Web Speech 朗讀(沿用既有 speak)
+  if (typeof speak === 'function') {
+    speak(isEn ? ('Awesome! You got ' + target + '!') : ('太厲害!打到了 ' + target + '隻!'));
+  }
+}
+
+function exitWhack() {
+  navigateTo('page-home');
+}
+
+// 釋放鏡頭 + 停止所有 timer(被 navigateTo 呼叫)
+function stopWhackGame() {
+  whackState.active = false;
+  if (whackState.spawnTimer) {
+    clearTimeout(whackState.spawnTimer);
+    whackState.spawnTimer = null;
+  }
+  whackState.holes.forEach(function(h) {
+    if (h.timeoutTimer) clearTimeout(h.timeoutTimer);
+  });
+  if (whackState.diffRafId) {
+    cancelAnimationFrame(whackState.diffRafId);
+    whackState.diffRafId = null;
+  }
+  if (whackState.videoStream) {
+    whackState.videoStream.getTracks().forEach(function(t) { t.stop(); });
+    whackState.videoStream = null;
+  }
+  if (whackState.videoEl) {
+    whackState.videoEl.srcObject = null;
+    whackState.videoEl.style.display = 'none';
+  }
+  document.getElementById('whack-live').style.display = 'none';
+  whackState.prevFrame = null;
+}
+
+function startWhackMotion() {
+  var isEn = (APP.language === 'en');
+
+  // 1. 請求相機
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    alert(isEn ? 'Camera not supported, switching to tap mode.' : '裝置不支援相機,切換成手指模式。');
+    APP.whackMode = 'tap';
+    whackState.mode = 'tap';
+    saveState();
+    startWhackPlay();
+    return;
+  }
+
+  navigator.mediaDevices.getUserMedia({ video: { width: 320, height: 240 } })
+    .then(function(stream) {
+      whackState.videoStream = stream;
+      var video = document.getElementById('whack-video');
+      video.srcObject = stream;
+      video.style.display = 'block';
+      whackState.videoEl = video;
+
+      // 準備 canvas
+      var canvas = document.getElementById('whack-canvas');
+      whackState.canvasEl = canvas;
+      whackState.canvasCtx = canvas.getContext('2d', { willReadFrequently: true });
+      whackState.prevFrame = null;
+
+      // 顯示 LIVE
+      document.getElementById('whack-live').style.display = 'flex';
+
+      // 等 video 開始播放才開遊戲
+      video.onloadedmetadata = function() {
+        video.play().then(function() {
+          startWhackPlay();
+          startWhackDiffLoop();
+        }).catch(function() {
+          // 自動播放被擋 → fallback tap,不卡死在 modal
+          APP.whackMode = 'tap';
+          whackState.mode = 'tap';
+          saveState();
+          startWhackPlay();
+        });
+      };
+    })
+    .catch(function(err) {
+      console.warn('Camera denied or unavailable:', err);
+      alert(isEn ? 'Camera off — tap to play instead?' : '相機沒打開,先用手指點玩好嗎?');
+      APP.whackMode = 'tap';
+      whackState.mode = 'tap';
+      saveState();
+      startWhackPlay();
+    });
+}
+
+// pixel-diff loop
+function startWhackDiffLoop() {
+  function loop() {
+    if (!whackState.active || whackState.mode !== 'motion') return;
+
+    var ctx = whackState.canvasCtx;
+    var video = whackState.videoEl;
+    var W = WHACK_TUNING.CANVAS_W;
+    var H = WHACK_TUNING.CANVAS_H;
+
+    // 等 video 第一幀真的 decode 出來才做 diff,
+    // 否則 readyState<2 時 drawImage 是空白幀,會讓下一幀整版判定為動 → false positive
+    if (video.readyState < 2) {
+      whackState.diffRafId = requestAnimationFrame(loop);
+      return;
+    }
+
+    // 鏡像翻轉繪到 canvas,跟使用者看到的 video 一致
+    ctx.save();
+    ctx.translate(W, 0);
+    ctx.scale(-1, 1);
+    ctx.drawImage(video, 0, 0, W, H);
+    ctx.restore();
+
+    var frame = ctx.getImageData(0, 0, W, H);
+
+    if (whackState.prevFrame) {
+      // 只檢查「目前有地鼠的 cell」
+      var cfg = whackState.cfg;
+      var cellW = W / cfg.cols;
+      var cellH = H / cfg.rows;
+
+      for (var i = 0; i < whackState.holes.length; i++) {
+        var hole = whackState.holes[i];
+        if (!hole.active) continue;
+        if (Date.now() < hole.cooldownUntil) continue;
+
+        var col = i % cfg.cols;
+        var row = Math.floor(i / cfg.cols);
+        var x0 = Math.floor(col * cellW);
+        var y0 = Math.floor(row * cellH);
+        var x1 = Math.floor((col + 1) * cellW);
+        var y1 = Math.floor((row + 1) * cellH);
+
+        var changed = 0;
+        var total = 0;
+        for (var y = y0; y < y1; y++) {
+          for (var x = x0; x < x1; x++) {
+            var p = (y * W + x) * 4;
+            var gNow = (frame.data[p] + frame.data[p+1] + frame.data[p+2]) / 3;
+            var gPrev = (whackState.prevFrame.data[p] + whackState.prevFrame.data[p+1] + whackState.prevFrame.data[p+2]) / 3;
+            if (Math.abs(gNow - gPrev) > WHACK_TUNING.THRESHOLD_PIXEL) changed++;
+            total++;
+          }
+        }
+
+        var ratio = total > 0 ? (changed / total) : 0;
+        if (WHACK_TUNING.DEBUG_OVERLAY) {
+          console.log('cell', i, 'diff', (ratio * 100).toFixed(1), '%');
+        }
+        if (ratio > WHACK_TUNING.THRESHOLD_CELL) {
+          onWhackHit(i);
+        }
+      }
+    }
+
+    whackState.prevFrame = frame;
+    whackState.diffRafId = requestAnimationFrame(loop);
+  }
+  whackState.diffRafId = requestAnimationFrame(loop);
+}
+
+// <!-- #END:WHACK-LOGIC -->
+
 // <!-- #SECTION:IMAGES-CURRENCY -->
 Object.assign(IMG, {
   'coin-1': 'data:image/jpeg;base64,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',

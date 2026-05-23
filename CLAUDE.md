@@ -31,6 +31,13 @@
 > 規則保留不刪 — 此次 override 是 explicit + ack risk。後續開 sub-project
 > 仍應對齊原規則(凍結期到 2026-06-30 結束 + 之後解凍仍要 先寫 blog)。
 > 已建 sub-project 累計:15 → 不得再開新的(規則 1 仍 active)。
+>
+> **2026-05-05 footnote**:`whiteboard-ocr-bot/` 擴充新增 `companion-call/`
+> 子模組(Twilio 排程外撥陪聊媽媽,失智刺激用)。**不算新 sub-project**
+> (仍 15 個底下擴充),但首次在 Python 例外 sub-project 內加第二個獨立 module。
+> Tom 主動評估與主軸(mom 線資料閉環:OCR → Z_momSystem ← companion-call)
+> 對齊,月費類別不變(已有 Gemini API,新增 Twilio Voice ~USD$8/月)。
+> 既有 OCR pipeline 不動。**規則 1 在嚴格意義上未違反**,但留紀錄供未來 audit。
 
 ### 規則 2:Commit cap 20 / 天(soft warning)
 任何一天 commit 數超過 20:

@@ -1,0 +1,10 @@
+{
+  "name": "companion-call-functions",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Twilio Functions hosting TwiML logic for companion-call (失智母親排程陪聊外撥)",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {}
+}
