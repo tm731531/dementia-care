@@ -16593,6 +16593,12 @@ function startWhackMotion() {
         video.play().then(function() {
           startWhackPlay();
           startWhackDiffLoop();
+        }).catch(function() {
+          // 自動播放被擋 → fallback tap,不卡死在 modal
+          APP.whackMode = 'tap';
+          whackState.mode = 'tap';
+          saveState();
+          startWhackPlay();
         });
       };
     })
@@ -16615,6 +16621,13 @@ function startWhackDiffLoop() {
     var video = whackState.videoEl;
     var W = WHACK_TUNING.CANVAS_W;
     var H = WHACK_TUNING.CANVAS_H;
+
+    // 等 video 第一幀真的 decode 出來才做 diff,
+    // 否則 readyState<2 時 drawImage 是空白幀,會讓下一幀整版判定為動 → false positive
+    if (video.readyState < 2) {
+      whackState.diffRafId = requestAnimationFrame(loop);
+      return;
+    }
 
     // 鏡像翻轉繪到 canvas,跟使用者看到的 video 一致
     ctx.save();
