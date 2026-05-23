@@ -16558,10 +16558,117 @@ function exitWhack() {
   navigateTo('page-home');
 }
 
-// motion mode 在 task 6 實作(這 task 先佔位)
 function startWhackMotion() {
-  // task 6 補完 — 暫時直接走 tap 模式 fallback
-  startWhackPlay();
+  var isEn = (APP.language === 'en');
+
+  // 1. 請求相機
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    alert(isEn ? 'Camera not supported, switching to tap mode.' : '裝置不支援相機,切換成手指模式。');
+    APP.whackMode = 'tap';
+    whackState.mode = 'tap';
+    saveState();
+    startWhackPlay();
+    return;
+  }
+
+  navigator.mediaDevices.getUserMedia({ video: { width: 320, height: 240 } })
+    .then(function(stream) {
+      whackState.videoStream = stream;
+      var video = document.getElementById('whack-video');
+      video.srcObject = stream;
+      video.style.display = 'block';
+      whackState.videoEl = video;
+
+      // 準備 canvas
+      var canvas = document.getElementById('whack-canvas');
+      whackState.canvasEl = canvas;
+      whackState.canvasCtx = canvas.getContext('2d', { willReadFrequently: true });
+      whackState.prevFrame = null;
+
+      // 顯示 LIVE
+      document.getElementById('whack-live').style.display = 'flex';
+
+      // 等 video 開始播放才開遊戲
+      video.onloadedmetadata = function() {
+        video.play().then(function() {
+          startWhackPlay();
+          startWhackDiffLoop();
+        });
+      };
+    })
+    .catch(function(err) {
+      console.warn('Camera denied or unavailable:', err);
+      alert(isEn ? 'Camera off — tap to play instead?' : '相機沒打開,先用手指點玩好嗎?');
+      APP.whackMode = 'tap';
+      whackState.mode = 'tap';
+      saveState();
+      startWhackPlay();
+    });
+}
+
+// pixel-diff loop
+function startWhackDiffLoop() {
+  function loop() {
+    if (!whackState.active || whackState.mode !== 'motion') return;
+
+    var ctx = whackState.canvasCtx;
+    var video = whackState.videoEl;
+    var W = WHACK_TUNING.CANVAS_W;
+    var H = WHACK_TUNING.CANVAS_H;
+
+    // 鏡像翻轉繪到 canvas,跟使用者看到的 video 一致
+    ctx.save();
+    ctx.translate(W, 0);
+    ctx.scale(-1, 1);
+    ctx.drawImage(video, 0, 0, W, H);
+    ctx.restore();
+
+    var frame = ctx.getImageData(0, 0, W, H);
+
+    if (whackState.prevFrame) {
+      // 只檢查「目前有地鼠的 cell」
+      var cfg = whackState.cfg;
+      var cellW = W / cfg.cols;
+      var cellH = H / cfg.rows;
+
+      for (var i = 0; i < whackState.holes.length; i++) {
+        var hole = whackState.holes[i];
+        if (!hole.active) continue;
+        if (Date.now() < hole.cooldownUntil) continue;
+
+        var col = i % cfg.cols;
+        var row = Math.floor(i / cfg.cols);
+        var x0 = Math.floor(col * cellW);
+        var y0 = Math.floor(row * cellH);
+        var x1 = Math.floor((col + 1) * cellW);
+        var y1 = Math.floor((row + 1) * cellH);
+
+        var changed = 0;
+        var total = 0;
+        for (var y = y0; y < y1; y++) {
+          for (var x = x0; x < x1; x++) {
+            var p = (y * W + x) * 4;
+            var gNow = (frame.data[p] + frame.data[p+1] + frame.data[p+2]) / 3;
+            var gPrev = (whackState.prevFrame.data[p] + whackState.prevFrame.data[p+1] + whackState.prevFrame.data[p+2]) / 3;
+            if (Math.abs(gNow - gPrev) > WHACK_TUNING.THRESHOLD_PIXEL) changed++;
+            total++;
+          }
+        }
+
+        var ratio = total > 0 ? (changed / total) : 0;
+        if (WHACK_TUNING.DEBUG_OVERLAY) {
+          console.log('cell', i, 'diff', (ratio * 100).toFixed(1), '%');
+        }
+        if (ratio > WHACK_TUNING.THRESHOLD_CELL) {
+          onWhackHit(i);
+        }
+      }
+    }
+
+    whackState.prevFrame = frame;
+    whackState.diffRafId = requestAnimationFrame(loop);
+  }
+  whackState.diffRafId = requestAnimationFrame(loop);
 }
 
 // <!-- #END:WHACK-LOGIC -->
