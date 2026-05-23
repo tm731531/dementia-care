@@ -4086,6 +4086,16 @@ body {
     <button class="setting-option" data-lang="en" onclick="setLanguage('en')">English</button>
   </div>
 
+  <!-- 打地鼠玩法 -->
+  <div class="settings-group">
+    <h3>🐹 打地鼠玩法</h3>
+    <button class="setting-option" id="whack-mode-setting-motion" onclick="setWhackMode('motion')">📷 體感</button>
+    <button class="setting-option" id="whack-mode-setting-tap" onclick="setWhackMode('tap')">👆 手指</button>
+    <div style="font-size:12px;color:#888;margin-top:6px;line-height:1.5">
+      下次玩打地鼠用哪種輸入。可隨時切換。
+    </div>
+  </div>
+
   <!-- 陪伴模式 -->
   <div class="settings-group">
     <h3>陪伴模式</h3>
@@ -4994,6 +5004,7 @@ function openSettings() {
   document.getElementById('settings-panel')?.classList.add('show');
   document.getElementById('settings-backdrop')?.classList.add('show');
   refreshSettingsUI();
+  updateWhackModeSettingUI();
 }
 
 function closeSettings() {
@@ -5009,6 +5020,20 @@ function toggleCompanionMode() {
   if (label) label.textContent = APP.parentCompanionMode ? '開啟' : '關閉';
   saveState();
   updateCompanionQuickBtns();
+}
+
+function setWhackMode(mode) {
+  APP.whackMode = mode;
+  saveState();
+  updateWhackModeSettingUI();
+}
+
+function updateWhackModeSettingUI() {
+  var m = document.getElementById('whack-mode-setting-motion');
+  var t = document.getElementById('whack-mode-setting-tap');
+  if (!m || !t) return;
+  m.classList.toggle('selected', APP.whackMode === 'motion');
+  t.classList.toggle('selected', APP.whackMode === 'tap');
 }
 
 // 快捷切換陪伴模式(從活動頁直接開關,省得跑去設定)
@@ -5281,7 +5306,8 @@ var ACTIVITY_LABELS = {
   'page-draw': '塗鴉畫板 ✏️',
   'page-sound-match': '聲音配對 🎧',
   'page-body': '認識身體 🧍',
-  'page-zhuyin': '注音符號 ㄅ'
+  'page-zhuyin': '注音符號 ㄅ',
+  'page-whack-mole': '打地鼠 🐹'
 };
 
 // 幼兒園 6 大領域:語文 / 認知 / 美感 / 身體動作 / 社會 / 情緒
