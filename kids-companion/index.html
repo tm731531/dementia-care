@@ -16309,6 +16309,7 @@ function startWhackGame() {
   whackState.cfg = WHACK_CONFIG[APP.ageGroup] || WHACK_CONFIG.small;
   whackState.hits = 0;
   whackState.active = false;
+  whackState.lastSpawnedIdx = -1;
 
   // 顯示 modal,隱藏遊戲區/HUD/LIVE/慶祝畫面
   document.getElementById('whack-modal').style.display = 'flex';
