@@ -4502,6 +4502,8 @@ function autoReadForAge(question, options) {
 // <!-- #SECTION:NAV -->
 
 function navigateTo(pageId) {
+  // Stop whack game (release camera + timers) if leaving page-whack-mole
+  if (typeof stopWhackGame === 'function') stopWhackGame();
   // Stop any ongoing speech when navigating away
   if ('speechSynthesis' in window) speechSynthesis.cancel();
   if (typeof stopRhymeMelody === 'function') stopRhymeMelody();
@@ -16553,9 +16555,34 @@ function finishWhack() {
   }
 }
 
-// exit 在 task 7 實作(這 task 先佔位)
 function exitWhack() {
   navigateTo('page-home');
+}
+
+// 釋放鏡頭 + 停止所有 timer(被 navigateTo 呼叫)
+function stopWhackGame() {
+  whackState.active = false;
+  if (whackState.spawnTimer) {
+    clearTimeout(whackState.spawnTimer);
+    whackState.spawnTimer = null;
+  }
+  whackState.holes.forEach(function(h) {
+    if (h.timeoutTimer) clearTimeout(h.timeoutTimer);
+  });
+  if (whackState.diffRafId) {
+    cancelAnimationFrame(whackState.diffRafId);
+    whackState.diffRafId = null;
+  }
+  if (whackState.videoStream) {
+    whackState.videoStream.getTracks().forEach(function(t) { t.stop(); });
+    whackState.videoStream = null;
+  }
+  if (whackState.videoEl) {
+    whackState.videoEl.srcObject = null;
+    whackState.videoEl.style.display = 'none';
+  }
+  document.getElementById('whack-live').style.display = 'none';
+  whackState.prevFrame = null;
 }
 
 function startWhackMotion() {
