@@ -16436,11 +16436,10 @@ var WHACK_TUNING = {
   THRESHOLD_PIXEL: 12,
   THRESHOLD_CELL: 0.03,
   EDGE_BOOST: 1.4,
-  Y_DELTA_THRESHOLD: 4,            // v7.5:6→4 更敏感(慢速揮手也認)
-  MIN_RATIO_FOR_DIRECTION: 0.005,  // v7.5:上一幀 ratio > 0.5% 才信任方向 dy
-                                   //       (取代 v7.4 的 AVG_DEV gate,改用 motion gate
-                                   //        對光線/對比不挑剔,Tom 環境也認得到)
-  COOLDOWN_MS: 600,
+  Y_DELTA_THRESHOLD: 4,
+  MIN_RATIO_FOR_DIRECTION: 0.005,
+  COOLDOWN_MS: 800,                  // v7.6:600→800 拉長同格冷卻
+  GLOBAL_LIFT_COOLDOWN_MS: 300,      // v7.6:打中後所有格鎖 300ms,給手抽回的時間
   CANVAS_W: 160,
   CANVAS_H: 120,
   DEBUG_OVERLAY: false
@@ -16633,6 +16632,7 @@ var whackState = {
   moleBeeHit: 0,       // 打到蜜蜂
   scoreGoldenBonus: 0, // 金色額外的 +2(普通是+1,金色 +3 = +1 + bonus 2)
   endCheckTimer: null, // events 跑完後 polling 等地鼠全部解決
+  globalCooldownUntil: 0,  // v7.6:任何 hit 後所有 cell 短暫鎖(給手抽回時間)
   holes: [],           // [{el, active, moleEl, moleType, spawnedAt, cooldownUntil, timeoutTimer}]
   spawnTimer: null,
   videoStream: null,
@@ -16659,6 +16659,7 @@ function startWhackGame() {
   whackState.moleEscaped = 0;
   whackState.moleBeeHit = 0;
   whackState.scoreGoldenBonus = 0;
+  whackState.globalCooldownUntil = 0;  // v7.6
   if (whackState.endCheckTimer) {
     clearInterval(whackState.endCheckTimer);
     whackState.endCheckTimer = null;
@@ -16935,6 +16936,8 @@ function onWhackHit(idx) {
   hole.active = false;
   clearTimeout(hole.timeoutTimer);
   hole.cooldownUntil = Date.now() + WHACK_TUNING.COOLDOWN_MS;
+  // v7.6:全域 lift cooldown,讓手抽回的動作不會誤觸其他 cell
+  whackState.globalCooldownUntil = Date.now() + WHACK_TUNING.GLOBAL_LIFT_COOLDOWN_MS;
   hole.el.classList.remove('active', 'golden', 'bee', 'boss');
   hole.el.classList.add('hit');
 
@@ -17161,10 +17164,13 @@ function startWhackDiffLoop() {
       var cellW = W / cfg.cols;
       var cellH = H / cfg.rows;
 
+      var nowMs = Date.now();
+      var inGlobalCooldown = nowMs < whackState.globalCooldownUntil;
+
       for (var i = 0; i < whackState.holes.length; i++) {
         var hole = whackState.holes[i];
-        // v6.2:DEBUG 開啟時連 idle cell 也要算 diff(讓 Tom 看到全部 cell 的數值)
-        var canHit = hole.active && Date.now() >= hole.cooldownUntil;
+        // v7.6:全域 lift cooldown 也算進 canHit
+        var canHit = hole.active && nowMs >= hole.cooldownUntil && !inGlobalCooldown;
         if (!canHit && !WHACK_TUNING.DEBUG_OVERLAY) continue;
 
         var col = i % cfg.cols;
@@ -17211,17 +17217,17 @@ function startWhackDiffLoop() {
         var isEdge = (col === 0 || col === cfg.cols - 1);
         var effectiveRatio = isEdge ? ratio * WHACK_TUNING.EDGE_BOOST : ratio;
 
-        // v7.5:motion gate — 上一幀有真實 motion(ratio > 0.5%)才信任方向
-        // 取代 v7.4 的 avgDev gate(太挑剔光線),改用「motion 連續性」判斷
-        // 首次有 motion 的那幀,lastRatio=0 → hasValidDirection=false → 不觸發(避免首幀雜訊誤判)
+        // v7.6:方向偵測寬鬆化 — 只擋「明確持續上揮」,其他都允許
+        // 主防護是全域 lift-cooldown(300ms,在 canHit 已過濾),
+        // 方向只是「附加安全網」,別讓觸發太死板。
         var hadMotionLast = hole.lastRatio > WHACK_TUNING.MIN_RATIO_FOR_DIRECTION;
         var hasValidDirection = hadMotionLast && centroidY !== null && hole.lastCentroidY !== null;
 
-        var isDownward = false;
+        var isUpward = false;
         var dy = 0;
         if (hasValidDirection) {
           dy = centroidY - hole.lastCentroidY;
-          isDownward = dy >= WHACK_TUNING.Y_DELTA_THRESHOLD;
+          isUpward = dy <= -WHACK_TUNING.Y_DELTA_THRESHOLD;
         }
 
         // debug overlay
@@ -17233,10 +17239,11 @@ function startWhackDiffLoop() {
             hole.el.appendChild(dbg);
           }
           var arrow;
-          if (!hasValidDirection) {
+          if (inGlobalCooldown) arrow = '🔒';
+          else if (!hasValidDirection) {
             arrow = (ratio > WHACK_TUNING.MIN_RATIO_FOR_DIRECTION) ? '?' : '·';
-            // ? = 這幀有 motion 但上幀沒(剛開始) / · = 沒 motion
-          } else if (dy >= WHACK_TUNING.Y_DELTA_THRESHOLD) arrow = '↓';
+          }
+          else if (dy >= WHACK_TUNING.Y_DELTA_THRESHOLD) arrow = '↓';
           else if (dy <= -WHACK_TUNING.Y_DELTA_THRESHOLD) arrow = '↑';
           else arrow = '=';
           dbg.textContent = (ratio * 100).toFixed(0) + '%' + arrow + (isEdge ? '×' : '');
@@ -17245,8 +17252,8 @@ function startWhackDiffLoop() {
           if (existing) existing.parentNode.removeChild(existing);
         }
 
-        // 必須明確下行才觸發
-        if (canHit && effectiveRatio > WHACK_TUNING.THRESHOLD_CELL && isDownward) {
+        // v7.6:寬鬆條件 — 不在全域 cooldown + 不是明確上揮 + 有 motion = 觸發
+        if (canHit && effectiveRatio > WHACK_TUNING.THRESHOLD_CELL && !isUpward) {
           onWhackHit(i);
         }
 
