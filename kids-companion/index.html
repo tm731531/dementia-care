@@ -17263,147 +17263,112 @@ function startWhackMotion() {
   });
 }
 
-// task 5 之前的暫時 stub
+// v8:取代 pixel-diff loop,用 TF.js Hand Pose 21 個關節 + 速度向量做精準判定
 function startWhackHandLoop() {
-  // task 5 補完
-}
-
-// pixel-diff loop
-function startWhackDiffLoop() {
-  function loop() {
-    if (!whackState.active || whackState.mode !== 'motion') return;
-
-    var ctx = whackState.canvasCtx;
-    var video = whackState.videoEl;
-    var W = WHACK_TUNING.CANVAS_W;
-    var H = WHACK_TUNING.CANVAS_H;
-
-    // 等 video 第一幀真的 decode 出來才做 diff,
-    // 否則 readyState<2 時 drawImage 是空白幀,會讓下一幀整版判定為動 → false positive
-    if (video.readyState < 2) {
-      whackState.diffRafId = requestAnimationFrame(loop);
-      return;
-    }
-
-    // 鏡像翻轉繪到 canvas,跟使用者看到的 video 一致
-    ctx.save();
-    ctx.translate(W, 0);
-    ctx.scale(-1, 1);
-    ctx.drawImage(video, 0, 0, W, H);
-    ctx.restore();
-
-    var frame = ctx.getImageData(0, 0, W, H);
-
-    if (whackState.prevFrame) {
-      // 只檢查「目前有地鼠的 cell」
-      var cfg = whackState.cfg;
-      var cellW = W / cfg.cols;
-      var cellH = H / cfg.rows;
-
-      var nowMs = Date.now();
-      var inGlobalCooldown = nowMs < whackState.globalCooldownUntil;
-
-      for (var i = 0; i < whackState.holes.length; i++) {
-        var hole = whackState.holes[i];
-        // v7.6:全域 lift cooldown 也算進 canHit
-        var canHit = hole.active && nowMs >= hole.cooldownUntil && !inGlobalCooldown;
-        if (!canHit && !WHACK_TUNING.DEBUG_OVERLAY) continue;
-
-        var col = i % cfg.cols;
-        var row = Math.floor(i / cfg.cols);
-        var x0 = Math.floor(col * cellW);
-        var y0 = Math.floor(row * cellH);
-        var x1 = Math.floor((col + 1) * cellW);
-        var y1 = Math.floor((row + 1) * cellH);
-
-        // v7.3:Pass 1 — diff count + 累計當前幀亮度(用來算 mean)
-        var changed = 0;
-        var sumNow = 0;
-        var total = 0;
-        for (var y = y0; y < y1; y++) {
-          for (var x = x0; x < x1; x++) {
-            var p = (y * W + x) * 4;
-            var gNow = (frame.data[p] + frame.data[p+1] + frame.data[p+2]) / 3;
-            var gPrev = (whackState.prevFrame.data[p] + whackState.prevFrame.data[p+1] + whackState.prevFrame.data[p+2]) / 3;
-            sumNow += gNow;
-            if (Math.abs(gNow - gPrev) > WHACK_TUNING.THRESHOLD_PIXEL) changed++;
-            total++;
-          }
-        }
-        var mean = total > 0 ? sumNow / total : 128;
-
-        // v7.3:Pass 2 — 用 |gNow - mean| 當權重算 Y 重心
-        // (此重心 = 對比物體在當前幀的位置,適合追蹤手在 cell 中的位置)
-        var weightedY = 0;
-        var weightSum = 0;
-        for (var y2 = y0; y2 < y1; y2++) {
-          for (var x2 = x0; x2 < x1; x2++) {
-            var p2 = (y2 * W + x2) * 4;
-            var gNow2 = (frame.data[p2] + frame.data[p2+1] + frame.data[p2+2]) / 3;
-            var w = Math.abs(gNow2 - mean);
-            weightedY += w * y2;
-            weightSum += w;
-          }
-        }
-        var centroidY = weightSum > 0 ? weightedY / weightSum : null;
-
-        var ratio = total > 0 ? (changed / total) : 0;
-
-        // 邊緣 cell 放寬閾值
-        var isEdge = (col === 0 || col === cfg.cols - 1);
-        var effectiveRatio = isEdge ? ratio * WHACK_TUNING.EDGE_BOOST : ratio;
-
-        // v7.6:方向偵測寬鬆化 — 只擋「明確持續上揮」,其他都允許
-        // 主防護是全域 lift-cooldown(300ms,在 canHit 已過濾),
-        // 方向只是「附加安全網」,別讓觸發太死板。
-        var hadMotionLast = hole.lastRatio > WHACK_TUNING.MIN_RATIO_FOR_DIRECTION;
-        var hasValidDirection = hadMotionLast && centroidY !== null && hole.lastCentroidY !== null;
-
-        var isUpward = false;
-        var dy = 0;
-        if (hasValidDirection) {
-          dy = centroidY - hole.lastCentroidY;
-          isUpward = dy <= -WHACK_TUNING.Y_DELTA_THRESHOLD;
-        }
-
-        // debug overlay
-        if (WHACK_TUNING.DEBUG_OVERLAY) {
-          var dbg = hole.el.querySelector('.whack-debug-diff');
-          if (!dbg) {
-            dbg = document.createElement('span');
-            dbg.className = 'whack-debug-diff';
-            hole.el.appendChild(dbg);
-          }
-          var arrow;
-          if (inGlobalCooldown) arrow = '🔒';
-          else if (!hasValidDirection) {
-            arrow = (ratio > WHACK_TUNING.MIN_RATIO_FOR_DIRECTION) ? '?' : '·';
-          }
-          else if (dy >= WHACK_TUNING.Y_DELTA_THRESHOLD) arrow = '↓';
-          else if (dy <= -WHACK_TUNING.Y_DELTA_THRESHOLD) arrow = '↑';
-          else arrow = '=';
-          dbg.textContent = (ratio * 100).toFixed(0) + '%' + arrow + (isEdge ? '×' : '');
-        } else {
-          var existing = hole.el.querySelector('.whack-debug-diff');
-          if (existing) existing.parentNode.removeChild(existing);
-        }
-
-        // v7.6:寬鬆條件 — 不在全域 cooldown + 不是明確上揮 + 有 motion = 觸發
-        if (canHit && effectiveRatio > WHACK_TUNING.THRESHOLD_CELL && !isUpward) {
-          onWhackHit(i);
-        }
-
-        // 更新追蹤狀態
-        if (centroidY !== null) hole.lastCentroidY = centroidY;
-        hole.lastRatio = ratio;
-      }
-    }
-
-    whackState.prevFrame = frame;
-    whackState.diffRafId = requestAnimationFrame(loop);
+  if (!whackHandModel) {
+    console.warn('startWhackHandLoop: model not loaded');
+    return;
   }
-  whackState.diffRafId = requestAnimationFrame(loop);
+
+  var lastInferenceMs = 0;
+  var INFERENCE_INTERVAL_MS = 66;  // ~15 FPS cap(行動裝置友善)
+  var inferring = false;            // 防 reentry
+
+  // 上一幀指尖位置(歸一化 0..1 相對於 video frame)
+  var lastTipX = null;
+  var lastTipY = null;
+  var lastTipTime = 0;
+
+  function loop(timestamp) {
+    if (!whackState.active || whackState.mode !== 'motion') return;
+    whackState.diffRafId = requestAnimationFrame(loop);
+
+    if (timestamp - lastInferenceMs < INFERENCE_INTERVAL_MS) return;
+    if (inferring) return;
+    if (whackState.videoEl.readyState < 2) return;
+
+    lastInferenceMs = timestamp;
+    inferring = true;
+
+    whackHandModel.estimateHands(whackState.videoEl, { flipHorizontal: true })
+      .then(function(hands) {
+        inferring = false;
+        if (!whackState.active) return;
+
+        if (hands.length === 0) {
+          // 沒手 → 清掉上一幀,重新累計
+          lastTipX = null;
+          lastTipY = null;
+          return;
+        }
+
+        var hand = hands[0];
+        var tip = hand.keypoints[8];  // index_finger_tip(食指尖)
+
+        // 歸一化到 0..1(用 videoWidth / videoHeight)
+        var videoW = whackState.videoEl.videoWidth || 640;
+        var videoH = whackState.videoEl.videoHeight || 480;
+        var tipX = tip.x / videoW;
+        var tipY = tip.y / videoH;
+
+        // 計算速度向量(歸一化 / 秒)
+        var dx = 0, dy = 0, speed = 0;
+        var now = performance.now();
+        if (lastTipX !== null && lastTipY !== null) {
+          var dt = (now - lastTipTime) / 1000;
+          if (dt > 0 && dt < 0.5) {  // ignore stale data
+            dx = (tipX - lastTipX) / dt;  // /sec
+            dy = (tipY - lastTipY) / dt;
+            speed = Math.sqrt(dx*dx + dy*dy);
+          }
+        }
+        lastTipX = tipX;
+        lastTipY = tipY;
+        lastTipTime = now;
+
+        // 打擊判定條件:
+        // (1) 不在全域 cooldown 內
+        // (2) dy > 0(往下移動,Y 軸向下為正)
+        // (3) speed > 閾值(忽略靜止飄移)
+        // (4) 指尖座標落在某個 active 洞口 bbox 內 + 該洞 active 且不在 cell cooldown
+        if (Date.now() < whackState.globalCooldownUntil) return;
+
+        var DOWN_VELOCITY_THRESHOLD = 0.4;  // /sec(歸一化座標 ≈ 螢幕高的 40%/sec)
+        var MIN_SPEED = 0.2;
+        if (dy <= DOWN_VELOCITY_THRESHOLD) return;
+        if (speed < MIN_SPEED) return;
+
+        // 將指尖視口座標(0..1 of video)對應到螢幕座標
+        var videoRect = whackState.videoEl.getBoundingClientRect();
+        // 注意:flipHorizontal:true 給 estimateHands,
+        // 所以 tip.x 已經是 mirror 後的座標(跟使用者看到的對齊)
+        var tipScreenX = videoRect.left + tipX * videoRect.width;
+        var tipScreenY = videoRect.top + tipY * videoRect.height;
+
+        // 找包含指尖的洞
+        for (var i = 0; i < whackState.holes.length; i++) {
+          var hole = whackState.holes[i];
+          if (!hole.active) continue;
+          if (Date.now() < hole.cooldownUntil) continue;
+
+          var rect = hole.el.getBoundingClientRect();
+          // bbox + 10% 緩衝(指尖落在洞外側 10% 也算中,提升手感)
+          var pad = rect.width * 0.10;
+          if (tipScreenX >= rect.left - pad && tipScreenX <= rect.right + pad &&
+              tipScreenY >= rect.top - pad  && tipScreenY <= rect.bottom + pad) {
+            onWhackHit(i);
+            break;
+          }
+        }
+      })
+      .catch(function(err) {
+        inferring = false;
+        console.warn('estimateHands error:', err);
+      });
+  }
+  requestAnimationFrame(loop);
 }
+
 
 // <!-- #END:WHACK-LOGIC -->
 
