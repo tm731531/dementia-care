@@ -10,7 +10,7 @@ usage:
 
 output: [{sys, name, lines, region, district, lat_osm, lng_osm, source:'osm'}, ...]
 """
-import argparse, json, sys, math, urllib.request, urllib.parse
+import argparse, json, re, sys, math, urllib.request, urllib.parse
 from collections import Counter
 
 OVERPASS = 'https://overpass-api.de/api/interpreter'
@@ -314,7 +314,9 @@ def main():
             continue
 
         # 站名可能含「站」字 → strip(避免重複/不一致)
-        name = name.rstrip('站')
+        # 只剝單一「站」字尾,保留「車站」「火車站」等複合詞
+        if name.endswith('站') and not name.endswith('車站'):
+            name = name[:-1]
 
         # 推 sys key:從 operator → network → network:zh
         operator_str = (
