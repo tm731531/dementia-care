@@ -2146,6 +2146,18 @@ function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 
+function onMrtSelect(stationKey) {
+  const s = MRT_STATIONS.find(x => `${x.sys}-${x.name}` === stationKey);
+  if (!s) return;
+  STATE.userProfile.home = s.region;
+  STATE.userProfile.homeDistrict = s.district;
+  STATE.userProfile.homeLat = s.lat;
+  STATE.userProfile.homeLng = s.lng;
+  delete STATE.userProfile.homeIsGps;
+  saveState();
+  renderWizard();
+}
+
 function resetWizard() {
   // 保留 home(地點是 default 設定,改變需要明確點「改地點」)
   const {home, homeDistrict, homeLat, homeLng} = STATE.userProfile;
