@@ -34,7 +34,7 @@ SYS_BBOX = {
     'khh': (22.40, 22.90, 120.20, 120.45),
     'tao': (24.95, 25.10, 121.20, 121.55),
     'tch': (24.05, 24.30, 120.55, 120.75),
-    'ntp': (24.95, 25.30, 121.35, 121.65),
+    'ntp': (24.95, 25.30, 121.35, 121.65),  # 比 spec 寬:含淡海輕軌(北至 lat 25.18)+ 安坑輕軌(lng 121.42)
 }
 
 KHH_LRT_LINES = {'輕軌', 'C輕軌', '環狀輕軌'}
@@ -52,13 +52,14 @@ def in_bbox(sys_key, lat, lng):
 
 
 def geocode_one(page, query, timeout_ms=20000):
+    # /search/ 不是 /place/ — /place/ 對捷運站 query 會回 default pin
     url = f'https://www.google.com.tw/maps/search/{urllib.parse.quote(query)}'
     page.goto(url, wait_until='domcontentloaded', timeout=timeout_ms)
     try:
         page.wait_for_url(COORD_RE, timeout=12000)
     except Exception:
         pass
-    time.sleep(1.5)
+    time.sleep(1.5)  # 給 JS 一點時間穩定
     m = COORD_RE.search(page.url)
     if m:
         return float(m.group(1)), float(m.group(2)), page.url
