@@ -17169,30 +17169,44 @@ function startWhackDiffLoop() {
         var x1 = Math.floor((col + 1) * cellW);
         var y1 = Math.floor((row + 1) * cellH);
 
+        // v7.3:Pass 1 — diff count + 累計當前幀亮度(用來算 mean)
         var changed = 0;
-        var changedSumY = 0;  // v7.2:累積 changed 像素的 Y 座標
+        var sumNow = 0;
         var total = 0;
         for (var y = y0; y < y1; y++) {
           for (var x = x0; x < x1; x++) {
             var p = (y * W + x) * 4;
             var gNow = (frame.data[p] + frame.data[p+1] + frame.data[p+2]) / 3;
             var gPrev = (whackState.prevFrame.data[p] + whackState.prevFrame.data[p+1] + whackState.prevFrame.data[p+2]) / 3;
-            if (Math.abs(gNow - gPrev) > WHACK_TUNING.THRESHOLD_PIXEL) {
-              changed++;
-              changedSumY += y;
-            }
+            sumNow += gNow;
+            if (Math.abs(gNow - gPrev) > WHACK_TUNING.THRESHOLD_PIXEL) changed++;
             total++;
           }
         }
+        var mean = total > 0 ? sumNow / total : 128;
+
+        // v7.3:Pass 2 — 用 |gNow - mean| 當權重算 Y 重心
+        // (此重心 = 對比物體在當前幀的位置,適合追蹤手在 cell 中的位置)
+        var weightedY = 0;
+        var weightSum = 0;
+        for (var y2 = y0; y2 < y1; y2++) {
+          for (var x2 = x0; x2 < x1; x2++) {
+            var p2 = (y2 * W + x2) * 4;
+            var gNow2 = (frame.data[p2] + frame.data[p2+1] + frame.data[p2+2]) / 3;
+            var w = Math.abs(gNow2 - mean);
+            weightedY += w * y2;
+            weightSum += w;
+          }
+        }
+        var centroidY = weightSum > 0 ? weightedY / weightSum : null;
 
         var ratio = total > 0 ? (changed / total) : 0;
-        var centroidY = changed > 0 ? changedSumY / changed : null;
 
-        // v6.2:邊緣 cell(最左/最右)放寬閾值
+        // 邊緣 cell 放寬閾值
         var isEdge = (col === 0 || col === cfg.cols - 1);
         var effectiveRatio = isEdge ? ratio * WHACK_TUNING.EDGE_BOOST : ratio;
 
-        // v7.2:方向偵測 — 明顯上揮(centroidY 大幅變小)不算打擊
+        // v7.3:對比物體 Y 重心 vs 上一幀 → 真正的方向
         var isUpward = false;
         var dy = 0;
         if (centroidY !== null && hole.lastCentroidY !== null) {

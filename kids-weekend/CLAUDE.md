@@ -182,6 +182,28 @@ git push
 | 9 步 expert review | 全跑完(domain 識別 → 名字驗證 → 座標 → GPS 同系統 → UIUX) |
 | Wave 擴點 | 5 wave +44 + 圖書館 wave A→C +33 = **+77 景點** |
 
+## 捷運站搜尋(2026-05-24 新增 v3.9)
+
+| 項目 | 數字 |
+|--|--|
+| 系統 | 5 (台北/高雄含輕軌/桃園/台中/新北環狀+淡海+安坑) |
+| 站數 | **259** (raw OSM 264 → dedupe → 259) |
+| Playwright Google Maps 校正 | 249 (96.1%) |
+| OSM fallback (bbox 內) | 10 — Google 抓錯位置 / default_pin shared / 邊界 station |
+| inline 大小 | +43 KB(index.html 463KB → 614KB,~165 bytes/站) |
+
+關鍵 lesson:**捷運站精準度走 PLACES 同等級**(每站 Playwright geocode + bbox + default-pin reject)。
+- 比區中心精準 ~2 km — Tom 「中山站比 1 個大同區好用很多」是 v3.9 主軸
+- 4 個 source 的 bbox sanity:離島 reject / out-of-bbox reject / default_pin reject / OSM coord fallback (in bbox)
+- 已知限制:`find_nearest_district` centroid-based,個別站(中山站 → 中正區)district 名跟 station 名不對齊,但 lat/lng 是對的(影響顯示 label 不影響景點 filter)
+
+### 踩過的坑(MRT)
+- **`name.rstrip('站')` 砍 車站 compound** — Python `rstrip(char_set)` 對 `台北車站` → 「台北車」(5 站受影響)。改成 `if name.endswith('站') and not name.endswith('車站')`
+- **`/maps/place/` 對 「<捷運> X站」 query 回 default pin [24.9766, 121.4546]** — 改 `/maps/search/` 才正確 redirect 到 `@lat,lng`
+- **out_of_bbox 不 trigger LRT fallback** — fallback 只在 `no_geocode` 觸發,Google 給的座標雖落在雲林但通過 redirect,不算 no_geocode。後備:OSM coord fallback 救回 5 高雄輕軌站
+- **bbox 過緊 reject 邊界 station** — 安坑輕軌 lat 24.946-24.954,原 ntp bbox 下界 24.95 reject 兩站。寬鬆到 24.92。tpe 西界 121.40 → 121.35 含 淡水竹圍
+- **真實 interchange 共享座標被誤判 default_pin** — 景安(tpe + ntp) / 紅樹林(tpe + 淡水) 兩站本來就在同地點。後處理用 OSM coord 救回
+
 ## 圖書館擴點(2026-04-30 完成 Wave A→C)
 
 | Wave | 內容 | 數量 | source |
