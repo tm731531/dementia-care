@@ -16458,6 +16458,11 @@ function loadWhackHandModel() {
   if (whackHandModel) return Promise.resolve(whackHandModel);
   if (whackHandModelLoading) return whackHandModelLoading;
 
+  // v8.1:WebGL 不支援或 script 沒載入 → 立即 reject(會 fallback 到 tap)
+  if (typeof tf === 'undefined' || typeof handPoseDetection === 'undefined') {
+    return Promise.reject(new Error('TFJS_NOT_LOADED'));
+  }
+
   var loadingText = document.getElementById('whack-loading-text');
   var progressText = document.getElementById('whack-loading-progress');
   var isEn = (APP.language === 'en');
@@ -16469,15 +16474,23 @@ function loadWhackHandModel() {
     try {
       setText(isEn ? 'Loading TF.js…' : '載入 TF.js…');
       setProgress(isEn ? '20%' : '進度 20%');
+
+      // v8.1:30s timeout 守門(網路爛 / 裝置死避免無限等)
+      var TIMEOUT_MS = 30000;
+      var timeoutPromise = new Promise(function(_, reject) {
+        setTimeout(function() { reject(new Error('LOAD_TIMEOUT')); }, TIMEOUT_MS);
+      });
+      function withTimeout(p) { return Promise.race([p, timeoutPromise]); }
+
       // 等 tfjs ready(WebGL backend init 等)
-      await tf.ready();
+      await withTimeout(tf.ready());
       // 強制 webgl backend(行動裝置最快)
-      try { await tf.setBackend('webgl'); } catch (e) { /* fallback ok */ }
+      try { await withTimeout(tf.setBackend('webgl')); } catch (e) { /* fallback ok */ }
 
       setText(isEn ? 'Loading hand model…' : '載入手部模型…');
       setProgress(isEn ? '50%' : '進度 50%');
 
-      var detector = await handPoseDetection.createDetector(
+      var detector = await withTimeout(handPoseDetection.createDetector(
         handPoseDetection.SupportedModels.MediaPipeHands,
         {
           runtime: 'tfjs',
@@ -16486,7 +16499,7 @@ function loadWhackHandModel() {
           detectorModelUrl: 'vendor/models/detector-lite/model.json',
           landmarkModelUrl: 'vendor/models/landmark-lite/model.json'
         }
-      );
+      ));
 
       setText(isEn ? 'Warming up…' : '暖機中…');
       setProgress(isEn ? '90%' : '進度 90%');
@@ -16495,7 +16508,7 @@ function loadWhackHandModel() {
       var dummyCanvas = document.createElement('canvas');
       dummyCanvas.width = 192;
       dummyCanvas.height = 192;
-      await detector.estimateHands(dummyCanvas);
+      await withTimeout(detector.estimateHands(dummyCanvas));
 
       setText(isEn ? 'Ready!' : '準備好!');
       setProgress(isEn ? '100%' : '進度 100%');
@@ -17235,9 +17248,20 @@ function startWhackMotion() {
 
     document.getElementById('whack-live').style.display = 'flex';
 
+    // v8.1:safety timeout — 若 onloadedmetadata 一直不觸發(罕見 browser bug),
+    //                       10 秒後強制 fallback,避免使用者卡在 loading 畫面
+    var metaTimer = setTimeout(function() {
+      console.warn('video.onloadedmetadata never fired in 10s, falling back to tap');
+      document.getElementById('whack-loading').style.display = 'none';
+      APP.whackMode = 'tap';
+      whackState.mode = 'tap';
+      saveState();
+      startWhackPlay();
+    }, 10000);
+
     video.onloadedmetadata = function() {
+      clearTimeout(metaTimer);  // 正常 fire 後取消 safety timeout
       video.play().then(function() {
-        // 關 loading,進遊戲
         document.getElementById('whack-loading').style.display = 'none';
         startWhackPlay();
         startWhackHandLoop();  // task 5 實作的新 loop
@@ -17256,6 +17280,10 @@ function startWhackMotion() {
     var msg;
     if (err && err.name && err.name.indexOf('Permission') === 0) {
       msg = isEn ? 'Camera denied — tap to play instead?' : '相機被拒絕,改用手指點?';
+    } else if (err && err.message === 'LOAD_TIMEOUT') {
+      msg = isEn ? 'Hand detection load timeout — tap to play?' : '手部偵測載入太久,改用手指點?';
+    } else if (err && err.message === 'TFJS_NOT_LOADED') {
+      msg = isEn ? 'Hand detection unavailable — tap to play?' : '手部偵測無法使用,改用手指點?';
     } else {
       msg = isEn ? 'Hand detection failed to load — tap to play?' : '手部偵測載入失敗,改用手指點?';
     }
