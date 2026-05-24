@@ -208,3 +208,32 @@ v7.3 不是最先進的,但是**用最少 code 達到「上下方向能分」的
 
 - v7.2 (失敗):`57614a9 feat(kids-companion): 體感 v7.2 — 揮手方向偵測,只往下算打擊`
 - v7.3 (修正):`6ca5902 fix(kids-companion): 體感 v7.3 — 改用對比物體 Y 重心追方向(diff centroid 沒方向性)`
+
+---
+
+## 2026-05-25 補充:v7.x 全部廢棄,改 v8 用 TF.js Hand Pose
+
+5 輪迭代後(v7.2-v7.6)決定全部廢棄純 JS pixel-diff 路線。
+Web search 後確認業界沒人用「pixel-diff + 方向」這組合成功過,
+全部用 MediaPipe / PoseNet。
+
+v8 改用 self-host TF.js Hand Pose Detection(@4.22.0 + hand-pose-detection@2.0.1):
+- vendor/ ≈ 5.4 MB(GitHub Pages 同源,符合 0 CDN 精神)
+- 食指尖(landmark 8)座標 + dy 速度向量
+- 15 FPS inference cap(行動裝置友善)
+- 完整 fallback:TFJS_NOT_LOADED / LOAD_TIMEOUT / video.onloadedmetadata 卡死,都退 tap
+
+實作 plan:`docs/superpowers/plans/2026-05-25-whack-handpose.md`
+研究:`docs/superpowers/specs/2026-05-24-whack-detection-research.md`
+
+### 關鍵教訓
+- 演算法迭代陷阱:同一條路死磕到底,業界資料早能告訴你「沒人這樣做成功」
+- Tom 連續抱怨「不靈敏 / 太敏感 / 上揮也算」是 signal,不是噪音 — 該換路線而非繼續調參
+- ML model self-host(同域名 vendor/)≠ 第三方 CDN(不洩漏 IP 給 Google)
+
+### Tuning constants(WHACK_TUNING)
+
+可 console 即時調:
+- `DOWN_VELOCITY_THRESHOLD: 0.4` — 向下速度閾值(歸一化/秒)
+- `MIN_SPEED: 0.2` — 速度向量總長最小值
+- `HIT_BBOX_PAD_RATIO: 0.18` — 洞口 hit zone 外延比例
