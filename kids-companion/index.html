@@ -2655,7 +2655,9 @@ body {
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
   width: 100%; height: 100%;
-  object-fit: cover;
+  /* contain 而非 cover:讓螢幕看到的相機區域 = canvas 跑 pixel-diff 的區域,
+     不然平板直立/手機 cover 會裁掉左右,leftmost cell 對應不到使用者揮手的位置 */
+  object-fit: contain;
   opacity: 0.35;
   transform: scaleX(-1);  /* 鏡像翻轉,動左手螢幕左邊動 */
   z-index: 0;
