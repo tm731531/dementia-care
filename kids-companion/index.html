@@ -16433,14 +16433,16 @@ function pickWhackSpawnCount(ageGroup, progress) {
 
 // pixel-diff 調參(體感模式)
 var WHACK_TUNING = {
-  THRESHOLD_PIXEL: 12,    // 灰階差 > 12 算 changed
-  THRESHOLD_CELL: 0.03,   // cell 內 > 3% pixels changed 算動了
-  EDGE_BOOST: 1.4,        // 邊緣 cell(col 0 / col cols-1)ratio 乘 1.4 後再比
-  Y_DELTA_THRESHOLD: 6,   // v7.2:centroidY 對比上一幀變化 ≥ 6 px 才算「明顯方向」
+  THRESHOLD_PIXEL: 12,
+  THRESHOLD_CELL: 0.03,
+  EDGE_BOOST: 1.4,
+  Y_DELTA_THRESHOLD: 6,        // centroidY 變化 ≥ 6 px 才算明顯方向
+  AVG_DEV_THRESHOLD: 12,       // v7.4:cell 內平均對比偏離 > 12 才算「有清楚物體」(手)
+                               //       兩幀都要有 hasObject 才信任方向 dy(避免進場第一幀誤判)
   COOLDOWN_MS: 600,
   CANVAS_W: 160,
   CANVAS_H: 120,
-  DEBUG_OVERLAY: false    // 開啟後每洞顯示即時 diff%; console 打 WHACK_TUNING.DEBUG_OVERLAY=true 即可
+  DEBUG_OVERLAY: false
 };
 
 // 出現間隔(2026-05-24 三調:固定 5 洞後,速度差異拉開到年齡組)
@@ -16760,7 +16762,8 @@ function renderWhackGrid() {
       spawnedAt: 0,
       timeoutTimer: null,
       cooldownUntil: 0,
-      lastCentroidY: null   // v7.2:上一幀 changed pixel Y 重心,用來偵測方向
+      lastCentroidY: null,   // v7.3:上一幀對比物體 Y 重心
+      lastWeightSum: 0       // v7.4:上一幀總對比量(用來判定「上一幀有沒有清楚物體」)
     });
   }
 }
@@ -16871,7 +16874,8 @@ function showMole(idx) {
   var hole = whackState.holes[idx];
   hole.active = true;
   hole.spawnedAt = Date.now();
-  hole.lastCentroidY = null;  // v7.2:新地鼠 → 重置方向追蹤
+  hole.lastCentroidY = null;  // 新地鼠 → 重置方向追蹤
+  hole.lastWeightSum = 0;     // v7.4:也重置「上幀有無物體」狀態
   hole.el.classList.remove('hit', 'timeout', 'golden', 'bee', 'boss');
   hole.el.classList.add('active');
 
@@ -17202,16 +17206,23 @@ function startWhackDiffLoop() {
 
         var ratio = total > 0 ? (changed / total) : 0;
 
+        // v7.4:雙幀都要有清楚物體(手)才算「方向 dy 可信」
+        // 平均偏離 avgDev = weightSum / total,> 12 表示 cell 內有顯眼物體
+        var avgDev = total > 0 ? weightSum / total : 0;
+        var hasObject = avgDev > WHACK_TUNING.AVG_DEV_THRESHOLD;
+        var hadObjectLast = (hole.lastWeightSum / Math.max(total, 1)) > WHACK_TUNING.AVG_DEV_THRESHOLD;
+
         // 邊緣 cell 放寬閾值
         var isEdge = (col === 0 || col === cfg.cols - 1);
         var effectiveRatio = isEdge ? ratio * WHACK_TUNING.EDGE_BOOST : ratio;
 
-        // v7.3:對比物體 Y 重心 vs 上一幀 → 真正的方向
-        var isUpward = false;
+        // v7.4:嚴格只認下行(原本是「不是上行就 OK」太寬鬆,首幀進場 cell 雜訊跳變誤判)
+        var isDownward = false;
         var dy = 0;
-        if (centroidY !== null && hole.lastCentroidY !== null) {
+        var hasValidDirection = hasObject && hadObjectLast && centroidY !== null && hole.lastCentroidY !== null;
+        if (hasValidDirection) {
           dy = centroidY - hole.lastCentroidY;
-          isUpward = dy <= -WHACK_TUNING.Y_DELTA_THRESHOLD;
+          isDownward = dy >= WHACK_TUNING.Y_DELTA_THRESHOLD;
         }
 
         // debug overlay
@@ -17222,25 +17233,26 @@ function startWhackDiffLoop() {
             dbg.className = 'whack-debug-diff';
             hole.el.appendChild(dbg);
           }
-          var arrow = '·';
-          if (centroidY !== null && hole.lastCentroidY !== null) {
-            if (dy >= WHACK_TUNING.Y_DELTA_THRESHOLD) arrow = '↓';
-            else if (dy <= -WHACK_TUNING.Y_DELTA_THRESHOLD) arrow = '↑';
-          }
-          dbg.textContent = (ratio * 100).toFixed(1) + '%' + arrow + (isEdge ? '×' : '');
+          var arrow;
+          if (!hasValidDirection) {
+            arrow = hasObject ? '?' : '·';   // ? = 物體剛進場 / · = 沒物體
+          } else if (dy >= WHACK_TUNING.Y_DELTA_THRESHOLD) arrow = '↓';
+          else if (dy <= -WHACK_TUNING.Y_DELTA_THRESHOLD) arrow = '↑';
+          else arrow = '=';                  // = = 有物體但沒明顯移動
+          dbg.textContent = (ratio * 100).toFixed(0) + '%' + arrow + (isEdge ? '×' : '');
         } else {
           var existing = hole.el.querySelector('.whack-debug-diff');
           if (existing) existing.parentNode.removeChild(existing);
         }
 
-        if (canHit && effectiveRatio > WHACK_TUNING.THRESHOLD_CELL && !isUpward) {
+        // v7.4:必須明確下行(isDownward = true)才觸發,否則一律不算
+        if (canHit && effectiveRatio > WHACK_TUNING.THRESHOLD_CELL && isDownward) {
           onWhackHit(i);
         }
 
-        // v7.2:更新 centroidY 給下一幀比;沒動的幀保留舊值
-        if (centroidY !== null) {
-          hole.lastCentroidY = centroidY;
-        }
+        // 更新追蹤狀態
+        if (centroidY !== null) hole.lastCentroidY = centroidY;
+        hole.lastWeightSum = weightSum;
       }
     }
 
