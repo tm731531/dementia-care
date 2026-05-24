@@ -2112,6 +2112,40 @@ function onHomeDistrictChange() {
   renderWizard();
 }
 
+// ============ MRT 搜尋 ============
+function onMrtSearch(e) {
+  const q = (e.target.value || '').trim();
+  const box = document.getElementById('mrt-results');
+  if (!q) { box.innerHTML = ''; return; }
+  const matches = MRT_STATIONS.filter(s =>
+    s.name.includes(q) || s.lines.some(l => l.includes(q))
+  );
+  matches.sort((a, b) => {
+    const ax = a.name === q ? 0 : 1;
+    const bx = b.name === q ? 0 : 1;
+    if (ax !== bx) return ax - bx;
+    return a.region.localeCompare(b.region);
+  });
+  const top = matches.slice(0, 8);
+  if (top.length === 0) {
+    box.innerHTML = `<div style="padding:10px;color:var(--muted);font-size:14px;">沒找到「${escapeHtml(q)}」的捷運站</div>`;
+    return;
+  }
+  const more = matches.length > 8 ? `<div style="padding:6px 10px;color:var(--muted);font-size:12px;">還有 ${matches.length - 8} 筆,請打更精確</div>` : '';
+  box.innerHTML = top.map(s => {
+    const sysLabel = MRT_SYS_LABEL[s.sys] || s.sys;
+    const linesStr = s.lines.join('/');
+    const key = `${s.sys}-${s.name}`;
+    return `<div onclick="onMrtSelect('${key}')" style="padding:10px;border-top:1px solid var(--border);cursor:pointer;font-size:15px;" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background=''">
+      <strong>${escapeHtml(s.name)}</strong> · <span style="color:var(--muted);">${escapeHtml(sysLabel)} ${escapeHtml(linesStr)}</span>
+    </div>`;
+  }).join('') + more;
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
 function resetWizard() {
   // 保留 home(地點是 default 設定,改變需要明確點「改地點」)
   const {home, homeDistrict, homeLat, homeLng} = STATE.userProfile;
