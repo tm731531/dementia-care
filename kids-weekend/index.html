@@ -2007,18 +2007,29 @@ function renderWizardQ(step) {
         <p style="font-size:13px;color:var(--muted);margin:8px 0 0;text-align:center;">第一次需允許瀏覽器定位權限</p>
       </div>
       <div style="text-align:center;color:var(--muted);font-size:13px;margin:8px 0;">— 或手動選 —</div>
-      <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:14px;">
-        <label style="display:block;margin-bottom:6px;font-weight:600;">縣市</label>
-        <select id="home-county" onchange="onHomeCountyChange()" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:6px;font-size:15px;margin-bottom:14px;">
-          <option value="">-- 選縣市 --</option>
-          ${countyOpts}
-        </select>
-        <label style="display:block;margin-bottom:6px;font-weight:600;">鄉鎮市區</label>
-        <select id="home-district" onchange="onHomeDistrictChange()" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:6px;font-size:15px;" disabled>
-          <option value="">-- 先選縣市 --</option>
-        </select>
-        <p style="font-size:13px;color:var(--muted);margin:10px 0 0;">用區中心當粗估(誤差 ±2 km)。GPS 比較準。</p>
+      <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px;">
+        <label style="display:block;margin-bottom:6px;font-weight:600;">🚇 找捷運站</label>
+        <input type="search" id="mrt-search" oninput="onMrtSearch(event)" autocomplete="off"
+               placeholder="輸入站名 (中山/板橋/左營/桃機...)"
+               style="width:100%;padding:10px;border:1px solid var(--border);border-radius:6px;font-size:15px;" />
+        <div id="mrt-results" style="margin-top:6px;"></div>
+        <p style="font-size:13px;color:var(--muted);margin:10px 0 0;">用站體位置當粗估(精準 ~100m,比區中心精準很多)</p>
       </div>
+      <details style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:0;margin-bottom:0;">
+        <summary style="cursor:pointer;padding:12px 14px;font-size:14px;color:var(--muted);">🏙️ 沒有捷運?點這選縣市/區</summary>
+        <div style="padding:0 14px 14px;">
+          <label style="display:block;margin-bottom:6px;font-weight:600;">縣市</label>
+          <select id="home-county" onchange="onHomeCountyChange()" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:6px;font-size:15px;margin-bottom:14px;">
+            <option value="">-- 選縣市 --</option>
+            ${countyOpts}
+          </select>
+          <label style="display:block;margin-bottom:6px;font-weight:600;">鄉鎮市區</label>
+          <select id="home-district" onchange="onHomeDistrictChange()" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:6px;font-size:15px;" disabled>
+            <option value="">-- 先選縣市 --</option>
+          </select>
+          <p style="font-size:13px;color:var(--muted);margin:10px 0 0;">用區中心當粗估(誤差 ±2 km)</p>
+        </div>
+      </details>
     </div>`;
   }
   return '';
