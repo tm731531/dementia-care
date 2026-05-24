@@ -2802,7 +2802,7 @@ body {
   aspect-ratio: 1 / 1;
   background: radial-gradient(ellipse at 50% 70%, #4a3520 30%, #2a1d10 60%, transparent 80%);
   border-radius: 50%;
-  overflow: hidden;
+  overflow: visible;  /* 改 visible 讓 dust 💨 + 浮字 +1 飛得出洞口 */
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -2853,6 +2853,81 @@ body {
 @keyframes whackDust {
   0% { opacity: 1; transform: translate(-50%, -50%) scale(0.5); }
   100% { opacity: 0; transform: translate(-50%, -150%) scale(1.5); }
+}
+
+/* === v4 街機進化:特殊地鼠 / 浮字 / boss / 震屏 / combo 橫幅 === */
+
+/* 金色地鼠:亮光 + 微脹 */
+.whack-hole.golden .mole {
+  filter: drop-shadow(0 0 6px #ffd700) drop-shadow(0 0 14px rgba(255,215,0,0.7));
+  animation: whackGoldenPulse 0.7s ease-in-out infinite alternate, whackMoleIdle 0.6s ease-in-out infinite alternate;
+}
+@keyframes whackGoldenPulse {
+  from { transform: scale(1); }
+  to   { transform: scale(1.15); }
+}
+
+/* Boss:更大隻 + 更亮 */
+.whack-hole.boss .mole {
+  font-size: clamp(64px, 16vw, 128px);
+  filter: drop-shadow(0 0 10px #ffd700) drop-shadow(0 0 24px rgba(255,215,0,0.9));
+}
+
+/* 蜜蜂(不該打):紅光警示 */
+.whack-hole.bee .mole {
+  filter: drop-shadow(0 0 5px #ff5544) drop-shadow(0 0 10px rgba(255,85,68,0.6));
+}
+
+/* 計分浮字 +1 / +3 / -1 */
+.whack-popup {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 32px;
+  font-weight: bold;
+  pointer-events: none;
+  user-select: none;
+  z-index: 6;
+  animation: whackPopup 0.8s ease-out forwards;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.25);
+}
+.whack-popup.plus-1  { color: #E8724A; }
+.whack-popup.plus-3  { color: #ffb800; font-size: 40px; text-shadow: 0 0 10px rgba(255,215,0,0.7); }
+.whack-popup.minus-1 { color: #d32f2f; }
+@keyframes whackPopup {
+  0%   { opacity: 0; transform: translate(-50%, -50%)  scale(0.5); }
+  20%  { opacity: 1; transform: translate(-50%, -90%)  scale(1.2); }
+  100% { opacity: 0; transform: translate(-50%, -200%) scale(1.0); }
+}
+
+/* 蜜蜂打到震屏 */
+.whack-game-area.shake {
+  animation: whackShake 0.4s ease-in-out;
+}
+@keyframes whackShake {
+  0%,100%   { transform: translateX(0); }
+  20%, 60%  { transform: translateX(-8px); }
+  40%, 80%  { transform: translateX(8px); }
+}
+
+/* Combo 橫幅 (middle/large only) */
+.whack-combo-banner {
+  position: absolute;
+  top: 40%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(36px, 8vw, 64px);
+  font-weight: bold;
+  color: #E8724A;
+  text-shadow: 0 4px 12px rgba(0,0,0,0.3), 0 0 20px rgba(232,114,74,0.5);
+  pointer-events: none;
+  user-select: none;
+  z-index: 15;
+  animation: whackComboFlash 0.8s ease-out forwards;
+}
+@keyframes whackComboFlash {
+  0%   { opacity: 0; transform: translate(-50%, -50%)  scale(0.5); }
+  30%  { opacity: 1; transform: translate(-50%, -50%)  scale(1.2); }
+  100% { opacity: 0; transform: translate(-50%, -100%) scale(1.0); }
 }
 
 /* <!-- #END:WHACK-STYLES --> */
@@ -16328,13 +16403,103 @@ var WHACK_MOLE_EMOJIS = ['🐹', '🐹', '🐹', '🐰', '🐭', '🦫', '🐿�
 //                       ^^^^^^^^^^^ 🐹 多放幾次提高出現率(主角)
 // 🐻 / 🦊 是稀有大隻,看到會驚喜
 
+// 地鼠類型出現機率(by age)— 2026-05-24 v4 街機進化
+// 普通 = 剩下機率 / 金色 = 高分 / 蜜蜂 = 不該打,扣分
+var WHACK_MOLE_TYPE_PROB = {
+  toddler: { golden: 0.10, bee: 0 },     // 1-2 歲不挫敗
+  small:   { golden: 0.12, bee: 0 },     // 3-4 歲也不扣分
+  middle:  { golden: 0.12, bee: 0.10 },  // 4-5 開始要分辨
+  large:   { golden: 0.12, bee: 0.15 }   // 5-6 蜜蜂多一點增加挑戰
+};
+
+// 計分:普通+1,金色+3,蜜蜂-1
+var WHACK_SCORE = { normal: 1, golden: 3, bee: -1 };
+
+// === Web Audio:純 generate 出聲,無外部音檔 ===
+var whackAudioCtx = null;
+function getWhackAudioCtx() {
+  if (!whackAudioCtx) {
+    try {
+      whackAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    } catch (e) { return null; }
+  }
+  return whackAudioCtx;
+}
+function whackTone(freq, durationMs, waveType) {
+  if (!APP.soundEnabled) return;
+  var ctx = getWhackAudioCtx();
+  if (!ctx) return;
+  try {
+    var osc = ctx.createOscillator();
+    var gain = ctx.createGain();
+    osc.type = waveType || 'sine';
+    osc.frequency.value = freq;
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    var dur = durationMs / 1000;
+    gain.gain.setValueAtTime(0.18, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + dur);
+    osc.start();
+    osc.stop(ctx.currentTime + dur);
+  } catch (e) { /* swallow */ }
+}
+function playWhackSound(kind) {
+  if (!APP.soundEnabled) return;
+  if (kind === 'hit') {
+    whackTone(360, 80, 'square');
+  } else if (kind === 'golden') {
+    whackTone(600, 90, 'sine');
+    setTimeout(function() { whackTone(900, 90, 'sine'); }, 60);
+  } else if (kind === 'miss') {
+    whackTone(180, 220, 'sawtooth');
+  } else if (kind === 'complete') {
+    [400, 600, 800].forEach(function(f, i) {
+      setTimeout(function() { whackTone(f, 130, 'sine'); }, i * 90);
+    });
+  }
+}
+
+// === 視覺特效 helpers ===
+function showWhackScorePopup(holeEl, text, cls) {
+  var popup = document.createElement('span');
+  popup.className = 'whack-popup ' + cls;
+  popup.textContent = text;
+  holeEl.appendChild(popup);
+  setTimeout(function() {
+    if (popup.parentNode) popup.parentNode.removeChild(popup);
+  }, 850);
+}
+function shakeWhackScreen() {
+  var area = document.getElementById('whack-game-area');
+  if (!area) return;
+  area.classList.remove('shake');
+  void area.offsetWidth;  // force reflow restart animation
+  area.classList.add('shake');
+  setTimeout(function() { area.classList.remove('shake'); }, 450);
+}
+function showWhackComboBanner(n) {
+  var area = document.getElementById('whack-game-area');
+  if (!area) return;
+  var banner = document.createElement('div');
+  banner.className = 'whack-combo-banner';
+  var isEn = (APP.language === 'en');
+  banner.textContent = (isEn ? 'Combo x' : '連擊 x') + n + '!';
+  area.appendChild(banner);
+  setTimeout(function() {
+    if (banner.parentNode) banner.parentNode.removeChild(banner);
+  }, 850);
+}
+
 // Game state(non-persisted,只跟單局)
 var whackState = {
   active: false,
   mode: null,          // 'tap' | 'motion'
   cfg: null,           // 當前 ageGroup 對應 config
   hits: 0,
-  holes: [],           // [{el, active, moleEl, spawnedAt, cooldownUntil}]
+  combo: 0,            // v4:連擊數,bee 打到歸 0
+  bossPending: false,  // v4:hits === target-1 時下一隻變 boss
+  bossSpawned: false,  // v4:每局只觸發一次 boss
+  holes: [],           // [{el, active, moleEl, moleType, spawnedAt, cooldownUntil, timeoutTimer}]
   spawnTimer: null,
   videoStream: null,
   videoEl: null,
@@ -16351,6 +16516,9 @@ function startWhackGame() {
   whackState.hits = 0;
   whackState.active = false;
   whackState.lastSpawnedIdx = -1;
+  whackState.combo = 0;
+  whackState.bossPending = false;
+  whackState.bossSpawned = false;
 
   // 顯示 modal,隱藏遊戲區/HUD/LIVE/慶祝畫面
   document.getElementById('whack-modal').style.display = 'flex';
@@ -16473,11 +16641,17 @@ function spawnMole() {
 
   // 算當前活著的數量,以及該 age 同時上限
   var activeCount = whackState.holes.filter(function(h) { return h.active; }).length;
-  var probs = WHACK_MULTI_PROB[APP.ageGroup] || WHACK_MULTI_PROB.small;
   var spawnCount = 1;
-  var r = Math.random();
-  if (r < probs.three) spawnCount = 3;
-  else if (r < probs.three + probs.two) spawnCount = 2;
+
+  // v4 Boss override:hits === target-1 時下一隻單獨變 boss(不 multi)
+  if (whackState.bossPending) {
+    spawnCount = 1;
+  } else {
+    var probs = WHACK_MULTI_PROB[APP.ageGroup] || WHACK_MULTI_PROB.small;
+    var r = Math.random();
+    if (r < probs.three) spawnCount = 3;
+    else if (r < probs.three + probs.two) spawnCount = 2;
+  }
 
   // 上限約束
   spawnCount = Math.min(spawnCount, whackState.cfg.maxSimultaneous - activeCount);
@@ -16514,22 +16688,47 @@ function showMole(idx) {
   var hole = whackState.holes[idx];
   hole.active = true;
   hole.spawnedAt = Date.now();
-  hole.el.classList.remove('hit', 'timeout');
+  hole.el.classList.remove('hit', 'timeout', 'golden', 'bee', 'boss');
   hole.el.classList.add('active');
 
-  // 每次冒出隨機選一隻造型
-  if (hole.moleEl) {
+  // v4 決定地鼠類型
+  var type = 'normal';
+  var isBoss = false;
+  if (whackState.bossPending) {
+    type = 'golden';
+    isBoss = true;
+    whackState.bossPending = false;
+  } else {
+    var probs = WHACK_MOLE_TYPE_PROB[APP.ageGroup] || WHACK_MOLE_TYPE_PROB.small;
+    var r = Math.random();
+    if (r < probs.bee) type = 'bee';
+    else if (r < probs.bee + probs.golden) type = 'golden';
+  }
+  hole.moleType = type;
+
+  // 套樣式 + 選 emoji
+  if (type === 'golden') {
+    hole.el.classList.add('golden');
+    if (isBoss) hole.el.classList.add('boss');
+    hole.moleEl.textContent = WHACK_MOLE_EMOJIS[Math.floor(Math.random() * WHACK_MOLE_EMOJIS.length)];
+  } else if (type === 'bee') {
+    hole.el.classList.add('bee');
+    hole.moleEl.textContent = '🐝';
+  } else {
     hole.moleEl.textContent = WHACK_MOLE_EMOJIS[Math.floor(Math.random() * WHACK_MOLE_EMOJIS.length)];
   }
+
+  // Boss 停 2 倍時間,給玩家爽感
+  var stayMs = isBoss ? whackState.cfg.moleStayMs * 2 : whackState.cfg.moleStayMs;
 
   // 超時自動縮回(沒被打中)
   hole.timeoutTimer = setTimeout(function() {
     if (!hole.active) return;
     hole.active = false;
-    hole.el.classList.remove('active');
+    hole.el.classList.remove('active', 'golden', 'bee', 'boss');
     hole.el.classList.add('timeout');
     setTimeout(function() { hole.el.classList.remove('timeout'); }, 400);
-  }, whackState.cfg.moleStayMs);
+  }, stayMs);
 }
 
 function onWhackHit(idx) {
@@ -16541,21 +16740,50 @@ function onWhackHit(idx) {
   hole.active = false;
   clearTimeout(hole.timeoutTimer);
   hole.cooldownUntil = Date.now() + WHACK_TUNING.COOLDOWN_MS;
-  hole.el.classList.remove('active');
+  hole.el.classList.remove('active', 'golden', 'bee', 'boss');
   hole.el.classList.add('hit');
 
-  // 塵土特效
-  var dust = document.createElement('span');
-  dust.className = 'whack-dust';
-  dust.textContent = '💨';
-  hole.el.appendChild(dust);
-  setTimeout(function() {
-    if (dust.parentNode) dust.parentNode.removeChild(dust);
-    hole.el.classList.remove('hit');
-  }, 400);
+  var type = hole.moleType || 'normal';
+  var score = WHACK_SCORE[type] || 1;
 
-  whackState.hits++;
+  if (type === 'bee') {
+    // 蜜蜂打中 = miss feedback
+    showWhackScorePopup(hole.el, '-1', 'minus-1');
+    shakeWhackScreen();
+    playWhackSound('miss');
+    whackState.combo = 0;
+    whackState.hits = Math.max(0, whackState.hits + score);  // score = -1, clamp 0
+  } else {
+    // 普通 / 金色:塵土 + 浮字 + 音效 + combo
+    var dust = document.createElement('span');
+    dust.className = 'whack-dust';
+    dust.textContent = '💨';
+    hole.el.appendChild(dust);
+    setTimeout(function() {
+      if (dust.parentNode) dust.parentNode.removeChild(dust);
+    }, 400);
+
+    showWhackScorePopup(hole.el, '+' + score, type === 'golden' ? 'plus-3' : 'plus-1');
+    playWhackSound(type === 'golden' ? 'golden' : 'hit');
+    whackState.hits += score;
+    whackState.combo = (whackState.combo || 0) + 1;
+
+    // Combo 橫幅(中/大班 only,3/5/8 連擊閃一下)
+    if ((APP.ageGroup === 'middle' || APP.ageGroup === 'large') &&
+        (whackState.combo === 3 || whackState.combo === 5 || whackState.combo === 8)) {
+      showWhackComboBanner(whackState.combo);
+    }
+  }
+
+  setTimeout(function() { hole.el.classList.remove('hit'); }, 400);
+
   updateWhackHud();
+
+  // Boss-pending:達標前最後一隻特別處理
+  if (whackState.hits === whackState.cfg.target - 1 && !whackState.bossSpawned) {
+    whackState.bossPending = true;
+    whackState.bossSpawned = true;
+  }
 
   if (whackState.hits >= whackState.cfg.target) {
     finishWhack();
@@ -16594,6 +16822,9 @@ function finishWhack() {
   // 接 app 既有獎勵系統
   completeActivity('page-whack-mole');
 
+  // v4 完成音效:三音上升
+  playWhackSound('complete');
+
   // Web Speech 朗讀(沿用既有 speak)
   if (typeof speak === 'function') {
     speak(isEn ? ('Awesome! You got ' + target + '!') : ('太厲害!打到了 ' + target + '隻!'));
@@ -16628,6 +16859,16 @@ function stopWhackGame() {
   }
   document.getElementById('whack-live').style.display = 'none';
   whackState.prevFrame = null;
+
+  // v4:清掉所有殘存的浮字 / combo banner / shake class
+  var area = document.getElementById('whack-game-area');
+  if (area) {
+    area.classList.remove('shake');
+    var leftovers = area.querySelectorAll('.whack-popup, .whack-combo-banner, .whack-dust');
+    for (var i = 0; i < leftovers.length; i++) {
+      if (leftovers[i].parentNode) leftovers[i].parentNode.removeChild(leftovers[i]);
+    }
+  }
 }
 
 function startWhackMotion() {
