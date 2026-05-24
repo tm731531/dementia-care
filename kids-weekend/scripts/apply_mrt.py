@@ -9,7 +9,7 @@ PATH = '/home/tom/Desktop/dementia-care/kids-weekend/index.html'
 SRC = '/tmp/mrt_stations_geocoded.json'
 
 SYS_LABEL = {
-    'tpe': '台北捷運', 'khh': '高雄捷運', 'khh-lrt': '高雄輕軌',
+    'tpe': '台北捷運', 'khh': '高雄捷運',
     'tao': '桃園捷運', 'tch': '台中捷運', 'ntp': '新北捷運',
 }
 
@@ -29,11 +29,8 @@ def main():
     data = [d for d in json.load(open(SRC)) if d.get('lat')]
     print(f"Applying {len(data)} stations")
 
-    def fmt_key(k):
-        return f"'{k}'" if '-' in k else k
-
     sys_label_js = 'const MRT_SYS_LABEL = {' + \
-        ','.join(f"{fmt_key(k)}:'{v}'" for k, v in SYS_LABEL.items()) + '};'
+        ','.join(f"{k}:'{v}'" for k, v in SYS_LABEL.items()) + '};'
     stations_js = 'const MRT_STATIONS = [\n  ' + \
         ',\n  '.join(fmt_station(s) for s in data) + '\n];'
 
