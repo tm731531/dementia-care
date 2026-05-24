@@ -16563,7 +16563,11 @@ var WHACK_TUNING = {
   GLOBAL_LIFT_COOLDOWN_MS: 300,      // v7.6:打中後所有格鎖 300ms,給手抽回的時間
   CANVAS_W: 160,
   CANVAS_H: 120,
-  DEBUG_OVERLAY: false
+  DEBUG_OVERLAY: false,
+  // v8 hand pose tuning
+  DOWN_VELOCITY_THRESHOLD: 0.4,  // 食指尖向下速度 > 此值才算打擊 (歸一化/秒)
+  MIN_SPEED: 0.2,                // 速度向量總長 > 此值才算有效動作
+  HIT_BBOX_PAD_RATIO: 0.18       // 洞口 bbox 外延 18% 當有效擊中區
 };
 
 // 出現間隔(2026-05-24 三調:固定 5 洞後,速度差異拉開到年齡組)
@@ -17299,6 +17303,7 @@ function startWhackHandLoop() {
           // 沒手 → 清掉上一幀,重新累計
           lastTipX = null;
           lastTipY = null;
+          lastTipTime = 0;  // 重置時間,避免下次手出現時 dt 暴衝
           return;
         }
 
@@ -17333,17 +17338,32 @@ function startWhackHandLoop() {
         // (4) 指尖座標落在某個 active 洞口 bbox 內 + 該洞 active 且不在 cell cooldown
         if (Date.now() < whackState.globalCooldownUntil) return;
 
-        var DOWN_VELOCITY_THRESHOLD = 0.4;  // /sec(歸一化座標 ≈ 螢幕高的 40%/sec)
-        var MIN_SPEED = 0.2;
-        if (dy <= DOWN_VELOCITY_THRESHOLD) return;
-        if (speed < MIN_SPEED) return;
+        if (dy <= WHACK_TUNING.DOWN_VELOCITY_THRESHOLD) return;
+        if (speed < WHACK_TUNING.MIN_SPEED) return;
 
         // 將指尖視口座標(0..1 of video)對應到螢幕座標
         var videoRect = whackState.videoEl.getBoundingClientRect();
+        // object-fit:contain 補償:計算實際 video 內容所佔的螢幕區域(letterbox 範圍)
+        var elAspect = videoRect.width / videoRect.height;
+        var streamAspect = videoW / videoH;
+        var contentW, contentH, offsetX, offsetY;
+        if (streamAspect > elAspect) {
+          // letterbox 在上下
+          contentW = videoRect.width;
+          contentH = videoRect.width / streamAspect;
+          offsetX = 0;
+          offsetY = (videoRect.height - contentH) / 2;
+        } else {
+          // letterbox 在左右
+          contentH = videoRect.height;
+          contentW = videoRect.height * streamAspect;
+          offsetX = (videoRect.width - contentW) / 2;
+          offsetY = 0;
+        }
         // 注意:flipHorizontal:true 給 estimateHands,
         // 所以 tip.x 已經是 mirror 後的座標(跟使用者看到的對齊)
-        var tipScreenX = videoRect.left + tipX * videoRect.width;
-        var tipScreenY = videoRect.top + tipY * videoRect.height;
+        var tipScreenX = videoRect.left + offsetX + tipX * contentW;
+        var tipScreenY = videoRect.top  + offsetY + tipY * contentH;
 
         // 找包含指尖的洞
         for (var i = 0; i < whackState.holes.length; i++) {
@@ -17352,10 +17372,11 @@ function startWhackHandLoop() {
           if (Date.now() < hole.cooldownUntil) continue;
 
           var rect = hole.el.getBoundingClientRect();
-          // bbox + 10% 緩衝(指尖落在洞外側 10% 也算中,提升手感)
-          var pad = rect.width * 0.10;
-          if (tipScreenX >= rect.left - pad && tipScreenX <= rect.right + pad &&
-              tipScreenY >= rect.top - pad  && tipScreenY <= rect.bottom + pad) {
+          // bbox + 18% 緩衝(洞是 2:3 直橢圓,X/Y 分開計算)
+          var padX = rect.width  * WHACK_TUNING.HIT_BBOX_PAD_RATIO;
+          var padY = rect.height * WHACK_TUNING.HIT_BBOX_PAD_RATIO;
+          if (tipScreenX >= rect.left - padX && tipScreenX <= rect.right + padX &&
+              tipScreenY >= rect.top  - padY && tipScreenY <= rect.bottom + padY) {
             onWhackHit(i);
             break;
           }
