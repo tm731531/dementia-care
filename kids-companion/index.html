@@ -2773,12 +2773,12 @@ body {
   z-index: 5;
 }
 
-/* 遊戲區 */
+/* 遊戲區(v7:加大占比,padding 縮 + max-width 放寬) */
 .whack-game-area {
   position: relative;
   width: 100%;
   height: 100vh;
-  padding: 80px 20px 60px;
+  padding: 60px 12px 30px;  /* v7:top 80→60, side 20→12, bottom 60→30 */
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -2789,7 +2789,7 @@ body {
   display: grid;
   gap: 20px;
   width: 100%;
-  max-width: 720px;
+  max-width: 1200px;        /* v7:720→1200,寬螢幕也撐得開 */
   margin: 0 auto;
   place-content: center;
 }
@@ -2799,20 +2799,21 @@ body {
 .whack-grid.cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
 /* 5 洞橫排:沿用 .whack-grid 預設 gap:20px(Tom 反映 12px 太窄) */
 
-/* 洞口 */
+/* 洞口(v7:2:3 直橢圓填更多垂直空間 + 顏色稍暖) */
 .whack-hole {
   position: relative;
-  aspect-ratio: 1 / 1;
-  background: radial-gradient(ellipse at 50% 70%, #4a3520 30%, #2a1d10 60%, transparent 80%);
+  aspect-ratio: 2 / 3;       /* v7:1:1→2:3 變直橢圓,更接近 ⬭ 洞穴感 */
+  background: radial-gradient(ellipse at 50% 75%, #6d4a2a 30%, #3d2a18 60%, transparent 80%);
+  /* v7:#4a3520→#6d4a2a 暖一點點,square fallback 不會那麼黑 */
   border-radius: 50%;
-  overflow: visible;  /* 改 visible 讓 dust 💨 + 浮字 +1 飛得出洞口 */
+  overflow: visible;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .whack-hole .mole {
-  font-size: clamp(48px, 12vw, 96px);
+  font-size: clamp(56px, 18vw, 180px);  /* v7:emoji 大一倍 */
   transform: scale(0);
   transition: transform 0.2s cubic-bezier(.34,1.56,.64,1);
   user-select: none;
@@ -2870,9 +2871,9 @@ body {
   to   { transform: scale(1.15); }
 }
 
-/* Boss:更大隻 + 更亮 */
+/* Boss:更大隻 + 更亮(v7 跟著一般 mole 放大) */
 .whack-hole.boss .mole {
-  font-size: clamp(64px, 16vw, 128px);
+  font-size: clamp(80px, 24vw, 240px);
   filter: drop-shadow(0 0 10px #ffd700) drop-shadow(0 0 24px rgba(255,215,0,0.9));
 }
 
@@ -16444,8 +16445,9 @@ var WHACK_SPAWN_INTERVAL = {
 
 // v2 的 WHACK_MULTI_PROB 已由 v6 的 pickWhackSpawnCount() ramp 取代
 
-// 地鼠造型(隨機從這池抽,稀有的低機率出現)
-var WHACK_MOLE_EMOJIS = ['🐹', '🐹', '🐹', '🐰', '🐭', '🦫', '🐿️', '🐻', '🦊'];
+// 地鼠造型(全部 Emoji 1.0/3.0,通用支援度高,不會 fallback 成方框)
+// v7:Tom 反映「突變方框」— 拿掉 🦫 (Emoji 12.0) 和 🐿️ (要 VS-16) 換通用動物
+var WHACK_MOLE_EMOJIS = ['🐹', '🐹', '🐹', '🐰', '🐭', '🐱', '🐶', '🐼', '🐻', '🦊'];
 //                       ^^^^^^^^^^^ 🐹 多放幾次提高出現率(主角)
 // 🐻 / 🦊 是稀有大隻,看到會驚喜
 
