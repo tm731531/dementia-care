@@ -10,7 +10,7 @@ usage:
 
 output: [{sys, name, lines, region, district, lat_osm, lng_osm, source:'osm'}, ...]
 """
-import argparse, json, re, sys, math, urllib.request, urllib.parse
+import argparse, json, sys, math, urllib.request, urllib.parse
 from collections import Counter
 
 OVERPASS = 'https://overpass-api.de/api/interpreter'
@@ -84,8 +84,10 @@ def extract_lines(sys_key, ref):
         elif sys_key == 'tao':
             if prefix.startswith('A'):
                 lines.add('機場線')
-        else:
-            # TRTC / tpe 路線
+        elif sys_key == 'tch':
+            # TMRT 綠線目前無 ref tag,等 OSM 補資料再加 prefix 對應
+            pass
+        elif sys_key == 'tpe':
             LINE_MAP = {
                 'BL': '板南線', 'R': '淡水信義線', 'G': '松山新店線',
                 'O': '中和新蘆線', 'BR': '文湖線', 'Y': '環狀線',
