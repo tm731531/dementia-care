@@ -2794,8 +2794,8 @@ body {
 .whack-grid.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .whack-grid.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .whack-grid.cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-.whack-grid.cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
-/* 8 洞 4x2:沿用 .whack-grid 預設 gap:20px,洞口較大有呼吸感 */
+.whack-grid.cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+/* 5 洞橫排:沿用 .whack-grid 預設 gap:20px(Tom 反映 12px 太窄) */
 
 /* 洞口 */
 .whack-hole {
@@ -16365,13 +16365,44 @@ document.addEventListener('DOMContentLoaded', function() {
 // <!-- #SECTION:WHACK-LOGIC -->
 
 // 各年齡組設定(grid / 達標 / 地鼠停留 / 同時上限)
-// 2026-05-24 五調(Tom):5 洞太少 + 間距太窄,改 8 洞 4×2 排,gap 拉回 20px
+// 2026-05-24 v6(Tom):回 5 洞橫排,target 概念換成「總 spawn events」+ 難度 ramp
+// 結束 = 所有 events 跑完 + 所有地鼠解決,顯示打中 / 逃跑統計
 var WHACK_CONFIG = {
-  toddler: { cols: 4, rows: 2, holes: 8, target: 5, moleStayMs: 4000, maxSimultaneous: 1, distHint: null },
-  small:   { cols: 4, rows: 2, holes: 8, target: 8, moleStayMs: 3000, maxSimultaneous: 2, distHint: '60cm' },
-  middle:  { cols: 4, rows: 2, holes: 8, target: 12, moleStayMs: 2500, maxSimultaneous: 3, distHint: '100cm' },
-  large:   { cols: 4, rows: 2, holes: 8, target: 20, moleStayMs: 2000, maxSimultaneous: 4, distHint: '1.8m' }
+  toddler: { cols: 5, rows: 1, holes: 5, moleStayMs: 4000, maxSimultaneous: 1, distHint: null },
+  small:   { cols: 5, rows: 1, holes: 5, moleStayMs: 3000, maxSimultaneous: 2, distHint: '60cm' },
+  middle:  { cols: 5, rows: 1, holes: 5, moleStayMs: 2500, maxSimultaneous: 3, distHint: '100cm' },
+  large:   { cols: 5, rows: 1, holes: 5, moleStayMs: 2000, maxSimultaneous: 4, distHint: '1.8m' }
 };
+
+// 每局總 spawn 次數(每次可 spawn 1-N 隻)
+var WHACK_TOTAL_EVENTS = {
+  toddler: 20,   // ~20 隻地鼠(都是單隻)
+  small:   22,   // ~28 隻(偶爾兩隻)
+  middle:  22,   // ~45 隻(後期 2-3 隻)
+  large:   18    // ~52 隻(後期 2-4 隻)
+};
+
+// 難度 ramp:依進度 + age 決定這次 spawn 幾隻
+function pickWhackSpawnCount(ageGroup, progress) {
+  if (ageGroup === 'toddler') return 1;  // toddler 永遠單隻
+  var maxSim = WHACK_CONFIG[ageGroup].maxSimultaneous;
+  var r = Math.random();
+  if (progress < 0.30) {
+    // 前 30%:暖身,90% 單隻
+    return r < 0.90 ? 1 : Math.min(2, maxSim);
+  } else if (progress < 0.60) {
+    // 30-60%:1-2 為主,偶爾 3
+    if (r < 0.50) return 1;
+    if (r < 0.85) return Math.min(2, maxSim);
+    return Math.min(3, maxSim);
+  } else {
+    // 後 40%:挑戰升高 1-4 隻
+    if (r < 0.15) return 1;
+    if (r < 0.45) return Math.min(2, maxSim);
+    if (r < 0.80) return Math.min(3, maxSim);
+    return Math.min(4, maxSim);
+  }
+}
 
 // pixel-diff 調參(體感模式 — 2026-05-24 二調:Tom 反映遲鈍,降一半)
 var WHACK_TUNING = {
@@ -16391,13 +16422,7 @@ var WHACK_SPAWN_INTERVAL = {
   large:   { min: 500,  max: 900 }    // 快,連發
 };
 
-// Multi-mole 機率(by age)— 2026-05-24 二調:Tom 反映多隻同時感不夠
-var WHACK_MULTI_PROB = {
-  toddler: { two: 0, three: 0 },           // 1-2 歲不刺激
-  small:   { two: 0.30, three: 0 },        // 偶爾兩隻
-  middle:  { two: 0.45, three: 0.10 },     // 一半機會兩隻 + 偶爾三隻
-  large:   { two: 0.50, three: 0.25 }      // 高機率兩三隻
-};
+// v2 的 WHACK_MULTI_PROB 已由 v6 的 pickWhackSpawnCount() ramp 取代
 
 // 地鼠造型(隨機從這池抽,稀有的低機率出現)
 var WHACK_MOLE_EMOJIS = ['🐹', '🐹', '🐹', '🐰', '🐭', '🦫', '🐿️', '🐻', '🦊'];
@@ -16564,10 +16589,17 @@ var whackState = {
   active: false,
   mode: null,          // 'tap' | 'motion'
   cfg: null,           // 當前 ageGroup 對應 config
-  hits: 0,
   combo: 0,            // v4:連擊數,bee 打到歸 0
-  bossPending: false,  // v4:hits === target-1 時下一隻變 boss
-  bossSpawned: false,  // v4:每局只觸發一次 boss
+  bossPending: false,  // v4 重用:最後一個 spawn event 強制 boss
+  bossSpawned: false,
+  // v6 統計 + spawn event 控制
+  eventCount: 0,       // 已 spawn 過幾次 event
+  totalEvents: 0,      // 本局總 events 上限
+  moleHit: 0,          // 打中(正分)
+  moleEscaped: 0,      // 沒打到逃跑
+  moleBeeHit: 0,       // 打到蜜蜂
+  scoreGoldenBonus: 0, // 金色額外的 +2(普通是+1,金色 +3 = +1 + bonus 2)
+  endCheckTimer: null, // events 跑完後 polling 等地鼠全部解決
   holes: [],           // [{el, active, moleEl, moleType, spawnedAt, cooldownUntil, timeoutTimer}]
   spawnTimer: null,
   videoStream: null,
@@ -16582,12 +16614,22 @@ var whackState = {
 // 進入頁面入口(由 navigateTo 觸發)
 function startWhackGame() {
   whackState.cfg = WHACK_CONFIG[APP.ageGroup] || WHACK_CONFIG.small;
-  whackState.hits = 0;
   whackState.active = false;
   whackState.lastSpawnedIdx = -1;
   whackState.combo = 0;
   whackState.bossPending = false;
   whackState.bossSpawned = false;
+  // v6
+  whackState.eventCount = 0;
+  whackState.totalEvents = WHACK_TOTAL_EVENTS[APP.ageGroup] || WHACK_TOTAL_EVENTS.small;
+  whackState.moleHit = 0;
+  whackState.moleEscaped = 0;
+  whackState.moleBeeHit = 0;
+  whackState.scoreGoldenBonus = 0;
+  if (whackState.endCheckTimer) {
+    clearInterval(whackState.endCheckTimer);
+    whackState.endCheckTimer = null;
+  }
 
   // 顯示 modal,隱藏遊戲區/HUD/LIVE/慶祝畫面
   document.getElementById('whack-modal').style.display = 'flex';
@@ -16692,12 +16734,17 @@ function renderWhackGrid() {
   }
 }
 
-// HUD 顯示
+// HUD 顯示(v6:打/逃計數 + 進度)
 function updateWhackHud() {
   var isEn = (APP.language === 'en');
-  var label = isEn ? 'Hit: ' : '已打: ';
+  var done = whackState.eventCount;
+  var total = whackState.totalEvents;
+  var hitLabel = isEn ? 'Hit ' : '打 ';
+  var missLabel = isEn ? ' Miss ' : ' 逃 ';
   document.getElementById('whack-progress').textContent =
-    '🐹 ' + label + whackState.hits + ' / ' + whackState.cfg.target;
+    '🐹 ' + hitLabel + whackState.moleHit
+    + missLabel + whackState.moleEscaped
+    + '  (' + done + '/' + total + ')';
 }
 
 // 排下一隻地鼠
@@ -16710,19 +16757,25 @@ function scheduleNextSpawn() {
 
 function spawnMole() {
   if (!whackState.active) return;
+  // v6:已 spawn 完所有 events 就不再 spawn(scheduleNextSpawn 也不會再排)
+  if (whackState.eventCount >= whackState.totalEvents) return;
 
-  // 算當前活著的數量,以及該 age 同時上限
+  // 算當前活著的數量
   var activeCount = whackState.holes.filter(function(h) { return h.active; }).length;
-  var spawnCount = 1;
+  var spawnCount;
 
-  // v4 Boss override:hits === target-1 時下一隻單獨變 boss(不 multi)
-  if (whackState.bossPending) {
+  // v6:最後一個 event 強制 boss(覆蓋 ramp + multi)
+  var isLastEvent = (whackState.eventCount === whackState.totalEvents - 1);
+  if (isLastEvent && !whackState.bossSpawned) {
+    whackState.bossPending = true;
+    whackState.bossSpawned = true;
+    spawnCount = 1;
+  } else if (whackState.bossPending) {
     spawnCount = 1;
   } else {
-    var probs = WHACK_MULTI_PROB[APP.ageGroup] || WHACK_MULTI_PROB.small;
-    var r = Math.random();
-    if (r < probs.three) spawnCount = 3;
-    else if (r < probs.three + probs.two) spawnCount = 2;
+    // v6 ramp:依進度決定 spawn 幾隻
+    var progress = whackState.eventCount / whackState.totalEvents;
+    spawnCount = pickWhackSpawnCount(APP.ageGroup, progress);
   }
 
   // 上限約束
@@ -16753,7 +16806,34 @@ function spawnMole() {
     whackState.lastSpawnedIdx = idx;
   }
 
-  scheduleNextSpawn();
+  // v6:這次 spawn event 計入
+  whackState.eventCount++;
+  updateWhackHud();
+
+  if (whackState.eventCount >= whackState.totalEvents) {
+    // 不再 schedule,改 polling 等所有 mole 解決才 finishWhack
+    scheduleWhackEndCheck();
+  } else {
+    scheduleNextSpawn();
+  }
+}
+
+// v6:events 用盡後 polling 等地鼠全部結束
+function scheduleWhackEndCheck() {
+  if (whackState.endCheckTimer) return;
+  whackState.endCheckTimer = setInterval(function() {
+    if (!whackState.active) {
+      clearInterval(whackState.endCheckTimer);
+      whackState.endCheckTimer = null;
+      return;
+    }
+    var anyActive = whackState.holes.some(function(h) { return h.active; });
+    if (!anyActive) {
+      clearInterval(whackState.endCheckTimer);
+      whackState.endCheckTimer = null;
+      finishWhack();
+    }
+  }, 200);
 }
 
 function showMole(idx) {
@@ -16797,6 +16877,12 @@ function showMole(idx) {
   hole.timeoutTimer = setTimeout(function() {
     if (!hole.active) return;
     hole.active = false;
+    // v6:逃跑統計(蜜蜂逃跑不算 escape — 它本來就不該打)
+    if (hole.moleType !== 'bee') {
+      whackState.moleEscaped++;
+      updateWhackHud();
+      whackState.combo = 0;  // 沒打到也斷 combo
+    }
     hole.el.classList.remove('active', 'golden', 'bee', 'boss');
     hole.el.classList.add('timeout');
     setTimeout(function() { hole.el.classList.remove('timeout'); }, 400);
@@ -16819,12 +16905,12 @@ function onWhackHit(idx) {
   var score = WHACK_SCORE[type] || 1;
 
   if (type === 'bee') {
-    // 蜜蜂打中 = miss feedback
+    // 蜜蜂打中 = miss feedback,不算「打中」(已用 moleBeeHit 另算)
     showWhackScorePopup(hole.el, '-1', 'minus-1');
     shakeWhackScreen();
     playWhackSound('miss');
     whackState.combo = 0;
-    whackState.hits = Math.max(0, whackState.hits + score);  // score = -1, clamp 0
+    whackState.moleBeeHit++;
   } else {
     // 普通 / 金色:塵土 + 浮字 + 音效 + combo
     var dust = document.createElement('span');
@@ -16837,7 +16923,8 @@ function onWhackHit(idx) {
 
     showWhackScorePopup(hole.el, '+' + score, type === 'golden' ? 'plus-3' : 'plus-1');
     playWhackSound(type === 'golden' ? 'golden' : 'hit');
-    whackState.hits += score;
+    whackState.moleHit++;
+    if (type === 'golden') whackState.scoreGoldenBonus += 2;  // 金色額外 +2
     whackState.combo = (whackState.combo || 0) + 1;
 
     // Combo 橫幅(中/大班 only,3/5/8 連擊閃一下)
@@ -16850,21 +16937,16 @@ function onWhackHit(idx) {
   setTimeout(function() { hole.el.classList.remove('hit'); }, 400);
 
   updateWhackHud();
-
-  // Boss-pending:達標前最後一隻特別處理
-  if (whackState.hits === whackState.cfg.target - 1 && !whackState.bossSpawned) {
-    whackState.bossPending = true;
-    whackState.bossSpawned = true;
-  }
-
-  if (whackState.hits >= whackState.cfg.target) {
-    finishWhack();
-  }
+  // v6:結束條件移到 spawnMole → scheduleWhackEndCheck,這裡不再判斷
 }
 
 function finishWhack() {
   whackState.active = false;
   clearTimeout(whackState.spawnTimer);
+  if (whackState.endCheckTimer) {
+    clearInterval(whackState.endCheckTimer);
+    whackState.endCheckTimer = null;
+  }
   stopWhackBgm();  // v5:讓位給慶祝音效 + Web Speech
 
   // 全部地鼠收起來
@@ -16874,13 +16956,22 @@ function finishWhack() {
     h.el.classList.remove('active');
   });
 
+  // v6:統計 + 分數
+  var hit = whackState.moleHit;
+  var escape = whackState.moleEscaped;
+  var bee = whackState.moleBeeHit;
+  var totalShown = hit + escape;  // 蜜蜂不算「該打的」總數
+  var rate = totalShown > 0 ? Math.round(hit * 100 / totalShown) : 0;
+  var score = hit + whackState.scoreGoldenBonus - bee;  // 打中+金色加分-蜜蜂
+
   // 顯示慶祝畫面
   var isEn = (APP.language === 'en');
-  var target = whackState.cfg.target;
   document.getElementById('whack-complete-title').textContent =
-    isEn ? 'Awesome!' : '太厲害!';
-  document.getElementById('whack-complete-sub').textContent =
-    isEn ? ('You got ' + target + ' moles!') : ('打到了 ' + target + ' 隻!');
+    isEn ? 'Round complete!' : '一局結束!';
+  document.getElementById('whack-complete-sub').innerHTML =
+    (isEn
+      ? '🎯 Hit ' + hit + ' / Escaped ' + escape + ' (' + rate + '%)<br>🐝 Bees ' + bee + '<br>⭐ Score: <b>' + score + '</b>'
+      : '🎯 打中 ' + hit + ' / 逃跑 ' + escape + ' (命中率 ' + rate + '%)<br>🐝 蜜蜂 ' + bee + ' 隻<br>⭐ 分數:<b>' + score + '</b>');
   document.getElementById('whack-back-btn').textContent = isEn ? 'Back home' : '回首頁';
   document.getElementById('whack-again-btn').textContent = isEn ? 'Play again' : '再玩一次';
 
@@ -16898,9 +16989,11 @@ function finishWhack() {
   // v4 完成音效:三音上升
   playWhackSound('complete');
 
-  // Web Speech 朗讀(沿用既有 speak)
+  // Web Speech 朗讀打中數 + 分數
   if (typeof speak === 'function') {
-    speak(isEn ? ('Awesome! You got ' + target + '!') : ('太厲害!打到了 ' + target + '隻!'));
+    speak(isEn
+      ? ('Awesome! You hit ' + hit + ' moles! Score ' + score + '!')
+      : ('太厲害!打到了 ' + hit + '隻!分數 ' + score + '!'));
   }
 }
 
