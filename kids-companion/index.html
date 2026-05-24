@@ -17202,7 +17202,7 @@ function stopWhackGame() {
 function startWhackMotion() {
   var isEn = (APP.language === 'en');
 
-  // 1. 請求相機
+  // 1. feature detect
   if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
     alert(isEn ? 'Camera not supported, switching to tap mode.' : '裝置不支援相機,切換成手指模式。');
     APP.whackMode = 'tap';
@@ -17212,45 +17212,60 @@ function startWhackMotion() {
     return;
   }
 
-  navigator.mediaDevices.getUserMedia({ video: { width: 320, height: 240 } })
-    .then(function(stream) {
-      whackState.videoStream = stream;
-      var video = document.getElementById('whack-video');
-      video.srcObject = stream;
-      video.style.display = 'block';
-      whackState.videoEl = video;
+  // 2. 顯示 loading overlay(model 載入中)
+  document.getElementById('whack-loading').style.display = 'flex';
 
-      // 準備 canvas
-      var canvas = document.getElementById('whack-canvas');
-      whackState.canvasEl = canvas;
-      whackState.canvasCtx = canvas.getContext('2d', { willReadFrequently: true });
-      whackState.prevFrame = null;
+  // 3. 並行:載 model + 開鏡頭(同時跑,以最慢者為準)
+  Promise.all([
+    loadWhackHandModel(),
+    navigator.mediaDevices.getUserMedia({ video: { width: 640, height: 480, facingMode: 'user' } })
+  ]).then(function(results) {
+    var model = results[0];
+    var stream = results[1];
 
-      // 顯示 LIVE
-      document.getElementById('whack-live').style.display = 'flex';
+    whackState.videoStream = stream;
+    var video = document.getElementById('whack-video');
+    video.srcObject = stream;
+    video.style.display = 'block';
+    whackState.videoEl = video;
 
-      // 等 video 開始播放才開遊戲
-      video.onloadedmetadata = function() {
-        video.play().then(function() {
-          startWhackPlay();
-          startWhackDiffLoop();
-        }).catch(function() {
-          // 自動播放被擋 → fallback tap,不卡死在 modal
-          APP.whackMode = 'tap';
-          whackState.mode = 'tap';
-          saveState();
-          startWhackPlay();
-        });
-      };
-    })
-    .catch(function(err) {
-      console.warn('Camera denied or unavailable:', err);
-      alert(isEn ? 'Camera off — tap to play instead?' : '相機沒打開,先用手指點玩好嗎?');
-      APP.whackMode = 'tap';
-      whackState.mode = 'tap';
-      saveState();
-      startWhackPlay();
-    });
+    document.getElementById('whack-live').style.display = 'flex';
+
+    video.onloadedmetadata = function() {
+      video.play().then(function() {
+        // 關 loading,進遊戲
+        document.getElementById('whack-loading').style.display = 'none';
+        startWhackPlay();
+        startWhackHandLoop();  // task 5 實作的新 loop
+      }).catch(function() {
+        // autoplay 被擋 → fallback tap
+        document.getElementById('whack-loading').style.display = 'none';
+        APP.whackMode = 'tap';
+        whackState.mode = 'tap';
+        saveState();
+        startWhackPlay();
+      });
+    };
+  }).catch(function(err) {
+    console.warn('Motion mode setup failed:', err);
+    document.getElementById('whack-loading').style.display = 'none';
+    var msg;
+    if (err && err.name && err.name.indexOf('Permission') === 0) {
+      msg = isEn ? 'Camera denied — tap to play instead?' : '相機被拒絕,改用手指點?';
+    } else {
+      msg = isEn ? 'Hand detection failed to load — tap to play?' : '手部偵測載入失敗,改用手指點?';
+    }
+    alert(msg);
+    APP.whackMode = 'tap';
+    whackState.mode = 'tap';
+    saveState();
+    startWhackPlay();
+  });
+}
+
+// task 5 之前的暫時 stub
+function startWhackHandLoop() {
+  // task 5 補完
 }
 
 // pixel-diff loop
