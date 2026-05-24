@@ -2933,6 +2933,23 @@ body {
   100% { opacity: 0; transform: translate(-50%, -100%) scale(1.0); }
 }
 
+/* v6.2 debug overlay:每洞顯示即時 diff%(WHACK_TUNING.DEBUG_OVERLAY 開啟才有) */
+.whack-debug-diff {
+  position: absolute;
+  top: -22px; left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.75);
+  color: #ffd700;
+  font-size: 11px;
+  font-family: monospace;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 8;
+}
+
 /* <!-- #END:WHACK-STYLES --> */
 </style>
 <script type="application/ld+json">
@@ -16406,14 +16423,15 @@ function pickWhackSpawnCount(ageGroup, progress) {
   }
 }
 
-// pixel-diff 調參(體感模式 — 2026-05-24 二調:Tom 反映遲鈍,降一半)
+// pixel-diff 調參(體感模式 — 2026-05-24 v6.2:Tom 反映 leftmost 還是差,再降)
 var WHACK_TUNING = {
-  THRESHOLD_PIXEL: 15,    // 灰階差 > 15 算 changed (out of 255) — 原 25 太鈍
-  THRESHOLD_CELL: 0.04,   // cell 內 > 4% pixels changed 算動了 — 原 8% 要揮很大才中
-  COOLDOWN_MS: 600,       // 打中後 cell 冷卻
+  THRESHOLD_PIXEL: 12,    // 灰階差 > 12 算 changed (v1=25→v2=15→v6.2=12)
+  THRESHOLD_CELL: 0.03,   // cell 內 > 3% pixels changed 算動了 (v1=8%→v2=4%→v6.2=3%)
+  EDGE_BOOST: 1.4,        // v6.2:邊緣 cell(col 0 / col cols-1)ratio 乘以這個再比,變相門檻 - 30%
+  COOLDOWN_MS: 600,
   CANVAS_W: 160,
   CANVAS_H: 120,
-  DEBUG_OVERLAY: false    // 開啟顯示每格 diff% 即時數值(調參用)
+  DEBUG_OVERLAY: false    // 開啟後每洞顯示即時 diff%;在 DevTools console 打 WHACK_TUNING.DEBUG_OVERLAY=true 即可
 };
 
 // 出現間隔(2026-05-24 三調:固定 5 洞後,速度差異拉開到年齡組)
@@ -17033,7 +17051,7 @@ function stopWhackGame() {
   var area = document.getElementById('whack-game-area');
   if (area) {
     area.classList.remove('shake');
-    var leftovers = area.querySelectorAll('.whack-popup, .whack-combo-banner, .whack-dust');
+    var leftovers = area.querySelectorAll('.whack-popup, .whack-combo-banner, .whack-dust, .whack-debug-diff');
     for (var i = 0; i < leftovers.length; i++) {
       if (leftovers[i].parentNode) leftovers[i].parentNode.removeChild(leftovers[i]);
     }
@@ -17128,8 +17146,9 @@ function startWhackDiffLoop() {
 
       for (var i = 0; i < whackState.holes.length; i++) {
         var hole = whackState.holes[i];
-        if (!hole.active) continue;
-        if (Date.now() < hole.cooldownUntil) continue;
+        // v6.2:DEBUG 開啟時連 idle cell 也要算 diff(讓 Tom 看到全部 cell 的數值)
+        var canHit = hole.active && Date.now() >= hole.cooldownUntil;
+        if (!canHit && !WHACK_TUNING.DEBUG_OVERLAY) continue;
 
         var col = i % cfg.cols;
         var row = Math.floor(i / cfg.cols);
@@ -17151,10 +17170,26 @@ function startWhackDiffLoop() {
         }
 
         var ratio = total > 0 ? (changed / total) : 0;
+
+        // v6.2:邊緣 cell(最左/最右)放寬閾值,因為手揮過去時只有一半在格子內
+        var isEdge = (col === 0 || col === cfg.cols - 1);
+        var effectiveRatio = isEdge ? ratio * WHACK_TUNING.EDGE_BOOST : ratio;
+
+        // v6.2:on-screen debug overlay — 直接在洞口上方顯示 diff%
         if (WHACK_TUNING.DEBUG_OVERLAY) {
-          console.log('cell', i, 'diff', (ratio * 100).toFixed(1), '%');
+          var dbg = hole.el.querySelector('.whack-debug-diff');
+          if (!dbg) {
+            dbg = document.createElement('span');
+            dbg.className = 'whack-debug-diff';
+            hole.el.appendChild(dbg);
+          }
+          dbg.textContent = (ratio * 100).toFixed(1) + '%' + (isEdge ? '×' + WHACK_TUNING.EDGE_BOOST : '');
+        } else {
+          var existing = hole.el.querySelector('.whack-debug-diff');
+          if (existing) existing.parentNode.removeChild(existing);
         }
-        if (ratio > WHACK_TUNING.THRESHOLD_CELL) {
+
+        if (canHit && effectiveRatio > WHACK_TUNING.THRESHOLD_CELL) {
           onWhackHit(i);
         }
       }
