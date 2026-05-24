@@ -16448,6 +16448,70 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // <!-- #SECTION:WHACK-LOGIC -->
 
+// v8 Hand Pose Detection model state(單例,跨遊戲場次共用)
+var whackHandModel = null;
+var whackHandModelLoading = null;  // Promise,避免重複載入
+
+// 載入 model + warm-up(第一次 inference 需要 GPU shader compile,~1-3s)
+// 回傳 Promise<detector>。重複呼叫直接拿 cache。
+function loadWhackHandModel() {
+  if (whackHandModel) return Promise.resolve(whackHandModel);
+  if (whackHandModelLoading) return whackHandModelLoading;
+
+  var loadingText = document.getElementById('whack-loading-text');
+  var progressText = document.getElementById('whack-loading-progress');
+  var isEn = (APP.language === 'en');
+
+  function setText(t) { if (loadingText) loadingText.textContent = t; }
+  function setProgress(p) { if (progressText) progressText.textContent = p; }
+
+  whackHandModelLoading = (async function() {
+    try {
+      setText(isEn ? 'Loading TF.js…' : '載入 TF.js…');
+      setProgress(isEn ? '20%' : '進度 20%');
+      // 等 tfjs ready(WebGL backend init 等)
+      await tf.ready();
+      // 強制 webgl backend(行動裝置最快)
+      try { await tf.setBackend('webgl'); } catch (e) { /* fallback ok */ }
+
+      setText(isEn ? 'Loading hand model…' : '載入手部模型…');
+      setProgress(isEn ? '50%' : '進度 50%');
+
+      var detector = await handPoseDetection.createDetector(
+        handPoseDetection.SupportedModels.MediaPipeHands,
+        {
+          runtime: 'tfjs',
+          modelType: 'lite',
+          maxHands: 1,
+          detectorModelUrl: 'vendor/models/detector-lite/model.json',
+          landmarkModelUrl: 'vendor/models/landmark-lite/model.json'
+        }
+      );
+
+      setText(isEn ? 'Warming up…' : '暖機中…');
+      setProgress(isEn ? '90%' : '進度 90%');
+
+      // Warm-up:跑一次空 inference 預編 GPU shader,避免遊戲第一幀卡 1-3s
+      var dummyCanvas = document.createElement('canvas');
+      dummyCanvas.width = 192;
+      dummyCanvas.height = 192;
+      await detector.estimateHands(dummyCanvas);
+
+      setText(isEn ? 'Ready!' : '準備好!');
+      setProgress(isEn ? '100%' : '進度 100%');
+
+      whackHandModel = detector;
+      return detector;
+    } catch (err) {
+      console.error('loadWhackHandModel failed:', err);
+      whackHandModelLoading = null;  // 允許重試
+      throw err;
+    }
+  })();
+
+  return whackHandModelLoading;
+}
+
 // 各年齡組設定(grid / 達標 / 地鼠停留 / 同時上限)
 // 2026-05-24 v6(Tom):回 5 洞橫排,target 概念換成「總 spawn events」+ 難度 ramp
 // 結束 = 所有 events 跑完 + 所有地鼠解決,顯示打中 / 逃跑統計
