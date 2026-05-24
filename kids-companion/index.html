@@ -2958,6 +2958,50 @@ body {
   z-index: 8;
 }
 
+/* v8 載入 overlay(TF.js model 下載/初始化中) */
+.whack-loading-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255,248,240,0.97);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 30;
+}
+.whack-loading-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 32px 28px;
+  max-width: 320px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+.whack-loading-spinner {
+  font-size: 64px;
+  animation: whackLoadingSpin 2s linear infinite;
+}
+@keyframes whackLoadingSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.whack-loading-text {
+  font-size: 22px;
+  font-weight: bold;
+  color: #E8724A;
+  margin: 16px 0 8px;
+}
+.whack-loading-progress {
+  font-size: 16px;
+  color: #888;
+  margin-bottom: 12px;
+}
+.whack-loading-hint {
+  font-size: 13px;
+  color: #aaa;
+  line-height: 1.5;
+}
+
 /* <!-- #END:WHACK-STYLES --> */
 </style>
 <script type="application/ld+json">
@@ -4061,6 +4105,15 @@ body {
 
 <!-- #SECTION:PAGE-WHACK-MOLE -->
 <div class="page" id="page-whack-mole">
+  <!-- TF.js Hand Pose 載入 overlay(首次 motion 模式才會顯示) -->
+  <div class="whack-loading-overlay" id="whack-loading" style="display:none">
+    <div class="whack-loading-card">
+      <div class="whack-loading-spinner">🤖</div>
+      <div class="whack-loading-text" id="whack-loading-text">準備手部偵測…</div>
+      <div class="whack-loading-progress" id="whack-loading-progress">下載 0%</div>
+      <div class="whack-loading-hint">第一次需要 5-10 秒下載,之後會自動快取</div>
+    </div>
+  </div>
   <!-- ❌ 結束按鈕 -->
   <button class="back-btn whack-exit-btn" onclick="exitWhack()">❌</button>
 
@@ -4226,6 +4279,10 @@ body {
   </div>
 </div>
 <!-- #END:SETTINGS -->
+
+<!-- TF.js + Hand Pose Detection (self-host vendor/) -->
+<script src="vendor/tf.min.js"></script>
+<script src="vendor/hand-pose-detection.min.js"></script>
 
 <script>
 // <!-- #SECTION:STATE -->
