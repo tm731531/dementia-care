@@ -17451,8 +17451,16 @@ function startWhackHandLoop() {
             var dyOk    = (dy    >= WHACK_TUNING.DOWN_VELOCITY_THRESHOLD);
             var spdOk   = (speed >= WHACK_TUNING.MIN_SPEED);
             var inLift  = (Date.now() < whackState.globalCooldownUntil);
+            // v8.4:把 hand schema 直接秀出來,不用 F12
+            var handKeys = hand ? Object.keys(hand).join(',') : 'noHand';
+            var kpsLen = (hand && hand.keypoints && hand.keypoints.length) || 0;
+            var tipKeys = tip ? Object.keys(tip).join(',') : 'noTip';
             dbgPanel.style.display = 'block';
             dbgPanel.innerHTML =
+              'hand: ' + handKeys + '<br>' +
+              'kps len: ' + kpsLen + '<br>' +
+              'tip[8] keys: ' + tipKeys + '<br>' +
+              'tip[8]: ' + (tip ? JSON.stringify(tip).substring(0, 80) : 'undef') + '<br>' +
               'raw: (' + (isNaN(rawX) ? 'NaN' : Math.round(rawX)) + ',' + (isNaN(rawY) ? 'NaN' : Math.round(rawY)) + ')<br>' +
               'video: ' + videoW + 'x' + videoH + '<br>' +
               'norm: (' + (isNaN(tipX) ? 'NaN' : tipX.toFixed(2)) + ',' + (isNaN(tipY) ? 'NaN' : tipY.toFixed(2)) + ')<br>' +
