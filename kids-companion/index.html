@@ -17386,13 +17386,24 @@ function startWhackHandLoop() {
         }
 
         var hand = hands[0];
-        var tip = hand.keypoints[8];  // index_finger_tip(食指尖)
+        var tip = hand.keypoints && hand.keypoints[8];
+
+        // v8.3 診斷:一次性 log 整個 hand 物件結構(找 keypoints[8] 結構)
+        if (WHACK_TUNING.DEBUG_HAND_OVERLAY && !window._whackHandDumped) {
+          window._whackHandDumped = true;
+          console.log('=== HAND OBJECT DUMP ===');
+          console.log(JSON.stringify(hand, null, 2).substring(0, 2000));
+          console.log('keypoints[8] =', hand.keypoints && hand.keypoints[8]);
+        }
 
         // 歸一化到 0..1(用 videoWidth / videoHeight)
         var videoW = whackState.videoEl.videoWidth || 640;
         var videoH = whackState.videoEl.videoHeight || 480;
-        var tipX = tip.x / videoW;
-        var tipY = tip.y / videoH;
+        // v8.3:容錯 — tip 可能是 undefined 或 .x/.y 缺失
+        var rawX = (tip && typeof tip.x === 'number') ? tip.x : NaN;
+        var rawY = (tip && typeof tip.y === 'number') ? tip.y : NaN;
+        var tipX = rawX / videoW;
+        var tipY = rawY / videoH;
 
         // 計算速度向量(歸一化 / 秒)
         var dx = 0, dy = 0, speed = 0;
@@ -17442,11 +17453,14 @@ function startWhackHandLoop() {
             var inLift  = (Date.now() < whackState.globalCooldownUntil);
             dbgPanel.style.display = 'block';
             dbgPanel.innerHTML =
+              'raw: (' + (isNaN(rawX) ? 'NaN' : Math.round(rawX)) + ',' + (isNaN(rawY) ? 'NaN' : Math.round(rawY)) + ')<br>' +
+              'video: ' + videoW + 'x' + videoH + '<br>' +
+              'norm: (' + (isNaN(tipX) ? 'NaN' : tipX.toFixed(2)) + ',' + (isNaN(tipY) ? 'NaN' : tipY.toFixed(2)) + ')<br>' +
               'dy: ' + dy.toFixed(2) +
                 ' <span class="' + (dyOk ? 'ok' : 'bad') + '">' + (dyOk ? '✅' : '❌') + '</span><br>' +
               'spd: ' + speed.toFixed(2) +
                 ' <span class="' + (spdOk ? 'ok' : 'bad') + '">' + (spdOk ? '✅' : '❌') + '</span><br>' +
-              'tip: (' + Math.round(tipScreenX) + ',' + Math.round(tipScreenY) + ')<br>' +
+              'tip→screen: (' + Math.round(tipScreenX) + ',' + Math.round(tipScreenY) + ')<br>' +
               (inLift ? '<span class="bad">🔒 lift CD</span>' : '');
           }
         }
