@@ -3002,6 +3002,35 @@ body {
   line-height: 1.5;
 }
 
+/* v8.2 體感模式診斷:紅點 follow 指尖 + 文字 panel 顯示 dy/speed */
+.whack-tip-dot {
+  position: fixed;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: #ff3b30;
+  border: 4px solid #fff;
+  box-shadow: 0 0 14px rgba(255,59,48,0.9);
+  pointer-events: none;
+  z-index: 25;
+  transform: translate(-50%, -50%);
+}
+.whack-hand-debug {
+  position: absolute;
+  top: 70px; right: 10px;
+  background: rgba(0,0,0,0.78);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  z-index: 25;
+  pointer-events: none;
+  min-width: 140px;
+}
+.whack-hand-debug .ok  { color: #6fc97c; }
+.whack-hand-debug .bad { color: #ff8a7a; }
+
 /* <!-- #END:WHACK-STYLES --> */
 </style>
 <script type="application/ld+json">
@@ -4146,6 +4175,10 @@ body {
   <div class="whack-hud" id="whack-hud" style="display:none">
     <span class="whack-progress" id="whack-progress">🐹 已打: 0 / 0</span>
   </div>
+
+  <!-- v8.2 體感模式診斷:紅點 + dy/speed 數值(預設開) -->
+  <div class="whack-tip-dot" id="whack-tip-dot" style="display:none"></div>
+  <div class="whack-hand-debug" id="whack-hand-debug" style="display:none">init</div>
 
   <!-- 遊戲區(holes grid) -->
   <div class="whack-game-area" id="whack-game-area" style="display:none">
@@ -16577,10 +16610,11 @@ var WHACK_TUNING = {
   CANVAS_W: 160,
   CANVAS_H: 120,
   DEBUG_OVERLAY: false,
-  // v8 hand pose tuning
-  DOWN_VELOCITY_THRESHOLD: 0.4,  // 食指尖向下速度 > 此值才算打擊 (歸一化/秒)
-  MIN_SPEED: 0.2,                // 速度向量總長 > 此值才算有效動作
-  HIT_BBOX_PAD_RATIO: 0.18       // 洞口 bbox 外延 18% 當有效擊中區
+  // v8 hand pose tuning(v8.2 大幅降寬鬆 + 加可視診斷)
+  DOWN_VELOCITY_THRESHOLD: 0.15, // 食指尖向下速度 > 此值才算打擊 (歸一化/秒)
+  MIN_SPEED: 0.08,               // 速度向量總長 > 此值才算有效動作
+  HIT_BBOX_PAD_RATIO: 0.25,      // 洞口 bbox 外延 25% 當有效擊中區
+  DEBUG_HAND_OVERLAY: true       // v8.2:預設開,顯示紅點 + dy/speed 即時數值。沒問題後 console 關掉
 };
 
 // 出現間隔(2026-05-24 三調:固定 5 洞後,速度差異拉開到年齡組)
@@ -17214,6 +17248,11 @@ function stopWhackGame() {
       if (leftovers[i].parentNode) leftovers[i].parentNode.removeChild(leftovers[i]);
     }
   }
+  // v8.2:清 debug overlay
+  var tipDot = document.getElementById('whack-tip-dot');
+  if (tipDot) tipDot.style.display = 'none';
+  var dbgPanel = document.getElementById('whack-hand-debug');
+  if (dbgPanel) dbgPanel.style.display = 'none';
 }
 
 function startWhackMotion() {
@@ -17327,11 +17366,22 @@ function startWhackHandLoop() {
         inferring = false;
         if (!whackState.active) return;
 
+        // v8.2:debug overlay refs(每幀更新)
+        var dot = document.getElementById('whack-tip-dot');
+        var dbgPanel = document.getElementById('whack-hand-debug');
+
         if (hands.length === 0) {
           // 沒手 → 清掉上一幀,重新累計
           lastTipX = null;
           lastTipY = null;
-          lastTipTime = 0;  // 重置時間,避免下次手出現時 dt 暴衝
+          lastTipTime = 0;
+          if (WHACK_TUNING.DEBUG_HAND_OVERLAY) {
+            if (dot) dot.style.display = 'none';
+            if (dbgPanel) {
+              dbgPanel.style.display = 'block';
+              dbgPanel.textContent = 'no hand';
+            }
+          }
           return;
         }
 
@@ -17349,8 +17399,8 @@ function startWhackHandLoop() {
         var now = performance.now();
         if (lastTipX !== null && lastTipY !== null) {
           var dt = (now - lastTipTime) / 1000;
-          if (dt > 0 && dt < 0.5) {  // ignore stale data
-            dx = (tipX - lastTipX) / dt;  // /sec
+          if (dt > 0 && dt < 0.5) {
+            dx = (tipX - lastTipX) / dt;
             dy = (tipY - lastTipY) / dt;
             speed = Math.sqrt(dx*dx + dy*dy);
           }
@@ -17359,39 +17409,52 @@ function startWhackHandLoop() {
         lastTipY = tipY;
         lastTipTime = now;
 
-        // 打擊判定條件:
-        // (1) 不在全域 cooldown 內
-        // (2) dy > 0(往下移動,Y 軸向下為正)
-        // (3) speed > 閾值(忽略靜止飄移)
-        // (4) 指尖座標落在某個 active 洞口 bbox 內 + 該洞 active 且不在 cell cooldown
-        if (Date.now() < whackState.globalCooldownUntil) return;
-
-        if (dy <= WHACK_TUNING.DOWN_VELOCITY_THRESHOLD) return;
-        if (speed < WHACK_TUNING.MIN_SPEED) return;
-
-        // 將指尖視口座標(0..1 of video)對應到螢幕座標
+        // 座標映射(object-fit:contain 補償)— v8.2:無論 gating 結果都先算,
+        // 才能畫紅點 + 顯示診斷
         var videoRect = whackState.videoEl.getBoundingClientRect();
-        // object-fit:contain 補償:計算實際 video 內容所佔的螢幕區域(letterbox 範圍)
         var elAspect = videoRect.width / videoRect.height;
         var streamAspect = videoW / videoH;
         var contentW, contentH, offsetX, offsetY;
         if (streamAspect > elAspect) {
-          // letterbox 在上下
           contentW = videoRect.width;
           contentH = videoRect.width / streamAspect;
           offsetX = 0;
           offsetY = (videoRect.height - contentH) / 2;
         } else {
-          // letterbox 在左右
           contentH = videoRect.height;
           contentW = videoRect.height * streamAspect;
           offsetX = (videoRect.width - contentW) / 2;
           offsetY = 0;
         }
-        // 注意:flipHorizontal:true 給 estimateHands,
-        // 所以 tip.x 已經是 mirror 後的座標(跟使用者看到的對齊)
         var tipScreenX = videoRect.left + offsetX + tipX * contentW;
         var tipScreenY = videoRect.top  + offsetY + tipY * contentH;
+
+        // v8.2:更新可見 debug overlay
+        if (WHACK_TUNING.DEBUG_HAND_OVERLAY) {
+          if (dot) {
+            dot.style.display = 'block';
+            dot.style.left = tipScreenX + 'px';
+            dot.style.top  = tipScreenY + 'px';
+          }
+          if (dbgPanel) {
+            var dyOk    = (dy    >= WHACK_TUNING.DOWN_VELOCITY_THRESHOLD);
+            var spdOk   = (speed >= WHACK_TUNING.MIN_SPEED);
+            var inLift  = (Date.now() < whackState.globalCooldownUntil);
+            dbgPanel.style.display = 'block';
+            dbgPanel.innerHTML =
+              'dy: ' + dy.toFixed(2) +
+                ' <span class="' + (dyOk ? 'ok' : 'bad') + '">' + (dyOk ? '✅' : '❌') + '</span><br>' +
+              'spd: ' + speed.toFixed(2) +
+                ' <span class="' + (spdOk ? 'ok' : 'bad') + '">' + (spdOk ? '✅' : '❌') + '</span><br>' +
+              'tip: (' + Math.round(tipScreenX) + ',' + Math.round(tipScreenY) + ')<br>' +
+              (inLift ? '<span class="bad">🔒 lift CD</span>' : '');
+          }
+        }
+
+        // 打擊判定條件
+        if (Date.now() < whackState.globalCooldownUntil) return;
+        if (dy <= WHACK_TUNING.DOWN_VELOCITY_THRESHOLD) return;
+        if (speed < WHACK_TUNING.MIN_SPEED) return;
 
         // 找包含指尖的洞
         for (var i = 0; i < whackState.holes.length; i++) {
