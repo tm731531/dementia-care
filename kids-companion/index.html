@@ -17354,9 +17354,34 @@ function startWhackHandLoop() {
   var inferring = false;
   var lastResultsSeen = null;  // 用來偵測「有新結果」
 
-  var lastTipX = null;
-  var lastTipY = null;
-  var lastTipTime = 0;
+  // v9.2:每隻手各自追蹤(by handedness label)
+  // lastTips[label] = { x, y, time } — 每隻手獨立的速度計算基準
+  var lastTips = {};
+  // 紅點 DOM 快取:每個 label 一個 dot 元素,動態建立
+  var handDots = {};
+
+  function getOrCreateDot(label) {
+    if (handDots[label]) return handDots[label];
+    var ex = document.getElementById('whack-tip-dot');
+    var d;
+    if (label === 'primary' && ex) {
+      d = ex;  // 重用既有(避免不必要的 DOM 變動)
+    } else {
+      d = document.createElement('div');
+      d.className = 'whack-tip-dot';
+      document.body.appendChild(d);
+    }
+    handDots[label] = d;
+    return d;
+  }
+
+  function hideAllDots() {
+    var ex = document.getElementById('whack-tip-dot');
+    if (ex) ex.style.display = 'none';
+    for (var k in handDots) {
+      if (handDots[k]) handDots[k].style.display = 'none';
+    }
+  }
 
   function loop(timestamp) {
     if (!whackState.active || whackState.mode !== 'motion') return;
@@ -17374,36 +17399,19 @@ function startWhackHandLoop() {
         });
     }
 
-    // 處理最新結果(可能上一次 inference 結束才更新)
     var results = whackHandLastResults;
     if (!results || results === lastResultsSeen) return;
     lastResultsSeen = results;
 
-    var dot = document.getElementById('whack-tip-dot');
     var dbgPanel = document.getElementById('whack-hand-debug');
 
-    // v9.1:兩手都偵測,挑指尖 Y 最小(畫面最高 / 最伸出去揮)那隻
     var allHands = results.multiHandLandmarks;
-    var landmarks = null;
-    if (allHands && allHands.length > 0) {
-      landmarks = allHands[0];
-      if (allHands.length > 1) {
-        var bestY = landmarks[8].y;
-        for (var k = 1; k < allHands.length; k++) {
-          var thisY = allHands[k][8] && allHands[k][8].y;
-          if (typeof thisY === 'number' && thisY < bestY) {
-            bestY = thisY;
-            landmarks = allHands[k];
-          }
-        }
-      }
-    }
-    if (!landmarks || landmarks.length < 21) {
-      lastTipX = null;
-      lastTipY = null;
-      lastTipTime = 0;
+    var handedness = results.multiHandedness;
+
+    if (!allHands || allHands.length === 0) {
+      lastTips = {};
       if (WHACK_TUNING.DEBUG_HAND_OVERLAY) {
-        if (dot) dot.style.display = 'none';
+        hideAllDots();
         if (dbgPanel) {
           dbgPanel.style.display = 'block';
           dbgPanel.textContent = 'no hand';
@@ -17412,29 +17420,7 @@ function startWhackHandLoop() {
       return;
     }
 
-    var tip = landmarks[8];  // index_finger_tip
-    // MPH 給的是 0..1 normalized,直接用。
-    // 鏡像補償:video CSS scaleX(-1) 顯示翻轉,但 MPH 看的是 raw stream,
-    // 所以我們把 x 用 (1 - tip.x) 翻回來,跟使用者眼睛看到的一致。
-    var tipX = 1 - tip.x;
-    var tipY = tip.y;
-
-    // 速度向量
-    var dx = 0, dy = 0, speed = 0;
-    var now = performance.now();
-    if (lastTipX !== null && lastTipY !== null) {
-      var dt = (now - lastTipTime) / 1000;
-      if (dt > 0 && dt < 0.5) {
-        dx = (tipX - lastTipX) / dt;
-        dy = (tipY - lastTipY) / dt;
-        speed = Math.sqrt(dx*dx + dy*dy);
-      }
-    }
-    lastTipX = tipX;
-    lastTipY = tipY;
-    lastTipTime = now;
-
-    // 螢幕座標(object-fit:contain 補償)
+    // 螢幕座標映射預備(每隻手共用)
     var videoW = whackState.videoEl.videoWidth || 640;
     var videoH = whackState.videoEl.videoHeight || 480;
     var videoRect = whackState.videoEl.getBoundingClientRect();
@@ -17452,51 +17438,91 @@ function startWhackHandLoop() {
       offsetX = (videoRect.width - contentW) / 2;
       offsetY = 0;
     }
-    var tipScreenX = videoRect.left + offsetX + tipX * contentW;
-    var tipScreenY = videoRect.top  + offsetY + tipY * contentH;
 
-    if (WHACK_TUNING.DEBUG_HAND_OVERLAY) {
-      if (dot) {
+    var now = performance.now();
+    var inLift = (Date.now() < whackState.globalCooldownUntil);
+    var dbgLines = ['engine: MPH (×' + allHands.length + ' 手)'];
+    if (inLift) dbgLines.push('<span class="bad">🔒 lift CD</span>');
+
+    // 標記本幀有用到的 label,沒用到的待會清掉
+    var seenLabels = {};
+
+    for (var h = 0; h < allHands.length; h++) {
+      var hLandmarks = allHands[h];
+      if (!hLandmarks || hLandmarks.length < 21) continue;
+
+      // 取 handedness label;MPH 可能標 'Left' / 'Right',或缺項時 fallback 用 index
+      var hLabel = (handedness && handedness[h] && handedness[h].label) || ('h' + h);
+      seenLabels[hLabel] = true;
+
+      var tip = hLandmarks[8];
+      var tipX = 1 - tip.x;
+      var tipY = tip.y;
+
+      // 速度向量(per hand)
+      var dx = 0, dy = 0, speed = 0;
+      var prev = lastTips[hLabel];
+      if (prev) {
+        var dt = (now - prev.time) / 1000;
+        if (dt > 0 && dt < 0.5) {
+          dx = (tipX - prev.x) / dt;
+          dy = (tipY - prev.y) / dt;
+          speed = Math.sqrt(dx*dx + dy*dy);
+        }
+      }
+      lastTips[hLabel] = { x: tipX, y: tipY, time: now };
+
+      var tipScreenX = videoRect.left + offsetX + tipX * contentW;
+      var tipScreenY = videoRect.top  + offsetY + tipY * contentH;
+
+      if (WHACK_TUNING.DEBUG_HAND_OVERLAY) {
+        var dot = getOrCreateDot(hLabel);
         dot.style.display = 'block';
         dot.style.left = tipScreenX + 'px';
         dot.style.top  = tipScreenY + 'px';
+
+        var dyOk = (dy >= WHACK_TUNING.DOWN_VELOCITY_THRESHOLD);
+        var spdOk = (speed >= WHACK_TUNING.MIN_SPEED);
+        dbgLines.push(
+          hLabel + ': dy ' + dy.toFixed(2) +
+            ' <span class="' + (dyOk ? 'ok' : 'bad') + '">' + (dyOk ? '✅' : '❌') + '</span>' +
+            ' / spd ' + speed.toFixed(2) +
+            ' <span class="' + (spdOk ? 'ok' : 'bad') + '">' + (spdOk ? '✅' : '❌') + '</span>'
+        );
       }
-      if (dbgPanel) {
-        var dyOk   = (dy    >= WHACK_TUNING.DOWN_VELOCITY_THRESHOLD);
-        var spdOk  = (speed >= WHACK_TUNING.MIN_SPEED);
-        var inLift = (Date.now() < whackState.globalCooldownUntil);
-        dbgPanel.style.display = 'block';
-        dbgPanel.innerHTML =
-          'engine: MPH<br>' +
-          'tip[8]: (' + tip.x.toFixed(2) + ',' + tip.y.toFixed(2) + ')<br>' +
-          'mirrored: (' + tipX.toFixed(2) + ',' + tipY.toFixed(2) + ')<br>' +
-          'dy: ' + dy.toFixed(2) +
-            ' <span class="' + (dyOk ? 'ok' : 'bad') + '">' + (dyOk ? '✅' : '❌') + '</span><br>' +
-          'spd: ' + speed.toFixed(2) +
-            ' <span class="' + (spdOk ? 'ok' : 'bad') + '">' + (spdOk ? '✅' : '❌') + '</span><br>' +
-          'tip→screen: (' + Math.round(tipScreenX) + ',' + Math.round(tipScreenY) + ')<br>' +
-          (inLift ? '<span class="bad">🔒 lift CD</span>' : '');
+
+      // 打擊判定(per hand)
+      if (inLift) continue;
+      if (dy <= WHACK_TUNING.DOWN_VELOCITY_THRESHOLD) continue;
+      if (speed < WHACK_TUNING.MIN_SPEED) continue;
+
+      for (var i = 0; i < whackState.holes.length; i++) {
+        var hole = whackState.holes[i];
+        if (!hole.active) continue;
+        if (Date.now() < hole.cooldownUntil) continue;
+
+        var rect = hole.el.getBoundingClientRect();
+        var padX = rect.width  * WHACK_TUNING.HIT_BBOX_PAD_RATIO;
+        var padY = rect.height * WHACK_TUNING.HIT_BBOX_PAD_RATIO;
+        if (tipScreenX >= rect.left - padX && tipScreenX <= rect.right + padX &&
+            tipScreenY >= rect.top  - padY && tipScreenY <= rect.bottom + padY) {
+          onWhackHit(i);
+          break;
+        }
       }
     }
 
-    // 打擊判定
-    if (Date.now() < whackState.globalCooldownUntil) return;
-    if (dy <= WHACK_TUNING.DOWN_VELOCITY_THRESHOLD) return;
-    if (speed < WHACK_TUNING.MIN_SPEED) return;
-
-    for (var i = 0; i < whackState.holes.length; i++) {
-      var hole = whackState.holes[i];
-      if (!hole.active) continue;
-      if (Date.now() < hole.cooldownUntil) continue;
-
-      var rect = hole.el.getBoundingClientRect();
-      var padX = rect.width  * WHACK_TUNING.HIT_BBOX_PAD_RATIO;
-      var padY = rect.height * WHACK_TUNING.HIT_BBOX_PAD_RATIO;
-      if (tipScreenX >= rect.left - padX && tipScreenX <= rect.right + padX &&
-          tipScreenY >= rect.top  - padY && tipScreenY <= rect.bottom + padY) {
-        onWhackHit(i);
-        break;
+    // 清掉這幀沒看到的手的狀態 + 紅點
+    for (var existingLabel in lastTips) {
+      if (!seenLabels[existingLabel]) {
+        delete lastTips[existingLabel];
+        if (handDots[existingLabel]) handDots[existingLabel].style.display = 'none';
       }
+    }
+
+    if (WHACK_TUNING.DEBUG_HAND_OVERLAY && dbgPanel) {
+      dbgPanel.style.display = 'block';
+      dbgPanel.innerHTML = dbgLines.join('<br>');
     }
   }
   requestAnimationFrame(loop);
