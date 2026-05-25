@@ -4277,8 +4277,9 @@ body {
     <button class="setting-option" data-lang="en" onclick="setLanguage('en')">English</button>
   </div>
 
-  <!-- 打地鼠玩法 -->
-  <div class="settings-group">
+  <!-- v8.6:打地鼠玩法暫時藏(體感 model bug 修好前只有 tap)。
+       要回來測在 console 打 WHACK_ENABLE_MOTION = true 即可重啟。 -->
+  <div class="settings-group" id="whack-mode-settings-group" style="display:none">
     <h3>🐹 打地鼠玩法</h3>
     <button class="setting-option" id="whack-mode-setting-motion" onclick="setWhackMode('motion')">📷 體感</button>
     <button class="setting-option" id="whack-mode-setting-tap" onclick="setWhackMode('tap')">👆 手指</button>
@@ -5224,6 +5225,9 @@ function setWhackMode(mode) {
 }
 
 function updateWhackModeSettingUI() {
+  // v8.6:WHACK_ENABLE_MOTION 開啟時才顯示「打地鼠玩法」設定區
+  var group = document.getElementById('whack-mode-settings-group');
+  if (group) group.style.display = window.WHACK_ENABLE_MOTION ? '' : 'none';
   var m = document.getElementById('whack-mode-setting-motion');
   var t = document.getElementById('whack-mode-setting-tap');
   if (!m || !t) return;
@@ -16837,14 +16841,24 @@ function startWhackGame() {
     whackState.endCheckTimer = null;
   }
 
-  // 顯示 modal,隱藏遊戲區/HUD/LIVE/慶祝畫面
-  document.getElementById('whack-modal').style.display = 'flex';
+  // 隱藏遊戲區/HUD/LIVE/慶祝畫面
   document.getElementById('whack-hud').style.display = 'none';
   document.getElementById('whack-game-area').style.display = 'none';
   document.getElementById('whack-live').style.display = 'none';
   document.getElementById('whack-complete').classList.remove('show');
 
-  // i18n: modal 文字(沿用 APP.language 模式)
+  // v8.6:體感模式暫時停用(hand-pose-detection self-host bug 給 null 座標)
+  //       直接跳 tap 模式不顯示 modal。要回來測 motion 在 console 打
+  //       WHACK_ENABLE_MOTION = true 然後重新進活動。
+  if (!window.WHACK_ENABLE_MOTION) {
+    document.getElementById('whack-modal').style.display = 'none';
+    APP.whackMode = 'tap';
+    selectWhackMode('tap');
+    return;
+  }
+
+  // 體感啟用時:照舊顯示 modal
+  document.getElementById('whack-modal').style.display = 'flex';
   var isEn = (APP.language === 'en');
   document.getElementById('whack-modal-title').textContent =
     isEn ? 'Ready to play whack-a-mole?' : '準備好玩打地鼠了嗎?';
@@ -16854,14 +16868,10 @@ function startWhackGame() {
     isEn ? 'Tap to play' : '用手指點';
   document.getElementById('whack-privacy-text').textContent =
     isEn ? 'Camera stays on your device, never uploaded' : '相機畫面只在你裝置上,完全不會傳出去';
-
-  // 預設高亮(依年齡)
   var defaultIsMotion = (APP.ageGroup === 'middle' || APP.ageGroup === 'large');
   document.getElementById('whack-mode-motion').classList.toggle('recommended', defaultIsMotion);
   document.getElementById('whack-mode-tap').classList.toggle('recommended', !defaultIsMotion);
-
-  // 若已記住模式,直接套用(跳過 modal)
-  if (APP.whackMode) {
+  if (APP.whackMode === 'motion' || APP.whackMode === 'tap') {
     selectWhackMode(APP.whackMode);
   }
 }
