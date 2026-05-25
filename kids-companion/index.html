@@ -2778,11 +2778,12 @@ body {
   position: relative;
   width: 100%;
   height: 100vh;
-  padding: 60px 12px 30px;  /* v7:top 80→60, side 20→12, bottom 60→30 */
+  /* v9.1:小孩矮夠不到中間,洞口整排推到下 1/3 區域 */
+  padding: 60px 12px 30px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
   z-index: 1;
 }
 .whack-grid {
@@ -16527,7 +16528,7 @@ function loadWhackHandModel() {
       });
 
       hands.setOptions({
-        maxNumHands: 1,
+        maxNumHands: 2,  // v9.1:抓兩手避免兩手在畫面時被卡住,後面挑伸最高那隻
         modelComplexity: 0,        // 0 = lite(行動裝置 ~15 FPS),1 = full(~10 FPS)
         minDetectionConfidence: 0.5,
         minTrackingConfidence: 0.5
@@ -16619,7 +16620,7 @@ var WHACK_TUNING = {
   // v8 hand pose tuning(v8.2 大幅降寬鬆 + 加可視診斷)
   DOWN_VELOCITY_THRESHOLD: 0.15, // 食指尖向下速度 > 此值才算打擊 (歸一化/秒)
   MIN_SPEED: 0.08,               // 速度向量總長 > 此值才算有效動作
-  HIT_BBOX_PAD_RATIO: 0.25,      // 洞口 bbox 外延 25% 當有效擊中區
+  HIT_BBOX_PAD_RATIO: 0.40,      // v9.1:25→40 給小孩瞄不準的容錯,Y 方向也更寬
   DEBUG_HAND_OVERLAY: true       // v8.2:預設開,顯示紅點 + dy/speed 即時數值。沒問題後 console 關掉
 };
 
@@ -17381,7 +17382,22 @@ function startWhackHandLoop() {
     var dot = document.getElementById('whack-tip-dot');
     var dbgPanel = document.getElementById('whack-hand-debug');
 
-    var landmarks = results.multiHandLandmarks && results.multiHandLandmarks[0];
+    // v9.1:兩手都偵測,挑指尖 Y 最小(畫面最高 / 最伸出去揮)那隻
+    var allHands = results.multiHandLandmarks;
+    var landmarks = null;
+    if (allHands && allHands.length > 0) {
+      landmarks = allHands[0];
+      if (allHands.length > 1) {
+        var bestY = landmarks[8].y;
+        for (var k = 1; k < allHands.length; k++) {
+          var thisY = allHands[k][8] && allHands[k][8].y;
+          if (typeof thisY === 'number' && thisY < bestY) {
+            bestY = thisY;
+            landmarks = allHands[k];
+          }
+        }
+      }
+    }
     if (!landmarks || landmarks.length < 21) {
       lastTipX = null;
       lastTipY = null;
