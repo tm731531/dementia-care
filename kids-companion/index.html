@@ -4277,9 +4277,8 @@ body {
     <button class="setting-option" data-lang="en" onclick="setLanguage('en')">English</button>
   </div>
 
-  <!-- v8.6:打地鼠玩法暫時藏(體感 model bug 修好前只有 tap)。
-       要回來測在 console 打 WHACK_ENABLE_MOTION = true 即可重啟。 -->
-  <div class="settings-group" id="whack-mode-settings-group" style="display:none">
+  <!-- 打地鼠玩法(v9 MPH 體感恢復啟用) -->
+  <div class="settings-group" id="whack-mode-settings-group">
     <h3>🐹 打地鼠玩法</h3>
     <button class="setting-option" id="whack-mode-setting-motion" onclick="setWhackMode('motion')">📷 體感</button>
     <button class="setting-option" id="whack-mode-setting-tap" onclick="setWhackMode('tap')">👆 手指</button>
@@ -4315,8 +4314,8 @@ body {
 <!-- #END:SETTINGS -->
 
 <!-- TF.js + Hand Pose Detection (self-host vendor/) -->
-<script src="vendor/tf.min.js"></script>
-<script src="vendor/hand-pose-detection.min.js"></script>
+<!-- v9:MediaPipe Hands self-host(取代 hand-pose-detection,後者 v2.0.1 self-host bug) -->
+<script src="vendor/mediapipe-hands/hands.js"></script>
 
 <script>
 // <!-- #SECTION:STATE -->
@@ -5225,9 +5224,6 @@ function setWhackMode(mode) {
 }
 
 function updateWhackModeSettingUI() {
-  // v8.6:WHACK_ENABLE_MOTION 開啟時才顯示「打地鼠玩法」設定區
-  var group = document.getElementById('whack-mode-settings-group');
-  if (group) group.style.display = window.WHACK_ENABLE_MOTION ? '' : 'none';
   var m = document.getElementById('whack-mode-setting-motion');
   var t = document.getElementById('whack-mode-setting-tap');
   if (!m || !t) return;
@@ -16485,76 +16481,82 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // <!-- #SECTION:WHACK-LOGIC -->
 
-// v8 Hand Pose Detection model state(單例,跨遊戲場次共用)
+// v9:MediaPipe Hands(直接 self-host @mediapipe/hands@0.4.x)
+// v8.x 用 @tensorflow-models/hand-pose-detection v2.0.1 + self-host model,
+// 結果 keypoints[8] 永遠回 {x:null, y:null}(package self-host bug)。
+// 改用 MediaPipe Hands 直連 — beat-pose / 所有 working examples 都用這個。
 var whackHandModel = null;
-var whackHandModelLoading = null;  // Promise,避免重複載入
+var whackHandModelLoading = null;
+var whackHandLastResults = null;  // MPH onResults callback 把結果塞這
 
-// 載入 model + warm-up(第一次 inference 需要 GPU shader compile,~1-3s)
-// 回傳 Promise<detector>。重複呼叫直接拿 cache。
+function handleWhackMphResults(results) {
+  whackHandLastResults = results;
+}
+
 function loadWhackHandModel() {
   if (whackHandModel) return Promise.resolve(whackHandModel);
   if (whackHandModelLoading) return whackHandModelLoading;
 
-  // v8.1:WebGL 不支援或 script 沒載入 → 立即 reject(會 fallback 到 tap)
-  if (typeof tf === 'undefined' || typeof handPoseDetection === 'undefined') {
-    return Promise.reject(new Error('TFJS_NOT_LOADED'));
+  if (typeof Hands === 'undefined') {
+    return Promise.reject(new Error('MPH_NOT_LOADED'));
   }
 
   var loadingText = document.getElementById('whack-loading-text');
   var progressText = document.getElementById('whack-loading-progress');
   var isEn = (APP.language === 'en');
-
   function setText(t) { if (loadingText) loadingText.textContent = t; }
   function setProgress(p) { if (progressText) progressText.textContent = p; }
 
   whackHandModelLoading = (async function() {
     try {
-      setText(isEn ? 'Loading TF.js…' : '載入 TF.js…');
+      setText(isEn ? 'Loading MediaPipe Hands…' : '載入 MediaPipe Hands…');
       setProgress(isEn ? '20%' : '進度 20%');
 
-      // v8.1:30s timeout 守門(網路爛 / 裝置死避免無限等)
-      var TIMEOUT_MS = 30000;
+      var TIMEOUT_MS = 60000;  // MPH 較大(13 MB),timeout 拉長到 60s
       var timeoutPromise = new Promise(function(_, reject) {
         setTimeout(function() { reject(new Error('LOAD_TIMEOUT')); }, TIMEOUT_MS);
       });
       function withTimeout(p) { return Promise.race([p, timeoutPromise]); }
 
-      // 等 tfjs ready(WebGL backend init 等)
-      await withTimeout(tf.ready());
-      // 強制 webgl backend(行動裝置最快)
-      try { await withTimeout(tf.setBackend('webgl')); } catch (e) { /* fallback ok */ }
-
-      setText(isEn ? 'Loading hand model…' : '載入手部模型…');
-      setProgress(isEn ? '50%' : '進度 50%');
-
-      var detector = await withTimeout(handPoseDetection.createDetector(
-        handPoseDetection.SupportedModels.MediaPipeHands,
-        {
-          runtime: 'tfjs',
-          modelType: 'full',  // v8.5:lite 回傳 null 座標,改 full(landmark v3.7.0 + 完整精度)
-          maxHands: 1,
-          detectorModelUrl: 'vendor/models/detector-full/model.json',
-          landmarkModelUrl: 'vendor/models/landmark-full/model.json'
+      var hands = new Hands({
+        locateFile: function(file) {
+          // 所有 MPH 內部要載的檔案(wasm / .data / .tflite / .binarypb)
+          // 全部從我們同源 vendor/mediapipe-hands/ 載入
+          return 'vendor/mediapipe-hands/' + file;
         }
-      ));
+      });
+
+      hands.setOptions({
+        maxNumHands: 1,
+        modelComplexity: 0,        // 0 = lite(行動裝置 ~15 FPS),1 = full(~10 FPS)
+        minDetectionConfidence: 0.5,
+        minTrackingConfidence: 0.5
+      });
+
+      hands.onResults(handleWhackMphResults);
+
+      setText(isEn ? 'Initializing…' : '初始化中…');
+      setProgress(isEn ? '60%' : '進度 60%');
+
+      await withTimeout(hands.initialize());
 
       setText(isEn ? 'Warming up…' : '暖機中…');
       setProgress(isEn ? '90%' : '進度 90%');
 
-      // Warm-up:跑一次空 inference 預編 GPU shader,避免遊戲第一幀卡 1-3s
-      var dummyCanvas = document.createElement('canvas');
-      dummyCanvas.width = 192;
-      dummyCanvas.height = 192;
-      await withTimeout(detector.estimateHands(dummyCanvas));
+      // Warm-up:跑一次空 canvas inference 預編
+      var dummy = document.createElement('canvas');
+      dummy.width = 256;
+      dummy.height = 256;
+      await withTimeout(hands.send({ image: dummy }));
 
       setText(isEn ? 'Ready!' : '準備好!');
       setProgress(isEn ? '100%' : '進度 100%');
 
-      whackHandModel = detector;
-      return detector;
+      whackHandModel = hands;
+      return hands;
     } catch (err) {
-      console.error('loadWhackHandModel failed:', err);
-      whackHandModelLoading = null;  // 允許重試
+      console.error('loadWhackHandModel (MPH) failed:', err);
+      whackHandModelLoading = null;
       throw err;
     }
   })();
@@ -16847,17 +16849,7 @@ function startWhackGame() {
   document.getElementById('whack-live').style.display = 'none';
   document.getElementById('whack-complete').classList.remove('show');
 
-  // v8.6:體感模式暫時停用(hand-pose-detection self-host bug 給 null 座標)
-  //       直接跳 tap 模式不顯示 modal。要回來測 motion 在 console 打
-  //       WHACK_ENABLE_MOTION = true 然後重新進活動。
-  if (!window.WHACK_ENABLE_MOTION) {
-    document.getElementById('whack-modal').style.display = 'none';
-    APP.whackMode = 'tap';
-    selectWhackMode('tap');
-    return;
-  }
-
-  // 體感啟用時:照舊顯示 modal
+  // v9:重新啟用體感模式(從 v8.x hand-pose-detection 切到 @mediapipe/hands)
   document.getElementById('whack-modal').style.display = 'flex';
   var isEn = (APP.language === 'en');
   document.getElementById('whack-modal-title').textContent =
@@ -17345,6 +17337,11 @@ function startWhackMotion() {
 }
 
 // v8:取代 pixel-diff loop,用 TF.js Hand Pose 21 個關節 + 速度向量做精準判定
+// v9:MediaPipe Hands callback-based loop。
+// MPH 跟 hand-pose-detection 不同的是:
+//   - send(image) 是 async,結果透過 onResults callback 抵達(我們存在 whackHandLastResults)
+//   - landmarks 已經是 0..1 NORMALIZED(相對於 input image),不用除 videoW/H
+//   - MPH 沒有 flipHorizontal 選項,要自己做(video 顯示已 CSS mirror,我們 1-tip.x 補回)
 function startWhackHandLoop() {
   if (!whackHandModel) {
     console.warn('startWhackHandLoop: model not loaded');
@@ -17352,10 +17349,10 @@ function startWhackHandLoop() {
   }
 
   var lastInferenceMs = 0;
-  var INFERENCE_INTERVAL_MS = 66;  // ~15 FPS cap(行動裝置友善)
-  var inferring = false;            // 防 reentry
+  var INFERENCE_INTERVAL_MS = 66;  // ~15 FPS cap
+  var inferring = false;
+  var lastResultsSeen = null;  // 用來偵測「有新結果」
 
-  // 上一幀指尖位置(歸一化 0..1 相對於 video frame)
   var lastTipX = null;
   var lastTipY = null;
   var lastTipTime = 0;
@@ -17364,155 +17361,127 @@ function startWhackHandLoop() {
     if (!whackState.active || whackState.mode !== 'motion') return;
     whackState.diffRafId = requestAnimationFrame(loop);
 
-    if (timestamp - lastInferenceMs < INFERENCE_INTERVAL_MS) return;
-    if (inferring) return;
-    if (whackState.videoEl.readyState < 2) return;
+    if (timestamp - lastInferenceMs >= INFERENCE_INTERVAL_MS && !inferring &&
+        whackState.videoEl && whackState.videoEl.readyState >= 2) {
+      lastInferenceMs = timestamp;
+      inferring = true;
+      whackHandModel.send({ image: whackState.videoEl })
+        .then(function() { inferring = false; })
+        .catch(function(err) {
+          inferring = false;
+          console.warn('hands.send error:', err);
+        });
+    }
 
-    lastInferenceMs = timestamp;
-    inferring = true;
+    // 處理最新結果(可能上一次 inference 結束才更新)
+    var results = whackHandLastResults;
+    if (!results || results === lastResultsSeen) return;
+    lastResultsSeen = results;
 
-    whackHandModel.estimateHands(whackState.videoEl, { flipHorizontal: true })
-      .then(function(hands) {
-        inferring = false;
-        if (!whackState.active) return;
+    var dot = document.getElementById('whack-tip-dot');
+    var dbgPanel = document.getElementById('whack-hand-debug');
 
-        // v8.2:debug overlay refs(每幀更新)
-        var dot = document.getElementById('whack-tip-dot');
-        var dbgPanel = document.getElementById('whack-hand-debug');
-
-        if (hands.length === 0) {
-          // 沒手 → 清掉上一幀,重新累計
-          lastTipX = null;
-          lastTipY = null;
-          lastTipTime = 0;
-          if (WHACK_TUNING.DEBUG_HAND_OVERLAY) {
-            if (dot) dot.style.display = 'none';
-            if (dbgPanel) {
-              dbgPanel.style.display = 'block';
-              dbgPanel.textContent = 'no hand';
-            }
-          }
-          return;
+    var landmarks = results.multiHandLandmarks && results.multiHandLandmarks[0];
+    if (!landmarks || landmarks.length < 21) {
+      lastTipX = null;
+      lastTipY = null;
+      lastTipTime = 0;
+      if (WHACK_TUNING.DEBUG_HAND_OVERLAY) {
+        if (dot) dot.style.display = 'none';
+        if (dbgPanel) {
+          dbgPanel.style.display = 'block';
+          dbgPanel.textContent = 'no hand';
         }
+      }
+      return;
+    }
 
-        var hand = hands[0];
-        var tip = hand.keypoints && hand.keypoints[8];
+    var tip = landmarks[8];  // index_finger_tip
+    // MPH 給的是 0..1 normalized,直接用。
+    // 鏡像補償:video CSS scaleX(-1) 顯示翻轉,但 MPH 看的是 raw stream,
+    // 所以我們把 x 用 (1 - tip.x) 翻回來,跟使用者眼睛看到的一致。
+    var tipX = 1 - tip.x;
+    var tipY = tip.y;
 
-        // v8.3 診斷:一次性 log 整個 hand 物件結構(找 keypoints[8] 結構)
-        if (WHACK_TUNING.DEBUG_HAND_OVERLAY && !window._whackHandDumped) {
-          window._whackHandDumped = true;
-          console.log('=== HAND OBJECT DUMP ===');
-          console.log(JSON.stringify(hand, null, 2).substring(0, 2000));
-          console.log('keypoints[8] =', hand.keypoints && hand.keypoints[8]);
-        }
+    // 速度向量
+    var dx = 0, dy = 0, speed = 0;
+    var now = performance.now();
+    if (lastTipX !== null && lastTipY !== null) {
+      var dt = (now - lastTipTime) / 1000;
+      if (dt > 0 && dt < 0.5) {
+        dx = (tipX - lastTipX) / dt;
+        dy = (tipY - lastTipY) / dt;
+        speed = Math.sqrt(dx*dx + dy*dy);
+      }
+    }
+    lastTipX = tipX;
+    lastTipY = tipY;
+    lastTipTime = now;
 
-        // 歸一化到 0..1(用 videoWidth / videoHeight)
-        var videoW = whackState.videoEl.videoWidth || 640;
-        var videoH = whackState.videoEl.videoHeight || 480;
-        // v8.3:容錯 — tip 可能是 undefined 或 .x/.y 缺失
-        var rawX = (tip && typeof tip.x === 'number') ? tip.x : NaN;
-        var rawY = (tip && typeof tip.y === 'number') ? tip.y : NaN;
-        var tipX = rawX / videoW;
-        var tipY = rawY / videoH;
+    // 螢幕座標(object-fit:contain 補償)
+    var videoW = whackState.videoEl.videoWidth || 640;
+    var videoH = whackState.videoEl.videoHeight || 480;
+    var videoRect = whackState.videoEl.getBoundingClientRect();
+    var elAspect = videoRect.width / videoRect.height;
+    var streamAspect = videoW / videoH;
+    var contentW, contentH, offsetX, offsetY;
+    if (streamAspect > elAspect) {
+      contentW = videoRect.width;
+      contentH = videoRect.width / streamAspect;
+      offsetX = 0;
+      offsetY = (videoRect.height - contentH) / 2;
+    } else {
+      contentH = videoRect.height;
+      contentW = videoRect.height * streamAspect;
+      offsetX = (videoRect.width - contentW) / 2;
+      offsetY = 0;
+    }
+    var tipScreenX = videoRect.left + offsetX + tipX * contentW;
+    var tipScreenY = videoRect.top  + offsetY + tipY * contentH;
 
-        // 計算速度向量(歸一化 / 秒)
-        var dx = 0, dy = 0, speed = 0;
-        var now = performance.now();
-        if (lastTipX !== null && lastTipY !== null) {
-          var dt = (now - lastTipTime) / 1000;
-          if (dt > 0 && dt < 0.5) {
-            dx = (tipX - lastTipX) / dt;
-            dy = (tipY - lastTipY) / dt;
-            speed = Math.sqrt(dx*dx + dy*dy);
-          }
-        }
-        lastTipX = tipX;
-        lastTipY = tipY;
-        lastTipTime = now;
+    if (WHACK_TUNING.DEBUG_HAND_OVERLAY) {
+      if (dot) {
+        dot.style.display = 'block';
+        dot.style.left = tipScreenX + 'px';
+        dot.style.top  = tipScreenY + 'px';
+      }
+      if (dbgPanel) {
+        var dyOk   = (dy    >= WHACK_TUNING.DOWN_VELOCITY_THRESHOLD);
+        var spdOk  = (speed >= WHACK_TUNING.MIN_SPEED);
+        var inLift = (Date.now() < whackState.globalCooldownUntil);
+        dbgPanel.style.display = 'block';
+        dbgPanel.innerHTML =
+          'engine: MPH<br>' +
+          'tip[8]: (' + tip.x.toFixed(2) + ',' + tip.y.toFixed(2) + ')<br>' +
+          'mirrored: (' + tipX.toFixed(2) + ',' + tipY.toFixed(2) + ')<br>' +
+          'dy: ' + dy.toFixed(2) +
+            ' <span class="' + (dyOk ? 'ok' : 'bad') + '">' + (dyOk ? '✅' : '❌') + '</span><br>' +
+          'spd: ' + speed.toFixed(2) +
+            ' <span class="' + (spdOk ? 'ok' : 'bad') + '">' + (spdOk ? '✅' : '❌') + '</span><br>' +
+          'tip→screen: (' + Math.round(tipScreenX) + ',' + Math.round(tipScreenY) + ')<br>' +
+          (inLift ? '<span class="bad">🔒 lift CD</span>' : '');
+      }
+    }
 
-        // 座標映射(object-fit:contain 補償)— v8.2:無論 gating 結果都先算,
-        // 才能畫紅點 + 顯示診斷
-        var videoRect = whackState.videoEl.getBoundingClientRect();
-        var elAspect = videoRect.width / videoRect.height;
-        var streamAspect = videoW / videoH;
-        var contentW, contentH, offsetX, offsetY;
-        if (streamAspect > elAspect) {
-          contentW = videoRect.width;
-          contentH = videoRect.width / streamAspect;
-          offsetX = 0;
-          offsetY = (videoRect.height - contentH) / 2;
-        } else {
-          contentH = videoRect.height;
-          contentW = videoRect.height * streamAspect;
-          offsetX = (videoRect.width - contentW) / 2;
-          offsetY = 0;
-        }
-        var tipScreenX = videoRect.left + offsetX + tipX * contentW;
-        var tipScreenY = videoRect.top  + offsetY + tipY * contentH;
+    // 打擊判定
+    if (Date.now() < whackState.globalCooldownUntil) return;
+    if (dy <= WHACK_TUNING.DOWN_VELOCITY_THRESHOLD) return;
+    if (speed < WHACK_TUNING.MIN_SPEED) return;
 
-        // v8.2:更新可見 debug overlay
-        if (WHACK_TUNING.DEBUG_HAND_OVERLAY) {
-          if (dot) {
-            dot.style.display = 'block';
-            dot.style.left = tipScreenX + 'px';
-            dot.style.top  = tipScreenY + 'px';
-          }
-          if (dbgPanel) {
-            var dyOk    = (dy    >= WHACK_TUNING.DOWN_VELOCITY_THRESHOLD);
-            var spdOk   = (speed >= WHACK_TUNING.MIN_SPEED);
-            var inLift  = (Date.now() < whackState.globalCooldownUntil);
-            // v8.4:把 hand schema 直接秀出來,不用 F12
-            var handKeys = hand ? Object.keys(hand).join(',') : 'noHand';
-            var kpsLen = (hand && hand.keypoints && hand.keypoints.length) || 0;
-            var tipKeys = tip ? Object.keys(tip).join(',') : 'noTip';
-            // v8.5:check 3D fallback
-            var tip3D = hand && hand.keypoints3D && hand.keypoints3D[8];
-            var tip3Dstr = tip3D ? JSON.stringify(tip3D).substring(0, 80) : 'undef';
-            dbgPanel.style.display = 'block';
-            dbgPanel.innerHTML =
-              'hand: ' + handKeys + '<br>' +
-              'kps len: ' + kpsLen + '<br>' +
-              'tip[8] keys: ' + tipKeys + '<br>' +
-              'tip[8]: ' + (tip ? JSON.stringify(tip).substring(0, 80) : 'undef') + '<br>' +
-              'kp3D[8]: ' + tip3Dstr + '<br>' +
-              'raw: (' + (isNaN(rawX) ? 'NaN' : Math.round(rawX)) + ',' + (isNaN(rawY) ? 'NaN' : Math.round(rawY)) + ')<br>' +
-              'video: ' + videoW + 'x' + videoH + '<br>' +
-              'norm: (' + (isNaN(tipX) ? 'NaN' : tipX.toFixed(2)) + ',' + (isNaN(tipY) ? 'NaN' : tipY.toFixed(2)) + ')<br>' +
-              'dy: ' + dy.toFixed(2) +
-                ' <span class="' + (dyOk ? 'ok' : 'bad') + '">' + (dyOk ? '✅' : '❌') + '</span><br>' +
-              'spd: ' + speed.toFixed(2) +
-                ' <span class="' + (spdOk ? 'ok' : 'bad') + '">' + (spdOk ? '✅' : '❌') + '</span><br>' +
-              'tip→screen: (' + Math.round(tipScreenX) + ',' + Math.round(tipScreenY) + ')<br>' +
-              (inLift ? '<span class="bad">🔒 lift CD</span>' : '');
-          }
-        }
+    for (var i = 0; i < whackState.holes.length; i++) {
+      var hole = whackState.holes[i];
+      if (!hole.active) continue;
+      if (Date.now() < hole.cooldownUntil) continue;
 
-        // 打擊判定條件
-        if (Date.now() < whackState.globalCooldownUntil) return;
-        if (dy <= WHACK_TUNING.DOWN_VELOCITY_THRESHOLD) return;
-        if (speed < WHACK_TUNING.MIN_SPEED) return;
-
-        // 找包含指尖的洞
-        for (var i = 0; i < whackState.holes.length; i++) {
-          var hole = whackState.holes[i];
-          if (!hole.active) continue;
-          if (Date.now() < hole.cooldownUntil) continue;
-
-          var rect = hole.el.getBoundingClientRect();
-          // bbox + 18% 緩衝(洞是 2:3 直橢圓,X/Y 分開計算)
-          var padX = rect.width  * WHACK_TUNING.HIT_BBOX_PAD_RATIO;
-          var padY = rect.height * WHACK_TUNING.HIT_BBOX_PAD_RATIO;
-          if (tipScreenX >= rect.left - padX && tipScreenX <= rect.right + padX &&
-              tipScreenY >= rect.top  - padY && tipScreenY <= rect.bottom + padY) {
-            onWhackHit(i);
-            break;
-          }
-        }
-      })
-      .catch(function(err) {
-        inferring = false;
-        console.warn('estimateHands error:', err);
-      });
+      var rect = hole.el.getBoundingClientRect();
+      var padX = rect.width  * WHACK_TUNING.HIT_BBOX_PAD_RATIO;
+      var padY = rect.height * WHACK_TUNING.HIT_BBOX_PAD_RATIO;
+      if (tipScreenX >= rect.left - padX && tipScreenX <= rect.right + padX &&
+          tipScreenY >= rect.top  - padY && tipScreenY <= rect.bottom + padY) {
+        onWhackHit(i);
+        break;
+      }
+    }
   }
   requestAnimationFrame(loop);
 }
