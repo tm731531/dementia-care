@@ -16527,10 +16527,10 @@ function loadWhackHandModel() {
         handPoseDetection.SupportedModels.MediaPipeHands,
         {
           runtime: 'tfjs',
-          modelType: 'lite',
+          modelType: 'full',  // v8.5:lite 回傳 null 座標,改 full(landmark v3.7.0 + 完整精度)
           maxHands: 1,
-          detectorModelUrl: 'vendor/models/detector-lite/model.json',
-          landmarkModelUrl: 'vendor/models/landmark-lite/model.json'
+          detectorModelUrl: 'vendor/models/detector-full/model.json',
+          landmarkModelUrl: 'vendor/models/landmark-full/model.json'
         }
       ));
 
@@ -17455,12 +17455,16 @@ function startWhackHandLoop() {
             var handKeys = hand ? Object.keys(hand).join(',') : 'noHand';
             var kpsLen = (hand && hand.keypoints && hand.keypoints.length) || 0;
             var tipKeys = tip ? Object.keys(tip).join(',') : 'noTip';
+            // v8.5:check 3D fallback
+            var tip3D = hand && hand.keypoints3D && hand.keypoints3D[8];
+            var tip3Dstr = tip3D ? JSON.stringify(tip3D).substring(0, 80) : 'undef';
             dbgPanel.style.display = 'block';
             dbgPanel.innerHTML =
               'hand: ' + handKeys + '<br>' +
               'kps len: ' + kpsLen + '<br>' +
               'tip[8] keys: ' + tipKeys + '<br>' +
               'tip[8]: ' + (tip ? JSON.stringify(tip).substring(0, 80) : 'undef') + '<br>' +
+              'kp3D[8]: ' + tip3Dstr + '<br>' +
               'raw: (' + (isNaN(rawX) ? 'NaN' : Math.round(rawX)) + ',' + (isNaN(rawY) ? 'NaN' : Math.round(rawY)) + ')<br>' +
               'video: ' + videoW + 'x' + videoH + '<br>' +
               'norm: (' + (isNaN(tipX) ? 'NaN' : tipX.toFixed(2)) + ',' + (isNaN(tipY) ? 'NaN' : tipY.toFixed(2)) + ')<br>' +
