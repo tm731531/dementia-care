@@ -162,6 +162,7 @@ git add ... && git commit -m "..." && git push
 - Lookup Map fallback 洩 raw id 到 UI
 - Two-table sticky 對齊 / 雙向捲動同步（health-drinks）
 - `.activity-card .icon` CSS 合約（kids-companion）
+- **GitHub Pages Jekyll Liquid 吃掉 markdown 內 `{{ }}` `{% %}`**（2026-05-24 kids-weekend MRT plan.md → Pages build failure 整 repo 部署擋住):repo 根有 `.nojekyll` **不要刪**。任何 plan.md / spec.md 內如有 Python f-string `{{x}}` / JS template literal `${x}`、Jinja `{{ }}`、Vue/React `{{ }}` 都會炸。`.nojekyll` 是 nuclear option(對純靜態 site 無副作用)
 
 ## 兩種擴充情境
 
