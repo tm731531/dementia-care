@@ -4,195 +4,752 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>育兒長路 · 從備孕到國中</title>
+<meta name="description" content="從備孕到國中的家長方法論手冊。0-15 歲縱貫線,特別針對 AI 時代怎麼跟孩子協作。">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%91%A8%E2%80%8D%F0%9F%91%A9%E2%80%8D%F0%9F%91%A7%3C/text%3E%3C/svg%3E">
 <style>
   :root {
     --bg: #f5f5f5;
     --fg: #222;
+    --fg-muted: #555;
+    --fg-dim: #777;
     --accent: #5a4a8a;
     --accent-soft: #ebe5f5;
+    --accent-deep: #3a2a6a;
     --sop-tint: #e7f0e3;
+    --sop-fg: #2a5a1a;
     --method-tint: #f5e8d8;
+    --method-fg: #6a4515;
+    --warn-tint: #fff5d6;
+    --warn-border: #d4b800;
+    --warn-fg: #5a4a00;
+    --info-tint: #e8f1f8;
+    --info-border: #6a90b5;
+    --info-fg: #1a3a5a;
     --border: #ccc;
-    --muted: #666;
+    --border-soft: #e0e0e0;
+    --code-bg: #ececec;
   }
   * { box-sizing: border-box; }
-  html, body {
+  html { scroll-behavior: smooth; }
+  body {
     margin: 0; padding: 0;
     background: var(--bg); color: var(--fg);
-    font-family: "PingFang TC", "Microsoft JhengHei", -apple-system, BlinkMacSystemFont, sans-serif;
-    font-size: 18px; line-height: 1.7;
+    font-family: "PingFang TC", "Microsoft JhengHei", "Heiti TC", -apple-system, BlinkMacSystemFont, "Noto Sans CJK TC", sans-serif;
+    font-size: 18px; line-height: 1.75;
   }
-  .container { max-width: 900px; margin: 0 auto; padding: 24px 20px; }
-  header { padding-bottom: 16px; border-bottom: 2px solid var(--border); }
-  h1 { font-size: 32px; margin: 0 0 8px; }
-  .tagline { color: var(--muted); font-size: 18px; }
+  .container { max-width: 920px; margin: 0 auto; padding: 24px 20px 80px; }
+  header.page-head { padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+  header.page-head h1 { font-size: 32px; margin: 0 0 8px; letter-spacing: 0.5px; }
+  header.page-head .tagline { color: var(--fg-muted); font-size: 17px; margin: 0; }
   .phase-notice {
-    background: #fff5d6; border: 1px solid #d4b800; border-radius: 8px;
-    padding: 12px 16px; margin: 16px 0; font-size: 16px;
+    background: var(--warn-tint); border: 1px solid var(--warn-border); border-radius: 8px;
+    padding: 12px 16px; margin: 16px 0; font-size: 16px; color: var(--warn-fg);
   }
-  nav.tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 16px; }
+  .phase-notice strong { color: #5a3a00; }
+  .phase-notice code { background: rgba(0,0,0,0.06); padding: 1px 6px; border-radius: 3px; font-size: 14px; }
+  nav.tabs {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin: 24px 0 24px;
+    position: sticky; top: 0; z-index: 10;
+    background: var(--bg); padding: 12px 0;
+    border-bottom: 1px solid var(--border-soft);
+  }
   nav.tabs button {
     flex: 1 1 auto; min-height: 56px; min-width: 160px;
     background: #fff; border: 2px solid var(--border); border-radius: 12px;
-    padding: 12px 16px; font-size: 17px; cursor: pointer;
-    color: var(--fg); font-family: inherit;
-    transition: border-color 0.15s, background 0.15s;
+    padding: 10px 14px; font-size: 16px; cursor: pointer;
+    color: var(--fg); font-family: inherit; line-height: 1.4;
+    transition: border-color 0.15s, background 0.15s, color 0.15s;
+    text-align: left;
   }
   nav.tabs button:hover { border-color: var(--accent); }
   nav.tabs button.active { background: var(--accent); color: #fff; border-color: var(--accent); }
-  nav.tabs button .num { display: block; font-size: 12px; opacity: 0.7; margin-bottom: 4px; }
-  .style-badge {
-    display: inline-block; padding: 4px 10px; border-radius: 6px;
-    font-size: 14px; margin-bottom: 12px;
-  }
-  .style-sop { background: var(--sop-tint); color: #2a5a1a; }
-  .style-method { background: var(--method-tint); color: #6a4515; }
-  .tab-panel { display: none; padding: 16px 0; }
+  nav.tabs button .tab-num { display: block; font-size: 12px; opacity: 0.75; margin-bottom: 4px; }
+  nav.tabs button .tab-title { display: block; font-weight: 600; }
+  .tab-panel { display: none; padding: 8px 0 16px; }
   .tab-panel.active { display: block; }
-  .tab-panel h2 { font-size: 26px; margin-top: 8px; }
-  .tab-panel h3 { font-size: 22px; margin-top: 24px; color: var(--accent); }
-  .tab-panel ul { padding-left: 24px; }
-  .tab-panel li { margin: 8px 0; }
-  .doc-link {
-    display: inline-block; padding: 10px 16px;
-    background: var(--accent-soft); border-radius: 8px;
-    color: var(--accent); text-decoration: none; font-weight: 600;
-    margin: 8px 4px 8px 0; min-height: 44px; line-height: 24px;
+  .tab-panel > .lead { font-size: 18px; color: var(--fg-muted); margin: 8px 0 24px; }
+  .style-badge {
+    display: inline-block; padding: 4px 12px; border-radius: 6px;
+    font-size: 14px; margin-bottom: 12px; font-weight: 500;
   }
-  .doc-link:hover { background: var(--accent); color: #fff; }
-  footer {
-    margin-top: 48px; padding: 24px 0; border-top: 2px solid var(--border);
-    color: var(--muted); font-size: 14px;
+  .style-badge.sop { background: var(--sop-tint); color: var(--sop-fg); }
+  .style-badge.method { background: var(--method-tint); color: var(--method-fg); }
+  .tab-panel h2 { font-size: 28px; margin: 24px 0 12px; color: var(--accent-deep); }
+  .tab-panel h3 { font-size: 22px; margin: 32px 0 8px; color: var(--accent); padding-top: 16px; border-top: 1px solid var(--border-soft); }
+  .tab-panel h3:first-of-type { border-top: none; padding-top: 0; }
+  .tab-panel h4 { font-size: 18px; margin: 16px 0 4px; color: var(--fg); }
+  .tab-panel article { margin: 16px 0; }
+  .tab-panel p { margin: 10px 0; }
+  .tab-panel ul, .tab-panel ol { padding-left: 24px; margin: 8px 0; }
+  .tab-panel li { margin: 6px 0; }
+  .tab-panel strong { color: var(--accent-deep); }
+  .tab-panel em { color: var(--fg-muted); font-style: normal; background: var(--code-bg); padding: 1px 6px; border-radius: 3px; }
+  .tab-panel blockquote {
+    margin: 12px 0; padding: 8px 16px;
+    border-left: 4px solid var(--accent);
+    background: var(--accent-soft); color: var(--fg);
+    border-radius: 0 8px 8px 0;
   }
-  footer a { color: var(--accent); }
+  .tab-panel blockquote p { margin: 4px 0; }
+  .callout {
+    margin: 16px 0; padding: 12px 16px; border-radius: 8px;
+    border: 1px solid; font-size: 17px;
+  }
+  .callout.warn { background: var(--warn-tint); border-color: var(--warn-border); color: var(--warn-fg); }
+  .callout.info { background: var(--info-tint); border-color: var(--info-border); color: var(--info-fg); }
+  .callout.note { background: var(--accent-soft); border-color: var(--accent); color: var(--accent-deep); }
+  .callout strong { color: inherit; }
+  .tab-panel table {
+    width: 100%; border-collapse: collapse; margin: 12px 0;
+    font-size: 16px;
+  }
+  .tab-panel th, .tab-panel td {
+    padding: 10px 12px; border: 1px solid var(--border);
+    text-align: left; vertical-align: top;
+  }
+  .tab-panel th { background: var(--accent-soft); color: var(--accent-deep); font-weight: 600; }
+  .tab-panel tr:nth-child(even) td { background: rgba(0,0,0,0.02); }
+  .toc {
+    background: #fff; border: 1px solid var(--border-soft); border-radius: 8px;
+    padding: 12px 20px; margin: 0 0 24px;
+  }
+  .toc-title { font-size: 14px; color: var(--fg-dim); margin: 0 0 6px; text-transform: uppercase; letter-spacing: 1px; }
+  .toc ul { list-style: none; padding: 0; margin: 0; columns: 2; column-gap: 24px; }
+  .toc li { margin: 4px 0; break-inside: avoid; }
+  .toc a { color: var(--accent); text-decoration: none; font-size: 16px; }
+  .toc a:hover { text-decoration: underline; }
+  .stage-card {
+    background: #fff; border: 1px solid var(--border-soft); border-radius: 12px;
+    padding: 16px 20px; margin: 16px 0;
+  }
+  .stage-card .stage-meta {
+    font-size: 14px; color: var(--fg-dim); margin: 0 0 4px;
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+  .stage-card h4 { margin: 0 0 8px; font-size: 20px; color: var(--accent); }
+  .stage-card .stage-task {
+    background: var(--accent-soft); padding: 8px 12px; border-radius: 6px;
+    font-weight: 500; margin: 8px 0 12px; color: var(--accent-deep);
+  }
+  footer.page-foot {
+    margin-top: 64px; padding: 24px 0; border-top: 2px solid var(--border);
+    color: var(--fg-dim); font-size: 14px;
+  }
+  footer.page-foot a { color: var(--accent); }
+  footer.page-foot p { margin: 6px 0; }
   @media print {
-    nav.tabs { display: none; }
+    body { font-size: 12pt; }
+    nav.tabs, .phase-notice, .toc, footer.page-foot { display: none; }
     .tab-panel { display: block !important; page-break-before: always; }
+    .tab-panel:first-of-type { page-break-before: auto; }
+    .callout { border: 1px solid #888; }
+    a { color: #000; text-decoration: underline; }
   }
   @media (max-width: 600px) {
-    h1 { font-size: 26px; }
-    .tab-panel h2 { font-size: 22px; }
-    nav.tabs button { min-width: 0; padding: 10px 12px; font-size: 15px; }
+    body { font-size: 17px; }
+    .container { padding: 16px 14px 60px; }
+    header.page-head h1 { font-size: 26px; }
+    .tab-panel h2 { font-size: 24px; }
+    .tab-panel h3 { font-size: 20px; }
+    nav.tabs button { min-width: 0; padding: 8px 10px; font-size: 14px; min-height: 48px; }
+    nav.tabs button .tab-num { font-size: 11px; }
+    .toc ul { columns: 1; }
+    .tab-panel table { font-size: 14px; }
+    .tab-panel th, .tab-panel td { padding: 8px 10px; }
   }
 </style>
 </head>
 <body>
 <div class="container">
 
-<header>
+<header class="page-head">
   <h1>👨‍👩‍👧 育兒長路</h1>
-  <div class="tagline">從備孕到國中的家長方法論手冊 · 0-15 歲縱貫線</div>
+  <p class="tagline">從備孕到國中的家長方法論手冊 · 0-15 歲縱貫線</p>
 </header>
 
 <div class="phase-notice">
-  ⚠️ <strong>Phase 1 進行中（2026-05-29 啟動）</strong>：本 handbook 是 <code>newborn-handbook</code> + <code>childcare-handbook</code> + 新增「學齡 × AI 協作」整併版。Tab 1-2 內容正在從原 sub-project 遷入，Tab 3-4 為本次新建。完整方法論請見 <a href="https://github.com/tm731531/dementia-care/tree/main/kids-handbook/docs">GitHub docs/</a>。
+  <strong>Phase 1 進行中(2026-05-29 啟動)</strong>:本手冊是 <code>newborn-handbook</code> + <code>childcare-handbook</code> + 新增「學齡 × AI 協作」整併版。Tab 1-2 內容正在從原 sub-project 遷入,Tab 3-4 為本次新建內容(完整可讀)。
 </div>
 
-<nav class="tabs" id="tabnav">
-  <button data-tab="1" class="active"><span class="num">Tab 1</span>備孕 → 新生兒</button>
-  <button data-tab="2"><span class="num">Tab 2</span>托幼選擇 0-6</button>
-  <button data-tab="3"><span class="num">Tab 3</span>學齡 × AI 6-15</button>
-  <button data-tab="4"><span class="num">Tab 4</span>跨階段方法論</button>
+<nav class="tabs" id="tabnav" role="tablist" aria-label="主章節">
+  <button data-tab="1" class="active" role="tab" aria-controls="panel-1" aria-selected="true">
+    <span class="tab-num">Tab 1</span><span class="tab-title">備孕 → 新生兒</span>
+  </button>
+  <button data-tab="2" role="tab" aria-controls="panel-2">
+    <span class="tab-num">Tab 2</span><span class="tab-title">托幼 0-6 歲</span>
+  </button>
+  <button data-tab="3" role="tab" aria-controls="panel-3">
+    <span class="tab-num">Tab 3</span><span class="tab-title">學齡 × AI 6-15</span>
+  </button>
+  <button data-tab="4" role="tab" aria-controls="panel-4">
+    <span class="tab-num">Tab 4</span><span class="tab-title">跨階段方法論</span>
+  </button>
 </nav>
 
-<section class="tab-panel active" data-tab="1">
-  <div class="style-badge style-sop">SOP-first · 時間表 + 最安全預設</div>
-  <h2>備孕 → 新生兒（0 歲）</h2>
-  <p><strong>Phase 2 待遷入</strong>：內容從原 <code>newborn-handbook</code> 搬過來。</p>
-  <h3>預計章節</h3>
-  <ul>
-    <li>🌱 孕前：健康檢查 / 懷孕日記 / 後援評估</li>
-    <li>🤰 孕中 40 週：10 種胎教 / 14 次產檢時程 / 飲食指南</li>
-    <li>🎒 產前：待產包 4 類 checklist</li>
-    <li>💪 產後：自然產 5 點 / 剖腹產 8 點恢復重點</li>
-    <li>👨‍👧 出生後爸爸 5 步政府表單</li>
-    <li>🤱 母乳 / 配方乳：4 招增加母乳 / 配方乳選擇</li>
-    <li>🏫 托嬰中心比較（接續 Tab 2）</li>
-  </ul>
-  <a class="doc-link" href="docs/01-pre-birth-to-newborn.md">看完整大綱 (docs/)</a>
-  <a class="doc-link" href="../newborn-handbook/">前往原 newborn-handbook（Phase 2 整併前）</a>
+<main>
+
+<section id="panel-1" class="tab-panel active" data-tab="1" role="tabpanel">
+  <span class="style-badge sop">SOP-first · 時間表 + 最安全預設</span>
+  <h2>備孕 → 新生兒(0 歲)</h2>
+
+  <div class="callout warn">
+    <strong>Phase 2 內容遷入中。</strong>此 tab 的完整 SOP 章節將從原 <code>newborn-handbook</code> 遷過來。在這之前,<a href="../newborn-handbook/">前往原 newborn-handbook</a> 看完整內容。
+  </div>
+
+  <h3 id="tab1-overview">這個 tab 將涵蓋什麼</h3>
+  <p>給準備懷孕、孕中、或剛迎接新生兒的家長。每一段都是 <strong>SOP-first</strong> 風格 —— 時間表、最安全預設、政府表單清單 —— 因為這個階段很多事是 deadline-driven,過了就重來一年。</p>
+
+  <h3 id="tab1-sections">預計章節</h3>
+  <article id="tab1-prepregnancy">
+    <h4>孕前</h4>
+    <ul>
+      <li>健康檢查項目清單(夫妻雙方)</li>
+      <li>懷孕日記怎麼開始</li>
+      <li>後援評估(特別給家有失智長輩的三明治世代)</li>
+    </ul>
+  </article>
+  <article id="tab1-pregnancy">
+    <h4>孕中 40 週</h4>
+    <ul>
+      <li>10 種胎教方法</li>
+      <li>14 次產檢時程(8 週到 40 週)</li>
+      <li>飲食指南(含子宮肌瘤患者特別注意)</li>
+      <li>月中 / 後援規劃決策樹</li>
+    </ul>
+  </article>
+  <article id="tab1-prebirth">
+    <h4>產前</h4>
+    <ul>
+      <li>家中物品清單</li>
+      <li>待產包 4 類 checklist(資料 / 日常 / 媽媽 / 可有可無)</li>
+    </ul>
+  </article>
+  <article id="tab1-postpartum">
+    <h4>產後</h4>
+    <ul>
+      <li>自然產 5 點恢復重點</li>
+      <li>剖腹產 8 點恢復重點</li>
+    </ul>
+  </article>
+  <article id="tab1-paperwork">
+    <h4>出生後爸爸 5 步政府表單</h4>
+    <ol>
+      <li>戶政</li>
+      <li>區公所</li>
+      <li>公司</li>
+      <li>銀行</li>
+      <li>保險</li>
+    </ol>
+  </article>
+  <article id="tab1-feeding">
+    <h4>母乳 / 配方乳</h4>
+    <ul>
+      <li>增加母乳 4 招</li>
+      <li>配方乳選擇</li>
+    </ul>
+  </article>
 </section>
 
-<section class="tab-panel" data-tab="2">
-  <div class="style-badge style-sop">SOP-first · 時間表 + 最安全預設</div>
-  <h2>托幼選擇（0-6 歲）</h2>
-  <p><strong>Phase 2 待遷入</strong>：內容從原 <code>childcare-handbook</code> 搬過來。</p>
-  <h3>預計章節</h3>
+<section id="panel-2" class="tab-panel" data-tab="2" role="tabpanel">
+  <span class="style-badge sop">SOP-first · 時間表 + 最安全預設</span>
+  <h2>托幼選擇(0-6 歲)</h2>
+
+  <div class="callout warn">
+    <strong>Phase 2 內容遷入中。</strong>此 tab 的完整方法論將從原 <code>childcare-handbook</code> 遷過來。在這之前,<a href="../childcare-handbook/">前往原 childcare-handbook</a> 看完整內容。
+  </div>
+
+  <h3 id="tab2-overview">這個 tab 將涵蓋什麼</h3>
+  <p>給第一次幫孩子找托嬰中心或幼兒園的家長。手冊不告訴你「該選哪家」(每個家庭預算、接送、教學風格偏好都不同),而是教你 <strong>怎麼系統性評估</strong>,讓你在報名截止前知道:該看哪些點、該準備哪些東西、該追蹤哪些時間。</p>
+
+  <h3 id="tab2-types">4 種托育類型對照</h3>
+  <table>
+    <thead>
+      <tr><th>類型</th><th>適用年齡</th><th>費用</th><th>報名方式</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>公托 / 公幼</td><td>0-6</td><td>最低</td><td>各縣市網站抽籤</td></tr>
+      <tr><td>非營利幼兒園</td><td>2-6</td><td>第 1 胎 3000</td><td>統一網站,電腦抽籤</td></tr>
+      <tr><td>準公共</td><td>0-6</td><td>第 1 胎 3000 上限</td><td>各園自辦</td></tr>
+      <tr><td>私立</td><td>0-6</td><td>8000-50000+</td><td>各園自辦</td></tr>
+    </tbody>
+  </table>
+
+  <h3 id="tab2-sections">預計章節</h3>
   <ul>
-    <li>4 種托育類型對照（公托 / 非營利 / 準公共 / 私立）</li>
-    <li>5W1H 方法論（6 個維度評估園所）</li>
-    <li>看園所 checklist（安全 / 師資 / 環境 / 餐食 / 教學 / 隱形費用）</li>
-    <li>時程地圖（0-6 歲每年該做什麼）</li>
-    <li>文件 SOP（戶口名簿 / 預防接種卡 / 健保卡 / 家長證）</li>
-    <li>抽籤機制（正取 / 備取 / 備取保留期）</li>
-    <li>常見地雷（全盤失敗的前提條件）</li>
+    <li>5W1H 方法論:6 個維度評估園所</li>
+    <li>看園所 checklist:6 大維度(安全 / 師資 / 環境 / 餐食 / 教學 / 隱形費用)</li>
+    <li>時程地圖:0-6 歲每年該做什麼</li>
+    <li>文件 SOP:戶口名簿 / 預防接種卡 / 健保卡 / 家長證</li>
+    <li>抽籤機制:正取 / 備取 / 備取保留期</li>
+    <li>常見地雷:全盤失敗的前提條件</li>
+    <li>三明治世代家庭專區(連結到 Tab 4)</li>
   </ul>
-  <a class="doc-link" href="docs/02-childcare-0-6.md">看完整大綱 (docs/)</a>
-  <a class="doc-link" href="../childcare-handbook/">前往原 childcare-handbook（Phase 2 整併前）</a>
 </section>
 
-<section class="tab-panel" data-tab="3">
-  <div class="style-badge style-method">方法論 + 紀錄 · 沒有 SOP，是 frame</div>
-  <h2>學齡 × AI 協作（6-15 歲）</h2>
-  <p><strong>本次新建</strong>。核心問題：在 AI 隨手可得的時代，怎麼讓她「使用前就知道風險」？</p>
+<section id="panel-3" class="tab-panel" data-tab="3" role="tabpanel">
+  <span class="style-badge method">方法論 + 紀錄 · 不是 SOP,是 frame</span>
+  <h2>學齡 × AI 協作(6-15 歲)</h2>
 
-  <h3>一句話核心</h3>
-  <p>她要 <strong>own 自己的問題</strong>。AI 是工具，不是奶嘴。</p>
+  <p class="lead">對象是小一到國三的孩子家長。這一章不給 SOP,因為這個階段沒有「該怎麼做」的標準答案 —— 只有 <strong>該怎麼想</strong>。給你一個 frame,幫你跟另一半在每天的具體場景裡自己決定怎麼接。</p>
 
-  <h3>三個關鍵時間點</h3>
-  <ul>
-    <li><strong>6-8 歲（小一小二）</strong>：建立第一條 baseline（保護一個動手領域）</li>
-    <li><strong>9-11 歲（小三到小五）</strong>：鎖知識順序（傳統教材 → AI）+ 開始接觸 AI 但有護欄</li>
-    <li><strong>12-15 歲（小六到國中）</strong>：規則從「我們替你管」轉成「我們陪你想」</li>
-  </ul>
+  <nav class="toc" aria-label="本章導覽">
+    <div class="toc-title">本章導覽</div>
+    <ul>
+      <li><a href="#tab3-core-question">核心問題</a></li>
+      <li><a href="#tab3-stages">三個關鍵時間點</a></li>
+      <li><a href="#tab3-stage-6-8">6-8 歲做法</a></li>
+      <li><a href="#tab3-stage-9-11">9-11 歲做法</a></li>
+      <li><a href="#tab3-stage-12-15">12-15 歲做法</a></li>
+      <li><a href="#tab3-ai-rules">該禁 AI 嗎</a></li>
+      <li><a href="#tab3-failure-signals">失敗訊號</a></li>
+    </ul>
+  </nav>
 
-  <h3>失敗訊號（警報）</h3>
-  <ul>
-    <li>她的回答開始「複製 AI 的語氣」 → ownership 在流失</li>
-    <li>她對「為什麼」沒興趣只想要「答案」 → baseline 沒建立</li>
-    <li>她拒絕在你面前用 AI → 信任關係沒建立</li>
-    <li>她照 AI 策略執行踩坑、不知道為什麼 → describe 沒長</li>
-  </ul>
+  <article id="tab3-core-question">
+    <h3>核心問題</h3>
+    <p>AI 工具多如牛毛,孩子隨手就問 AI。大多數答案是對的,但只要有一個是錯的、甚至是有心的詐騙,她該如何避開?怎麼知道這個東西是錯的?</p>
+    <p>她沒有大人的 30 年讀書 + 工作經驗 base,她不知道「不對勁」的感覺長什麼樣。</p>
+    <p>但你也沒辦法永遠盯著她用 AI 的每一句話。你要的能力是 <strong>她使用前就知道風險</strong>。</p>
+    <div class="callout note">
+      <p>答案不是「教她判斷真偽」(走不通,國小國中沒辦法判斷大部分事)。答案是:</p>
+      <ol>
+        <li>她要 <strong>own 自己的問題</strong>(見 Tab 4 的「精神核心」跟「Ownership 怎麼培養」)</li>
+        <li>你跟另一半當 <strong>4 層 firewall</strong>(見 Tab 4 的 4 個 firewall 章節)</li>
+      </ol>
+      <p>這一章把這兩件事翻譯到「6-15 歲每個階段具體怎麼做」。</p>
+    </div>
+  </article>
 
-  <a class="doc-link" href="docs/03-school-age-6-15-ai.md">看完整章 (docs/)</a>
-  <a class="doc-link" href="docs/00-spirit.md">先看精神核心</a>
+  <article id="tab3-stages">
+    <h3>三個關鍵時間點</h3>
+    <table>
+      <thead>
+        <tr><th>階段</th><th>年齡</th><th>學制</th><th>關鍵轉折</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>6-8</td><td>小一小二</td><td>第一次接觸學校 SOP + 看到同學的 AI 使用</td></tr>
+        <tr><td>2</td><td>9-11</td><td>小三到小五</td><td>作業變難,AI 出現「幫她做完」的誘惑</td></tr>
+        <tr><td>3</td><td>12-15</td><td>小六到國中</td><td>自我意識 + 開始有手機 / 社群 / 真實 AI 工具</td></tr>
+      </tbody>
+    </table>
+  </article>
+
+  <article id="tab3-stage-6-8" class="stage-card">
+    <p class="stage-meta">階段 1 · 6-8 歲 · 小一小二</p>
+    <h4>建立第一條 baseline</h4>
+    <div class="stage-task">主要任務:讓她有一件事「熟到無聊」</div>
+
+    <h4>具體做法</h4>
+    <ul>
+      <li><strong>保護一個動手領域</strong> —— 種菜、養蝦、烹飪、修補、樂器、運動。<strong>至少一個</strong>,不要 AI 介入,不要父母代勞。這個領域長出來的不是技能,是「我自己的尺」。</li>
+      <li><strong>AI 不要她直接接觸</strong> —— 她有問題回家問你跟另一半。</li>
+      <li><strong>練「結構化描述」</strong> —— 每天聊:「今天為什麼跟同學吵架?你預期他會怎樣?他實際怎樣?差在哪?」</li>
+      <li><strong>你跟另一半自己決策時出聲想</strong> —— 她在旁邊吸收「歸因」這個姿勢,比你直接教她更有效。</li>
+    </ul>
+  </article>
+
+  <article id="tab3-stage-9-11" class="stage-card">
+    <p class="stage-meta">階段 2 · 9-11 歲 · 小三到小五</p>
+    <h4>鎖知識順序 + 開始接觸 AI 但有護欄</h4>
+    <div class="stage-task">主要任務:建立「碰 AI 之前先碰原典」的順序感</div>
+
+    <h4>歷史 / 文學</h4>
+    <p>課本講三國 → 先讀課本講的版本 → 讀羅貫中節選或漫畫 → <strong>這時候</strong>才可以問 AI「其他人是怎麼講三國的」。</p>
+    <p>反過來(先問 AI → 再讀課本)會失去「主流說法」的定錨。她會以為每個版本平等,無法判斷哪個是學校在考的。</p>
+
+    <h4>自然科學</h4>
+    <p>學校課本基礎:物理 100 年沒變、化學 50 年沒變、基礎生物 30 年沒變 —— 這些用傳統教科書就夠。AI 只用來「擴展例子」(這個原理還有什麼應用),不用來「取代課本」。</p>
+    <p>科學前沿(哪份期刊被撤、AI 訓練偏見)是 <strong>大學以後</strong> 的事。小學國中提早教,孩子吃不下。</p>
+
+    <h4>AI 使用三規則</h4>
+    <ol>
+      <li><strong>不可逆的事 → 等一晚再決定</strong></li>
+      <li><strong>不確定的事 → 回家問</strong></li>
+      <li><strong>給 AI 講 context 前先想「我為什麼問?」</strong></li>
+    </ol>
+
+    <h4>持續做的事</h4>
+    <p>6-8 階段建立的 baseline 領域繼續保護,不要因為作業變多就放棄。Baseline 是十年累積的,斷掉一年要重新長。</p>
+  </article>
+
+  <article id="tab3-stage-12-15" class="stage-card">
+    <p class="stage-meta">階段 3 · 12-15 歲 · 小六到國中</p>
+    <h4>學會 own 自己的 AI 使用</h4>
+    <div class="stage-task">主要任務:規則從「我們替你管」轉成「我們陪你想」</div>
+
+    <h4>具體做法</h4>
+    <ul>
+      <li><strong>練習在問之前先描述自己處境</strong>:「我有 X,看到 Y,想達到 Z,預期 W」。有這個描述,AI 答案的品質才會配得上她的問題。</li>
+      <li><strong>詐騙警覺:不是教她分辨,是讓她看夠多正常 pattern</strong>。你跟另一半怎麼買東西、跟銀行打交道、判斷一篇文章 —— 她在旁邊吸收「正常版本」,異常自己會跳出來。</li>
+      <li><strong>父母當「她遇到不確定時第一個想回頭問的人」</strong>。這個關係 <strong>不是國中才開始建,是 3-12 歲累積出來的</strong>。等她國中你才想「保持是她願意問的對象」就晚了。</li>
+    </ul>
+
+    <div class="callout info">
+      <p><strong>關鍵:別罵錯誤,會直接破壞 firewall。</strong></p>
+      <p>她做錯被罵 → 下次不會回來問 → firewall 失效。她講感受被打斷 → 下次不講 → 確認機制斷掉。父母自己慌張 → 她學到的是慌張不是冷靜。</p>
+    </div>
+  </article>
+
+  <article id="tab3-ai-rules">
+    <h3>該禁 AI 嗎?該幾歲開始用?</h3>
+    <p>不該禁。也不該追求「越早用越好」。<strong>真正的問題不是時間,是 ownership</strong>。</p>
+    <p>她每用 AI 一次,你跟另一半可以問她三個問題:</p>
+    <ol>
+      <li>你問之前自己有沒有想?</li>
+      <li>答案你信不信?為什麼信?</li>
+      <li>如果這個答案不對,你怎麼會發現?</li>
+    </ol>
+    <p>她答得出來 → 用 AI 沒問題。她答不出來 → 還沒準備好,<strong>退回去重練 ownership</strong>。</p>
+  </article>
+
+  <article id="tab3-failure-signals">
+    <h3>失敗訊號(警報)</h3>
+    <p>看到這些訊號時 <strong>不是罵她</strong>,是回去檢視 4 層 firewall 哪一層沒做好:</p>
+    <table>
+      <thead>
+        <tr><th>訊號</th><th>對應的 firewall 沒做好</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>她的回答開始「複製 AI 的語氣」</td><td><strong>Ownership</strong> 在流失(她在當傳輸帶)</td></tr>
+        <tr><td>她對「為什麼」沒興趣只想要「答案」</td><td><strong>Baseline</strong> 沒建立,或被 AI 吃掉</td></tr>
+        <tr><td>她拒絕在你面前用 AI</td><td><strong>可問對象</strong> 沒建立 —— 她沒信任空間</td></tr>
+        <tr><td>她說「AI 說的,所以對」</td><td><strong>結構化描述</strong> 沒練,她沒「我問之前先想」的習慣</td></tr>
+        <tr><td>她照 AI 給的策略執行然後踩坑、不知道為什麼</td><td><strong>結構化描述 + Ownership</strong> 都沒長 —— 她沒「我的問題」的感覺</td></tr>
+      </tbody>
+    </table>
+  </article>
 </section>
 
-<section class="tab-panel" data-tab="4">
-  <div class="style-badge style-method">方法論 + 紀錄 · 沒有 SOP，是 frame</div>
+<section id="panel-4" class="tab-panel" data-tab="4" role="tabpanel">
+  <span class="style-badge method">方法論 + 紀錄 · 不是 SOP,是 frame</span>
   <h2>跨階段方法論</h2>
-  <p><strong>本次新建</strong>。0-15 歲全程適用的 frame。</p>
 
-  <h3>4 層 firewall</h3>
-  <ul>
-    <li><strong>Firewall 1 · Baseline</strong>：保護「熟到無聊」的時間 ← AI 介入不了的動手領域</li>
-    <li><strong>Firewall 2 · 鎖順序</strong>：傳統教材 → AI，順序不可顛倒</li>
-    <li><strong>Firewall 3 · 結構化描述</strong>：輸入端有自覺（家庭出聲想）</li>
-    <li><strong>Firewall 4 · 正常版本沉浸 + 程序性 firewall</strong>：等一晚 + 回家問</li>
-  </ul>
+  <p class="lead">這一章是整本手冊的精神核心。Tab 1-3 講不同階段該做什麼,這一章講 <strong>跨所有階段都不變</strong> 的東西 —— 0-15 歲全程都適用。</p>
 
-  <h3>家庭紀錄循環</h3>
-  <ul>
-    <li><strong>brain/</strong>：你跟太太每週紀錄場景</li>
-    <li><strong>skill/</strong>：每月對齊後的家庭做法</li>
-    <li><strong>review/</strong>：每月 + 每年看 ownership 軌跡</li>
-  </ul>
+  <nav class="toc" aria-label="本章導覽">
+    <div class="toc-title">本章導覽</div>
+    <ul>
+      <li><a href="#tab4-spirit">精神核心:照顧但不替代</a></li>
+      <li><a href="#tab4-tensions">為什麼這個是核心</a></li>
+      <li><a href="#tab4-ownership">Ownership 怎麼培養</a></li>
+      <li><a href="#tab4-firewall-1">Firewall 1 · Baseline</a></li>
+      <li><a href="#tab4-firewall-2">Firewall 2 · 鎖順序</a></li>
+      <li><a href="#tab4-firewall-3">Firewall 3 · 結構化描述</a></li>
+      <li><a href="#tab4-firewall-4">Firewall 4 · 正常版本沉浸 + 程序性 firewall</a></li>
+      <li><a href="#tab4-sandwich">三明治世代專區</a></li>
+      <li><a href="#tab4-records">家庭紀錄循環</a></li>
+      <li><a href="#tab4-timeline">時間軸</a></li>
+    </ul>
+  </nav>
 
-  <h3>三明治世代專區</h3>
-  <p>同時照顧失智長輩 + 育兒新生兒 / 幼兒 / 學齡兒童的家庭。壓力 stack 跟 trade-off 跟一般家庭不一樣。</p>
+  <article id="tab4-spirit">
+    <h3>精神核心:照顧但不替代</h3>
+    <blockquote>
+      <p><strong>照顧但不替代。每個家人都要保持 own 自己。</strong></p>
+    </blockquote>
+    <p>對女兒:</p>
+    <ul>
+      <li><strong>0-6 歲</strong>:照顧她,同時保護她「熟到無聊」的時間,讓她自己建立 baseline。</li>
+      <li><strong>6-15 歲</strong>:照顧她,同時不替她想答案,讓她 own 自己的問題。</li>
+      <li><strong>16 歲後</strong>:scaffolding 拆光,她自己 own。</li>
+    </ul>
+    <p>對你跟另一半自己:</p>
+    <ul>
+      <li>協作但各自 own 自己的時間 / 注意力 / 健康。</li>
+      <li>不替對方做決定。</li>
+    </ul>
+  </article>
 
-  <a class="doc-link" href="docs/00-spirit.md">精神核心</a>
-  <a class="doc-link" href="docs/04-cross-stage/four-firewalls/baseline.md">Firewall 1</a>
-  <a class="doc-link" href="docs/04-cross-stage/four-firewalls/order-lock.md">Firewall 2</a>
-  <a class="doc-link" href="docs/04-cross-stage/four-firewalls/describe.md">Firewall 3</a>
-  <a class="doc-link" href="docs/04-cross-stage/four-firewalls/verify-source.md">Firewall 4</a>
-  <a class="doc-link" href="docs/04-cross-stage/sandwich-generation.md">三明治世代</a>
+  <article id="tab4-tensions">
+    <h3>為什麼這個是核心</h3>
+    <p>孩子的成長路徑跟 AI 時代有兩個關鍵 tension:</p>
+
+    <h4>Tension 1:父母想幫 vs 孩子要長</h4>
+    <p>「我幫她做比較快」是每個家長都會遇到的瞬間。但長期下來孩子把「動腦」整個外包出去 ——</p>
+    <div class="callout note">
+      <p><strong>學齡前外包給父母,學齡後外包給 AI。外包對象變了,但 ownership 沒長出來。</strong></p>
+    </div>
+
+    <h4>Tension 2:AI 隨手可得 vs 她要自己建立判斷力</h4>
+    <p>AI 工具多如牛毛,孩子隨手就問 AI。大多數答案是對的,但只要有一個是錯的、甚至是有心的詐騙,她該如何避開、甚至怎麼知道是錯的?</p>
+    <p>她沒有大人的 30 年讀書 + 工作經驗 base,她不知道「不對勁」的感覺長什麼樣。</p>
+  </article>
+
+  <article id="tab4-ownership">
+    <h3>Ownership 怎麼培養</h3>
+    <p>大人用 AI 跟孩子用 AI 的差異:</p>
+    <table>
+      <thead>
+        <tr><th>大人用 AI</th><th>孩子用 AI 的失敗模式</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>大人 own 問題 → AI 是工具</td><td>AI own 問題 → 孩子變成執行者</td></tr>
+        <tr><td>知道要問什麼、為什麼問、答案要怎麼接</td><td>不知道為什麼問,只是「我有問題就丟 AI」</td></tr>
+        <tr><td>答案不對勁會 reject(「這不適合我的狀況」)</td><td>答案不對勁也接受(「反正是 AI 說的」)</td></tr>
+      </tbody>
+    </table>
+
+    <p>大人的「使用前就知道風險」這個能力,<strong>不是判斷力,是 own 問題的本能</strong>:問之前已經知道「這是我的問題、為了我自己」。所以答案不適配瞬間有感。</p>
+
+    <p>孩子的核心問題:<strong>她沒有 own 問題的感覺,她變成「AI 跟她之間的傳輸帶」</strong>。</p>
+
+    <h4>培養方法只有一件事:不替她解決問題</h4>
+    <p>具體場景(每天都會發生):</p>
+    <ul>
+      <li>她問「為什麼」→ 不直接給答案,回「<em>你覺得呢?</em>」</li>
+      <li>她遇到困難 → 不直接救她,問「<em>你想怎麼辦?</em>」</li>
+      <li>她做選擇 → 不替她選,問「<em>你想要什麼?</em>」</li>
+      <li>她生氣 → 不替她解釋情緒,問「<em>你怎麼了?</em>」</li>
+    </ul>
+    <p>每一次「我幫她做比較快」的時刻,都是把她的 ownership 外包一次。</p>
+
+    <div class="callout warn">
+      <p><strong>AI 不是新問題,AI 是既有問題的放大版。</strong></p>
+      <p>學齡前外包給父母,學齡後就外包給 AI。她到 16 歲面對 AI 的姿勢,<strong>現在就在決定了</strong>。</p>
+    </div>
+  </article>
+
+  <article id="tab4-firewall-1">
+    <h3>Firewall 1 · Baseline(熟到無聊)</h3>
+    <p><strong>解決的擔憂:</strong>AI 把所有事都做到「夠好」這個程度,孩子永遠不會深入一件事到習慣,永遠 build 不出 baseline。沒有 baseline,後面整條好奇心機制都不會啟動。</p>
+
+    <h4>核心 frame</h4>
+    <p>大人能對任何新事物「分辨好壞」是因為大人有過深入做一件事的經驗。在那一件事上做到習慣 → 看到新事物時自然會比較 → 自動產生「咦這個不對勁」或「咦這個比較快」的感覺。</p>
+    <p>關鍵不是「學了新技能」,是 <strong>那個對比的瞬間</strong>。沒有 baseline 就沒有那個瞬間。</p>
+
+    <table>
+      <thead>
+        <tr><th>元素</th><th>有 baseline 的大人</th><th>沒 baseline 的小孩</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>baseline</td><td>在某件事做到習慣</td><td>沒做過任何一件事到「習慣」的程度</td></tr>
+        <tr><td>驚奇 / 偏差</td><td>看到新東西自動跟舊的比較</td><td>沒 baseline 就沒「咦」</td></tr>
+        <tr><td>訊號</td><td>客觀可衡量(時間、效率、$)</td><td>身體訊號:行/不行、快/慢、卡/不卡</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout note">
+      <p>AI 不是搶走答案,是 <strong>搶走「枯燥到習慣」那段時間</strong>。</p>
+    </div>
+
+    <h4>具體做法</h4>
+    <p>保護 1-2 個「她可以完整 own + 動手 + AI 介入不了」的領域。候選領域(純舉例,請挑你家做得到的):</p>
+    <ul>
+      <li>種植物 / 種菜(可以接上 <code>garden-handbook</code>)</li>
+      <li>養活的生物(魚、蝦、蠶、烏龜)—— 死了就是死了,AI 救不回來</li>
+      <li>烹飪(從生到熟,火、刀、調味,全部物理訊號)</li>
+      <li>修補(玩具、腳踏車、衣服)</li>
+      <li>樂器或某項運動(重複 → 身體訊號 → 可衡量進步)</li>
+    </ul>
+    <p>這個循環要保護的是:<strong>baseline → 動手 → 預期 → 驗證 → 修正</strong>。</p>
+
+    <h4>性質</h4>
+    <ul>
+      <li>AI 介入不了</li>
+      <li>父母也代勞不了(代勞就沒有身體訊號)</li>
+      <li>失敗有真實後果(魚會死、菜會枯、麵會燒焦)</li>
+      <li>重複到「熟到無聊」是 feature 不是 bug</li>
+    </ul>
+  </article>
+
+  <article id="tab4-firewall-2">
+    <h3>Firewall 2 · 鎖順序(傳統教材 → AI)</h3>
+    <p><strong>解決的擔憂:</strong>AI 時代每個孩子問 AI 答案不完全一樣,沒有審定機構,答案會飄。「我以為大家都這樣想」這東西消失了。她沒有共享的版本可以站著。</p>
+
+    <h4>以前 vs 現在</h4>
+    <ul>
+      <li><strong>以前:</strong>課本 = 教育部審定 = 全國共享的 base。24 史 = 官方史 = 學術共識。課本可能爛,但 <strong>大家共享同一份爛</strong>,才能討論「我覺得這部分有問題」。</li>
+      <li><strong>AI 時代壞掉的:</strong>沒有審定機構,每個孩子問 AI 答案會飄(model 版本、prompt 差異)。沒有一個可以 anchor 的點。</li>
+    </ul>
+
+    <p>解法不是「教她驗證」,是 <strong>管順序</strong>。</p>
+
+    <h4>具體做法</h4>
+    <p>傳統教材是 baseline 來源,AI 是擴展,順序不可顛倒。</p>
+    <table>
+      <thead>
+        <tr><th>場景</th><th>對的順序</th><th>錯的順序</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>三國</td>
+          <td>課本講 → 羅貫中節選或漫畫 → <strong>這時候</strong>才問 AI「其他說法」</td>
+          <td>先問 AI → 沒定錨 → 不知道哪個主流</td>
+        </tr>
+        <tr>
+          <td>自然科學</td>
+          <td>課本基礎(物理 100 年沒變、化學 50 年沒變)→ AI 只擴展例子</td>
+          <td>先問 AI → AI 跟不上 / 帶髒資料</td>
+        </tr>
+        <tr>
+          <td>歷史人物</td>
+          <td>教科書 → 維基百科 → 紀錄片 → AI 各種說法</td>
+          <td>先 TikTok / AI 短影音 → 後面學的版本變不掉這個 anchor</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>問題是國小生不會自己照順序。<strong>這就是你跟另一半的工作:替她鎖先後順序,不是禁 AI、不是教驗證。</strong></p>
+
+    <h4>科學前沿的處理</h4>
+    <p>擔心「期刊後打前、AI 被髒資料訓練歪」對小學國中 <strong>過早擔心</strong>。她那階段需要的是基礎物理化學生物(30-50 年沒過時的部分)。前沿批判(哪份期刊被撤、AI 訓練偏見)是 <strong>大學以後</strong> 的事。國小國中提早教,孩子吃不下。</p>
+  </article>
+
+  <article id="tab4-firewall-3">
+    <h3>Firewall 3 · 結構化描述(輸入端有自覺)</h3>
+    <p><strong>解決的擔憂:</strong>AI 給的答案是 generic 的,context 被拿掉了。孩子直接套用 → 踩坑,<strong>而且不知道為什麼踩</strong>。</p>
+
+    <h4>核心 frame</h4>
+    <p>舉例:AI 給「布林通道 80/20」策略 —— generic,但 boundary 被拿掉。適合大盤 / 週期性股,不適合個股。孩子套用 → 踩坑 → <strong>不知道為什麼踩</strong>。</p>
+    <p>「不知道為什麼踩」比踩坑更可怕,會導致:怪 AI、怪自己、怪運氣 → <strong>全部不信任 → 虛無</strong>。</p>
+
+    <h4>大人為什麼能歸因</h4>
+    <p>大人能歸因,是因為 <strong>大人知道自己在做什麼</strong>:寫了 code 知道在哪一層、看到時間數字有可量化訊號、失敗後能拆「哦原來這層慢」。</p>
+    <p>孩子拿 AI 的策略就用,他 <strong>根本不知道自己在做什麼</strong>(他只是執行)。失敗了 <strong>沒有任何資料可以拆</strong> —— black box 進、black box 出。</p>
+    <p>所以問題不是「驗證輸出」,是 <strong>「輸入端要有自覺」</strong>。</p>
+
+    <h4>具體做法</h4>
+    <p>在用 AI 之前,她要會描述:</p>
+    <blockquote>
+      <p>我有 X、我看到 Y、我想達到 Z、我預期 W 會發生。</p>
+    </blockquote>
+    <p>有這個描述:才能 <strong>正確問 AI</strong>(AI 答案的品質取決於 prompt 品質),才能 <strong>事後歸因</strong>(我哪個前提錯了)。</p>
+
+    <h4>怎麼練(不是教,是浸泡)</h4>
+    <p>這個能力不能等到要投資 / 做大事才練。要從 <strong>小事</strong> 練起:</p>
+    <table>
+      <thead>
+        <tr><th>場景</th><th>練什麼</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>描述今天為什麼跟同學吵架</td><td>不是情緒,是事件 + 期待 + 落差</td></tr>
+        <tr><td>描述一個玩具壞掉的原因</td><td>前提、行為、結果</td></tr>
+        <tr><td>描述一次出遊「預期 X、結果 Y」</td><td>預期 vs 實際差在哪</td></tr>
+        <tr><td>描述為什麼喜歡某個食物</td><td>把模糊感覺結構化</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout note">
+      <p><strong>最強的學習途徑是模仿。</strong></p>
+      <p>你跟另一半自己決策時 <strong>出聲想</strong>(「我們以為這家餐廳會好吃 → 結果不好吃 → 下次怎麼判斷?」),孩子會把「歸因」當空氣吸進去。<strong>她那個能力不是教出來的,是聽你們講出來的。</strong></p>
+    </div>
+  </article>
+
+  <article id="tab4-firewall-4">
+    <h3>Firewall 4 · 正常版本沉浸 + 程序性 firewall</h3>
+    <p><strong>解決的擔憂:</strong>詐騙 / 惡意 AI / 假訓練資料。前三層的代價是踩坑可學,這層的代價可能 <strong>不可逆</strong>(錢被騙、隱私洩漏、被誘拐)。</p>
+
+    <h4>核心 frame</h4>
+    <p>大人 30 年讀書 + 工作經驗給的不是「知識」,是 <strong>「異常感」</strong>:</p>
+    <blockquote>
+      <p>看過太多正常版本 → 異常會自己跳出來</p>
+    </blockquote>
+    <p>看到「免費送你 99% 報酬率」瞬間覺得不對勁,不是當下「判斷」它是詐騙,是它 <strong>不符合心裡的正常 pattern</strong>。</p>
+    <p><strong>問題是:孩子沒看過正常 pattern。她沒有「不對勁」的感覺。</strong></p>
+    <p>而且 <strong>教她判斷真偽走不通</strong> —— 國小國中沒辦法判斷大部分事。</p>
+
+    <h4>解法:兩條路並走</h4>
+
+    <h4>路徑 1:正常版本沉浸(被動,但累積)</h4>
+    <p>不是教她「詐騙怎麼分辨」,是讓她 <strong>看過足夠多的正常</strong>:</p>
+    <ul>
+      <li>你跟另一半怎麼買東西(正常價格、正常流程)→ 看到「跳樓大拍賣免運贈送」會覺得怪</li>
+      <li>你跟另一半怎麼跟銀行 / 醫院 / 學校打交道 → 看到「行員打電話要轉帳保管」會覺得怪</li>
+      <li>你跟另一半怎麼判斷一篇文章(去查作者、查日期、看誰引用)→ 看到「網紅 100% 賺錢」會覺得怪</li>
+    </ul>
+    <p>她不需要學「怎麼分辨」,她只需要 <strong>看夠多正常</strong>。異常會自己跳。</p>
+
+    <h4>路徑 2:程序性 firewall(主動,不依賴判斷)</h4>
+    <p>她不需要當下判斷對錯,只需要學兩條程序:</p>
+    <table>
+      <thead>
+        <tr><th>程序</th><th>對應的問題</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>不可逆的事 → 等一晚</strong></td>
+          <td>詐騙核心是製造急迫感繞過理性。從小事練「不急著決定」(玩具明天再買、零食週末再吃),等她國高中遇到大事(情緒決定、被網友約見面、被勸入怪團體),這條肌肉會救她無數次</td>
+        </tr>
+        <tr>
+          <td><strong>不確定的事 → 回家問</strong></td>
+          <td>國小國中她沒有獨立判斷能力,但她可以有「遇到不對勁先停下來問爸媽」這套程序</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4>程序性 firewall 的 prerequisite</h4>
+    <div class="callout warn">
+      <p><strong>你跟另一半必須是「她遇到不確定時第一個想回頭問的人」。</strong></p>
+      <p>她做錯被罵 → 下次不會回來問 → firewall 失效。</p>
+      <p>她講感受被打斷 → 下次不會講 → 確認機制斷掉。</p>
+      <p>父母自己慌張 → 她學到的是慌張不是冷靜。</p>
+    </div>
+    <p>這個關係 <strong>不是國中才開始建,是 3-12 歲累積出來的</strong>。等她國中你才想「保持是她願意問的對象」就晚了。</p>
+  </article>
+
+  <article id="tab4-sandwich">
+    <h3>三明治世代專區</h3>
+    <p>同時照顧失智長輩 + 育兒新生兒 / 幼兒 / 學齡兒童的家庭。壓力 stack 跟 trade-off 跟一般家庭不一樣,要單獨講。</p>
+
+    <h4>為什麼需要專章</h4>
+    <ul>
+      <li><strong>後援系統不能 share</strong>:失智者環境變動會 sundowning,不能請後援同住坐月子</li>
+      <li><strong>時間排程要整合</strong>:回診 / 接送 / 餵奶 / 換尿布 / 早晚 SOP 全部撞在一起</li>
+      <li><strong>財務壓力</strong>:長照支出 + 育兒支出 + 可能育嬰留停 → 收入降</li>
+      <li><strong>空間壓力</strong>:失智長輩需要熟悉環境,幼兒需要安全環境,兩者邊界要設計</li>
+    </ul>
+
+    <h4>學齡孩子的 sandwich-specific 考量</h4>
+    <ul>
+      <li><strong>她會看到爺爺奶奶的退化過程</strong>,這是她的成長素材,不要遮蔽</li>
+      <li><strong>她對「失能」的理解</strong>,會影響她對 own / 不 own 的看法</li>
+      <li><strong>不要讓她變成 emotional support 角色</strong>(保護她當小孩的時間)</li>
+      <li><strong>讓她參與照顧的方式要 age-appropriate</strong>(小一可以陪聊天,國中可以幫量血壓,但不該替她安排「主要照顧者」位置)</li>
+    </ul>
+
+    <div class="callout info">
+      <p><strong>「讓整個家忙起來」這個 mission 不該包含你跟另一半一刻不停。</strong></p>
+      <p>每週留一個下午全關 —— 不寫 code、不寫家事、不規劃 feature。陪孩子、發呆、睡覺都行。<strong>你倒下 = 整個三明治結構崩塌</strong>。不是悲觀,是工程現實。</p>
+    </div>
+  </article>
+
+  <article id="tab4-records">
+    <h3>家庭紀錄循環</h3>
+    <p>這本手冊只給 frame,<strong>具體場景跟踩坑紀錄是你跟另一半累積</strong>。建議三層節奏:</p>
+    <ul>
+      <li><strong>每週一個切片</strong> — 紀錄這禮拜發生什麼場景、誰怎麼回應、事後想「我替她做了,還是讓她做?」</li>
+      <li><strong>每月對齊一次</strong> — 你跟另一半一起翻週紀錄,找「我們兩個處理同一場景不一致」的地方校準</li>
+      <li><strong>每年回顧一次</strong> — 看 ownership 的成長軌跡(不是技能進步),看 scaffolding 哪些可以拆了</li>
+    </ul>
+    <p>這個循環的具體格式跟引導,放在這個專案的 <code>docs/brain/</code>、<code>docs/skill/</code>、<code>docs/review/</code> 三個資料夾的 README,供你跟另一半參考。</p>
+    <div class="callout note">
+      <p><strong>這本手冊本身就在示範 ownership。</strong></p>
+      <p>等女兒大一點,她會看到爸媽真的有在「自己想怎麼養小孩」這件事 —— 不是抄別人、不是問 AI。她從你們身上學到「自己 own 自己的事」這個姿勢,比任何方法論教得都深。</p>
+    </div>
+  </article>
+
+  <article id="tab4-timeline">
+    <h3>時間軸</h3>
+    <table>
+      <thead>
+        <tr><th>階段</th><th>你跟另一半</th><th>她</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>現在到 12 歲</td><td>當 4 層 firewall + <strong>每天練 ownership</strong></td><td>在 firewall 保護下慢慢長</td></tr>
+        <tr><td>國中到高中</td><td>scaffolding 慢慢拆</td><td>own 越來越多</td></tr>
+        <tr><td>大學以後</td><td>scaffolding 拆光</td><td>自己 own 全部</td></tr>
+      </tbody>
+    </table>
+    <p>她到 16 歲面對 AI 的姿勢,現在每一次「不替她做」都是在存款。</p>
+  </article>
 </section>
 
-<footer>
-  <p>📚 <a href="https://github.com/tm731531/dementia-care/tree/main/kids-handbook">GitHub source · docs/</a></p>
-  <p>🏠 <a href="../">回 dementia-care monorepo landing</a></p>
+</main>
+
+<footer class="page-foot">
+  <p>📚 GitHub: <a href="https://github.com/tm731531/dementia-care/tree/main/kids-handbook">tm731531/dementia-care/kids-handbook</a></p>
+  <p>🏠 <a href="../">回 dementia-care monorepo</a></p>
   <p>📄 MIT License · 純前端離線可用 · 零外部 CDN · 不上傳任何資料</p>
 </footer>
 
@@ -201,19 +758,21 @@
 <script>
 'use strict';
 (function () {
-  const STORAGE_KEY = 'kidsHandbookState';
-  const tabs = document.querySelectorAll('nav.tabs button');
-  const panels = document.querySelectorAll('.tab-panel');
+  var STORAGE_KEY = 'kidsHandbookState';
+  var tabs = document.querySelectorAll('nav.tabs button');
+  var panels = document.querySelectorAll('.tab-panel');
 
   function activate(tabNum) {
     tabs.forEach(function (b) {
-      b.classList.toggle('active', b.dataset.tab === String(tabNum));
+      var isActive = b.dataset.tab === String(tabNum);
+      b.classList.toggle('active', isActive);
+      b.setAttribute('aria-selected', isActive ? 'true' : 'false');
     });
     panels.forEach(function (p) {
       p.classList.toggle('active', p.dataset.tab === String(tabNum));
     });
     try {
-      const state = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+      var state = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
       state.currentTab = tabNum;
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     } catch (e) {
@@ -224,12 +783,12 @@
   tabs.forEach(function (b) {
     b.addEventListener('click', function () {
       activate(parseInt(b.dataset.tab, 10));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   });
 
-  // 還原上次的 tab
   try {
-    const state = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    var state = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
     if (state.currentTab && [1, 2, 3, 4].indexOf(state.currentTab) >= 0) {
       activate(state.currentTab);
     }
