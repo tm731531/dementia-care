@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>育兒長路 · 從備孕到國中</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%91%A8%E2%80%8D%F0%9F%91%A9%E2%80%8D%F0%9F%91%A7%3C/text%3E%3C/svg%3E">
+<style>
+  :root {
+    --bg: #f5f5f5;
+    --fg: #222;
+    --accent: #5a4a8a;
+    --accent-soft: #ebe5f5;
+    --sop-tint: #e7f0e3;
+    --method-tint: #f5e8d8;
+    --border: #ccc;
+    --muted: #666;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg); color: var(--fg);
+    font-family: "PingFang TC", "Microsoft JhengHei", -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 18px; line-height: 1.7;
+  }
+  .container { max-width: 900px; margin: 0 auto; padding: 24px 20px; }
+  header { padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+  h1 { font-size: 32px; margin: 0 0 8px; }
+  .tagline { color: var(--muted); font-size: 18px; }
+  .phase-notice {
+    background: #fff5d6; border: 1px solid #d4b800; border-radius: 8px;
+    padding: 12px 16px; margin: 16px 0; font-size: 16px;
+  }
+  nav.tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 16px; }
+  nav.tabs button {
+    flex: 1 1 auto; min-height: 56px; min-width: 160px;
+    background: #fff; border: 2px solid var(--border); border-radius: 12px;
+    padding: 12px 16px; font-size: 17px; cursor: pointer;
+    color: var(--fg); font-family: inherit;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  nav.tabs button:hover { border-color: var(--accent); }
+  nav.tabs button.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+  nav.tabs button .num { display: block; font-size: 12px; opacity: 0.7; margin-bottom: 4px; }
+  .style-badge {
+    display: inline-block; padding: 4px 10px; border-radius: 6px;
+    font-size: 14px; margin-bottom: 12px;
+  }
+  .style-sop { background: var(--sop-tint); color: #2a5a1a; }
+  .style-method { background: var(--method-tint); color: #6a4515; }
+  .tab-panel { display: none; padding: 16px 0; }
+  .tab-panel.active { display: block; }
+  .tab-panel h2 { font-size: 26px; margin-top: 8px; }
+  .tab-panel h3 { font-size: 22px; margin-top: 24px; color: var(--accent); }
+  .tab-panel ul { padding-left: 24px; }
+  .tab-panel li { margin: 8px 0; }
+  .doc-link {
+    display: inline-block; padding: 10px 16px;
+    background: var(--accent-soft); border-radius: 8px;
+    color: var(--accent); text-decoration: none; font-weight: 600;
+    margin: 8px 4px 8px 0; min-height: 44px; line-height: 24px;
+  }
+  .doc-link:hover { background: var(--accent); color: #fff; }
+  footer {
+    margin-top: 48px; padding: 24px 0; border-top: 2px solid var(--border);
+    color: var(--muted); font-size: 14px;
+  }
+  footer a { color: var(--accent); }
+  @media print {
+    nav.tabs { display: none; }
+    .tab-panel { display: block !important; page-break-before: always; }
+  }
+  @media (max-width: 600px) {
+    h1 { font-size: 26px; }
+    .tab-panel h2 { font-size: 22px; }
+    nav.tabs button { min-width: 0; padding: 10px 12px; font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>👨‍👩‍👧 育兒長路</h1>
+  <div class="tagline">從備孕到國中的家長方法論手冊 · 0-15 歲縱貫線</div>
+</header>
+
+<div class="phase-notice">
+  ⚠️ <strong>Phase 1 進行中（2026-05-29 啟動）</strong>：本 handbook 是 <code>newborn-handbook</code> + <code>childcare-handbook</code> + 新增「學齡 × AI 協作」整併版。Tab 1-2 內容正在從原 sub-project 遷入，Tab 3-4 為本次新建。完整方法論請見 <a href="https://github.com/tm731531/dementia-care/tree/main/kids-handbook/docs">GitHub docs/</a>。
+</div>
+
+<nav class="tabs" id="tabnav">
+  <button data-tab="1" class="active"><span class="num">Tab 1</span>備孕 → 新生兒</button>
+  <button data-tab="2"><span class="num">Tab 2</span>托幼選擇 0-6</button>
+  <button data-tab="3"><span class="num">Tab 3</span>學齡 × AI 6-15</button>
+  <button data-tab="4"><span class="num">Tab 4</span>跨階段方法論</button>
+</nav>
+
+<section class="tab-panel active" data-tab="1">
+  <div class="style-badge style-sop">SOP-first · 時間表 + 最安全預設</div>
+  <h2>備孕 → 新生兒（0 歲）</h2>
+  <p><strong>Phase 2 待遷入</strong>：內容從原 <code>newborn-handbook</code> 搬過來。</p>
+  <h3>預計章節</h3>
+  <ul>
+    <li>🌱 孕前：健康檢查 / 懷孕日記 / 後援評估</li>
+    <li>🤰 孕中 40 週：10 種胎教 / 14 次產檢時程 / 飲食指南</li>
+    <li>🎒 產前：待產包 4 類 checklist</li>
+    <li>💪 產後：自然產 5 點 / 剖腹產 8 點恢復重點</li>
+    <li>👨‍👧 出生後爸爸 5 步政府表單</li>
+    <li>🤱 母乳 / 配方乳：4 招增加母乳 / 配方乳選擇</li>
+    <li>🏫 托嬰中心比較（接續 Tab 2）</li>
+  </ul>
+  <a class="doc-link" href="docs/01-pre-birth-to-newborn.md">看完整大綱 (docs/)</a>
+  <a class="doc-link" href="../newborn-handbook/">前往原 newborn-handbook（Phase 2 整併前）</a>
+</section>
+
+<section class="tab-panel" data-tab="2">
+  <div class="style-badge style-sop">SOP-first · 時間表 + 最安全預設</div>
+  <h2>托幼選擇（0-6 歲）</h2>
+  <p><strong>Phase 2 待遷入</strong>：內容從原 <code>childcare-handbook</code> 搬過來。</p>
+  <h3>預計章節</h3>
+  <ul>
+    <li>4 種托育類型對照（公托 / 非營利 / 準公共 / 私立）</li>
+    <li>5W1H 方法論（6 個維度評估園所）</li>
+    <li>看園所 checklist（安全 / 師資 / 環境 / 餐食 / 教學 / 隱形費用）</li>
+    <li>時程地圖（0-6 歲每年該做什麼）</li>
+    <li>文件 SOP（戶口名簿 / 預防接種卡 / 健保卡 / 家長證）</li>
+    <li>抽籤機制（正取 / 備取 / 備取保留期）</li>
+    <li>常見地雷（全盤失敗的前提條件）</li>
+  </ul>
+  <a class="doc-link" href="docs/02-childcare-0-6.md">看完整大綱 (docs/)</a>
+  <a class="doc-link" href="../childcare-handbook/">前往原 childcare-handbook（Phase 2 整併前）</a>
+</section>
+
+<section class="tab-panel" data-tab="3">
+  <div class="style-badge style-method">方法論 + 紀錄 · 沒有 SOP，是 frame</div>
+  <h2>學齡 × AI 協作（6-15 歲）</h2>
+  <p><strong>本次新建</strong>。核心問題：在 AI 隨手可得的時代，怎麼讓她「使用前就知道風險」？</p>
+
+  <h3>一句話核心</h3>
+  <p>她要 <strong>own 自己的問題</strong>。AI 是工具，不是奶嘴。</p>
+
+  <h3>三個關鍵時間點</h3>
+  <ul>
+    <li><strong>6-8 歲（小一小二）</strong>：建立第一條 baseline（保護一個動手領域）</li>
+    <li><strong>9-11 歲（小三到小五）</strong>：鎖知識順序（傳統教材 → AI）+ 開始接觸 AI 但有護欄</li>
+    <li><strong>12-15 歲（小六到國中）</strong>：規則從「我們替你管」轉成「我們陪你想」</li>
+  </ul>
+
+  <h3>失敗訊號（警報）</h3>
+  <ul>
+    <li>她的回答開始「複製 AI 的語氣」 → ownership 在流失</li>
+    <li>她對「為什麼」沒興趣只想要「答案」 → baseline 沒建立</li>
+    <li>她拒絕在你面前用 AI → 信任關係沒建立</li>
+    <li>她照 AI 策略執行踩坑、不知道為什麼 → describe 沒長</li>
+  </ul>
+
+  <a class="doc-link" href="docs/03-school-age-6-15-ai.md">看完整章 (docs/)</a>
+  <a class="doc-link" href="docs/00-spirit.md">先看精神核心</a>
+</section>
+
+<section class="tab-panel" data-tab="4">
+  <div class="style-badge style-method">方法論 + 紀錄 · 沒有 SOP，是 frame</div>
+  <h2>跨階段方法論</h2>
+  <p><strong>本次新建</strong>。0-15 歲全程適用的 frame。</p>
+
+  <h3>4 層 firewall</h3>
+  <ul>
+    <li><strong>Firewall 1 · Baseline</strong>：保護「熟到無聊」的時間 ← AI 介入不了的動手領域</li>
+    <li><strong>Firewall 2 · 鎖順序</strong>：傳統教材 → AI，順序不可顛倒</li>
+    <li><strong>Firewall 3 · 結構化描述</strong>：輸入端有自覺（家庭出聲想）</li>
+    <li><strong>Firewall 4 · 正常版本沉浸 + 程序性 firewall</strong>：等一晚 + 回家問</li>
+  </ul>
+
+  <h3>家庭紀錄循環</h3>
+  <ul>
+    <li><strong>brain/</strong>：你跟太太每週紀錄場景</li>
+    <li><strong>skill/</strong>：每月對齊後的家庭做法</li>
+    <li><strong>review/</strong>：每月 + 每年看 ownership 軌跡</li>
+  </ul>
+
+  <h3>三明治世代專區</h3>
+  <p>同時照顧失智長輩 + 育兒新生兒 / 幼兒 / 學齡兒童的家庭。壓力 stack 跟 trade-off 跟一般家庭不一樣。</p>
+
+  <a class="doc-link" href="docs/00-spirit.md">精神核心</a>
+  <a class="doc-link" href="docs/04-cross-stage/four-firewalls/baseline.md">Firewall 1</a>
+  <a class="doc-link" href="docs/04-cross-stage/four-firewalls/order-lock.md">Firewall 2</a>
+  <a class="doc-link" href="docs/04-cross-stage/four-firewalls/describe.md">Firewall 3</a>
+  <a class="doc-link" href="docs/04-cross-stage/four-firewalls/verify-source.md">Firewall 4</a>
+  <a class="doc-link" href="docs/04-cross-stage/sandwich-generation.md">三明治世代</a>
+</section>
+
+<footer>
+  <p>📚 <a href="https://github.com/tm731531/dementia-care/tree/main/kids-handbook">GitHub source · docs/</a></p>
+  <p>🏠 <a href="../">回 dementia-care monorepo landing</a></p>
+  <p>📄 MIT License · 純前端離線可用 · 零外部 CDN · 不上傳任何資料</p>
+</footer>
+
+</div>
+
+<script>
+'use strict';
+(function () {
+  const STORAGE_KEY = 'kidsHandbookState';
+  const tabs = document.querySelectorAll('nav.tabs button');
+  const panels = document.querySelectorAll('.tab-panel');
+
+  function activate(tabNum) {
+    tabs.forEach(function (b) {
+      b.classList.toggle('active', b.dataset.tab === String(tabNum));
+    });
+    panels.forEach(function (p) {
+      p.classList.toggle('active', p.dataset.tab === String(tabNum));
+    });
+    try {
+      const state = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+      state.currentTab = tabNum;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch (e) {
+      // localStorage 不可用就忽略,不影響 tab 切換
+    }
+  }
+
+  tabs.forEach(function (b) {
+    b.addEventListener('click', function () {
+      activate(parseInt(b.dataset.tab, 10));
+    });
+  });
+
+  // 還原上次的 tab
+  try {
+    const state = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    if (state.currentTab && [1, 2, 3, 4].indexOf(state.currentTab) >= 0) {
+      activate(state.currentTab);
+    }
+  } catch (e) {
+    // ignore
+  }
+})();
+</script>
+
+</body>
+</html>
