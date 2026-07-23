@@ -2,11 +2,15 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../../core/time.dart';
 import '../model/care_note.dart';
 import '../model/note_author.dart';
 import '../providers.dart';
+import '../service/html_report.dart';
 import 'review_model.dart';
 
 const _weekdayLabels = ['一', '二', '三', '四', '五', '六', '日'];
@@ -58,12 +62,43 @@ class _DoctorReviewScreenState extends ConsumerState<DoctorReviewScreen> {
     if (picked != null) setState(() => _to = picked);
   }
 
+  /// Builds the self-contained HTML report for the current date range and
+  /// hands it off via the OS share sheet, so the caregiver can pick any
+  /// channel (LINE / email / AirDrop / USB) to get it to the doctor — no
+  /// app required on the receiving end.
+  Future<void> _exportHtml() async {
+    final notes = await ref.read(notesProvider.future);
+    final groups = groupNotesByLocalDate(notes, from: _from, to: _to);
+    final html = buildHtmlReport(
+      groups,
+      from: _from,
+      to: _to,
+      readPhotoBytes: (path) {
+        final file = File(path);
+        return file.existsSync() ? file.readAsBytesSync() : null;
+      },
+    );
+
+    final tempDir = await getTemporaryDirectory();
+    final fileName = 'care-report-${_formatDate(_from)}_${_formatDate(_to)}.html';
+    final filePath = p.join(tempDir.path, fileName);
+    await File(filePath).writeAsString(html);
+
+    if (!mounted) return;
+    await SharePlus.instance.share(ShareParams(files: [XFile(filePath)]));
+  }
+
   @override
   Widget build(BuildContext context) {
     final notesAsync = ref.watch(notesProvider);
 
     return Scaffold(
       appBar: AppBar(title: const Text('給醫生看的整理')),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: _exportHtml,
+        icon: const Icon(Icons.ios_share),
+        label: const Text('產出給醫生（HTML）', style: TextStyle(fontSize: 18)),
+      ),
       body: SafeArea(
         child: notesAsync.when(
           data: (notes) {
