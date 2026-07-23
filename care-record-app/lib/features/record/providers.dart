@@ -5,6 +5,7 @@ import 'package:sqflite/sqflite.dart';
 
 import 'data/local_db.dart';
 import 'data/note_dao.dart';
+import 'data/patient_dao.dart';
 import 'data/photo_store.dart';
 import 'model/care_note.dart';
 import 'service/audio_recorder.dart';
@@ -21,6 +22,21 @@ final dbProvider = FutureProvider<Database>((ref) async {
 final noteDaoProvider = FutureProvider<NoteDao>((ref) async {
   final db = await ref.watch(dbProvider.future);
   return NoteDao(db);
+});
+
+final patientDaoProvider = FutureProvider<PatientDao>((ref) async {
+  final db = await ref.watch(dbProvider.future);
+  return PatientDao(db);
+});
+
+/// The device's default patient id (single-patient devices always have
+/// exactly one, seeded by the DB migration/onCreate). Real current-patient
+/// selection + persistence lands in Plan 3 Task 2 — this just keeps notes
+/// correctly scoped in the meantime.
+final defaultPatientIdProvider = FutureProvider<String>((ref) async {
+  final patientDao = await ref.watch(patientDaoProvider.future);
+  final patients = await patientDao.all();
+  return patients.first.id;
 });
 
 /// Newest-first note list. Invalidate after a save so the list screen

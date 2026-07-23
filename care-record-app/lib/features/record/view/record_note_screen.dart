@@ -169,14 +169,16 @@ class _RecordNoteScreenState extends ConsumerState<RecordNoteScreen> {
     }
 
     setState(() => _isSaving = true);
-    final note = CareNote(
-      id: const Uuid().v4(),
-      timestamp: DateTime.now(),
-      author: NoteAuthor.family,
-      text: text,
-      photoPath: _photoPath,
-    );
     try {
+      final patientId = await ref.read(defaultPatientIdProvider.future);
+      final note = CareNote(
+        id: const Uuid().v4(),
+        timestamp: DateTime.now(),
+        author: NoteAuthor.family,
+        text: text,
+        patientId: patientId,
+        photoPath: _photoPath,
+      );
       final dao = await ref.read(noteDaoProvider.future);
       await dao.insert(note);
       ref.invalidate(notesProvider);

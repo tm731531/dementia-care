@@ -15,9 +15,9 @@ void main() {
     final db = await LocalDb.open(inMemoryDatabasePath);
     final dao = NoteDao(db);
     await dao.insert(CareNote(
-        id: 'a', timestamp: DateTime.utc(2026, 7, 20, 8), author: NoteAuthor.family, text: '測試內容甲'));
+        id: 'a', timestamp: DateTime.utc(2026, 7, 20, 8), author: NoteAuthor.family, text: '測試內容甲', patientId: 'p1'));
     await dao.insert(CareNote(
-        id: 'b', timestamp: DateTime.utc(2026, 7, 21, 22), author: NoteAuthor.caregiver, text: '測試內容乙'));
+        id: 'b', timestamp: DateTime.utc(2026, 7, 21, 22), author: NoteAuthor.caregiver, text: '測試內容乙', patientId: 'p1'));
     final all = await dao.allNewestFirst();
     expect(all.map((n) => n.id).toList(), ['b', 'a']); // newest first
     expect(all.first.author, NoteAuthor.caregiver);
@@ -28,9 +28,9 @@ void main() {
     final db = await LocalDb.open(inMemoryDatabasePath);
     final dao = NoteDao(db);
     await dao.insert(CareNote(
-        id: 'dup', timestamp: DateTime.utc(2026, 7, 21), author: NoteAuthor.family, text: 'v1'));
+        id: 'dup', timestamp: DateTime.utc(2026, 7, 21), author: NoteAuthor.family, text: 'v1', patientId: 'p1'));
     await dao.insert(CareNote(
-        id: 'dup', timestamp: DateTime.utc(2026, 7, 21), author: NoteAuthor.family, text: 'v2'));
+        id: 'dup', timestamp: DateTime.utc(2026, 7, 21), author: NoteAuthor.family, text: 'v2', patientId: 'p1'));
     final all = await dao.allNewestFirst();
     expect(all.length, 1);
     expect(all.single.text, 'v2');

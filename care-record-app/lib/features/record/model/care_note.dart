@@ -8,12 +8,14 @@ class CareNote {
   final NoteAuthor author;
   final String text;
   final String? photoPath;
+  final String patientId; // which Patient (Plan 3) this note belongs to
 
   const CareNote({
     required this.id,
     required this.timestamp,
     required this.author,
     required this.text,
+    required this.patientId,
     this.photoPath,
   });
 
@@ -23,6 +25,7 @@ class CareNote {
         'author': author.code,
         'text': text,
         'photoPath': photoPath,
+        'patientId': patientId,
       };
 
   factory CareNote.fromJson(Map<String, dynamic> json) => CareNote(
@@ -31,5 +34,6 @@ class CareNote {
         author: NoteAuthor.fromCode(json['author'] as String),
         text: json['text'] as String,
         photoPath: json['photoPath'] as String?,
+        patientId: json['patientId'] as String,
       );
 }

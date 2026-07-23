@@ -16,6 +16,7 @@ void main() {
       timestamp: DateTime(2026, 7, 21, 8, 30),
       author: NoteAuthor.caregiver,
       text: '早餐吃了半碗稀飯',
+      patientId: 'p1',
       photoPath: 'fake/whiteboard.jpg',
     );
 
@@ -24,6 +25,7 @@ void main() {
       timestamp: DateTime(2026, 7, 22, 20, 0),
       author: NoteAuthor.family,
       text: '<script>alert(1)</script> & "quotes" <b>bold</b>',
+      patientId: 'p1',
     );
 
     final groups = groupNotesByLocalDate([photoNote, xssNote], from: from, to: to);

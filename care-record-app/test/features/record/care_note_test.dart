@@ -16,6 +16,7 @@ void main() {
       timestamp: DateTime.utc(2026, 7, 21, 22, 57),
       author: NoteAuthor.family,
       text: '測試筆記內容一',
+      patientId: 'p1',
       photoPath: '/data/photos/uuid-123.jpg',
     );
     final restored = CareNote.fromJson(note.toJson());
@@ -32,7 +33,7 @@ void main() {
 
   test('CareNote tolerates a null photoPath', () {
     final note = CareNote(
-      id: 'x', timestamp: DateTime.utc(2026, 7, 21), author: NoteAuthor.caregiver, text: 'ok');
+      id: 'x', timestamp: DateTime.utc(2026, 7, 21), author: NoteAuthor.caregiver, text: 'ok', patientId: 'p1');
     final restored = CareNote.fromJson(note.toJson());
     expect(restored.photoPath, isNull);
   });
@@ -47,6 +48,7 @@ void main() {
       timestamp: localTimestamp,
       author: NoteAuthor.family,
       text: '早上量血壓',
+      patientId: 'p1',
     );
     final restored = CareNote.fromJson(note.toJson());
 

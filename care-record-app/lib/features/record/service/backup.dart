@@ -101,6 +101,7 @@ Future<ImportSummary> importZip({
         timestamp: note.timestamp,
         author: note.author,
         text: note.text,
+        patientId: note.patientId,
         photoPath: await localFile.exists() ? localFile.path : null,
       );
     }

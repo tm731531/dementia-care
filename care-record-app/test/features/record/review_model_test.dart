@@ -8,6 +8,7 @@ CareNote _note(String id, DateTime timestamp) => CareNote(
       timestamp: timestamp,
       author: NoteAuthor.family,
       text: 'note $id',
+      patientId: 'p1',
     );
 
 void main() {

@@ -62,6 +62,7 @@ void main() {
       timestamp: DateTime.utc(2026, 7, 20, 8),
       author: NoteAuthor.family,
       text: '有照片的紀錄',
+      patientId: 'p1',
       photoPath: photoFile.path,
     ));
     await dao.insert(CareNote(
@@ -69,6 +70,7 @@ void main() {
       timestamp: DateTime.utc(2026, 7, 21, 9),
       author: NoteAuthor.caregiver,
       text: '沒照片的紀錄',
+      patientId: 'p1',
     ));
 
     final outDir = Directory(p.join(tempDir.path, 'export'))..createSync(recursive: true);
@@ -96,6 +98,7 @@ void main() {
       timestamp: DateTime.utc(2026, 7, 20, 8),
       author: NoteAuthor.family,
       text: '有照片的紀錄',
+      patientId: 'p1',
       photoPath: photoFile.path,
     ));
     await sourceDao.insert(CareNote(
@@ -103,6 +106,7 @@ void main() {
       timestamp: DateTime.utc(2026, 7, 21, 9),
       author: NoteAuthor.caregiver,
       text: '沒照片的紀錄',
+      patientId: 'p1',
     ));
 
     final outDir = Directory(p.join(tempDir.path, 'export'))..createSync(recursive: true);
@@ -167,6 +171,7 @@ void main() {
       timestamp: DateTime.utc(2026, 7, 20, 8),
       author: NoteAuthor.family,
       text: '正常紀錄',
+      patientId: 'p1',
     );
     final notesJson = jsonEncode([goodNote.toJson(), {'nope': 1}]);
     final zipFile = _buildZip(
@@ -197,6 +202,7 @@ void main() {
       timestamp: DateTime.utc(2026, 7, 20, 8),
       author: NoteAuthor.caregiver,
       text: '照片遺失的紀錄',
+      patientId: 'p1',
       photoPath: '/some/other/phone/path/ghost.jpg',
     ).toJson();
     final notesJson = jsonEncode([noteJson]);

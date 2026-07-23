@@ -16,6 +16,17 @@ class NoteDao {
     return rows.map(CareNote.fromJson).toList();
   }
 
+  /// Same as [allNewestFirst] but scoped to one patient (Plan 3 multi-patient).
+  Future<List<CareNote>> allNewestFirstForPatient(String patientId) async {
+    final rows = await _db.query(
+      'care_note',
+      where: 'patientId = ?',
+      whereArgs: [patientId],
+      orderBy: 'timestamp DESC',
+    );
+    return rows.map(CareNote.fromJson).toList();
+  }
+
   /// All note ids currently stored — one query, used by import to tell
   /// "already had this note" apart from "newly inserted".
   Future<Set<String>> existsIds() async {
