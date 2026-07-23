@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/time.dart';
 import '../model/note_author.dart';
 import '../providers.dart';
+import 'doctor_review_screen.dart';
 import 'record_note_screen.dart';
 
 /// Reads persisted notes newest-first — this screen is how persistence
@@ -15,7 +16,18 @@ class NoteListScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final notesAsync = ref.watch(notesProvider);
     return Scaffold(
-      appBar: AppBar(title: const Text('照護紀錄列表')),
+      appBar: AppBar(
+        title: const Text('照護紀錄列表'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.summarize),
+            tooltip: '給醫生看的整理',
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const DoctorReviewScreen()),
+            ),
+          ),
+        ],
+      ),
       body: SafeArea(
         child: notesAsync.when(
           data: (notes) {
