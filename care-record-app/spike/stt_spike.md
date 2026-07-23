@@ -219,3 +219,28 @@ Swapped model to whisper-small (int8, ~375MB runtime download from
 - **Wall-clock:**
 - **Scoring vs base:**
 - **GO / NO-GO:**
+
+---
+
+## Device run #2 & #3 — whisper-small (2026-07-23) + GATE DECISION
+
+- **Run #2 (small, normal speech):** `今天精神定午吃一半下午走一走晚上睡著情平`, 8713 ms.
+- **Run #3 (small, SLOW + clear):** `今天精神定午吃一半下午走一走晚上睡得好情平`, 10702 ms.
+- **Finding:** small dropped the SAME characters as base (穩/餐/緒) even when read slowly →
+  NOT a speech-rate/elision issue, NOT a model-size issue (small ≈ base). It is a **sherpa-onnx
+  int8 ONNX-whisper artifact**: desktop faster-whisper (CTranslate2) int8 small on real Mandarin
+  was clean, so the capability exists — this specific runtime/model drops chars. A bigger model
+  won't fix it; a different runtime would.
+- **Failure mode (both models):** deletions / near-synonyms only (睡得好↔睡著) — never a dangerous
+  substitution. Gist always recoverable. Safe for a human-verified workflow.
+
+### ✅ GATE = GO (2026-07-23, Tom's decision)
+- **Offline on-device voice input WORKS on a real phone** with a safe failure mode. Voice-over-OCR
+  validated in the field.
+- **Model = whisper-base** (not small): ~3.5s vs 8.7s, half the download, same accuracy. Speed wins.
+- **Model is swappable** via the `Transcriber` seam — better runtime/model is a pre-ship polish, not a blocker.
+- **Known issue to address before ship (Tom's call-out): NO punctuation / segmentation** — output
+  runs together with no commas. This is the bigger readability problem than the few dropped chars.
+  Fix options: a Whisper variant that emits punctuation, or a post-process punctuation/segmentation
+  step (e.g. sherpa ct-punc), or rely on the human editor to add breaks (v1-acceptable).
+- Proceed to Task 5 (Transcriber + AudioRecorder productionised, base) and Task 6 (record→save flow).
