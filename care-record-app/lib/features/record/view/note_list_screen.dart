@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -23,9 +24,9 @@ class NoteListScreen extends ConsumerWidget {
   const NoteListScreen({super.key});
 
   /// Builds `care-record-backup.zip` (the current patient + their notes +
-  /// photos) into a temp dir and hands it to the OS share sheet, so the
-  /// caregiver can send it to a second phone by whatever channel they
-  /// already use (LINE / USB / …).
+  /// photos) into a temp dir, then lets the caregiver choose to hand it to
+  /// the OS share sheet (send to a second phone via LINE / USB / …) or save
+  /// it straight onto this device (e.g. Downloads).
   Future<void> _exportZip(BuildContext context, WidgetRef ref) async {
     final patient = ref.read(currentPatientProvider).valueOrNull;
     if (patient == null) return; // no patients yet (shouldn't happen post-seed)
@@ -37,7 +38,17 @@ class NoteListScreen extends ConsumerWidget {
     final zipFile = await exportZip(patient: patient, dao: dao, photosDir: photosDir, outDir: outDir);
 
     if (!context.mounted) return;
-    await SharePlus.instance.share(ShareParams(files: [XFile(zipFile.path)]));
+    final choice = await _showExportChoiceSheet(context);
+    if (choice == null) return; // dismissed without choosing
+
+    if (choice == _ExportChoice.share) {
+      if (!context.mounted) return;
+      await SharePlus.instance.share(ShareParams(files: [XFile(zipFile.path)]));
+    } else {
+      final bytes = await zipFile.readAsBytes();
+      if (!context.mounted) return;
+      await _saveBytesToDevice(context, bytes: bytes, fileName: 'care-record-backup.zip');
+    }
   }
 
   /// Lets the caregiver pick a zip received from another phone and merges
@@ -256,4 +267,48 @@ class NoteListScreen extends ConsumerWidget {
       ),
     );
   }
+}
+
+enum _ExportChoice { share, save }
+
+/// Bottom sheet offering the two ways to deliver an export: hand it to the
+/// OS share sheet, or save it straight onto this device (e.g. Downloads)
+/// via the system "save as" dialog. Returns null if dismissed.
+Future<_ExportChoice?> _showExportChoiceSheet(BuildContext context) {
+  return showModalBottomSheet<_ExportChoice>(
+    context: context,
+    builder: (context) => SafeArea(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ListTile(
+            leading: const Icon(Icons.ios_share),
+            title: const Text('分享', style: TextStyle(fontSize: 20)),
+            onTap: () => Navigator.of(context).pop(_ExportChoice.share),
+          ),
+          ListTile(
+            leading: const Icon(Icons.save_alt),
+            title: const Text('儲存到手機', style: TextStyle(fontSize: 20)),
+            onTap: () => Navigator.of(context).pop(_ExportChoice.save),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+/// Opens the system "save as" dialog (SAF on Android) so the caregiver can
+/// pick where to save — e.g. Downloads — then confirms with a SnackBar.
+/// Does nothing if the user cancels the dialog (file_picker returns null).
+Future<void> _saveBytesToDevice(
+  BuildContext context, {
+  required Uint8List bytes,
+  required String fileName,
+}) async {
+  final savedPath = await FilePicker.saveFile(fileName: fileName, bytes: bytes);
+  if (!context.mounted) return;
+  if (savedPath == null) return; // user cancelled the save dialog
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(content: Text('已儲存到手機：$savedPath')),
+  );
 }

@@ -1,5 +1,8 @@
+import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart' as p;
@@ -64,10 +67,10 @@ class _DoctorReviewScreenState extends ConsumerState<DoctorReviewScreen> {
     if (picked != null) setState(() => _to = picked);
   }
 
-  /// Builds the self-contained HTML report for the current date range and
-  /// hands it off via the OS share sheet, so the caregiver can pick any
-  /// channel (LINE / email / AirDrop / USB) to get it to the doctor — no
-  /// app required on the receiving end.
+  /// Builds the self-contained HTML report for the current date range, then
+  /// lets the caregiver choose to hand it off via the OS share sheet (LINE /
+  /// email / AirDrop / USB — no app required on the receiving end) or save
+  /// it straight onto this device (e.g. Downloads).
   Future<void> _exportHtml() async {
     final notes = await ref.read(notesProvider.future);
     final groups = groupNotesByLocalDate(notes, from: _from, to: _to);
@@ -87,14 +90,23 @@ class _DoctorReviewScreenState extends ConsumerState<DoctorReviewScreen> {
         return file.existsSync() ? file.readAsBytesSync() : null;
       },
     );
-
-    final tempDir = await getTemporaryDirectory();
     final fileName = 'care-report-${_formatDate(_from)}_${_formatDate(_to)}.html';
-    final filePath = p.join(tempDir.path, fileName);
-    await File(filePath).writeAsString(html);
 
     if (!mounted) return;
-    await SharePlus.instance.share(ShareParams(files: [XFile(filePath)]));
+    final choice = await _showExportChoiceSheet(context);
+    if (choice == null) return; // dismissed without choosing
+
+    if (choice == _ExportChoice.share) {
+      final tempDir = await getTemporaryDirectory();
+      final filePath = p.join(tempDir.path, fileName);
+      await File(filePath).writeAsString(html);
+      if (!mounted) return;
+      await SharePlus.instance.share(ShareParams(files: [XFile(filePath)]));
+    } else {
+      final bytes = Uint8List.fromList(utf8.encode(html));
+      if (!mounted) return;
+      await _saveBytesToDevice(context, bytes: bytes, fileName: fileName);
+    }
   }
 
   @override
@@ -385,4 +397,48 @@ class _PhotoThumbnail extends StatelessWidget {
       ),
     );
   }
+}
+
+enum _ExportChoice { share, save }
+
+/// Bottom sheet offering the two ways to deliver an export: hand it to the
+/// OS share sheet, or save it straight onto this device (e.g. Downloads)
+/// via the system "save as" dialog. Returns null if dismissed.
+Future<_ExportChoice?> _showExportChoiceSheet(BuildContext context) {
+  return showModalBottomSheet<_ExportChoice>(
+    context: context,
+    builder: (context) => SafeArea(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ListTile(
+            leading: const Icon(Icons.ios_share),
+            title: const Text('分享', style: TextStyle(fontSize: 20)),
+            onTap: () => Navigator.of(context).pop(_ExportChoice.share),
+          ),
+          ListTile(
+            leading: const Icon(Icons.save_alt),
+            title: const Text('儲存到手機', style: TextStyle(fontSize: 20)),
+            onTap: () => Navigator.of(context).pop(_ExportChoice.save),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+/// Opens the system "save as" dialog (SAF on Android) so the caregiver can
+/// pick where to save — e.g. Downloads — then confirms with a SnackBar.
+/// Does nothing if the user cancels the dialog (file_picker returns null).
+Future<void> _saveBytesToDevice(
+  BuildContext context, {
+  required Uint8List bytes,
+  required String fileName,
+}) async {
+  final savedPath = await FilePicker.saveFile(fileName: fileName, bytes: bytes);
+  if (!context.mounted) return;
+  if (savedPath == null) return; // user cancelled the save dialog
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(content: Text('已儲存到手機：$savedPath')),
+  );
 }
