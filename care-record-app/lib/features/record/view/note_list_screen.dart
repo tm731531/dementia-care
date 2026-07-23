@@ -11,6 +11,7 @@ import '../../../core/time.dart';
 import '../model/note_author.dart';
 import '../providers.dart';
 import '../service/backup.dart';
+import '../../about/about_screen.dart';
 import 'doctor_review_screen.dart';
 import 'record_note_screen.dart';
 
@@ -115,10 +116,16 @@ class NoteListScreen extends ConsumerWidget {
             onSelected: (value) {
               if (value == 'export') _exportZip(context, ref);
               if (value == 'import') _importZip(context, ref);
+              if (value == 'about') {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const AboutScreen()),
+                );
+              }
             },
             itemBuilder: (context) => const [
               PopupMenuItem(value: 'export', child: Text('匯出備份（ZIP）')),
               PopupMenuItem(value: 'import', child: Text('匯入他人紀錄')),
+              PopupMenuItem(value: 'about', child: Text('關於與隱私')),
             ],
           ),
         ],
