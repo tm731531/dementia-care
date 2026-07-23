@@ -12,6 +12,8 @@ import '../model/note_author.dart';
 import '../providers.dart';
 import '../service/backup.dart';
 import '../../about/about_screen.dart';
+import '../../patient/patient_manage_screen.dart';
+import '../../patient/patient_switcher.dart';
 import 'doctor_review_screen.dart';
 import 'record_note_screen.dart';
 
@@ -121,85 +123,98 @@ class NoteListScreen extends ConsumerWidget {
                   MaterialPageRoute(builder: (_) => const AboutScreen()),
                 );
               }
+              if (value == 'patients') {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const PatientManageScreen()),
+                );
+              }
             },
             itemBuilder: (context) => const [
               PopupMenuItem(value: 'export', child: Text('匯出備份（ZIP）')),
               PopupMenuItem(value: 'import', child: Text('匯入他人紀錄')),
+              PopupMenuItem(value: 'patients', child: Text('病人管理')),
               PopupMenuItem(value: 'about', child: Text('關於與隱私')),
             ],
           ),
         ],
       ),
       body: SafeArea(
-        child: notesAsync.when(
-          data: (notes) {
-            if (notes.isEmpty) {
-              return const Center(
-                child: Padding(
-                  padding: EdgeInsets.all(24),
-                  child: Text('目前沒有紀錄', style: TextStyle(fontSize: 22)),
-                ),
-              );
-            }
-            return ListView.separated(
-              padding: const EdgeInsets.all(16),
-              itemCount: notes.length,
-              separatorBuilder: (_, __) => const Divider(height: 1),
-              itemBuilder: (context, index) {
-                final note = notes[index];
-                final t = note.timestamp;
-                final date = '${t.year}-${t.month.toString().padLeft(2, '0')}-'
-                    '${t.day.toString().padLeft(2, '0')}';
-                final shift = shiftOfDay(t);
-                final time = TimeOfDay.fromDateTime(t).format(context);
-                final authorLabel = note.author == NoteAuthor.family ? '家屬' : '照顧者';
-                return ListTile(
-                  contentPadding: const EdgeInsets.symmetric(vertical: 12),
-                  title: Text(
-                    '$date（$shift $time）　$authorLabel',
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xFF222222),
-                    ),
-                  ),
-                  subtitle: Padding(
-                    padding: const EdgeInsets.only(top: 8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          note.text,
+        child: Column(
+          children: [
+            const PatientSwitcher(),
+            Expanded(
+              child: notesAsync.when(
+                data: (notes) {
+                  if (notes.isEmpty) {
+                    return const Center(
+                      child: Padding(
+                        padding: EdgeInsets.all(24),
+                        child: Text('目前沒有紀錄', style: TextStyle(fontSize: 22)),
+                      ),
+                    );
+                  }
+                  return ListView.separated(
+                    padding: const EdgeInsets.all(16),
+                    itemCount: notes.length,
+                    separatorBuilder: (_, __) => const Divider(height: 1),
+                    itemBuilder: (context, index) {
+                      final note = notes[index];
+                      final t = note.timestamp;
+                      final date = '${t.year}-${t.month.toString().padLeft(2, '0')}-'
+                          '${t.day.toString().padLeft(2, '0')}';
+                      final shift = shiftOfDay(t);
+                      final time = TimeOfDay.fromDateTime(t).format(context);
+                      final authorLabel = note.author == NoteAuthor.family ? '家屬' : '照顧者';
+                      return ListTile(
+                        contentPadding: const EdgeInsets.symmetric(vertical: 12),
+                        title: Text(
+                          '$date（$shift $time）　$authorLabel',
                           style: const TextStyle(
-                              fontSize: 24, height: 1.6, color: Color(0xFF222222)),
-                        ),
-                        if (note.photoPath != null) ...[
-                          const SizedBox(height: 10),
-                          GestureDetector(
-                            onTap: () => _showPhoto(context, note.photoPath!),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: Image.file(
-                                File(note.photoPath!),
-                                width: 160,
-                                height: 160,
-                                fit: BoxFit.cover,
-                                errorBuilder: (_, __, ___) => const SizedBox.shrink(),
-                              ),
-                            ),
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF222222),
                           ),
-                        ],
-                      ],
-                    ),
-                  ),
-                );
-              },
-            );
-          },
-          loading: () => const Center(child: CircularProgressIndicator()),
-          error: (e, _) => Center(
-            child: Text('讀取失敗：$e', style: const TextStyle(fontSize: 20)),
-          ),
+                        ),
+                        subtitle: Padding(
+                          padding: const EdgeInsets.only(top: 8),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                note.text,
+                                style: const TextStyle(
+                                    fontSize: 24, height: 1.6, color: Color(0xFF222222)),
+                              ),
+                              if (note.photoPath != null) ...[
+                                const SizedBox(height: 10),
+                                GestureDetector(
+                                  onTap: () => _showPhoto(context, note.photoPath!),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(8),
+                                    child: Image.file(
+                                      File(note.photoPath!),
+                                      width: 160,
+                                      height: 160,
+                                      fit: BoxFit.cover,
+                                      errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (e, _) => Center(
+                  child: Text('讀取失敗：$e', style: const TextStyle(fontSize: 20)),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
