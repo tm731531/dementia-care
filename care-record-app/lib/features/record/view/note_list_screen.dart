@@ -1,9 +1,16 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../../core/time.dart';
 import '../model/note_author.dart';
 import '../providers.dart';
+import '../service/backup.dart';
 import 'doctor_review_screen.dart';
 import 'record_note_screen.dart';
 
@@ -11,6 +18,53 @@ import 'record_note_screen.dart';
 /// survives an app restart is visually verified (device smoke test).
 class NoteListScreen extends ConsumerWidget {
   const NoteListScreen({super.key});
+
+  /// Builds `care-record-backup.zip` (notes + photos) into a temp dir and
+  /// hands it to the OS share sheet, so the caregiver can send it to a
+  /// second phone by whatever channel they already use (LINE / USB / …).
+  Future<void> _exportZip(BuildContext context, WidgetRef ref) async {
+    final dao = await ref.read(noteDaoProvider.future);
+    final photosDir = Directory(
+      p.join((await getApplicationDocumentsDirectory()).path, 'photos'),
+    );
+    final outDir = await getTemporaryDirectory();
+    final zipFile = await exportZip(dao: dao, photosDir: photosDir, outDir: outDir);
+
+    if (!context.mounted) return;
+    await SharePlus.instance.share(ShareParams(files: [XFile(zipFile.path)]));
+  }
+
+  /// Lets the caregiver pick a zip received from another phone and merges
+  /// it into the local db — new-only, id-idempotent, so re-picking the same
+  /// file is always safe.
+  Future<void> _importZip(BuildContext context, WidgetRef ref) async {
+    final result = await FilePicker.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['zip'],
+    );
+    final path = result?.files.single.path;
+    if (path == null) return;
+
+    final dao = await ref.read(noteDaoProvider.future);
+    final photosDir = Directory(
+      p.join((await getApplicationDocumentsDirectory()).path, 'photos'),
+    );
+
+    if (!context.mounted) return;
+    try {
+      final summary = await importZip(zip: File(path), dao: dao, photosDir: photosDir);
+      ref.invalidate(notesProvider);
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('匯入 ${summary.total} 筆，其中 ${summary.imported} 筆是新的')),
+      );
+    } on FormatException catch (e) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.message)),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -25,6 +79,17 @@ class NoteListScreen extends ConsumerWidget {
             onPressed: () => Navigator.of(context).push(
               MaterialPageRoute(builder: (_) => const DoctorReviewScreen()),
             ),
+          ),
+          PopupMenuButton<String>(
+            icon: const Icon(Icons.more_vert),
+            onSelected: (value) {
+              if (value == 'export') _exportZip(context, ref);
+              if (value == 'import') _importZip(context, ref);
+            },
+            itemBuilder: (context) => const [
+              PopupMenuItem(value: 'export', child: Text('匯出備份（ZIP）')),
+              PopupMenuItem(value: 'import', child: Text('匯入他人紀錄')),
+            ],
           ),
         ],
       ),

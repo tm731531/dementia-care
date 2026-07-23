@@ -15,4 +15,11 @@ class NoteDao {
     final rows = await _db.query('care_note', orderBy: 'timestamp DESC');
     return rows.map(CareNote.fromJson).toList();
   }
+
+  /// All note ids currently stored — one query, used by import to tell
+  /// "already had this note" apart from "newly inserted".
+  Future<Set<String>> existsIds() async {
+    final rows = await _db.query('care_note', columns: ['id']);
+    return rows.map((r) => r['id'] as String).toSet();
+  }
 }
