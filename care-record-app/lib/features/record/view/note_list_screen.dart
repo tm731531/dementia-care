@@ -33,14 +33,17 @@ class NoteListScreen extends ConsumerWidget {
               separatorBuilder: (_, __) => const Divider(height: 1),
               itemBuilder: (context, index) {
                 final note = notes[index];
-                final shift = shiftOfDay(note.timestamp);
-                final time = TimeOfDay.fromDateTime(note.timestamp).format(context);
+                final t = note.timestamp;
+                final date = '${t.year}-${t.month.toString().padLeft(2, '0')}-'
+                    '${t.day.toString().padLeft(2, '0')}';
+                final shift = shiftOfDay(t);
+                final time = TimeOfDay.fromDateTime(t).format(context);
                 final authorLabel = note.author == NoteAuthor.family ? '家屬' : '照顧者';
                 final photoMarker = note.photoPath != null ? '　📷' : '';
                 return ListTile(
                   contentPadding: const EdgeInsets.symmetric(vertical: 12),
                   title: Text(
-                    '$shift $time　$authorLabel$photoMarker',
+                    '$date（$shift $time）　$authorLabel$photoMarker',
                     style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
