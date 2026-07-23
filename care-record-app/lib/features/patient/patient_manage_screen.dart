@@ -1,9 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 
 import '../record/model/patient.dart';
 import '../record/providers.dart';
+import 'patient_service.dart';
 
 /// Add / rename / delete patients on this device.
 ///
@@ -100,9 +105,17 @@ class PatientManageScreen extends ConsumerWidget {
     if (confirmed != true) return;
     if (!context.mounted) return;
 
-    final dao = await ref.read(patientDaoProvider.future);
-    // TODO(Task4): also delete photo files (this DAO delete only removes DB rows).
-    await dao.delete(patient.id);
+    final noteDao = await ref.read(noteDaoProvider.future);
+    final patientDao = await ref.read(patientDaoProvider.future);
+    final photosDir = Directory(
+      p.join((await getApplicationDocumentsDirectory()).path, 'photos'),
+    );
+    await PatientService().deletePatient(
+      id: patient.id,
+      noteDao: noteDao,
+      patientDao: patientDao,
+      photosDir: photosDir,
+    );
     ref.invalidate(patientsProvider);
     ref.invalidate(notesProvider);
 

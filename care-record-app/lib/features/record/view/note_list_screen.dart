@@ -22,16 +22,19 @@ import 'record_note_screen.dart';
 class NoteListScreen extends ConsumerWidget {
   const NoteListScreen({super.key});
 
-  /// Builds `care-record-backup.zip` (notes + photos) into a temp dir and
-  /// hands it to the OS share sheet, so the caregiver can send it to a
-  /// second phone by whatever channel they already use (LINE / USB / …).
+  /// Builds `care-record-backup.zip` (the current patient + their notes +
+  /// photos) into a temp dir and hands it to the OS share sheet, so the
+  /// caregiver can send it to a second phone by whatever channel they
+  /// already use (LINE / USB / …).
   Future<void> _exportZip(BuildContext context, WidgetRef ref) async {
+    final patient = ref.read(currentPatientProvider).valueOrNull;
+    if (patient == null) return; // no patients yet (shouldn't happen post-seed)
     final dao = await ref.read(noteDaoProvider.future);
     final photosDir = Directory(
       p.join((await getApplicationDocumentsDirectory()).path, 'photos'),
     );
     final outDir = await getTemporaryDirectory();
-    final zipFile = await exportZip(dao: dao, photosDir: photosDir, outDir: outDir);
+    final zipFile = await exportZip(patient: patient, dao: dao, photosDir: photosDir, outDir: outDir);
 
     if (!context.mounted) return;
     await SharePlus.instance.share(ShareParams(files: [XFile(zipFile.path)]));
@@ -39,7 +42,8 @@ class NoteListScreen extends ConsumerWidget {
 
   /// Lets the caregiver pick a zip received from another phone and merges
   /// it into the local db — new-only, id-idempotent, so re-picking the same
-  /// file is always safe.
+  /// file is always safe. Notes without patient info (old Plan-2 backups)
+  /// fall back onto the currently-selected patient.
   Future<void> _importZip(BuildContext context, WidgetRef ref) async {
     final result = await FilePicker.pickFiles(
       type: FileType.custom,
@@ -49,17 +53,36 @@ class NoteListScreen extends ConsumerWidget {
     if (path == null) return;
 
     final dao = await ref.read(noteDaoProvider.future);
+    final patientDao = await ref.read(patientDaoProvider.future);
+    final currentPatientId = ref.read(currentPatientProvider).valueOrNull?.id;
+    final String fallbackPatientId;
+    if (currentPatientId != null) {
+      fallbackPatientId = currentPatientId;
+    } else {
+      fallbackPatientId = await ref.read(defaultPatientIdProvider.future);
+    }
     final photosDir = Directory(
       p.join((await getApplicationDocumentsDirectory()).path, 'photos'),
     );
 
     if (!context.mounted) return;
     try {
-      final summary = await importZip(zip: File(path), dao: dao, photosDir: photosDir);
+      final summary = await importZip(
+        zip: File(path),
+        dao: dao,
+        patientDao: patientDao,
+        photosDir: photosDir,
+        fallbackPatientId: fallbackPatientId,
+      );
       if (!context.mounted) return;
+      ref.invalidate(patientsProvider);
       ref.invalidate(notesProvider);
+      await ref.read(currentPatientIdProvider.notifier).select(summary.patientId);
+      if (!context.mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('匯入 ${summary.total} 筆，其中 ${summary.imported} 筆是新的')),
+        SnackBar(
+          content: Text('已匯入『${summary.patientName}』的 ${summary.total} 筆，其中 ${summary.imported} 筆是新的'),
+        ),
       );
     } on FormatException catch (e) {
       if (!context.mounted) return;

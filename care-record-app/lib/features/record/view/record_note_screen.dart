@@ -170,7 +170,10 @@ class _RecordNoteScreenState extends ConsumerState<RecordNoteScreen> {
 
     setState(() => _isSaving = true);
     try {
-      final patientId = await ref.read(defaultPatientIdProvider.future);
+      final currentPatient = ref.read(currentPatientProvider).valueOrNull;
+      final patientId = currentPatient != null
+          ? currentPatient.id
+          : await ref.read(defaultPatientIdProvider.future);
       final note = CareNote(
         id: const Uuid().v4(),
         timestamp: DateTime.now(),
@@ -193,9 +196,22 @@ class _RecordNoteScreenState extends ConsumerState<RecordNoteScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final patients = ref.watch(patientsProvider).valueOrNull ?? const [];
+    final currentPatientName = ref.watch(currentPatientProvider).valueOrNull?.name;
+    final showPatientLabel = patients.length >= 2 && currentPatientName != null;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('照護紀錄'),
+        bottom: showPatientLabel
+            ? PreferredSize(
+                preferredSize: const Size.fromHeight(28),
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Text('目前：$currentPatientName', style: const TextStyle(fontSize: 16)),
+                ),
+              )
+            : null,
         actions: [
           IconButton(
             icon: const Icon(Icons.list_alt),

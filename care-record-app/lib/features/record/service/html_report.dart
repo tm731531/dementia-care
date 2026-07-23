@@ -30,11 +30,15 @@ String _escapeHtml(String text) => text
 /// URLs, ever. [readPhotoBytes] (if provided) supplies the raw bytes for a
 /// note's `photoPath`, which get inlined as a base64 `data:` URI; if it's
 /// null, or returns null for a given path, that note's photo is omitted.
+/// [patientName], if given, is shown as「病人：〈name〉」under the date range —
+/// harmless to include even on a single-patient device, so callers can pass
+/// it unconditionally.
 String buildHtmlReport(
   List<DateGroup> groups, {
   required DateTime from,
   required DateTime to,
   Uint8List? Function(String path)? readPhotoBytes,
+  String? patientName,
 }) {
   final totalCount = groups.fold<int>(0, (sum, g) => sum + g.notes.length);
 
@@ -50,6 +54,9 @@ String buildHtmlReport(
   buffer.writeln('<body>');
   buffer.writeln('<header>');
   buffer.writeln('<h1>照護紀錄整理</h1>');
+  if (patientName != null) {
+    buffer.writeln('<p class="patient">病人：${_escapeHtml(patientName)}</p>');
+  }
   buffer.writeln('<p class="range">${_formatDate(from)} ～ ${_formatDate(to)}</p>');
   buffer.writeln('<p class="count">共 $totalCount 筆</p>');
   buffer.writeln('</header>');
@@ -96,6 +103,7 @@ const _css = '''
 body { background:#f5f5f5; color:#222; font-family: -apple-system, "PingFang TC", "Microsoft JhengHei", sans-serif; line-height:1.6; margin:0; padding:24px; font-size:20px; }
 header { margin-bottom:24px; }
 h1 { font-size:28px; margin:0 0 8px; }
+.patient { font-size:22px; font-weight:600; margin:0 0 4px; color:#2C5D80; }
 .range { font-size:22px; font-weight:600; margin:0; }
 .count { font-size:18px; color:#555; margin:4px 0 0; }
 .date-group { margin-bottom:32px; }

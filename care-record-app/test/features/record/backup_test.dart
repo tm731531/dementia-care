@@ -8,8 +8,10 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 import 'package:care_record_app/features/record/data/local_db.dart';
 import 'package:care_record_app/features/record/data/note_dao.dart';
+import 'package:care_record_app/features/record/data/patient_dao.dart';
 import 'package:care_record_app/features/record/model/care_note.dart';
 import 'package:care_record_app/features/record/model/note_author.dart';
+import 'package:care_record_app/features/record/model/patient.dart';
 import 'package:care_record_app/features/record/service/backup.dart';
 
 /// Builds a zip the same shape as [exportZip] produces, but from raw
@@ -49,7 +51,10 @@ void main() {
     }
   });
 
-  test('exportZip writes a zip containing notes.json and the referenced photo', () async {
+  const patient1 = Patient(id: 'p1', name: '甲');
+  const patient2 = Patient(id: 'p2', name: '乙');
+
+  test('exportZip writes patient.json + notes.json (only that patient\'s notes) + the referenced photo', () async {
     final sourcePhotosDir = Directory(p.join(tempDir.path, 'source_photos'))
       ..createSync(recursive: true);
     final photoFile = File(p.join(sourcePhotosDir.path, 'abc.jpg'));
@@ -62,7 +67,7 @@ void main() {
       timestamp: DateTime.utc(2026, 7, 20, 8),
       author: NoteAuthor.family,
       text: '有照片的紀錄',
-      patientId: 'p1',
+      patientId: patient1.id,
       photoPath: photoFile.path,
     ));
     await dao.insert(CareNote(
@@ -70,22 +75,42 @@ void main() {
       timestamp: DateTime.utc(2026, 7, 21, 9),
       author: NoteAuthor.caregiver,
       text: '沒照片的紀錄',
-      patientId: 'p1',
+      patientId: patient1.id,
+    ));
+    // Belongs to a different patient — must NOT end up in patient1's export.
+    await dao.insert(CareNote(
+      id: 'other-patient-note',
+      timestamp: DateTime.utc(2026, 7, 21, 10),
+      author: NoteAuthor.family,
+      text: '不是甲的紀錄',
+      patientId: patient2.id,
     ));
 
     final outDir = Directory(p.join(tempDir.path, 'export'))..createSync(recursive: true);
-    final zipFile = await exportZip(dao: dao, photosDir: sourcePhotosDir, outDir: outDir);
+    final zipFile = await exportZip(patient: patient1, dao: dao, photosDir: sourcePhotosDir, outDir: outDir);
 
     expect(await zipFile.exists(), isTrue);
 
     final archive = ZipDecoder().decodeBytes(await zipFile.readAsBytes());
-    expect(archive.findFile('notes.json'), isNotNull);
+    final patientFile = archive.findFile('patient.json');
+    expect(patientFile, isNotNull);
+    expect(
+      Patient.fromJson(jsonDecode(utf8.decode(patientFile!.content)) as Map<String, dynamic>).id,
+      patient1.id,
+    );
+
+    final notesFile = archive.findFile('notes.json');
+    expect(notesFile, isNotNull);
+    final notesJson = jsonDecode(utf8.decode(notesFile!.content)) as List;
+    expect(notesJson.length, 2); // only patient1's two notes, not patient2's
+    expect(notesJson.every((n) => (n as Map)['patientId'] == patient1.id), isTrue);
+
     expect(archive.findFile('photos/abc.jpg'), isNotNull);
 
     await db.close();
   });
 
-  test('importZip round-trips notes + photo into a fresh dao/photosDir, and re-import is idempotent', () async {
+  test('importZip round-trips a patient + their notes + photo into a fresh dao, and re-import is idempotent', () async {
     final sourcePhotosDir = Directory(p.join(tempDir.path, 'source_photos'))
       ..createSync(recursive: true);
     final photoFile = File(p.join(sourcePhotosDir.path, 'abc.jpg'));
@@ -98,7 +123,7 @@ void main() {
       timestamp: DateTime.utc(2026, 7, 20, 8),
       author: NoteAuthor.family,
       text: '有照片的紀錄',
-      patientId: 'p1',
+      patientId: patient1.id,
       photoPath: photoFile.path,
     ));
     await sourceDao.insert(CareNote(
@@ -106,24 +131,39 @@ void main() {
       timestamp: DateTime.utc(2026, 7, 21, 9),
       author: NoteAuthor.caregiver,
       text: '沒照片的紀錄',
-      patientId: 'p1',
+      patientId: patient1.id,
     ));
 
     final outDir = Directory(p.join(tempDir.path, 'export'))..createSync(recursive: true);
-    final zipFile = await exportZip(dao: sourceDao, photosDir: sourcePhotosDir, outDir: outDir);
+    final zipFile = await exportZip(patient: patient1, dao: sourceDao, photosDir: sourcePhotosDir, outDir: outDir);
     await sourceDb.close();
 
-    // Simulate a second phone: fresh DAO, fresh (not-yet-existing) photosDir.
+    // Simulate a second phone: fresh DAOs, fresh (not-yet-existing) photosDir,
+    // and no patients on it yet.
     final targetDb = await LocalDb.open(inMemoryDatabasePath);
     final targetDao = NoteDao(targetDb);
+    final targetPatientDao = PatientDao(targetDb);
     final targetPhotosDir = Directory(p.join(tempDir.path, 'target_photos'));
 
-    final summary1 = await importZip(zip: zipFile, dao: targetDao, photosDir: targetPhotosDir);
+    final summary1 = await importZip(
+      zip: zipFile,
+      dao: targetDao,
+      patientDao: targetPatientDao,
+      photosDir: targetPhotosDir,
+      fallbackPatientId: 'should-not-be-used',
+    );
     expect(summary1.total, 2);
     expect(summary1.imported, 2);
+    expect(summary1.patientId, patient1.id);
+    expect(summary1.patientName, patient1.name);
+
+    // The patient itself was created on the target device.
+    final targetPatients = await targetPatientDao.all();
+    expect(targetPatients.map((p) => p.id), contains(patient1.id));
 
     final imported = await targetDao.allNewestFirst();
     expect(imported.length, 2);
+    expect(imported.every((n) => n.patientId == patient1.id), isTrue);
 
     final withPhoto = imported.firstWhere((n) => n.id == 'note-with-photo');
     expect(withPhoto.photoPath, isNotNull);
@@ -135,7 +175,13 @@ void main() {
     expect(withoutPhoto.photoPath, isNull);
 
     // Re-importing the same zip must not duplicate rows.
-    final summary2 = await importZip(zip: zipFile, dao: targetDao, photosDir: targetPhotosDir);
+    final summary2 = await importZip(
+      zip: zipFile,
+      dao: targetDao,
+      patientDao: targetPatientDao,
+      photosDir: targetPhotosDir,
+      fallbackPatientId: 'should-not-be-used',
+    );
     expect(summary2.total, 2);
     expect(summary2.imported, 0);
 
@@ -151,10 +197,17 @@ void main() {
 
     final db = await LocalDb.open(inMemoryDatabasePath);
     final dao = NoteDao(db);
+    final patientDao = PatientDao(db);
     final photosDir = Directory(p.join(tempDir.path, 'photos'));
 
     expect(
-      () => importZip(zip: badZip, dao: dao, photosDir: photosDir),
+      () => importZip(
+        zip: badZip,
+        dao: dao,
+        patientDao: patientDao,
+        photosDir: photosDir,
+        fallbackPatientId: patient1.id,
+      ),
       throwsA(isA<FormatException>()),
     );
 
@@ -171,7 +224,7 @@ void main() {
       timestamp: DateTime.utc(2026, 7, 20, 8),
       author: NoteAuthor.family,
       text: '正常紀錄',
-      patientId: 'p1',
+      patientId: patient1.id,
     );
     final notesJson = jsonEncode([goodNote.toJson(), {'nope': 1}]);
     final zipFile = _buildZip(
@@ -182,10 +235,17 @@ void main() {
 
     final db = await LocalDb.open(inMemoryDatabasePath);
     final dao = NoteDao(db);
+    final patientDao = PatientDao(db);
     final photosDir = Directory(p.join(tempDir.path, 'photos'));
 
     expect(
-      () => importZip(zip: zipFile, dao: dao, photosDir: photosDir),
+      () => importZip(
+        zip: zipFile,
+        dao: dao,
+        patientDao: patientDao,
+        photosDir: photosDir,
+        fallbackPatientId: patient1.id,
+      ),
       throwsA(isA<FormatException>()),
     );
 
@@ -202,7 +262,7 @@ void main() {
       timestamp: DateTime.utc(2026, 7, 20, 8),
       author: NoteAuthor.caregiver,
       text: '照片遺失的紀錄',
-      patientId: 'p1',
+      patientId: patient1.id,
       photoPath: '/some/other/phone/path/ghost.jpg',
     ).toJson();
     final notesJson = jsonEncode([noteJson]);
@@ -216,14 +276,72 @@ void main() {
 
     final db = await LocalDb.open(inMemoryDatabasePath);
     final dao = NoteDao(db);
+    final patientDao = PatientDao(db);
     final photosDir = Directory(p.join(tempDir.path, 'photos'));
 
-    final summary = await importZip(zip: zipFile, dao: dao, photosDir: photosDir);
+    final summary = await importZip(
+      zip: zipFile,
+      dao: dao,
+      patientDao: patientDao,
+      photosDir: photosDir,
+      fallbackPatientId: patient1.id,
+    );
     expect(summary.total, 1);
     expect(summary.imported, 1);
 
     final imported = await dao.allNewestFirst();
     expect(imported.single.photoPath, isNull);
+
+    await db.close();
+  });
+
+  test('importZip backward-compat: a zip with no patient.json and notes with no patientId '
+      'all get assigned to fallbackPatientId, without throwing', () async {
+    // Simulates a Plan-2 (pre-multi-patient) backup: raw note maps that never
+    // had a `patientId` key at all.
+    final oldStyleNotes = [
+      {
+        'id': 'old-1',
+        'timestamp': DateTime.utc(2026, 7, 18, 8).toIso8601String(),
+        'author': NoteAuthor.family.code,
+        'text': '舊格式紀錄一',
+        'photoPath': null,
+      },
+      {
+        'id': 'old-2',
+        'timestamp': DateTime.utc(2026, 7, 19, 9).toIso8601String(),
+        'author': NoteAuthor.caregiver.code,
+        'text': '舊格式紀錄二',
+        'photoPath': null,
+      },
+    ];
+    final zipFile = _buildZip(
+      tempDir,
+      'old-plan2-backup.zip',
+      notesJsonBytes: utf8.encode(jsonEncode(oldStyleNotes)),
+    );
+
+    final db = await LocalDb.open(inMemoryDatabasePath);
+    final dao = NoteDao(db);
+    final patientDao = PatientDao(db);
+    await patientDao.insert(patient1); // the device's existing current patient
+    final photosDir = Directory(p.join(tempDir.path, 'photos'));
+
+    final summary = await importZip(
+      zip: zipFile,
+      dao: dao,
+      patientDao: patientDao,
+      photosDir: photosDir,
+      fallbackPatientId: patient1.id,
+    );
+
+    expect(summary.total, 2);
+    expect(summary.imported, 2);
+    expect(summary.patientId, patient1.id);
+    expect(summary.patientName, patient1.name);
+
+    final imported = await dao.allNewestFirst();
+    expect(imported.every((n) => n.patientId == patient1.id), isTrue);
 
     await db.close();
   });

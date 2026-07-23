@@ -71,10 +71,12 @@ class _DoctorReviewScreenState extends ConsumerState<DoctorReviewScreen> {
   Future<void> _exportHtml() async {
     final notes = await ref.read(notesProvider.future);
     final groups = groupNotesByLocalDate(notes, from: _from, to: _to);
+    final patientName = ref.read(currentPatientProvider).valueOrNull?.name;
     final html = buildHtmlReport(
       groups,
       from: _from,
       to: _to,
+      patientName: patientName,
       readPhotoBytes: (path) {
         final file = File(path);
         return file.existsSync() ? file.readAsBytesSync() : null;
@@ -93,6 +95,7 @@ class _DoctorReviewScreenState extends ConsumerState<DoctorReviewScreen> {
   @override
   Widget build(BuildContext context) {
     final notesAsync = ref.watch(notesProvider);
+    final patientName = ref.watch(currentPatientProvider).valueOrNull?.name;
 
     return Scaffold(
       appBar: AppBar(title: const Text('給醫生看的整理')),
@@ -112,6 +115,7 @@ class _DoctorReviewScreenState extends ConsumerState<DoctorReviewScreen> {
                   from: _from,
                   to: _to,
                   totalCount: totalCount,
+                  patientName: patientName,
                   onPickFrom: _pickFrom,
                   onPickTo: _pickTo,
                 ),
@@ -146,6 +150,7 @@ class _RangeHeader extends StatelessWidget {
   final DateTime from;
   final DateTime to;
   final int totalCount;
+  final String? patientName;
   final VoidCallback onPickFrom;
   final VoidCallback onPickTo;
 
@@ -153,6 +158,7 @@ class _RangeHeader extends StatelessWidget {
     required this.from,
     required this.to,
     required this.totalCount,
+    required this.patientName,
     required this.onPickFrom,
     required this.onPickTo,
   });
@@ -172,6 +178,17 @@ class _RangeHeader extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            if (patientName != null) ...[
+              Text(
+                '病人：$patientName',
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF2C5D80),
+                ),
+              ),
+              const SizedBox(height: 4),
+            ],
             Text(
               '${_formatDate(from)} ～ ${_formatDate(to)}',
               style: const TextStyle(
