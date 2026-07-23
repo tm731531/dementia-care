@@ -16,6 +16,7 @@ import '../../about/about_screen.dart';
 import '../../patient/patient_manage_screen.dart';
 import '../../patient/patient_switcher.dart';
 import 'doctor_review_screen.dart';
+import 'note_edit_screen.dart';
 import 'record_note_screen.dart';
 
 /// Reads persisted notes newest-first — this screen is how persistence
@@ -237,45 +238,62 @@ class NoteListScreen extends ConsumerWidget {
                         color: Colors.white,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12)),
-                        child: Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '$date（$shift $time）　$authorLabel',
-                                style: const TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w700,
-                                  color: Color(0xFF2C5D80),
+                        clipBehavior: Clip.antiAlias,
+                        child: InkWell(
+                          onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute(builder: (_) => NoteEditScreen(note: note)),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        '$date（$shift $time）　$authorLabel',
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w700,
+                                          color: Color(0xFF2C5D80),
+                                        ),
+                                      ),
+                                    ),
+                                    const Icon(Icons.edit, size: 20, color: Color(0xFF999999)),
+                                  ],
                                 ),
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.symmetric(vertical: 10),
-                                child: Divider(height: 1),
-                              ),
-                              Text(
-                                note.text,
-                                style: const TextStyle(
-                                    fontSize: 24, height: 1.6, color: Color(0xFF222222)),
-                              ),
-                              if (note.photoPath != null) ...[
-                                const SizedBox(height: 12),
-                                GestureDetector(
-                                  onTap: () => _showPhoto(context, note.photoPath!),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(8),
-                                    child: Image.file(
-                                      File(note.photoPath!),
-                                      width: 160,
-                                      height: 160,
-                                      fit: BoxFit.cover,
-                                      errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 10),
+                                  child: Divider(height: 1),
+                                ),
+                                Text(
+                                  note.text,
+                                  style: const TextStyle(
+                                      fontSize: 24, height: 1.6, color: Color(0xFF222222)),
+                                ),
+                                if (note.photoPath != null) ...[
+                                  const SizedBox(height: 12),
+                                  GestureDetector(
+                                    onTap: () => _showPhoto(context, note.photoPath!),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(8),
+                                      child: Image.file(
+                                        File(note.photoPath!),
+                                        width: 160,
+                                        height: 160,
+                                        fit: BoxFit.cover,
+                                        errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+                                      ),
                                     ),
                                   ),
-                                ),
+                                ],
+                                const SizedBox(height: 8),
+                                const Text('點一下可編輯',
+                                    style: TextStyle(fontSize: 14, color: Color(0xFF999999))),
                               ],
-                            ],
+                            ),
                           ),
                         ),
                       );

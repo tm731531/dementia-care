@@ -33,4 +33,9 @@ class NoteDao {
     final rows = await _db.query('care_note', columns: ['id']);
     return rows.map((r) => r['id'] as String).toSet();
   }
+
+  /// Deletes a single note by id. A no-op (does not throw) if the id
+  /// doesn't exist — used by the edit screen's "刪除這筆" action.
+  Future<void> delete(String id) =>
+      _db.delete('care_note', where: 'id = ?', whereArgs: [id]);
 }
