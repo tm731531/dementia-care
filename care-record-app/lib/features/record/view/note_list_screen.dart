@@ -103,6 +103,35 @@ class NoteListScreen extends ConsumerWidget {
     }
   }
 
+  /// System info dialog — app name + version (from the ⋮ menu).
+  void _showSystemInfo(BuildContext context, WidgetRef ref) {
+    final version = ref.read(appVersionProvider).valueOrNull ?? '讀取中…';
+    showDialog<void>(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text('系統資訊'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text('App 名稱：照護紀錄', style: TextStyle(fontSize: 18)),
+            const SizedBox(height: 10),
+            Text('版本：$version', style: const TextStyle(fontSize: 18)),
+            const SizedBox(height: 10),
+            const Text('資料儲存：本機（離線，不上雲端）',
+                style: TextStyle(fontSize: 16, color: Color(0xFF555555))),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('確定'),
+          ),
+        ],
+      ),
+    );
+  }
+
   /// Full-screen viewer so the recorder can actually inspect a photo from the
   /// main list (not only from the doctor-review screen).
   void _showPhoto(BuildContext context, String path) {
@@ -138,19 +167,7 @@ class NoteListScreen extends ConsumerWidget {
     final notesAsync = ref.watch(notesProvider);
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          crossAxisAlignment: CrossAxisAlignment.baseline,
-          textBaseline: TextBaseline.alphabetic,
-          children: [
-            const Flexible(child: Text('照護紀錄列表', overflow: TextOverflow.ellipsis)),
-            const SizedBox(width: 10),
-            Text(
-              ref.watch(appVersionProvider).valueOrNull ?? '',
-              style: TextStyle(
-                  fontSize: 14, color: Theme.of(context).colorScheme.onSurfaceVariant),
-            ),
-          ],
-        ),
+        title: const Text('照護紀錄列表'),
         actions: [
           IconButton(
             icon: const Icon(Icons.summarize),
@@ -174,12 +191,14 @@ class NoteListScreen extends ConsumerWidget {
                   MaterialPageRoute(builder: (_) => const PatientManageScreen()),
                 );
               }
+              if (value == 'sysinfo') _showSystemInfo(context, ref);
             },
             itemBuilder: (context) => const [
               PopupMenuItem(value: 'export', child: Text('匯出備份（ZIP）')),
               PopupMenuItem(value: 'import', child: Text('匯入他人紀錄')),
               PopupMenuItem(value: 'patients', child: Text('病人管理')),
               PopupMenuItem(value: 'about', child: Text('關於與隱私')),
+              PopupMenuItem(value: 'sysinfo', child: Text('系統資訊')),
             ],
           ),
         ],

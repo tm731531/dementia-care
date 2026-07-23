@@ -202,19 +202,7 @@ class _RecordNoteScreenState extends ConsumerState<RecordNoteScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          crossAxisAlignment: CrossAxisAlignment.baseline,
-          textBaseline: TextBaseline.alphabetic,
-          children: [
-            const Flexible(child: Text('照護紀錄', overflow: TextOverflow.ellipsis)),
-            const SizedBox(width: 10),
-            Text(
-              ref.watch(appVersionProvider).valueOrNull ?? '',
-              style: TextStyle(
-                  fontSize: 14, color: Theme.of(context).colorScheme.onSurfaceVariant),
-            ),
-          ],
-        ),
+        title: const Text('照護紀錄'),
         bottom: showPatientLabel
             ? PreferredSize(
                 preferredSize: const Size.fromHeight(28),
