@@ -6,6 +6,11 @@ import 'package:sherpa_onnx/sherpa_onnx.dart' as sherpa_onnx;
 /// The model-agnostic seam. UI (Task 6) and tests depend on [Transcriber],
 /// never on the sherpa_onnx package directly.
 abstract class Transcriber {
+  /// Ensures the model/runtime is ready for use (e.g. one-time model
+  /// download/init). Safe to call multiple times; implementations should
+  /// memoize so repeated calls are cheap once ready.
+  Future<void> ensureReady();
+
   /// Transcribe an on-device audio file to text. Fully offline. Never throws
   /// for low-confidence audio — returns best-effort text (possibly empty)
   /// for the user to edit (寧缺勿錯: the human is the verifier).
@@ -36,6 +41,7 @@ class SherpaTranscriber implements Transcriber {
   /// On failure, the memoized future is reset so a later call retries
   /// instead of permanently caching the failure (e.g. a transient
   /// model-download error should not brick the instance forever).
+  @override
   Future<void> ensureReady() {
     return _readyFuture ??= _init().catchError((e) {
       _readyFuture = null; // allow retry after a failed one-time download

@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- STT spike (lib/spike/): mic capture for record package -->
+    <!-- Needed by the app: mic capture for voice-recorded care notes -->
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-    <!-- STT spike: one-time runtime download of the sherpa-onnx whisper model -->
+    <!-- Needed by the app: one-time runtime download of the sherpa-onnx whisper model -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:label="care_record_app"

@@ -65,7 +65,7 @@ class NoteListScreen extends ConsumerWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => Navigator.of(context).push(
+        onPressed: () => Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (_) => const RecordNoteScreen()),
         ),
         icon: const Icon(Icons.mic),

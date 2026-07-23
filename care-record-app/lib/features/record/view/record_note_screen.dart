@@ -123,7 +123,7 @@ class _RecordNoteScreenState extends ConsumerState<RecordNoteScreen> {
       await dao.insert(note);
       ref.invalidate(notesProvider);
       if (!mounted) return;
-      Navigator.of(context).push(
+      Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (_) => const NoteListScreen()),
       );
     } finally {

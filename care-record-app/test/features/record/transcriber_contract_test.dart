@@ -3,6 +3,9 @@ import 'package:care_record_app/features/record/service/transcriber.dart';
 
 class _FakeTranscriber implements Transcriber {
   @override
+  Future<void> ensureReady() async {}
+
+  @override
   Future<String> transcribe(String audioFilePath) async => '午餐吃一半，左手會痛';
 }
 

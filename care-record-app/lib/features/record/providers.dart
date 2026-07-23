@@ -40,7 +40,7 @@ final audioRecorderProvider = Provider<AudioRecorder>((ref) {
 
 /// App-lifetime singleton so the one-time model download/init survives
 /// navigating away from and back to the record screen.
-final transcriberProvider = Provider<SherpaTranscriber>((ref) {
+final transcriberProvider = Provider<Transcriber>((ref) {
   final transcriber = SherpaTranscriber();
   ref.onDispose(transcriber.dispose);
   return transcriber;
