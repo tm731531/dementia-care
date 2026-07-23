@@ -104,8 +104,10 @@ class NoteListScreen extends ConsumerWidget {
   }
 
   /// System info dialog — app name + version (from the ⋮ menu).
-  void _showSystemInfo(BuildContext context, WidgetRef ref) {
-    final version = ref.read(appVersionProvider).valueOrNull ?? '讀取中…';
+  /// Await the version BEFORE opening the dialog so it never shows "讀取中".
+  Future<void> _showSystemInfo(BuildContext context, WidgetRef ref) async {
+    final version = await ref.read(appVersionProvider.future);
+    if (!context.mounted) return;
     showDialog<void>(
       context: context,
       builder: (_) => AlertDialog(
