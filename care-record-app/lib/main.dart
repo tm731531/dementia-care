@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'core/theme.dart';
-import 'spike/stt_spike_screen.dart';
+import 'features/record/view/record_note_screen.dart';
 
 void main() => runApp(const ProviderScope(child: App()));
 
@@ -12,8 +12,6 @@ class App extends StatelessWidget {
         title: '照護紀錄',
         theme: careTheme,
         debugShowCheckedModeBanner: false,
-        // Task 2 spike: on-device STT gate. Swap back to the real home
-        // screen once spike/stt_spike.md records a GO decision.
-        home: const SttSpikeScreen(),
+        home: const RecordNoteScreen(),
       );
 }
