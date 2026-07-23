@@ -15,6 +15,9 @@ class AudioRecorder {
 
   Future<bool> hasPermission() => _recorder.hasPermission();
 
+  /// Starts recording to a new temp file. Callers must check
+  /// [hasPermission] first — the underlying `record` package's `start()`
+  /// does not self-check microphone permission.
   Future<void> start() async {
     final dir = await getTemporaryDirectory();
     final path =

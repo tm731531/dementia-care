@@ -32,7 +32,16 @@ class SherpaTranscriber implements Transcriber {
   /// Ensures the model is downloaded (one-time, cached) and the recognizer
   /// is initialized. Safe to call multiple times or from multiple callers —
   /// concurrent calls share the same in-flight download/init.
-  Future<void> ensureReady() => _readyFuture ??= _init();
+  ///
+  /// On failure, the memoized future is reset so a later call retries
+  /// instead of permanently caching the failure (e.g. a transient
+  /// model-download error should not brick the instance forever).
+  Future<void> ensureReady() {
+    return _readyFuture ??= _init().catchError((e) {
+      _readyFuture = null; // allow retry after a failed one-time download
+      throw e;
+    });
+  }
 
   Future<void> _init() async {
     final dir = await getApplicationSupportDirectory();
@@ -110,5 +119,6 @@ class SherpaTranscriber implements Transcriber {
   void dispose() {
     _recognizer?.free();
     _recognizer = null;
+    _readyFuture = null;
   }
 }
