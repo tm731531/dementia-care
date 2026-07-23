@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
 
 import '../model/care_note.dart';
@@ -27,6 +30,9 @@ class _RecordNoteScreenState extends ConsumerState<RecordNoteScreen> {
   bool _isRecording = false;
   bool _isTranscribing = false;
   bool _isSaving = false;
+
+  String? _photoPath;
+  bool _isPickingPhoto = false;
 
   @override
   void initState() {
@@ -102,6 +108,50 @@ class _RecordNoteScreenState extends ConsumerState<RecordNoteScreen> {
     }
   }
 
+  Future<void> _pickPhoto() async {
+    final source = await showModalBottomSheet<ImageSource>(
+      context: context,
+      builder: (sheetContext) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.photo_camera),
+              title: const Text('相機', style: TextStyle(fontSize: 20)),
+              onTap: () => Navigator.of(sheetContext).pop(ImageSource.camera),
+            ),
+            ListTile(
+              leading: const Icon(Icons.photo_library),
+              title: const Text('相簿', style: TextStyle(fontSize: 20)),
+              onTap: () => Navigator.of(sheetContext).pop(ImageSource.gallery),
+            ),
+          ],
+        ),
+      ),
+    );
+    if (source == null) return;
+
+    setState(() => _isPickingPhoto = true);
+    try {
+      final picked = await ImagePicker().pickImage(source: source);
+      if (picked == null) return; // user cancelled the picker, no error
+      final savedPath = await ref.read(photoStoreProvider).save(File(picked.path));
+      if (!mounted) return;
+      setState(() => _photoPath = savedPath);
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('加照片失敗：$e')),
+      );
+    } finally {
+      if (mounted) setState(() => _isPickingPhoto = false);
+    }
+  }
+
+  void _removePhoto() {
+    setState(() => _photoPath = null);
+  }
+
   Future<void> _save() async {
     final text = _textController.text.trim();
     if (text.isEmpty) {
@@ -117,6 +167,7 @@ class _RecordNoteScreenState extends ConsumerState<RecordNoteScreen> {
       timestamp: DateTime.now(),
       author: NoteAuthor.family,
       text: text,
+      photoPath: _photoPath,
     );
     try {
       final dao = await ref.read(noteDaoProvider.future);
@@ -180,6 +231,8 @@ class _RecordNoteScreenState extends ConsumerState<RecordNoteScreen> {
                 decoration: const InputDecoration(border: OutlineInputBorder()),
               ),
               const SizedBox(height: 24),
+              _buildPhotoSection(),
+              const SizedBox(height: 24),
               FilledButton(
                 onPressed: _isSaving ? null : _save,
                 child: Text(_isSaving ? '儲存中…' : '儲存'),
@@ -231,6 +284,29 @@ class _RecordNoteScreenState extends ConsumerState<RecordNoteScreen> {
           ],
         );
     }
+  }
+
+  Widget _buildPhotoSection() {
+    if (_photoPath != null) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Image.file(File(_photoPath!), height: 200, fit: BoxFit.cover),
+          ),
+          const SizedBox(height: 8),
+          OutlinedButton(
+            onPressed: _isPickingPhoto ? null : _removePhoto,
+            child: const Text('移除照片'),
+          ),
+        ],
+      );
+    }
+    return OutlinedButton(
+      onPressed: _isPickingPhoto ? null : _pickPhoto,
+      child: Text(_isPickingPhoto ? '處理中…' : '📷 加照片（選填）'),
+    );
   }
 
   Widget _buildRecordButton() {

@@ -41,6 +41,7 @@ dependencies:
   record: ^6.2.1
   sherpa_onnx: ^1.13.4
   uuid: ^4.6.0
+  image_picker: ^1.2.0
 
 dev_dependencies:
   flutter_test:

@@ -5,6 +5,7 @@ import 'package:sqflite/sqflite.dart';
 
 import 'data/local_db.dart';
 import 'data/note_dao.dart';
+import 'data/photo_store.dart';
 import 'model/care_note.dart';
 import 'service/audio_recorder.dart';
 import 'service/transcriber.dart';
@@ -45,3 +46,7 @@ final transcriberProvider = Provider<Transcriber>((ref) {
   ref.onDispose(transcriber.dispose);
   return transcriber;
 });
+
+/// Copies picked photos into the app's local documents dir. Stateless
+/// (no dispose needed), so a plain `Provider` is enough.
+final photoStoreProvider = Provider<PhotoStore>((ref) => PhotoStore());
