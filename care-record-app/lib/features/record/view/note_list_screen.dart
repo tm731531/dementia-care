@@ -176,10 +176,9 @@ class NoteListScreen extends ConsumerWidget {
                       ),
                     );
                   }
-                  return ListView.separated(
-                    padding: const EdgeInsets.all(16),
+                  return ListView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     itemCount: notes.length,
-                    separatorBuilder: (_, __) => const Divider(height: 1),
                     itemBuilder: (context, index) {
                       final note = notes[index];
                       final t = note.timestamp;
@@ -188,28 +187,36 @@ class NoteListScreen extends ConsumerWidget {
                       final shift = shiftOfDay(t);
                       final time = TimeOfDay.fromDateTime(t).format(context);
                       final authorLabel = note.author == NoteAuthor.family ? '家屬' : '照顧者';
-                      return ListTile(
-                        contentPadding: const EdgeInsets.symmetric(vertical: 12),
-                        title: Text(
-                          '$date（$shift $time）　$authorLabel',
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xFF222222),
-                          ),
-                        ),
-                        subtitle: Padding(
-                          padding: const EdgeInsets.only(top: 8),
+                      return Card(
+                        margin: const EdgeInsets.symmetric(vertical: 8),
+                        elevation: 2,
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              Text(
+                                '$date（$shift $time）　$authorLabel',
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w700,
+                                  color: Color(0xFF2C5D80),
+                                ),
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.symmetric(vertical: 10),
+                                child: Divider(height: 1),
+                              ),
                               Text(
                                 note.text,
                                 style: const TextStyle(
                                     fontSize: 24, height: 1.6, color: Color(0xFF222222)),
                               ),
                               if (note.photoPath != null) ...[
-                                const SizedBox(height: 10),
+                                const SizedBox(height: 12),
                                 GestureDetector(
                                   onTap: () => _showPhoto(context, note.photoPath!),
                                   child: ClipRRect(
