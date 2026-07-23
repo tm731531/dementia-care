@@ -244,3 +244,25 @@ Swapped model to whisper-small (int8, ~375MB runtime download from
   Fix options: a Whisper variant that emits punctuation, or a post-process punctuation/segmentation
   step (e.g. sherpa ct-punc), or rely on the human editor to add breaks (v1-acceptable).
 - Proceed to Task 5 (Transcriber + AudioRecorder productionised, base) and Task 6 (record→save flow).
+
+## Punctuation (added after GATE decision, 2026-07-23)
+
+Addressed the "known issue" call-out above: `SherpaTranscriber` now runs raw whisper
+output through `sherpa_onnx`'s offline Chinese punctuation model before returning it,
+so saved notes read like "今天精神穩定，午餐吃一半。" instead of unpunctuated text.
+
+- **Model:** `csukuangfj/sherpa-onnx-punct-ct-transformer-zh-en-vocab272727-2024-04-12`
+  (Hugging Face), `model.onnx`, ~294MB.
+- **Wiring:** downloaded once via the same `_downloadIfMissing()` `.part`→rename
+  pattern as the whisper model, cached under
+  `getApplicationSupportDirectory()/punct_ct/model.onnx`. Both the whisper model and
+  the punctuation model must finish downloading/initializing before `ensureReady()`
+  resolves.
+- **Applied as a post-transcribe step:** after `OfflineRecognizer.getResult()` returns
+  raw text, `OfflinePunctuation.addPunct(rawText)` punctuates it. If punctuation
+  throws, `transcribe()` falls back to the raw unpunctuated text rather than failing
+  the whole transcription (寧缺勿錯) — the human still edits either way.
+- **One-time total model download is now ~454MB** (~160MB whisper-base + ~294MB
+  punctuation), still fully offline after the first run.
+- **Not verified on a real device** — same limitation as the rest of this spike;
+  actual punctuation quality on real Mandarin caregiving speech needs a phone run.

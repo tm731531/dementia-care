@@ -21,7 +21,11 @@ abstract class Transcriber {
 /// using whisper-base (int8). Lifts the model download/init/decode logic
 /// verified working on a real phone in `lib/spike/stt_spike_screen.dart`.
 ///
-/// The model (~160MB) is never bundled in the repo — it is downloaded once
+/// Also runs raw whisper output through an offline Chinese punctuation
+/// model (ct-transformer) so saved notes read like "今天精神穩定，午餐吃
+/// 一半。" instead of unpunctuated text.
+///
+/// Both models are never bundled in the repo — they are downloaded once
 /// from Hugging Face on first use and cached under app-support storage.
 /// After that, transcription is fully offline.
 class SherpaTranscriber implements Transcriber {
@@ -31,7 +35,12 @@ class SherpaTranscriber implements Transcriber {
   static const String _kDecoderFile = 'base-decoder.int8.onnx';
   static const String _kTokensFile = 'base-tokens.txt';
 
+  static const String _kPunctModelBaseUrl =
+      'https://huggingface.co/csukuangfj/sherpa-onnx-punct-ct-transformer-zh-en-vocab272727-2024-04-12/resolve/main';
+  static const String _kPunctModelFile = 'model.onnx';
+
   sherpa_onnx.OfflineRecognizer? _recognizer;
+  sherpa_onnx.OfflinePunctuation? _punctuation;
   Future<void>? _readyFuture;
 
   /// Ensures the model is downloaded (one-time, cached) and the recognizer
@@ -63,6 +72,16 @@ class SherpaTranscriber implements Transcriber {
     await _downloadIfMissing('$_kModelBaseUrl/$_kDecoderFile', decoderPath);
     await _downloadIfMissing('$_kModelBaseUrl/$_kTokensFile', tokensPath);
 
+    final punctModelDir = Directory('${dir.path}/punct_ct');
+    if (!punctModelDir.existsSync()) {
+      punctModelDir.createSync(recursive: true);
+    }
+    final punctModelPath = '${punctModelDir.path}/$_kPunctModelFile';
+    await _downloadIfMissing(
+      '$_kPunctModelBaseUrl/$_kPunctModelFile',
+      punctModelPath,
+    );
+
     sherpa_onnx.initBindings();
     final config = sherpa_onnx.OfflineRecognizerConfig(
       model: sherpa_onnx.OfflineModelConfig(
@@ -79,6 +98,15 @@ class SherpaTranscriber implements Transcriber {
       ),
     );
     _recognizer = sherpa_onnx.OfflineRecognizer(config);
+
+    _punctuation = sherpa_onnx.OfflinePunctuation(
+      config: sherpa_onnx.OfflinePunctuationConfig(
+        model: sherpa_onnx.OfflinePunctuationModelConfig(
+          ctTransformer: punctModelPath,
+          numThreads: 1,
+        ),
+      ),
+    );
   }
 
   /// Downloads [url] to [path] unless a file already exists there (cache
@@ -118,13 +146,28 @@ class SherpaTranscriber implements Transcriber {
     recognizer.decode(stream);
     final result = recognizer.getResult(stream);
     stream.free();
-    return result.text.trim();
+    final rawText = result.text.trim();
+
+    if (rawText.isEmpty) return rawText;
+
+    final punctuation = _punctuation;
+    if (punctuation == null) return rawText;
+    try {
+      return punctuation.addPunct(rawText);
+    } catch (e) {
+      // 寧缺勿錯: punctuation is a nice-to-have. If it fails, fall back to
+      // the raw (unpunctuated) text rather than failing the whole
+      // transcription — the human still verifies/edits either way.
+      return rawText;
+    }
   }
 
   /// Releases native resources. Call when the transcriber is no longer needed.
   void dispose() {
     _recognizer?.free();
     _recognizer = null;
+    _punctuation?.free();
+    _punctuation = null;
     _readyFuture = null;
   }
 }

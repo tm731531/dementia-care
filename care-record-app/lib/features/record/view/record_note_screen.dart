@@ -204,7 +204,7 @@ class _RecordNoteScreenState extends ConsumerState<RecordNoteScreen> {
             SizedBox(width: 12),
             Expanded(
               child: Text(
-                '正在下載語音模型（僅需一次，建議使用 Wi-Fi）…',
+                '正在下載語音／標點模型（僅需一次，建議使用 Wi-Fi）…',
                 style: TextStyle(fontSize: 18),
               ),
             ),
