@@ -1,21 +1,30 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
-import 'package:whisper_ggml/whisper_ggml.dart';
+import 'package:sherpa_onnx/sherpa_onnx.dart' as sherpa_onnx;
 
 /// SPIKE screen — not production UI.
 ///
 /// Purpose: let Tom read the synthetic script aloud on a real phone and see
-/// whether on-device whisper.cpp (via `whisper_ggml`) produces a usable
-/// Traditional-Chinese transcription. See `spike/stt_spike.md` for the
-/// chosen binding, model size, and the GO/NO-GO evidence to fill in after a
-/// real-device run.
+/// whether on-device Whisper (via `sherpa_onnx`, whisper.cpp's ONNX port)
+/// produces a usable Traditional-Chinese transcription. See
+/// `spike/stt_spike.md` for the chosen binding, model size, and the GO/NO-GO
+/// evidence to fill in after a real-device run.
 ///
 /// Synthetic only — this script contains NO real patient/caregiving data.
 const String kSyntheticScript = '今天精神穩定，午餐吃一半，下午走一走，晚上睡得好，情緒平穩。';
 
-/// Model picked for this spike. See spike/stt_spike.md for why `small`.
-const WhisperModel kSpikeModel = WhisperModel.small;
+/// Whisper-base (int8) model files, unpacked (not tar'd) on Hugging Face.
+/// See spike/stt_spike.md for why `base` and why this mirror over the
+/// official k2-fsa release (which only ships a combined .tar.bz2, and this
+/// project has no bzip2/tar extraction dependency).
+const String _kModelBaseUrl =
+    'https://huggingface.co/csukuangfj/sherpa-onnx-whisper-base/resolve/main';
+const String _kEncoderFile = 'base-encoder.int8.onnx';
+const String _kDecoderFile = 'base-decoder.int8.onnx';
+const String _kTokensFile = 'base-tokens.txt';
 
 enum _ModelStatus { downloading, ready, error }
 
@@ -28,7 +37,7 @@ class SttSpikeScreen extends StatefulWidget {
 
 class _SttSpikeScreenState extends State<SttSpikeScreen> {
   final AudioRecorder _recorder = AudioRecorder();
-  final WhisperController _whisper = WhisperController();
+  sherpa_onnx.OfflineRecognizer? _recognizer;
 
   _ModelStatus _modelStatus = _ModelStatus.downloading;
   String? _modelError;
@@ -47,19 +56,49 @@ class _SttSpikeScreenState extends State<SttSpikeScreen> {
   @override
   void dispose() {
     _recorder.dispose();
+    _recognizer?.free();
     super.dispose();
   }
 
   /// Model is NEVER bundled in the repo (>100MB, public GitHub rejects it).
   /// First launch downloads it once from Hugging Face over the network and
-  /// caches it in app-support storage; later launches reuse the cached file.
+  /// caches it in app-support storage; later launches reuse the cached files.
   Future<void> _ensureModelDownloaded() async {
     setState(() {
       _modelStatus = _ModelStatus.downloading;
       _modelError = null;
     });
     try {
-      await _whisper.downloadModel(kSpikeModel);
+      final dir = await getApplicationSupportDirectory();
+      final modelDir = Directory('${dir.path}/whisper_base');
+      if (!modelDir.existsSync()) {
+        modelDir.createSync(recursive: true);
+      }
+      final encoderPath = '${modelDir.path}/$_kEncoderFile';
+      final decoderPath = '${modelDir.path}/$_kDecoderFile';
+      final tokensPath = '${modelDir.path}/$_kTokensFile';
+
+      await _downloadIfMissing('$_kModelBaseUrl/$_kEncoderFile', encoderPath);
+      await _downloadIfMissing('$_kModelBaseUrl/$_kDecoderFile', decoderPath);
+      await _downloadIfMissing('$_kModelBaseUrl/$_kTokensFile', tokensPath);
+
+      sherpa_onnx.initBindings();
+      final config = sherpa_onnx.OfflineRecognizerConfig(
+        model: sherpa_onnx.OfflineModelConfig(
+          whisper: sherpa_onnx.OfflineWhisperModelConfig(
+            encoder: encoderPath,
+            decoder: decoderPath,
+            language: 'zh',
+            task: 'transcribe',
+          ),
+          tokens: tokensPath,
+          modelType: 'whisper',
+          numThreads: 1,
+          debug: false,
+        ),
+      );
+      _recognizer = sherpa_onnx.OfflineRecognizer(config);
+
       if (!mounted) return;
       setState(() => _modelStatus = _ModelStatus.ready);
     } catch (e) {
@@ -68,6 +107,30 @@ class _SttSpikeScreenState extends State<SttSpikeScreen> {
         _modelStatus = _ModelStatus.error;
         _modelError = e.toString();
       });
+    }
+  }
+
+  /// Downloads [url] to [path] unless a file already exists there (cache
+  /// reuse across launches). Downloads to a `.part` temp file first so a
+  /// crash mid-download can't leave a truncated file that looks "cached".
+  Future<void> _downloadIfMissing(String url, String path) async {
+    final file = File(path);
+    if (file.existsSync() && file.lengthSync() > 0) return;
+
+    final partFile = File('$path.part');
+    final client = HttpClient();
+    try {
+      final request = await client.getUrl(Uri.parse(url));
+      final response = await request.close();
+      if (response.statusCode != 200) {
+        throw Exception('HTTP ${response.statusCode} downloading $url');
+      }
+      final sink = partFile.openWrite();
+      await response.pipe(sink);
+      await sink.close();
+      await partFile.rename(path);
+    } finally {
+      client.close();
     }
   }
 
@@ -92,8 +155,8 @@ class _SttSpikeScreenState extends State<SttSpikeScreen> {
     final dir = await getTemporaryDirectory();
     final path =
         '${dir.path}/stt_spike_${DateTime.now().millisecondsSinceEpoch}.wav';
-    // 16kHz mono WAV — the format whisper_ggml expects without needing an
-    // ffmpeg re-encode step.
+    // 16kHz mono WAV — the format sherpa_onnx's Whisper model expects
+    // without needing an ffmpeg re-encode step.
     await _recorder.start(
       const RecordConfig(
         encoder: AudioEncoder.wav,
@@ -110,17 +173,20 @@ class _SttSpikeScreenState extends State<SttSpikeScreen> {
   }
 
   Future<void> _transcribe(String audioPath) async {
+    final recognizer = _recognizer;
+    if (recognizer == null) return;
     setState(() => _isTranscribing = true);
     final start = DateTime.now();
     try {
-      final result = await _whisper.transcribe(
-        model: kSpikeModel,
-        audioPath: audioPath,
-        lang: 'zh',
-      );
+      final wave = sherpa_onnx.readWave(audioPath);
+      final stream = recognizer.createStream();
+      stream.acceptWaveform(samples: wave.samples, sampleRate: wave.sampleRate);
+      recognizer.decode(stream);
+      final result = recognizer.getResult(stream);
+      stream.free();
       if (!mounted) return;
       setState(() {
-        _transcript = result?.transcription.text ?? '（無法辨識，回傳空結果）';
+        _transcript = result.text.isEmpty ? '（無法辨識，回傳空結果）' : result.text;
         _transcribeWallClock = DateTime.now().difference(start);
         _isTranscribing = false;
       });
@@ -192,19 +258,19 @@ class _SttSpikeScreenState extends State<SttSpikeScreen> {
   Widget _buildModelStatus() {
     switch (_modelStatus) {
       case _ModelStatus.downloading:
-        return Row(
+        return const Row(
           children: [
-            const SizedBox(
+            SizedBox(
               width: 20,
               height: 20,
               child: CircularProgressIndicator(strokeWidth: 3),
             ),
-            const SizedBox(width: 12),
+            SizedBox(width: 12),
             Expanded(
               child: Text(
-                '正在下載語音模型（${kSpikeModel.modelName}，僅需一次，'
+                '正在下載語音模型（whisper-base，約 160MB，僅需一次，'
                 '建議使用 Wi-Fi）…',
-                style: const TextStyle(fontSize: 18),
+                style: TextStyle(fontSize: 18),
               ),
             ),
           ],
