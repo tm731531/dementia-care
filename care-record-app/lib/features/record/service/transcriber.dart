@@ -104,6 +104,7 @@ class SherpaTranscriber implements Transcriber {
         model: sherpa_onnx.OfflinePunctuationModelConfig(
           ctTransformer: punctModelPath,
           numThreads: 1,
+          debug: false,
         ),
       ),
     );
