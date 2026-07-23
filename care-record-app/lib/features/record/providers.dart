@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import 'data/current_patient.dart';
 import 'data/local_db.dart';
@@ -180,3 +181,9 @@ final transcriberProvider = Provider<Transcriber>((ref) {
 /// Copies picked photos into the app's local documents dir. Stateless
 /// (no dispose needed), so a plain `Provider` is enough.
 final photoStoreProvider = Provider<PhotoStore>((ref) => PhotoStore());
+
+/// App version string ("vX.Y.Z+build") for display in AppBars.
+final appVersionProvider = FutureProvider<String>((ref) async {
+  final info = await PackageInfo.fromPlatform();
+  return 'v${info.version}+${info.buildNumber}';
+});

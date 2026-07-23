@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:uuid/uuid.dart';
 
 import '../model/care_note.dart';
@@ -35,19 +34,10 @@ class _RecordNoteScreenState extends ConsumerState<RecordNoteScreen> {
   String? _photoPath;
   bool _isPickingPhoto = false;
 
-  String _version = '';
-
   @override
   void initState() {
     super.initState();
     _ensureModelReady();
-    _loadVersion();
-  }
-
-  Future<void> _loadVersion() async {
-    final info = await PackageInfo.fromPlatform();
-    if (!mounted) return;
-    setState(() => _version = 'v${info.version}+${info.buildNumber}');
   }
 
   @override
@@ -212,16 +202,17 @@ class _RecordNoteScreenState extends ConsumerState<RecordNoteScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
+        title: Row(
+          crossAxisAlignment: CrossAxisAlignment.baseline,
+          textBaseline: TextBaseline.alphabetic,
           children: [
-            const Text('照護紀錄'),
-            if (_version.isNotEmpty)
-              Text(_version,
-                  style: TextStyle(
-                      fontSize: 12,
-                      color: Theme.of(context).colorScheme.onSurfaceVariant)),
+            const Flexible(child: Text('照護紀錄', overflow: TextOverflow.ellipsis)),
+            const SizedBox(width: 10),
+            Text(
+              ref.watch(appVersionProvider).valueOrNull ?? '',
+              style: TextStyle(
+                  fontSize: 14, color: Theme.of(context).colorScheme.onSurfaceVariant),
+            ),
           ],
         ),
         bottom: showPatientLabel

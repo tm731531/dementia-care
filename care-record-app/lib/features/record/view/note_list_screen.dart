@@ -138,7 +138,19 @@ class NoteListScreen extends ConsumerWidget {
     final notesAsync = ref.watch(notesProvider);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('照護紀錄列表'),
+        title: Row(
+          crossAxisAlignment: CrossAxisAlignment.baseline,
+          textBaseline: TextBaseline.alphabetic,
+          children: [
+            const Flexible(child: Text('照護紀錄列表', overflow: TextOverflow.ellipsis)),
+            const SizedBox(width: 10),
+            Text(
+              ref.watch(appVersionProvider).valueOrNull ?? '',
+              style: TextStyle(
+                  fontSize: 14, color: Theme.of(context).colorScheme.onSurfaceVariant),
+            ),
+          ],
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.summarize),
