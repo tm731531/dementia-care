@@ -66,6 +66,36 @@ class NoteListScreen extends ConsumerWidget {
     }
   }
 
+  /// Full-screen viewer so the recorder can actually inspect a photo from the
+  /// main list (not only from the doctor-review screen).
+  void _showPhoto(BuildContext context, String path) {
+    showDialog<void>(
+      context: context,
+      builder: (_) => Dialog(
+        backgroundColor: Colors.black,
+        insetPadding: const EdgeInsets.all(12),
+        child: Stack(
+          alignment: Alignment.topRight,
+          children: [
+            InteractiveViewer(
+              child: Image.file(
+                File(path),
+                errorBuilder: (_, __, ___) => const Padding(
+                  padding: EdgeInsets.all(24),
+                  child: Text('照片已遺失', style: TextStyle(color: Colors.white)),
+                ),
+              ),
+            ),
+            IconButton(
+              icon: const Icon(Icons.close, color: Colors.white, size: 32),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final notesAsync = ref.watch(notesProvider);
@@ -116,11 +146,10 @@ class NoteListScreen extends ConsumerWidget {
                 final shift = shiftOfDay(t);
                 final time = TimeOfDay.fromDateTime(t).format(context);
                 final authorLabel = note.author == NoteAuthor.family ? '家屬' : '照顧者';
-                final photoMarker = note.photoPath != null ? '　📷' : '';
                 return ListTile(
                   contentPadding: const EdgeInsets.symmetric(vertical: 12),
                   title: Text(
-                    '$date（$shift $time）　$authorLabel$photoMarker',
+                    '$date（$shift $time）　$authorLabel',
                     style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
@@ -129,9 +158,31 @@ class NoteListScreen extends ConsumerWidget {
                   ),
                   subtitle: Padding(
                     padding: const EdgeInsets.only(top: 8),
-                    child: Text(
-                      note.text,
-                      style: const TextStyle(fontSize: 24, height: 1.6, color: Color(0xFF222222)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          note.text,
+                          style: const TextStyle(
+                              fontSize: 24, height: 1.6, color: Color(0xFF222222)),
+                        ),
+                        if (note.photoPath != null) ...[
+                          const SizedBox(height: 10),
+                          GestureDetector(
+                            onTap: () => _showPhoto(context, note.photoPath!),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: Image.file(
+                                File(note.photoPath!),
+                                width: 160,
+                                height: 160,
+                                fit: BoxFit.cover,
+                                errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ],
                     ),
                   ),
                 );

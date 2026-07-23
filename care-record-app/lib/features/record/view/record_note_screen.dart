@@ -96,7 +96,14 @@ class _RecordNoteScreenState extends ConsumerState<RecordNoteScreen> {
       final text = await ref.read(transcriberProvider).transcribe(audioPath);
       if (!mounted) return;
       setState(() {
-        _textController.text = text;
+        // Append each take onto the existing text so the user can record in
+        // several passes into one note (講一段、再講一段、接起來), instead of
+        // the new take overwriting the previous one.
+        final existing = _textController.text.trimRight();
+        final combined = existing.isEmpty ? text : '$existing $text';
+        _textController.text = combined;
+        _textController.selection =
+            TextSelection.collapsed(offset: combined.length);
         _isTranscribing = false;
       });
     } catch (e) {
