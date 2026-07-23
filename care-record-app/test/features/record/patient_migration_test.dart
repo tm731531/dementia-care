@@ -197,6 +197,28 @@ void main() {
 
       await db.close();
     });
+
+    test('deleting the only remaining patient throws StateError and does not delete it', () async {
+      final db = await LocalDb.open(inMemoryDatabasePath);
+      final patientDao = PatientDao(db);
+
+      // LocalDb.open already seeds one default patient, so this device has
+      // exactly 1 — deleting it would leave 0, which must be refused.
+      final before = await patientDao.all();
+      expect(before.length, 1);
+      final onlyPatientId = before.single.id;
+
+      await expectLater(
+        () => patientDao.delete(onlyPatientId),
+        throwsA(isA<StateError>()),
+      );
+
+      final after = await patientDao.all();
+      expect(after.length, 1);
+      expect(after.single.id, onlyPatientId);
+
+      await db.close();
+    });
   });
 
   group('NoteDao.allNewestFirstForPatient', () {

@@ -91,5 +91,17 @@ void main() {
       expect(html.startsWith('<!doctype html'), isTrue);
       expect(html.contains('共 0 筆'), isTrue);
     });
+
+    test('includes the 病人 line when patientName is given', () {
+      final html = buildHtmlReport(groups, from: from, to: to, patientName: '王小明');
+
+      expect(html.contains('病人：王小明'), isTrue);
+    });
+
+    test('omits the 病人 line entirely when patientName is null (single-patient device)', () {
+      final html = buildHtmlReport(groups, from: from, to: to);
+
+      expect(html.contains('病人：'), isFalse);
+    });
   });
 }

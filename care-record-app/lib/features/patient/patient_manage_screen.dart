@@ -110,16 +110,28 @@ class PatientManageScreen extends ConsumerWidget {
     final photosDir = Directory(
       p.join((await getApplicationDocumentsDirectory()).path, 'photos'),
     );
-    await PatientService().deletePatient(
-      id: patient.id,
-      noteDao: noteDao,
-      patientDao: patientDao,
-      photosDir: photosDir,
-    );
+    try {
+      await PatientService().deletePatient(
+        id: patient.id,
+        noteDao: noteDao,
+        patientDao: patientDao,
+        photosDir: photosDir,
+      );
+    } on StateError {
+      // PatientDao.delete's own last-patient guard — belt-and-braces in
+      // case [patients] (captured before the confirm dialog awaited) went
+      // stale, e.g. another delete raced it down to 1 in the meantime.
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('至少要保留一位病人')),
+      );
+      return;
+    }
+    if (!context.mounted) return;
     ref.invalidate(patientsProvider);
     ref.invalidate(notesProvider);
 
-    final currentId = ref.read(currentPatientIdProvider);
+    final currentId = ref.read(currentPatientIdProvider).id;
     if (currentId == patient.id) {
       final remaining = patients.where((p) => p.id != patient.id).toList();
       if (remaining.isNotEmpty) {

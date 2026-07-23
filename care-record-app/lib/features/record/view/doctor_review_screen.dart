@@ -71,7 +71,12 @@ class _DoctorReviewScreenState extends ConsumerState<DoctorReviewScreen> {
   Future<void> _exportHtml() async {
     final notes = await ref.read(notesProvider.future);
     final groups = groupNotesByLocalDate(notes, from: _from, to: _to);
-    final patientName = ref.read(currentPatientProvider).valueOrNull?.name;
+    final patients = await ref.read(patientsProvider.future);
+    // Single-patient devices must look identical to before Plan 3 — no
+    // 病人 line — so only pass a name once there's an actual choice.
+    final patientName = patients.length >= 2
+        ? ref.read(currentPatientProvider).valueOrNull?.name
+        : null;
     final html = buildHtmlReport(
       groups,
       from: _from,
@@ -95,7 +100,11 @@ class _DoctorReviewScreenState extends ConsumerState<DoctorReviewScreen> {
   @override
   Widget build(BuildContext context) {
     final notesAsync = ref.watch(notesProvider);
-    final patientName = ref.watch(currentPatientProvider).valueOrNull?.name;
+    final patients = ref.watch(patientsProvider).valueOrNull ?? const [];
+    final currentPatientName = ref.watch(currentPatientProvider).valueOrNull?.name;
+    // Same single-patient-invisibility gate as record_note_screen.dart:
+    // only show the 病人 line once there's an actual choice to make.
+    final patientName = patients.length >= 2 ? currentPatientName : null;
 
     return Scaffold(
       appBar: AppBar(title: const Text('給醫生看的整理')),

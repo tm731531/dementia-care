@@ -30,9 +30,11 @@ String _escapeHtml(String text) => text
 /// URLs, ever. [readPhotoBytes] (if provided) supplies the raw bytes for a
 /// note's `photoPath`, which get inlined as a base64 `data:` URI; if it's
 /// null, or returns null for a given path, that note's photo is omitted.
-/// [patientName], if given, is shown as「病人：〈name〉」under the date range —
-/// harmless to include even on a single-patient device, so callers can pass
-/// it unconditionally.
+/// [patientName], if given, is shown as「病人：〈name〉」under the date range;
+/// if null, that line is omitted entirely. Callers on a single-patient
+/// device must pass null (mirroring the `patients.length >= 2` gate used
+/// elsewhere, e.g. record_note_screen.dart) so the report looks identical
+/// to before multi-patient support existed.
 String buildHtmlReport(
   List<DateGroup> groups, {
   required DateTime from,

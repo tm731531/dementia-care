@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
@@ -51,74 +53,110 @@ final patientsProvider = FutureProvider<List<Patient>>((ref) async {
 /// widget tests that don't want the real SharedPreferences plugin channel.
 final currentPatientStoreProvider = Provider<CurrentPatientStore>((ref) => CurrentPatientStore());
 
-/// The user's selected patient id, persisted across restarts.
+/// The user's selected patient id, persisted across restarts, plus whether
+/// the initial [CurrentPatientStore.load] has completed.
 ///
-/// State is `null` until [CurrentPatientStore.load] resolves (kicked off
-/// from [build]) — [currentPatientProvider] below is what code should
-/// actually watch, since it already falls back to the first patient while
-/// this is still loading.
-class CurrentPatientIdNotifier extends Notifier<String?> {
+/// [loaded] starts `false` and flips to `true` exactly once, when [build]'s
+/// kicked-off load resolves — even if there was nothing stored (`id` stays
+/// `null` in that case). [currentPatientProvider] watches [loaded] to stay
+/// `AsyncLoading` until then, instead of racing ahead and resolving against
+/// the wrong (first) patient on a multi-patient cold start.
+typedef CurrentPatientIdState = ({String? id, bool loaded});
+
+class CurrentPatientIdNotifier extends Notifier<CurrentPatientIdState> {
   @override
-  String? build() {
+  CurrentPatientIdState build() {
     _loadStored();
-    return null;
+    return (id: null, loaded: false);
   }
 
   Future<void> _loadStored() async {
     final store = ref.read(currentPatientStoreProvider);
     final stored = await store.load();
     // Guard against the notifier having been disposed while awaiting.
-    if (ref.exists(currentPatientIdProvider) && stored != null) {
-      state = stored;
+    if (ref.exists(currentPatientIdProvider)) {
+      state = (id: stored, loaded: true);
     }
   }
 
   /// Selects [id] as the current patient and persists the choice.
   Future<void> select(String id) async {
-    state = id;
+    state = (id: id, loaded: true);
     await ref.read(currentPatientStoreProvider).save(id);
   }
 }
 
-final currentPatientIdProvider = NotifierProvider<CurrentPatientIdNotifier, String?>(
+final currentPatientIdProvider =
+    NotifierProvider<CurrentPatientIdNotifier, CurrentPatientIdState>(
   CurrentPatientIdNotifier.new,
 );
 
 /// The resolved current [Patient] — combines the persisted selection with
-/// the live patient list via [resolveCurrentPatient], so a deleted or
-/// not-yet-loaded selection always falls back to the first patient rather
-/// than surfacing an error or another patient's data.
+/// the live patient list via [resolveCurrentPatient], so a deleted
+/// selection falls back to the first patient rather than surfacing an
+/// error or another patient's data.
 ///
-/// `AsyncLoading`/`AsyncError` only while [patientsProvider] itself hasn't
-/// resolved (e.g. DB still opening); once patients are loaded this is
-/// always `AsyncData`, even before [CurrentPatientIdNotifier] finishes
-/// loading the persisted id (falls back to the first patient meanwhile).
+/// Stays `AsyncLoading` until both [patientsProvider] has resolved AND the
+/// initial persisted-id load ([CurrentPatientIdNotifier]'s `loaded` flag)
+/// has completed — so nothing ever reads a "current patient" that was
+/// resolved before we actually knew which one was selected. Never throws:
+/// an empty patient list (should not normally happen — the DB migration
+/// always seeds one, and [PatientDao.delete] refuses to remove the last
+/// one) resolves to `AsyncError` instead of crashing.
 final currentPatientProvider = Provider<AsyncValue<Patient>>((ref) {
   final patientsAsync = ref.watch(patientsProvider);
-  final storedId = ref.watch(currentPatientIdProvider);
-  return patientsAsync.whenData((patients) {
-    final resolvedId = resolveCurrentPatient(storedId, patients);
-    return patients.firstWhere(
-      (p) => p.id == resolvedId,
-      orElse: () => patients.first,
-    );
-  });
+  final currentIdState = ref.watch(currentPatientIdProvider);
+
+  if (!currentIdState.loaded) {
+    return const AsyncValue<Patient>.loading();
+  }
+
+  return patientsAsync.when(
+    data: (patients) {
+      if (patients.isEmpty) {
+        return AsyncValue<Patient>.error(
+          StateError('no patients'),
+          StackTrace.current,
+        );
+      }
+      final resolvedId = resolveCurrentPatient(currentIdState.id, patients);
+      final patient = patients.firstWhere(
+        (p) => p.id == resolvedId,
+        orElse: () => patients.first,
+      );
+      return AsyncValue.data(patient);
+    },
+    error: (e, st) => AsyncValue.error(e, st),
+    loading: () => const AsyncValue.loading(),
+  );
 });
 
 /// Newest-first note list, scoped to the current patient. Watches
 /// [currentPatientProvider] so switching patients (via
 /// `currentPatientIdProvider.select`) refreshes this automatically.
+///
+/// Stays in a loading state while [currentPatientProvider] is still
+/// resolving (e.g. the initial current-patient-id load from
+/// SharedPreferences hasn't finished yet), instead of falling back to
+/// [defaultPatientIdProvider] and briefly showing the wrong patient's notes
+/// on a multi-patient cold start.
+///
 /// Invalidate after a save so the list screen re-fetches instead of
 /// showing stale cached data.
 final notesProvider = FutureProvider<List<CareNote>>((ref) async {
   final dao = await ref.watch(noteDaoProvider.future);
-  final currentPatient = ref.watch(currentPatientProvider).valueOrNull;
-  final String patientId;
-  if (currentPatient != null) {
-    patientId = currentPatient.id;
-  } else {
-    patientId = await ref.watch(defaultPatientIdProvider.future);
+  final currentPatientAsync = ref.watch(currentPatientProvider);
+
+  if (currentPatientAsync.isLoading) {
+    // Never resolves; this build is superseded once currentPatientProvider
+    // settles (watched above, so it triggers a rebuild) — well before any
+    // real UI would time out.
+    return Completer<List<CareNote>>().future;
   }
+
+  final String? currentPatientId = currentPatientAsync.valueOrNull?.id;
+  final String patientId =
+      currentPatientId ?? await ref.watch(defaultPatientIdProvider.future);
   return dao.allNewestFirstForPatient(patientId);
 });
 
