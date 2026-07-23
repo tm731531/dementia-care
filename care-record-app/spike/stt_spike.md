@@ -193,3 +193,29 @@ needed, honoring the hard constraint not to touch the shared SDK.
 `../../.superpowers/sdd/task-2-report.md` for the exact build output line, apk path,
 and size). minSdk stays raised to 24 (still required by `record` + `sherpa_onnx`'s
 native plugins).
+
+---
+
+## Device run #1 — whisper-base (2026-07-23, real phone)
+
+- **Device:** Samsung (Android), arm64. **Build:** debug.
+- **Script read:** 今天精神穩定，午餐吃一半，下午走一走，晚上睡得好，情緒平穩。
+- **Output:** 今天精神定午吃一半下午走一走晚上睡得好情平
+- **Wall-clock:** 3472 ms (debug build).
+- **Scoring:** every emitted character is CORRECT; errors are DELETIONS only
+  (穩定→定, 午餐→午, 情緒平穩→情平). "下午走一走" and "晚上睡得好" perfect. No substitutions,
+  no hallucinated words.
+- **Key finding:** the STT failure mode is SAFE (drops chars → human fills) — the opposite of the
+  OCR failure mode (substitutes a wrong common word → misleads). This validates voice-over-OCR
+  on a real device. Content is fully recoverable; nothing misleading was produced.
+- **Verdict:** GO-leaning. Dropped words (穩定/午餐/情緒平穩) are exactly what a larger model
+  usually recovers → swapping base → whisper-small for a confirmation run.
+
+## Device run #2 — whisper-small (pending Tom's re-test)
+
+Swapped model to whisper-small (int8, ~375MB runtime download from
+`csukuangfj/sherpa-onnx-whisper-small`). APK rebuilt. Awaiting device output.
+- **Output:**
+- **Wall-clock:**
+- **Scoring vs base:**
+- **GO / NO-GO:**

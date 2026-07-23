@@ -16,15 +16,16 @@ import 'package:sherpa_onnx/sherpa_onnx.dart' as sherpa_onnx;
 /// Synthetic only — this script contains NO real patient/caregiving data.
 const String kSyntheticScript = '今天精神穩定，午餐吃一半，下午走一走，晚上睡得好，情緒平穩。';
 
-/// Whisper-base (int8) model files, unpacked (not tar'd) on Hugging Face.
-/// See spike/stt_spike.md for why `base` and why this mirror over the
-/// official k2-fsa release (which only ships a combined .tar.bz2, and this
-/// project has no bzip2/tar extraction dependency).
+/// Whisper-small (int8) model files, unpacked (not tar'd) on Hugging Face.
+/// See spike/stt_spike.md for why this mirror over the official k2-fsa release
+/// (which only ships a combined .tar.bz2, and this project has no bzip2/tar
+/// extraction dependency). Swapped base -> small after the base device run
+/// dropped characters (穩定/午餐/情緒平穩); small is more accurate (~375MB int8).
 const String _kModelBaseUrl =
-    'https://huggingface.co/csukuangfj/sherpa-onnx-whisper-base/resolve/main';
-const String _kEncoderFile = 'base-encoder.int8.onnx';
-const String _kDecoderFile = 'base-decoder.int8.onnx';
-const String _kTokensFile = 'base-tokens.txt';
+    'https://huggingface.co/csukuangfj/sherpa-onnx-whisper-small/resolve/main';
+const String _kEncoderFile = 'small-encoder.int8.onnx';
+const String _kDecoderFile = 'small-decoder.int8.onnx';
+const String _kTokensFile = 'small-tokens.txt';
 
 enum _ModelStatus { downloading, ready, error }
 
@@ -70,7 +71,7 @@ class _SttSpikeScreenState extends State<SttSpikeScreen> {
     });
     try {
       final dir = await getApplicationSupportDirectory();
-      final modelDir = Directory('${dir.path}/whisper_base');
+      final modelDir = Directory('${dir.path}/whisper_small');
       if (!modelDir.existsSync()) {
         modelDir.createSync(recursive: true);
       }
@@ -268,7 +269,7 @@ class _SttSpikeScreenState extends State<SttSpikeScreen> {
             SizedBox(width: 12),
             Expanded(
               child: Text(
-                '正在下載語音模型（whisper-base，約 160MB，僅需一次，'
+                '正在下載語音模型（whisper-small，約 375MB，僅需一次，'
                 '建議使用 Wi-Fi）…',
                 style: TextStyle(fontSize: 18),
               ),
