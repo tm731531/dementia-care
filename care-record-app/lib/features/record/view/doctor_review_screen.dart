@@ -49,6 +49,7 @@ class _DoctorReviewScreenState extends ConsumerState<DoctorReviewScreen> {
       firstDate: DateTime(2020),
       lastDate: _to,
     );
+    if (!mounted) return;
     if (picked != null) setState(() => _from = picked);
   }
 
@@ -59,6 +60,7 @@ class _DoctorReviewScreenState extends ConsumerState<DoctorReviewScreen> {
       firstDate: _from,
       lastDate: DateTime.now(),
     );
+    if (!mounted) return;
     if (picked != null) setState(() => _to = picked);
   }
 

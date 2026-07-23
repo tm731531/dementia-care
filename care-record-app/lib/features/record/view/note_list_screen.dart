@@ -53,8 +53,8 @@ class NoteListScreen extends ConsumerWidget {
     if (!context.mounted) return;
     try {
       final summary = await importZip(zip: File(path), dao: dao, photosDir: photosDir);
-      ref.invalidate(notesProvider);
       if (!context.mounted) return;
+      ref.invalidate(notesProvider);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('匯入 ${summary.total} 筆，其中 ${summary.imported} 筆是新的')),
       );

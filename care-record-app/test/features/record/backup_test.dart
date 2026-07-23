@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:archive/archive.dart';
@@ -10,6 +11,25 @@ import 'package:care_record_app/features/record/data/note_dao.dart';
 import 'package:care_record_app/features/record/model/care_note.dart';
 import 'package:care_record_app/features/record/model/note_author.dart';
 import 'package:care_record_app/features/record/service/backup.dart';
+
+/// Builds a zip the same shape as [exportZip] produces, but from raw
+/// `notes.json` bytes + an explicit photo file map — lets tests construct
+/// malformed / inconsistent archives that a real export would never emit.
+File _buildZip(
+  Directory dir,
+  String name, {
+  required List<int> notesJsonBytes,
+  Map<String, List<int>> photos = const {},
+}) {
+  final archive = Archive();
+  archive.addFile(ArchiveFile('notes.json', notesJsonBytes.length, notesJsonBytes));
+  for (final entry in photos.entries) {
+    archive.addFile(ArchiveFile('photos/${entry.key}', entry.value.length, entry.value));
+  }
+  final file = File(p.join(dir.path, name));
+  file.writeAsBytesSync(ZipEncoder().encode(archive));
+  return file;
+}
 
 void main() {
   setUpAll(() {
@@ -136,6 +156,68 @@ void main() {
 
     final all = await dao.allNewestFirst();
     expect(all, isEmpty);
+
+    await db.close();
+  });
+
+  test('importZip throws FormatException when one notes.json entry is malformed, '
+      'and inserts nothing (no partial import)', () async {
+    final goodNote = CareNote(
+      id: 'ok',
+      timestamp: DateTime.utc(2026, 7, 20, 8),
+      author: NoteAuthor.family,
+      text: '正常紀錄',
+    );
+    final notesJson = jsonEncode([goodNote.toJson(), {'nope': 1}]);
+    final zipFile = _buildZip(
+      tempDir,
+      'partial-bad.zip',
+      notesJsonBytes: utf8.encode(notesJson),
+    );
+
+    final db = await LocalDb.open(inMemoryDatabasePath);
+    final dao = NoteDao(db);
+    final photosDir = Directory(p.join(tempDir.path, 'photos'));
+
+    expect(
+      () => importZip(zip: zipFile, dao: dao, photosDir: photosDir),
+      throwsA(isA<FormatException>()),
+    );
+
+    final all = await dao.allNewestFirst();
+    expect(all, isEmpty);
+
+    await db.close();
+  });
+
+  test('importZip sets photoPath to null (not a dangling path) when the referenced '
+      'photo is missing from the archive', () async {
+    final noteJson = CareNote(
+      id: 'missing-photo',
+      timestamp: DateTime.utc(2026, 7, 20, 8),
+      author: NoteAuthor.caregiver,
+      text: '照片遺失的紀錄',
+      photoPath: '/some/other/phone/path/ghost.jpg',
+    ).toJson();
+    final notesJson = jsonEncode([noteJson]);
+    // No 'photos/ghost.jpg' entry in the archive — simulates a backup whose
+    // photo never made it in (or was stripped in transit).
+    final zipFile = _buildZip(
+      tempDir,
+      'missing-photo.zip',
+      notesJsonBytes: utf8.encode(notesJson),
+    );
+
+    final db = await LocalDb.open(inMemoryDatabasePath);
+    final dao = NoteDao(db);
+    final photosDir = Directory(p.join(tempDir.path, 'photos'));
+
+    final summary = await importZip(zip: zipFile, dao: dao, photosDir: photosDir);
+    expect(summary.total, 1);
+    expect(summary.imported, 1);
+
+    final imported = await dao.allNewestFirst();
+    expect(imported.single.photoPath, isNull);
 
     await db.close();
   });

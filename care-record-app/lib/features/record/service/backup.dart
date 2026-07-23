@@ -59,30 +59,29 @@ Future<ImportSummary> importZip({
   required Directory photosDir,
 }) async {
   final Archive archive;
-  final Object? notesFileContent;
+  final List<CareNote> notes;
   try {
     archive = ZipDecoder().decodeBytes(await zip.readAsBytes());
     final notesFile = archive.findFile('notes.json');
     if (notesFile == null) throw const FormatException('缺少 notes.json');
-    notesFileContent = jsonDecode(utf8.decode(notesFile.content));
+    final notesFileContent = jsonDecode(utf8.decode(notesFile.content));
+    if (notesFileContent is! List) throw const FormatException('無效的備份檔');
+    notes = notesFileContent
+        .map((entry) => CareNote.fromJson(entry as Map<String, dynamic>))
+        .toList();
   } catch (_) {
     throw const FormatException('無效的備份檔');
   }
-
-  if (notesFileContent is! List) {
-    throw const FormatException('無效的備份檔');
-  }
-
-  final notes = notesFileContent
-      .map((entry) => CareNote.fromJson(entry as Map<String, dynamic>))
-      .toList();
 
   final existingIds = await dao.existsIds();
   if (!await photosDir.exists()) {
     await photosDir.create(recursive: true);
   }
 
-  var imported = 0;
+  // Resolve each note's local photo (extracting from the archive as
+  // needed) into a fully-formed list *before* touching the db, so a
+  // problem partway through can't leave the db partially imported.
+  final notesToInsert = <CareNote>[];
   for (final note in notes) {
     var noteToInsert = note;
     final photoPath = note.photoPath;
@@ -95,16 +94,23 @@ Future<ImportSummary> importZip({
           await localFile.writeAsBytes(archivedPhoto.content);
         }
       }
+      // Only point the imported note at the local file if it actually
+      // exists — never plant a path to a photo that was never written.
       noteToInsert = CareNote(
         id: note.id,
         timestamp: note.timestamp,
         author: note.author,
         text: note.text,
-        photoPath: localFile.path,
+        photoPath: await localFile.exists() ? localFile.path : null,
       );
     }
-    final isNew = !existingIds.contains(noteToInsert.id);
-    await dao.insert(noteToInsert);
+    notesToInsert.add(noteToInsert);
+  }
+
+  var imported = 0;
+  for (final note in notesToInsert) {
+    final isNew = !existingIds.contains(note.id);
+    await dao.insert(note);
     if (isNew) imported++;
   }
 
