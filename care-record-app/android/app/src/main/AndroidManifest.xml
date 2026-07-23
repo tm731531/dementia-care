@@ -4,7 +4,7 @@
     <!-- Needed by the app: one-time runtime download of the sherpa-onnx whisper model -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
-        android:label="care_record_app"
+        android:label="照護紀錄"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
