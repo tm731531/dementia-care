@@ -27,7 +27,7 @@ class CareNote {
 
   factory CareNote.fromJson(Map<String, dynamic> json) => CareNote(
         id: json['id'] as String,
-        timestamp: DateTime.parse(json['timestamp'] as String),
+        timestamp: DateTime.parse(json['timestamp'] as String).toLocal(),
         author: NoteAuthor.fromCode(json['author'] as String),
         text: json['text'] as String,
         photoPath: json['photoPath'] as String?,

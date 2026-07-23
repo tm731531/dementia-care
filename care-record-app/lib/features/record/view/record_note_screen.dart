@@ -84,6 +84,7 @@ class _RecordNoteScreenState extends ConsumerState<RecordNoteScreen> {
   }
 
   Future<void> _transcribe(String audioPath) async {
+    if (!mounted) return;
     setState(() => _isTranscribing = true);
     try {
       final text = await ref.read(transcriberProvider).transcribe(audioPath);
