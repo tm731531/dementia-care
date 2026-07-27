@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22%3E%3Ctext%20y=%22.9em%22%20font-size=%2290%22%3E📝%3C/text%3E%3C/svg%3E">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22%3E%3Ctext%20y=%22.9em%22%20font-size=%2290%22%3E📝%3C/text%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>照護紀錄 App — 用講的,記錄每天的照護狀況｜離線・免帳號・免費</title>
+  <meta name="description" content="給照顧家人的家庭用的離線語音記錄 App:對著手機說今天的狀況,本機把語音轉成文字、可加照片、自動按日期整理,回診前一份整理給醫生看。完全離線、不用註冊、資料只留在你手機。可匯出備份換手機不怕丟,支援多位家人各自記錄。Android · 已上架 Google Play(封閉測試中)。">
+  <meta name="keywords" content="失智照護,照護紀錄,語音記錄,離線 App,隱私優先,回診,Android,Flutter,失智症,長照,免費">
+  <meta name="author" content="Tom Ting">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://tm731531.github.io/dementia-care/care-record-app/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="照護紀錄 App — 用講的,記錄每天的照護狀況">
+  <meta property="og:description" content="離線語音照護記錄 App。本機辨識、資料只留在你手機、回診整理給醫生看。免帳號・免費・完全離線。">
+  <meta property="og:url" content="https://tm731531.github.io/dementia-care/care-record-app/">
+  <meta property="og:locale" content="zh_TW">
+  <meta property="og:image" content="https://tm731531.github.io/dementia-care/care-record-app/store/feature-graphic-1024x500.png">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="500">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="照護紀錄 App">
+  <meta name="twitter:description" content="離線語音照護記錄 App。本機辨識、資料只留在你手機、回診整理給醫生看。">
+  <meta name="twitter:image" content="https://tm731531.github.io/dementia-care/care-record-app/store/feature-graphic-1024x500.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "照護紀錄",
+    "operatingSystem": "Android",
+    "applicationCategory": "UtilitiesApplication",
+    "inLanguage": "zh-Hant",
+    "description": "給照顧家人的家庭用的離線語音記錄 App。對著手機說今天的照護狀況,本機把語音轉成文字、可加照片、自動按日期整理,回診前產出一份整理給醫生看。完全離線、不用註冊、資料只留在使用者手機。",
+    "author": { "@type": "Person", "name": "Tom Ting", "url": "https://blog.tomting.com/" },
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "TWD" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Dementia Care Tools", "item": "https://tm731531.github.io/dementia-care/" },
+      { "@type": "ListItem", "position": 2, "name": "照護紀錄 App", "item": "https://tm731531.github.io/dementia-care/care-record-app/" }
+    ]
+  }
+  </script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif; background: #FFF8F0; color: #333; line-height: 1.7; padding: 20px; }
+    .wrap { max-width: 860px; margin: 0 auto; }
+    .breadcrumb { font-size: 13px; color: #999; margin-bottom: 18px; }
+    .breadcrumb a { color: #0066cc; text-decoration: none; }
+    .hero { background: #fff; border-radius: 20px; padding: 32px 28px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); text-align: center; margin-bottom: 24px; }
+    .hero-icon { font-size: 64px; display: block; margin-bottom: 8px; }
+    h1 { font-size: 30px; margin-bottom: 6px; }
+    .hero .tagline { font-size: 17px; color: #b7491f; font-weight: 600; margin-bottom: 4px; }
+    .hero .sub { font-size: 15px; color: #666; }
+    .badges { margin: 16px 0 4px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+    .badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; }
+    .badge.live { background: #e8f5ee; color: #1a7a3e; border: 1px solid #6ba88a; }
+    .badge.free { background: #eaf3fa; color: #2c5d80; border: 1px solid #c2d9eb; }
+    .badge.offline { background: #fff4e6; color: #8a4a0a; border: 1px solid #f0a868; }
+    h2 { font-size: 22px; color: #b7491f; margin: 32px 0 14px; padding-bottom: 4px; border-bottom: 2px solid #f0e0c8; }
+    .panel { background: #fff; border-radius: 16px; padding: 22px 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); margin-bottom: 18px; }
+    .panel p { margin-bottom: 12px; }
+    .panel p:last-child { margin-bottom: 0; }
+    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+    .feat { background: #fff; border: 1px solid #f0e0c8; border-radius: 14px; padding: 16px 18px; }
+    .feat .fi { font-size: 30px; display: block; margin-bottom: 6px; }
+    .feat .ft { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+    .feat .fd { font-size: 13.5px; color: #777; }
+    .shots { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; }
+    .shots figure { background: #fff; border: 1px solid #f0e0c8; border-radius: 14px; padding: 10px; text-align: center; }
+    .shots img { width: 100%; height: auto; border-radius: 8px; display: block; }
+    .shots figcaption { font-size: 12.5px; color: #888; margin-top: 8px; }
+    .privacy { background: #f4faf6; border: 1px solid #cfe8d8; border-radius: 16px; padding: 22px 24px; margin-bottom: 18px; }
+    .privacy ul { margin: 8px 0 0 20px; }
+    .privacy li { margin-bottom: 6px; }
+    .links { display: flex; flex-wrap: wrap; gap: 12px; margin: 6px 0 8px; }
+    .btn { display: inline-block; padding: 11px 20px; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 15px; }
+    .btn.primary { background: #E8724A; color: #fff; }
+    .btn.ghost { background: #fff; color: #b7491f; border: 1px solid #f0d8b5; }
+    .note { font-size: 13px; color: #999; }
+    .disclaimer { font-size: 13px; color: #8a6d3b; background: #fef9e7; border: 1px solid #f0e0b0; border-radius: 12px; padding: 14px 18px; margin-bottom: 18px; }
+    .footer { margin-top: 36px; font-size: 13px; color: #aaa; text-align: center; }
+    .footer a { color: #E8724A; text-decoration: none; }
+    :focus-visible { outline: 3px solid #ff8800; outline-offset: 2px; border-radius: 4px; }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="breadcrumb" aria-label="麵包屑"><a href="../">🫶 Dementia Care Tools</a> › 照護紀錄 App</nav>
+
+  <header class="hero">
+    <span class="hero-icon" aria-hidden="true">📝</span>
+    <h1>照護紀錄</h1>
+    <div class="tagline">用講的,記錄每天的照護狀況</div>
+    <div class="sub">離線 · 免帳號 · 免費 · 資料只留在你手機</div>
+    <div class="badges">
+      <span class="badge live">✅ 已上架 Google Play(封閉測試中)</span>
+      <span class="badge free">Android · 免費無廣告</span>
+      <span class="badge offline">完全離線</span>
+    </div>
+  </header>
+
+  <h2>這是什麼</h2>
+  <div class="panel">
+    <p>「照護紀錄」是給<strong>照顧家人的家庭</strong>用的離線紀錄工具。照顧一個人,每天有很多小觀察——精神、睡眠、食慾、情緒、身體狀況——這些對回診時醫生判斷很重要,但每天用打字記錄很累、也很容易斷掉。</p>
+    <p>這個 App 讓你<strong>「用講的」就能記錄</strong>:對著手機說今天發生的事,App 在你手機<strong>本機</strong>把語音轉成文字(會自動加標點),你看一眼、需要才改,就存好了。不用打字。</p>
+    <p>它是失智照護生態系裡 <a href="../whiteboard-ocr-bot/">白板 OCR 紀錄 Bot</a> 的<strong>家庭獨立版</strong>——不用自架伺服器、不用申請雲端金鑰,裝了就能用。</p>
+  </div>
+
+  <h2>主要功能</h2>
+  <div class="features">
+    <div class="feat"><span class="fi" aria-hidden="true">🎙️</span><div class="ft">語音記錄</div><div class="fd">說一段就轉成文字,可分多次接續、隨時編輯或刪除,不用打字。</div></div>
+    <div class="feat"><span class="fi" aria-hidden="true">🖼️</span><div class="ft">加照片</div><div class="fd">每筆紀錄可選擇性附上照片,幫助回想當天狀況。</div></div>
+    <div class="feat"><span class="fi" aria-hidden="true">🗂️</span><div class="ft">按日期整理</div><div class="fd">紀錄自動依日期排列,一眼看得到哪天發生什麼。</div></div>
+    <div class="feat"><span class="fi" aria-hidden="true">💾</span><div class="ft">匯出備份</div><div class="fd">把紀錄匯出成檔案備份,<strong>換手機不怕丟</strong>;也能傳到另一支手機匯入合併。</div></div>
+    <div class="feat"><span class="fi" aria-hidden="true">👨‍👩‍👧</span><div class="ft">多位家人</div><div class="fd">可管理多位被照顧者,各自記錄;預設單人時介面極簡,有需要才顯示切換。</div></div>
+    <div class="feat"><span class="fi" aria-hidden="true">🩺</span><div class="ft">給醫生看</div><div class="fd">回診前產出一份乾淨、依日期分組的整理,可匯出成單一 HTML 檔用瀏覽器直接開。</div></div>
+  </div>
+
+  <h2>App 畫面</h2>
+  <div class="shots">
+    <figure><img src="store/screenshots/01-say.png" alt="照護紀錄 App 語音記錄畫面:用講的不用打字" loading="lazy"><figcaption>用講的,不用打字</figcaption></figure>
+    <figure><img src="store/screenshots/02-list.png" alt="照護紀錄 App 紀錄列表畫面:自動按日期整理" loading="lazy"><figcaption>自動按日期整理</figcaption></figure>
+    <figure><img src="store/screenshots/03-export.png" alt="照護紀錄 App 匯出備份畫面:換手機不怕丟" loading="lazy"><figcaption>匯出備份,換手機不怕丟</figcaption></figure>
+    <figure><img src="store/screenshots/04-patients.png" alt="照護紀錄 App 多位家人管理畫面:各自記錄" loading="lazy"><figcaption>多位家人,各自記錄</figcaption></figure>
+    <figure><img src="store/screenshots/05-doctor.png" alt="照護紀錄 App 給醫生看的整理畫面:回診呈現" loading="lazy"><figcaption>回診,一份給醫生看</figcaption></figure>
+  </div>
+
+  <h2>隱私(我們最在意的事)</h2>
+  <div class="privacy">
+    <ul>
+      <li><strong>完全離線運作。</strong>你的紀錄、照片、語音都只留在你這支手機裡。</li>
+      <li><strong>不需要註冊、沒有帳號</strong>、不收集任何個人資料、沒有廣告、不做追蹤。</li>
+      <li><strong>語音辨識在手機本機完成</strong>,你的錄音不會上傳雲端。</li>
+      <li>要不要分享,完全由你決定。</li>
+    </ul>
+    <p class="note" style="margin-top:10px;">唯一的網路使用:首次啟動會下載一次語音辨識模型(建議連 Wi-Fi),之後即可完全離線使用。</p>
+  </div>
+
+  <h2>取得與延伸閱讀</h2>
+  <div class="panel">
+    <div class="links">
+      <a class="btn ghost" href="store/privacy.html">📄 隱私權政策</a>
+      <a class="btn ghost" href="https://blog.tomting.com/2026/07/25/offline-voice-care-app-google-play/">📝 開發實錄(部落格)</a>
+      <a class="btn ghost" href="https://github.com/tm731531/dementia-care/tree/main/care-record-app">💻 原始碼(GitHub)</a>
+    </div>
+    <p class="note">目前在 Google Play <strong>封閉測試</strong>階段,通過正式版審查後這裡會補上商店下載連結。開發歷程(手寫 OCR 六成 vs 語音的實測、離線設計、上架的 12 人 × 14 天封閉測試等真實關卡)都寫在部落格那篇。</p>
+  </div>
+
+  <div class="disclaimer">⚠️ 本 App 是照護紀錄工具,並非醫療器材,不提供醫療診斷或建議。語音辨識可能有錯字,請自行核對。健康與用藥決定請諮詢醫療專業人員。</div>
+
+  <div class="footer">
+    <a href="../">← 回工具集首頁</a> · Made by <a href="https://blog.tomting.com/">Tom Ting</a> · 一位為照顧失智媽媽而做這些工具的軟體工程師
+  </div>
+
+</div>
+</body>
+</html>
